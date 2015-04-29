@@ -3,7 +3,7 @@
 //  SenTest
 //
 //  Created by Nick Kramer on 1/31/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Walid Javed. All rights reserved. Test2
 //
 
 #import "CoreDetection.h"
