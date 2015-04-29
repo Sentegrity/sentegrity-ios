@@ -3,7 +3,7 @@
 //  SenTest
 //
 //  Created by Walid Javed on 1/16/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved. test
+//  Copyright (c) 2015 Walid Javed. All rights reserved.
 //  
 
 #import "ViewController.h"
