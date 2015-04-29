@@ -13,7 +13,7 @@
 
 
 // 26
-+ (Sentegrity_Assertion *)locationAllowed:(NSArray *)locationallowed {
++ (Sentegrity_TrustFactor_Output *)locationAllowed:(NSArray *)locationallowed {
     
     return 0;
 }
@@ -21,7 +21,7 @@
 
 
 // 31
-+ (Sentegrity_Assertion *)location:(NSArray *)location {
++ (Sentegrity_TrustFactor_Output *)location:(NSArray *)location {
     
     return 0;
 }

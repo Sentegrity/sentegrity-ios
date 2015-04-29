@@ -15,10 +15,10 @@
 @implementation Sentegrity_TrustFactor_Dispatcher
 
 // Run an array of trustfactors and generate candidate assertions
-+ (NSArray *)generateTrustFactorAssertions:(NSArray *)trustFactors withError:(NSError **)error {
++ (NSArray *)performTrustFactorAnalysis:(NSArray *)trustFactors withError:(NSError **)error {
     
     // Make an array to pass back
-    NSMutableArray *outputArray = [NSMutableArray arrayWithCapacity:trustFactors.count];
+    NSMutableArray *processedTrustFactorArray = [NSMutableArray arrayWithCapacity:trustFactors.count];
     
     // First, check if the array is valid
     if (trustFactors.count < 1 || !trustFactors) {
@@ -28,53 +28,55 @@
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsReceived userInfo:errorDetails];
     }
     
-    // Next, run through the array
+    // Next, run through the array of trustFactors to be executed
     for (Sentegrity_TrustFactor *trustFactor in trustFactors) {
         
-        // Run the TrustFactor and generate the candidate assertion
-        Sentegrity_Assertion *assertion = [self performTrustFactor:trustFactor withError:error];
+        // Run the TrustFactor and populate output object
+        Sentegrity_TrustFactor_Output *trustFactorOutput = [self executeTrustFactor:trustFactor withError:error];
         
-        // Add the assertion to the output array
-        [outputArray addObject:assertion];
+        // Add the trustFactorOutput object to the output array
+        [processedTrustFactorArray addObject:trustFactorOutput];
     }
     
     // Return the output array
-    return [NSArray arrayWithArray:outputArray];
+    return [NSArray arrayWithArray:processedTrustFactorArray];
 }
 
-+ (Sentegrity_Assertion *)performTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error {
-        
-    // We need to basically run it
-    Sentegrity_Assertion *assertion = [self runTrustFactorWithName:trustFactor.name withPayload:trustFactor.payload andError:error];
++ (Sentegrity_TrustFactor_Output *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error {
     
-    // Validate assertion
-    if (!assertion) {
+    // run the trustfactor implementation and get candidate assertion
+    Sentegrity_TrustFactor_Output *trustFactorOutput = [self executeTrustFactorImplementationWithName:trustFactor.name withPayload:trustFactor.payload andError:error];
+    
+    // Validate trustfactor output
+    if (!trustFactorOutput) {
         // Error out, no assertion generated
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No assertion generated" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionGenerated userInfo:errorDetails];
         
         // Create an assertion with just the trustfactor in it
-        assertion = [[Sentegrity_Assertion alloc] init];
-        [assertion setTrustFactor:trustFactor];
+        trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
+        [trustFactorOutput setTrustFactor:trustFactor];
         
         // Return the assertion
-        return assertion;
+        return trustFactorOutput;
     }
     
-    // Add the trustfactor to the assertion
-    [assertion setTrustFactor:trustFactor];
+    // Add the trustfactor object to the trustFactorOutput object as a link
+    [trustFactorOutput setTrustFactor:trustFactor];
     
-    // Return the assertion
-    return assertion;
+    // Return the output object
+    return trustFactorOutput;
 }
 
 // Run a TrustFactor by its name with a given payload
-+ (Sentegrity_Assertion *)runTrustFactorWithName:(NSString *)name withPayload:(NSArray *)payload andError:(NSError **)error {
++ (Sentegrity_TrustFactor_Output *)executeTrustFactorImplementationWithName:(NSString *)name withPayload:(NSArray *)payload andError:(NSError **)error {
+    
+    //JS-Beta2: We should think about searching by dispatch name first, then looking by TrustFactor name
     
     // Examine all the names and run the respective checks
     if ([name isEqualToString:kRoutinebadFiles]) {
-        
+
         // Run the bad files check
         return [TrustFactor_Dispatch_File badFiles:payload];
         

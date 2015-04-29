@@ -4,7 +4,7 @@
 //
 //  Created by Walid Javed on 1/16/15.
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
-//  test f
+//  
 
 #import "ViewController.h"
 #import "NSObject+ObjectMap.h"
@@ -39,11 +39,11 @@
     Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parseCustomPolicy:defaultJSONPath withError:&error];
     
     // Perform the analysis
-    [[CoreDetection sharedDetection] performProtectModeAnalysisWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, BOOL deviceTrusted, BOOL systemTrusted, BOOL userTrusted, NSArray *computationOutput, NSError *error) {
+    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, BOOL deviceTrusted, BOOL systemTrusted, BOOL userTrusted, NSArray *computationOutput, NSError *error) {
         if (success) {
-            NSLog(@"Output of the protect mode analysis: %d, %d, %d, %@, %@", deviceTrusted, systemTrusted, userTrusted, computationOutput, error.localizedDescription);
+            NSLog(@"Output of Core Detection: %d, %d, %d, %@, %@", deviceTrusted, systemTrusted, userTrusted, computationOutput, error.localizedDescription);
         } else {
-            NSLog(@"Failed to run protect mode analysis: %@", error.localizedDescription);
+            NSLog(@"Failed to run Core Detection: %@", error.localizedDescription);
         }
     }];
     

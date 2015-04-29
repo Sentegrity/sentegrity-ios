@@ -22,10 +22,10 @@
 // Private Helper Methods
 
 // Find an assertion object from the assertion object array that matches the trustfactor passed
-+ (Sentegrity_Assertion_Store_Assertion_Object *)getAssertionObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error;
++ (Sentegrity_Assertion_Stored_Assertion_Object *)getAssertionObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error;
 
 // Find an assertion from the assertion array that matches the trustfactor passed
-+ (Sentegrity_Assertion *)getAssertionForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertions:(NSArray *)assertions withError:(NSError **)error;
++ (Sentegrity_TrustFactor_Output *)getAssertionForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertions:(NSArray *)assertions withError:(NSError **)error;
 
 // Check if the output between the assertion and assertion object are the same (if not, return NO)
 + (BOOL)checkAssertionOutputValues:(NSArray *)assertionOutput withAssertionObjectOutputValues:(NSArray *)assertionObjectOutput withError:(NSError **)error;
@@ -54,7 +54,7 @@
  */
 
 // Compute the systemScore and the UserScore from the policy
-+ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorAssertions:(NSArray *)trustFactorAssertions andAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error {
++ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutput:(NSArray *)trustFactorOutput andStoredAssertionObjects:(NSArray *)storedAssertionObjects withError:(NSError **)error {
     
     // Set the trustFactors
     NSArray *trustFactors = policy.trustFactors;
@@ -70,8 +70,8 @@
         return nil;
     }
     
-    // Validate trustfactors in the policy
-    if (!trustFactorAssertions || trustFactorAssertions == nil || trustFactorAssertions.count < 1) {
+    // Validate trustfactor output
+    if (!trustFactorOutput || trustFactorOutput == nil || trustFactorOutput.count < 1) {
         // Error out, no assertion objects set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No assertions found to compute" forKey:NSLocalizedDescriptionKey];
@@ -82,7 +82,7 @@
     }
     
     // Validate trustfactors in the policy
-    if (!assertionObjects || assertionObjects == nil || assertionObjects.count < 1) {
+    if (!storedAssertionObjects || storedAssertionObjects == nil || storedAssertionObjects.count < 1) {
         // Error out, no assertion objects set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No assertion objects found to compute" forKey:NSLocalizedDescriptionKey];
@@ -129,26 +129,30 @@
                         // Check if the trustfactor has passed, failed, or DNE, based on the assertion store information
                         
                         // Get the assertion
-                        Sentegrity_Assertion *outputAssertion = [Sentegrity_TrustScore_Computation getAssertionForTrustFactor:trustClassifications withAssertions:trustFactorAssertions withError:error];
+                        Sentegrity_TrustFactor_Output *trustFactorOutputObject = [Sentegrity_TrustScore_Computation getAssertionForTrustFactor:trustClassifications withAssertions:trustFactorOutput withError:error];
                         
                         // Get the assertion object
-                        Sentegrity_Assertion_Store_Assertion_Object *outputAssertionObject = [Sentegrity_TrustScore_Computation getAssertionObjectForTrustFactor:trustClassifications withAssertionObjects:assertionObjects withError:error];
+                        Sentegrity_Assertion_Stored_Assertion_Object *storedAssertionObject = [Sentegrity_TrustScore_Computation getAssertionObjectForTrustFactor:trustClassifications withAssertionObjects:storedAssertionObjects withError:error];
                         
                         // Check if the trustfactor was executed or not
-                        if (outputAssertion.ran) {
+                        if (trustFactorOutputObject.ran) {
                             // TrustFactor ran
                             
                             // Compare the output
-                            if (![Sentegrity_TrustScore_Computation checkAssertionOutputValues:outputAssertion.output withAssertionObjectOutputValues:outputAssertionObject.stored.hashValue withError:error]) {
+                            if (![Sentegrity_TrustScore_Computation checkAssertionOutputValues:trustFactorOutputObject.output withAssertionObjectOutputValues:storedAssertionObject.stored.hashValue withError:error]) {
                                 // Failed
                                 subClass.weightedPenalty = (subClass.weightedPenalty + trustClassifications.penalty.integerValue);
+                                
+                                //JS-Beta2 - Keep track of trustFactorObjects that trip
+                                
                             } else {
                                 // Passed
                                 //TODO: Is there any positive subtraction for passing a check?
+                                //JS-Beta2 - Yes there is, mainly for user anomaly rules such as when a known bluetooth device is found. We will need to add a attribute to TrustFactors to indicate these types of rules and evaluate it here
                             }
                         } else {
                             // TrustFactor did not run (DNE)
-                            
+                            //JS-Beta2 - this needs to get fixed up for multiple DNE status codes
                             // DNE
                             subClass.weightedPenalty = (subClass.weightedPenalty + trustClassifications.dnePenalty.integerValue);
                         }
@@ -245,11 +249,11 @@
 }
 
 // Find an assertion from the assertion array that matches the trustfactor passed
-+ (Sentegrity_Assertion *)getAssertionForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertions:(NSArray *)assertions withError:(NSError **)error {
++ (Sentegrity_TrustFactor_Output *)getAssertionForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertions:(NSArray *)assertions withError:(NSError **)error {
     //TODO: Beta2 more error checking and fix comparison algorithm
     
     // Run through the assertion objects
-    for (Sentegrity_Assertion *objects in assertions) {
+    for (Sentegrity_TrustFactor_Output *objects in assertions) {
         if ([objects.trustFactor.identification intValue] == [trustFactor.identification intValue]) {
             // Found it
             return objects;
@@ -261,11 +265,11 @@
 }
 
 // Find an assertion object from the assertion object array that matches the trustfactor passed
-+ (Sentegrity_Assertion_Store_Assertion_Object *)getAssertionObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error {
++ (Sentegrity_Assertion_Stored_Assertion_Object *)getAssertionObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error {
     //TODO: Beta2 more error checking
     
     // Run through the assertion objects
-    for (Sentegrity_Assertion_Store_Assertion_Object *objects in assertionObjects) {
+    for (Sentegrity_Assertion_Stored_Assertion_Object *objects in assertionObjects) {
         if ([objects.factorID intValue] == [trustFactor.identification intValue]) {
             // Found it
             return objects;

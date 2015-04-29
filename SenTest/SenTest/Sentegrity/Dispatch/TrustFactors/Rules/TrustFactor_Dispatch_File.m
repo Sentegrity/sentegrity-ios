@@ -11,7 +11,7 @@
 @implementation TrustFactor_Dispatch_File
 
 // 1 badFiles function - checking for existence of bad files, if files exist, fail, and returning either 1 or 0 and the files that failed
-+ (Sentegrity_Assertion *)badFiles:(NSArray *)files {
++ (Sentegrity_TrustFactor_Output *)badFiles:(NSArray *)files {
     
     // Create array variable
     NSMutableArray *badFiles = [[NSMutableArray alloc] initWithCapacity:files.count];
@@ -28,6 +28,7 @@
     for (NSString *path in files) {
         // Checking if they exist
         if ([fileMan fileExistsAtPath:path]) {
+           
             // If the bad file exists, mark it in the array
             [badFiles addObject:path];
             // Set the return value to 1
@@ -36,7 +37,7 @@
     }
     
     // Create our return assertion
-    Sentegrity_Assertion *assertion = [[Sentegrity_Assertion alloc] init];
+    Sentegrity_TrustFactor_Output *assertion = [[Sentegrity_TrustFactor_Output alloc] init];
     [assertion setReturnResult:returnValue];
     [assertion setOutput:badFiles];
     [assertion setRan:YES];
@@ -47,7 +48,7 @@
 }
 
 // 10
-+ (Sentegrity_Assertion *)fileSizeChange:(NSArray *)filesizes {
++ (Sentegrity_TrustFactor_Output *)fileSizeChange:(NSArray *)filesizes {
     return 0;
 }
 @end

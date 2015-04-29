@@ -13,7 +13,7 @@
 
 
 // 39
-+ (Sentegrity_Assertion *)activity:(NSArray *)activity {
++ (Sentegrity_TrustFactor_Output *)activity:(NSArray *)activity {
     
     return 0;
 }

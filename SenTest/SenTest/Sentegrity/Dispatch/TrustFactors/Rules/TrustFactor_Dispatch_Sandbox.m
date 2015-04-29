@@ -13,7 +13,7 @@
 
 
 // 8
-+ (Sentegrity_Assertion *)sandboxVerification:(NSArray *)verification {
++ (Sentegrity_TrustFactor_Output *)sandboxVerification:(NSArray *)verification {
     
     return 0;
 }

@@ -11,6 +11,6 @@
 @interface TrustFactor_Dispatch_Activity : Sentegrity_TrustFactor_Rule
 
 // 39
-+ (Sentegrity_Assertion *)activity:(NSArray *)activity;
++ (Sentegrity_TrustFactor_Output *)activity:(NSArray *)activity;
 
 @end

@@ -12,7 +12,7 @@
 
 
 // 6
-+ (Sentegrity_Assertion *)selfTamper:(NSArray *)selftamper {
++ (Sentegrity_TrustFactor_Output *)selfTamper:(NSArray *)selftamper {
     
     return 0;
 }
@@ -21,7 +21,7 @@
 
 
 // 21
-+ (Sentegrity_Assertion *)sentegrityVersion:(NSArray *)senversion {
++ (Sentegrity_TrustFactor_Output *)sentegrityVersion:(NSArray *)senversion {
     
     return 0;
 }

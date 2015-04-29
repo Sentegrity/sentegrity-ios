@@ -12,7 +12,7 @@
 
 
 // 3
-+ (Sentegrity_Assertion *)badNetDst:(NSArray *)destination {
++ (Sentegrity_TrustFactor_Output *)badNetDst:(NSArray *)destination {
     
     return 0;
 }
@@ -21,7 +21,7 @@
 
 
 // 9
-+ (Sentegrity_Assertion *)priviledgedNetServices:(NSArray *)netservices {
++ (Sentegrity_TrustFactor_Output *)priviledgedNetServices:(NSArray *)netservices {
     
     return 0;
 }
@@ -29,7 +29,7 @@
 
 
 // 13
-+ (Sentegrity_Assertion *)newNetService:(NSArray *)netservices {
++ (Sentegrity_TrustFactor_Output *)newNetService:(NSArray *)netservices {
     
     return 0;
 }
@@ -38,7 +38,7 @@
 
 
 // 14
-+ (Sentegrity_Assertion *)unencryptedTraffic:(NSArray *)traffic {
++ (Sentegrity_TrustFactor_Output *)unencryptedTraffic:(NSArray *)traffic {
     
     return 0;
 }

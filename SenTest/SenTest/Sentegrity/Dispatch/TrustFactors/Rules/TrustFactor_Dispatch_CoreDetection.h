@@ -11,13 +11,13 @@
 @interface TrustFactor_Dispatch_CoreDetection : Sentegrity_TrustFactor_Rule
 
 // 7
-+ (Sentegrity_Assertion *)policyTamper:(NSArray *)poltamper;
++ (Sentegrity_TrustFactor_Output *)policyTamper:(NSArray *)poltamper;
 
 // 24
-+ (Sentegrity_Assertion *)systemProtectMode:(NSArray *)protectionmode;
++ (Sentegrity_TrustFactor_Output *)systemProtectMode:(NSArray *)protectionmode;
 
 // 40
-+ (Sentegrity_Assertion *)userProtectMode:(NSArray *)userprotectmode;
++ (Sentegrity_TrustFactor_Output *)userProtectMode:(NSArray *)userprotectmode;
 
 
 @end

@@ -12,16 +12,16 @@
 
 
 // 17
-+ (Sentegrity_Assertion *)apSoho:(NSArray *)soho;
++ (Sentegrity_TrustFactor_Output *)apSoho:(NSArray *)soho;
 
 // 18
-+ (Sentegrity_Assertion *)apHotspotter:(NSArray *)hotspotter;
++ (Sentegrity_TrustFactor_Output *)apHotspotter:(NSArray *)hotspotter;
 
 // 19
-+ (Sentegrity_Assertion *)wifiEncType:(NSArray *)enctype;
++ (Sentegrity_TrustFactor_Output *)wifiEncType:(NSArray *)enctype;
 
 // 27
-+ (Sentegrity_Assertion *)ssidAllowed:(NSArray *)ssidallowed;
++ (Sentegrity_TrustFactor_Output *)ssidAllowed:(NSArray *)ssidallowed;
 
 
 @end

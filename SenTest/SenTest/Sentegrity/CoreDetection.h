@@ -32,7 +32,7 @@
 #pragma mark - TrustFactor Analysis
 
 // Perform TrustFactor Analysis - Returns assertions
-- (NSArray *)performTrustFactorAnalysis:(Sentegrity_Policy *)policy withError:(NSError **)error;
+- (NSArray *)executeDispatcher:(Sentegrity_Policy *)policy withError:(NSError **)error;
 
 #pragma mark - Assertion Storage
 
@@ -40,19 +40,19 @@
 - (Sentegrity_Assertion_Store *)getAssertionStoreForPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error;
 
 // Compare Baseline Assertions for Default Policy - Returns assertion objects
-- (NSArray *)compareBaselineAssertions:(NSArray *)assertions forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error; // CORE
+- (NSArray *)retrieveStoredAssertions:(NSArray *)assertions forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error; // CORE
 
 #pragma mark - Computation
 
 // Get the policy and do the comparison/return results
-- (Sentegrity_TrustScore_Computation *)performTrustFactorComputationForPolicy:(Sentegrity_Policy *)policy withTrustFactorAssertions:(NSArray *)trustFactorAssertions andAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error;
+- (Sentegrity_TrustScore_Computation *)performTrustFactorCompareAndComputationForPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputs:(NSArray *)trustFactorAssertions andStoredAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error;
 
 #pragma mark - Protect Mode Analysis
 
 // Block Definition
-typedef void (^protectModeAnalysisBlock)(BOOL success, BOOL deviceTrusted, BOOL systemTrusted, BOOL userTrusted, NSArray *computationOutput, NSError *error);
+typedef void (^coreDetectionBlock)(BOOL success, BOOL deviceTrusted, BOOL systemTrusted, BOOL userTrusted, NSArray *computationOutput, NSError *error);
 // Protect Mode Analysis
-- (void)performProtectModeAnalysisWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(protectModeAnalysisBlock)callback;
+- (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback;
 
 
 #pragma mark - Properties

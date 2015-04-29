@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 // Assertions
-#import "Sentegrity_Assertion.h"
+#import "Sentegrity_TrustFactor_Output.h"
 
 // TrustFactors
 #import "TrustFactor_Dispatch_Activity.h"
@@ -35,12 +35,12 @@
 // TODO: BETA2 Set a time limit and execute DNE's
 
 // Run an array of trustfactors
-+ (NSArray *)generateTrustFactorAssertions:(NSArray *)trustFactors withError:(NSError **)error;
++ (NSArray *)performTrustFactorAnalysis:(NSArray *)trustFactors withError:(NSError **)error;
 
 // Generate the output from a single TrustFactor
-+ (Sentegrity_Assertion *)performTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error;
++ (Sentegrity_TrustFactor_Output *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error;
 
 // Run an individual trustfactor with just the name and the payload (returned assertion will not be able to identify the trustfactor that was run)
-+ (Sentegrity_Assertion *)runTrustFactorWithName:(NSString *)name withPayload:(NSArray *)payload andError:(NSError **)error;
++ (Sentegrity_TrustFactor_Output *)runTrustFactorWithName:(NSString *)name withPayload:(NSArray *)payload andError:(NSError **)error;
 
 @end

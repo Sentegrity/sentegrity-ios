@@ -14,7 +14,7 @@
 
 
 // 25
-+ (Sentegrity_Assertion *)timeAllowed:(NSArray *)timeallowed {
++ (Sentegrity_TrustFactor_Output *)timeAllowed:(NSArray *)timeallowed {
     
     return 0;
 }
@@ -23,7 +23,7 @@
 
 
 // 32
-+ (Sentegrity_Assertion *)accessTime:(NSArray *)accesstime {
++ (Sentegrity_TrustFactor_Output *)accessTime:(NSArray *)accesstime {
     
     return 0;
 }

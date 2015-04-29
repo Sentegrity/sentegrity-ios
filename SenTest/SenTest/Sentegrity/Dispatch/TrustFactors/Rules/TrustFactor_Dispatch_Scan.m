@@ -13,7 +13,7 @@
 
 
 // 35
-+ (Sentegrity_Assertion *)upnpScan:(NSArray *)upnpscan {
++ (Sentegrity_TrustFactor_Output *)upnpScan:(NSArray *)upnpscan {
     
     return 0;
 }
@@ -22,7 +22,7 @@
 
 
 // 36
-+ (Sentegrity_Assertion *)bonjourScan:(NSArray *)bonjourscan {
++ (Sentegrity_TrustFactor_Output *)bonjourScan:(NSArray *)bonjourscan {
     
     return 0;
 }

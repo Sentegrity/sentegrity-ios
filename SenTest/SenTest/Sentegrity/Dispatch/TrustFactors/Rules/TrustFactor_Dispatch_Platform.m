@@ -12,7 +12,7 @@
 
 
 // 23
-+ (Sentegrity_Assertion *)vulnerablePlatform:(NSArray *)platforms {
++ (Sentegrity_TrustFactor_Output *)vulnerablePlatform:(NSArray *)platforms {
     
     return 0;
 }
@@ -20,7 +20,7 @@
 
 
 // 28
-+ (Sentegrity_Assertion *)platformVersionAllowed:(NSArray *)platformallowed {
++ (Sentegrity_TrustFactor_Output *)platformVersionAllowed:(NSArray *)platformallowed {
     
     return 0;
 }
@@ -29,7 +29,7 @@
 
 
 // 37
-+ (Sentegrity_Assertion *)powerPercent:(NSArray *)powerpercent {
++ (Sentegrity_TrustFactor_Output *)powerPercent:(NSArray *)powerpercent {
     
     return 0;
 }
@@ -38,7 +38,7 @@
 
 
 // 38
-+ (Sentegrity_Assertion *)shortUptime:(NSArray *)shortuptime {
++ (Sentegrity_TrustFactor_Output *)shortUptime:(NSArray *)shortuptime {
     
     return 0;
 }

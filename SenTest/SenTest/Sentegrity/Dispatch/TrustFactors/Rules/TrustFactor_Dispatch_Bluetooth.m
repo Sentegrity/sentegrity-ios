@@ -13,7 +13,7 @@
 
 
 // 33
-+ (Sentegrity_Assertion *)bluetoothPaired:(NSArray *)btpaired {
++ (Sentegrity_TrustFactor_Output *)bluetoothPaired:(NSArray *)btpaired {
     
     return 0;
 }
@@ -22,7 +22,7 @@
 
 
 // 34
-+ (Sentegrity_Assertion *)bluetoothLEScan:(NSArray *)btlescan {
++ (Sentegrity_TrustFactor_Output *)bluetoothLEScan:(NSArray *)btlescan {
     
     return 0;
 }

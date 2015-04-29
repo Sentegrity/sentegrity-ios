@@ -11,9 +11,9 @@
 @interface TrustFactor_Dispatch_Subscriber : Sentegrity_TrustFactor_Rule
 
 // 5
-+ (Sentegrity_Assertion *)subscribeTamper:(NSArray *)subtamper;
++ (Sentegrity_TrustFactor_Output *)subscribeTamper:(NSArray *)subtamper;
 
 // 22
-+ (Sentegrity_Assertion *)vulnerableSubscriber:(NSArray *)subscribers;
++ (Sentegrity_TrustFactor_Output *)vulnerableSubscriber:(NSArray *)subscribers;
 
 @end

@@ -25,6 +25,6 @@
 @property (nonatomic,retain) NSArray *classificationInformation;
 
 // Compute the systemScore and the UserScore from the trust scores and the assertion storage objects
-+ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorAssertions:(NSArray *)trustFactorAssertions andAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error;
++ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutput:(NSArray *)trustFactorAssertions andStoredAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error;
 
 @end

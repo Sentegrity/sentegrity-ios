@@ -12,9 +12,9 @@
 
 
 // 29
-+ (Sentegrity_Assertion *)deviceMovement:(NSArray *)movement;
++ (Sentegrity_TrustFactor_Output *)deviceMovement:(NSArray *)movement;
 
 // 30
-+ (Sentegrity_Assertion *)devicePosition:(NSArray *)position;
++ (Sentegrity_TrustFactor_Output *)devicePosition:(NSArray *)position;
 
 @end

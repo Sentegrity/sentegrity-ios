@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_Assertion.h"
+#import "Sentegrity_TrustFactor_Output.h"
 
-@implementation Sentegrity_Assertion
+@implementation Sentegrity_TrustFactor_Output
 
 @end

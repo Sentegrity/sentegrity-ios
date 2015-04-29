@@ -61,10 +61,10 @@
 #import "Sentegrity_Subclassification.h"
 #import "Sentegrity_TrustFactor.h"
 #import "Sentegrity_TrustFactor_Dispatcher.h"
-#import "Sentegrity_Assertion.h"
+#import "Sentegrity_TrustFactor_Output.h"
 #import "Sentegrity_Assertion_Store.h"
 #import "Sentegrity_Assertion_Storage.h"
-#import "Sentegrity_Assertion_Store_Assertion_Object.h"
+#import "Sentegrity_Assertion_Stored_Assertion_Object.h"
 #import "Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.h"
 
 #endif

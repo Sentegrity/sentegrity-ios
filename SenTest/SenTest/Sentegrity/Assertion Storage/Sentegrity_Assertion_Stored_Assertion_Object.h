@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.h"
-#import "Sentegrity_Assertion.h"
+#import "Sentegrity_TrustFactor_Output.h"
 
-@interface Sentegrity_Assertion_Store_Assertion_Object : NSObject
+@interface Sentegrity_Assertion_Stored_Assertion_Object : NSObject
 
 // Unique Identifier
 @property (nonatomic,retain) NSNumber *factorID;
@@ -28,6 +28,6 @@
 @property (nonatomic,retain) Sentegrity_Assertion_Store_Assertion_Object_Stored_Value *stored;
 
 // Compare the assertion object values
-- (instancetype)compare:(Sentegrity_Assertion *)assertion withError:(NSError **)error;
+- (instancetype)compare:(Sentegrity_TrustFactor_Output *)assertion withError:(NSError **)error;
 
 @end

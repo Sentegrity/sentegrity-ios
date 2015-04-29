@@ -21,11 +21,11 @@
 		4C06B9B41ADED16600D17CB9 /* Sentegrity_Classification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C06B9B31ADED16600D17CB9 /* Sentegrity_Classification+Computation.m */; };
 		4C06B9B71ADED28D00D17CB9 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C06B9B61ADED28D00D17CB9 /* Sentegrity_Subclassification+Computation.m */; };
 		4C1C5A471A9E805100257BDF /* Sentegrity_Assertion_Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C5A461A9E805100257BDF /* Sentegrity_Assertion_Storage.m */; };
-		4C35F80A1A9CE0B800FC6A43 /* Sentegrity_Assertion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35F8091A9CE0B800FC6A43 /* Sentegrity_Assertion.m */; };
+		4C35F80A1A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35F8091A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.m */; };
 		4C3AC0E61AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AC0E51AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.m */; };
 		4CAA2EA91AB9DBFD0078E5F6 /* Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CAA2EA81AB9DBFD0078E5F6 /* Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.m */; };
 		4CBED8501A9E5301000A7B42 /* Sentegrity_Assertion_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBED84F1A9E5301000A7B42 /* Sentegrity_Assertion_Store.m */; };
-		4CF091151AA3758100018685 /* Sentegrity_Assertion_Store_Assertion_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF091141AA3758100018685 /* Sentegrity_Assertion_Store_Assertion_Object.m */; };
+		4CF091151AA3758100018685 /* Sentegrity_Assertion_Stored_Assertion_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF091141AA3758100018685 /* Sentegrity_Assertion_Stored_Assertion_Object.m */; };
 		4CF091171AA37DD400018685 /* GLOBAL_STORE.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CF091161AA37DD400018685 /* GLOBAL_STORE.json */; };
 		D001745C1A698F930036742D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D001745B1A698F930036742D /* main.m */; };
 		D001745F1A698F930036742D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D001745E1A698F930036742D /* AppDelegate.m */; };
@@ -82,16 +82,16 @@
 		4C06B9B61ADED28D00D17CB9 /* Sentegrity_Subclassification+Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Subclassification+Computation.m"; sourceTree = "<group>"; };
 		4C1C5A451A9E805100257BDF /* Sentegrity_Assertion_Storage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Assertion_Storage.h; sourceTree = "<group>"; };
 		4C1C5A461A9E805100257BDF /* Sentegrity_Assertion_Storage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Assertion_Storage.m; sourceTree = "<group>"; };
-		4C35F8081A9CE0B800FC6A43 /* Sentegrity_Assertion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Assertion.h; sourceTree = "<group>"; };
-		4C35F8091A9CE0B800FC6A43 /* Sentegrity_Assertion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Assertion.m; sourceTree = "<group>"; };
+		4C35F8081A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sentegrity_TrustFactor_Output.h; path = ../../Assertions/Sentegrity_TrustFactor_Output.h; sourceTree = "<group>"; };
+		4C35F8091A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sentegrity_TrustFactor_Output.m; path = ../../Assertions/Sentegrity_TrustFactor_Output.m; sourceTree = "<group>"; };
 		4C3AC0E41AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4C3AC0E51AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
 		4CAA2EA71AB9DBFD0078E5F6 /* Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.h; sourceTree = "<group>"; };
 		4CAA2EA81AB9DBFD0078E5F6 /* Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.m; sourceTree = "<group>"; };
 		4CBED84E1A9E5301000A7B42 /* Sentegrity_Assertion_Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Assertion_Store.h; sourceTree = "<group>"; };
 		4CBED84F1A9E5301000A7B42 /* Sentegrity_Assertion_Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Assertion_Store.m; sourceTree = "<group>"; };
-		4CF091131AA3758100018685 /* Sentegrity_Assertion_Store_Assertion_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Assertion_Store_Assertion_Object.h; sourceTree = "<group>"; };
-		4CF091141AA3758100018685 /* Sentegrity_Assertion_Store_Assertion_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Assertion_Store_Assertion_Object.m; sourceTree = "<group>"; };
+		4CF091131AA3758100018685 /* Sentegrity_Assertion_Stored_Assertion_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Assertion_Stored_Assertion_Object.h; sourceTree = "<group>"; };
+		4CF091141AA3758100018685 /* Sentegrity_Assertion_Stored_Assertion_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Assertion_Stored_Assertion_Object.m; sourceTree = "<group>"; };
 		4CF091161AA37DD400018685 /* GLOBAL_STORE.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GLOBAL_STORE.json; sourceTree = "<group>"; };
 		83D8080AD7FB8599513DD3B2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D00174561A698F930036742D /* SenTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SenTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -314,6 +314,8 @@
 		4C09607D1A9BBBE2008AFF4F /* TrustFactors */ = {
 			isa = PBXGroup;
 			children = (
+				4C35F8081A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.h */,
+				4C35F8091A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.m */,
 				0176313A1A869081007BCB05 /* Sentegrity_TrustFactor_Rule.h */,
 				0176313B1A869081007BCB05 /* Sentegrity_TrustFactor_Rule.m */,
 				0176313D1A86909B007BCB05 /* Rules */,
@@ -324,8 +326,6 @@
 		4C35F80B1A9CE0BD00FC6A43 /* Assertions */ = {
 			isa = PBXGroup;
 			children = (
-				4C35F8081A9CE0B800FC6A43 /* Sentegrity_Assertion.h */,
-				4C35F8091A9CE0B800FC6A43 /* Sentegrity_Assertion.m */,
 			);
 			path = Assertions;
 			sourceTree = "<group>";
@@ -350,8 +350,8 @@
 				4C1C5A461A9E805100257BDF /* Sentegrity_Assertion_Storage.m */,
 				4CBED84E1A9E5301000A7B42 /* Sentegrity_Assertion_Store.h */,
 				4CBED84F1A9E5301000A7B42 /* Sentegrity_Assertion_Store.m */,
-				4CF091131AA3758100018685 /* Sentegrity_Assertion_Store_Assertion_Object.h */,
-				4CF091141AA3758100018685 /* Sentegrity_Assertion_Store_Assertion_Object.m */,
+				4CF091131AA3758100018685 /* Sentegrity_Assertion_Stored_Assertion_Object.h */,
+				4CF091141AA3758100018685 /* Sentegrity_Assertion_Stored_Assertion_Object.m */,
 				4CAA2EA71AB9DBFD0078E5F6 /* Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.h */,
 				4CAA2EA81AB9DBFD0078E5F6 /* Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.m */,
 			);
@@ -522,7 +522,7 @@
 				01C787831A86A4E9009E7FEE /* Sentegrity_TrustFactor_Dispatcher.m in Sources */,
 				0176313C1A869081007BCB05 /* Sentegrity_TrustFactor_Rule.m in Sources */,
 				D04216D11A79AEF3001C2F2E /* TrustFactor_Dispatch_Platform.m in Sources */,
-				4CF091151AA3758100018685 /* Sentegrity_Assertion_Store_Assertion_Object.m in Sources */,
+				4CF091151AA3758100018685 /* Sentegrity_Assertion_Stored_Assertion_Object.m in Sources */,
 				4C06B9B41ADED16600D17CB9 /* Sentegrity_Classification+Computation.m in Sources */,
 				4CAA2EA91AB9DBFD0078E5F6 /* Sentegrity_Assertion_Store_Assertion_Object_Stored_Value.m in Sources */,
 				D04216C51A79AE81001C2F2E /* TrustFactor_Dispatch_CoreDetection.m in Sources */,
@@ -533,7 +533,7 @@
 				018581361A7D7D2000ED2D88 /* Sentegrity_Policy.m in Sources */,
 				D04216B31A79ADD6001C2F2E /* TrustFactor_Dispatch_File.m in Sources */,
 				D04216CB1A79AECE001C2F2E /* TrustFactor_Dispatch_Route.m in Sources */,
-				4C35F80A1A9CE0B800FC6A43 /* Sentegrity_Assertion.m in Sources */,
+				4C35F80A1A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.m in Sources */,
 				D04216C21A79AE63001C2F2E /* TrustFactor_Dispatch_Sentegrity.m in Sources */,
 				D04216E31A79AF61001C2F2E /* TrustFactor_Dispatch_Activity.m in Sources */,
 				D001745F1A698F930036742D /* AppDelegate.m in Sources */,

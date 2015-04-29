@@ -25,7 +25,7 @@
     }
     
     // Run through this array of assertions
-    for (Sentegrity_Assertion_Store_Assertion_Object *assertion in assertions) {
+    for (Sentegrity_Assertion_Stored_Assertion_Object *assertion in assertions) {
         
         // Check to make sure the assertion was added to the store
         if (![self addAssertionIntoStore:assertion withError:error]) {
@@ -48,7 +48,7 @@
 }
 
 // Add single assertion into the store
-- (BOOL)addAssertionIntoStore:(Sentegrity_Assertion_Store_Assertion_Object *)assertion withError:(NSError **)error {
+- (BOOL)addAssertionIntoStore:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error {
     // Check that the passed assertion is valid
     if (!assertion || assertion == nil) {
         // Error out, no trustfactors set
@@ -99,7 +99,7 @@
     }
     
     // Run through this array of assertions
-    for (Sentegrity_Assertion_Store_Assertion_Object *assertionObject in assertions) {
+    for (Sentegrity_Assertion_Stored_Assertion_Object *assertionObject in assertions) {
         
         // Check to make sure the assertion was added to the store
         if (![self setAssertion:assertionObject withError:error]) {
@@ -122,7 +122,7 @@
 }
 
 // Set assertion into the store
-- (BOOL)setAssertion:(Sentegrity_Assertion_Store_Assertion_Object *)assertion withError:(NSError **)error {
+- (BOOL)setAssertion:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error {
     // Validate original assertion and replacement assertions
     if (!assertion || assertion == nil) {
         // Error out, no assertion objects received
@@ -136,7 +136,7 @@
     
     // Check to see if the original assertion already exists
     BOOL exists;
-    Sentegrity_Assertion_Store_Assertion_Object *existing = [self getAssertionObjectWithFactorID:assertion.factorID doesExist:&exists withError:error];
+    Sentegrity_Assertion_Stored_Assertion_Object *existing = [self getAssertionObjectWithFactorID:assertion.factorID doesExist:&exists withError:error];
     if (existing || existing != nil || exists) {
         // Remove the original assertion from the array
         if (![self removeAssertion:existing withError:error]) {
@@ -183,10 +183,10 @@
     NSMutableArray *comparedAssertions = [NSMutableArray arrayWithCapacity:assertions.count];
     
     // Run through this array of assertions
-    for (Sentegrity_Assertion *assertion in assertions) {
+    for (Sentegrity_TrustFactor_Output *assertion in assertions) {
         
         // Compared object
-        Sentegrity_Assertion_Store_Assertion_Object *comparedObject = [self compareAssertionInStore:assertion withError:error];
+        Sentegrity_Assertion_Stored_Assertion_Object *comparedObject = [self findMatchingStoredAssertionInStore:assertion withError:error];
         
         // Check to make sure the assertion was added to the store
         if (!comparedObject || comparedObject == nil) {
@@ -211,11 +211,11 @@
     return comparedAssertions;
 }
 
-// Compare an assertion with what's in the store - Core Functionality
-- (Sentegrity_Assertion_Store_Assertion_Object *)compareAssertionInStore:(Sentegrity_Assertion *)assertion withError:(NSError **)error
+// Compare trustFactorOutput with what's in the store - Core Functionality
+- (Sentegrity_Assertion_Stored_Assertion_Object *)findMatchingStoredAssertionInStore:(Sentegrity_TrustFactor_Output *)trustFactorOutput withError:(NSError **)error
 {
-    // Check that the passed assertion is valid
-    if (!assertion || assertion == nil) {
+    // Check that the passed trustFactorOutput is valid
+    if (!trustFactorOutput || trustFactorOutput == nil) {
         // Error out, no assertion passed
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No assertion provided" forKey:NSLocalizedDescriptionKey];
@@ -225,28 +225,28 @@
         return nil;
     }
     
-    // Get the existing assertion object, if it exists
+    // Get the existing stored assertion object by trustFactor ID, if it exists
     BOOL exists;
-    Sentegrity_Assertion_Store_Assertion_Object *assertionObject = [self getAssertionObjectWithFactorID:assertion.trustFactor.identification doesExist:&exists withError:error];
+    Sentegrity_Assertion_Stored_Assertion_Object *storedAssertionObject = [self getAssertionObjectWithFactorID:trustFactorOutput.trustFactor.identification doesExist:&exists withError:error];
     
     // Check if the assertion object exists
-    if (!assertionObject || assertionObject == nil || !exists) {
+    if (!storedAssertionObject || storedAssertionObject == nil || !exists) {
         // Error out, no assertion found to compare
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertion found to compare" forKey:NSLocalizedDescriptionKey];
+        [errorDetails setValue:@"No stored assertion found to compare to trustfactor output" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToFindAssertionToCompare userInfo:errorDetails];
         
         // Don't return anything
         return nil;
     }
     
-    // Compare the assertion
-    Sentegrity_Assertion_Store_Assertion_Object *comparison = [assertionObject compare:assertion withError:error];
+    // Compare the stored assertion to trustFactorOutput
+    Sentegrity_Assertion_Stored_Assertion_Object *comparison = [storedAssertionObject compare:trustFactorOutput withError:error];
     
     // If the assertion object doesn't exist, then create a new one
     if (!comparison || comparison == nil || error != nil) {
         // Doesn't exist, create a new one
-        comparison = [self createAssertionObjectFromAssertion:assertion withError:error];
+        comparison = [self createAssertionObjectFromTrustFactorOutput:trustFactorOutput withError:error];
     }
     
     // Return the generated compared assertion
@@ -254,7 +254,7 @@
 }
 
 // Remove provided assertion object from the store - returns whether it passed or failed
-- (BOOL)removeAssertion:(Sentegrity_Assertion_Store_Assertion_Object *)assertion withError:(NSError **)error {
+- (BOOL)removeAssertion:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error {
     // Check that the passed assertion is valid
     if (!assertion || assertion == nil) {
         // Error out, no assertion object provided
@@ -306,7 +306,7 @@
     }
     
     // Run through this array of assertions
-    for (Sentegrity_Assertion_Store_Assertion_Object *assertion in assertions) {
+    for (Sentegrity_Assertion_Stored_Assertion_Object *assertion in assertions) {
         
         // Check to make sure the assertion was added to the store
         if (![self removeAssertion:assertion withError:error]) {
@@ -331,7 +331,7 @@
 #pragma mark - Helper Methods (kind of)
 
 // Create an assertion object from an assertion
-- (Sentegrity_Assertion_Store_Assertion_Object *)createAssertionObjectFromAssertion:(Sentegrity_Assertion *)assertion withError:(NSError **)error {
+- (Sentegrity_Assertion_Stored_Assertion_Object *)createAssertionObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output *)assertion withError:(NSError **)error {
     // Check that the passed assertion is valid
     if (!assertion || assertion == nil) {
         // Error out, no trustfactors set
@@ -344,7 +344,7 @@
     }
     
     // Create a new assertion object for the provided assertion
-    Sentegrity_Assertion_Store_Assertion_Object *assertionObject = [[Sentegrity_Assertion_Store_Assertion_Object alloc] init];
+    Sentegrity_Assertion_Stored_Assertion_Object *assertionObject = [[Sentegrity_Assertion_Stored_Assertion_Object alloc] init];
     [assertionObject setFactorID:assertion.trustFactor.identification];
     [assertionObject setRevision:assertion.revision];
     [assertionObject setHistory:assertion.trustFactor.history];
@@ -363,7 +363,7 @@
 }
 
 // Get an assertion object by its factorID
-- (Sentegrity_Assertion_Store_Assertion_Object *)getAssertionObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error {
+- (Sentegrity_Assertion_Stored_Assertion_Object *)getAssertionObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error {
     // Check the factor id passed is valid
     if (!factorID || factorID == nil) {
         // Error out, no factorID set
@@ -376,7 +376,7 @@
     }
     
     // Run through all the assertions and check for the factorID
-    for (Sentegrity_Assertion_Store_Assertion_Object *assertion in self.assertions) {
+    for (Sentegrity_Assertion_Stored_Assertion_Object *assertion in self.assertions) {
         // Look for the matching assertion with the same factorID
         if ([assertion.factorID isEqualToNumber:factorID]) {
             *exists = YES;

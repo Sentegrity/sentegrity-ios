@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Sentegrity_Assertion_Store_Assertion_Object.h"
-#import "Sentegrity_Assertion.h"
+#import "Sentegrity_Assertion_Stored_Assertion_Object.h"
+#import "Sentegrity_TrustFactor_Output.h"
 
 @interface Sentegrity_Assertion_Store : NSObject
 
@@ -24,7 +24,7 @@
 - (BOOL)addAssertionsIntoStore:(NSArray *)assertions withError:(NSError **)error;
 
 // Add new assertion into the store - Skips existing assertions
-- (BOOL)addAssertionIntoStore:(Sentegrity_Assertion_Store_Assertion_Object *)assertion withError:(NSError **)error;
+- (BOOL)addAssertionIntoStore:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error;
 
 #pragma mark - Replace
 
@@ -32,7 +32,7 @@
 - (BOOL)setAssertions:(NSArray *)assertions withError:(NSError **)error;
 
 // Replace an assertion object in the store
-- (BOOL)setAssertion:(Sentegrity_Assertion_Store_Assertion_Object *)assertion withError:(NSError **)error;
+- (BOOL)setAssertion:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error;
 
 #pragma mark - Compare
 
@@ -40,12 +40,12 @@
 - (NSArray *)compareAssertionsInStoreWithAssertions:(NSArray *)assertions withError:(NSError **)error; // CORE FUNCTIONALITY
 
 // Compare provided assertion with assertion object in the store - Provides back a list of changed - if no matching assertion object is found in the store, a new one is created
-- (Sentegrity_Assertion_Store_Assertion_Object *)compareAssertionInStore:(Sentegrity_Assertion *)assertion withError:(NSError **)error; // CORE FUNCTIONALITY
+- (Sentegrity_Assertion_Stored_Assertion_Object *)findMatchingStoredAssertionInStore:(Sentegrity_TrustFactor_Output *)assertion withError:(NSError **)error; // CORE FUNCTIONALITY
 
 #pragma mark - Remove
 
 // Remove provided assertion object from the store - returns whether it passed or failed
-- (BOOL)removeAssertion:(Sentegrity_Assertion_Store_Assertion_Object *)assertion withError:(NSError **)error;
+- (BOOL)removeAssertion:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error;
 
 // Remove provided assertion objects from the store - returns whether it passed or failed
 - (BOOL)removeAssertions:(NSArray *)assertions withError:(NSError **)error;
@@ -53,9 +53,9 @@
 #pragma mark - Helper Methods
 
 // Create a new assertion object from a generated trustfactor assertion
-- (Sentegrity_Assertion_Store_Assertion_Object *)createAssertionObjectFromAssertion:(Sentegrity_Assertion *)assertion withError:(NSError **)error;
+- (Sentegrity_Assertion_Stored_Assertion_Object *)createAssertionObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output *)assertion withError:(NSError **)error;
 
 // Get an assertion object by its factorID
-- (Sentegrity_Assertion_Store_Assertion_Object *)getAssertionObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error;
+- (Sentegrity_Assertion_Stored_Assertion_Object *)getAssertionObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error;
 
 @end

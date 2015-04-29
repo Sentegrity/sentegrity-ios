@@ -11,18 +11,18 @@
 @interface TrustFactor_Dispatch_Process : Sentegrity_TrustFactor_Rule
 
 // 2
-+ (Sentegrity_Assertion *)badProcesses:(NSArray *)processes;
++ (Sentegrity_TrustFactor_Output *)badProcesses:(NSArray *)processes;
 
 
 // 11
-+ (Sentegrity_Assertion *)newRootProcess:(NSArray *)rootprocesses;
++ (Sentegrity_TrustFactor_Output *)newRootProcess:(NSArray *)rootprocesses;
 
 
 // 12
-+ (Sentegrity_Assertion *)badProcessPath:(NSArray *)processpaths;
++ (Sentegrity_TrustFactor_Output *)badProcessPath:(NSArray *)processpaths;
 
 
 // 20
-+ (Sentegrity_Assertion *)highRiskApp:(NSArray *)riskyapps;
++ (Sentegrity_TrustFactor_Output *)highRiskApp:(NSArray *)riskyapps;
 
 @end

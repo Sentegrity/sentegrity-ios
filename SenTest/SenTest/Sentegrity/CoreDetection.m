@@ -26,7 +26,7 @@
 - (Sentegrity_Policy *)parsePolicy:(NSURL *)policyPath isDefaultPolicy:(BOOL)isDefault withError:(NSError **)error;
 
 // Protect Mode Analysis Callback
-- (void)protectModeAnalysisResponse:(BOOL)success withDevice:(BOOL)deviceTrusted withSystem:(BOOL)systemTrusted withUser:(BOOL)userTrusted andComputation:(NSArray *)computationOutput error:(NSError *)error;
+- (void)coreDetectionResponse:(BOOL)success withDevice:(BOOL)deviceTrusted withSystem:(BOOL)systemTrusted withUser:(BOOL)userTrusted andComputation:(NSArray *)computationOutput error:(NSError *)error;
 
 @end
 
@@ -37,12 +37,13 @@
 #pragma mark - Protect Mode Analysis
 
 // Callback block definition
-void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL systemTrusted, BOOL userTrusted, NSArray *computationOutput, NSError *error);
+void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL systemTrusted, BOOL userTrusted, NSArray *computationOutput, NSError *error);
 
-// Protect Mode Analysis
-- (void)performProtectModeAnalysisWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(protectModeAnalysisBlock)callback {
+// Start Core Detection
+- (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback {
+    
     // Set the callback block to be the block definition
-    protectModeAnalysisBlockCallBack = callback;
+    coreDetectionBlockCallBack = callback;
     
     // Create the error to use
     NSError *error = nil;
@@ -55,37 +56,36 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
         error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
         
         // Don't return anything
-        [self protectModeAnalysisResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
+        [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
         return;
     }
     
-    //TODO: Beta2 do something with the timeout and do more error checking
     
     // Perform the entire Core Detection Process
     
-    // Generate the trustfactor assertions
-    NSArray *assertions = [self performTrustFactorAnalysis:policy withError:&error];
+    // Generate the trustfactor output objects
+    NSArray *trustFactorOutput = [self executeDispatcher:policy withError:&error];
     
-    // Check for valid assertions
-    if (!assertions || assertions == nil || assertions.count < 1) {
+    // Check for valid output objects
+    if (!trustFactorOutput || trustFactorOutput == nil || trustFactorOutput.count < 1) {
         // Don't return anything
-        [self protectModeAnalysisResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
+        [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
         return;
     }
     
-    // Generate the assertion objects
-    NSArray *assertionObjects = [self compareBaselineAssertions:assertions forPolicy:policy withError:&error];
+    // Retrieve stored assertions
+    NSArray *storedAssertionObjects = [self retrieveStoredAssertions:trustFactorOutput forPolicy:policy withError:&error];
     
-    // Check for valid assertion objects
-    if (!assertionObjects || assertionObjects == nil || assertionObjects.count < 1) {
+    // Check for valid stored assertion objects
+    if (!storedAssertionObjects || storedAssertionObjects == nil || storedAssertionObjects.count < 1) {
         // Don't return anything
-        NSLog(@"No Assertion Objects Received");
-        [self protectModeAnalysisResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
+        NSLog(@"No Stored Assertion Objects Received");
+        [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
         return;
     }
     
-    // Do the analysis of the assertion outputs
-    Sentegrity_TrustScore_Computation *computation = [self performTrustFactorComputationForPolicy:policy withTrustFactorAssertions:assertions andAssertionObjects:assertionObjects withError:&error];
+    // Perform baseline analysis and computation together
+    Sentegrity_TrustScore_Computation *computation = [self performTrustFactorCompareAndComputationForPolicy:policy withTrustFactorOutputs:trustFactorOutput andStoredAssertionObjects:storedAssertionObjects withError:&error];
     
     // Check if the system, user, and device are trusted
     BOOL systemTrusted, userTrusted, deviceTrusted;
@@ -118,14 +118,14 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
     }
     
     // Return through the block callback
-    [self protectModeAnalysisResponse:YES withDevice:deviceTrusted withSystem:systemTrusted withUser:userTrusted andComputation:computation.classificationInformation error:error];
+    [self coreDetectionResponse:YES withDevice:deviceTrusted withSystem:systemTrusted withUser:userTrusted andComputation:computation.classificationInformation error:error];
     
 }
 
-// Callback function for protect mode analysis
-- (void)protectModeAnalysisResponse:(BOOL)success withDevice:(BOOL)deviceTrusted withSystem:(BOOL)systemTrusted withUser:(BOOL)userTrusted andComputation:(NSArray *)computationOutput error:(NSError *)error {
+// Callback function for core detection
+- (void)coreDetectionResponse:(BOOL)success withDevice:(BOOL)deviceTrusted withSystem:(BOOL)systemTrusted withUser:(BOOL)userTrusted andComputation:(NSArray *)computationOutput error:(NSError *)error {
     // Block callback
-    protectModeAnalysisBlockCallBack(success, deviceTrusted, systemTrusted, userTrusted, computationOutput, error);
+    coreDetectionBlockCallBack(success, deviceTrusted, systemTrusted, userTrusted, computationOutput, error);
 }
 
 #pragma mark Singleton Methods
@@ -162,7 +162,7 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
 }
 
 // Perform TrustFactor analysis
-- (NSArray *)performTrustFactorAnalysis:(Sentegrity_Policy *)policy withError:(NSError **)error {
+- (NSArray *)executeDispatcher:(Sentegrity_Policy *)policy withError:(NSError **)error {
     // Make sure policy.trustFactors are set
     if (!policy || policy.trustFactors.count < 1 || !policy.trustFactors) {
         // Error out, no trustfactors set
@@ -175,7 +175,7 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
     }
     
     // Perform the analysis
-    return [Sentegrity_TrustFactor_Dispatcher generateTrustFactorAssertions:policy.trustFactors withError:error];
+    return [Sentegrity_TrustFactor_Dispatcher performTrustFactorAnalysis:policy.trustFactors withError:error];
 }
 
 // Get the assertion store (if any) for the policy
@@ -220,11 +220,11 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
     return store;
 }
 
-// Compare Baseline Assertions for Default Policy
-- (NSArray *)compareBaselineAssertions:(NSArray *)assertions forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
+// Retrieve stored assertions for Default Policy
+- (NSArray *)retrieveStoredAssertions:(NSArray *)trustFactorOutput forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
     
-    // Check if we received assertions
-    if (!assertions || assertions.count < 1) {
+    // Check if we received trustFactorOutput objects
+    if (!trustFactorOutput || trustFactorOutput.count < 1) {
         // Error out, no assertions received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No assertions provided" forKey:NSLocalizedDescriptionKey];
@@ -255,7 +255,7 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
 
     // Get our assertion store, if we have one
     Sentegrity_Assertion_Store *store = [self getAssertionStoreForPolicy:policy withError:error];
-    NSLog(@"Assertion Objects1: %d", assertions.count);
+    NSLog(@"TrustFactorOutput Objects1: %d", trustFactorOutput.count);
     
     // Check if the store exists
     if (!store || store == nil) {
@@ -263,7 +263,7 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
         return nil;
     }
     
-    NSLog(@"Assertion Objects: %ld", assertions.count);
+    NSLog(@"TrustFactorOutput Objects: %ld", trustFactorOutput.count);
     
     // Create a bool to check if it exists
     BOOL exists = NO;
@@ -285,14 +285,14 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
         }
     }
     
-    // Create the mutable array to hold the assertion objects
-    NSMutableArray *assertionObjects = [NSMutableArray arrayWithCapacity:assertions.count];
+    // Create the mutable array to hold the stored assertion objects
+    NSMutableArray *storedAssertionObjects = [NSMutableArray arrayWithCapacity:trustFactorOutput.count];
     
-    // Run through all the assertions and determine if they're local or system assertions - to determine which store they go into
-    for (Sentegrity_Assertion *assertion in assertions) {
+    // Run through all the trustFactorOutput objects and determine if they're local or system assertions
+    for (Sentegrity_TrustFactor_Output *trustFactorOutput in trustFactorOutput) {
         
-        // Check if the assertion is valid
-        if (!assertion || assertion == nil) {
+        // Check if the TrustFactor is valid
+        if (!trustFactorOutput || trustFactorOutput == nil) {
             // Error out, no assertions were able to be added
             NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
             [errorDetails setValue:@"Invalid assertion passed to add" forKey:NSLocalizedDescriptionKey];
@@ -302,18 +302,18 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
             return nil;
         }
         
-        // Check which store the assertion should be passed to
-        if ([assertion.trustFactor.local boolValue]) {
-            // Add this assertion to the local store
+        // If the TrustFactor belongs to the local store
+        if ([trustFactorOutput.trustFactor.local boolValue]) {
+   
             
-            // Now set the store's assertion values
-            Sentegrity_Assertion_Store_Assertion_Object *assertionAdded = [store compareAssertionInStore:assertion withError:error];
+            // find the matching stored assertion object for the trustfactor
+            Sentegrity_Assertion_Stored_Assertion_Object *assertionObjectFound = [store findMatchingStoredAssertionInStore:trustFactorOutput withError:error];
             
-            // Make sure the assertions were added
-            if (!assertionAdded || assertionAdded == nil) {
-                // Unable to compare, probably doesn't exist.  Let's just add it manually
-                Sentegrity_Assertion_Store_Assertion_Object *assertionToAdd = [store createAssertionObjectFromAssertion:assertion withError:error];
-                if (![store addAssertionIntoStore:assertionToAdd withError:error]) {
+            // Make sure a stored assertion could be found
+            if (!assertionObjectFound || assertionObjectFound == nil) {
+                // Unable to find, probably doesn't exist.  Let's create a new one
+                Sentegrity_Assertion_Stored_Assertion_Object *assertionObjectToAdd = [store createAssertionObjectFromTrustFactorOutput:trustFactorOutput withError:error];
+                if (![store addAssertionIntoStore:assertionObjectToAdd withError:error]) {
                     // Error out, no assertions were able to be added
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"No assertion added to local store" forKey:NSLocalizedDescriptionKey];
@@ -324,11 +324,11 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
                 }
                 
                 // Add the assertion object to the array
-                [assertionObjects addObject:assertionToAdd];
+                [storedAssertionObjects addObject:assertionObjectToAdd];
                 
             } else {
-                // Comparison was made, now let's set it
-                if (![store setAssertion:assertionAdded withError:error]) {
+                // We found a match, now let's add it
+                if (![store setAssertion:assertionObjectFound withError:error]) {
                     // Error out, no assertions were able to be set
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"No assertion set to the local store" forKey:NSLocalizedDescriptionKey];
@@ -339,20 +339,20 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
                 }
                 
                 // Add the assertion object to the array
-                [assertionObjects addObject:assertionAdded];
+                [storedAssertionObjects addObject:assertionObjectFound];
                 
             }
-        } else {
-            // Add this assertion to the global store
+        } else { //TrustFactor belongs to the global store
+    
             
-            // Now set the store's assertion values
-            Sentegrity_Assertion_Store_Assertion_Object *assertionAdded = [globalStore compareAssertionInStore:assertion withError:error];
+            // Find the matching stored assertion object for the trustfactor
+            Sentegrity_Assertion_Stored_Assertion_Object *storedAssertionObjectFound = [globalStore findMatchingStoredAssertionInStore:trustFactorOutput withError:error];
             
             // Make sure the assertions were added
-            if (!assertionAdded || assertionAdded == nil) {
-                // Unable to compare, probably doesn't exist.  Let's just add it manually
-                Sentegrity_Assertion_Store_Assertion_Object *assertionToAdd = [globalStore createAssertionObjectFromAssertion:assertion withError:error];
-                if (![globalStore addAssertionIntoStore:assertionToAdd withError:error]) {
+            if (!storedAssertionObjectFound || storedAssertionObjectFound == nil) {
+                // Unable to find, probably doesn't exist.  Let's create a new one
+                Sentegrity_Assertion_Stored_Assertion_Object *assertionObjectToAdd = [globalStore createAssertionObjectFromTrustFactorOutput:trustFactorOutput withError:error];
+                if (![globalStore addAssertionIntoStore:assertionObjectToAdd withError:error]) {
                     // Error out, no assertions were able to be added
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"No assertion added to globalStore store" forKey:NSLocalizedDescriptionKey];
@@ -363,11 +363,11 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
                 }
                 
                 // Add the assertion object to the array
-                [assertionObjects addObject:assertionToAdd];
+                [storedAssertionObjects addObject:assertionObjectToAdd];
                 
             } else {
                 // Comparison was made, now let's set it
-                if (![globalStore setAssertion:assertionAdded withError:error]) {
+                if (![globalStore setAssertion:storedAssertionObjectFound withError:error]) {
                     // Error out, no assertions were able to be set
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"No assertion set to the globalStore store" forKey:NSLocalizedDescriptionKey];
@@ -378,22 +378,23 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
                 }
                 
                 // Add the assertion object to the array
-                [assertionObjects addObject:assertionAdded];
+                [storedAssertionObjects addObject:storedAssertionObjectFound];
                 
             }
         }
     }
     
     // Save the stores
+
     store = [[Sentegrity_Assertion_Storage sharedStorage] setLocalStore:store forSecurityToken:policy.policyID.stringValue overwrite:YES withError:error];
     globalStore = [[Sentegrity_Assertion_Storage sharedStorage] setGlobalStore:globalStore overwrite:YES withError:error];
     
     // Give back the assertion objects array of assertion objects
-    return assertionObjects;
+    return storedAssertionObjects;
 }
 
 // Get the policy and do the comparison/return results
-- (Sentegrity_TrustScore_Computation *)performTrustFactorComputationForPolicy:(Sentegrity_Policy *)policy withTrustFactorAssertions:(NSArray *)trustFactorAssertions andAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error {
+- (Sentegrity_TrustScore_Computation *)performTrustFactorCompareAndComputationForPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputs:(NSArray *)trustFactorAssertions andStoredAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error {
     
     // Make sure we got a policy
     if (!policy || policy == nil || policy.policyID < 0) {
@@ -429,7 +430,7 @@ void (^protectModeAnalysisBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL 
     }
     
     // Get the computation
-    Sentegrity_TrustScore_Computation *computation = [Sentegrity_TrustScore_Computation performTrustFactorComputationWithPolicy:policy withTrustFactorAssertions:trustFactorAssertions andAssertionObjects:assertionObjects withError:error];
+    Sentegrity_TrustScore_Computation *computation = [Sentegrity_TrustScore_Computation performTrustFactorComputationWithPolicy:policy withTrustFactorOutput:trustFactorAssertions andStoredAssertionObjects:assertionObjects withError:error];
     
     // Validate the computation
     if (!computation || computation == nil) {

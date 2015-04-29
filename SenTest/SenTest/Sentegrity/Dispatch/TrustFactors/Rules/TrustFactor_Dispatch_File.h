@@ -11,9 +11,9 @@
 @interface TrustFactor_Dispatch_File : Sentegrity_TrustFactor_Rule
 
 // BadFiles check
-+ (Sentegrity_Assertion *)badFiles:(NSArray *)files;
++ (Sentegrity_TrustFactor_Output *)badFiles:(NSArray *)files;
 
 // FileSizeChange check
-+ (Sentegrity_Assertion *)fileSizeChange:(NSArray *)filesizes;
++ (Sentegrity_TrustFactor_Output *)fileSizeChange:(NSArray *)filesizes;
 
 @end

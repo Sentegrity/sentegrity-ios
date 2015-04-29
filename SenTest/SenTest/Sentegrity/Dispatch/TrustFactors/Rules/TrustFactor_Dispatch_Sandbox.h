@@ -11,6 +11,6 @@
 @interface TrustFactor_Dispatch_Sandbox : Sentegrity_TrustFactor_Rule
 
 // 8
-+ (Sentegrity_Assertion *)sandboxVerification:(NSArray *)verification;
++ (Sentegrity_TrustFactor_Output *)sandboxVerification:(NSArray *)verification;
 
 @end

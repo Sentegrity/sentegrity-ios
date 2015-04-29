@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Sentegrity_TrustFactor.h"
 
-@interface Sentegrity_Assertion : NSObject
+@interface Sentegrity_TrustFactor_Output : NSObject
 
 // Get the trustfactor
 @property (nonatomic,retain) Sentegrity_TrustFactor *trustFactor;

@@ -12,7 +12,7 @@
 
 
 // 7
-+ (Sentegrity_Assertion *)policyTamper:(NSArray *)poltamper {
++ (Sentegrity_TrustFactor_Output *)policyTamper:(NSArray *)poltamper {
     
     return 0;
 }
@@ -21,7 +21,7 @@
 
 
 // 24
-+ (Sentegrity_Assertion *)systemProtectMode:(NSArray *)protectionmode {
++ (Sentegrity_TrustFactor_Output *)systemProtectMode:(NSArray *)protectionmode {
     
     return 0;
 }
@@ -31,7 +31,7 @@
 
 
 // 40
-+ (Sentegrity_Assertion *)userProtectMode:(NSArray *)userprotectmode {
++ (Sentegrity_TrustFactor_Output *)userProtectMode:(NSArray *)userprotectmode {
     
     return 0;
 }

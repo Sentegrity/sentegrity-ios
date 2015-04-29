@@ -13,7 +13,7 @@
 
 
 // 15
-+ (Sentegrity_Assertion *)vpnUp:(NSArray *)vpnstatus {
++ (Sentegrity_TrustFactor_Output *)vpnUp:(NSArray *)vpnstatus {
     
     return 0;
 }
@@ -22,7 +22,7 @@
 
 
 // 16
-+ (Sentegrity_Assertion *)noRoute:(NSArray *)route {
++ (Sentegrity_TrustFactor_Output *)noRoute:(NSArray *)route {
     
     return 0;
 }

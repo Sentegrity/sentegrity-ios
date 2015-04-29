@@ -12,11 +12,11 @@
 
 
 // 6
-+ (Sentegrity_Assertion *)selfTamper:(NSArray *)selftamper;
++ (Sentegrity_TrustFactor_Output *)selfTamper:(NSArray *)selftamper;
 
 
 // 21
-+ (Sentegrity_Assertion *)sentegrityVersion:(NSArray *)senversion;
++ (Sentegrity_TrustFactor_Output *)sentegrityVersion:(NSArray *)senversion;
 
 
 @end

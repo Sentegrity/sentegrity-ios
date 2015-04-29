@@ -12,7 +12,7 @@
 
 
 // 2
-+ (Sentegrity_Assertion *)badProcesses:(NSArray *)processes {
++ (Sentegrity_TrustFactor_Output *)badProcesses:(NSArray *)processes {
     
     return 0;
 }
@@ -21,7 +21,7 @@
 
 
 // 11
-+ (Sentegrity_Assertion *)newRootProcess:(NSArray *)rootprocesses {
++ (Sentegrity_TrustFactor_Output *)newRootProcess:(NSArray *)rootprocesses {
     
     return 0;
 }
@@ -30,7 +30,7 @@
 
 
 // 12
-+ (Sentegrity_Assertion *)badProcessPath:(NSArray *)processpaths {
++ (Sentegrity_TrustFactor_Output *)badProcessPath:(NSArray *)processpaths {
     
     return 0;
 }
@@ -39,7 +39,7 @@
 
 
 // 20
-+ (Sentegrity_Assertion *)highRiskApp:(NSArray *)riskyapps {
++ (Sentegrity_TrustFactor_Output *)highRiskApp:(NSArray *)riskyapps {
     
     return 0;
 }
