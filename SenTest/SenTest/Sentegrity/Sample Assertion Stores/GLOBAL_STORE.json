@@ -1,0 +1,33 @@
+{
+	"securityToken": 0,
+	"Assertions": [
+		{
+			"factorID" : 1043,
+			"revision" : 1,
+			"history" : 10,
+			"learned" : true,
+			"firstRun" : "1/20/2015",
+			"runCount" : 5,
+			"Stored" : {
+				"hash" : [
+					"ASSERTION"
+				],
+				"hitCount" : [
+					"HIT_COUNT"
+				]
+			}
+		},
+		{
+			"factorID" : 1044,
+			"revision" : 1,
+			"history" : 10,
+			"learned" : true,
+			"firstRun" : "1/20/2015",
+			"runCount" : 5,
+			"Stored" : {
+				"hash" : "ASSERTION",
+				"hitCount" : "HIT_COUNT"
+			}
+		}
+	]
+}

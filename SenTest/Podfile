@@ -1,0 +1,2 @@
+pod 'DCKeyValueObjectMapping', '~> 1.4'
+pod 'NSObject-ObjectMap', '~> 2.0'
