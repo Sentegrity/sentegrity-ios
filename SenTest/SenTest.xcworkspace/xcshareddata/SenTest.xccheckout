@@ -12,20 +12,24 @@
 	<dict>
 		<key>3580E155BE6BDED85513C29833F7C32FAB3E1274</key>
 		<string>ssh://thedroneusbrothers.duckdns.org:/Users/git/Sentegrity</string>
+		<key>664DC41F713285FFC0FAD4B06CBB88956A712838</key>
+		<string>ssh://github.com/Sentegrity/sentegrity-ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>SenTest/SenTest.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>3580E155BE6BDED85513C29833F7C32FAB3E1274</key>
+		<string>../../../Sentegrity</string>
+		<key>664DC41F713285FFC0FAD4B06CBB88956A712838</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://thedroneusbrothers.duckdns.org:/Users/git/Sentegrity</string>
+	<string>ssh://github.com/Sentegrity/sentegrity-ios.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>3580E155BE6BDED85513C29833F7C32FAB3E1274</string>
+	<string>664DC41F713285FFC0FAD4B06CBB88956A712838</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -35,6 +39,14 @@
 			<string>3580E155BE6BDED85513C29833F7C32FAB3E1274</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Sentegrity</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>664DC41F713285FFC0FAD4B06CBB88956A712838</string>
+			<key>IDESourceControlWCCName</key>
+			<string>sentegrity-ios</string>
 		</dict>
 	</array>
 </dict>
