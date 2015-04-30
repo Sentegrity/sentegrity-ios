@@ -72,7 +72,7 @@
 // Run a TrustFactor by its name with a given payload
 + (Sentegrity_TrustFactor_Output *)executeTrustFactorImplementationWithName:(NSString *)name withPayload:(NSArray *)payload andError:(NSError **)error {
     
-    //JS-Beta2: We should think about searching by dispatch name first, then looking by TrustFactor name
+    //** JS-Beta2 **: We should think about searching by dispatch name first, then looking by TrustFactor name, this would be faster and help compartmentalize things
     
     // Examine all the names and run the respective checks
     if ([name isEqualToString:kRoutinebadFiles]) {

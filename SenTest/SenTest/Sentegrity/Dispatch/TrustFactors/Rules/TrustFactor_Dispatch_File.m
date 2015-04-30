@@ -37,14 +37,16 @@
     }
     
     // Create our return assertion
-    Sentegrity_TrustFactor_Output *assertion = [[Sentegrity_TrustFactor_Output alloc] init];
-    [assertion setReturnResult:returnValue];
-    [assertion setOutput:badFiles];
-    [assertion setRan:YES];
-    [assertion setRunDate:[NSDate date]];
+    Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
+    [trustFactorOutput setReturnResult:returnValue];
+    [trustFactorOutput setOutput:badFiles];
+    [trustFactorOutput setRan:YES];
+    [trustFactorOutput setRunDate:[NSDate date]];
+    
+    //JS-Beta2: We need to add a set for the "assertion" attribute and new method call, a method that creates the assertion by taking the output (badfiles here) and returns the hashed value
     
     // Return nothing
-    return assertion;
+    return trustFactorOutput;
 }
 
 // 10
