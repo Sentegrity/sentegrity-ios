@@ -143,7 +143,7 @@
                                 // Failed
                                 subClass.weightedPenalty = (subClass.weightedPenalty + trustClassifications.penalty.integerValue);
                                 
-                                //JS-Beta2 - Keep track of trustFactorObjects that trip
+                                //JS-Beta2 - Keep track of trustFactorObjects that trip for whitelisting
                                 
                             } else {
                                 // Passed
