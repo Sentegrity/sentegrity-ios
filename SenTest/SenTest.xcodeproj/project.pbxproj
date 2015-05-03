@@ -292,7 +292,6 @@
 				018581311A7D5BBF00ED2D88 /* CoreDetection.m */,
 				4C3AC0E31AD59872009EF3B9 /* TrustScore Computation */,
 				4CBED8511A9E5305000A7B42 /* Assertion Storage */,
-				4C35F80B1A9CE0BD00FC6A43 /* Assertions */,
 				0185811F1A7D4CA900ED2D88 /* Dispatch */,
 				017631341A868FAA007BCB05 /* Parser */,
 				017631331A868F94007BCB05 /* Sentegrity Policy */,
@@ -321,13 +320,6 @@
 				0176313D1A86909B007BCB05 /* Rules */,
 			);
 			path = TrustFactors;
-			sourceTree = "<group>";
-		};
-		4C35F80B1A9CE0BD00FC6A43 /* Assertions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Assertions;
 			sourceTree = "<group>";
 		};
 		4C3AC0E31AD59872009EF3B9 /* TrustScore Computation */ = {

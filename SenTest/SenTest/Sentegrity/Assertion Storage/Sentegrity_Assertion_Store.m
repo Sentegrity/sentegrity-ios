@@ -11,6 +11,15 @@
 
 @implementation Sentegrity_Assertion_Store
 
+// Initialize
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self setAssertions:[NSArray array]];
+    }
+    return self;
+}
+
 // Add assertions to the store
 - (BOOL)addAssertionsIntoStore:(NSArray *)assertions withError:(NSError **)error {
     // Check if we received assertions
@@ -80,7 +89,7 @@
     
     // Set the assertions
     [self setAssertions:assertionsArray];
-    
+
     // Return YES
     return YES;
 }
@@ -228,9 +237,9 @@
     // Get the existing stored assertion object by trustFactor ID, if it exists
     BOOL exists;
     Sentegrity_Assertion_Stored_Assertion_Object *storedAssertionObject = [self getAssertionObjectWithFactorID:trustFactorOutput.trustFactor.identification doesExist:&exists withError:error];
-    
+
     // Check if the assertion object exists
-    if (!storedAssertionObject || storedAssertionObject == nil || !exists) {
+    if ((!storedAssertionObject || storedAssertionObject == nil) && (exists)) {
         // Error out, no assertion found to compare
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No stored assertion found to compare to trustfactor output" forKey:NSLocalizedDescriptionKey];

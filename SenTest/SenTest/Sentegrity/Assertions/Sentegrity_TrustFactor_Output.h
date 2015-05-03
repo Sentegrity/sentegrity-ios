@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Sentegrity_TrustFactor.h"
+#import "Sentegrity_Constants.h"
 
 @interface Sentegrity_TrustFactor_Output : NSObject
 
@@ -24,7 +25,10 @@
 @property (nonatomic,retain) NSArray *output;
 
 // Did the trustfactor run
-@property BOOL ran;
+@property BOOL executed;
+
+// Get the trustfactor output dne modifier (only if the check failed or didn't run)
+@property (nonatomic) DNEStatusCode statusCode;
 
 // Get when the trustfactor ran
 @property (nonatomic,retain) NSDate *runDate;

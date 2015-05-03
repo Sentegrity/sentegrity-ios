@@ -138,6 +138,17 @@
 #define kPolicyViolation @"POLICY_VIOLATION"
 #define kUserAnomally    @"USER_ANOMALLY"
 
+#pragma mark - DNE Status Cases for TrustFactor output
+
+typedef enum {
+    DNEStatus_ok           = 0,
+    DNEStatus_unauthorized = 1,
+    DNEStatus_unsupported  = 2,
+    DNEStatus_disabled     = 3,
+    DNEStatus_expired      = 4,
+    DNEStatus_error        = 5
+} DNEStatusCode;
+
 #pragma mark - Error Cases
 
 /* NSError codes in NSCocoaErrorDomain. Note that other frameworks (such as AppKit and CoreData) also provide additional NSCocoaErrorDomain error codes.

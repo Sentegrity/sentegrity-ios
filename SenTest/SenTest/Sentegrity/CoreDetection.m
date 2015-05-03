@@ -60,7 +60,6 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
         return;
     }
     
-    
     // Perform the entire Core Detection Process
     
     // Generate the trustfactor output objects
@@ -89,7 +88,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
     
     // Check if the system, user, and device are trusted
     BOOL systemTrusted, userTrusted, deviceTrusted;
-    
+    NSLog(@"System Threshold: %ld User Threshold: %ld", policy.systemThreshold.integerValue, policy.userThreshold.integerValue);
     // Check the system
     if (computation.systemScore < policy.systemThreshold.integerValue) {
         // System is not trusted
@@ -255,15 +254,12 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
 
     // Get our assertion store, if we have one
     Sentegrity_Assertion_Store *store = [self getAssertionStoreForPolicy:policy withError:error];
-    NSLog(@"TrustFactorOutput Objects1: %ld", trustFactorOutputs.count);
     
     // Check if the store exists
     if (!store || store == nil) {
         // Store doesn't exist, fail
         return nil;
     }
-    
-    NSLog(@"TrustFactorOutput Objects: %ld", trustFactorOutputs.count);
     
     // Create a bool to check if it exists
     BOOL exists = NO;
@@ -305,8 +301,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
         // If the TrustFactor belongs to the local store
         if ([trustFactorOutput.trustFactor.local boolValue]) {
    
-            
-            // find the matching stored assertion object for the trustfactor
+            // Find the matching stored assertion object for the trustfactor
             Sentegrity_Assertion_Stored_Assertion_Object *assertionObjectFound = [store findMatchingStoredAssertionInStore:trustFactorOutput withError:error];
             
             // Make sure a stored assertion could be found
@@ -342,6 +337,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
                 [storedAssertionObjects addObject:assertionObjectFound];
                 
             }
+
         } else { //TrustFactor belongs to the global store
     
             
@@ -379,13 +375,12 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
                 
                 // Add the assertion object to the array
                 [storedAssertionObjects addObject:storedAssertionObjectFound];
-                
             }
+            
         }
     }
-    
-    // Save the stores
 
+    // Save the stores
     store = [[Sentegrity_Assertion_Storage sharedStorage] setLocalStore:store forSecurityToken:policy.policyID.stringValue overwrite:YES withError:error];
     globalStore = [[Sentegrity_Assertion_Storage sharedStorage] setGlobalStore:globalStore overwrite:YES withError:error];
     

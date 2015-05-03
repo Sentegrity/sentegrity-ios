@@ -2,7 +2,7 @@
   "policyID": 2,
   "revision": 1,
   "runtime": 5,
-  "userTreshold": 60,
+  "userThreshold": 60,
   "systemThreshold": 65,
   "DNEModifiers": {
       "unauthorized": 1,

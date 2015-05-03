@@ -154,7 +154,7 @@
                         Sentegrity_Assertion_Stored_Assertion_Object *storedAssertionObject = [Sentegrity_TrustScore_Computation getAssertionObjectForTrustFactor:trustClassifications withAssertionObjects:storedAssertionObjects withError:error];
                         
                         // Check if the trustfactor was executed or not
-                        if (trustFactorOutputObject.ran) {
+                        if (trustFactorOutputObject.executed) {
                             // TrustFactor ran
                             
                             // Compare the output
@@ -173,6 +173,7 @@
                             // TrustFactor did not run (DNE)
                             //JS-Beta2 - this needs to get fixed up for multiple DNE status codes
                             // DNE
+                            // TODO: Fix this and add additional statusCode validation for DNE modifiers
                             subClass.weightedPenalty = (subClass.weightedPenalty + trustClassifications.dnePenalty.integerValue);
                         }
                         
@@ -241,7 +242,7 @@
     [computation setSystemScore:systemScoreValue];
     [computation setUserScore:userScoreValue];
     [computation setDeviceScore:deviceScoreValue];
-    
+    NSLog(@"System Score: %d UserScore: %d DeviceScore: %d", systemScoreValue, userScoreValue, deviceScoreValue);
     // Set the classification information
     computation.classificationInformation = policy.classifications;
     

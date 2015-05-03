@@ -59,8 +59,12 @@
         // Create an assertion with just the trustfactor in it
         trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
         [trustFactorOutput setTrustFactor:trustFactor];
-        // Set the DNE Status
-        [trustFactorOutput setRan:NO];
+        // Set that it did not run
+        [trustFactorOutput setExecuted:NO];
+        // Set the DNE Status Code
+        [trustFactorOutput setStatusCode:DNEStatus_error];
+        // Set the run date
+        [trustFactorOutput setRunDate:[NSDate date]];
         
         // Return the assertion
         return trustFactorOutput;
@@ -83,6 +87,18 @@
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No dispatch or implementation names received" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoImplementationOrDispatchReceived userInfo:errorDetails];
+        
+        // Create an assertion with just the trustfactor in it
+        Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
+        // Set that it did not run
+        [trustFactorOutput setExecuted:NO];
+        // Set the DNE Status Code
+        [trustFactorOutput setStatusCode:DNEStatus_error];
+        // Set the run date
+        [trustFactorOutput setRunDate:[NSDate date]];
+        
+        // Return the assertion
+        return trustFactorOutput;
     }
     
     // Get the class dynamically
@@ -95,6 +111,18 @@
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No valid dispatch class found" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoDispatchClassFound userInfo:errorDetails];
+        
+        // Create an assertion with just the trustfactor in it
+        Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
+        // Set that it did not run
+        [trustFactorOutput setExecuted:NO];
+        // Set the DNE Status Code
+        [trustFactorOutput setStatusCode:DNEStatus_error];
+        // Set the run date
+        [trustFactorOutput setRunDate:[NSDate date]];
+        
+        // Return the assertion
+        return trustFactorOutput;
     }
     
     // Get the selector dynamically
@@ -106,6 +134,18 @@
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No valid implementation selector found" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoImplementationSelectorFound userInfo:errorDetails];
+        
+        // Create an assertion with just the trustfactor in it
+        Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
+        // Set that it did not run
+        [trustFactorOutput setExecuted:NO];
+        // Set the DNE Status Code
+        [trustFactorOutput setStatusCode:DNEStatus_unsupported];
+        // Set the run date
+        [trustFactorOutput setRunDate:[NSDate date]];
+        
+        // Return the assertion
+        return trustFactorOutput;
     }
     // Check if the dispatch class responds to the selector for the dispatch name
     if ([dispatchClass respondsToSelector:NSSelectorFromString(implementation)]) {
@@ -119,6 +159,18 @@
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No valid TrustFactor found" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidTrustFactorName userInfo:errorDetails];
+        
+        // Create an assertion with just the trustfactor in it
+        Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
+        // Set that it did not run
+        [trustFactorOutput setExecuted:NO];
+        // Set the DNE Status Code
+        [trustFactorOutput setStatusCode:DNEStatus_unsupported];
+        // Set the run date
+        [trustFactorOutput setRunDate:[NSDate date]];
+        
+        // Return the assertion
+        return trustFactorOutput;
     }
     
     // Return nothing
