@@ -13,6 +13,12 @@
 // 1 badFiles function - checking for existence of bad files, if files exist, fail, and returning either 1 or 0 and the files that failed
 + (Sentegrity_TrustFactor_Output *)badFiles:(NSArray *)files {
     
+    // Validate the files array
+    if (!files || files.count < 1 || files == nil) {
+        // FAILED
+        return nil;
+    }
+    
     // Create array variable
     NSMutableArray *badFiles = [[NSMutableArray alloc] initWithCapacity:files.count];
     
@@ -36,7 +42,7 @@
         }
     }
     
-    // Create our return assertion
+    // Create our return output
     Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
     [trustFactorOutput setReturnResult:returnValue];
     [trustFactorOutput setOutput:badFiles];

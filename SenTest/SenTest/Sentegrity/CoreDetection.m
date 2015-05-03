@@ -11,8 +11,8 @@
 #import "Sentegrity_Parser.h"
 #import "Sentegrity_Policy.h"
 #import "Sentegrity_TrustFactor.h"
-#import "Sentegrity_Classification.h"
-#import "Sentegrity_Subclassification.h"
+//#import "Sentegrity_Classification.h"
+//#import "Sentegrity_Subclassification.h"
 #import "Sentegrity_TrustFactor_Dispatcher.h"
 #import "Sentegrity_Assertion_Storage.h"
 
@@ -72,7 +72,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
         [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
         return;
     }
-    
+
     // Retrieve stored assertions
     NSArray *storedAssertionObjects = [self retrieveStoredAssertions:trustFactorOutput forPolicy:policy withError:&error];
     
@@ -221,10 +221,10 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
 }
 
 // Retrieve stored assertions for Default Policy
-- (NSArray *)retrieveStoredAssertions:(NSArray *)trustFactorOutput forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
+- (NSArray *)retrieveStoredAssertions:(NSArray *)trustFactorOutputs forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
     
     // Check if we received trustFactorOutput objects
-    if (!trustFactorOutput || trustFactorOutput.count < 1) {
+    if (!trustFactorOutputs || trustFactorOutputs.count < 1) {
         // Error out, no assertions received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No assertions provided" forKey:NSLocalizedDescriptionKey];
@@ -255,7 +255,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
 
     // Get our assertion store, if we have one
     Sentegrity_Assertion_Store *store = [self getAssertionStoreForPolicy:policy withError:error];
-    NSLog(@"TrustFactorOutput Objects1: %d", trustFactorOutput.count);
+    NSLog(@"TrustFactorOutput Objects1: %ld", trustFactorOutputs.count);
     
     // Check if the store exists
     if (!store || store == nil) {
@@ -263,7 +263,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
         return nil;
     }
     
-    NSLog(@"TrustFactorOutput Objects: %ld", trustFactorOutput.count);
+    NSLog(@"TrustFactorOutput Objects: %ld", trustFactorOutputs.count);
     
     // Create a bool to check if it exists
     BOOL exists = NO;
@@ -286,10 +286,10 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
     }
     
     // Create the mutable array to hold the stored assertion objects
-    NSMutableArray *storedAssertionObjects = [NSMutableArray arrayWithCapacity:trustFactorOutput.count];
+    NSMutableArray *storedAssertionObjects = [NSMutableArray arrayWithCapacity:trustFactorOutputs.count];
     
     // Run through all the trustFactorOutput objects and determine if they're local or system assertions
-    for (Sentegrity_TrustFactor_Output *trustFactorOutput in trustFactorOutput) {
+    for (Sentegrity_TrustFactor_Output *trustFactorOutput in trustFactorOutputs) {
         
         // Check if the TrustFactor is valid
         if (!trustFactorOutput || trustFactorOutput == nil) {

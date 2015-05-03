@@ -397,9 +397,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>FILE</string>
+			<string>File</string>
 			<key>implementation</key>
-			<string>BAD_FILE</string>
+			<string>badFiles:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -445,9 +445,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>PROCESS</string>
+			<string>Process</string>
 			<key>implementation</key>
-			<string>BAD_NAME</string>
+			<string>badProcesses:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -489,9 +489,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>NETSTAT</string>
+			<string>Netstat</string>
 			<key>implementation</key>
-			<string>BAD_DST</string>
+			<string>badNetDst:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -533,9 +533,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>NETSTAT</string>
+			<string>Netstat</string>
 			<key>implementation</key>
-			<string>BAD_SERVICE</string>
+			<string>priviledgedNetServices:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -575,9 +575,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>HTTP</string>
+			<string>Http</string>
 			<key>implementation</key>
-			<string>URI_HANDLERS</string>
+			<string>badURIHandlers:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -616,9 +616,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>SANDBOX</string>
+			<string>Sandbox</string>
 			<key>implementation</key>
-			<string>INTEGRITY</string>
+			<string>sandboxVerification:</string>
 			<key>baseline</key>
 			<string>0</string>
 			<key>payload</key>
@@ -654,9 +654,9 @@
 			<key>history</key>
 			<integer>1</integer>
 			<key>dispatch</key>
-			<string>SUBSCRIBER</string>
+			<string>Subscriber</string>
 			<key>implementation</key>
-			<string>TAMPER</string>
+			<string>subscribeTamper:</string>
 			<key>baseline</key>
 			<real>0</real>
 			<key>payload</key>
@@ -692,9 +692,9 @@
 			<key>history</key>
 			<integer>1</integer>
 			<key>dispatch</key>
-			<string>SELF</string>
+			<string>Sentegrity</string>
 			<key>implementation</key>
-			<string>TAMPER</string>
+			<string>selfTamper:</string>
 			<key>baseline</key>
 			<real>0</real>
 			<key>payload</key>
@@ -730,9 +730,9 @@
 			<key>history</key>
 			<integer>5</integer>
 			<key>dispatch</key>
-			<string>LOCATION</string>
+			<string>Location</string>
 			<key>implementation</key>
-			<string>ALLOWED_LOCATION</string>
+			<string>locationAllowed:</string>
 			<key>baseline</key>
 			<string>payload</string>
 			<key>payload</key>
@@ -773,9 +773,9 @@
 			<key>history</key>
 			<integer>5</integer>
 			<key>dispatch</key>
-			<string>TIME</string>
+			<string>Time</string>
 			<key>implementation</key>
-			<string>ALLOWED</string>
+			<string>timeAllowed:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -813,9 +813,9 @@
 			<key>history</key>
 			<integer>5</integer>
 			<key>dispatch</key>
-			<string>DEVICE</string>
+			<string>Platform</string>
 			<key>implementation</key>
-			<string>PLATFORM</string>
+			<string>platformVersionAllowed:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -853,9 +853,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>FILE</string>
+			<string>File</string>
 			<key>implementation</key>
-			<string>SIZE_CHANGE</string>
+			<string>fileSizeChange:</string>
 			<key>baseline</key>
 			<dict>
 				<key>learned</key>
@@ -899,9 +899,9 @@
 			<key>history</key>
 			<integer>30</integer>
 			<key>dispatch</key>
-			<string>PROCESS</string>
+			<string>Process</string>
 			<key>implementation</key>
-			<string>NEW_ROOT</string>
+			<string>newRootProcess:</string>
 			<key>baseline</key>
 			<string>learned</string>
 			<key>payload</key>
@@ -937,9 +937,9 @@
 			<key>history</key>
 			<integer>10</integer>
 			<key>dispatch</key>
-			<string>NETSTAT</string>
+			<string>Netstat</string>
 			<key>implementation</key>
-			<string>NEW_SERVICE</string>
+			<string>newNetServices:</string>
 			<key>baseline</key>
 			<string>learned</string>
 			<key>payload</key>
@@ -975,9 +975,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>ROUTE</string>
+			<string>Route</string>
 			<key>implementation</key>
-			<string>NO_GW</string>
+			<string>noRoute:</string>
 			<key>baseline</key>
 			<real>0</real>
 			<key>payload</key>
@@ -1013,9 +1013,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>ROUTE</string>
+			<string>Route</string>
 			<key>implementation</key>
-			<string>VPN</string>
+			<string>vpnUp:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -1051,9 +1051,9 @@
 			<key>history</key>
 			<integer>5</integer>
 			<key>dispatch</key>
-			<string>WIFI</string>
+			<string>Wifi</string>
 			<key>implementation</key>
-			<string>AP_SOHO</string>
+			<string>apSoho:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -1153,9 +1153,9 @@
 			<key>history</key>
 			<integer>10</integer>
 			<key>dispatch</key>
-			<string>WIFI</string>
+			<string>Wifi</string>
 			<key>implementation</key>
-			<string>AP_UNKNOWN</string>
+			<string>apHotspotter:</string>
 			<key>baseline</key>
 			<string>learned</string>
 			<key>payload</key>
@@ -1191,9 +1191,9 @@
 			<key>history</key>
 			<integer>1</integer>
 			<key>dispatch</key>
-			<string>WIFI</string>
+			<string>Wifi</string>
 			<key>implementation</key>
-			<string>ENC</string>
+			<string>wifiEncType:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -1229,9 +1229,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>PROCESS</string>
+			<string>Process</string>
 			<key>implementation</key>
-			<string>APPS</string>
+			<string>highRiskApp:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -1274,9 +1274,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>DEVICE</string>
+			<string>Platform</string>
 			<key>implementation</key>
-			<string>PLATFORM</string>
+			<string>vulnerablePlatform:</string>
 			<key>baseline</key>
 			<integer>0</integer>
 			<key>payload</key>
@@ -1356,9 +1356,9 @@
 			<key>history</key>
 			<integer>5</integer>
 			<key>dispatch</key>
-			<string>GYRO</string>
+			<string>Sensor</string>
 			<key>implementation</key>
-			<string>DEVICE_MOVEMENT</string>
+			<string>deviceMovement:</string>
 			<key>baseline</key>
 			<string>learned</string>
 			<key>payload</key>
@@ -1399,9 +1399,9 @@
 			<key>history</key>
 			<integer>5</integer>
 			<key>dispatch</key>
-			<string>ACCELEROMETER</string>
+			<string>Sensor</string>
 			<key>implementation</key>
-			<string>DEVICE_POSITION</string>
+			<string>devicePosition:</string>
 			<key>baseline</key>
 			<string>learned</string>
 			<key>payload</key>
@@ -1442,9 +1442,9 @@
 			<key>history</key>
 			<integer>20</integer>
 			<key>dispatch</key>
-			<string>LOCATION</string>
+			<string>Location</string>
 			<key>implementation</key>
-			<string>KNOWN_LOCATION</string>
+			<string>locationAllowed:</string>
 			<key>baseline</key>
 			<string>learned</string>
 			<key>payload</key>
@@ -1485,9 +1485,9 @@
 			<key>history</key>
 			<integer>3</integer>
 			<key>dispatch</key>
-			<string>TIME</string>
+			<string>Time</string>
 			<key>implementation</key>
-			<string>KNOWN_TIME</string>
+			<string>timeAllowed:</string>
 			<key>baseline</key>
 			<string>learned</string>
 			<key>payload</key>
@@ -1528,9 +1528,9 @@
 			<key>history</key>
 			<integer>5</integer>
 			<key>dispatch</key>
-			<string>BLUETOOTH</string>
+			<string>Bluetooth</string>
 			<key>implementation</key>
-			<string>CONNECTED</string>
+			<string>bluetoothPaired:</string>
 			<key>baseline</key>
 			<string>learned</string>
 			<key>payload</key>
@@ -1566,9 +1566,9 @@
 			<key>history</key>
 			<integer>30</integer>
 			<key>dispatch</key>
-			<string>BLUETOOTH</string>
+			<string>Bluetooth</string>
 			<key>implementation</key>
-			<string>BLE_SCAN</string>
+			<string>bluetoothLEScan:</string>
 			<key>baseline</key>
 			<string>learned</string>
 			<key>payload</key>
@@ -1604,9 +1604,9 @@
 			<key>history</key>
 			<integer>2</integer>
 			<key>dispatch</key>
-			<string>POWER</string>
+			<string>Platform</string>
 			<key>implementation</key>
-			<string>POWER_PERCENT</string>
+			<string>powerPercent:</string>
 			<key>baseline</key>
 			<string>learned</string>
 			<key>payload</key>

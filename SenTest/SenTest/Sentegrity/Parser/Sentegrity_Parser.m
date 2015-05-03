@@ -84,79 +84,88 @@
     NSArray *classifications = [[NSArray alloc] initWithArray:[policyPlist valueForKey:kClassifications]];
     NSMutableArray *classificationsArray = [[NSMutableArray alloc] initWithCapacity:classifications.count];
     
-    // Run through all the classifications
-    for (NSDictionary *classifiers in classifications) {
-        Sentegrity_Classification *classer = [[Sentegrity_Classification alloc] init];
-        [classer setIdentification:[classifiers objectForKey:kIdentification]];
-        [classer setName:[classifiers objectForKey:kName]];
-        [classer setWeight:[classifiers objectForKey:kWeight]];
-        [classer setProtectMode:[classifiers objectForKey:kProtectMode]];
-        [classer setProtectViolationName: [classifiers objectForKey:kProtectViolationName]];
-        [classer setProtectInfo:[classifiers objectForKey:kProtectInfo]];
-        [classer setContactPhone:[classifiers objectForKey:kContactPhone]];
-        [classer setContactURL:[classifiers objectForKey:kContactURL]];
-        [classer setContactEmail:[classifiers objectForKey:kContactEmail]];
+    // Validation
+    if (classifications && classifications.count > 0) {
+        // Run through all the classifications
+        for (NSDictionary *classifiers in classifications) {
+            Sentegrity_Classification *classer = [[Sentegrity_Classification alloc] init];
+            [classer setIdentification:[classifiers objectForKey:kIdentification]];
+            [classer setName:[classifiers objectForKey:kName]];
+            [classer setWeight:[classifiers objectForKey:kWeight]];
+            [classer setProtectMode:[classifiers objectForKey:kProtectMode]];
+            [classer setProtectViolationName: [classifiers objectForKey:kProtectViolationName]];
+            [classer setProtectInfo:[classifiers objectForKey:kProtectInfo]];
+            [classer setContactPhone:[classifiers objectForKey:kContactPhone]];
+            [classer setContactURL:[classifiers objectForKey:kContactURL]];
+            [classer setContactEmail:[classifiers objectForKey:kContactEmail]];
+            
+            // Add it to the array
+            [classificationsArray addObject:classer];
+        }
         
-        // Add it to the array
-        [classificationsArray addObject:classer];
+        // Set the Classifications
+        [policy setClassifications:classificationsArray];
     }
-    
-    // Set the Classifications
-    [policy setClassifications:classificationsArray];
     
     // Subclassifications
     NSArray *subclassifications = [[NSArray alloc] initWithArray:[policyPlist valueForKey:kSubClassifications]];
     NSMutableArray *subclassificationsArray = [[NSMutableArray alloc] initWithCapacity:subclassifications.count];
     
-    // Run through all the subclassifications
-    for (NSDictionary *subclassifiers in subclassifications){
-        Sentegrity_Subclassification *subclasser = [[Sentegrity_Subclassification alloc] init];
-        [subclasser setIdentification: [subclassifiers objectForKey:kSCIdentification]];
-        [subclasser setClassID: [subclassifiers objectForKey:kSCClassID]];
-        [subclasser setName: [subclassifiers objectForKey:kSCName]];
-        [subclasser setDneMessage:[subclassifiers objectForKey:kSCDNEMessage]];
-        [subclasser setWeight:[subclassifiers objectForKey:kSCWeight]];
+    // Validation
+    if (subclassifications && subclassifications.count > 0) {
+        // Run through all the subclassifications
+        for (NSDictionary *subclassifiers in subclassifications){
+            Sentegrity_Subclassification *subclasser = [[Sentegrity_Subclassification alloc] init];
+            [subclasser setIdentification: [subclassifiers objectForKey:kSCIdentification]];
+            [subclasser setClassID: [subclassifiers objectForKey:kSCClassID]];
+            [subclasser setName: [subclassifiers objectForKey:kSCName]];
+            [subclasser setDneMessage:[subclassifiers objectForKey:kSCDNEMessage]];
+            [subclasser setWeight:[subclassifiers objectForKey:kSCWeight]];
+            
+            // Add it to the array
+            [subclassificationsArray addObject:subclasser];
+        }
         
-        // Add it to the array
-        [subclassificationsArray addObject:subclasser];
+        // Set the Subclassifications
+        [policy setSubclassification:subclassificationsArray];
     }
-    
-    // Set the Subclassifications
-    [policy setSubclassification:subclassificationsArray];
     
     // TrustFactors
     NSArray *trustFactors = [[NSArray alloc] initWithArray:[policyPlist valueForKey:kTrustFactors]];
     NSMutableArray *trustFactorsArray = [[NSMutableArray alloc] initWithCapacity:trustFactors.count];
     
-    // Run through all the TrustFactors
-    for(NSDictionary *trustFactorClassifier in trustFactors){
-        Sentegrity_TrustFactor *trustFactorClasser = [[Sentegrity_TrustFactor alloc] init];
-        [trustFactorClasser setIdentification:[trustFactorClassifier objectForKey:kTFIdentification]];
-        [trustFactorClasser setDesc:[trustFactorClassifier objectForKey:kTFDescription]];
-        [trustFactorClasser setClassID:[trustFactorClassifier objectForKey:kTFClassID]];
-        [trustFactorClasser setSubClassID:[trustFactorClassifier objectForKey:kTFSubclassID]];
-        [trustFactorClasser setPriority:[trustFactorClassifier objectForKey:kTFPriority]];
-        [trustFactorClasser setName:[trustFactorClassifier objectForKey:kTFName]];
-        [trustFactorClasser setPenalty:[trustFactorClassifier objectForKey:kTFPenalty]];
-        [trustFactorClasser setDnePenalty:[trustFactorClassifier objectForKey:kTFDNEPenalty]];
-        [trustFactorClasser setLearnMode:[trustFactorClassifier objectForKey:kTFLearnMode]];
-        [trustFactorClasser setLearnTime:[trustFactorClassifier objectForKey:kTFLearnTime]];
-        [trustFactorClasser setLearnAssertionCount:[trustFactorClassifier objectForKey:kTFLearnAssertionCount]];
-        [trustFactorClasser setLearnRunCount:[trustFactorClassifier objectForKey:kTFLearnRunCount]];
-        [trustFactorClasser setManaged:[trustFactorClassifier objectForKey:kTFManaged]];
-        [trustFactorClasser setLocal:[trustFactorClassifier objectForKey:kTFLocal]];
-        [trustFactorClasser setHistory:[trustFactorClassifier objectForKey:kTFHistory]];
-        [trustFactorClasser setDispatch:[trustFactorClassifier objectForKey:kTFDispatch]];
-        [trustFactorClasser setImplementation:[trustFactorClassifier objectForKey:kTFImplementation]];
-        [trustFactorClasser setBaseline:[trustFactorClassifier objectForKey:kTFBaseline]];
-        [trustFactorClasser setPayload:[trustFactorClassifier objectForKey:kTFPayload]];
+    // Validation
+    if (trustFactors && trustFactors.count > 0) {
+        // Run through all the TrustFactors
+        for(NSDictionary *trustFactorClassifier in trustFactors){
+            Sentegrity_TrustFactor *trustFactorClasser = [[Sentegrity_TrustFactor alloc] init];
+            [trustFactorClasser setIdentification:[trustFactorClassifier objectForKey:kTFIdentification]];
+            [trustFactorClasser setDesc:[trustFactorClassifier objectForKey:kTFDescription]];
+            [trustFactorClasser setClassID:[trustFactorClassifier objectForKey:kTFClassID]];
+            [trustFactorClasser setSubClassID:[trustFactorClassifier objectForKey:kTFSubclassID]];
+            [trustFactorClasser setPriority:[trustFactorClassifier objectForKey:kTFPriority]];
+            [trustFactorClasser setName:[trustFactorClassifier objectForKey:kTFName]];
+            [trustFactorClasser setPenalty:[trustFactorClassifier objectForKey:kTFPenalty]];
+            [trustFactorClasser setDnePenalty:[trustFactorClassifier objectForKey:kTFDNEPenalty]];
+            [trustFactorClasser setLearnMode:[trustFactorClassifier objectForKey:kTFLearnMode]];
+            [trustFactorClasser setLearnTime:[trustFactorClassifier objectForKey:kTFLearnTime]];
+            [trustFactorClasser setLearnAssertionCount:[trustFactorClassifier objectForKey:kTFLearnAssertionCount]];
+            [trustFactorClasser setLearnRunCount:[trustFactorClassifier objectForKey:kTFLearnRunCount]];
+            [trustFactorClasser setManaged:[trustFactorClassifier objectForKey:kTFManaged]];
+            [trustFactorClasser setLocal:[trustFactorClassifier objectForKey:kTFLocal]];
+            [trustFactorClasser setHistory:[trustFactorClassifier objectForKey:kTFHistory]];
+            [trustFactorClasser setDispatch:[trustFactorClassifier objectForKey:kTFDispatch]];
+            [trustFactorClasser setImplementation:[trustFactorClassifier objectForKey:kTFImplementation]];
+            [trustFactorClasser setBaseline:[trustFactorClassifier objectForKey:kTFBaseline]];
+            [trustFactorClasser setPayload:[trustFactorClassifier objectForKey:kTFPayload]];
+            
+            // Add it to the array
+            [trustFactorsArray addObject:trustFactorClasser];
+        }
         
-        // Add it to the array
-        [trustFactorsArray addObject:trustFactorClasser];
+        // Set the TrustFactors
+        [policy setTrustFactors:trustFactorsArray];
     }
-    
-    // Set the TrustFactors
-    [policy setTrustFactors:trustFactorsArray];
     
 //    // Classifications Output
 //    for (Sentegrity_Classifications *classObject in classificationsArray) {

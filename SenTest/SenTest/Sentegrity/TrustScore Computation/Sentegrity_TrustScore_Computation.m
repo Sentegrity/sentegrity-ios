@@ -92,6 +92,28 @@
         return nil;
     }
     
+    // Validate the classifications
+    if (!policy.classifications || policy.classifications.count < 1) {
+        // Failed, no classifications found
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No classifications found" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoClassificationsFound userInfo:errorDetails];
+        NSLog(@"You suck, no classifications found");
+        // Don't return anything
+        return nil;
+    }
+    
+    // Validate the subclassifications
+    if (!policy.subclassification || policy.subclassification.count < 1) {
+        // Failed, no classifications found
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No subclassifications found" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoSubClassificationsFound userInfo:errorDetails];
+        
+        // Don't return anything
+        return nil;
+    }
+    
     // 1.  Go through all the trustfactors
     // 2.  Sort into unique classifications
     // 3.  Sort into unique subclassifications
@@ -103,10 +125,7 @@
     // 9.  Apply the classification's weight to the summarized weighted totals per classification
     // 10. Generate the classification's trustscore
     // 11. Do this for all classifications/subclassifications
-    
-    // Sort into the classifications
-    NSMutableArray *classifications = [NSMutableArray arrayWithCapacity:policy.classifications.count];
-    
+
     // Go through all the classifications in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
         
@@ -206,13 +225,13 @@
     int systemScoreValue, userScoreValue, deviceScoreValue;
     
     // 12. Generate the System score by averaging the BREACH_INDICATOR and SYSTEM_SECURITY scores
-    NSInteger breachValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kBreachIndicator fromArray:classifications withError:error] weightedPenalty];
-    NSInteger systemValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:classifications withError:error] weightedPenalty];
+    NSInteger breachValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kBreachIndicator fromArray:policy.classifications withError:error] weightedPenalty];
+    NSInteger systemValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error] weightedPenalty];
     systemScoreValue = (int)((breachValue + systemValue) / 2);
     
     // 13. Generate the User score by averaging the POLICY_VIOLATION and USER_ANOMALLY scores
-    double policyValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kPolicyViolation fromArray:classifications withError:error] weightedPenalty];
-    double userValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kUserAnomally fromArray:classifications withError:error] weightedPenalty];
+    double policyValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kPolicyViolation fromArray:policy.classifications withError:error] weightedPenalty];
+    double userValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kUserAnomally fromArray:policy.classifications withError:error] weightedPenalty];
     userScoreValue = (int)((policyValue + userValue) / 2);
     
     // 14. Generate the Device score by averaging the user score and the system scores
@@ -224,7 +243,7 @@
     [computation setDeviceScore:deviceScoreValue];
     
     // Set the classification information
-    computation.classificationInformation = classifications;
+    computation.classificationInformation = policy.classifications;
     
     // Return computation
     return computation;
@@ -235,6 +254,17 @@
 // Get a classification from an array with the name provided
 + (Sentegrity_Classification *)getClassificationForName:(NSString *)name fromArray:(NSArray *)classArray withError:(NSError **)error {
     //TODO: Beta2 more error checking and fix comparison algorithm
+    
+    // Validate the classArray
+    if (!classArray || classArray.count < 1) {
+        // Failed, no classarray found
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No classifications found" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoClassificationsFound userInfo:errorDetails];
+        NSLog(@"You suck again, no classifications found");
+        // Don't return anything
+        return nil;
+    }
     
     // Run through the assertion objects
     for (Sentegrity_Classification *objects in classArray) {
@@ -252,6 +282,17 @@
 + (Sentegrity_TrustFactor_Output *)getAssertionForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertions:(NSArray *)assertions withError:(NSError **)error {
     //TODO: Beta2 more error checking and fix comparison algorithm
     
+    // Validate the assertions
+    if (!assertions || assertions.count < 1) {
+        // Failed, no classifications found
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No assertions received" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        
+        // Don't return anything
+        return nil;
+    }
+    
     // Run through the assertion objects
     for (Sentegrity_TrustFactor_Output *objects in assertions) {
         if ([objects.trustFactor.identification intValue] == [trustFactor.identification intValue]) {
@@ -268,6 +309,17 @@
 + (Sentegrity_Assertion_Stored_Assertion_Object *)getAssertionObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error {
     //TODO: Beta2 more error checking
     
+    // Validate the assertion objects
+    if (!assertionObjects || assertionObjects.count < 1) {
+        // Failed, no classifications found
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No assertion objects received" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        
+        // Don't return anything
+        return nil;
+    }
+    
     // Run through the assertion objects
     for (Sentegrity_Assertion_Stored_Assertion_Object *objects in assertionObjects) {
         if ([objects.factorID intValue] == [trustFactor.identification intValue]) {
@@ -283,6 +335,17 @@
 // Check if the output between the assertion and assertion object are the same (if not, return NO)
 + (BOOL)checkAssertionOutputValues:(NSArray *)assertionOutput withAssertionObjectOutputValues:(NSArray *)assertionObjectOutput withError:(NSError **)error {
     //TODO: Beta2 more error checking and verify if more than one output is different does it get penalized differently
+    
+    // Validate the classifications
+    if (!assertionOutput || assertionOutput.count < 1) {
+        // Failed, no classifications found
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No assertion output received" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        
+        // Don't return anything
+        return nil;
+    }
     
     // Do they contain the same items
     BOOL same = YES;

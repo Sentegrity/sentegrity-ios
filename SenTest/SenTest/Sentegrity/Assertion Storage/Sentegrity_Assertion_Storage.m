@@ -67,8 +67,18 @@
     // Start by creating the parser
     Sentegrity_Parser *parser = [[Sentegrity_Parser alloc] init];
     
+    // Get the list of stores
+    NSArray *listOfStores = [self getListOfStores:error];
+    
+    // Check if the list of stores is valid
+    if (!listOfStores || listOfStores.count < 1) {
+        // No stores found, return nothing
+        *exists = NO;
+        return nil;
+    }
+    
     // Run through all the store paths
-    for (NSString *storePaths in [self getListOfStores:error]) {
+    for (NSString *storePaths in listOfStores) {
         // Turn the path into an object
         Sentegrity_Assertion_Store *store = [parser parseAssertionStoreWithPath:[NSURL URLWithString:storePaths] withError:error];
         // Check if the store matches the security token
@@ -80,6 +90,7 @@
     }
     
     // Return nothing
+    *exists = NO;
     return nil;
 }
 

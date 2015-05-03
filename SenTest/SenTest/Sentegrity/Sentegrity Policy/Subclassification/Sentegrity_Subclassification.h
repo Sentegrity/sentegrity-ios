@@ -16,5 +16,4 @@
 @property (nonatomic, retain) NSString *dneMessage;
 @property (nonatomic, retain) NSNumber *weight;
 
-
 @end

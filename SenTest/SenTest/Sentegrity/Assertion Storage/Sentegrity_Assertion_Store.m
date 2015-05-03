@@ -375,6 +375,13 @@
         return nil;
     }
     
+    // Check if assertions is valid
+    if (!self.assertions || self.assertions.count < 1) {
+        // No assertions
+        *exists = NO;
+        return nil;
+    }
+    
     // Run through all the assertions and check for the factorID
     for (Sentegrity_Assertion_Stored_Assertion_Object *assertion in self.assertions) {
         // Look for the matching assertion with the same factorID

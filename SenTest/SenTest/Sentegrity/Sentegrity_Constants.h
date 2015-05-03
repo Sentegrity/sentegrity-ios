@@ -83,6 +83,8 @@
 
 #pragma mark - Dispatch Routines
 
+#define kTrustFactorDispatch @"TrustFactor_Dispatch_%@"
+
 #define kRoutinebadFiles @"badFiles"
 #define kRoutinefileSizeChange @"fileSizeChange"
 #define kRoutinebadProcesses @"badProcesses"
@@ -178,7 +180,17 @@ enum {
     // Unable to set assertion to the store
     SAUnableToSetAssertionToStore = 28,
     // No computation received
-    SANoComputationReceived = 29
+    SANoComputationReceived = 29,
+    // No dispatch or implementations received
+    SANoImplementationOrDispatchReceived = 30,
+    // No dispatch class found
+    SANoDispatchClassFound = 31,
+    // No implementation selector found
+    SANoImplementationSelectorFound = 32,
+    // No classifications found
+    SANoClassificationsFound = 33,
+    // No subclassifications found
+    SANoSubClassificationsFound = 34
 };
 
 #endif
