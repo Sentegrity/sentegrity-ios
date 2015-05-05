@@ -171,7 +171,9 @@
                             }
                         } else {
                             // TrustFactor did not run (DNE)
+                            
                             //JS-Beta2 - this needs to get fixed up for multiple DNE status codes
+                            
                             // DNE
                             // TODO: Fix this and add additional statusCode validation for DNE modifiers
                             subClass.weightedPenalty = (subClass.weightedPenalty + trustClassifications.dnePenalty.integerValue);

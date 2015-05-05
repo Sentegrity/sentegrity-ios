@@ -201,7 +201,9 @@ enum {
     // No classifications found
     SANoClassificationsFound = 33,
     // No subclassifications found
-    SANoSubClassificationsFound = 34
+    SANoSubClassificationsFound = 34,
+    // Cannot overwrite existing store
+    SACannotOverwriteExistingStore = 35
 };
 
 #endif

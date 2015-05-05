@@ -104,7 +104,7 @@
     // Get the class dynamically
     NSString *className = [NSString stringWithFormat:kTrustFactorDispatch, dispatch];
     Class dispatchClass = NSClassFromString(className);
-    
+
     // Validate the class
     if (!dispatchClass || dispatchClass == nil) {
         // No dispatch class found, error out
@@ -127,7 +127,7 @@
     
     // Get the selector dynamically
     SEL implementationSelector = NSSelectorFromString(implementation);
-    
+
     // Validate the selector
     if (!implementationSelector || implementationSelector == nil) {
         // No implementation selector found, error out

@@ -195,8 +195,8 @@
       "managed": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "FILE",
-      "implementation": "BAD_FILE",
+      "dispatch": "File",
+      "implementation": "badFiles:",
       "baseline": 0,
       "payload": [
         "/bin/bash",
@@ -224,8 +224,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "PROCESS",
-      "implementation": "BAD_NAME",
+      "dispatch": "Process",
+      "implementation": "badProcesses:",
       "baseline": 0,
       "payload": [
         "sbsettingsd",
@@ -251,8 +251,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "NETSTAT",
-      "implementation": "BAD_DST",
+      "dispatch": "Netstat",
+      "implementation": "badNetDst:",
       "baseline": 0,
       "payload": [
         "appaddict.org",
@@ -276,8 +276,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "NETSTAT",
-      "implementation": "BAD_SERVICE",
+      "dispatch": "Netstat",
+      "implementation": "priviledgedNetServices",
       "baseline": 0,
       "payload": [
         22,
@@ -299,8 +299,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "HTTP",
-      "implementation": "URI_HANDLERS",
+      "dispatch": "Http",
+      "implementation": "badURIHandlers:",
       "baseline": 0,
       "payload": [
         "cydia",
@@ -321,8 +321,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "SANDBOX",
-      "implementation": "INTEGRITY",
+      "dispatch": "Sandbox",
+      "implementation": "sandboxVerification:",
       "baseline": "learned",
       "payload": []
     }, {
@@ -340,8 +340,8 @@
       "learnRunCount": 0,
       "local": 1,
       "history": 1,
-      "dispatch": "SUBSCRIBER",
-      "implementation": "TAMPER",
+      "dispatch": "Subscriber",
+      "implementation": "subscribeTamper:",
       "baseline": "learned",
       "payload": []
     }, {
@@ -359,8 +359,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 1,
-      "dispatch": "SELF",
-      "implementation": "TAMPER",
+      "dispatch": "Sentegrity",
+      "implementation": "selfTamper:",
       "baseline": 0,
       "payload": []
     }, {
@@ -378,8 +378,8 @@
       "learnRunCount": 0,
       "local": 1,
       "history": 5,
-      "dispatch": "LOCATION",
-      "implementation": "ALLOWED_LOCATION",
+      "dispatch": "Location",
+      "implementation": "locationAllowed:",
       "baseline": "payload",
       "payload": [
         "41,-88",
@@ -400,8 +400,8 @@
       "learnRunCount": 0,
       "local": 1,
       "history": 5,
-      "dispatch": "TIME",
-      "implementation": "ALLOWED",
+      "dispatch": "Time",
+      "implementation": "timeAllowed:",
       "baseline": 0,
       "payload": [
         "8-17"
@@ -421,8 +421,8 @@
       "learnRunCount": 0,
       "local": 1,
       "history": 5,
-      "dispatch": "DEVICE",
-      "implementation": "PLATFORM",
+      "dispatch": "Platform",
+      "implementation": "platformVersionAllowed:",
       "baseline": 0,
       "payload": [
         "8.1.2"
@@ -442,8 +442,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "FILE",
-      "implementation": "SIZE_CHANGE",
+      "dispatch": "File",
+      "implementation": "fileSizeChange:",
       "baseline": "learned",
       "iterates": 1,
       "payload": [
@@ -465,8 +465,8 @@
       "learnRunCount": 10,
       "local": 0,
       "history": 30,
-      "dispatch": "PROCESS",
-      "implementation": "NEW_ROOT",
+      "dispatch": "Process",
+      "implementation": "newRootProcess:",
       "baseline": "learned",
       "payload": []
     }, {
@@ -484,8 +484,8 @@
       "learnRunCount": 10,
       "local": 0,
       "history": 10,
-      "dispatch": "NETSTAT",
-      "implementation": "NEW_SERVICE",
+      "dispatch": "Netstat",
+      "implementation": "newNetServices:",
       "baseline": "learned",
       "payload": []
     }, {
@@ -503,8 +503,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "ROUTE",
-      "implementation": "NO_GW",
+      "dispatch": "Route",
+      "implementation": "noRoute:",
       "baseline": 0,
       "payload": []
     }, {
@@ -522,8 +522,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "ROUTE",
-      "implementation": "VPN",
+      "dispatch": "Route",
+      "implementation": "vpnUp:",
       "baseline": 0,
       "payload": []
     }, {
@@ -541,8 +541,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 5,
-      "dispatch": "WIFI",
-      "implementation": "AP_SOHO",
+      "dispatch": "Wifi",
+      "implementation": "apSoho:",
       "baseline": 0,
       "payload": [
         "00:0C:41",
@@ -624,8 +624,8 @@
       "learnRunCount": 10,
       "local": 1,
       "history": 10,
-      "dispatch": "WIFI",
-      "implementation": "AP_UNKNOWN",
+      "dispatch": "Wifi",
+      "implementation": "apHotspotter:",
       "baseline": "learned",
       "payload": []
     }, {
@@ -643,8 +643,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 1,
-      "dispatch": "WIFI",
-      "implementation": "ENC",
+      "dispatch": "Wifi",
+      "implementation": "wifiEncType:",
       "baseline": 0,
 
       "payload": []
@@ -663,8 +663,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "PROCESS",
-      "implementation": "APPS",
+      "dispatch": "Process",
+      "implementation": "highRiskApp:",
       "baseline": 0,
       "payload": [
         "scany",
@@ -689,8 +689,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 3,
-      "dispatch": "DEVICE",
-      "implementation": "PLATFORM",
+      "dispatch": "Platform",
+      "implementation": "vulnerablePlatform:",
       "baseline": 0,
       "payload": [
         "8.1.2"
@@ -733,8 +733,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 5,
-      "dispatch": "GYRO",
-      "implementation": "DEVICE_MOVEMENT",
+      "dispatch": "Sensor",
+      "implementation": "deviceMovement:",
       "baseline": "learned",
       "payload": [{
         "rounding": 100
@@ -754,8 +754,8 @@
       "learnRunCount": 0,
       "local": 0,
       "history": 5,
-      "dispatch": "ACCELEROMETER",
-      "implementation": "DEVICE_POSITION",
+      "dispatch": "Sensor",
+      "implementation": "devicePosition:",
       "baseline": "learned",
       "payload": [{
         "rounding": 100
@@ -775,8 +775,8 @@
       "learnRunCount": 20,
       "local": 1,
       "history": 20,
-      "dispatch": "LOCATION",
-      "implementation": "KNOWN_LOCATION",
+      "dispatch": "Location",
+      "implementation": "locationAllowed:",
       "baseline": "learned",
       "payload": [{
         "rounding": 100
@@ -796,8 +796,8 @@
       "learnRunCount": 20,
       "local": 1,
       "history": 3,
-      "dispatch": "TIME",
-      "implementation": "KNOWN_TIME",
+      "dispatch": "Time",
+      "implementation": "timeAllowed:",
       "baseline": "learned",
       "payload": [{
         "blocksize": 6
@@ -817,8 +817,8 @@
       "learnRunCount": 20,
       "local": 0,
       "history": 5,
-      "dispatch": "BLUETOOTH",
-      "implementation": "CONNECTED",
+      "dispatch": "Bluetooth",
+      "implementation": "bluetoothPaired:",
       "baseline": "learned",
       "payload": []
     }, {
@@ -836,8 +836,8 @@
       "learnRunCount": 20,
       "local": 0,
       "history": 30,
-      "dispatch": "BLUETOOTH",
-      "implementation": "BLE_SCAN",
+      "dispatch": "Bluetooth",
+      "implementation": "bluetoothLEScan:",
       "baseline": "learned",
       "payload": []
     }, {
@@ -855,8 +855,8 @@
       "learnRunCount": 20,
       "local": 0,
       "history": 2,
-      "dispatch": "POWER",
-      "implementation": "POWER_PERCENT",
+      "dispatch": "Platform",
+      "implementation": "powerPercent:",
       "baseline": "learned",
       "payload": [{
         "blocksize": 4

@@ -110,7 +110,9 @@
     
     // Check if we already have one
     BOOL exists;
-    Sentegrity_Assertion_Store *existingStore = [self getLocalStoreWithSecurityToken:securityToken doesExist:&exists withError:error];
+    // Get the local store
+    [self getLocalStoreWithSecurityToken:securityToken doesExist:&exists withError:error];
+    
     if (!exists || (exists && overWrite)) {
         // Overwrite the security token value being passed
         if (!store || store == nil) {
@@ -124,6 +126,14 @@
         NSData *data = [store JSONData];
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
         [dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist", securityToken]] atomically:NO];
+    } else {
+        // No security token provided
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"Cannot overwrite existing store, already exists" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SACannotOverwriteExistingStore userInfo:errorDetails];
+        
+        // Return nil
+        return nil;
     }
     
     // Return the existing store
