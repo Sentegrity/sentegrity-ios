@@ -153,9 +153,9 @@
                         // Get the assertion object
                         Sentegrity_Assertion_Stored_Assertion_Object *storedAssertionObject = [Sentegrity_TrustScore_Computation getAssertionObjectForTrustFactor:trustClassifications withAssertionObjects:storedAssertionObjects withError:error];
                         
-                        // Check if the trustfactor was executed or not
-                        if (trustFactorOutputObject.executed) {
-                            // TrustFactor ran
+                        // Check if the trustfactor was executed successfully
+                        if (trustFactorOutputObject.statusCode == DNEStatus_ok) {
+                            // TrustFactor ran successfully
                             
                             // Compare the output
                             if (![Sentegrity_TrustScore_Computation checkAssertionOutputValues:trustFactorOutputObject.output withAssertionObjectOutputValues:storedAssertionObject.stored.hashValue withError:error]) {
@@ -170,13 +170,41 @@
                                 //JS-Beta2 - Yes there is, mainly for user anomaly rules such as when a known bluetooth device is found. We will need to add a attribute to TrustFactors to indicate these types of rules and evaluate it here
                             }
                         } else {
-                            // TrustFactor did not run (DNE)
+                            // TrustFactor did not run successfully (DNE)
                             
-                            //JS-Beta2 - this needs to get fixed up for multiple DNE status codes
+                            // Create an int to hold the dnePenalty multiplied by the modifier
+                            int penaltyMod = 0;
                             
-                            // DNE
-                            // TODO: Fix this and add additional statusCode validation for DNE modifiers
-                            subClass.weightedPenalty = (subClass.weightedPenalty + trustClassifications.dnePenalty.integerValue);
+                            // Find out which DNE exit code was set
+                            switch (trustFactorOutputObject.statusCode) {
+                                case DNEStatus_error:
+                                    // Error
+                                    penaltyMod = [policy.DNEModifiers.error doubleValue];
+                                    break;
+                                case DNEStatus_unauthorized:
+                                    // Unauthorized
+                                    penaltyMod = [policy.DNEModifiers.unauthorized doubleValue];
+                                    break;
+                                case DNEStatus_unsupported:
+                                    // Unsupported
+                                    penaltyMod = [policy.DNEModifiers.unsupported doubleValue];
+                                    break;
+                                case DNEStatus_disabled:
+                                    // Disabled
+                                    penaltyMod = [policy.DNEModifiers.disabled doubleValue];
+                                    break;
+                                case DNEStatus_expired:
+                                    // Error
+                                    penaltyMod = [policy.DNEModifiers.expired doubleValue];
+                                    break;
+                                default:
+                                    // Error
+                                    penaltyMod = [policy.DNEModifiers.error doubleValue];
+                                    break;
+                            }
+                            
+                            // DNE weighted penalty based on modifiers
+                            subClass.weightedPenalty = (subClass.weightedPenalty + (trustClassifications.dnePenalty.integerValue * penaltyMod);
                         }
                         
                         // Add the trustfactor to the subclassifications trustfactor array
