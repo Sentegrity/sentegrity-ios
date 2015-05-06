@@ -58,10 +58,7 @@
         return nil;
     }
     NSMutableArray *values = [[NSMutableArray alloc] initWithCapacity:[array count]];
-    for (id dictionary in array) {
-        if ([dictionary isKindOfClass:[NSNull class]]) {
-            continue;
-        }
+    for (NSDictionary *dictionary in array) {
         id value = [self parseDictionary:dictionary forParentObject:parentObject];
         [values addObject:value];
     }

@@ -204,7 +204,7 @@
                             }
                             
                             // DNE weighted penalty based on modifiers
-                            subClass.weightedPenalty = (subClass.weightedPenalty + (trustClassifications.dnePenalty.integerValue * penaltyMod);
+                            subClass.weightedPenalty = (subClass.weightedPenalty + (trustClassifications.dnePenalty.integerValue * penaltyMod));
                         }
                         
                         // Add the trustfactor to the subclassifications trustfactor array

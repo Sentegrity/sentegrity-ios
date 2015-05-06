@@ -11,6 +11,9 @@
 #import "Sentegrity_TrustFactor.h"
 #import "Sentegrity_Constants.h"
 
+// Pod for hashing
+#import "NSString+Hashes.h"
+
 // Import the objc runtime to get class by name
 #import <objc/objc-runtime.h>
 
@@ -72,6 +75,23 @@
     
     // Add the trustfactor object to the trustFactorOutput object as a link
     [trustFactorOutput setTrustFactor:trustFactor];
+    
+    //BETA2: Create the assertions as hashed output
+    // Check if the trustfactor ran successfully
+    if (trustFactorOutput.statusCode == DNEStatus_ok) {
+        // Create an array to hold the assertions
+        NSMutableArray *assertionsArray = [NSMutableArray arrayWithCapacity:trustFactorOutput.output.count];
+        
+        // Create the assertions
+        for (NSString *outputValue in trustFactorOutput.output) {
+            // Create the hashed assertion for the output - might replace the output someday
+            NSString *assertionValue = [NSString stringWithFormat:@"%@%@", [trustFactor.identification stringValue],[outputValue sha1]; // TODO: Add in device.id
+                                        
+            // Add the assertion value to the assertion array
+            [assertionsArray addObject:assertionValue];
+        }
+    }
+    
     
     // Return the output object
     return trustFactorOutput;
