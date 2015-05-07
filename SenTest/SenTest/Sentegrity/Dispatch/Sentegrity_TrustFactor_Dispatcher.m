@@ -85,7 +85,7 @@
         // Create the assertions
         for (NSString *outputValue in trustFactorOutput.output) {
             // Create the hashed assertion for the output - might replace the output someday
-            NSString *assertionValue = [NSString stringWithFormat:@"%@%@", [trustFactor.identification stringValue],[outputValue sha1]; // TODO: Add in device.id
+            NSString *assertionValue = [NSString stringWithFormat:@"%@%@%@", [trustFactor.identification stringValue], kUniqueDeviceID, [outputValue sha1]]; // TODO: Change device.id
                                         
             // Add the assertion value to the assertion array
             [assertionsArray addObject:assertionValue];

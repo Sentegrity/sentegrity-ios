@@ -117,7 +117,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
     }
     
     // Return through the block callback
-    [self coreDetectionResponse:YES withDevice:deviceTrusted withSystem:systemTrusted withUser:userTrusted andComputation:computation.classificationInformation error:error];
+    [self coreDetectionResponse:YES withDevice:deviceTrusted withSystem:systemTrusted withUser:userTrusted andComputation:computation.triggered error:error];
     
 }
 

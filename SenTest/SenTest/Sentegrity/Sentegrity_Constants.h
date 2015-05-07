@@ -9,6 +9,9 @@
 #ifndef SenTest_Constants_h
 #define SenTest_Constants_h
 
+// TODO: Beta only
+#define kUniqueDeviceID @"1234567890"
+
 #pragma mark - Defaults
 
 #define kDefaultPolicyName @"Default_Policy.plist"

@@ -357,14 +357,14 @@
     [assertionObject setFactorID:assertion.trustFactor.identification];
     [assertionObject setRevision:assertion.revision];
     [assertionObject setHistory:assertion.trustFactor.history];
-    [assertionObject setLearned:assertion.trustFactor.learnMode];
+    [assertionObject setLearned:NO]; // Beta2: don't set that it has learned
     [assertionObject setFirstRun:[NSDate date]];
-    [assertionObject setRunCount:[NSNumber numberWithInt:1]];
+    [assertionObject setRunCount:[NSNumber numberWithInt:0]]; // Beta2: Set the run count to 0 because we're incrementing on comparison
     // Create the stored value
     Sentegrity_Assertion_Store_Assertion_Object_Stored_Value *stored = [[Sentegrity_Assertion_Store_Assertion_Object_Stored_Value alloc] init];
-    // TODO: BETA2 Fix assertion object creation hashing
+    // TODO: BETA2 Fix assertion object creation hashing - set hash value to assertions (not output)
     [stored setHashValue:assertion.output];
-    [stored setHitCount:[NSNumber numberWithInt:1]];
+    [stored setHitCount:[NSNumber numberWithInt:0]]; // Beta2: Set the hit count to 0 because we're incrementing on comparison
     [assertionObject setStored:stored];
     
     // Return the assertion object

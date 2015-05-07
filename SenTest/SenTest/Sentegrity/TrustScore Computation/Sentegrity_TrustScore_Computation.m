@@ -59,6 +59,9 @@
     // Set the trustFactors
     NSArray *trustFactors = policy.trustFactors;
     
+    // Create the triggered policies array
+    NSMutableArray *triggeredPolicies = [NSMutableArray array];
+    
     // Make sure we received a policy
     if (!trustFactors || trustFactors == nil || trustFactors.count < 1) {
         // Error out, no trustfactors set
@@ -157,12 +160,14 @@
                         if (trustFactorOutputObject.statusCode == DNEStatus_ok) {
                             // TrustFactor ran successfully
                             
-                            // Compare the output
-                            if (![Sentegrity_TrustScore_Computation checkAssertionOutputValues:trustFactorOutputObject.output withAssertionObjectOutputValues:storedAssertionObject.stored.hashValue withError:error]) {
+                            // Compare the output - Beta2: Updated to ensure only learned objects can penalize
+                            if (![Sentegrity_TrustScore_Computation checkAssertionOutputValues:trustFactorOutputObject.output withAssertionObjectOutputValues:storedAssertionObject.stored.hashValue withError:error] && storedAssertionObject.learned) {
+                                
                                 // Failed
                                 subClass.weightedPenalty = (subClass.weightedPenalty + trustClassifications.penalty.integerValue);
                                 
-                                //JS-Beta2 - Keep track of trustFactorObjects that trip for whitelisting
+                                // Beta2: Keep track of trustFactorObjects that trip for whitelisting
+                                [triggeredPolicies addObject:trustFactorOutputObject];
                                 
                             } else {
                                 // Passed
@@ -275,6 +280,8 @@
     NSLog(@"System Score: %d UserScore: %d DeviceScore: %d", systemScoreValue, userScoreValue, deviceScoreValue);
     // Set the classification information
     computation.classificationInformation = policy.classifications;
+    // Set the triggered policies
+    computation.triggered = triggeredPolicies;
     
     // Return computation
     return computation;
