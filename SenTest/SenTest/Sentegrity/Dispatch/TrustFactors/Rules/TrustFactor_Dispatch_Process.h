@@ -10,6 +10,9 @@
 
 @interface TrustFactor_Dispatch_Process : Sentegrity_TrustFactor_Rule
 
+
++ (BOOL)updateProcessList;
+
 // 2
 + (Sentegrity_TrustFactor_Output *)badProcesses:(NSArray *)processes;
 
