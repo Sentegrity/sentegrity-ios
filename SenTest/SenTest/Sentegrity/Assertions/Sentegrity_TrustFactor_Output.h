@@ -24,6 +24,9 @@
 // Get the trustfactor output
 @property (nonatomic,retain) NSArray *output;
 
+// Get the trustfactor assertions
+@property (nonatomic,retain) NSArray *assertions;
+
 // Did the trustfactor run
 @property BOOL executed;
 

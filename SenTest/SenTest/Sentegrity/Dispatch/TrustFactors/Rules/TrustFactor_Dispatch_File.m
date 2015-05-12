@@ -30,7 +30,7 @@
         return trustFactorOutput;
     }
     
-    // Create array variable
+    // Create output array variable
     NSMutableArray *badFiles = [[NSMutableArray alloc] initWithCapacity:files.count];
     
     // Create int variable

@@ -590,12 +590,7 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
     for (NSInteger i = 0; i < propertiesArray.count; i++) {
         NSString *key = propertiesArray[i];
         
-        @try {
-            if (![obj valueForKey:key]) {
-                continue;
-            }
-        }
-        @catch (NSException *exception) {
+        if (![obj valueForKey:key]) {
             continue;
         }
         
