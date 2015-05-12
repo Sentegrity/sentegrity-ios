@@ -452,7 +452,7 @@
 			<integer>0</integer>
 			<key>payload</key>
 			<array>
-				<string>sbsettingsd</string>
+				<string>clang</string>
 				<string>python*</string>
 				<string>absinthed*</string>
 				<string>Snoop-it*</string>

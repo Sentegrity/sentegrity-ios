@@ -228,7 +228,7 @@
       "implementation": "badProcesses:",
       "baseline": 0,
       "payload": [
-        "sbsettingsd",
+        "clang",
         "python*",
         "absinthed*",
         "Snoop-it*",

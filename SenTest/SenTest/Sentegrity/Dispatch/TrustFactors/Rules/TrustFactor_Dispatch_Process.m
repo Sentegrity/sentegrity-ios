@@ -19,10 +19,8 @@ static NSMutableArray *processList;
 // 2
 + (Sentegrity_TrustFactor_Output *)badProcesses:(NSArray *)processes {
     
-    if (!processList)
-        [self updateProcessList];
     
-    // Validate the process name array
+    // Validate the process payload array
     if (!processes || processes.count < 1 || processes == nil) {
         
         // Invalid input
@@ -37,9 +35,47 @@ static NSMutableArray *processList;
         // Return nothing
         return trustFactorOutput;
     }
-
     
-       return 0;
+    //populate process data is necessary
+    if (!processList)
+        [self updateProcessList];
+
+    // Create output array variable
+    NSMutableArray *badProcs = [[NSMutableArray alloc] init];
+    
+    // Create int variable
+    NSNumber *returnValue = [[NSNumber alloc] initWithInt:0];
+    
+    //hold name of current proc analyzed
+    NSString *procName;
+    
+    for (NSDictionary *processData in processList)
+    {
+        procName = [processData objectForKey:@"ProcessName"];
+        
+        //iterate through bad proc names payload
+        for (NSString *badProcName in processes)
+        {
+            if([badProcName isEqualToString:procName])
+            {
+                NSLog(@"bad proc found");
+                [badProcs addObject:procName];
+            }
+        }
+        
+            
+    }
+      // Create our return output
+    Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
+    [trustFactorOutput setReturnResult:returnValue];
+    [trustFactorOutput setOutput:badProcs];
+    [trustFactorOutput setExecuted:YES];
+    [trustFactorOutput setStatusCode:DNEStatus_ok];
+    [trustFactorOutput setRunDate:[NSDate date]];
+    
+    
+    // Return nothing
+    return trustFactorOutput;
 }
 
 
