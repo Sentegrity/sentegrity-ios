@@ -20,6 +20,11 @@
     _desc = desc;
 }
 
+// Revision
+- (void)setRevision:(NSNumber *)revision{
+    _revision = revision;
+}
+
 // ClassID
 - (void)setClassID:(NSNumber *)classID{
     _classID = classID;
@@ -96,7 +101,7 @@
 }
 
 // Baseline
-- (void)setBaseline:(NSNumber *)baseline{
+- (void)setBaseline:(NSString *)baseline{
     _baseline = baseline;
 }
 

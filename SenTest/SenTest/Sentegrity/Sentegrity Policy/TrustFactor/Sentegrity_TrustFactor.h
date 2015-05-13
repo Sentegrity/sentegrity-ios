@@ -12,6 +12,7 @@
 
 @property (nonatomic, retain) NSNumber *identification;
 @property (nonatomic, retain) NSString *desc;
+@property (nonatomic, retain) NSNumber *revision;
 @property (nonatomic, retain) NSNumber *classID;
 @property (nonatomic, retain) NSNumber *subClassID;
 @property (nonatomic, retain) NSNumber *priority;
@@ -27,7 +28,7 @@
 @property (nonatomic, retain) NSNumber *history;
 @property (nonatomic, retain) NSString *dispatch;
 @property (nonatomic, retain) NSString *implementation;
-@property (nonatomic, retain) NSNumber *baseline;
+@property (nonatomic, retain) NSString *baseline;
 @property (nonatomic, retain) NSArray *payload;
 
 @end

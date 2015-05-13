@@ -22,60 +22,63 @@ static NSMutableArray *processList;
     
     // Validate the process payload array
     if (!processes || processes.count < 1 || processes == nil) {
-        
-        // Invalid input
-        
+
         // Create our return output
         Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
         [trustFactorOutput setExecuted:NO];
         [trustFactorOutput setStatusCode:DNEStatus_error];
-        [trustFactorOutput setRunDate:[NSDate date]];
-
         
         // Return nothing
         return trustFactorOutput;
     }
     
-    //populate process data is necessary
+    //populate process data if necessary (if we are the first in this dispatch to run)
     if (!processList)
         [self updateProcessList];
 
-    // Create output array variable
+    // Create output array
     NSMutableArray *badProcs = [[NSMutableArray alloc] init];
     
-    // Create int variable
-    NSNumber *returnValue = [[NSNumber alloc] initWithInt:0];
-    
-    //hold name of current proc analyzed
+    //hold name of current proc being analyzed
     NSString *procName;
     
     for (NSDictionary *processData in processList)
     {
         procName = [processData objectForKey:@"ProcessName"];
         
-        //iterate through bad proc names payload
+        //iterate through bad proc names provided via payload
         for (NSString *badProcName in processes)
         {
             if([badProcName isEqualToString:procName])
             {
-                NSLog(@"bad proc found");
+               // NSLog(@"bad proc found");
                 [badProcs addObject:procName];
             }
         }
         
             
     }
-      // Create our return output
+    
+    // Create our return trustfactor object
     Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
-    [trustFactorOutput setReturnResult:returnValue];
     [trustFactorOutput setOutput:badProcs];
     [trustFactorOutput setExecuted:YES];
     [trustFactorOutput setStatusCode:DNEStatus_ok];
-    [trustFactorOutput setRunDate:[NSDate date]];
     
-    
-    // Return nothing
-    return trustFactorOutput;
+    //If we found bad processes generate assertions from each output (each bad processes name found)
+    if(badProcs.count > 1)
+    {
+        [trustFactorOutput generateAssertionsFromOutput];
+        return trustFactorOutput;
+    }
+    else  //otherwise generate one assertion using the baseline (i.e., we found no bad procs)
+    {
+       
+        [trustFactorOutput generateBaselineAssertion];
+        return trustFactorOutput;
+    }
+
+
 }
 
 
@@ -123,7 +126,8 @@ static NSMutableArray *processList;
     struct kinfo_proc * process = NULL;
     struct kinfo_proc * newprocess = NULL;
     
-    //process path MIB info
+    //*** process path MIB info, broken ***
+    
     //get buffer size
     //int mib2[3] = {CTL_KERN, KERN_ARGMAX, 0};
     //size_t argmaxsize = sizeof(size_t);
@@ -179,7 +183,7 @@ static NSMutableArray *processList;
                     //process user ID
                     NSNumber * processUID = [NSNumber numberWithInt:process[i].kp_eproc.e_ucred.cr_uid];
                     
-                    //process path
+                    //*** process path, broken ***
                     //get the path information we actually want
                     //mib2[1] = KERN_PROCARGS2;
                     //mib2[2] = (int)process[i].kp_proc.p_pid;

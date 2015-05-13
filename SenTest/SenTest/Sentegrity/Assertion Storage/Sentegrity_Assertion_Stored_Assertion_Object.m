@@ -37,11 +37,11 @@
     // Compare self values against the values in the passed assertion
     
     // Check if the revision number is different - if so, clean it out completely
-    if (self.revision != trustFactorOutput.revision) {
+    if (self.revision != trustFactorOutput.trustFactor.revision) {
         // Create a new assertion object for the provided trustFactorOutput
         Sentegrity_Assertion_Stored_Assertion_Object *newStoredAssertionObject = [[Sentegrity_Assertion_Stored_Assertion_Object alloc] init];
         [newStoredAssertionObject setFactorID:trustFactorOutput.trustFactor.identification];
-        [newStoredAssertionObject setRevision:trustFactorOutput.revision];
+        [newStoredAssertionObject setRevision:trustFactorOutput.trustFactor.revision];
         [newStoredAssertionObject setHistory:trustFactorOutput.trustFactor.history];
         [newStoredAssertionObject setLearned:NO];  // BETA2: Setting learned to no on first run - or if changing revision number
         [newStoredAssertionObject setFirstRun:[NSDate date]];
@@ -59,7 +59,7 @@
     }
     
     // Set the history to be what's in the trustfactor TODO: probably change setting the history to just match what's in the trustfactor
-    self.history = [trustFactorOutput.trustFactor history];
+    self.history = trustFactorOutput.trustFactor.history;
     
     // Check if the rule is learned yet
     if (!self.learned) {
@@ -69,7 +69,7 @@
         if (!self.stored.hashValue || self.stored.hashValue == nil || self.stored.hashValue.count < 1) {
             // Empty hash value, set it to our output
             // TODO: BETA2 Fix the hash value by setting the hash value to assertions instead of output
-            [self.stored setHashValue:trustFactorOutput.output];
+            [self.stored setHashValue:trustFactorOutput.assertions];
         } else {
             // Not an empty hash value, let's set it to our output
             // TODO: BETA2 Fix the hash value by setting the hash value to assertions instead of output
@@ -137,14 +137,8 @@
     
     // Set the first run date if it's not already set
     if (!self.firstRun || self.firstRun == nil) {
-        // Set the first run date (making sure that the trustfactor output run date is valid)
-        if (!trustFactorOutput.runDate || trustFactorOutput.runDate == nil) {
-            // Unable to get the trustfactor output run date, set the run date to be now
-            self.firstRun = [NSDate date];
-        } else {
-            // Set the run date to be the trustfactor output run date
-            self.firstRun = [trustFactorOutput runDate];
-        }
+        self.firstRun = [NSDate date];
+
     }
     
     // Set

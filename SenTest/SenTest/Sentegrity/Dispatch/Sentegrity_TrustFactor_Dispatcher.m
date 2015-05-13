@@ -66,8 +66,6 @@
         [trustFactorOutput setExecuted:NO];
         // Set the DNE Status Code
         [trustFactorOutput setStatusCode:DNEStatus_error];
-        // Set the run date
-        [trustFactorOutput setRunDate:[NSDate date]];
         
         // Return the assertion
         return trustFactorOutput;
@@ -79,17 +77,7 @@
     //BETA2: Create the assertions as hashed output
     // Check if the trustfactor ran successfully
     if (trustFactorOutput.statusCode == DNEStatus_ok) {
-        // Create an array to hold the assertions
-        NSMutableArray *assertionsArray = [NSMutableArray arrayWithCapacity:trustFactorOutput.output.count];
-        
-        // Create the assertions
-        for (NSString *outputValue in trustFactorOutput.output) {
-            // Create the hashed assertion for the output - might replace the output someday
-            NSString *assertionValue = [NSString stringWithFormat:@"%@%@%@", [trustFactor.identification stringValue], kUniqueDeviceID, [outputValue sha1]]; // TODO: Change device.id
-                                        
-            // Add the assertion value to the assertion array
-            [assertionsArray addObject:assertionValue];
-        }
+
     }
     
     
@@ -114,8 +102,6 @@
         [trustFactorOutput setExecuted:NO];
         // Set the DNE Status Code
         [trustFactorOutput setStatusCode:DNEStatus_error];
-        // Set the run date
-        [trustFactorOutput setRunDate:[NSDate date]];
         
         // Return the assertion
         return trustFactorOutput;
@@ -138,8 +124,6 @@
         [trustFactorOutput setExecuted:NO];
         // Set the DNE Status Code
         [trustFactorOutput setStatusCode:DNEStatus_error];
-        // Set the run date
-        [trustFactorOutput setRunDate:[NSDate date]];
         
         // Return the assertion
         return trustFactorOutput;
@@ -161,8 +145,6 @@
         [trustFactorOutput setExecuted:NO];
         // Set the DNE Status Code
         [trustFactorOutput setStatusCode:DNEStatus_unsupported];
-        // Set the run date
-        [trustFactorOutput setRunDate:[NSDate date]];
         
         // Return the assertion
         return trustFactorOutput;
@@ -186,8 +168,6 @@
         [trustFactorOutput setExecuted:NO];
         // Set the DNE Status Code
         [trustFactorOutput setStatusCode:DNEStatus_unsupported];
-        // Set the run date
-        [trustFactorOutput setRunDate:[NSDate date]];
         
         // Return the assertion
         return trustFactorOutput;

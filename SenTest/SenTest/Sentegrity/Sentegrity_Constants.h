@@ -66,6 +66,7 @@
 
 #define kTFIdentification @"id"
 #define kTFDescription @"desc"
+#define kTFRevision @"revision"
 #define kTFClassID @"classID"
 #define kTFSubclassID @"subClassID"
 #define kTFPriority @"priority"

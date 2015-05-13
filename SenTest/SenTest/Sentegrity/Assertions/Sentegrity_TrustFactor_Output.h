@@ -15,12 +15,6 @@
 // Get the trustfactor
 @property (nonatomic,retain) Sentegrity_TrustFactor *trustFactor;
 
-// Get the revision number (from policy)
-@property (nonatomic,retain) NSNumber *revision;
-
-// Get the trustfactor return result (pass/fail)
-@property (nonatomic,retain) NSNumber *returnResult;
-
 // Get the trustfactor output
 @property (nonatomic,retain) NSArray *output;
 
@@ -33,7 +27,8 @@
 // Get the trustfactor output dne modifier (only if the check failed or didn't run)
 @property (nonatomic) DNEStatusCode statusCode;
 
-// Get when the trustfactor ran
-@property (nonatomic,retain) NSDate *runDate;
+
+- (void)generateAssertionsFromOutput;
+- (void)generateBaselineAssertion;
 
 @end

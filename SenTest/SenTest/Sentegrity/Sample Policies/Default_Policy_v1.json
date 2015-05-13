@@ -182,6 +182,7 @@
   "trustFactors": [{
       "id": 1001,
       "desc": "PURPOSE: Identify known bad files, HOW: Scan for payload file names, if found use first found filename else 0 (baseline) to generate single canidate assertion for TrustFactor, BASELINE: Created using assertion generated from 0",
+      "revision": 1,
       "classID": 1,
       "subClassID": 1,
       "priority": 1,
@@ -192,12 +193,11 @@
       "learnTime": 0,
       "learnAssertionCount": 0,
       "learnRunCount": 0,
-      "managed": 0,
       "local": 0,
       "history": 3,
       "dispatch": "File",
       "implementation": "badFiles:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         "/bin/bash",
         "/bin/sh",
@@ -211,8 +211,9 @@
       ]
     }, {
       "id": 1002,
-      "classID": 1,
       "desc": "PURPOSE: Identify known bad process names, HOW: Scan for payload process names if found use first found process name else 0 (baseline) to generate single candidate assertion for TrustFactor, BASELINE: Created using assertion generated from 0",
+      "revision": 1,
+      "classID": 1,
       "subClassID": 1,
       "priority": 1,
       "name": "badProcs",
@@ -226,7 +227,7 @@
       "history": 3,
       "dispatch": "Process",
       "implementation": "badProcesses:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         "clang",
         "python*",
@@ -239,6 +240,7 @@
     {
       "id": 1003,
       "desc": "PURPOSE: Identify active network destinations using known bad IPs, HOW: Scan for network destinations in payload if found use first found network destination else 0 (baseline) to generate single candidate assertion for TrustFactor, BASELINE: Created using assertion generated from 0",
+      "revision": 1,
       "classID": 1,
       "subClassID": 1,
       "priority": 3,
@@ -253,7 +255,7 @@
       "history": 3,
       "dispatch": "Netstat",
       "implementation": "badNetDst:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         "appaddict.org",
         "hackndev.org",
@@ -264,7 +266,8 @@
     }, {
       "id": 1004,
       "desc": "PURPOSE: Identify known bad service/port in use, HOW: Scan for listening ports in payload if found use found port number else 0 (baseline) to generate single candidate assertion for TrustFactor, BASELINE: Created using assertion generated from 0",
-      "classID": 1,
+      "revision": 1,
+      "classID":1,
       "subClassID": 3,
       "priority": 2,
       "name": "privledgedNetServices",
@@ -278,7 +281,7 @@
       "history": 3,
       "dispatch": "Netstat",
       "implementation": "priviledgedNetServices",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         22,
         80,
@@ -287,6 +290,7 @@
     }, {
       "id": 1005,
       "desc": "PURPOSE: identify bad uri handlers of known malicious apps, HOW: Attempt to access bad URIs from payload if found use found URI name else 0 (baseline) to generate single candidate assertion for TrustFactor, BASELINE: Created using assertion generated from 0",
+      "revision": 1,
       "classID": 1,
       "subClassID": 1,
       "priority": 1,
@@ -301,7 +305,7 @@
       "history": 3,
       "dispatch": "Http",
       "implementation": "badURIHandlers:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         "cydia",
         "snoop"
@@ -309,6 +313,7 @@
     }, {
       "id": 1006,
       "desc": "PURPOSE: Identify integrity of the sandbox via API calls, HOW: Perform platform-specific tests, use result from a single or multiple API call functions to generate a single or multiple candidate assertions for TrustFactor, BASELINE: Created using assertion generated from known-good (expected) result of API calls",
+      "revision": 1,
       "classID": 1,
       "subClassID": 3,
       "priority": 2,
@@ -328,6 +333,7 @@
     }, {
       "id": 1007,
       "desc": "PURPOSE: Detect a tamper of a subscriber's app based on binary data hash performed by subscriber SDK, HOW: Extract hash from subscriber IPC request and generate a single assertion from it for the TrustFactor, BASELINE: Learned using first subscriber hash to generate assertion",
+      "revision": 1,
       "classID": 1,
       "subClassID": 2,
       "priority": 1,
@@ -347,6 +353,7 @@
     }, {
       "id": 1008,
       "desc": "PURPOSE: Detect tamper of sentegrity binary or core detection policy, HOW: This rule is forcibly triggered as a result of embedded detection or policy or runtime checksum violations and triggered using a random number else 0 to generate a single assertion for the TrustFactor that is guaranteed to be unique, BASELINE: created using assertion generated from 0",
+      "revision": 1,
       "classID": 1,
       "subClassID": 2,
       "priority": 1,
@@ -361,11 +368,12 @@
       "history": 1,
       "dispatch": "Sentegrity",
       "implementation": "selfTamper:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": []
     }, {
       "id": 1009,
       "desc": "PURPOSE: Policy that only allows access from specific locations, HOW: The current location (long/lat) is rounded and concatenated to generate a single candidate assertion for the TrustFactor, BASELINE: Created from pre-established payload values set by policy owner",
+      "revision": 1,
       "classID": 2,
       "subClassID": 2,
       "priority": 1,
@@ -388,6 +396,7 @@
     }, {
       "id": 1010,
       "desc": "PURPOSE: Policy that only allows access during specific times, HOW: The current time is compared to allowed payload times spans, if not in the time span (violation) use current time else 0 (baseline) to generate a single candidate assertion for the TrustFactor, BASELINE: Created from 0",
+      "revision": 1,
       "classID": 2,
       "subClassID": 1,
       "priority": 1,
@@ -402,13 +411,14 @@
       "history": 5,
       "dispatch": "Time",
       "implementation": "timeAllowed:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         "8-17"
       ]
     }, {
       "id": 1011,
       "desc": "PURPOSE: Policy that does not allow vulnerable platforms, HOW: The current platform version is compared to payload known-good versions, if match not found use current version, else 0 (baseline) to generate a single candidate assertion for the TrustFactor  , BASELINE: Created from 0",
+      "revision": 1,
       "classID": 2,
       "subClassID": 4,
       "priority": 1,
@@ -423,13 +433,14 @@
       "history": 5,
       "dispatch": "Platform",
       "implementation": "platformVersionAllowed:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         "8.1.2"
       ]
     }, {
       "id": 1012,
       "desc": "PURPOSE: Identify change in critical file sizes, HOW: Iterate through payload files and determine sizes for each, summarize all to generate candidate assertion for the TrustFactor, BASELINE: Learned from first candidate assertion",
+      "revision": 1,
       "classID": 3,
       "subClassID": 1,
       "priority": 1,
@@ -453,6 +464,7 @@
     }, {
       "id": 1013,
       "desc": "PURPOSE: Identify new root (uid=0) processes, HOW: Iterate through all current root processes and generate candidate assertion for each root process name resulting in multiple candidate assertions for the TrustFactor, BASELINE: Multiple created from each root process name discovered",
+      "revision": 1,
       "classID": 3,
       "subClassID": 2,
       "priority": 2,
@@ -472,6 +484,7 @@
     }, {
       "id": 1014,
       "desc": "PURPOSE: Identify new privileged network services, HOW: Iterate through all low port (0-1023) source port network connection, generate assertion for each port resulting in multiple candidate assertions for the TrustFactor, BASELINE: Multiple created from each low port",
+      "revision": 1,
       "classID": 3,
       "subClassID": 3,
       "priority": 2,
@@ -491,6 +504,7 @@
     }, {
       "id": 1015,
       "desc": "PURPOSE: Identify if no interface is up (no route), HOW: Check if loopback adapter is the default gw if yes use interface  name, else 0 (baseline),to generate candidate assertion for TrustFactor, BASELINE: Created from 0",
+      "revision": 1,
       "classID": 3,
       "subClassID": 3,
       "priority": 3,
@@ -505,11 +519,12 @@
       "history": 3,
       "dispatch": "Route",
       "implementation": "noRoute:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": []
     }, {
       "id": 1016,
       "desc": "PURPOSE: Identify if VPN interface is up, HOW: Check if VPN interface adapter is the default gw, if yes use interface  name, else 0 (baseline),to generate candidate assertion for TrustFactor, BASELINE: Created from 0",
+      "revision": 1,
       "classID": 3,
       "subClassID": 3,
       "priority": 3,
@@ -524,11 +539,12 @@
       "history": 3,
       "dispatch": "Route",
       "implementation": "vpnUp:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": []
     }, {
       "id": 1017,
       "desc": "PURPOSE: Identify if connected AP is a SOHO, HOW: If current AP MAC (BSSID) matches any payload OUIs use current OUI, else 0 (baseline),to generate candidate assertion for TrustFactor, BASELINE: Created from 0",
+      "revision": 1,
       "classID": 3,
       "subClassID": 4,
       "priority": 1,
@@ -543,7 +559,7 @@
       "history": 5,
       "dispatch": "Wifi",
       "implementation": "apSoho:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         "00:0C:41",
         "00:0F:66",
@@ -612,6 +628,7 @@
     }, {
       "id": 1018,
       "desc": "PURPOSE: Identify if connected AP is known, HOW: Use current AP MAC (BSSID) to generate candidate assertion for TrustFactor, BASELINE: Created from learned AP MAC (BSSIDs)",
+      "revision": 1,
       "classID": 3,
       "subClassID": 4,
       "priority": 2,
@@ -631,6 +648,7 @@
     }, {
       "id": 1020,
       "desc": "PURPOSE: Identify if connected AP is unencrypted, HOW: If unencrypted use AP MAC, else 0 (baseline), to generate candidate assertion, BASELINE: created from zero",
+      "revision": 1,
       "classID": 3,
       "subClassID": 4,
       "priority": 1,
@@ -645,12 +663,13 @@
       "history": 1,
       "dispatch": "Wifi",
       "implementation": "wifiEncType:",
-      "baseline": 0,
+      "baseline": "0",
 
       "payload": []
     }, {
       "id": 1021,
       "desc": "PURPOSE: Identify if a high risk App is running, HOW: Scan current processes for payload names, if found use process name, else 0 (baseline), to generate candidate assertion for TrustFactor, BASELINE: created from zero",
+      "revision": 1,
       "classID": 3,
       "subClassID": 5,
       "priority": 2,
@@ -665,7 +684,7 @@
       "history": 3,
       "dispatch": "Process",
       "implementation": "highRiskApp:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         "scany",
         "systemMonitor",
@@ -677,6 +696,7 @@
     }, {
       "id": 1022,
       "desc": "PURPOSE: Identify vulnerable platform in use, HOW: The current platform version is compared to payload versions, if match, current platform version is used, else 0 (baseline),to generate a single candidate assertion for the TrustFactor, BASELINE: created from zero",
+      "revision": 1,
       "classID": 3,
       "subClassID": 6,
       "priority": 1,
@@ -691,13 +711,14 @@
       "history": 3,
       "dispatch": "Platform",
       "implementation": "vulnerablePlatform:",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         "8.1.2"
       ]
     }, {
       "id": 1023,
       "desc": "PURPOSE: Identify if a device backup is enabled (via process in this instance), HOW: Determine if iCloud backup enabled, if yes, use name, else 0 (baseline),to generate a single candidate assertion for the TrustFactor, BASELINE: created from zero",
+      "revision": 1,
       "classID": 3,
       "subClassID": 6,
       "priority": 1,
@@ -712,7 +733,7 @@
       "history": 3,
       "dispatch": "DEVICE",
       "implementation": "PLATFORM",
-      "baseline": 0,
+      "baseline": "0",
       "payload": [
         "backupd",
         "profiled",
@@ -721,6 +742,7 @@
     }, {
       "id": 1024,
       "desc": "PURPOSE: Profile the device movement during analysis, HOW: Leverage payload \"rounding\" to round current X/Y/Z Gyro data and concat to generate a single candidate assertion for the TrustFactor, BASELINE: Learned from readings",
+      "revision": 1,
       "classID": 4,
       "subClassID": 1,
       "priority": 3,
@@ -742,6 +764,7 @@
     }, {
       "id": 1025,
       "desc": "PURPOSE: Profile the device position during analysis (how it is held), HOW: Leverage payload \"rounding\" to round current X/Y/Z accelerometer data and concat to generate a single candidate assertion for the TrustFactor, BASELINE: Learned from readings",
+      "revision": 1,
       "classID": 4,
       "subClassID": 1,
       "priority": 3,
@@ -763,6 +786,7 @@
     }, {
       "id": 1026,
       "desc": "PURPOSE: Profile access location, HOW: The current location (long/lat) is rounded based on pyaload, concatenated and used to generate a single candidate assertion for the TrustFactor, BASELINE: Learned from readings",
+      "revision": 1,
       "classID": 4,
       "subClassID": 2,
       "priority": 1,
@@ -784,6 +808,7 @@
     }, {
       "id": 1027,
       "desc": "PURPOSE: Profile access time, HOW: Leverage payload \"blocksize\" to divide day into chunks, use block number of current time to generate a single candidate assertion for the TrustFactor, BASELINE: Learned from readings",
+      "revision": 1,
       "classID": 4,
       "subClassID": 3,
       "priority": 1,
@@ -805,6 +830,7 @@
     }, {
       "id": 1028,
       "desc": "PURPOSE: Identify known bluetooth device, HOW: Use current paired bluetooth device ID to generate a single candidate assertion for the TrustFactor, BASELINE: Learned from readings",
+      "revision": 1,
       "classID": 4,
       "subClassID": 4,
       "priority": 1,
@@ -824,6 +850,7 @@
     }, {
       "id": 1029,
       "desc": "PURPOSE: Identify known bluetooth BLE devices in close proximity, HOW: Iterate through top 3 found BLE device IDs and generate multiple candidate assertions for the TrustFactor, BASELINE: Learned from readings",
+      "revision": 1,
       "classID": 4,
       "subClassID": 4,
       "priority": 1,
@@ -843,6 +870,7 @@
     }, {
       "id": 1027,
       "desc": "PURPOSE: Profile device power level, HOW: Leverage payload \"blocksize\" to divide power level into chunks, use block number of current power level to generate a single candidate assertion for the TrustFactor,BASELINE: Learned from readings",
+      "revision": 1,
       "classID": 4,
       "subClassID": 5,
       "priority": 3,

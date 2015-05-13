@@ -355,7 +355,7 @@
     // Create a new assertion object for the provided assertion
     Sentegrity_Assertion_Stored_Assertion_Object *assertionObject = [[Sentegrity_Assertion_Stored_Assertion_Object alloc] init];
     [assertionObject setFactorID:assertion.trustFactor.identification];
-    [assertionObject setRevision:assertion.revision];
+    [assertionObject setRevision:assertion.trustFactor.revision];
     [assertionObject setHistory:assertion.trustFactor.history];
     [assertionObject setLearned:NO]; // Beta2: don't set that it has learned
     [assertionObject setFirstRun:[NSDate date]];

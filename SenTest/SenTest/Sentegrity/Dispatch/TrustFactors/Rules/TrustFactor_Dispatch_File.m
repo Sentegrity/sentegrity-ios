@@ -22,7 +22,6 @@
         Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
         [trustFactorOutput setExecuted:NO];
         [trustFactorOutput setStatusCode:DNEStatus_error];
-        [trustFactorOutput setRunDate:[NSDate date]];
         
         //JS-Beta2: We need to add a set for the "assertion" attribute and new method call, a method that creates the assertion by taking the output (badfiles here) and returns the hashed value
         
@@ -55,11 +54,9 @@
     
     // Create our return output
     Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
-    [trustFactorOutput setReturnResult:returnValue];
     [trustFactorOutput setOutput:badFiles];
     [trustFactorOutput setExecuted:YES];
     [trustFactorOutput setStatusCode:DNEStatus_ok];
-    [trustFactorOutput setRunDate:[NSDate date]];
     
     //JS-Beta2: We need to add a set for the "assertion" attribute and new method call, a method that creates the assertion by taking the output (badfiles here) and returns the hashed value
     
