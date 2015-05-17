@@ -7,55 +7,55 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Sentegrity_Assertion_Stored_Assertion_Object.h"
+#import "Sentegrity_Stored_TrustFactor_Object.h"
 #import "Sentegrity_TrustFactor_Output.h"
 
 @interface Sentegrity_Assertion_Store : NSObject
 
-// Security Token
-@property (nonatomic,strong) NSString *securityToken;
+// App ID
+@property (nonatomic,strong) NSString *appID;
 
 // Assertion Objects
-@property (nonatomic,strong) NSArray *assertions;
+@property (nonatomic,strong) NSArray *storedTrustFactorObjects;
 
 #pragma mark - Add
+// Add an array of new storedTrustFactorObjects to the store
+- (BOOL)addStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
 
-// Add an array of new assertions to the store - Skips existing assertions - Assertions must be formatted as assertion_objects
-- (BOOL)addAssertionsIntoStore:(NSArray *)assertions withError:(NSError **)error;
-
-// Add new assertion into the store - Skips existing assertions
-- (BOOL)addAssertionIntoStore:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error;
+// add a single storedTrustFactorObject into the store
+- (BOOL)addStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
 
 #pragma mark - Replace
 
-// Replace an array of assertion objects in the store
-- (BOOL)setAssertions:(NSArray *)assertions withError:(NSError **)error;
+// Replace an array of storedTrustFactorObjects  in the store
+- (BOOL)setStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
 
-// Replace an assertion object in the store
-- (BOOL)setAssertion:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error;
+// Replace a single storedTrustFactorObject in the store
+- (BOOL)setStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
 
 #pragma mark - Compare
 
 // Compare provided assertions with assertion objects in the store - Provides back all assertions after comparison - if no matching assertion object is found in the store, a new one is created
-- (NSArray *)compareAssertionsInStoreWithAssertions:(NSArray *)assertions withError:(NSError **)error; // CORE FUNCTIONALITY
+//- (NSArray *)compareStoredTrustFactorObjectsInStoreWithTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error; // CORE FUNCTIONALITY
 
 // Compare provided assertion with assertion object in the store - Provides back a list of changed - if no matching assertion object is found in the store, a new one is created
-- (Sentegrity_Assertion_Stored_Assertion_Object *)findMatchingStoredAssertionInStore:(Sentegrity_TrustFactor_Output *)assertion withError:(NSError **)error; // CORE FUNCTIONALITY
+//- (Sentegrity_Stored_TrustFactor_Object *)findMatchingStoredTrustFactorObjectInStore:(Sentegrity_TrustFactor_Output *)assertion withError:(NSError **)error; // CORE FUNCTIONALITY
 
 #pragma mark - Remove
 
-// Remove provided assertion object from the store - returns whether it passed or failed
-- (BOOL)removeAssertion:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error;
+// Remove provided storedTrustFactorObject  from the store - returns whether it passed or failed
+- (BOOL)removeStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
 
-// Remove provided assertion objects from the store - returns whether it passed or failed
-- (BOOL)removeAssertions:(NSArray *)assertions withError:(NSError **)error;
+// Remove array of storedTrustFactorObjects  from the store - returns whether it passed or failed
+- (BOOL)removeStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
 
 #pragma mark - Helper Methods
 
-// Create a new assertion object from a generated trustfactor assertion
-- (Sentegrity_Assertion_Stored_Assertion_Object *)createAssertionObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output *)assertion withError:(NSError **)error;
+// Create a new storedTrustFactorObject from TrustFactorOutputObject
+- (Sentegrity_Stored_TrustFactor_Object *)createStoredTrustFactorObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output *)trustFactorOutputObject withError:(NSError **)error;
 
-// Get an assertion object by its factorID
-- (Sentegrity_Assertion_Stored_Assertion_Object *)getAssertionObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error;
+// Get an storedTrustFactorObject by a factorID
+- (Sentegrity_Stored_TrustFactor_Object *)getStoredTrustFactorObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error;
+
 
 @end

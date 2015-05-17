@@ -20,7 +20,7 @@
 
 #define kDefaultAssertionStoragePath @"/AssertionStores"
 #define kDefaultAssertionStoreNamePrefix @"Assertion_Store_"
-#define kGlobalAssertionStoreSecurityToken @"2"
+#define kGlobalAssertionStoreAppID @"2"
 
 #pragma mark - Policy Keys
 
@@ -171,15 +171,15 @@ enum {
     // No policy provided
     SANoPolicyProvided = 16,
     // No security token provided
-    SANoSecurityTokenProvided = 17,
+    SANoAppIDProvided = 17,
     // No assertions received
-    SANoAssertionsReceived = 18,
+    SANoTrustFactorOutputObjectsReceived = 18,
     // No assertions added to store
     SANoAssertionsAddedToStore = 19,
     // No FactorID received
     SANoFactorIDReceived = 20,
     // Unable to add assertion object into the assertion store
-    SAUnableToAddAssertionIntoStore = 21,
+    SAUnableToAddStoreTrustFactorObjectsIntoStore = 21,
     // Unable to compare the assertion object
     SAUnableToCompareAssertion = 22,
     // Unable to find assertion object to compare
@@ -191,7 +191,7 @@ enum {
     // Unable to remove assertion
     SAUnableToRemoveAssertion = 26,
     // Invalid assertion objects provided
-    SAInvalidAssertionsProvided = 27,
+    SAInvalidStoredTrustFactorObjectsProvided = 27,
     // Unable to set assertion to the store
     SAUnableToSetAssertionToStore = 28,
     // No computation received

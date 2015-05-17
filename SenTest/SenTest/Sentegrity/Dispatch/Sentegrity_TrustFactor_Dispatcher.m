@@ -11,9 +11,6 @@
 #import "Sentegrity_TrustFactor.h"
 #import "Sentegrity_Constants.h"
 
-// Pod for hashing
-#import "NSString+Hashes.h"
-
 // Import the objc runtime to get class by name
 #import <objc/objc-runtime.h>
 
@@ -37,10 +34,10 @@
     for (Sentegrity_TrustFactor *trustFactor in trustFactors) {
         
         // Run the TrustFactor and populate output object
-        Sentegrity_TrustFactor_Output *trustFactorOutput = [self executeTrustFactor:trustFactor withError:error];
+        Sentegrity_TrustFactor_Output *trustFactorOutputObjects = [self executeTrustFactor:trustFactor withError:error];
         
         // Add the trustFactorOutput object to the output array
-        [processedTrustFactorArray addObject:trustFactorOutput];
+        [processedTrustFactorArray addObject:trustFactorOutputObjects];
     }
     
     // Return the output array
@@ -49,40 +46,55 @@
 
 + (Sentegrity_TrustFactor_Output *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error {
     
-    // run the trustfactor implementation and get candidate assertion
-    Sentegrity_TrustFactor_Output *trustFactorOutput = [self runTrustFactorWithDispatch:trustFactor.dispatch andImplementation:trustFactor.implementation withPayload:trustFactor.payload andError:error];
+    // run the trustfactor implementation and get trustFactorOutputObject
+    Sentegrity_TrustFactor_Output *trustFactorOutputObject = [self runTrustFactorWithDispatch:trustFactor.dispatch andImplementation:trustFactor.implementation withPayload:trustFactor.payload andError:error];
     
-    // Validate trustfactor output
-    if (!trustFactorOutput || trustFactorOutput == nil) {
-        // Error out, no assertion generated
+    // Validate trustFactorOutputObject
+    if (!trustFactorOutputObject || trustFactorOutputObject == nil) {
+        // Error out, no trustFactorOutputObject generated
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertion generated" forKey:NSLocalizedDescriptionKey];
+        [errorDetails setValue:@"No trustFactorOutputObject generated" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionGenerated userInfo:errorDetails];
         
-        // Create an assertion with just the trustfactor in it
-        trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
-        [trustFactorOutput setTrustFactor:trustFactor];
+        // Create an trustFactorOutputObject with just the trustfactor policy in it
+        trustFactorOutputObject = [[Sentegrity_TrustFactor_Output alloc] init];
+        [trustFactorOutputObject setTrustFactor:trustFactor];
         // Set that it did not run
-        [trustFactorOutput setExecuted:NO];
+        [trustFactorOutputObject setExecuted:NO];
         // Set the DNE Status Code
-        [trustFactorOutput setStatusCode:DNEStatus_error];
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return the assertion
-        return trustFactorOutput;
+        return trustFactorOutputObject;
     }
     
-    // Add the trustfactor object to the trustFactorOutput object as a link
-    [trustFactorOutput setTrustFactor:trustFactor];
+    // were assertions generated? (temp check)
+    if (trustFactorOutputObject.assertions.count<1) {
+        // Error out, no trustFactorOutputObject generated
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No assertions for trustfactor generated" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionGenerated userInfo:errorDetails];
+        
+        // Create an trustFactorOutputObject with just the trustfactor policy in it
+        trustFactorOutputObject = [[Sentegrity_TrustFactor_Output alloc] init];
+        [trustFactorOutputObject setTrustFactor:trustFactor];
+        // Set that it did not run
+        [trustFactorOutputObject setExecuted:NO];
+        // Set the DNE Status Code
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return the assertion
+        return trustFactorOutputObject;
+    }
     
-    //BETA2: Create the assertions as hashed output
-    // Check if the trustfactor ran successfully
-    if (trustFactorOutput.statusCode == DNEStatus_ok) {
 
-    }
+    
+    // Add the trustfactor policy data to the trustFactorOutputObject
+    [trustFactorOutputObject setTrustFactor:trustFactor];
     
     
     // Return the output object
-    return trustFactorOutput;
+    return trustFactorOutputObject;
 }
 
 // Run a TrustFactor by its name with a given payload
@@ -96,15 +108,15 @@
         [errorDetails setValue:@"No dispatch or implementation names received" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoImplementationOrDispatchReceived userInfo:errorDetails];
         
-        // Create an assertion with just the trustfactor in it
-        Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
+        // Create an trustFactorOutputObject with just the trustfactor in it
+        Sentegrity_TrustFactor_Output *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output alloc] init];
         // Set that it did not run
-        [trustFactorOutput setExecuted:NO];
+        [trustFactorOutputObject setExecuted:NO];
         // Set the DNE Status Code
-        [trustFactorOutput setStatusCode:DNEStatus_error];
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return the assertion
-        return trustFactorOutput;
+        return trustFactorOutputObject;
     }
     
     // Get the class dynamically
@@ -119,14 +131,14 @@
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoDispatchClassFound userInfo:errorDetails];
         
         // Create an assertion with just the trustfactor in it
-        Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
+        Sentegrity_TrustFactor_Output *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output alloc] init];
         // Set that it did not run
-        [trustFactorOutput setExecuted:NO];
+        [trustFactorOutputObject setExecuted:NO];
         // Set the DNE Status Code
-        [trustFactorOutput setStatusCode:DNEStatus_error];
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return the assertion
-        return trustFactorOutput;
+        return trustFactorOutputObject;
     }
     
     // Get the selector dynamically

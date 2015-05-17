@@ -9,7 +9,7 @@
 #import "Sentegrity_TrustScore_Computation.h"
 #import "Sentegrity_Constants.h"
 #import "Sentegrity_TrustFactor.h"
-#import "Sentegrity_Assertion_Storage.h"
+#import "Sentegrity_TrustFactor_Storage.h"
 #import "Sentegrity_Classification.h"
 #import "Sentegrity_Subclassification.h"
 
@@ -22,13 +22,13 @@
 // Private Helper Methods
 
 // Find an assertion object from the assertion object array that matches the trustfactor passed
-+ (Sentegrity_Assertion_Stored_Assertion_Object *)getAssertionObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error;
++ (Sentegrity_Stored_TrustFactor_Object *)getStoredTrustFactorObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
 
 // Find an assertion from the assertion array that matches the trustfactor passed
-+ (Sentegrity_TrustFactor_Output *)getAssertionForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertions:(NSArray *)assertions withError:(NSError **)error;
++ (Sentegrity_TrustFactor_Output *)getTrustFactorOutputObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error;
 
 // Check if the output between the assertion and assertion object are the same (if not, return NO)
-+ (BOOL)checkAssertionOutputValues:(NSArray *)assertionOutput withAssertionObjectOutputValues:(NSArray *)assertionObjectOutput withError:(NSError **)error;
++ (BOOL)compareAssertionsFromTrustFactorOutputObject:(NSArray *)trustFactorOutputObjects withStoredTrustFactorObject:(NSArray *)storedTrustFactorOutputObjects withError:(NSError **)error;
 
 @end
 
@@ -54,46 +54,47 @@
  */
 
 // Compute the systemScore and the UserScore from the policy
-+ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutput:(NSArray *)trustFactorOutput andStoredAssertionObjects:(NSArray *)storedAssertionObjects withError:(NSError **)error {
++ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects andStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
     
-    // Set the trustFactors
+    // get the policy provided trustFactors objects
     NSArray *trustFactors = policy.trustFactors;
     
     // Create the triggered policies array
-    NSMutableArray *triggeredPolicies = [NSMutableArray array];
+    NSMutableArray *triggeredTrustFactors = [NSMutableArray array];
     
-    // Make sure we received a policy
-    if (!trustFactors || trustFactors == nil || trustFactors.count < 1) {
+    // Make sure we got a policy
+    if (!policy || policy == nil || policy.policyID < 0) {
         // Error out, no trustfactors set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No TrustFactors provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
+        [errorDetails setValue:@"No policy provided" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoPolicyProvided userInfo:errorDetails];
         
         // Don't return anything
         return nil;
     }
     
-    // Validate trustfactor output
-    if (!trustFactorOutput || trustFactorOutput == nil || trustFactorOutput.count < 1) {
+    // Validate trustFactorOutputObjects
+    if (!trustFactorOutputObjects || trustFactorOutputObjects == nil || trustFactorOutputObjects.count < 1) {
         // Error out, no assertion objects set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No assertions found to compute" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return nil;
     }
     
-    // Validate trustfactors in the policy
-    if (!storedAssertionObjects || storedAssertionObjects == nil || storedAssertionObjects.count < 1) {
+    // Validate storedTrustFactorObjects
+    if (!storedTrustFactorObjects || storedTrustFactorObjects == nil || storedTrustFactorObjects.count < 1) {
         // Error out, no assertion objects set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No assertion objects found to compute" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidAssertionsProvided userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStoredTrustFactorObjectsProvided userInfo:errorDetails];
         
         // Don't return anything
         return nil;
     }
+    
     
     // Validate the classifications
     if (!policy.classifications || policy.classifications.count < 1) {
@@ -140,7 +141,7 @@
             // Match up all the subclassifications that belong to the classification
             if ([subClass.classID intValue] == [class.identification intValue]) {
                 
-                NSMutableArray *trustsInSubClass = [NSMutableArray array];
+                NSMutableArray *trustFactorsInSubClass = [NSMutableArray array];
                 
                 // Sort all the trustfactors into their respective classifications/subclassifications
                 for (Sentegrity_TrustFactor *trustClassifications in trustFactors) {
@@ -150,30 +151,40 @@
                         
                         // Check if the trustfactor has passed, failed, or DNE, based on the assertion store information
                         
-                        // Get the assertion
-                        Sentegrity_TrustFactor_Output *trustFactorOutputObject = [Sentegrity_TrustScore_Computation getAssertionForTrustFactor:trustClassifications withAssertions:trustFactorOutput withError:error];
+                        // Get the cooresponding trustfactor output object
+                        Sentegrity_TrustFactor_Output *trustFactorOutputObject = [Sentegrity_TrustScore_Computation getTrustFactorOutputObjectForTrustFactor:trustClassifications withTrustFactorOutputObjects:trustFactorOutputObjects withError:error];
                         
-                        // Get the assertion object
-                        Sentegrity_Assertion_Stored_Assertion_Object *storedAssertionObject = [Sentegrity_TrustScore_Computation getAssertionObjectForTrustFactor:trustClassifications withAssertionObjects:storedAssertionObjects withError:error];
+                        // Get the cooresponding stored trustfactor output object
+                        Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [Sentegrity_TrustScore_Computation getStoredTrustFactorObjectForTrustFactor:trustClassifications withStoredTrustFactorObjects:storedTrustFactorObjects withError:error];
                         
                         // Check if the trustfactor was executed successfully
                         if (trustFactorOutputObject.statusCode == DNEStatus_ok) {
                             // TrustFactor ran successfully
                             
-                            // Compare the output - Beta2: Updated to ensure only learned objects can penalize
-                            if (![Sentegrity_TrustScore_Computation checkAssertionOutputValues:trustFactorOutputObject.output withAssertionObjectOutputValues:storedAssertionObject.stored.hashValue withError:error] && storedAssertionObject.learned) {
+                            //check if the storedTrustFactorObject is learned
+                            if(storedTrustFactorObject.learned){
                                 
-                                // Failed
-                                subClass.weightedPenalty = (subClass.weightedPenalty + trustClassifications.penalty.integerValue);
                                 
-                                // Beta2: Keep track of trustFactorObjects that trip for whitelisting
-                                [triggeredPolicies addObject:trustFactorOutputObject];
+                                if (![Sentegrity_TrustScore_Computation compareAssertionsFromTrustFactorOutputObject:trustFactorOutputObject withStoredTrustFactorObject:storedTrustFactorObject withError:error])
+                                {
                                 
-                            } else {
-                                // Passed
-                                //TODO: Is there any positive subtraction for passing a check?
-                                //JS-Beta2 - Yes there is, mainly for user anomaly rules such as when a known bluetooth device is found. We will need to add a attribute to TrustFactors to indicate these types of rules and evaluate it here
+                                    // Failed
+                                    subClass.weightedPenalty = (subClass.weightedPenalty + trustClassifications.penalty.integerValue);
+                                
+                                    // Beta2: Keep track of trustFactorObjects that trip for whitelisting, assertionsTriggered already added
+                                    [triggeredTrustFactors addObject:trustFactorOutputObject];
+                                
+                                } else {
+                                    // Passed
+                                    //TODO: Is there any positive subtraction for passing a check?
+                                    //JS-Beta2 - Yes there is, mainly for user anomaly rules such as when a known bluetooth device is found. We will need to add a attribute to TrustFactors to indicate these types of rules and evaluate it here
+                                }
+                            
                             }
+                            else {
+                            //we skip it if no learend, the candidate assertions were already added previously
+                            }
+                        
                         } else {
                             // TrustFactor did not run successfully (DNE)
                             
@@ -213,13 +224,13 @@
                         }
                         
                         // Add the trustfactor to the subclassifications trustfactor array
-                        [trustsInSubClass addObject:trustClassifications];
+                        [trustFactorsInSubClass addObject:trustClassifications];
                     }
                     
                 }// End trustfactors loop
                 
                 // Set the trustfactors for the subclass
-                [subClass setTrustFactors:trustsInSubClass];
+                [subClass setTrustFactors:trustFactorsInSubClass];
                 
                 // Set the penalty weight for the subclass
                 subClass.weightedPenalty = (subClass.weightedPenalty * subClass.weight.integerValue);
@@ -281,7 +292,7 @@
     // Set the classification information
     computation.classificationInformation = policy.classifications;
     // Set the triggered policies
-    computation.triggered = triggeredPolicies;
+    computation.triggered = triggeredTrustFactors;
     
     // Return computation
     return computation;
@@ -304,7 +315,7 @@
         return nil;
     }
     
-    // Run through the assertion objects
+    
     for (Sentegrity_Classification *objects in classArray) {
         if ([objects.name isEqualToString:name]) {
             // Found it
@@ -316,23 +327,23 @@
     return nil;
 }
 
-// Find an assertion from the assertion array that matches the trustfactor passed
-+ (Sentegrity_TrustFactor_Output *)getAssertionForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertions:(NSArray *)assertions withError:(NSError **)error {
+// Find a trustFactorOutputObject that matches the policy trustfactor passed
++ (Sentegrity_TrustFactor_Output *)getTrustFactorOutputObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error {
     //TODO: Beta2 more error checking and fix comparison algorithm
     
-    // Validate the assertions
-    if (!assertions || assertions.count < 1) {
-        // Failed, no classifications found
+    // Validate the trustFactorOutputObjects
+    if (!trustFactorOutputObjects || trustFactorOutputObjects.count < 1) {
+        // Failed, no trustfactor output objects found
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertions received" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        [errorDetails setValue:@"No trustfactor output objects received" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return nil;
     }
     
-    // Run through the assertion objects
-    for (Sentegrity_TrustFactor_Output *objects in assertions) {
+    // Run through the trustFactorOutputObjects
+    for (Sentegrity_TrustFactor_Output *objects in trustFactorOutputObjects) {
         if ([objects.trustFactor.identification intValue] == [trustFactor.identification intValue]) {
             // Found it
             return objects;
@@ -343,23 +354,23 @@
     return nil;
 }
 
-// Find an assertion object from the assertion object array that matches the trustfactor passed
-+ (Sentegrity_Assertion_Stored_Assertion_Object *)getAssertionObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error {
+// Find storedTrustFactorObjects that match the policy trustfactor passed
++ (Sentegrity_Stored_TrustFactor_Object *)getStoredTrustFactorObjectForTrustFactor:(Sentegrity_TrustFactor *)trustFactor withStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
     //TODO: Beta2 more error checking
     
-    // Validate the assertion objects
-    if (!assertionObjects || assertionObjects.count < 1) {
+    // Validate the storedTrustFactorObjects
+    if (!storedTrustFactorObjects || storedTrustFactorObjects.count < 1) {
         // Failed, no classifications found
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertion objects received" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        [errorDetails setValue:@"No stored trustfactor output objects received" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return nil;
     }
     
-    // Run through the assertion objects
-    for (Sentegrity_Assertion_Stored_Assertion_Object *objects in assertionObjects) {
+    // Run through the storedTrustFactorObjects
+    for (Sentegrity_Stored_TrustFactor_Object *objects in storedTrustFactorObjects) {
         if ([objects.factorID intValue] == [trustFactor.identification intValue]) {
             // Found it
             return objects;
@@ -370,32 +381,53 @@
     return nil;
 }
 
-// Check if the output between the assertion and assertion object are the same (if not, return NO)
-+ (BOOL)checkAssertionOutputValues:(NSArray *)assertionOutput withAssertionObjectOutputValues:(NSArray *)assertionObjectOutput withError:(NSError **)error {
-    //TODO: Beta2 more error checking and verify if more than one output is different does it get penalized differently
+// Check if the assertions from the current trustFactorOutputObject match storedTrustFactorObjects, return the ones that don't match
++ (BOOL)compareAssertionsFromTrustFactorOutputObject:(Sentegrity_TrustFactor_Output *)trustFactorOutputObject withStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error {
+   
+    // Do they contain the same items
+    BOOL same = YES;
     
-    // Validate the classifications
-    if (!assertionOutput || assertionOutput.count < 1) {
-        // Failed, no classifications found
+    if (!trustFactorOutputObject || trustFactorOutputObject.assertions.count < 1) {
+        // Failed, no trustFactorOutputObject found
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertion output received" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        [errorDetails setValue:@"No trustFactorOutputObject received" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return nil;
     }
     
-    // Do they contain the same items
-    BOOL same = YES;
-    
-    // Run through all the outputs
-    for (id output in assertionOutput) {
-        if (![assertionObjectOutput containsObject:output]) {
-            // We have found an output that is not in the other array.
-            same = NO;
-            break;
-        }
+    if (!storedTrustFactorObject || storedTrustFactorObject.assertions.count < 1) {
+        // Failed, no trustFactorOutputObject found
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No storedTrustFactorObject received" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        
+        // Don't return anything
+        return nil;
     }
+    
+    NSArray *candidateAssertionsArray = [trustFactorOutputObject.assertions allKeys];
+    NSMutableArray *assertionsTriggeredArray =[[NSMutableArray alloc] init];
+    
+    for(NSString *candidateAssertion in candidateAssertionsArray)
+    {
+
+        //if we didnt find a match for the candidate in the store
+        if(![storedTrustFactorObject.assertions objectForKey:candidateAssertion])
+        {
+            //keep track of which assertions did not match for inclusion during whitelisting
+            [assertionsTriggeredArray addObject:candidateAssertion];
+            same = NO;
+            
+        }
+        
+    }
+    //add list of triggered assertion values to the trustFactorOutputObject
+    trustFactorOutputObject.assertionsTriggered = candidateAssertionsArray;
+    
+
+    
     return same;
 }
 

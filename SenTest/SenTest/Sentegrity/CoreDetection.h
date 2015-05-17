@@ -37,15 +37,10 @@
 #pragma mark - Assertion Storage
 
 // Get the assertion store for the policy (creates one if necessary)
-- (Sentegrity_Assertion_Store *)getAssertionStoreForPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error;
+- (Sentegrity_Assertion_Store *)getLocalAssertionStoreForPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error;
 
 // Compare Baseline Assertions for Default Policy - Returns assertion objects
-- (NSArray *)retrieveStoredAssertions:(NSArray *)assertions forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error; // CORE
-
-#pragma mark - Computation
-
-// Get the policy and do the comparison/return results
-- (Sentegrity_TrustScore_Computation *)performTrustFactorCompareAndComputationForPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputs:(NSArray *)trustFactorAssertions andStoredAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error;
+- (NSArray *)retrieveStoredTrustFactorObjects:(NSArray *)assertions forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error; // CORE
 
 #pragma mark - Protect Mode Analysis
 

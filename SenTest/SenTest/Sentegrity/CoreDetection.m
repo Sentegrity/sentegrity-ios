@@ -14,7 +14,7 @@
 //#import "Sentegrity_Classification.h"
 //#import "Sentegrity_Subclassification.h"
 #import "Sentegrity_TrustFactor_Dispatcher.h"
-#import "Sentegrity_Assertion_Storage.h"
+#import "Sentegrity_TrustFactor_Storage.h"
 
 // Categories
 #import "Sentegrity_Classification+Computation.h"
@@ -62,29 +62,40 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
     
     // Perform the entire Core Detection Process
     
-    // Generate the trustfactor output objects
-    NSArray *trustFactorOutput = [self executeDispatcher:policy withError:&error];
+    // start dispatcher
+    NSArray *trustFactorOutputObjects = [Sentegrity_TrustFactor_Dispatcher performTrustFactorAnalysis:policy.trustFactors withError:&error];
     
-    // Check for valid output objects
-    if (!trustFactorOutput || trustFactorOutput == nil || trustFactorOutput.count < 1) {
+    // Check for valid trustFactorOutputObjects
+    if (!trustFactorOutputObjects || trustFactorOutputObjects == nil || trustFactorOutputObjects.count < 1) {
         // Don't return anything
         [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
         return;
     }
 
-    // Retrieve stored assertions
-    NSArray *storedAssertionObjects = [self retrieveStoredAssertions:trustFactorOutput forPolicy:policy withError:&error];
+    // Retrieve storedTrustFactorObjects
+    NSArray *storedTrustFactorObjects = [self retrieveStoredTrustFactorObjects:trustFactorOutputObjects forPolicy:policy withError:&error];
     
-    // Check for valid stored assertion objects
-    if (!storedAssertionObjects || storedAssertionObjects == nil || storedAssertionObjects.count < 1) {
+    // Check for valid storedTrustFactorObjects
+    if (!storedTrustFactorObjects || storedTrustFactorObjects == nil || storedTrustFactorObjects.count < 1) {
         // Don't return anything
-        NSLog(@"No Stored Assertion Objects Received");
+        NSLog(@"No Stored TrustFactor Objects Received");
         [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
         return;
     }
     
     // Perform baseline analysis and computation together
-    Sentegrity_TrustScore_Computation *computation = [self performTrustFactorCompareAndComputationForPolicy:policy withTrustFactorOutputs:trustFactorOutput andStoredAssertionObjects:storedAssertionObjects withError:&error];
+
+    // Get the computation
+    Sentegrity_TrustScore_Computation *computation = [Sentegrity_TrustScore_Computation performTrustFactorComputationWithPolicy:policy withTrustFactorOutputObjects:trustFactorOutputObjects andStoredTrustFactorObjects:storedTrustFactorObjects withError:&error];
+    
+    // Validate the computation
+    if (!computation || computation == nil) {
+        // Error out, unable to get a computation
+        NSLog(@"Computation error");
+        [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
+        return;
+    }
+
     
     // Check if the system, user, and device are trusted
     BOOL systemTrusted, userTrusted, deviceTrusted;
@@ -160,25 +171,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
     return [self parsePolicy:customPolicyPath isDefaultPolicy:NO withError:error];
 }
 
-// Perform TrustFactor analysis
-- (NSArray *)executeDispatcher:(Sentegrity_Policy *)policy withError:(NSError **)error {
-    // Make sure policy.trustFactors are set
-    if (!policy || policy.trustFactors.count < 1 || !policy.trustFactors) {
-        // Error out, no trustfactors set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No TrustFactors found to analyze" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
-        
-        // Don't return anything
-        return nil;
-    }
-    
-    // Perform the analysis
-    return [Sentegrity_TrustFactor_Dispatcher performTrustFactorAnalysis:policy.trustFactors withError:error];
-}
 
 // Get the assertion store (if any) for the policy
-- (Sentegrity_Assertion_Store *)getAssertionStoreForPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
+- (Sentegrity_Assertion_Store *)getLocalAssertionStoreForPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
     // Make sure we got a policy
     if (!policy || policy.policyID < 0) {
         // Error out, no trustfactors set
@@ -197,37 +192,32 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
     BOOL exists = NO;
     
     // Check with the assertion storage to see if we have one for the policy
-    if ([[Sentegrity_Assertion_Storage sharedStorage] getListOfStores:error].count > 0) {
+    if ([[Sentegrity_TrustFactor_Storage sharedStorage] getListOfStores:error].count > 0) {
         
-        // Check if the policy is the default policy
-        if (policy.isDefault) {
-            // Find the global store
-            store = [[Sentegrity_Assertion_Storage sharedStorage] getGlobalStore:&exists withError:error];
-        } else {
-            // Find the store by the name
-            store = [[Sentegrity_Assertion_Storage sharedStorage] getLocalStoreWithSecurityToken:policy.policyID.stringValue doesExist:&exists withError:error];
-        }
+            // Find the local store by the name
+            store = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStoreWithAppID:policy.appID.stringValue doesExist:&exists withError:error];
+        
     }
     
     // Store doesn't exist, create it
     if ((!store || store == nil) && !exists) {
         // Set the store
-        store = [[Sentegrity_Assertion_Storage sharedStorage] setLocalStore:nil forSecurityToken:policy.policyID.stringValue overwrite:NO withError:error];
+        store = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:nil forAppID:policy.appID.stringValue overwrite:NO withError:error];
     }
     
     // Return the store
     return store;
 }
 
-// Retrieve stored assertions for Default Policy
-- (NSArray *)retrieveStoredAssertions:(NSArray *)trustFactorOutputs forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
+// Retrieve stored assertions
+- (NSArray *)retrieveStoredTrustFactorObjects:(NSArray *)trustFactorOutputObjectArray forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
     
-    // Check if we received trustFactorOutput objects
-    if (!trustFactorOutputs || trustFactorOutputs.count < 1) {
+    // Check if we received trustFactorOutputObjects
+    if (!trustFactorOutputObjectArray || trustFactorOutputObjectArray.count < 1) {
         // Error out, no assertions received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No assertions provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return nil;
@@ -244,35 +234,22 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
         return nil;
     }
     
-    // TODO: Find a better way to compare global assertions vs local assertions
-    // Current Method:
-    // 1.  Get both the local store for the policy and the global store for the policy
-    // 2.  Run through all the assertions and see which store they belong in (local/global)
-    // 3.  Compare the assertion with what's in the store
-    // 4.  If nothing is returned - because the assertion doesn't exist yet, add the assertion into the store
-    // 5.  Otherwise, if the comparison returns, replace the assertion with the compared assertion
 
-    // Get our assertion store, if we have one
-    Sentegrity_Assertion_Store *store = [self getAssertionStoreForPolicy:policy withError:error];
+    // Attempt to get our local assertion store, if does not exist it gets created
+    Sentegrity_Assertion_Store *localStore = [self getLocalAssertionStoreForPolicy:policy withError:error];
     
-    // Check if the store exists
-    if (!store || store == nil) {
-        // Store doesn't exist, fail
-        return nil;
-    }
-    
-    // Create a bool to check if it exists
+    // Create a bool to check if global store exists
     BOOL exists = NO;
     
-    // Get the global store, if we have one
-    Sentegrity_Assertion_Store *globalStore = [[Sentegrity_Assertion_Storage sharedStorage] getGlobalStore:&exists withError:error];
+    // Get the global store singleton
+    Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:error];
     
-    // Check if the store exists
+    // Check if the global store exists (should, unless is the first ever run)
     if (!globalStore || globalStore == nil || !exists) {
         // Store doesn't exist yet, create the store
         
         // Create the store for the first time
-        globalStore = [[Sentegrity_Assertion_Storage sharedStorage] setGlobalStore:nil overwrite:NO withError:error];
+        globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:nil overwrite:NO withError:error];
         
         // Check if we've failed again
         if (!globalStore || globalStore == nil) {
@@ -281,166 +258,213 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
         }
     }
     
-    // Create the mutable array to hold the stored assertion objects
-    NSMutableArray *storedAssertionObjects = [NSMutableArray arrayWithCapacity:trustFactorOutputs.count];
+    // Create the mutable array to hold the storedTrustFactoObjects for each trustFactorOutputObject
+    NSMutableArray *storedTrustFactorObjects = [NSMutableArray arrayWithCapacity:trustFactorOutputObjectArray.count];
     
-    // Run through all the trustFactorOutput objects and determine if they're local or system assertions
-    for (Sentegrity_TrustFactor_Output *trustFactorOutput in trustFactorOutputs) {
+    // Run through all the trustFactorOutput objects and determine if they're local or global TrustFactors to determine the store used
+    for (Sentegrity_TrustFactor_Output *trustFactorOutputObject in trustFactorOutputObjectArray) {
         
-        // Check if the TrustFactor is valid
-        if (!trustFactorOutput || trustFactorOutput == nil) {
-            // Error out, no assertions were able to be added
+        // Check if the TrustFactor is valid to start with
+        if (!trustFactorOutputObject || trustFactorOutputObject == nil) {
+            // Error out, no trustFactorOutputObject were able to be added
             NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-            [errorDetails setValue:@"Invalid assertion passed to add" forKey:NSLocalizedDescriptionKey];
-            *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidAssertionsProvided userInfo:errorDetails];
+            [errorDetails setValue:@"Invalid trustFactorOutputObject passed" forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStoredTrustFactorObjectsProvided userInfo:errorDetails];
             
             // Don't return anything
             return nil;
         }
         
-        // If the TrustFactor belongs to the local store
-        if ([trustFactorOutput.trustFactor.local boolValue]) {
+        //*********** TrustFactor belongs to the local store ***********
+        
+        if ([trustFactorOutputObject.trustFactor.local boolValue]) {
    
-            // Find the matching stored assertion object for the trustfactor
-            Sentegrity_Assertion_Stored_Assertion_Object *assertionObjectFound = [store findMatchingStoredAssertionInStore:trustFactorOutput withError:error];
+            // Find the matching stored assertion object for the trustfactor in the local store
+            Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
             
-            // Make sure a stored assertion could be found
-            if (!assertionObjectFound || assertionObjectFound == nil) {
-                // Unable to find, probably doesn't exist.  Let's create a new one
-                Sentegrity_Assertion_Stored_Assertion_Object *assertionObjectToAdd = [store createAssertionObjectFromTrustFactorOutput:trustFactorOutput withError:error];
-                if (![store addAssertionIntoStore:assertionObjectToAdd withError:error]) {
-                    // Error out, no assertions were able to be added
+            //object to add
+            Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObjectModified = [[Sentegrity_Stored_TrustFactor_Object alloc] init];
+            
+            // If could not find in the local store create it
+            if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
+                
+                storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
+                
+                //since its new check if it can be set to learned already
+                storedTrustFactorObjectModified = [storedTrustFactorObject checkLearningAndUpdate:trustFactorOutputObject withError:error];
+                
+                //add the new storedTrustFactorObject to the local store
+                if (![localStore addStoredTrustFactorObject:storedTrustFactorObjectModified withError:error]) {
+                    // Error out, no storedTrustFactorObjects were able to be added
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                    [errorDetails setValue:@"No assertion added to local store" forKey:NSLocalizedDescriptionKey];
+                    [errorDetails setValue:@"No storedTrustFactorObjects addeded to local store" forKey:NSLocalizedDescriptionKey];
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
                     
                     // Don't return anything
                     return nil;
                 }
                 
-                // Add the assertion object to the array
-                [storedAssertionObjects addObject:assertionObjectToAdd];
                 
-            } else {
-                // We found a match, now let's add it
-                if (![store setAssertion:assertionObjectFound withError:error]) {
-                    // Error out, no assertions were able to be set
-                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                    [errorDetails setValue:@"No assertion set to the local store" forKey:NSLocalizedDescriptionKey];
-                    *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
-                    
-                    // Don't return anything
-                    return nil;
-                }
-                
-                // Add the assertion object to the array
-                [storedAssertionObjects addObject:assertionObjectFound];
+                // Add the stored trustfactor object to the array
+                [storedTrustFactorObjects addObject:storedTrustFactorObjectModified];
                 
             }
+            else // check revision & learning
+            {
+                
+                //revisions do not match
+                if (![storedTrustFactorObject revisionsMatch:trustFactorOutputObject withError:error]) {
+                    
+                    //create a new object in the local store
+                    storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
+                    
+                    //since its new check if it can be set to learned already and update run counts, etc
+                    storedTrustFactorObjectModified = [storedTrustFactorObject checkLearningAndUpdate:trustFactorOutputObject withError:error];
+                    
+                    //replace existing in the local store
+                    if (![localStore setStoredTrustFactorObject:storedTrustFactorObjectModified withError:error]) {
+                        // Error out, no storedTrustFactorOutputObjects were able to be added
+                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                        [errorDetails setValue:@"No storedTrustFactorOutputObjects addeded to local store" forKey:NSLocalizedDescriptionKey];
+                        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
+                        
+                        // Don't return anything
+                        return nil;
+                    }
+                    
+                    //update our working array
+                    [storedTrustFactorObjects addObject:storedTrustFactorObjectModified];
+                }
+                else //storedTrustFactorObject exists and the revisions matched, just check learning
+                {
+                    //if its not learned yet, make updates and replace
+                    if (!storedTrustFactorObject.learned)
+                    {
+                        storedTrustFactorObjectModified = [storedTrustFactorObject checkLearningAndUpdate:trustFactorOutputObject withError:error];
+                        
+                        //replace existing in local store
+                        if (![localStore setStoredTrustFactorObject:storedTrustFactorObjectModified withError:error]) {
+                                // Error out, no storeTrustFactorObjects were able to be set
+                                NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                                [errorDetails setValue:@"No storeTrustFactorObjects set to the local store" forKey:NSLocalizedDescriptionKey];
+                                *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
+                    
+                                // Don't return anything
+                                return nil;
+                        }
+                        
+                        //update our working array
+                        [storedTrustFactorObjects addObject:storedTrustFactorObjectModified];
+                
+                    }
+                    
+                    //this trustfactor is a perfect match and is already learned
+                    [storedTrustFactorObjects addObject:storedTrustFactorObject];
+                }
+                
+             }
+            
 
-        } else { //TrustFactor belongs to the global store
+        //*********** TrustFactor belongs to the global store ***********
+        } else {
     
+            // Find the matching stored assertion object for the trustfactor in the global store
+            Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [globalStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
             
-            // Find the matching stored assertion object for the trustfactor
-            Sentegrity_Assertion_Stored_Assertion_Object *storedAssertionObjectFound = [globalStore findMatchingStoredAssertionInStore:trustFactorOutput withError:error];
+            //object to add
+            Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObjectModified = [[Sentegrity_Stored_TrustFactor_Object alloc] init];
             
-            // Make sure the assertions were added
-            if (!storedAssertionObjectFound || storedAssertionObjectFound == nil) {
-                // Unable to find, probably doesn't exist.  Let's create a new one
-                Sentegrity_Assertion_Stored_Assertion_Object *assertionObjectToAdd = [globalStore createAssertionObjectFromTrustFactorOutput:trustFactorOutput withError:error];
-                if (![globalStore addAssertionIntoStore:assertionObjectToAdd withError:error]) {
-                    // Error out, no assertions were able to be added
+            // If could not find in the global store create it
+            if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
+                
+                storedTrustFactorObject = [globalStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
+                
+                //since its new check if it can be set to learned already
+                storedTrustFactorObjectModified = [storedTrustFactorObject checkLearningAndUpdate:trustFactorOutputObject withError:error];
+                
+                //add the new storedTrustFactorObject to the global store
+                if (![globalStore addStoredTrustFactorObject:storedTrustFactorObjectModified withError:error]) {
+                    // Error out, no storedTrustFactorObjects were able to be added
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                    [errorDetails setValue:@"No assertion added to globalStore store" forKey:NSLocalizedDescriptionKey];
+                    [errorDetails setValue:@"No storedTrustFactorObjects addeded to global store" forKey:NSLocalizedDescriptionKey];
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
                     
                     // Don't return anything
                     return nil;
                 }
                 
-                // Add the assertion object to the array
-                [storedAssertionObjects addObject:assertionObjectToAdd];
                 
-            } else {
-                // Comparison was made, now let's set it
-                if (![globalStore setAssertion:storedAssertionObjectFound withError:error]) {
-                    // Error out, no assertions were able to be set
-                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                    [errorDetails setValue:@"No assertion set to the globalStore store" forKey:NSLocalizedDescriptionKey];
-                    *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
+                // Add the stored trustfactor object to the array
+                [storedTrustFactorObjects addObject:storedTrustFactorObjectModified];
+                
+            }
+            else // check revision & learning
+            {
+                
+                //revisions do not match
+                if (![storedTrustFactorObject revisionsMatch:trustFactorOutputObject withError:error]) {
                     
-                    // Don't return anything
-                    return nil;
+                    //create a new object in the global store
+                    storedTrustFactorObject = [globalStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
+                    
+                    //since its new check if it can be set to learned already and update run counts, etc
+                    storedTrustFactorObjectModified = [storedTrustFactorObject checkLearningAndUpdate:trustFactorOutputObject withError:error];
+                    
+                    //replace existing in the global store
+                    if (![globalStore setStoredTrustFactorObject:storedTrustFactorObjectModified withError:error]) {
+                        // Error out, no storedTrustFactorOutputObjects were able to be added
+                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                        [errorDetails setValue:@"No storedTrustFactorOutputObjects addeded to global store" forKey:NSLocalizedDescriptionKey];
+                        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
+                        
+                        // Don't return anything
+                        return nil;
+                    }
+                    
+                    //update our working array
+                    [storedTrustFactorObjects addObject:storedTrustFactorObjectModified];
+                }
+                else //storedTrustFactorObject exists and the revisions matched, just check learning
+                {
+                    //if its not learned yet, make updates and replace
+                    if (!storedTrustFactorObject.learned)
+                    {
+                        storedTrustFactorObjectModified = [storedTrustFactorObject checkLearningAndUpdate:trustFactorOutputObject withError:error];
+                        
+                        //replace existing in global store
+                        if (![globalStore setStoredTrustFactorObject:storedTrustFactorObjectModified withError:error]) {
+                            // Error out, no storeTrustFactorObjects were able to be set
+                            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                            [errorDetails setValue:@"No storeTrustFactorObjects set to the global store" forKey:NSLocalizedDescriptionKey];
+                            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
+                            
+                            // Don't return anything
+                            return nil;
+                        }
+                        
+                        //update our working array
+                        [storedTrustFactorObjects addObject:storedTrustFactorObjectModified];
+                        
+                    }
+                    
+                    //this trustfactor is a perfect match and is already learned
+                    [storedTrustFactorObjects addObject:storedTrustFactorObject];
                 }
                 
-                // Add the assertion object to the array
-                [storedAssertionObjects addObject:storedAssertionObjectFound];
             }
-            
         }
     }
 
-    // Save the stores
-    store = [[Sentegrity_Assertion_Storage sharedStorage] setLocalStore:store forSecurityToken:policy.policyID.stringValue overwrite:YES withError:error];
-    globalStore = [[Sentegrity_Assertion_Storage sharedStorage] setGlobalStore:globalStore overwrite:YES withError:error];
+
+    // Save the stores as no more changes are required
+    localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore forAppID:policy.appID.stringValue overwrite:YES withError:error];
+    globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore overwrite:YES withError:error];
     
-    // Give back the assertion objects array of assertion objects
-    return storedAssertionObjects;
+    // Give back the assertion objects array of working storedTrustFactorObjects objects
+    return storedTrustFactorObjects;
 }
 
-// Get the policy and do the comparison/return results
-- (Sentegrity_TrustScore_Computation *)performTrustFactorCompareAndComputationForPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputs:(NSArray *)trustFactorAssertions andStoredAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error {
-    
-    // Make sure we got a policy
-    if (!policy || policy == nil || policy.policyID < 0) {
-        // Error out, no trustfactors set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No policy provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoPolicyProvided userInfo:errorDetails];
-        
-        // Don't return anything
-        return nil;
-    }
-    
-    // Validate trustfactors in the policy
-    if (!trustFactorAssertions || trustFactorAssertions == nil || trustFactorAssertions.count < 1) {
-        // Error out, no assertion objects set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertions found to compute" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
-        
-        // Don't return anything
-        return nil;
-    }
-    
-    // Validate trustfactors in the policy
-    if (!assertionObjects || assertionObjects == nil || assertionObjects.count < 1) {
-        // Error out, no assertion objects set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertion objects found to compute" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidAssertionsProvided userInfo:errorDetails];
-        
-        // Don't return anything
-        return nil;
-    }
-    
-    // Get the computation
-    Sentegrity_TrustScore_Computation *computation = [Sentegrity_TrustScore_Computation performTrustFactorComputationWithPolicy:policy withTrustFactorOutput:trustFactorAssertions andStoredAssertionObjects:assertionObjects withError:error];
-    
-    // Validate the computation
-    if (!computation || computation == nil) {
-        // Error out, unable to get a computation
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No computation received" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoComputationReceived userInfo:errorDetails];
-        
-        // Don't return anything
-        return nil;
-    }
-    
-    // Return the computation
-    return computation;
-}
+
 
 #pragma mark - Main Methods
 

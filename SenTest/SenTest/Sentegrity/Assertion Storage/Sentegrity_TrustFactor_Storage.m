@@ -8,17 +8,17 @@
 
 //TODO: Find a good way to save and retrieve the global store security token
 
-#import "Sentegrity_Assertion_Storage.h"
+#import "Sentegrity_TrustFactor_Storage.h"
 #import "Sentegrity_Constants.h"
 #import "Sentegrity_Parser.h"
 #import "NSObject+ObjectMap.h"
 
-@implementation Sentegrity_Assertion_Storage
+@implementation Sentegrity_TrustFactor_Storage
 
 // Singleton method
 + (id)sharedStorage
 {
-    static Sentegrity_Assertion_Storage *sharedStorage = nil;
+    static Sentegrity_TrustFactor_Storage *sharedStorage = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedStorage = [[self alloc] init];
@@ -36,29 +36,29 @@
         }
         
         // Set the path
-        [sharedStorage setAssertionStoragePath:[NSURL URLWithString:storePath]];
+        [sharedStorage setAssertionStorePath:[NSURL URLWithString:storePath]];
     });
     return sharedStorage;
 }
 
 // Get the global store
 - (Sentegrity_Assertion_Store *)getGlobalStore:(BOOL *)exists withError:(NSError **)error {
-    return [self getLocalStoreWithSecurityToken:kGlobalAssertionStoreSecurityToken doesExist:exists withError:error];
+    return [self getLocalStoreWithAppID:kGlobalAssertionStoreAppID doesExist:exists withError:error];
 }
 
 // Set the global store
 - (Sentegrity_Assertion_Store *)setGlobalStore:(Sentegrity_Assertion_Store *)store overwrite:(BOOL)overWrite withError:(NSError **)error {
-    return [self setLocalStore:store forSecurityToken:kGlobalAssertionStoreSecurityToken overwrite:overWrite withError:error];
+    return [self setLocalStore:store forAppID:kGlobalAssertionStoreAppID overwrite:overWrite withError:error];
 }
 
-// Get a local store by security token
-- (Sentegrity_Assertion_Store *)getLocalStoreWithSecurityToken:(NSString *)securityToken doesExist:(BOOL *)exists withError:(NSError **)error {
-    // Check the security token first
-    if (!securityToken || securityToken.length < 1) {
-        // No security token provided
+// Get a local store by app ID
+- (Sentegrity_Assertion_Store *)getLocalStoreWithAppID:(NSString *)appID doesExist:(BOOL *)exists withError:(NSError **)error {
+    // Check the app ID first
+    if (!appID || appID.length < 1) {
+        // No app ID provided
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No security token provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoSecurityTokenProvided userInfo:errorDetails];
+        [errorDetails setValue:@"No app ID provided" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAppIDProvided userInfo:errorDetails];
         
         // Return nil
         return nil;
@@ -77,12 +77,14 @@
         return nil;
     }
     
-    // Run through all the store paths
+    // Run through all the store paths we know of
     for (NSString *storePaths in listOfStores) {
+        
         // Turn the path into an object
         Sentegrity_Assertion_Store *store = [parser parseAssertionStoreWithPath:[NSURL URLWithString:storePaths] withError:error];
-        // Check if the store matches the security token
-        if (store && [store.securityToken isEqualToString:securityToken]) {
+        
+        // Check if the store's appID matches the policies appID
+        if (store && [store.appID isEqualToString:appID]) {
             // Found the store
             *exists = YES;
             return store;
@@ -94,15 +96,15 @@
     return nil;
 }
 
-// Set a local store by security token
-- (Sentegrity_Assertion_Store *)setLocalStore:(Sentegrity_Assertion_Store *)store forSecurityToken:(NSString *)securityToken overwrite:(BOOL)overWrite withError:(NSError **)error
+// Set a local store by app id
+- (Sentegrity_Assertion_Store *)setLocalStore:(Sentegrity_Assertion_Store *)store forAppID:(NSString *)appID overwrite:(BOOL)overWrite withError:(NSError **)error
 {
-    // Check the security token first
-    if (!securityToken || securityToken.length < 1) {
-        // No security token provided
+    // Check the app id first
+    if (!appID || appID.length < 1) {
+        // No app id provided
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No security token provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoSecurityTokenProvided userInfo:errorDetails];
+        [errorDetails setValue:@"No app id provided" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAppIDProvided userInfo:errorDetails];
         
         // Return nil
         return nil;
@@ -111,23 +113,23 @@
     // Check if we already have one
     BOOL exists;
     // Get the local store
-    [self getLocalStoreWithSecurityToken:securityToken doesExist:&exists withError:error];
+    [self getLocalStoreWithAppID:appID doesExist:&exists withError:error];
     
     if (!exists || (exists && overWrite)) {
-        // Overwrite the security token value being passed
+        // Overwrite the app id value being passed
         if (!store || store == nil) {
             store = [[Sentegrity_Assertion_Store alloc] init];
-            [store setSecurityToken:securityToken];
+            [store setAppID:appID];
         } else {
-            [store setSecurityToken:securityToken];
+            [store setAppID:appID];
         }
         
         // Save to disk
         NSData *data = [store JSONData];
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
-        [dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist", securityToken]] atomically:NO];
+        [dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist", appID]] atomically:NO];
     } else {
-        // No security token provided
+        // No app id provided
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"Cannot overwrite existing store, already exists" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SACannotOverwriteExistingStore userInfo:errorDetails];
@@ -144,12 +146,12 @@
 - (NSArray *)getListOfStores:(NSError **)error {
     
     // Search for the stores path
-    if (![[NSFileManager defaultManager] fileExistsAtPath:self.assertionStoragePath.path]) {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:self.assertionStorePath.path]) {
         return nil;
     }
     
     // Get the contents of the directory
-    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.assertionStoragePath.path error:error];
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.assertionStorePath.path error:error];
     
     // Sort the contents based on the predicate
     NSPredicate *assertionPredicate = [NSPredicate predicateWithFormat:@"self ENDSWITH '.assertionstore'"];

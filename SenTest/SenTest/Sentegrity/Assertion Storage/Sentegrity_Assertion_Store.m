@@ -15,36 +15,36 @@
 - (id)init {
     self = [super init];
     if (self) {
-        [self setAssertions:[NSArray array]];
+        [self setStoredTrustFactorObjects:[NSArray array]];
     }
     return self;
 }
 
-// Add assertions to the store
-- (BOOL)addAssertionsIntoStore:(NSArray *)assertions withError:(NSError **)error {
-    // Check if we received assertions
-    if (!assertions || assertions.count < 1) {
-        // Error out, no assertions received
+// Add StoredTrustFactorObjects to the master list
+- (BOOL)addStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
+    // Check if we received StoredTrustFactorObjects
+    if (!storedTrustFactorObjects || storedTrustFactorObjects.count < 1) {
+        // Error out, no StoredTrustFactorObjects received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertions provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        [errorDetails setValue:@"No StoredTrustFactorObjects provided" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return NO;
     }
     
-    // Run through this array of assertions
-    for (Sentegrity_Assertion_Stored_Assertion_Object *assertion in assertions) {
+    // Run through this array of storedTrustFactorObjects
+    for (Sentegrity_Stored_TrustFactor_Object *StoredTrustFactorObject in storedTrustFactorObjects) {
         
-        // Check to make sure the assertion was added to the store
-        if (![self addAssertionIntoStore:assertion withError:error]) {
+        // Check to make sure the StoredTrustFactorObject was added to the store
+        if (![self addStoredTrustFactorObject:StoredTrustFactorObject withError:error]) {
             
-            // Error out, unable to add assertion into the store
+            // Error out, unable to add StoredTrustFactorObject into the store
             if (!*error || *error == nil) {
                 // Create the error
                 NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Unable to add assertion into the store" forKey:NSLocalizedDescriptionKey];
-                *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddAssertionIntoStore userInfo:errorDetails];
+                [errorDetails setValue:@"Unable to add StoredTrustFactorObject into the store" forKey:NSLocalizedDescriptionKey];
+                *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
             }
             
             // Return NO
@@ -56,69 +56,59 @@
     return YES;
 }
 
-// Add single assertion into the store
-- (BOOL)addAssertionIntoStore:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error {
-    // Check that the passed assertion is valid
-    if (!assertion || assertion == nil) {
+// Add single StoredTrustFactorObject into the master list
+- (BOOL)addStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error {
+    // Check that the passed StoredTrustFactorObject is valid
+    if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
         // Error out, no trustfactors set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertion provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        [errorDetails setValue:@"No storedTrustFactorObject provided" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return NO;
     }
     
-    // Check to see if the assertion already exists
-    BOOL exists;
-    if ([self getAssertionObjectWithFactorID:assertion.factorID doesExist:&exists withError:error] != nil || exists) {
-        // Error out, already exists
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Cannot add assertion object into the store, already exists" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddAssertionIntoStoreAlreadyExists userInfo:errorDetails];
-        
-        // Don't return anything
-        return nil;
-    }
     
     // We've gotten to this point
-    NSMutableArray *assertionsArray = [self.assertions mutableCopy];
+    // JS - why do we make a copy here instead of modify the instance itself?
+    NSMutableArray *StoredTrustFactorObjectsArray = [self.storedTrustFactorObjects mutableCopy];
     
-    // Add the assertion into the array
-    [assertionsArray addObject:assertion];
+    // Add the StoredTrustFactorObject into the array
+    [StoredTrustFactorObjectsArray addObject:storedTrustFactorObject];
     
-    // Set the assertions
-    [self setAssertions:assertionsArray];
+    // Set the StoredTrustFactorObjects
+    [self setStoredTrustFactorObjects:StoredTrustFactorObjectsArray];
 
     // Return YES
     return YES;
 }
 
-// Set multiple assertions into the store
-- (BOOL)setAssertions:(NSArray *)assertions withError:(NSError **)error {
+// Replace multiple storedTrustFactorObjets in the master list
+- (BOOL)setStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
     // Check if we received assertions
-    if (!assertions || assertions.count < 1) {
+    if (!storedTrustFactorObjects || storedTrustFactorObjects.count < 1) {
         // Error out, no assertions received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Invalid assertion objects provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidAssertionsProvided userInfo:errorDetails];
+        [errorDetails setValue:@"Invalid storedTrustFactorObjects objects provided for replacement" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStoredTrustFactorObjectsProvided userInfo:errorDetails];
         
         // Don't return anything
         return NO;
     }
     
-    // Run through this array of assertions
-    for (Sentegrity_Assertion_Stored_Assertion_Object *assertionObject in assertions) {
+    // Run through this array of storedTrustFactorObjects
+    for (Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject in storedTrustFactorObjects) {
         
-        // Check to make sure the assertion was added to the store
-        if (![self setAssertion:assertionObject withError:error]) {
+        // Check to make sure the storedTrustFactorObject was added to the store
+        if (![self setStoredTrustFactorObject:storedTrustFactorObject withError:error]) {
             
-            // Error out, unable to add assertion into the store
+            // Error out, unable to add storedTrustFactorObject into the store
             if (!*error || *error == nil) {
                 // Create the error
                 NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Unable to set assertion in the store" forKey:NSLocalizedDescriptionKey];
-                *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddAssertionIntoStore userInfo:errorDetails];
+                [errorDetails setValue:@"Unable to replace storedTrustFactorObject in the store" forKey:NSLocalizedDescriptionKey];
+                *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
             }
             
             // Return NO
@@ -130,28 +120,28 @@
     return YES;
 }
 
-// Set assertion into the store
-- (BOOL)setAssertion:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error {
-    // Validate original assertion and replacement assertions
-    if (!assertion || assertion == nil) {
-        // Error out, no assertion objects received
+// Replace a single storedTrustFactorObject in the store
+- (BOOL)setStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error {
+    
+    if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
+        // Error out, no storedTrustFactorObjects received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Missing provided assertion object" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        [errorDetails setValue:@"Missing provided storedTrustFactorObject object during replacement" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return nil;
     }
     
-    // Check to see if the original assertion already exists
+    // MAke sure it already exists before replacement
     BOOL exists;
-    Sentegrity_Assertion_Stored_Assertion_Object *existing = [self getAssertionObjectWithFactorID:assertion.factorID doesExist:&exists withError:error];
+    Sentegrity_Stored_TrustFactor_Object *existing = [self getStoredTrustFactorObjectWithFactorID:storedTrustFactorObject.factorID doesExist:&exists withError:error];
     if (existing || existing != nil || exists) {
-        // Remove the original assertion from the array
-        if (![self removeAssertion:existing withError:error]) {
-            // Error out, unable to remove assertion
+        // Remove the original storedTrustFactorObject from the array
+        if (![self removeStoredTrustFactorObject:existing withError:error]) {
+            // Error out, unable to remove StoredTrustFactorObject
             NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-            [errorDetails setValue:@"Unable to remove assertion" forKey:NSLocalizedDescriptionKey];
+            [errorDetails setValue:@"Unable to remove StoredTrustFactorObject" forKey:NSLocalizedDescriptionKey];
             *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToRemoveAssertion userInfo:errorDetails];
             
             // Return NO
@@ -159,12 +149,12 @@
         }
     }
     
-    // Add the new assertion object into the array
-    if (![self addAssertionIntoStore:assertion withError:error]) {
-        // Error out, unable to add the assertion into the store
+    // Add the new StoredTrustFactorObject into the array
+    if (![self addStoredTrustFactorObject:storedTrustFactorObject withError:error]) {
+        // Error out, unable to add the StoredTrustFactorObject into the store
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Unable to add assertion" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddAssertionIntoStore userInfo:errorDetails];
+        [errorDetails setValue:@"Unable to add StoredTrustFactorObject" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
         
         // Return NO
         return NO;
@@ -174,37 +164,39 @@
     return YES;
 }
 
-// Add an assertion
-- (NSArray *)compareAssertionsInStoreWithAssertions:(NSArray *)assertions withError:(NSError **)error
+
+
+// JS - is this depricated?
+- (NSArray *)compareStoredTrustFactorObjectsInStoreWithTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error
 {
     // Check if we received assertions
-    if (!assertions || assertions.count < 1) {
+    if (!trustFactorOutputObjects || trustFactorOutputObjects.count < 1) {
         // Error out, no assertions received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No assertions provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return nil;
     }
     
     // Create our mutable array of created compared assertions
-    NSMutableArray *comparedAssertions = [NSMutableArray arrayWithCapacity:assertions.count];
+    NSMutableArray *comparedObjects = [NSMutableArray arrayWithCapacity:trustFactorOutputObjects.count];
     
-    // Run through this array of assertions
-    for (Sentegrity_TrustFactor_Output *assertion in assertions) {
+    // Run through this array of trustfactor output objects
+    for (Sentegrity_TrustFactor_Output *trustFactorOutputObject in trustFactorOutputObjects) {
         
-        // Compared object
-        Sentegrity_Assertion_Stored_Assertion_Object *comparedObject = [self findMatchingStoredAssertionInStore:assertion withError:error];
+        // Compared stored trustfactor objects
+        Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObjects = nil; //[self findMatchingStoredTrustFactorObjectInStore:trustFactorOutputObject withError:error];
         
-        // Check to make sure the assertion was added to the store
-        if (!comparedObject || comparedObject == nil) {
+        // Check to make sure the object was added to the store
+        if (!storedTrustFactorObjects || storedTrustFactorObjects == nil) {
             
             // Error out, unable to add assertion into the store
             if (!*error || *error == nil) {
                 // Create the error
                 NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Unable to compare assertion" forKey:NSLocalizedDescriptionKey];
+                [errorDetails setValue:@"Unable to compare storedTrustFactorObjects" forKey:NSLocalizedDescriptionKey];
                 *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToCompareAssertion userInfo:errorDetails];
             }
             
@@ -213,83 +205,41 @@
         }
         
         // Add it to the compared objects array
-        [comparedAssertions addObject:comparedObject];
+        [comparedObjects addObject:storedTrustFactorObjects];
     }
     
     // Return the compared assertions
-    return comparedAssertions;
+    return comparedObjects;
 }
 
-// Compare trustFactorOutput with what's in the store - Core Functionality
-- (Sentegrity_Assertion_Stored_Assertion_Object *)findMatchingStoredAssertionInStore:(Sentegrity_TrustFactor_Output *)trustFactorOutput withError:(NSError **)error
-{
-    // Check that the passed trustFactorOutput is valid
-    if (!trustFactorOutput || trustFactorOutput == nil) {
-        // Error out, no assertion passed
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertion provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
-        
-        // Don't return anything
-        return nil;
-    }
-    
-    // Get the existing stored assertion object by trustFactor ID, if it exists
-    BOOL exists;
-    Sentegrity_Assertion_Stored_Assertion_Object *storedAssertionObject = [self getAssertionObjectWithFactorID:trustFactorOutput.trustFactor.identification doesExist:&exists withError:error];
-
-    // Check if the assertion object exists
-    if ((!storedAssertionObject || storedAssertionObject == nil) && (exists)) {
-        // Error out, no assertion found to compare
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No stored assertion found to compare to trustfactor output" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToFindAssertionToCompare userInfo:errorDetails];
-        
-        // Don't return anything
-        return nil;
-    }
-    
-    // Compare the stored assertion to trustFactorOutput
-    Sentegrity_Assertion_Stored_Assertion_Object *comparison = [storedAssertionObject compare:trustFactorOutput withError:error];
-    
-    // If the assertion object doesn't exist, then create a new one
-    if (!comparison || comparison == nil || error != nil) {
-        // Doesn't exist, create a new one
-        comparison = [self createAssertionObjectFromTrustFactorOutput:trustFactorOutput withError:error];
-    }
-    
-    // Return the generated compared assertion
-    return comparison;
-}
-
-// Remove provided assertion object from the store - returns whether it passed or failed
-- (BOOL)removeAssertion:(Sentegrity_Assertion_Stored_Assertion_Object *)assertion withError:(NSError **)error {
-    // Check that the passed assertion is valid
-    if (!assertion || assertion == nil) {
+// Remove the single provided storedTrustFactorObject  from the store - returns whether it passed or failed
+- (BOOL)removeStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error {
+    // Check that the passed storedTrustFactorObject is valid
+    if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
         // Error out, no assertion object provided
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertion provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        [errorDetails setValue:@"No storedTrustFactorObjects provided for removal" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Return NO
         return NO;
     }
     
-    // Check to see if the assertion already exists
+    // Check to see if the storedTrustFactorObject already exists
     BOOL exists;
-    if ([self getAssertionObjectWithFactorID:assertion.factorID doesExist:&exists withError:error] != nil || exists) {
+    if ([self getStoredTrustFactorObjectWithFactorID:storedTrustFactorObject.factorID doesExist:&exists withError:error] != nil || exists) {
         // Remove it
-        NSMutableArray *assertionsArray = [self.assertions mutableCopy];
+        NSMutableArray *storedTrustFactorObjectArray = [self.storedTrustFactorObjects mutableCopy];
         
-        // Add the assertion into the array
-        [assertionsArray removeObject:assertion];
+        // Remove the storedTrustFactorObject from the array
+        [storedTrustFactorObjectArray removeObject:storedTrustFactorObject];
         
-        // Set the assertions
-        [self setAssertions:assertionsArray];
+        // Set the storedTrustFactorObjects
+        [self setStoredTrustFactorObjects:storedTrustFactorObjectArray];
     } else {
-        // Error out, no matching assertion objects found
+        // Error out, no matching storedTrustFactorObjects  found
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No matching assertion object found" forKey:NSLocalizedDescriptionKey];
+        [errorDetails setValue:@"No matching storedTrustFactorObjects object found for removal" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoMatchingAssertionsFound userInfo:errorDetails];
         
         // Return NO
@@ -301,30 +251,30 @@
     
 }
 
-// Remove provided assertion objects from the store - returns whether it passed or failed
-- (BOOL)removeAssertions:(NSArray *)assertions withError:(NSError **)error {
+// Remove provided storedTrustFactorObjects from the store - returns whether it passed or failed
+- (BOOL)removeStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
     // Check if we received assertions
-    if (!assertions || assertions.count < 1) {
+    if (!storedTrustFactorObjects || storedTrustFactorObjects.count < 1) {
         // Error out, no assertions received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertions provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        [errorDetails setValue:@"No storedTrustFactorObjects provided" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return NO;
     }
     
     // Run through this array of assertions
-    for (Sentegrity_Assertion_Stored_Assertion_Object *assertion in assertions) {
+    for (Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject in storedTrustFactorObjects) {
         
-        // Check to make sure the assertion was added to the store
-        if (![self removeAssertion:assertion withError:error]) {
+        // Check to make sure the storedTrustFactorObject was added to the store
+        if (![self removeStoredTrustFactorObject:storedTrustFactorObject withError:error]) {
             
-            // Error out, unable to add assertion into the store
+            // Error out, unable to add storedTrustFactorObject into the store
             if (!*error || *error == nil) {
                 // Create the error
                 NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Unable to remove assertion from the store" forKey:NSLocalizedDescriptionKey];
+                [errorDetails setValue:@"Unable to remove storedTrustFactorObject from the store" forKey:NSLocalizedDescriptionKey];
                 *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToRemoveAssertion userInfo:errorDetails];
             }
             
@@ -340,39 +290,34 @@
 #pragma mark - Helper Methods (kind of)
 
 // Create an assertion object from an assertion
-- (Sentegrity_Assertion_Stored_Assertion_Object *)createAssertionObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output *)assertion withError:(NSError **)error {
-    // Check that the passed assertion is valid
-    if (!assertion || assertion == nil) {
+- (Sentegrity_Stored_TrustFactor_Object *)createStoredTrustFactorObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output *)trustFactorOutputObject withError:(NSError **)error {
+    // Check that the passed trustFactorOutputObject is valid
+    if (!trustFactorOutputObject || trustFactorOutputObject == nil) {
         // Error out, no trustfactors set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertion provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsReceived userInfo:errorDetails];
+        [errorDetails setValue:@"No trustFactorOutputObject provided" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return nil;
     }
     
-    // Create a new assertion object for the provided assertion
-    Sentegrity_Assertion_Stored_Assertion_Object *assertionObject = [[Sentegrity_Assertion_Stored_Assertion_Object alloc] init];
-    [assertionObject setFactorID:assertion.trustFactor.identification];
-    [assertionObject setRevision:assertion.trustFactor.revision];
-    [assertionObject setHistory:assertion.trustFactor.history];
-    [assertionObject setLearned:NO]; // Beta2: don't set that it has learned
-    [assertionObject setFirstRun:[NSDate date]];
-    [assertionObject setRunCount:[NSNumber numberWithInt:0]]; // Beta2: Set the run count to 0 because we're incrementing on comparison
-    // Create the stored value
-    Sentegrity_Assertion_Store_Assertion_Object_Stored_Value *stored = [[Sentegrity_Assertion_Store_Assertion_Object_Stored_Value alloc] init];
-    // TODO: BETA2 Fix assertion object creation hashing - set hash value to assertions (not output)
-    [stored setHashValue:assertion.output];
-    [stored setHitCount:[NSNumber numberWithInt:0]]; // Beta2: Set the hit count to 0 because we're incrementing on comparison
-    [assertionObject setStored:stored];
+    // Create a new storedTrustFactorObject object for the provided trustFactorOutputObject
+    Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [[Sentegrity_Stored_TrustFactor_Object alloc] init];
+    [storedTrustFactorObject setFactorID:trustFactorOutputObject.trustFactor.identification];
+    [storedTrustFactorObject setRevision:trustFactorOutputObject.trustFactor.revision];
+    [storedTrustFactorObject setHistory:trustFactorOutputObject.trustFactor.history];
+    [storedTrustFactorObject setLearned:NO]; // Beta2: don't set that it has learned
+    [storedTrustFactorObject setFirstRun:[NSDate date]];
+    [storedTrustFactorObject setRunCount:[NSNumber numberWithInt:0]]; // Beta2: Set the run count to 0 because we're incrementing on comparison
+    [storedTrustFactorObject setAssertions:trustFactorOutputObject.assertions];
     
     // Return the assertion object
-    return assertionObject;
+    return storedTrustFactorObject;
 }
 
-// Get an assertion object by its factorID
-- (Sentegrity_Assertion_Stored_Assertion_Object *)getAssertionObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error {
+// Get the stored trust factor object by its factorID
+- (Sentegrity_Stored_TrustFactor_Object *)getStoredTrustFactorObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error {
     // Check the factor id passed is valid
     if (!factorID || factorID == nil) {
         // Error out, no factorID set
@@ -384,19 +329,19 @@
         return nil;
     }
     
-    // Check if assertions is valid
-    if (!self.assertions || self.assertions.count < 1) {
+    // Check if stored object is valid
+    if (!self.storedTrustFactorObjects || self.storedTrustFactorObjects.count < 1) {
         // No assertions
         *exists = NO;
         return nil;
     }
     
-    // Run through all the assertions and check for the factorID
-    for (Sentegrity_Assertion_Stored_Assertion_Object *assertion in self.assertions) {
+    // Run through all the stored trustfactor objects and check for a matching factorID
+    for (Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject in self.storedTrustFactorObjects) {
         // Look for the matching assertion with the same factorID
-        if ([assertion.factorID isEqualToNumber:factorID]) {
+        if ([storedTrustFactorObject.factorID isEqualToNumber:factorID]) {
             *exists = YES;
-            return assertion;
+            return storedTrustFactorObject;
         }
     }
     
@@ -404,5 +349,6 @@
     *exists = NO;
     return nil;
 }
+
 
 @end

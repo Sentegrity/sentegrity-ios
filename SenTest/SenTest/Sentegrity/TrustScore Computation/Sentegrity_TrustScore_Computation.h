@@ -28,6 +28,6 @@
 @property (nonatomic,retain) NSArray *triggered;
 
 // Compute the systemScore and the UserScore from the trust scores and the assertion storage objects
-+ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutput:(NSArray *)trustFactorAssertions andStoredAssertionObjects:(NSArray *)assertionObjects withError:(NSError **)error;
++ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorAssertions andStoredTrustFactorObjects:(NSArray *)assertionObjects withError:(NSError **)error;
 
 @end

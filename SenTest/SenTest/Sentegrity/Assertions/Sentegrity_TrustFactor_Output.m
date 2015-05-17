@@ -16,30 +16,30 @@
 
 -(void)generateAssertionsFromOutput
 {
-    NSMutableArray *assertionsArray = [NSMutableArray arrayWithCapacity:self.output.count];
+
     
     // Create the assertions by iterating through trustfactor output
     for (NSString *trustFactorOutput in self.output) {
-        // Create the hashed assertion for the output - might replace the output someday
+        // Create the hashed assertion for the output
         NSString *assertionValue = [[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID, trustFactorOutput] sha1]; // TODO: Add in device.id
                                     
-        // Add the assertion value to the assertion array
-        [assertionsArray addObject:assertionValue];
-        self.assertions = assertionsArray;
+        // Add the assertion value to the dictionary with hit count of 0
+        [self.assertions setValue:0 forKey:assertionValue];
+
     }
 }
 
 -(void)generateBaselineAssertion
 {
-    NSMutableArray *assertionsArray = [NSMutableArray arrayWithCapacity:self.output.count];
+    NSMutableDictionary *assertionsDict = [[NSMutableDictionary alloc] init];
     NSString *baseline = self.trustFactor.baseline;
     
     //Create the baseline assertion instead of the trustfactor output
     NSString *assertionValue = [[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID,baseline] sha1];
         
-    // Add the assertion value to the assertion array
-    [assertionsArray addObject:assertionValue];
-    self.assertions = assertionsArray;
+    // Add the assertion value to the dictionary with hit count of 0
+    [assertionsDict setValue:0 forKey:assertionValue];
+    self.assertions = assertionsDict;
 }
 
 @end

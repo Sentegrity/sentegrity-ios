@@ -18,8 +18,11 @@
 // Get the trustfactor output
 @property (nonatomic,retain) NSArray *output;
 
-// Get the trustfactor assertions
-@property (nonatomic,retain) NSArray *assertions;
+// Assertions to whitelist that found no match in the storedTrustFactorObject
+@property (nonatomic,retain) NSArray *assertionsTriggered;
+
+// Stored assertions
+@property (nonatomic,retain) NSMutableDictionary *assertions;
 
 // Did the trustfactor run
 @property BOOL executed;

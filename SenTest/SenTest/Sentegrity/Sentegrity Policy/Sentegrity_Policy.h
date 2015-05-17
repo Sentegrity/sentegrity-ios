@@ -12,6 +12,7 @@
 @interface Sentegrity_Policy : NSObject
 
 @property (nonatomic,retain) NSNumber *policyID;
+@property (nonatomic,retain) NSNumber *appID;
 @property (nonatomic,retain) NSNumber *revision;
 @property (nonatomic,retain) NSNumber *runtime;
 @property (nonatomic,retain) NSNumber *userThreshold;

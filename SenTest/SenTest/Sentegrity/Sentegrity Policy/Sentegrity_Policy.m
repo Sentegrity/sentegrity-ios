@@ -18,6 +18,11 @@
     _policyID = policyID;
 }
 
+// App ID
+- (void)setAppID:(NSNumber *)appID{
+    _appID = appID;
+}
+
 // Revision
 - (void)setRevision:(NSNumber *)revision{
     _revision = revision;
