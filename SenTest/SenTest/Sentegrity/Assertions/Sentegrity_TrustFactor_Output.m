@@ -17,14 +17,18 @@
 -(void)generateAssertionsFromOutput
 {
 
+   self.assertions = [[NSMutableDictionary alloc]init];
+    
+    //hit count starts at 0 since these are candidate assertions that may be copied into the store via whitelisting
+    NSNumber *hitCount = [NSNumber numberWithInt:0];
     
     // Create the assertions by iterating through trustfactor output
     for (NSString *trustFactorOutput in self.output) {
         // Create the hashed assertion for the output
         NSString *assertionValue = [[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID, trustFactorOutput] sha1]; // TODO: Add in device.id
-                                    
+            
         // Add the assertion value to the dictionary with hit count of 0
-        [self.assertions setValue:0 forKey:assertionValue];
+        [self.assertions setValue:hitCount forKey:assertionValue];
 
     }
 }
@@ -36,7 +40,7 @@
     
     //Create the baseline assertion instead of the trustfactor output
     NSString *assertionValue = [[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID,baseline] sha1];
-        
+
     // Add the assertion value to the dictionary with hit count of 0
     [assertionsDict setValue:0 forKey:assertionValue];
     self.assertions = assertionsDict;

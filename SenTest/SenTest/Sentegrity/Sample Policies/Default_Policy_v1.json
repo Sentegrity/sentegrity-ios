@@ -231,6 +231,7 @@
       "baseline": "0",
       "payload": [
         "clang",
+        "debugserver",
         "python*",
         "absinthed*",
         "Snoop-it*",

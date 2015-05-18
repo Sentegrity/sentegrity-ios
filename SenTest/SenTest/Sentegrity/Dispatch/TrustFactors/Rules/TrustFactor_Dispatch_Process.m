@@ -51,8 +51,10 @@ static NSMutableArray *processList;
         {
             if([badProcName isEqualToString:procName])
             {
-               // NSLog(@"bad proc found");
+               //make sure we don't add more than one instance of the proc
+                if (![badProcs containsObject:procName])
                 [badProcs addObject:procName];
+                
             }
         }
         
@@ -66,7 +68,7 @@ static NSMutableArray *processList;
     [trustFactorOutput setStatusCode:DNEStatus_ok];
     
     //If we found bad processes generate assertions from each output (each bad processes name found)
-    if(badProcs.count > 1)
+    if(badProcs.count > 0)
     {
         [trustFactorOutput generateAssertionsFromOutput];
         return trustFactorOutput;
