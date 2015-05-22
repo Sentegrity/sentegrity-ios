@@ -11,6 +11,6 @@
 @interface TrustFactor_Dispatch_Http : Sentegrity_TrustFactor_Rule
 
 //4
-+ (Sentegrity_TrustFactor_Output *)badURIHandlers:(NSArray *)handlers;
++ (Sentegrity_TrustFactor_Output_Object *)badURIHandlers:(NSArray *)payload;
 
 @end

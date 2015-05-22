@@ -14,7 +14,7 @@
 
 
 // 17
-+ (Sentegrity_TrustFactor_Output *)apSoho:(NSArray *)soho {
++ (Sentegrity_TrustFactor_Output_Object *)apSoho:(NSArray *)payload {
     
     return 0;
 }
@@ -23,7 +23,7 @@
 
 
 // 18
-+ (Sentegrity_TrustFactor_Output *)apHotspotter:(NSArray *)hotspotter {
++ (Sentegrity_TrustFactor_Output_Object *)unencrypted:(NSArray *)payload {
     
     return 0;
 }
@@ -32,7 +32,7 @@
 
 
 // 19
-+ (Sentegrity_TrustFactor_Output *)wifiEncType:(NSArray *)enctype {
++ (Sentegrity_TrustFactor_Output_Object *)unknownSSID:(NSArray *)payload {
     
     return 0;
 }
@@ -40,7 +40,7 @@
 
 
 // 27
-+ (Sentegrity_TrustFactor_Output *)ssidAllowed:(NSArray *)ssidallowed {
++ (Sentegrity_TrustFactor_Output_Object *)knownBSSID:(NSArray *)payload {
     
     return 0;
 }

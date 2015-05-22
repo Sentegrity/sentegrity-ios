@@ -13,19 +13,19 @@
 
 
 // 35
-+ (Sentegrity_TrustFactor_Output *)upnpScan:(NSArray *)upnpscan {
+//+ (Sentegrity_TrustFactor_Output *)upnpScan:(NSArray *)upnpscan {
     
-    return 0;
-}
+//    return 0;
+//}
 
 
 
 
 // 36
-+ (Sentegrity_TrustFactor_Output *)bonjourScan:(NSArray *)bonjourscan {
+//+ (Sentegrity_TrustFactor_Output *)bonjourScan:(NSArray *)bonjourscan {
     
-    return 0;
-}
+//    return 0;
+//}
 
 
 

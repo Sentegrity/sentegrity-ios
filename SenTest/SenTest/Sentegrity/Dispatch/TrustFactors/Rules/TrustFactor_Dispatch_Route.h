@@ -12,9 +12,9 @@
 
 
 // 15
-+ (Sentegrity_TrustFactor_Output *)vpnUp:(NSArray *)vpnstatus;
++ (Sentegrity_TrustFactor_Output_Object *)unknownVpnUp:(NSArray *)payload;
 
 // 16
-+ (Sentegrity_TrustFactor_Output *)noRoute:(NSArray *)route;
++ (Sentegrity_TrustFactor_Output_Object *)noRoute:(NSArray *)payload;
 
 @end

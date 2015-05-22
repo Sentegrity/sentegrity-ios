@@ -24,10 +24,15 @@
 // Classification information
 @property (nonatomic,retain) NSArray *classificationInformation;
 
-// Triggered TrustFactor Outputs
-@property (nonatomic,retain) NSArray *triggered;
+// Triggered trustFactorOutputObjects
+@property (nonatomic,retain) NSMutableArray *triggeredTrustFactorOutputObjects;
+
+// trustFactorOutputObjects to be whitelisted during protect mode deactivation
+@property (nonatomic,retain) NSMutableArray *protectModeDeactivationTrustFactorOutputObjects;
 
 // Compute the systemScore and the UserScore from the trust scores and the assertion storage objects
-+ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorAssertions andStoredTrustFactorObjects:(NSArray *)assertionObjects withError:(NSError **)error;
++ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorAssertions withError:(NSError **)error;
+
+
 
 @end

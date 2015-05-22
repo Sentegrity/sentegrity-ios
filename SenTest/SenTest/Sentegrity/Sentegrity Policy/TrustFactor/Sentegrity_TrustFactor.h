@@ -23,12 +23,13 @@
 @property (nonatomic, retain) NSNumber *learnTime;
 @property (nonatomic, retain) NSNumber *learnAssertionCount;
 @property (nonatomic, retain) NSNumber *learnRunCount;
+@property (nonatomic, retain) NSNumber *threshold;
 @property (nonatomic, retain) NSNumber *managed;
 @property (nonatomic, retain) NSNumber *local;
+@property (nonatomic, retain) NSNumber *inverse;
 @property (nonatomic, retain) NSNumber *history;
 @property (nonatomic, retain) NSString *dispatch;
 @property (nonatomic, retain) NSString *implementation;
-@property (nonatomic, retain) NSString *baseline;
 @property (nonatomic, retain) NSArray *payload;
 
 @end

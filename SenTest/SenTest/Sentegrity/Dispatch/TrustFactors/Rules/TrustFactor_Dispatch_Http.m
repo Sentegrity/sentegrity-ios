@@ -11,7 +11,7 @@
 @implementation TrustFactor_Dispatch_Http
 
 // 4
-+ (Sentegrity_TrustFactor_Output *)badURIHandlers:(NSArray *)handlers {
++ (Sentegrity_TrustFactor_Output_Object *)badURIHandlers:(NSArray *)payload {
     
     return 0;
 }

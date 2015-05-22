@@ -15,6 +15,7 @@
 #pragma mark - Defaults
 
 #define kDefaultPolicyName @"Default_Policy.plist"
+#define kDefaultTrustFactorOutput @"0"
 
 #pragma mark - Assertion Storage
 
@@ -77,12 +78,13 @@
 #define kTFLearnTime @"learnTime"
 #define kTFLearnAssertionCount @"learnAssertionCount"
 #define kTFLearnRunCount @"learnRunCount"
+#define kTFThreshold @"threshold"
 #define kTFManaged @"managed"
 #define kTFLocal @"local"
 #define kTFHistory @"history"
 #define kTFDispatch @"dispatch"
 #define kTFImplementation @"implementation"
-#define kTFBaseline @"baseline"
+#define kTFInverse @"inverse"
 #define kTFPayload @"payload"
 
 #pragma mark - Dispatch Routines
@@ -150,7 +152,8 @@ typedef enum {
     DNEStatus_unsupported  = 2,
     DNEStatus_disabled     = 3,
     DNEStatus_expired      = 4,
-    DNEStatus_error        = 5
+    DNEStatus_error        = 5,
+    DNEStatus_nodata       = 6
 } DNEStatusCode;
 
 #pragma mark - Error Cases
@@ -163,7 +166,7 @@ enum {
     // No TrustFactors received when dispatching TrustFactors to generate candidate assertions
     SANoTrustFactorsReceived = 12,
     // Attempt to do a file system operation on a non-existent file
-    SANoAssertionGenerated = 13,
+    SANoTrustFactorOutputObjectGenerated = 13,
     // Invalid TrustFactor Name
     SAInvalidTrustFactorName = 14,
     // No TrustFactors set to analyze
@@ -207,7 +210,17 @@ enum {
     // No subclassifications found
     SANoSubClassificationsFound = 34,
     // Cannot overwrite existing store
-    SACannotOverwriteExistingStore = 35
+    SACannotOverwriteExistingStore = 35,
+    // Cannot create new assertion for existing trustfactor
+    SAUnableToCreateNewStoredAssertion = 36,
+    // Invalie due to no candidate assertions generated
+    SAInvalidDueToNoCandidateAssertions = 37,
+    // Invalid due to no candidate assertions generated
+    SAUnableToPerformBaselineAnalysisForTrustFactor = 38,
+    // Unable to perform computation as no trustfactor objects provided
+    SANoTrustFactorOutputObjectsForComputation = 39,
+    // Unable to perform computation as no trustfactor objects provided
+    SAErrorDuringComputation = 40
 };
 
 #endif

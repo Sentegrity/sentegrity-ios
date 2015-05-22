@@ -10,22 +10,17 @@
 
 @interface TrustFactor_Dispatch_Process : Sentegrity_TrustFactor_Rule
 
-
 + (BOOL)updateProcessList;
 
 // 2
-+ (Sentegrity_TrustFactor_Output *)badProcesses:(NSArray *)processes;
++ (Sentegrity_TrustFactor_Output_Object *)knownBad:(NSArray *)payload;
 
 
 // 11
-+ (Sentegrity_TrustFactor_Output *)newRootProcess:(NSArray *)rootprocesses;
-
-
-// 12
-+ (Sentegrity_TrustFactor_Output *)badProcessPath:(NSArray *)processpaths;
++ (Sentegrity_TrustFactor_Output_Object *)newRoot:(NSArray *)payload;
 
 
 // 20
-+ (Sentegrity_TrustFactor_Output *)highRiskApp:(NSArray *)riskyapps;
++ (Sentegrity_TrustFactor_Output_Object *)highRiskApp:(NSArray *)payload;
 
 @end

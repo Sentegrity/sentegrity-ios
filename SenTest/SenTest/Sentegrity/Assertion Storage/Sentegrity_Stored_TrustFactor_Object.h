@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Sentegrity_TrustFactor_Output.h"
 
 @interface Sentegrity_Stored_TrustFactor_Object : NSObject
 
@@ -18,18 +17,12 @@
 // History - How many to learn from
 @property (nonatomic,retain) NSNumber *history;
 // Learning mode allowed
-@property BOOL learned;
+@property (nonatomic) BOOL learned;
 // First run date
 @property (nonatomic,retain) NSDate *firstRun;
 // Run count
 @property (nonatomic,retain) NSNumber *runCount;
 // Stored assertions
 @property (nonatomic,retain) NSMutableDictionary *assertions;
-
-// Check the learning mode of the stored object
-- (instancetype)checkLearningAndUpdate:(Sentegrity_TrustFactor_Output *)trustFactorOutputObject withError:(NSError **)error;
-
-// Check the revision number of the stored object
-- (BOOL)revisionsMatch:(Sentegrity_TrustFactor_Output *)trustFactorOutputObject withError:(NSError **)error;
 
 @end

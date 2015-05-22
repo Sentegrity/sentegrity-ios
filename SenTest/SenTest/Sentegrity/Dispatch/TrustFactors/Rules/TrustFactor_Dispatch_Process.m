@@ -16,28 +16,18 @@ static NSMutableArray *processList;
 
 //Implementations
 
-// 2
-+ (Sentegrity_TrustFactor_Output *)badProcesses:(NSArray *)processes {
++ (Sentegrity_TrustFactor_Output_Object *)knownBad:(NSArray *)payload {
     
+    //CREATE RETURN OBJECT
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
-    // Validate the process payload array
-    if (!processes || processes.count < 1 || processes == nil) {
-
-        // Create our return output
-        Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
-        [trustFactorOutput setExecuted:NO];
-        [trustFactorOutput setStatusCode:DNEStatus_error];
-        
-        // Return nothing
-        return trustFactorOutput;
-    }
-    
-    //populate process data if necessary (if we are the first in this dispatch to run)
+    //SET REUSABLE DATA ACQUISITION METHOD
     if (!processList)
         [self updateProcessList];
 
-    // Create output array
-    NSMutableArray *badProcs = [[NSMutableArray alloc] init];
+    //CREATE OUTPUT ARRAY
+    NSMutableArray *output = [[NSMutableArray alloc] init];
+    
     
     //hold name of current proc being analyzed
     NSString *procName;
@@ -45,15 +35,14 @@ static NSMutableArray *processList;
     for (NSDictionary *processData in processList)
     {
         procName = [processData objectForKey:@"ProcessName"];
-        
         //iterate through bad proc names provided via payload
-        for (NSString *badProcName in processes)
+        for (NSString *badProcName in payload)
         {
             if([badProcName isEqualToString:procName])
             {
                //make sure we don't add more than one instance of the proc
-                if (![badProcs containsObject:procName])
-                [badProcs addObject:procName];
+                if (![output containsObject:procName])
+                [output addObject:procName];
                 
             }
         }
@@ -61,57 +50,68 @@ static NSMutableArray *processList;
             
     }
     
-    // Create our return trustfactor object
-    Sentegrity_TrustFactor_Output *trustFactorOutput = [[Sentegrity_TrustFactor_Output alloc] init];
-    [trustFactorOutput setOutput:badProcs];
-    [trustFactorOutput setExecuted:YES];
-    [trustFactorOutput setStatusCode:DNEStatus_ok];
+    //SET OUTPUT (regardless if empty)
+    [trustFactorOutputObject setOutput:output];
     
-    //If we found bad processes generate assertions from each output (each bad processes name found)
-    if(badProcs.count > 0)
-    {
-        [trustFactorOutput generateAssertionsFromOutput];
-        return trustFactorOutput;
-    }
-    else  //otherwise generate one assertion using the baseline (i.e., we found no bad procs)
-    {
-       
-        [trustFactorOutput generateBaselineAssertion];
-        return trustFactorOutput;
-    }
-
+    //OVERRIDE STATUS CODE (default = DNEStatus_ok)
+    
+    
+    //RETURN
+    return trustFactorOutputObject;
 
 }
 
-
-// 11
-+ (Sentegrity_TrustFactor_Output *)newRootProcess:(NSArray *)rootprocesses {
++ (Sentegrity_TrustFactor_Output_Object *)newRoot:(NSArray *)payload {
     
+    //CREATE RETURN OBJECT
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    //SET REUSABLE DATA ACQUISITION METHOD
     if (!processList)
         [self updateProcessList];
-    return 0;
+    
+    //CREATE OUTPUT ARRAY
+    NSMutableArray *output = [[NSMutableArray alloc] init];
+    
+    
+    //[*****TBD*****]
+    
+    
+    //SET OUTPUT (regardless if empty)
+    [trustFactorOutputObject setOutput:output];
+    
+    //OVERRIDE STATUS CODE (default = DNEStatus_ok)
+    
+    
+    //RETURN
+    return trustFactorOutputObject;
 }
 
 
-
-
-// 12
-+ (Sentegrity_TrustFactor_Output *)badProcessPath:(NSArray *)processpaths {
++ (Sentegrity_TrustFactor_Output_Object *)highRiskApp:(NSArray *)payload {
     
+    //CREATE RETURN OBJECT
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    //SET REUSABLE DATA ACQUISITION METHOD
     if (!processList)
         [self updateProcessList];
-    return 0;
-}
-
-
-
-
-// 20
-+ (Sentegrity_TrustFactor_Output *)highRiskApp:(NSArray *)riskyapps {
     
-    if (!processList)
-        [self updateProcessList];
-    return 0;
+    //CREATE OUTPUT ARRAY
+    NSMutableArray *output = [[NSMutableArray alloc] init];
+    
+    
+    //[*****TBD*****]
+    
+    
+    //SET OUTPUT (regardless if empty)
+    [trustFactorOutputObject setOutput:output];
+    
+    //OVERRIDE STATUS CODE (default = DNEStatus_ok)
+    
+    
+    //RETURN
+    return trustFactorOutputObject;
 }
 
 

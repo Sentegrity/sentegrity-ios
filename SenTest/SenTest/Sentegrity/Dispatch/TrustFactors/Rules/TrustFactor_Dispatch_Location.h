@@ -12,9 +12,9 @@
 
 
 // 26
-+ (Sentegrity_TrustFactor_Output *)locationAllowed:(NSArray *)locationallowed;
++ (Sentegrity_TrustFactor_Output_Object *)allowed:(NSArray *)payload;
 
 // 31
-+ (Sentegrity_TrustFactor_Output *)location:(NSArray *)location;
++ (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload;
 
 @end

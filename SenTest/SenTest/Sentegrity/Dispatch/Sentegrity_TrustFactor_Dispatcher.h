@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 // Assertions
-#import "Sentegrity_TrustFactor_Output.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 
 @interface Sentegrity_TrustFactor_Dispatcher : NSObject
 
@@ -19,9 +19,9 @@
 + (NSArray *)performTrustFactorAnalysis:(NSArray *)trustFactors withError:(NSError **)error;
 
 // Generate the output from a single TrustFactor
-+ (Sentegrity_TrustFactor_Output *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error;
++ (Sentegrity_TrustFactor_Output_Object *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error;
 
 // Run an individual trustfactor with just the name and the payload (returned assertion will not be able to identify the trustfactor that was run)
-+ (Sentegrity_TrustFactor_Output *)runTrustFactorWithDispatch:(NSString *)dispatch andImplementation:(NSString *)implementation withPayload:(NSArray *)payload andError:(NSError **)error;
++ (Sentegrity_TrustFactor_Output_Object *)runTrustFactorWithDispatch:(NSString *)dispatch andImplementation:(NSString *)implementation withPayload:(NSArray *)payload andError:(NSError **)error;
 
 @end

@@ -11,19 +11,16 @@
 @interface TrustFactor_Dispatch_Netstat : Sentegrity_TrustFactor_Rule
 
 // 3
-+ (Sentegrity_TrustFactor_Output *)badNetDst:(NSArray *)destination;
++ (Sentegrity_TrustFactor_Output_Object *)badDst:(NSArray *)payload;
 
 
 // 9
-+ (Sentegrity_TrustFactor_Output *)priviledgedNetServices:(NSArray *)netservices;
++ (Sentegrity_TrustFactor_Output_Object *)priviledgedPort:(NSArray *)payload;
 
 
 // 13
-+ (Sentegrity_TrustFactor_Output *)newNetService:(NSArray *)netservices;
++ (Sentegrity_TrustFactor_Output_Object *)newService:(NSArray *)payload;
 
-
-// 14
-+ (Sentegrity_TrustFactor_Output *)unencryptedTraffic:(NSArray *)traffic;
 
 
 @end

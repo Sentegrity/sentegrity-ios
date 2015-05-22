@@ -12,7 +12,7 @@
 
 
 // 23
-+ (Sentegrity_TrustFactor_Output *)vulnerablePlatform:(NSArray *)platforms {
++ (Sentegrity_TrustFactor_Output_Object *)vulnerableVersion:(NSArray *)payload {
     
     return 0;
 }
@@ -20,7 +20,7 @@
 
 
 // 28
-+ (Sentegrity_TrustFactor_Output *)platformVersionAllowed:(NSArray *)platformallowed {
++ (Sentegrity_TrustFactor_Output_Object *)versionAllowed:(NSArray *)payload {
     
     return 0;
 }
@@ -29,20 +29,24 @@
 
 
 // 37
-+ (Sentegrity_TrustFactor_Output *)powerPercent:(NSArray *)powerpercent {
++ (Sentegrity_TrustFactor_Output_Object *)unknownPowerLevel:(NSArray *)payload {
     
     return 0;
 }
-
 
 
 
 // 38
-+ (Sentegrity_TrustFactor_Output *)shortUptime:(NSArray *)shortuptime {
++ (Sentegrity_TrustFactor_Output_Object *)shortUptime:(NSArray *)payload {
     
     return 0;
 }
 
+// 38
++ (Sentegrity_TrustFactor_Output_Object *)backupEnabled:(NSArray *)payload {
+    
+    return 0;
+}
 
 
 

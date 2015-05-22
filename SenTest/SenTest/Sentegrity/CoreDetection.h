@@ -31,16 +31,6 @@
 
 #pragma mark - TrustFactor Analysis
 
-// Perform TrustFactor Analysis - Returns assertions
-- (NSArray *)executeDispatcher:(Sentegrity_Policy *)policy withError:(NSError **)error;
-
-#pragma mark - Assertion Storage
-
-// Get the assertion store for the policy (creates one if necessary)
-- (Sentegrity_Assertion_Store *)getLocalAssertionStoreForPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error;
-
-// Compare Baseline Assertions for Default Policy - Returns assertion objects
-- (NSArray *)retrieveStoredTrustFactorObjects:(NSArray *)assertions forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error; // CORE
 
 #pragma mark - Protect Mode Analysis
 

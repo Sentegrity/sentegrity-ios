@@ -151,12 +151,13 @@
             [trustFactorClasser setLearnTime:[trustFactorClassifier objectForKey:kTFLearnTime]];
             [trustFactorClasser setLearnAssertionCount:[trustFactorClassifier objectForKey:kTFLearnAssertionCount]];
             [trustFactorClasser setLearnRunCount:[trustFactorClassifier objectForKey:kTFLearnRunCount]];
+            [trustFactorClasser setThreshold:[trustFactorClassifier objectForKey:kTFThreshold]];
             [trustFactorClasser setManaged:[trustFactorClassifier objectForKey:kTFManaged]];
             [trustFactorClasser setLocal:[trustFactorClassifier objectForKey:kTFLocal]];
             [trustFactorClasser setHistory:[trustFactorClassifier objectForKey:kTFHistory]];
             [trustFactorClasser setDispatch:[trustFactorClassifier objectForKey:kTFDispatch]];
             [trustFactorClasser setImplementation:[trustFactorClassifier objectForKey:kTFImplementation]];
-            [trustFactorClasser setBaseline:[trustFactorClassifier objectForKey:kTFBaseline]];
+            [trustFactorClasser setInverse:[trustFactorClassifier objectForKey:kTFInverse]];
             [trustFactorClasser setPayload:[trustFactorClassifier objectForKey:kTFPayload]];
             
             // Add it to the array
@@ -233,10 +234,11 @@
                                      userInfo:nil];
         }
         // Fail out
+      
         return nil;
     }
     
-    // Load the plist
+    // Load the json
     NSError *error2;
     NSDictionary *jsonParsed = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filePathURL.path]
                                                                options:NSJSONReadingMutableContainers error:&error2];
@@ -251,8 +253,10 @@
                                      userInfo:@{@"More Information": @"JSON may not be formatted correctly"}];
         }
         // Fail
+        NSLog(@"JSON format problem");
         return nil;
     }
+  
     
     // Map DNEModifiers
     DCArrayMapping *mapper = [DCArrayMapping mapperForClassElements:[Sentegrity_DNEModifiers class] forAttribute:kDNEModifiers onClass:[Sentegrity_Policy class]];

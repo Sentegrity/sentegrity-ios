@@ -71,7 +71,7 @@
     
     
     // We've gotten to this point
-    // JS - why do we make a copy here instead of modify the instance itself?
+
     NSMutableArray *StoredTrustFactorObjectsArray = [self.storedTrustFactorObjects mutableCopy];
     
     // Add the StoredTrustFactorObject into the array
@@ -164,54 +164,6 @@
     return YES;
 }
 
-
-
-// JS - is this depricated?
-- (NSArray *)compareStoredTrustFactorObjectsInStoreWithTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error
-{
-    // Check if we received assertions
-    if (!trustFactorOutputObjects || trustFactorOutputObjects.count < 1) {
-        // Error out, no assertions received
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertions provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
-        
-        // Don't return anything
-        return nil;
-    }
-    
-    // Create our mutable array of created compared assertions
-    NSMutableArray *comparedObjects = [NSMutableArray arrayWithCapacity:trustFactorOutputObjects.count];
-    
-    // Run through this array of trustfactor output objects
-    for (Sentegrity_TrustFactor_Output *trustFactorOutputObject in trustFactorOutputObjects) {
-        
-        // Compared stored trustfactor objects
-        Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObjects = nil; //[self findMatchingStoredTrustFactorObjectInStore:trustFactorOutputObject withError:error];
-        
-        // Check to make sure the object was added to the store
-        if (!storedTrustFactorObjects || storedTrustFactorObjects == nil) {
-            
-            // Error out, unable to add assertion into the store
-            if (!*error || *error == nil) {
-                // Create the error
-                NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Unable to compare storedTrustFactorObjects" forKey:NSLocalizedDescriptionKey];
-                *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToCompareAssertion userInfo:errorDetails];
-            }
-            
-            // Return NO
-            return nil;
-        }
-        
-        // Add it to the compared objects array
-        [comparedObjects addObject:storedTrustFactorObjects];
-    }
-    
-    // Return the compared assertions
-    return comparedObjects;
-}
-
 // Remove the single provided storedTrustFactorObject  from the store - returns whether it passed or failed
 - (BOOL)removeStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error {
     // Check that the passed storedTrustFactorObject is valid
@@ -290,7 +242,7 @@
 #pragma mark - Helper Methods (kind of)
 
 // Create an assertion object from an assertion
-- (Sentegrity_Stored_TrustFactor_Object *)createStoredTrustFactorObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output *)trustFactorOutputObject withError:(NSError **)error {
+- (Sentegrity_Stored_TrustFactor_Object *)createStoredTrustFactorObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
     // Check that the passed trustFactorOutputObject is valid
     if (!trustFactorOutputObject || trustFactorOutputObject == nil) {
         // Error out, no trustfactors set
@@ -310,7 +262,6 @@
     [storedTrustFactorObject setLearned:NO]; // Beta2: don't set that it has learned
     [storedTrustFactorObject setFirstRun:[NSDate date]];
     [storedTrustFactorObject setRunCount:[NSNumber numberWithInt:0]]; // Beta2: Set the run count to 0 because we're incrementing on comparison
-    [storedTrustFactorObject setAssertions:trustFactorOutputObject.assertions];
     
     // Return the assertion object
     return storedTrustFactorObject;
@@ -349,6 +300,7 @@
     *exists = NO;
     return nil;
 }
+
 
 
 @end

@@ -13,7 +13,7 @@
 
 
 // 29
-+ (Sentegrity_TrustFactor_Output *)deviceMovement:(NSArray *)movement {
++ (Sentegrity_TrustFactor_Output_Object *)unknownMovement:(NSArray *)payload {
     
     return 0;
 }
@@ -22,7 +22,7 @@
 
 
 // 30
-+ (Sentegrity_TrustFactor_Output *)devicePosition:(NSArray *)position {
++ (Sentegrity_TrustFactor_Output_Object *)unknownPosition:(NSArray *)payload {
     
     return 0;
 }

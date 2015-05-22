@@ -12,10 +12,10 @@
 
 
 // 25
-+ (Sentegrity_TrustFactor_Output *)timeAllowed:(NSArray *)timeallowed;
++ (Sentegrity_TrustFactor_Output_Object *)allowed:(NSArray *)payload;
 
 // 32
-+ (Sentegrity_TrustFactor_Output *)accessTime:(NSArray *)accesstime;
++ (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload;
 
 
 @end

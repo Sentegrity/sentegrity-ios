@@ -14,18 +14,19 @@
 		018581381A7D808400ED2D88 /* Default_Policy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 018581371A7D808400ED2D88 /* Default_Policy.plist */; };
 		0185813C1A7D849C00ED2D88 /* Sentegrity_DNEModifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = 0185813B1A7D849C00ED2D88 /* Sentegrity_DNEModifiers.m */; };
 		0185813F1A7D9EF500ED2D88 /* Sentegrity_Classification.m in Sources */ = {isa = PBXBuildFile; fileRef = 0185813E1A7D9EF500ED2D88 /* Sentegrity_Classification.m */; };
-		01C787831A86A4E9009E7FEE /* Sentegrity_TrustFactor_Dispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C787821A86A4E9009E7FEE /* Sentegrity_TrustFactor_Dispatcher.m */; };
+		01C787831A86A4E9009E7FEE /* Sentegrity_TrustFactor_Dispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C787821A86A4E9009E7FEE /* Sentegrity_TrustFactor_Dispatcher.m */; settings = {COMPILER_FLAGS = "-Warc-performSelector-leaks"; }; };
 		01F0CCFB1A86803F00F3D62E /* Default_Policy_v1.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F0CCFA1A86803F00F3D62E /* Default_Policy_v1.json */; };
 		01F0CCFF1A868D4C00F3D62E /* Sub_Policy_v1.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F0CCFE1A868D4C00F3D62E /* Sub_Policy_v1.json */; };
 		1250C4CCF062387C9D87EEA9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 161D0E47DCF4C6E84D9DB454 /* libPods.a */; };
 		4C06B9B41ADED16600D17CB9 /* Sentegrity_Classification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C06B9B31ADED16600D17CB9 /* Sentegrity_Classification+Computation.m */; };
 		4C06B9B71ADED28D00D17CB9 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C06B9B61ADED28D00D17CB9 /* Sentegrity_Subclassification+Computation.m */; };
 		4C1C5A471A9E805100257BDF /* Sentegrity_TrustFactor_Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1C5A461A9E805100257BDF /* Sentegrity_TrustFactor_Storage.m */; };
-		4C35F80A1A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35F8091A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.m */; };
+		4C35F80A1A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35F8091A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output_Object.m */; };
 		4C3AC0E61AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AC0E51AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.m */; };
 		4CBED8501A9E5301000A7B42 /* Sentegrity_Assertion_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBED84F1A9E5301000A7B42 /* Sentegrity_Assertion_Store.m */; };
 		4CF091151AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF091141AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.m */; };
 		4CF091171AA37DD400018685 /* GLOBAL_STORE.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CF091161AA37DD400018685 /* GLOBAL_STORE.json */; };
+		964104A61B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m in Sources */ = {isa = PBXBuildFile; fileRef = 964104A51B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m */; };
 		D001745C1A698F930036742D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D001745B1A698F930036742D /* main.m */; };
 		D001745F1A698F930036742D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D001745E1A698F930036742D /* AppDelegate.m */; };
 		D00174621A698F930036742D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00174611A698F930036742D /* ViewController.m */; };
@@ -36,9 +37,7 @@
 		D04216B61A79AE07001C2F2E /* TrustFactor_Dispatch_Process.m in Sources */ = {isa = PBXBuildFile; fileRef = D04216B51A79AE07001C2F2E /* TrustFactor_Dispatch_Process.m */; };
 		D04216B91A79AE1D001C2F2E /* TrustFactor_Dispatch_Netstat.m in Sources */ = {isa = PBXBuildFile; fileRef = D04216B81A79AE1D001C2F2E /* TrustFactor_Dispatch_Netstat.m */; };
 		D04216BC1A79AE38001C2F2E /* TrustFactor_Dispatch_Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D04216BB1A79AE38001C2F2E /* TrustFactor_Dispatch_Http.m */; };
-		D04216BF1A79AE56001C2F2E /* TrustFactor_Dispatch_Subscriber.m in Sources */ = {isa = PBXBuildFile; fileRef = D04216BE1A79AE56001C2F2E /* TrustFactor_Dispatch_Subscriber.m */; };
 		D04216C21A79AE63001C2F2E /* TrustFactor_Dispatch_Sentegrity.m in Sources */ = {isa = PBXBuildFile; fileRef = D04216C11A79AE63001C2F2E /* TrustFactor_Dispatch_Sentegrity.m */; };
-		D04216C51A79AE81001C2F2E /* TrustFactor_Dispatch_CoreDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = D04216C41A79AE81001C2F2E /* TrustFactor_Dispatch_CoreDetection.m */; };
 		D04216C81A79AEA2001C2F2E /* TrustFactor_Dispatch_Sandbox.m in Sources */ = {isa = PBXBuildFile; fileRef = D04216C71A79AEA2001C2F2E /* TrustFactor_Dispatch_Sandbox.m */; };
 		D04216CB1A79AECE001C2F2E /* TrustFactor_Dispatch_Route.m in Sources */ = {isa = PBXBuildFile; fileRef = D04216CA1A79AECE001C2F2E /* TrustFactor_Dispatch_Route.m */; };
 		D04216CE1A79AEDC001C2F2E /* TrustFactor_Dispatch_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = D04216CD1A79AEDC001C2F2E /* TrustFactor_Dispatch_Wifi.m */; };
@@ -81,8 +80,8 @@
 		4C06B9B61ADED28D00D17CB9 /* Sentegrity_Subclassification+Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Subclassification+Computation.m"; sourceTree = "<group>"; };
 		4C1C5A451A9E805100257BDF /* Sentegrity_TrustFactor_Storage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Storage.h; sourceTree = "<group>"; };
 		4C1C5A461A9E805100257BDF /* Sentegrity_TrustFactor_Storage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Storage.m; sourceTree = "<group>"; };
-		4C35F8081A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sentegrity_TrustFactor_Output.h; path = ../../Assertions/Sentegrity_TrustFactor_Output.h; sourceTree = "<group>"; };
-		4C35F8091A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sentegrity_TrustFactor_Output.m; path = ../../Assertions/Sentegrity_TrustFactor_Output.m; sourceTree = "<group>"; };
+		4C35F8081A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sentegrity_TrustFactor_Output_Object.h; path = ../../Assertions/Sentegrity_TrustFactor_Output_Object.h; sourceTree = "<group>"; };
+		4C35F8091A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sentegrity_TrustFactor_Output_Object.m; path = ../../Assertions/Sentegrity_TrustFactor_Output_Object.m; sourceTree = "<group>"; };
 		4C3AC0E41AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4C3AC0E51AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
 		4CBED84E1A9E5301000A7B42 /* Sentegrity_Assertion_Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Assertion_Store.h; sourceTree = "<group>"; };
@@ -91,6 +90,8 @@
 		4CF091141AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Stored_TrustFactor_Object.m; sourceTree = "<group>"; };
 		4CF091161AA37DD400018685 /* GLOBAL_STORE.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GLOBAL_STORE.json; sourceTree = "<group>"; };
 		83D8080AD7FB8599513DD3B2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		964104A21B0CE0DF0078EE53 /* Sentegrity_Baseline_Analysis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Sentegrity_Baseline_Analysis.h; path = "Baseline Analysis/Sentegrity_Baseline_Analysis.h"; sourceTree = "<group>"; };
+		964104A51B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sentegrity_Baseline_Analysis.m; path = "Baseline Analysis/Sentegrity_Baseline_Analysis.m"; sourceTree = "<group>"; };
 		D00174561A698F930036742D /* SenTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SenTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D001745A1A698F930036742D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D001745B1A698F930036742D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -109,12 +110,8 @@
 		D04216B81A79AE1D001C2F2E /* TrustFactor_Dispatch_Netstat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Netstat.m; sourceTree = "<group>"; };
 		D04216BA1A79AE38001C2F2E /* TrustFactor_Dispatch_Http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Http.h; sourceTree = "<group>"; };
 		D04216BB1A79AE38001C2F2E /* TrustFactor_Dispatch_Http.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Http.m; sourceTree = "<group>"; };
-		D04216BD1A79AE56001C2F2E /* TrustFactor_Dispatch_Subscriber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Subscriber.h; sourceTree = "<group>"; };
-		D04216BE1A79AE56001C2F2E /* TrustFactor_Dispatch_Subscriber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Subscriber.m; sourceTree = "<group>"; };
 		D04216C01A79AE63001C2F2E /* TrustFactor_Dispatch_Sentegrity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Sentegrity.h; sourceTree = "<group>"; };
 		D04216C11A79AE63001C2F2E /* TrustFactor_Dispatch_Sentegrity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Sentegrity.m; sourceTree = "<group>"; };
-		D04216C31A79AE81001C2F2E /* TrustFactor_Dispatch_CoreDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_CoreDetection.h; sourceTree = "<group>"; };
-		D04216C41A79AE81001C2F2E /* TrustFactor_Dispatch_CoreDetection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_CoreDetection.m; sourceTree = "<group>"; };
 		D04216C61A79AEA2001C2F2E /* TrustFactor_Dispatch_Sandbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Sandbox.h; sourceTree = "<group>"; };
 		D04216C71A79AEA2001C2F2E /* TrustFactor_Dispatch_Sandbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Sandbox.m; sourceTree = "<group>"; };
 		D04216C91A79AECE001C2F2E /* TrustFactor_Dispatch_Route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Route.h; sourceTree = "<group>"; };
@@ -242,10 +239,6 @@
 				D04216C71A79AEA2001C2F2E /* TrustFactor_Dispatch_Sandbox.m */,
 				D04216BA1A79AE38001C2F2E /* TrustFactor_Dispatch_Http.h */,
 				D04216BB1A79AE38001C2F2E /* TrustFactor_Dispatch_Http.m */,
-				D04216BD1A79AE56001C2F2E /* TrustFactor_Dispatch_Subscriber.h */,
-				D04216BE1A79AE56001C2F2E /* TrustFactor_Dispatch_Subscriber.m */,
-				D04216C31A79AE81001C2F2E /* TrustFactor_Dispatch_CoreDetection.h */,
-				D04216C41A79AE81001C2F2E /* TrustFactor_Dispatch_CoreDetection.m */,
 				D04216C01A79AE63001C2F2E /* TrustFactor_Dispatch_Sentegrity.h */,
 				D04216C11A79AE63001C2F2E /* TrustFactor_Dispatch_Sentegrity.m */,
 				D04216CC1A79AEDC001C2F2E /* TrustFactor_Dispatch_Wifi.h */,
@@ -287,6 +280,7 @@
 				018581201A7D4D6A00ED2D88 /* Sentegrity_Constants.h */,
 				018581301A7D5BBF00ED2D88 /* CoreDetection.h */,
 				018581311A7D5BBF00ED2D88 /* CoreDetection.m */,
+				964104A41B0CE10A0078EE53 /* Baseline Analysis */,
 				4C3AC0E31AD59872009EF3B9 /* TrustScore Computation */,
 				4CBED8511A9E5305000A7B42 /* Assertion Storage */,
 				0185811F1A7D4CA900ED2D88 /* Dispatch */,
@@ -310,8 +304,8 @@
 		4C09607D1A9BBBE2008AFF4F /* TrustFactors */ = {
 			isa = PBXGroup;
 			children = (
-				4C35F8081A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.h */,
-				4C35F8091A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.m */,
+				4C35F8081A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output_Object.h */,
+				4C35F8091A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output_Object.m */,
 				0176313A1A869081007BCB05 /* Sentegrity_TrustFactor_Rule.h */,
 				0176313B1A869081007BCB05 /* Sentegrity_TrustFactor_Rule.m */,
 				0176313D1A86909B007BCB05 /* Rules */,
@@ -351,6 +345,15 @@
 				4CF091161AA37DD400018685 /* GLOBAL_STORE.json */,
 			);
 			path = "Sample Assertion Stores";
+			sourceTree = "<group>";
+		};
+		964104A41B0CE10A0078EE53 /* Baseline Analysis */ = {
+			isa = PBXGroup;
+			children = (
+				964104A21B0CE0DF0078EE53 /* Sentegrity_Baseline_Analysis.h */,
+				964104A51B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m */,
+			);
+			name = "Baseline Analysis";
 			sourceTree = "<group>";
 		};
 		D001744D1A698F930036742D = {
@@ -507,11 +510,11 @@
 			files = (
 				D04216E01A79AF54001C2F2E /* TrustFactor_Dispatch_Scan.m in Sources */,
 				01C787831A86A4E9009E7FEE /* Sentegrity_TrustFactor_Dispatcher.m in Sources */,
+				964104A61B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m in Sources */,
 				0176313C1A869081007BCB05 /* Sentegrity_TrustFactor_Rule.m in Sources */,
 				D04216D11A79AEF3001C2F2E /* TrustFactor_Dispatch_Platform.m in Sources */,
 				4CF091151AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.m in Sources */,
 				4C06B9B41ADED16600D17CB9 /* Sentegrity_Classification+Computation.m in Sources */,
-				D04216C51A79AE81001C2F2E /* TrustFactor_Dispatch_CoreDetection.m in Sources */,
 				D04216D71A79AF19001C2F2E /* TrustFactor_Dispatch_Location.m in Sources */,
 				D00174621A698F930036742D /* ViewController.m in Sources */,
 				D04216BC1A79AE38001C2F2E /* TrustFactor_Dispatch_Http.m in Sources */,
@@ -519,7 +522,7 @@
 				018581361A7D7D2000ED2D88 /* Sentegrity_Policy.m in Sources */,
 				D04216B31A79ADD6001C2F2E /* TrustFactor_Dispatch_File.m in Sources */,
 				D04216CB1A79AECE001C2F2E /* TrustFactor_Dispatch_Route.m in Sources */,
-				4C35F80A1A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output.m in Sources */,
+				4C35F80A1A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output_Object.m in Sources */,
 				D04216C21A79AE63001C2F2E /* TrustFactor_Dispatch_Sentegrity.m in Sources */,
 				D04216E31A79AF61001C2F2E /* TrustFactor_Dispatch_Activity.m in Sources */,
 				D001745F1A698F930036742D /* AppDelegate.m in Sources */,
@@ -527,7 +530,6 @@
 				D04216CE1A79AEDC001C2F2E /* TrustFactor_Dispatch_Wifi.m in Sources */,
 				4C1C5A471A9E805100257BDF /* Sentegrity_TrustFactor_Storage.m in Sources */,
 				0185813C1A7D849C00ED2D88 /* Sentegrity_DNEModifiers.m in Sources */,
-				D04216BF1A79AE56001C2F2E /* TrustFactor_Dispatch_Subscriber.m in Sources */,
 				D001745C1A698F930036742D /* main.m in Sources */,
 				D05CB92E1A82EE5800F7EC75 /* Sentegrity_TrustFactor.m in Sources */,
 				4C3AC0E61AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.m in Sources */,
@@ -657,6 +659,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
 				INFOPLIST_FILE = "SenTest/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -671,6 +674,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
 				INFOPLIST_FILE = "SenTest/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -75,6 +75,11 @@
     _learnRunCount = learnRunCount;
 }
 
+// LearnRunCount
+- (void)setThreshold:(NSNumber *)threshold{
+    _threshold = threshold;
+}
+
 // Managed
 - (void)setManaged:(NSNumber *)managed{
     _managed = managed;
@@ -100,9 +105,9 @@
     _implementation = implementation;
 }
 
-// Baseline
-- (void)setBaseline:(NSString *)baseline{
-    _baseline = baseline;
+// Inverse
+- (void)setInverse:(NSNumber *)inverse{
+    _inverse = inverse;
 }
 
 // Payload

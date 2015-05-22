@@ -12,7 +12,7 @@
 #import "Sentegrity_Constants.h"
 
 // Import Assertions
-#import "Sentegrity_TrustFactor_Output.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 
 @interface Sentegrity_TrustFactor_Rule : NSObject
 

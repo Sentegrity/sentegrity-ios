@@ -6,20 +6,21 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_TrustFactor_Output.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 #import "Sentegrity_Constants.h"
 
 // Pod for hashing
 #import "NSString+Hashes.h"
 
-@implementation Sentegrity_TrustFactor_Output
+
+@implementation Sentegrity_TrustFactor_Output_Object
 
 -(void)generateAssertionsFromOutput
 {
 
    self.assertions = [[NSMutableDictionary alloc]init];
     
-    //hit count starts at 0 since these are candidate assertions that may be copied into the store via whitelisting
+    //hit count starts at 0 since these are candidate assertions that may possibly be NEW and copied into the store after protect mode deactivation
     NSNumber *hitCount = [NSNumber numberWithInt:0];
     
     // Create the assertions by iterating through trustfactor output
@@ -33,17 +34,11 @@
     }
 }
 
--(void)generateBaselineAssertion
-{
-    NSMutableDictionary *assertionsDict = [[NSMutableDictionary alloc] init];
-    NSString *baseline = self.trustFactor.baseline;
-    
-    //Create the baseline assertion instead of the trustfactor output
-    NSString *assertionValue = [[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID,baseline] sha1];
-
-    // Add the assertion value to the dictionary with hit count of 0
-    [assertionsDict setValue:0 forKey:assertionValue];
-    self.assertions = assertionsDict;
+- (id) init {
+    if (self = [super init]) {
+            [self setStatusCode:DNEStatus_ok];
+    }
+    return self;
 }
 
 @end

@@ -11,16 +11,18 @@
 @interface TrustFactor_Dispatch_Platform : Sentegrity_TrustFactor_Rule
 
 // 23
-+ (Sentegrity_TrustFactor_Output *)vulnerablePlatform:(NSArray *)platforms;
++ (Sentegrity_TrustFactor_Output_Object *)vulnerableVersion:(NSArray *)payload;
 
 // 28
-+ (Sentegrity_TrustFactor_Output *)platformVersionAllowed:(NSArray *)platformallowed;
++ (Sentegrity_TrustFactor_Output_Object *)versionAllowed:(NSArray *)payload;
 
 // 37
-+ (Sentegrity_TrustFactor_Output *)powerPercent:(NSArray *)powerpercent;
++ (Sentegrity_TrustFactor_Output_Object *)unknownPowerLevel:(NSArray *)payload;
 
 // 38
-+ (Sentegrity_TrustFactor_Output *)shortUptime:(NSArray *)shortuptime;
++ (Sentegrity_TrustFactor_Output_Object *)shortUptime:(NSArray *)payload;
 
+// 38
++ (Sentegrity_TrustFactor_Output_Object *)backupEnabled:(NSArray *)payload;
 
 @end

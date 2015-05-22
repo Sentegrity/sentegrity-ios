@@ -38,6 +38,11 @@
     // Get the default policy
     Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parseCustomPolicy:defaultJSONPath withError:&error];
     
+    //TODO: Load, Parse, and Check for previous protect mode in startup file
+    //TODO: IF previous protect mode prompt accordingly and whitelist when dismissed
+    //TODO: Save stores and continue to dashboard to allow core detection to run again
+    
+    
     // Perform the analysis
     [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, BOOL deviceTrusted, BOOL systemTrusted, BOOL userTrusted, NSArray *computationOutput, NSError *error) {
         if (success) {

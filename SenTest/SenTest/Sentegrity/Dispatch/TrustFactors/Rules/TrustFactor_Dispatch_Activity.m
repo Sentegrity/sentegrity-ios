@@ -13,10 +13,10 @@
 
 
 // 39
-+ (Sentegrity_TrustFactor_Output *)activity:(NSArray *)activity {
+//+ (Sentegrity_TrustFactor_Output *)activity:(NSArray *)activity {
     
-    return 0;
-}
+//    return 0;
+//}
 
 
 @end

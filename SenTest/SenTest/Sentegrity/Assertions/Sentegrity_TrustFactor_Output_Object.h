@@ -7,31 +7,35 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Sentegrity_Stored_TrustFactor_Object.h"
 #import "Sentegrity_TrustFactor.h"
 #import "Sentegrity_Constants.h"
 
-@interface Sentegrity_TrustFactor_Output : NSObject
 
-// Get the trustfactor
+@interface Sentegrity_TrustFactor_Output_Object : NSObject
+
+// attach the policy trustfactor data
 @property (nonatomic,retain) Sentegrity_TrustFactor *trustFactor;
 
-// Get the trustfactor output
-@property (nonatomic,retain) NSArray *output;
+// attach the parsed storedTrustFactorObject data
+@property (nonatomic,retain) Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject;
 
-// Assertions to whitelist that found no match in the storedTrustFactorObject
-@property (nonatomic,retain) NSArray *assertionsTriggered;
+// Get the trustfactor output
+@property (nonatomic,retain) NSMutableArray *output;
+
+// Assertions to whitelist if protect mode is deactivated
+@property (nonatomic,retain) NSArray *assertionsToWhitelist;
 
 // Stored assertions
 @property (nonatomic,retain) NSMutableDictionary *assertions;
 
-// Did the trustfactor run
-@property BOOL executed;
-
 // Get the trustfactor output dne modifier (only if the check failed or didn't run)
 @property (nonatomic) DNEStatusCode statusCode;
 
-
+// Generates assertions from the output of trustfactor impleentation
 - (void)generateAssertionsFromOutput;
-- (void)generateBaselineAssertion;
+
+//custom init to set DNE=OK
+- (id) init;
 
 @end

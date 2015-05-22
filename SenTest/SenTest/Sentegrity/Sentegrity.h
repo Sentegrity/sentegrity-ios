@@ -61,7 +61,7 @@
 #import "Sentegrity_Subclassification+Computation.h"
 #import "Sentegrity_TrustFactor.h"
 #import "Sentegrity_TrustFactor_Dispatcher.h"
-#import "Sentegrity_TrustFactor_Output.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 #import "Sentegrity_Assertion_Store.h"
 #import "Sentegrity_TrustFactor_Storage.h"
 

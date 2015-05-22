@@ -13,21 +13,10 @@
 
 
 // 33
-+ (Sentegrity_TrustFactor_Output *)bluetoothPaired:(NSArray *)btpaired {
++ (Sentegrity_TrustFactor_Output_Object *)knownBLEDevice:(NSArray *)payload {
     
     return 0;
 }
-
-
-
-
-// 34
-+ (Sentegrity_TrustFactor_Output *)bluetoothLEScan:(NSArray *)btlescan {
-    
-    return 0;
-}
-
-
 
 
 

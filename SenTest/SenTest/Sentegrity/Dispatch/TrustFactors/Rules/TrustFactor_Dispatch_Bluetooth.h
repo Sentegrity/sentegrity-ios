@@ -11,10 +11,6 @@
 @interface TrustFactor_Dispatch_Bluetooth : Sentegrity_TrustFactor_Rule
 
 // 33
-+ (Sentegrity_TrustFactor_Output *)bluetoothPaired:(NSArray *)btpaired;
-
-// 34
-+ (Sentegrity_TrustFactor_Output *)bluetoothLEScan:(NSArray *)btlescan;
-
++ (Sentegrity_TrustFactor_Output_Object *)knownBLEDevice:(NSArray *)payload;
 
 @end

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Sentegrity_Stored_TrustFactor_Object.h"
-#import "Sentegrity_TrustFactor_Output.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 
 @interface Sentegrity_Assertion_Store : NSObject
 
@@ -52,7 +52,7 @@
 #pragma mark - Helper Methods
 
 // Create a new storedTrustFactorObject from TrustFactorOutputObject
-- (Sentegrity_Stored_TrustFactor_Object *)createStoredTrustFactorObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output *)trustFactorOutputObject withError:(NSError **)error;
+- (Sentegrity_Stored_TrustFactor_Object *)createStoredTrustFactorObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error;
 
 // Get an storedTrustFactorObject by a factorID
 - (Sentegrity_Stored_TrustFactor_Object *)getStoredTrustFactorObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error;

@@ -12,11 +12,6 @@
 
 
 // 6
-+ (Sentegrity_TrustFactor_Output *)selfTamper:(NSArray *)selftamper;
-
-
-// 21
-+ (Sentegrity_TrustFactor_Output *)sentegrityVersion:(NSArray *)senversion;
-
++ (Sentegrity_TrustFactor_Output_Object *)tamper:(NSArray *)payload;
 
 @end
