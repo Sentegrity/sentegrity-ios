@@ -47,9 +47,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
 
 // Compute the systemScore and the UserScore from the policy
 + (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjectsForComputation withError:(NSError **)error {
-    
-    // Create the computation to return
-    Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc] init];
+
     
     // get the policy provided trustFactors objects
     NSArray *trustFactors = policy.trustFactors;
@@ -228,36 +226,119 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     }// End classifications loop
     
 
-    
-    // Interim variables
-    int systemScoreValue, userScoreValue, deviceScoreValue;
-    
-    // 12. Generate the System score by averaging the BREACH_INDICATOR and SYSTEM_SECURITY scores
-    NSInteger breachValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kBreachIndicator fromArray:policy.classifications withError:error] weightedPenalty];
-    NSInteger systemValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error] weightedPenalty];
-    systemScoreValue = (int)((breachValue + systemValue) / 2);
-    
-    // 13. Generate the User score by averaging the POLICY_VIOLATION and USER_ANOMALLY scores
-    double policyValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kPolicyViolation fromArray:policy.classifications withError:error] weightedPenalty];
-    double userValue = [[Sentegrity_TrustScore_Computation getClassificationForName:kUserAnomally fromArray:policy.classifications withError:error] weightedPenalty];
-    userScoreValue = (int)((policyValue + userValue) / 2);
-    
-    // 14. Generate the Device score by averaging the user score and the system scores
-    deviceScoreValue = (int)((userScoreValue + systemScoreValue) / 2);
-    
-    // Set the values and return the computed score
-    [computationResults setSystemScore:systemScoreValue];
-    [computationResults setUserScore:userScoreValue];
-    [computationResults setDeviceScore:deviceScoreValue];
-    NSLog(@"System Score: %d UserScore: %d DeviceScore: %d", systemScoreValue, userScoreValue, deviceScoreValue);
-    // Set the classification information
-    computationResults.classificationInformation = policy.classifications;
-
     // Return computation
-    return computationResults;
+    return [self analyzeResultsWithPolicy:policy withError:error];
 }
 
 #pragma mark - Private Helper Methods
+// Get a classification from an array with the name provided
++ (Sentegrity_TrustScore_Computation *)analyzeResultsWithPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
+    
+    // Create the computation to return
+    Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc] init];
+    
+    // Interim variables
+    
+    //Generate the System score by averaging the BREACH_INDICATOR and SYSTEM_SECURITY scores
+    computationResults.systemBreachScore = [[Sentegrity_TrustScore_Computation getClassificationForName:kBreachIndicator fromArray:policy.classifications withError:error] weightedPenalty];
+    computationResults.systemSecurityScore = [[Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error] weightedPenalty];
+    computationResults.systemScore = (int)((computationResults.systemBreachScore + computationResults.systemSecurityScore) / 2);
+    
+    //Generate the User score by averaging the POLICY_VIOLATION and USER_ANOMALLY scores
+    computationResults.policyScore = [[Sentegrity_TrustScore_Computation getClassificationForName:kPolicyViolation fromArray:policy.classifications withError:error] weightedPenalty];
+    computationResults.userAnomalyScore = [[Sentegrity_TrustScore_Computation getClassificationForName:kUserAnomally fromArray:policy.classifications withError:error] weightedPenalty];
+    computationResults.userScore = (int)((computationResults.policyScore + computationResults.userAnomalyScore) / 2);
+    
+    //Generate the Device score by averaging the user score and the system scores
+    computationResults.deviceScore = (int)((computationResults.userScore + computationResults.systemScore) / 2);
+    
+    //Analyze Results
+    
+    //Defaults
+    computationResults.userTrusted = YES;
+    computationResults.systemTrusted = YES;
+    computationResults.deviceTrusted = YES;
+    
+    //Check System Threshold
+    if (computationResults.systemScore < policy.systemThreshold.integerValue) {
+        
+        // System is not trusted
+        computationResults.systemTrusted = NO;
+        
+    }
+    
+    // Check User Threshold
+    if (computationResults.userScore < policy.userThreshold.integerValue) {
+        
+        // User is not trusted
+        computationResults.userTrusted = NO;
+        
+    }
+    
+    // Check the device, system always has priority over user
+    if (!computationResults.systemTrusted)
+    {
+        // Device is not trusted
+        computationResults.deviceTrusted = NO;
+        
+        //see which classification inside system attributed the most
+        if(computationResults.systemBreachScore < computationResults.systemSecurityScore) //breach indicator
+        {
+            //get the classification in question
+            Sentegrity_Classification *attributingClassification = [Sentegrity_TrustScore_Computation getClassificationForName:kBreachIndicator fromArray:policy.classifications withError:error];
+            
+            //populate results
+            computationResults.protectModeClassification = [attributingClassification.identification integerValue] ;
+            computationResults.protectModeAction = [attributingClassification.protectMode integerValue];
+            computationResults.protectModeInfo = attributingClassification.protectViolationName;
+            computationResults.protectModeName = attributingClassification.protectInfo;
+        }
+        else //system anomaly
+        {
+            //get the classification in question
+            Sentegrity_Classification *attributingClassification = [Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error];
+            
+            //populate results
+            computationResults.protectModeClassification = [attributingClassification.identification integerValue];
+            computationResults.protectModeAction = [attributingClassification.protectMode integerValue];
+            computationResults.protectModeInfo = attributingClassification.protectViolationName;
+            computationResults.protectModeName = attributingClassification.protectInfo;
+        }
+    }
+    else if (!computationResults.userTrusted)
+    {
+        
+        // Device is not trusted
+        computationResults.userTrusted = NO;
+        
+        //see which classification inside user attributed the most
+        if(computationResults.policyScore < computationResults.userAnomalyScore) //policy violation
+        {
+            //get the classification in question
+            Sentegrity_Classification *attributingClassification = [Sentegrity_TrustScore_Computation getClassificationForName:kPolicyViolation fromArray:policy.classifications withError:error];
+            
+            //populate results
+            computationResults.protectModeClassification = [attributingClassification.identification integerValue];
+            computationResults.protectModeAction = [attributingClassification.protectMode integerValue];
+            computationResults.protectModeInfo = attributingClassification.protectViolationName;
+            computationResults.protectModeName = attributingClassification.protectInfo;
+        }
+        else //user anomaly
+        {
+            //get the classification in question
+            Sentegrity_Classification *attributingClassification = [Sentegrity_TrustScore_Computation getClassificationForName:kUserAnomally fromArray:policy.classifications withError:error];
+            
+            //populate results
+            computationResults.protectModeClassification = [attributingClassification.identification integerValue];
+            computationResults.protectModeAction = [attributingClassification.protectMode integerValue];
+            computationResults.protectModeInfo = attributingClassification.protectViolationName;
+            computationResults.protectModeName = attributingClassification.protectInfo;
+        }
+        
+    }
+    
+    return computationResults;
+}
 
 // Get a classification from an array with the name provided
 + (Sentegrity_Classification *)getClassificationForName:(NSString *)name fromArray:(NSArray *)classArray withError:(NSError **)error {

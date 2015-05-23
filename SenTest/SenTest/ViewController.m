@@ -7,8 +7,10 @@
 //  
 
 #import "ViewController.h"
+#import "ProtectMode.h"
 #import "NSObject+ObjectMap.h"
 #import "Sentegrity.h"
+#import "Sentegrity_Baseline_Analysis.h"
 
 @interface ViewController ()
 
@@ -38,19 +40,28 @@
     // Get the default policy
     Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parseCustomPolicy:defaultJSONPath withError:&error];
     
-    //TODO: Load, Parse, and Check for previous protect mode in startup file
-    //TODO: IF previous protect mode prompt accordingly and whitelist when dismissed
-    //TODO: Save stores and continue to dashboard to allow core detection to run again
-    
-    
-    // Perform the analysis
-    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, BOOL deviceTrusted, BOOL systemTrusted, BOOL userTrusted, NSArray *computationOutput, NSError *error) {
+
+    // Perform Core Detection
+    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, Sentegrity_Baseline_Analysis *baselineResults, NSError *error) {
         if (success) {
-            NSLog(@"Output of Core Detection: %d, %d, %d, %@, %@", deviceTrusted, systemTrusted, userTrusted, computationOutput, error.localizedDescription);
+            NSLog(@"\n\nCore Detection Score Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceScore, computationResults.systemScore, computationResults.userScore );
+            
+            NSLog(@"\n\nCore Detection Trust Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceTrusted, computationResults.systemTrusted, computationResults.userTrusted);
+            
+            NSLog(@"\n\nPolicy Thresholds: \nSystem:%@, \nUser:%@\n\n", policy.systemThreshold, policy.userThreshold);
+            
+            NSLog(@"\n\nErrors: %@", error.localizedDescription);
+            
+            //Perform Protect Mode
+            [ProtectMode analyzeResults:computationResults withBaseline:baselineResults];
+            // Analyze untrusted results
+
         } else {
             NSLog(@"Failed to run Core Detection: %@", error.localizedDescription);
         }
     }];
+    
+
     
 //    // Convert the policy back into a plist
 //    NSLog(@"JSON Policy: %@", [policy JSONString]);

@@ -41,8 +41,12 @@ static NSMutableArray *processList;
             if([badProcName isEqualToString:procName])
             {
                //make sure we don't add more than one instance of the proc
-                if (![output containsObject:procName])
-                [output addObject:procName];
+                if (![output containsObject:procName]){
+                    [output addObject:procName];
+                }
+                else{
+                    break;
+                }
                 
             }
         }

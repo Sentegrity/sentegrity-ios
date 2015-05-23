@@ -105,8 +105,8 @@
     }
 
     
-   //if this is a normal rule output should contain something
-    if(!trustFactor.inverse)
+   //if this is a normal rule output should contain something, add default if it doesnt
+    if(trustFactor.inverse.intValue==0)
     {
         if(trustFactorOutputObject.output.count<1)
         {
@@ -120,8 +120,8 @@
     }
     else //inverse rule, output may not contain anything
     {
-        //only attempt to generate assertions if non-empty, otherwise leave nil
-        if(trustFactorOutputObject.output.count>1)
+        //only attempt to generate assertions if non-empty, otherwise leave empty and set status
+        if(trustFactorOutputObject.output.count>0)
         {
             //set the default output
                 [trustFactorOutputObject generateAssertionsFromOutput];

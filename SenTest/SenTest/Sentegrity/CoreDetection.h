@@ -7,9 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Sentegrity_Policy.h"
-#import "Sentegrity_Assertion_Store.h"
+#import "Sentegrity_Constants.h"
+#import "Sentegrity_Parser.h"
+#import "Sentegrity_TrustFactor.h"
 #import "Sentegrity_TrustScore_Computation.h"
+//#import "Sentegrity_Subclassification.h"
+#import "Sentegrity_TrustFactor_Dispatcher.h"
+#import "Sentegrity_TrustFactor_Storage.h"
+#import "Sentegrity_Classification+Computation.h"
+#import "Sentegrity_Subclassification+Computation.h"
+#import "Sentegrity_Baseline_Analysis.h"
 
 @interface CoreDetection : NSObject {
     // Default policy url path
@@ -35,7 +42,8 @@
 #pragma mark - Protect Mode Analysis
 
 // Block Definition
-typedef void (^coreDetectionBlock)(BOOL success, BOOL deviceTrusted, BOOL systemTrusted, BOOL userTrusted, NSArray *computationOutput, NSError *error);
+typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, Sentegrity_Baseline_Analysis *baselineResults, NSError *error);
+
 // Protect Mode Analysis
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback;
 

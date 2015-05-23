@@ -27,6 +27,8 @@
 		4CF091151AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF091141AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.m */; };
 		4CF091171AA37DD400018685 /* GLOBAL_STORE.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CF091161AA37DD400018685 /* GLOBAL_STORE.json */; };
 		964104A61B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m in Sources */ = {isa = PBXBuildFile; fileRef = 964104A51B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m */; };
+		96CF13E01B0FE43F00700062 /* Sentegrity_History_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CF13DF1B0FE43F00700062 /* Sentegrity_History_Store.m */; };
+		96CF13E41B10BD6600700062 /* ProtectMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CF13E31B10BD6600700062 /* ProtectMode.m */; };
 		D001745C1A698F930036742D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D001745B1A698F930036742D /* main.m */; };
 		D001745F1A698F930036742D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D001745E1A698F930036742D /* AppDelegate.m */; };
 		D00174621A698F930036742D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00174611A698F930036742D /* ViewController.m */; };
@@ -92,6 +94,10 @@
 		83D8080AD7FB8599513DD3B2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		964104A21B0CE0DF0078EE53 /* Sentegrity_Baseline_Analysis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Sentegrity_Baseline_Analysis.h; path = "Baseline Analysis/Sentegrity_Baseline_Analysis.h"; sourceTree = "<group>"; };
 		964104A51B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sentegrity_Baseline_Analysis.m; path = "Baseline Analysis/Sentegrity_Baseline_Analysis.m"; sourceTree = "<group>"; };
+		96CF13DF1B0FE43F00700062 /* Sentegrity_History_Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_History_Store.m; sourceTree = "<group>"; };
+		96CF13E11B0FE47400700062 /* Sentegrity_History_Store.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sentegrity_History_Store.h; sourceTree = "<group>"; };
+		96CF13E21B10BD1400700062 /* ProtectMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProtectMode.h; sourceTree = "<group>"; };
+		96CF13E31B10BD6600700062 /* ProtectMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProtectMode.m; path = ../ProtectMode.m; sourceTree = "<group>"; };
 		D00174561A698F930036742D /* SenTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SenTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D001745A1A698F930036742D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D001745B1A698F930036742D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -276,7 +282,10 @@
 		018581331A7D5CC500ED2D88 /* Sentegrity */ = {
 			isa = PBXGroup;
 			children = (
+				96CF13DE1B0FE3C100700062 /* History */,
 				018581391A7D80B500ED2D88 /* Sentegrity.h */,
+				96CF13E21B10BD1400700062 /* ProtectMode.h */,
+				96CF13E31B10BD6600700062 /* ProtectMode.m */,
 				018581201A7D4D6A00ED2D88 /* Sentegrity_Constants.h */,
 				018581301A7D5BBF00ED2D88 /* CoreDetection.h */,
 				018581311A7D5BBF00ED2D88 /* CoreDetection.m */,
@@ -354,6 +363,15 @@
 				964104A51B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m */,
 			);
 			name = "Baseline Analysis";
+			sourceTree = "<group>";
+		};
+		96CF13DE1B0FE3C100700062 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				96CF13DF1B0FE43F00700062 /* Sentegrity_History_Store.m */,
+				96CF13E11B0FE47400700062 /* Sentegrity_History_Store.h */,
+			);
+			name = History;
 			sourceTree = "<group>";
 		};
 		D001744D1A698F930036742D = {
@@ -517,6 +535,7 @@
 				4C06B9B41ADED16600D17CB9 /* Sentegrity_Classification+Computation.m in Sources */,
 				D04216D71A79AF19001C2F2E /* TrustFactor_Dispatch_Location.m in Sources */,
 				D00174621A698F930036742D /* ViewController.m in Sources */,
+				96CF13E41B10BD6600700062 /* ProtectMode.m in Sources */,
 				D04216BC1A79AE38001C2F2E /* TrustFactor_Dispatch_Http.m in Sources */,
 				D04216B91A79AE1D001C2F2E /* TrustFactor_Dispatch_Netstat.m in Sources */,
 				018581361A7D7D2000ED2D88 /* Sentegrity_Policy.m in Sources */,
@@ -524,6 +543,7 @@
 				D04216CB1A79AECE001C2F2E /* TrustFactor_Dispatch_Route.m in Sources */,
 				4C35F80A1A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output_Object.m in Sources */,
 				D04216C21A79AE63001C2F2E /* TrustFactor_Dispatch_Sentegrity.m in Sources */,
+				96CF13E01B0FE43F00700062 /* Sentegrity_History_Store.m in Sources */,
 				D04216E31A79AF61001C2F2E /* TrustFactor_Dispatch_Activity.m in Sources */,
 				D001745F1A698F930036742D /* AppDelegate.m in Sources */,
 				D04216DD1A79AF3B001C2F2E /* TrustFactor_Dispatch_Bluetooth.m in Sources */,

@@ -17,36 +17,17 @@
 
 @implementation Sentegrity_Baseline_Analysis
 
-@synthesize userTrustFactorsToWhitelist = _userTrustFactorsToWhitelist, systemTrustFactorsToWhitelist = _systemTrustFactorsToWhitelist, policyTrustFactorsToWhitelist = _policyTrustFactorsToWhitelist, trustFactorOutputObjectsForComputation = _trustFactorOutputObjectsForComputation;
-
-NSMutableArray *userTrustFactorsToWhitelist;
-
-NSMutableArray *systemTrustFactorsToWhitelist;
-
-NSMutableArray *policyTrustFactorsToWhitelist;
-
-NSMutableArray *trustFactorOutputObjectsForComputation;
-
-
-+ (NSArray *)getTrustFactorOutputObjectsForComputation {
-    return [NSArray arrayWithArray:trustFactorOutputObjectsForComputation];
-}
+//@synthesize trustFactorOutputObjectsForProtectMode = _trustFactorOutputObjectsForProtectMode, trustFactorOutputObjectsForComputation = _trustFactorOutputObjectsForComputation;
 
 
 // Retrieve stored assertions
 + (instancetype)performBaselineAnalysisUsing:(NSArray *)trustFactorOutputObjects forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
     
-    //setup return arrays
-    userTrustFactorsToWhitelist = [[NSMutableArray alloc] init];
-    
-    systemTrustFactorsToWhitelist = [[NSMutableArray alloc] init];
-    
-    policyTrustFactorsToWhitelist = [[NSMutableArray alloc] init];
-    
-    trustFactorOutputObjectsForComputation = [[NSMutableArray alloc] init];
     
     //Create baseline object to return
-    Sentegrity_Baseline_Analysis *baselineAnalysis = [[Sentegrity_Baseline_Analysis alloc] init];
+    Sentegrity_Baseline_Analysis *baselineAnalysisResults = [[Sentegrity_Baseline_Analysis alloc] init];
+    baselineAnalysisResults.trustFactorOutputObjectsForProtectMode = [[NSMutableArray alloc]init];
+    baselineAnalysisResults.trustFactorOutputObjectsForComputation = [[NSMutableArray alloc]init];
     
     
     // Attempt to get our local assertion store, if does not exist it gets created
@@ -97,7 +78,7 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
         if(trustFactorOutputObject.statusCode != DNEStatus_ok)
         {
             //add TF to the list as its triggered
-            [trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
+            [baselineAnalysisResults.trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
         }
         else
         {
@@ -130,7 +111,7 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                 
                 
                     //perform baseline analysis against storedTrustFactorObject
-                    updatedTrustFactorOutputObject = [self  performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
+                    updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
                 
                     // Check if created
                     if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -173,7 +154,7 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                         trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                     
                         //perform baseline analysis against storedTrustFactorObject
-                        updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
+                        updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
                     
                         // Check if created
                         if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -205,7 +186,7 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                         trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                     
                         //perform baseline analysis against storedTrustFactorObject
-                        updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
+                        updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
                     
                         // Check if created
                         if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -263,7 +244,7 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                     trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                 
                     //perform baseline analysis against storedTrustFactorObject
-                    updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
+                    updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
                 
                     // Check if created
                     if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -306,7 +287,7 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                         trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                     
                         //perform baseline analysis against storedTrustFactorObject
-                        updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
+                        updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
                     
                         // Check if created
                         if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -338,7 +319,7 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                         trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                     
                         //perform baseline analysis against storedTrustFactorObject
-                        updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
+                        updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
                     
                         // Check if created
                         if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -375,19 +356,14 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
     } //end FOR
     
     
-    //set values and return baselineAnalysis object as result
-    [baselineAnalysis setPolicyTrustFactorsToWhitelist:policyTrustFactorsToWhitelist];
-    [baselineAnalysis setSystemTrustFactorsToWhitelist:systemTrustFactorsToWhitelist];
-    [baselineAnalysis setUserTrustFactorsToWhitelist:userTrustFactorsToWhitelist];
-    [baselineAnalysis setTrustFactorOutputObjectsForComputation:trustFactorOutputObjectsForComputation];
     
-    return baselineAnalysis;
+    return baselineAnalysisResults;
 }
 
 
 
 
-+ (Sentegrity_TrustFactor_Output_Object *)performBaselineAnalysisUsing:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
++ (Sentegrity_TrustFactor_Output_Object *)performBaselineAnalysisUsing:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withBaselineAnalysisResults:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withError:(NSError **)error {
     
     
     
@@ -405,13 +381,13 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
         //If the TF did not run then we don't update anything
         if(trustFactorOutputObject.statusCode==DNEStatus_ok)
         {
-            //Check if TF is not learned and update it, this TF won't count
+            //Check if TF is not learned and update it, this TF won't count towards computation
             if(!trustFactorOutputObject.storedTrustFactorObject.learned)
             {
                 //update learning attributes
                 [self compareAndUpdateLearning:trustFactorOutputObject];
             }
-            else //TF is learned so lets compare assertions
+            else //TF is learned so lets compare assertions and add to computation
             {
         
                 //for increment
@@ -419,6 +395,7 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                 
                 //for increment
                 NSNumber *currentHitCount;
+                
                 
                 //check if this is a normal rule and trigger on NO MATCH
                 //e.g., knownBadProcesses, shortUptime, newRootProcess, etc
@@ -430,29 +407,16 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                         if(![trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate])
                         {
                     
-                            //add TF to the list as its triggered
-                            [trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
+                            //add TF to the computation list
+                            [baselineAnalysisResults.trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
+                            
+                            //add TF to the protectMode list
+                            [baselineAnalysisResults.trustFactorOutputObjectsForProtectMode  addObject:trustFactorOutputObject];
                     
                             //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
                             [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
-                    
-                            //add this TF to the proper whitelisting array that is referenced during protect mode
-                            switch(trustFactorOutputObject.trustFactor.classID.integerValue){
-                                case 1:  //breach indicator
-                                    [systemTrustFactorsToWhitelist addObject:trustFactorOutputObject];
-                                    break;
-                                case 3: //system security
-                                    [systemTrustFactorsToWhitelist addObject:trustFactorOutputObject];
-                                    break;
-                                case 2: //policy violation
-                                    [policyTrustFactorsToWhitelist addObject:trustFactorOutputObject];
-                                    break;
-                                case 4: //user anomaly
-                                    [userTrustFactorsToWhitelist addObject:trustFactorOutputObject];
-                                    break;
-                            
-                            }
-                    
+  
+                             
                         }
                         else //we DID find a match = RULE NOT TRIGGERED  (increment matching stored assertions hitcount)
                         {
@@ -480,7 +444,7 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                                 if(currentHitCount >= trustFactorOutputObject.trustFactor.threshold)
                                 {
                                     //only add as triggered if meet
-                                    [trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
+                                    [baselineAnalysisResults.trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
                                     
                                 }
                                 
@@ -489,7 +453,7 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                             else {
                                 
                                 //add TF to the list
-                                [trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
+                                [baselineAnalysisResults.trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
                                 
                             }
                             
@@ -502,28 +466,14 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
                     
                     
                         }
-                        else //no match, setup whitelist if protect mode is deactivated
+                        else //no match, add to protect mode whitelist
                         {
                             //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
                             [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
-                    
-                            //add this TF to the proper whitelisting array that is referenced during protect mode
-                            switch(trustFactorOutputObject.trustFactor.classID.integerValue){
-                                case 4: //user anomaly
-                                    [userTrustFactorsToWhitelist addObject:trustFactorOutputObject];
-                                    break;
-                                case 3: //system security
-                                    [systemTrustFactorsToWhitelist addObject:trustFactorOutputObject];
-                                    break;
-                                case 2: //policy violation
-                                    [policyTrustFactorsToWhitelist addObject:trustFactorOutputObject];
-                                    break;
-                                case 1:  //breach indicator
-                                    [systemTrustFactorsToWhitelist addObject:trustFactorOutputObject];
-                                    break;
                             
-                            }
-                    
+                            //add TF to the protectMode list
+                            [baselineAnalysisResults.trustFactorOutputObjectsForProtectMode  addObject:trustFactorOutputObject];
+                            
                         }
                     }
             
@@ -534,11 +484,9 @@ NSMutableArray *trustFactorOutputObjectsForComputation;
         }
         else{
             //add non-executed rules so their DNE_Status codes impact the score
-            [trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
+            [baselineAnalysisResults.trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
             
         }
-    
-
     
     
     return trustFactorOutputObject;

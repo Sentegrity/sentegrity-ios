@@ -7,19 +7,7 @@
 //
 
 #import "CoreDetection.h"
-#import "Sentegrity_Constants.h"
-#import "Sentegrity_Parser.h"
-#import "Sentegrity_Policy.h"
-#import "Sentegrity_TrustFactor.h"
-//#import "Sentegrity_Classification.h"
-//#import "Sentegrity_Subclassification.h"
-#import "Sentegrity_TrustFactor_Dispatcher.h"
-#import "Sentegrity_TrustFactor_Storage.h"
 
-// Categories
-#import "Sentegrity_Classification+Computation.h"
-#import "Sentegrity_Subclassification+Computation.h"
-#import "Sentegrity_Baseline_Analysis.h"
 
 @interface CoreDetection(Private)
 
@@ -27,7 +15,7 @@
 - (Sentegrity_Policy *)parsePolicy:(NSURL *)policyPath isDefaultPolicy:(BOOL)isDefault withError:(NSError **)error;
 
 // Protect Mode Analysis Callback
-- (void)coreDetectionResponse:(BOOL)success withDevice:(BOOL)deviceTrusted withSystem:(BOOL)systemTrusted withUser:(BOOL)userTrusted andComputation:(NSArray *)computationOutput error:(NSError *)error;
+- (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults withBaselineResults:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults error:(NSError *)error;
 
 @end
 
@@ -38,7 +26,7 @@
 #pragma mark - Protect Mode Analysis
 
 // Callback block definition
-void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL systemTrusted, BOOL userTrusted, NSArray *computationOutput, NSError *error);
+void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, Sentegrity_Baseline_Analysis *baselineAnalysisResults, NSError *error);
 
 // Start Core Detection
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback {
@@ -58,7 +46,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
         error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
         
         // Don't return anything
-        [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
+        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil error:error];
         return;
     }
     
@@ -77,7 +65,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
         error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
         
         // Don't return anything
-        [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
+        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil error:error];
         return;
     }
 
@@ -95,7 +83,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
         [errorDetails setValue:@"No trustFactorOutputObjects available for computation" forKey:NSLocalizedDescriptionKey];
         error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsForComputation userInfo:errorDetails];
 
-        [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
+        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil error:error];
         return;
     }
     
@@ -113,7 +101,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
         [errorDetails setValue:@"No computation object returned, error during computation" forKey:NSLocalizedDescriptionKey];
         error = [NSError errorWithDomain:@"Sentegrity" code:SAErrorDuringComputation userInfo:errorDetails];
         
-        [self coreDetectionResponse:NO withDevice:NO withSystem:NO withUser:NO andComputation:nil error:error];
+        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil error:error];
         return;
     }
 
@@ -124,95 +112,17 @@ void (^coreDetectionBlockCallBack)(BOOL success, BOOL deviceTrusted, BOOL system
     //write the assertion stores
     [self saveStoresForPolicy:policy withError:&error];
     
-
-    
-    // ******************************************************************
-    // Protect Mode Analysis (take actions outlined in policy as result of scores)
-    // ******************************************************************
-    
-    //Jason needs to finish this, we may need a new structure to hold the history data for each run that gets written out....
-    [self protectModeAnalysisWithPolicy:policy withComputationResults:computationResults withBaselineAnalysisResults:baselineAnalysisResults error:error];
-    
-    
-    
-}
-
-
-- (void)protectModeAnalysisWithPolicy:(Sentegrity_Policy *)policy withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults withBaselineAnalysisResults:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults error:(NSError *)error {
-    
-    // Check if the system, user, and device are trusted
-    BOOL systemTrusted, userTrusted, deviceTrusted;
-    NSLog(@"System Threshold: %ld User Threshold: %ld", policy.systemThreshold.integerValue, policy.userThreshold.integerValue);
-    // Check for
-    if (computationResults.systemScore < policy.systemThreshold.integerValue) {
-        // System is not trusted
-        systemTrusted = NO;
-        //trigger
-        
-    } else {
-        // System is trusted
-        systemTrusted = YES;
-    }
-    
-    // Check the user
-    if (computationResults.userScore < policy.userThreshold.integerValue) {
-        // User is not trusted
-        userTrusted = NO;
-    } else {
-        // User is trusted
-        userTrusted = YES;
-    }
-    
-    // Check the device
-    if (!systemTrusted || !userTrusted) {
-        // Device is not trusted
-        deviceTrusted = NO;
-    } else {
-        // Device is trusted
-        deviceTrusted = YES;
-    }
     
     // Return through the block callback
-    [self coreDetectionResponse:YES withDevice:deviceTrusted withSystem:systemTrusted withUser:userTrusted andComputation:computationResults.triggeredTrustFactorOutputObjects error:error];
     
-    if(!deviceTrusted) //device not trusted
-    {
-        if(!userTrusted) //user untrusted
-        {
-            
-            //determine attributing classification (user anomaly or policy violation?)
-            
-            //write the history file w/ scores, current protect mode, and cooresponding whitelist assertion array (held in baselineAnalysis object)
-            //[device score, device trusted, system score, system trusted, user score, user trusted, assertions to whitelist]
-            
-            //take classification's cooresponding protect mode action (show screen for Beta2)
-            
-        }
-        else //system untrusted
-        {
-            //determine attributing classification (system anomaly or breach indicator?)
-            
-            //write the history file w/ scores, current protect mode, and cooresponding whitelist assertion array (held in baselineAnalysis object)
-            //[device score, device trusted, system score, system trusted, user score, user trusted, assertions to whitelist]
-            
-            //take classification's cooresponding protect mode action
-            
-        }
-    }
-    else //device trusted
-    {
-        
-        //write the history file w/ scores, current protect mode
-        //[device score, device trusted, system score, system trusted, user score, user trusted, assertions to whitelist]
-        
-        //show dashboard
-    }
+    [self coreDetectionResponse:YES withComputationResults:computationResults withBaselineResults:baselineAnalysisResults error:error];
     
 }
+
 // Callback function for core detection
-- (void)coreDetectionResponse:(BOOL)success withDevice:(BOOL)deviceTrusted withSystem:(BOOL)systemTrusted withUser:(BOOL)userTrusted andComputation:(NSArray *)computationOutput error:(NSError *)error {
+- (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults withBaselineResults:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults error:(NSError *)error {
     // Block callback
-    coreDetectionBlockCallBack(success, deviceTrusted, systemTrusted, userTrusted, computationOutput, error);
+    coreDetectionBlockCallBack(success, computationResults, baselineAnalysisResults, error);
 }
 
 #pragma mark Singleton Methods

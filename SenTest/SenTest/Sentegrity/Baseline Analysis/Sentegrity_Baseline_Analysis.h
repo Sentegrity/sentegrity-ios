@@ -12,14 +12,8 @@
 
 @interface Sentegrity_Baseline_Analysis : NSObject
 
-// trustFactorOutputObjects for whitelist during user protect modes
-@property (nonatomic) NSMutableArray *userTrustFactorsToWhitelist;
-
-// trustFactorOutputObjects for whitelist during policy protect modes
-@property (nonatomic) NSMutableArray *systemTrustFactorsToWhitelist;
-
-// trustFactorOutputObjects for whitelist during system protect modes
-@property (nonatomic) NSMutableArray *policyTrustFactorsToWhitelist;
+//trustFactorOutputObject eligable for protectMode whitelisting
+@property (nonatomic) NSMutableArray *trustFactorOutputObjectsForProtectMode;
 
 // trustFactorOutputObjects to be passed to computation
 @property (nonatomic)  NSMutableArray *trustFactorOutputObjectsForComputation;
