@@ -15,6 +15,7 @@
 
 @implementation Sentegrity_TrustFactor_Output_Object
 
+//called during baseline analysis
 -(void)generateAssertionsFromOutput
 {
 
@@ -32,6 +33,20 @@
         [self.assertions setValue:hitCount forKey:assertionValue];
 
     }
+}
+
+//called for provisoning rules
+-(NSMutableDictionary *)generateDefaultAssertion
+{
+
+    NSString *assertionValue = [[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID, kDefaultTrustFactorOutput] sha1]; // TODO: Add in device.id
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc]init];
+    
+    [dict setValue:[NSNumber numberWithInt:0] forKey:assertionValue];
+    
+    return dict;
+
 }
 
 - (id) init {

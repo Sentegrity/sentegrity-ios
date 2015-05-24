@@ -82,6 +82,7 @@
 #define kTFManaged @"managed"
 #define kTFLocal @"local"
 #define kTFHistory @"history"
+#define kTFProvision @"provision"
 #define kTFDispatch @"dispatch"
 #define kTFImplementation @"implementation"
 #define kTFInverse @"inverse"

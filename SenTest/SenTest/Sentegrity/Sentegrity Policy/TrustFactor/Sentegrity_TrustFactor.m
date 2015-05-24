@@ -75,9 +75,14 @@
     _learnRunCount = learnRunCount;
 }
 
-// LearnRunCount
+// Threshold
 - (void)setThreshold:(NSNumber *)threshold{
     _threshold = threshold;
+}
+
+// Provision
+- (void)setProvision:(NSNumber *)provision{
+    _provision = provision;
 }
 
 // Managed

@@ -24,7 +24,7 @@
 @property (nonatomic,retain) NSMutableArray *output;
 
 // Assertions to whitelist if protect mode is deactivated
-@property (nonatomic,retain) NSArray *assertionsToWhitelist;
+@property (nonatomic,retain) NSMutableDictionary *assertionsToWhitelist;
 
 // Stored assertions
 @property (nonatomic,retain) NSMutableDictionary *assertions;
@@ -34,6 +34,9 @@
 
 // Generates assertions from the output of trustfactor impleentation
 - (void)generateAssertionsFromOutput;
+
+// Generates default assertion for manual comparison on provisoning rules
+-(NSMutableDictionary *)generateDefaultAssertion;
 
 //custom init to set DNE=OK
 - (id) init;

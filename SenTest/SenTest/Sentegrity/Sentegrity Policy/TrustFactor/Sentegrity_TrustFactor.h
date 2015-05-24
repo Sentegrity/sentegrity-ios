@@ -24,6 +24,7 @@
 @property (nonatomic, retain) NSNumber *learnAssertionCount;
 @property (nonatomic, retain) NSNumber *learnRunCount;
 @property (nonatomic, retain) NSNumber *threshold;
+@property (nonatomic, retain) NSNumber *provision;
 @property (nonatomic, retain) NSNumber *managed;
 @property (nonatomic, retain) NSNumber *local;
 @property (nonatomic, retain) NSNumber *inverse;
