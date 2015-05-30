@@ -23,33 +23,21 @@
     dispatch_once(&onceToken, ^{
         sharedStorage = [[self alloc] init];
         
-        // Set the default storage path and create it if it doesn't exist
-        
-        // Get documents folder
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *storePath = [documentsDirectory stringByAppendingPathComponent:kDefaultAssertionStoragePath];
-        
-        //Create the folder if it doesn't exist
-        if (![[NSFileManager defaultManager] fileExistsAtPath:storePath]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:storePath withIntermediateDirectories:NO attributes:nil error:nil];
-        }
-        
-        // Set the path
-        [sharedStorage setAssertionStorePath:[NSURL URLWithString:storePath]];
+
     });
     return sharedStorage;
 }
 
 // Get the global store
 - (Sentegrity_Assertion_Store *)getGlobalStore:(BOOL *)exists withError:(NSError **)error {
-    return [self getLocalStoreWithAppID:kGlobalAssertionStoreAppID doesExist:exists withError:error];
+    return [self getLocalStoreWithAppID:kDefaultGlobalStoreName doesExist:exists withError:error];
 }
 
 // Set the global store
 - (Sentegrity_Assertion_Store *)setGlobalStore:(Sentegrity_Assertion_Store *)store overwrite:(BOOL)overWrite withError:(NSError **)error {
-    return [self setLocalStore:store forAppID:kGlobalAssertionStoreAppID overwrite:overWrite withError:error];
+    return [self setLocalStore:store forAppID:kDefaultGlobalStoreName overwrite:overWrite withError:error];
 }
+
 
 // Get a local store by app ID
 - (Sentegrity_Assertion_Store *)getLocalStoreWithAppID:(NSString *)appID doesExist:(BOOL *)exists withError:(NSError **)error {
@@ -63,6 +51,7 @@
         // Return nil
         return nil;
     }
+    
     
     // Start by creating the parser
     Sentegrity_Parser *parser = [[Sentegrity_Parser alloc] init];
@@ -112,9 +101,10 @@
     
     // Check if we already have one
     BOOL exists;
-    // Get the local store
+    // Get the store
     [self getLocalStoreWithAppID:appID doesExist:&exists withError:error];
     
+    //if it does not already exist or it exists and we want to overwrite
     if (!exists || (exists && overWrite)) {
         // Overwrite the app id value being passed
         if (!store || store == nil) {
@@ -127,18 +117,18 @@
         // Save to disk
         NSData *data = [store JSONData];
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
-        [dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist", appID]] atomically:NO];
+        [dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.store", appID]] atomically:NO];
     } else {
-        // No app id provided
+        // cannot write as already exists or no overwrite command
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Cannot overwrite existing store, already exists" forKey:NSLocalizedDescriptionKey];
+        [errorDetails setValue:@"Cannot overwrite existing store, no overwrite command" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SACannotOverwriteExistingStore userInfo:errorDetails];
         
         // Return nil
         return nil;
     }
     
-    // Return the existing store
+    // Return the new or existing store
     return store;
 }
 
@@ -154,10 +144,11 @@
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.assertionStorePath.path error:error];
     
     // Sort the contents based on the predicate
-    NSPredicate *assertionPredicate = [NSPredicate predicateWithFormat:@"self ENDSWITH '.assertionstore'"];
+    NSPredicate *assertionPredicate = [NSPredicate predicateWithFormat:@"self ENDSWITH '.store'"];
     
     // Return the contents
     return [contents filteredArrayUsingPredicate:assertionPredicate];
 }
+
 
 @end

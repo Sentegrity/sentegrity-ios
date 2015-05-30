@@ -1,6 +1,6 @@
 {
-  "policyID": 2,
-  "appID": 2,
+  "policyID": 1,
+  "appID": "default",
   "revision": 1,
   "runtime": 5,
   "userThreshold": 60,

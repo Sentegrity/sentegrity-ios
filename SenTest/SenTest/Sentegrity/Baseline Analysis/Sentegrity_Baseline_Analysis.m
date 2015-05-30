@@ -74,7 +74,7 @@
         }
         
         
-        //If the TrustFactor did not do its job then add it to list but skip everything else
+        //If the TrustFactor not OK add to list and skip
         if(trustFactorOutputObject.statusCode != DNEStatus_ok)
         {
             //add TF to the list as its triggered
@@ -91,7 +91,7 @@
             
             
                 // If could not find in the local store create it
-                if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
+                if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) {
                 
                     storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
                 
@@ -180,7 +180,7 @@
                     
                     
                     }
-                    else{ //revisions match, no modification required only check learning
+                    else{ //revisions match, no creation required
                     
                         //update the trustFactorOutputObject with newly created storedTrustFactorObject
                         trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
@@ -355,7 +355,11 @@
         
     } //end FOR
     
-    
+    //save stores due to learning mode updates
+    exists = YES;
+
+    localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore forAppID:policy.appID overwrite:YES withError:error];
+    globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore overwrite:YES withError:error];
     
     return baselineAnalysisResults;
 }
@@ -689,14 +693,14 @@
     if ([[Sentegrity_TrustFactor_Storage sharedStorage] getListOfStores:error].count > 0) {
         
         // Find the local store by the name
-        store = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStoreWithAppID:policy.appID.stringValue doesExist:&exists withError:error];
+        store = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStoreWithAppID:policy.appID doesExist:&exists withError:error];
         
     }
     
     // Store doesn't exist, create it
     if ((!store || store == nil) && !exists) {
         // Set the store
-        store = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:nil forAppID:policy.appID.stringValue overwrite:NO withError:error];
+        store = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:nil forAppID:policy.appID overwrite:NO withError:error];
     }
     
     // Return the store

@@ -18,10 +18,7 @@
 #import "Sentegrity_Subclassification+Computation.h"
 #import "Sentegrity_Baseline_Analysis.h"
 
-@interface CoreDetection : NSObject {
-    // Default policy url path
-    NSURL *defaultPolicyURLPath;
-}
+@interface CoreDetection : NSObject
 
 
 // Singleton instance
@@ -30,27 +27,22 @@
 
 #pragma mark - Parsing
 
-// Parse Default Policy
-- (Sentegrity_Policy *)parseDefaultPolicy:(NSError **)error;
-
-// Parse a Custom Policy
-- (Sentegrity_Policy *)parseCustomPolicy:(NSURL *)customPolicyPath withError:(NSError **)error;
-
-#pragma mark - TrustFactor Analysis
+// Parse a  Policy
+- (Sentegrity_Policy *)parsePolicy:(NSURL *)policyPath withError:(NSError **)error;
 
 
-#pragma mark - Protect Mode Analysis
+#pragma mark - Core Detection
 
 // Block Definition
-typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, Sentegrity_Baseline_Analysis *baselineResults, NSError *error);
+typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, Sentegrity_Baseline_Analysis *baselineResults, Sentegrity_Policy *policy, NSError *error);
 
-// Protect Mode Analysis
+// Start Core Detection
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback;
 
 
 #pragma mark - Properties
 
-// Default URL path to the default policy plist (Documents is preferred, default is Resources Bundle)
-@property (nonatomic, retain) NSURL *defaultPolicyURLPath;
+
+@property (nonatomic, retain) Sentegrity_Policy *currentPolicy;
 
 @end

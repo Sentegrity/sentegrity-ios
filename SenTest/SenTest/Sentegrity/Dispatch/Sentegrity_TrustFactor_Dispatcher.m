@@ -105,12 +105,12 @@
     }
 
     
-   //if this is a normal rule output should contain something, add default if it doesnt
+   //if this is a normal rule, output array should ALWAYS contain something, add default output if it doesnt
     if(trustFactor.inverse.intValue==0)
     {
         if(trustFactorOutputObject.output.count<1)
         {
-            //output has nothing, implementation must not have found what it was looking for
+            //output has nothing, implementation must not have found what it was looking for (generally a good thing)
             //set the default output
             [trustFactorOutputObject.output insertObject:kDefaultTrustFactorOutput atIndex:0];
         }
@@ -118,13 +118,13 @@
         //generate assertions for each output
         [trustFactorOutputObject generateAssertionsFromOutput];
     }
-    else //inverse rule, output may not contain anything
+    else //inverse rule, output DOES NOT have contain anything
     {
         //only attempt to generate assertions if non-empty, otherwise leave empty and set status
         if(trustFactorOutputObject.output.count>0)
         {
             //set the default output
-                [trustFactorOutputObject generateAssertionsFromOutput];
+            [trustFactorOutputObject generateAssertionsFromOutput];
         }
         else{
              [trustFactorOutputObject setStatusCode:DNEStatus_nodata];

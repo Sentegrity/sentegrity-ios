@@ -11,12 +11,10 @@
 		0185812F1A7D5A3400ED2D88 /* Sentegrity_Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0185812E1A7D5A3400ED2D88 /* Sentegrity_Parser.m */; };
 		018581321A7D5BBF00ED2D88 /* CoreDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = 018581311A7D5BBF00ED2D88 /* CoreDetection.m */; };
 		018581361A7D7D2000ED2D88 /* Sentegrity_Policy.m in Sources */ = {isa = PBXBuildFile; fileRef = 018581351A7D7D2000ED2D88 /* Sentegrity_Policy.m */; };
-		018581381A7D808400ED2D88 /* Default_Policy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 018581371A7D808400ED2D88 /* Default_Policy.plist */; };
 		0185813C1A7D849C00ED2D88 /* Sentegrity_DNEModifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = 0185813B1A7D849C00ED2D88 /* Sentegrity_DNEModifiers.m */; };
 		0185813F1A7D9EF500ED2D88 /* Sentegrity_Classification.m in Sources */ = {isa = PBXBuildFile; fileRef = 0185813E1A7D9EF500ED2D88 /* Sentegrity_Classification.m */; };
 		01C787831A86A4E9009E7FEE /* Sentegrity_TrustFactor_Dispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C787821A86A4E9009E7FEE /* Sentegrity_TrustFactor_Dispatcher.m */; settings = {COMPILER_FLAGS = "-Warc-performSelector-leaks"; }; };
-		01F0CCFB1A86803F00F3D62E /* Default_Policy_v1.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F0CCFA1A86803F00F3D62E /* Default_Policy_v1.json */; };
-		01F0CCFF1A868D4C00F3D62E /* Sub_Policy_v1.json in Resources */ = {isa = PBXBuildFile; fileRef = 01F0CCFE1A868D4C00F3D62E /* Sub_Policy_v1.json */; };
+		01F0CCFB1A86803F00F3D62E /* default.policy in Resources */ = {isa = PBXBuildFile; fileRef = 01F0CCFA1A86803F00F3D62E /* default.policy */; };
 		1250C4CCF062387C9D87EEA9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 161D0E47DCF4C6E84D9DB454 /* libPods.a */; };
 		4C06B9B41ADED16600D17CB9 /* Sentegrity_Classification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C06B9B31ADED16600D17CB9 /* Sentegrity_Classification+Computation.m */; };
 		4C06B9B71ADED28D00D17CB9 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C06B9B61ADED28D00D17CB9 /* Sentegrity_Subclassification+Computation.m */; };
@@ -25,7 +23,7 @@
 		4C3AC0E61AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AC0E51AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.m */; };
 		4CBED8501A9E5301000A7B42 /* Sentegrity_Assertion_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBED84F1A9E5301000A7B42 /* Sentegrity_Assertion_Store.m */; };
 		4CF091151AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF091141AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.m */; };
-		4CF091171AA37DD400018685 /* GLOBAL_STORE.json in Resources */ = {isa = PBXBuildFile; fileRef = 4CF091161AA37DD400018685 /* GLOBAL_STORE.json */; };
+		4CF091171AA37DD400018685 /* global.store in Resources */ = {isa = PBXBuildFile; fileRef = 4CF091161AA37DD400018685 /* global.store */; };
 		964104A61B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m in Sources */ = {isa = PBXBuildFile; fileRef = 964104A51B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m */; };
 		96CF13E01B0FE43F00700062 /* Sentegrity_History_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CF13DF1B0FE43F00700062 /* Sentegrity_History_Store.m */; };
 		96CF13E41B10BD6600700062 /* ProtectMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CF13E31B10BD6600700062 /* ProtectMode.m */; };
@@ -72,7 +70,7 @@
 		0185813E1A7D9EF500ED2D88 /* Sentegrity_Classification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Classification.m; sourceTree = "<group>"; };
 		01C787811A86A4E9009E7FEE /* Sentegrity_TrustFactor_Dispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dispatcher.h; sourceTree = "<group>"; };
 		01C787821A86A4E9009E7FEE /* Sentegrity_TrustFactor_Dispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dispatcher.m; sourceTree = "<group>"; };
-		01F0CCFA1A86803F00F3D62E /* Default_Policy_v1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Default_Policy_v1.json; sourceTree = "<group>"; };
+		01F0CCFA1A86803F00F3D62E /* default.policy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.policy; sourceTree = "<group>"; };
 		01F0CCFE1A868D4C00F3D62E /* Sub_Policy_v1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Sub_Policy_v1.json; sourceTree = "<group>"; };
 		161D0E47DCF4C6E84D9DB454 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		42D4528693679061FEF780A9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -90,7 +88,7 @@
 		4CBED84F1A9E5301000A7B42 /* Sentegrity_Assertion_Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Assertion_Store.m; sourceTree = "<group>"; };
 		4CF091131AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Stored_TrustFactor_Object.h; sourceTree = "<group>"; };
 		4CF091141AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Stored_TrustFactor_Object.m; sourceTree = "<group>"; };
-		4CF091161AA37DD400018685 /* GLOBAL_STORE.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GLOBAL_STORE.json; sourceTree = "<group>"; };
+		4CF091161AA37DD400018685 /* global.store */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = global.store; sourceTree = "<group>"; };
 		83D8080AD7FB8599513DD3B2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		964104A21B0CE0DF0078EE53 /* Sentegrity_Baseline_Analysis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Sentegrity_Baseline_Analysis.h; path = "Baseline Analysis/Sentegrity_Baseline_Analysis.h"; sourceTree = "<group>"; };
 		964104A51B0CE1380078EE53 /* Sentegrity_Baseline_Analysis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sentegrity_Baseline_Analysis.m; path = "Baseline Analysis/Sentegrity_Baseline_Analysis.m"; sourceTree = "<group>"; };
@@ -225,9 +223,8 @@
 		017631391A868FE3007BCB05 /* Sample Policies */ = {
 			isa = PBXGroup;
 			children = (
-				018581371A7D808400ED2D88 /* Default_Policy.plist */,
-				01F0CCFA1A86803F00F3D62E /* Default_Policy_v1.json */,
-				01F0CCFE1A868D4C00F3D62E /* Sub_Policy_v1.json */,
+				961EBF621B17A6F0005770FD /* Old */,
+				01F0CCFA1A86803F00F3D62E /* default.policy */,
 			);
 			path = "Sample Policies";
 			sourceTree = "<group>";
@@ -351,9 +348,18 @@
 		4CF091191AA37DE700018685 /* Sample Assertion Stores */ = {
 			isa = PBXGroup;
 			children = (
-				4CF091161AA37DD400018685 /* GLOBAL_STORE.json */,
+				4CF091161AA37DD400018685 /* global.store */,
 			);
 			path = "Sample Assertion Stores";
+			sourceTree = "<group>";
+		};
+		961EBF621B17A6F0005770FD /* Old */ = {
+			isa = PBXGroup;
+			children = (
+				018581371A7D808400ED2D88 /* Default_Policy.plist */,
+				01F0CCFE1A868D4C00F3D62E /* Sub_Policy_v1.json */,
+			);
+			name = Old;
 			sourceTree = "<group>";
 		};
 		964104A41B0CE10A0078EE53 /* Baseline Analysis */ = {
@@ -478,11 +484,9 @@
 			files = (
 				D00174651A698F930036742D /* Main.storyboard in Resources */,
 				D001746A1A698F930036742D /* LaunchScreen.xib in Resources */,
-				4CF091171AA37DD400018685 /* GLOBAL_STORE.json in Resources */,
-				018581381A7D808400ED2D88 /* Default_Policy.plist in Resources */,
-				01F0CCFB1A86803F00F3D62E /* Default_Policy_v1.json in Resources */,
+				4CF091171AA37DD400018685 /* global.store in Resources */,
+				01F0CCFB1A86803F00F3D62E /* default.policy in Resources */,
 				D00174671A698F930036742D /* Images.xcassets in Resources */,
-				01F0CCFF1A868D4C00F3D62E /* Sub_Policy_v1.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

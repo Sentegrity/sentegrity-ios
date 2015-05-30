@@ -14,14 +14,15 @@
 
 #pragma mark - Defaults
 
-#define kDefaultPolicyName @"Default_Policy.plist"
+#define kDefaultAppID @"default"
+#define kDefaultGlobalStoreName @"global"
 #define kDefaultTrustFactorOutput @"0"
 
 #pragma mark - Assertion Storage
 
-#define kDefaultAssertionStoragePath @"/AssertionStores"
-#define kDefaultAssertionStoreNamePrefix @"Assertion_Store_"
-#define kGlobalAssertionStoreAppID @"2"
+#define kAssertionStorePath @"/Assertion_Stores/"
+#define kPolicyPath @"/Policies/"
+#define kResumePath @"/Resume/"
 
 #pragma mark - Policy Keys
 
@@ -221,7 +222,9 @@ enum {
     // Unable to perform computation as no trustfactor objects provided
     SANoTrustFactorOutputObjectsForComputation = 39,
     // Unable to perform computation as no trustfactor objects provided
-    SAErrorDuringComputation = 40
+    SAErrorDuringComputation = 40,
+    // Unable to find a stored assertion during whitelisting
+    SAErrorDuringWhitelisting = 41
 };
 
 #endif

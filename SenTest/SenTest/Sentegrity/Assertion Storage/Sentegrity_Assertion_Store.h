@@ -33,14 +33,6 @@
 // Replace a single storedTrustFactorObject in the store
 - (BOOL)setStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
 
-#pragma mark - Compare
-
-// Compare provided assertions with assertion objects in the store - Provides back all assertions after comparison - if no matching assertion object is found in the store, a new one is created
-//- (NSArray *)compareStoredTrustFactorObjectsInStoreWithTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error; // CORE FUNCTIONALITY
-
-// Compare provided assertion with assertion object in the store - Provides back a list of changed - if no matching assertion object is found in the store, a new one is created
-//- (Sentegrity_Stored_TrustFactor_Object *)findMatchingStoredTrustFactorObjectInStore:(Sentegrity_TrustFactor_Output *)assertion withError:(NSError **)error; // CORE FUNCTIONALITY
-
 #pragma mark - Remove
 
 // Remove provided storedTrustFactorObject  from the store - returns whether it passed or failed

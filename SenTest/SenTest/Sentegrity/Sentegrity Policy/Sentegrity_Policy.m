@@ -19,7 +19,7 @@
 }
 
 // App ID
-- (void)setAppID:(NSNumber *)appID{
+- (void)setAppID:(NSString *)appID{
     _appID = appID;
 }
 

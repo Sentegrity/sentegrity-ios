@@ -12,56 +12,53 @@
 #import "Sentegrity.h"
 #import "Sentegrity_Baseline_Analysis.h"
 
-@interface ViewController ()
-
-@end
 
 @implementation ViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // Create an error
     NSError *error;
-    //NSLog(@"Stores: %@", [[Sentegrity_Assertion_Storage sharedStorage] getListOfStores:&error]);
-    // Do any additional setup after loading the view, typically from a nib.
-
-    // Get the default policy path (should be in the documents path)
-    //NSLog(@"Default Policy Path: %@", [[CoreDetection sharedDetection] defaultPolicyURLPath]);
     
-    NSURL *defaultJSONPath;
-    // Get the default policy plist path from the resources
-    NSString *defaultPolicyPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Default_Policy_v1.json"];
-    // Make sure it exists and set it
-    if ([[NSFileManager defaultManager] fileExistsAtPath:defaultPolicyPath]) {
-        // Default policy exists in the documents directory, use this one
-        defaultJSONPath = [[NSURL alloc] initFileURLWithPath:defaultPolicyPath];
+    // Get appID and filenames for CoreDetection
+    NSString *appID = kDefaultAppID;
+    NSString *policyName = [appID stringByAppendingString:@".policy"];
+    NSString *resumeName = [appID stringByAppendingString:@".resume"];
+    
+    NSString *policyPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:policyName];
+    NSString *resumePath =  [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:resumeName];
+    
+    NSURL *policyURLPath;
+    
+    NSLog(@"policy path:%@", policyPath);
+    
+    // Make sure the policy exists first
+    if ([[NSFileManager defaultManager] fileExistsAtPath:policyPath]) {
+        // Default policy exists in the documents directory, convert to URL
+        policyURLPath = [[NSURL alloc] initFileURLWithPath:policyPath];
     }
-    // Get the default policy
-    Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parseCustomPolicy:defaultJSONPath withError:&error];
+    else{
+        NSLog(@"Failed to run Core Detection: No Policy");
+    }
+
     
 
-    // Perform Core Detection
-    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, Sentegrity_Baseline_Analysis *baselineResults, NSError *error) {
+    //Parse policy
+    Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyURLPath withError:&error];
+    
+    //Perform Core Detection
+    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, Sentegrity_Baseline_Analysis *baselineResults, Sentegrity_Policy *policy, NSError *error) {
         if (success) {
-            NSLog(@"\n\nCore Detection Score Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceScore, computationResults.systemScore, computationResults.userScore );
-            
-            NSLog(@"\n\nCore Detection Trust Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceTrusted, computationResults.systemTrusted, computationResults.userTrusted);
-            
-            NSLog(@"\n\nPolicy Thresholds: \nSystem:%@, \nUser:%@\n\n", policy.systemThreshold, policy.userThreshold);
-            
-            NSLog(@"\n\nErrors: %@", error.localizedDescription);
-            
-            //Perform Protect Mode
-            [ProtectMode analyzeResults:computationResults withBaseline:baselineResults];
-            // Analyze untrusted results
 
-        } else {
-            NSLog(@"Failed to run Core Detection: %@", error.localizedDescription);
+            //protect mode analysis
+            [[ProtectMode sharedProtectMode] analyzeResults:computationResults withBaseline:baselineResults withPolicy:policy withError:error];
+            
         }
+        else {NSLog(@"Failed to run Core Detection: %@", error.localizedDescription);}
     }];
     
-
     
 //    // Convert the policy back into a plist
 //    NSLog(@"JSON Policy: %@", [policy JSONString]);

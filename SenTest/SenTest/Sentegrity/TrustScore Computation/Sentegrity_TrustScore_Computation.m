@@ -282,7 +282,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         computationResults.deviceTrusted = NO;
         
         //see which classification inside system attributed the most
-        if(computationResults.systemBreachScore < computationResults.systemSecurityScore) //breach indicator
+        if(computationResults.systemBreachScore <= computationResults.systemSecurityScore) //breach indicator
         {
             //get the classification in question
             Sentegrity_Classification *attributingClassification = [Sentegrity_TrustScore_Computation getClassificationForName:kBreachIndicator fromArray:policy.classifications withError:error];
@@ -312,7 +312,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         computationResults.userTrusted = NO;
         
         //see which classification inside user attributed the most
-        if(computationResults.policyScore < computationResults.userAnomalyScore) //policy violation
+        if(computationResults.policyScore <= computationResults.userAnomalyScore) //policy violation
         {
             //get the classification in question
             Sentegrity_Classification *attributingClassification = [Sentegrity_TrustScore_Computation getClassificationForName:kPolicyViolation fromArray:policy.classifications withError:error];

@@ -9,10 +9,29 @@
 #import <Foundation/Foundation.h>
 #import "Sentegrity_TrustScore_Computation.h"
 #import "Sentegrity_Baseline_Analysis.h"
+#import "ProtectMode.h"
+#import <UIKit/UIKit.h>
 
 @interface ProtectMode : NSObject
 
-// Analyze untrusted results
-+ (void)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withBaseline:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults;
+// Singleton instance
++ (id)sharedProtectMode;
+
+#pragma mark - Analysis
+// Analyze computation and baseline results
+- (void)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withBaseline:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError *)error;
+
+#pragma mark - Deactivation
+
+- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN;
+
+- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN;
+
+
+#pragma mark - Properties
+
+@property (nonatomic, retain) Sentegrity_Policy *currentPolicy;
+
+@property (nonatomic, retain) NSMutableArray *trustFactorsToWhitelist;
 
 @end
