@@ -17,25 +17,25 @@
 //CLASSIFICATION SCORES
 
 // System Score
-@property (nonatomic) NSInteger systemBreachScore;
+@property (nonatomic) int systemBreachScore;
 // User Score
-@property (nonatomic) NSInteger systemSecurityScore;
+@property (nonatomic) int systemSecurityScore;
 // Device Score
-@property (nonatomic) NSInteger policyScore;
+@property (nonatomic) int policyScore;
 // Device Score
-@property (nonatomic) NSInteger userAnomalyScore;
+@property (nonatomic) int userAnomalyScore;
 
 //SUBSET SCORES
 
 // System Score
-@property (nonatomic) NSInteger systemScore;
+@property (nonatomic) int systemScore;
 // User Score
-@property (nonatomic) NSInteger userScore;
+@property (nonatomic) int userScore;
 
 //DEVICE SCORES
 
 // Device Score
-@property (nonatomic) NSInteger deviceScore;
+@property (nonatomic) int deviceScore;
 
 //TRUST RESULTS
 

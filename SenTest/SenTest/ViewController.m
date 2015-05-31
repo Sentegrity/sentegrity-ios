@@ -25,11 +25,8 @@
     // Get appID and filenames for CoreDetection
     NSString *appID = kDefaultAppID;
     NSString *policyName = [appID stringByAppendingString:@".policy"];
-    NSString *resumeName = [appID stringByAppendingString:@".resume"];
-    
     NSString *policyPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:policyName];
-    NSString *resumePath =  [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:resumeName];
-    
+
     NSURL *policyURLPath;
     
     NSLog(@"policy path:%@", policyPath);

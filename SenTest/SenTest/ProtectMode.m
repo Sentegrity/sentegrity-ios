@@ -30,6 +30,7 @@
         // Set defaults here if need be
         [self setCurrentPolicy:nil];
         [self setTrustFactorsToWhitelist:nil];
+        _trustFactorsToWhitelist = [[NSMutableArray alloc]init];
     }
     return self;
 }
@@ -52,6 +53,8 @@
                 
             }
         
+        }
+        
             //check protect mode action
             switch (computationResults.protectModeAction) {
                 case 0:
@@ -68,10 +71,10 @@
                     break;
                 default:
                     break;
-            }
             
-        }
+            }
     }
+    NSLog(@"\n\nCore Detection Class Score Results: \nBreach Indicator:%d, \nSystem Security:%d, \nUser Anomaly:%d, \nPolicy Violation:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.userAnomalyScore,computationResults.policyScore );
 
     NSLog(@"\n\nCore Detection Score Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceScore, computationResults.systemScore, computationResults.userScore );
     NSLog(@"\n\nCore Detection Trust Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceTrusted, computationResults.systemTrusted, computationResults.userTrusted);
@@ -162,7 +165,6 @@
     Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:&error];
     Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStoreWithAppID:_currentPolicy.appID doesExist:&exists withError:&error];
     
-    //check for exists and fail
     
     // Create stored object
     Sentegrity_Stored_TrustFactor_Object *updatedStoredTrustFactorObject;

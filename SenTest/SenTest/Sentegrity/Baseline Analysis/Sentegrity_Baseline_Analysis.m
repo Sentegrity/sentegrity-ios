@@ -29,19 +29,33 @@
     baselineAnalysisResults.trustFactorOutputObjectsForProtectMode = [[NSMutableArray alloc]init];
     baselineAnalysisResults.trustFactorOutputObjectsForComputation = [[NSMutableArray alloc]init];
     
-    
-    // Attempt to get our local assertion store, if does not exist it gets created
-    Sentegrity_Assertion_Store *localStore = [self getLocalAssertionStoreForPolicy:policy withError:error];
-    
-    // Create a bool to check if global store exists
+    // Create a bool to check if local store exists
     BOOL exists = NO;
     
-    // Get the global store singleton
+    
+    // Attempt to get our local assertion store
+    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStoreWithAppID:policy.appID doesExist:&exists withError:error];
+    
+    // Check if the local store exists (should, unless is the first run for this policy)
+    if (!localStore || localStore == nil || !exists) {
+
+        NSLog(@"Local store did not exist...creating");
+        // Create the store for the first time
+        localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:nil forAppID:policy.appID overwrite:NO withError:error];
+        
+        // Check if we've failed again
+        if (!localStore || localStore == nil) {
+            return nil;
+        }
+    }
+    
+    // Attempt to get our global store
     Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:error];
     
     // Check if the global store exists (should, unless is the first ever run)
     if (!globalStore || globalStore == nil || !exists) {
-        // Store doesn't exist yet, create the store
+
+        NSLog(@"Global store did not exist...creating");
         
         // Create the store for the first time
         globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:nil overwrite:NO withError:error];
@@ -73,174 +87,83 @@
             return nil;
         }
         
-        
-        //If the TrustFactor not OK add to list and skip
+        // Check DNE status code prior to computation to avoid evaluation non-ok rules
         if(trustFactorOutputObject.statusCode != DNEStatus_ok)
         {
-            //add TF to the list as its triggered
+            //otherwise account for it during computation and skip
             [baselineAnalysisResults.trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
+            continue;
         }
-        else
-        {
-            //TrustFactor belongs to the local store (user store)
+
+        //TrustFactor belongs to the local store (user store)
         
-            if ([trustFactorOutputObject.trustFactor.local boolValue]) {
+        if ([trustFactorOutputObject.trustFactor.local boolValue]) {
+        
+            // Find the matching stored assertion object for the trustfactor in the local store
+            storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
+        
+        
+            // If could not find in the local store create it
+            if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) {
             
-                // Find the matching stored assertion object for the trustfactor in the local store
-                storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
+                storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
             
-            
-                // If could not find in the local store create it
-                if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) {
+                // Check if created
+                if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
+                    // Error out, no trustFactorOutputObject were able to be added
+                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                    [errorDetails setValue:@"Unable to create new storedTrustFactorObject for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                    *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToCreateNewStoredAssertion userInfo:errorDetails];
                 
+                    // Don't return anything
+                    return nil;
+                }
+                
+                //add the created storedTrustFactorObject to the current trustFactorOutputObject
+                trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
+            
+            
+                //perform baseline analysis against storedTrustFactorObject
+                updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+            
+                // Check if created
+                if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
+                    // Error out, something went wrong in compare
+                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                    [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                    *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
+                
+                    // Don't return anything
+                    return nil;
+                }
+            
+            
+                //add the new storedTrustFactorObject to the local store
+                if (![localStore addStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                    //Error out, no storedTrustFactorObjects were able to be added
+                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                    [errorDetails setValue:@"No storedTrustFactorObjects addeded to local store" forKey:NSLocalizedDescriptionKey];
+                    *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
+                
+                    // Don't return anything
+                    return nil;
+                }
+            
+            
+            
+                
+            }
+            else // we found an existing stored assertion, check revisions
+            {
+            
+            
+                //if revisions do not match create new
+                if (![self checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject]) {
+                
+                    //create a new object in the local store
                     storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
                 
-                    // Check if created
-                    if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
-                        // Error out, no trustFactorOutputObject were able to be added
-                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                        [errorDetails setValue:@"Unable to create new storedTrustFactorObject for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
-                        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToCreateNewStoredAssertion userInfo:errorDetails];
-                    
-                        // Don't return anything
-                        return nil;
-                    }
-                    
-                    //add the created storedTrustFactorObject to the current trustFactorOutputObject
-                    trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-                
-                
-                    //perform baseline analysis against storedTrustFactorObject
-                    updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
-                
-                    // Check if created
-                    if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
-                        // Error out, something went wrong in compare
-                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                        [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
-                        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                    
-                        // Don't return anything
-                        return nil;
-                    }
-                
-                
-                    //add the new storedTrustFactorObject to the local store
-                    if (![localStore addStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
-                        //Error out, no storedTrustFactorObjects were able to be added
-                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                        [errorDetails setValue:@"No storedTrustFactorObjects addeded to local store" forKey:NSLocalizedDescriptionKey];
-                        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
-                    
-                        // Don't return anything
-                        return nil;
-                    }
-                
-                
-                
-                    
-                }
-                else // we found an existing stored assertion, check revisions
-                {
-                
-                
-                    //if revisions do not match create new
-                    if (![self checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject]) {
-                    
-                        //create a new object in the local store
-                        storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
-                    
-                        //update the trustFactorOutputObject with newly created storedTrustFactorObject
-                        trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-                    
-                        //perform baseline analysis against storedTrustFactorObject
-                        updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
-                    
-                        // Check if created
-                        if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
-                            // Error out, something went wrong in compare
-                            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                            [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
-                            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                        
-                            // Don't return anything
-                            return nil;
-                        }
-                    
-                        //replace existing in the local store
-                        if (![localStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
-                            // Error out, no storedTrustFactorOutputObjects were able to be added
-                            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                            [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
-                            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
-                        
-                            // Don't return anything
-                            return nil;
-                        }
-                    
-                    
-                    }
-                    else{ //revisions match, no creation required
-                    
-                        //update the trustFactorOutputObject with newly created storedTrustFactorObject
-                        trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-                    
-                        //perform baseline analysis against storedTrustFactorObject
-                        updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
-                    
-                        // Check if created
-                        if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
-                            // Error out, something went wrong in compare
-                            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                            [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
-                            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                        
-                            // Don't return anything
-                            return nil;
-                        }
-                    
-                        //since we modified, replace existing in the local store
-                        if (![localStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
-                            // Error out, no storedTrustFactorOutputObjects were able to be added
-                            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                            [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
-                            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
-                        
-                            // Don't return anything
-                            return nil;
-                        }
-                    
-                    
-                    }
-                
-                
-                }
-            
-            
-                //TrustFactor belongs to the global store
-            } else {
-            
-                // Find the matching stored assertion object for the trustfactor in the global store
-                storedTrustFactorObject = [globalStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
-            
-            
-                // If could not find in the global store create it
-                if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
-                
-                    storedTrustFactorObject = [globalStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
-                
-                    // Check if created
-                    if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
-                        // Error out, no trustFactorOutputObject were able to be added
-                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                        [errorDetails setValue:@"Unable to create new storedTrustFactorObject for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
-                        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToCreateNewStoredAssertion userInfo:errorDetails];
-                    
-                        // Don't return anything
-                        return nil;
-                    }
-                
-                    //add the created storedTrustFactorObject to the current trustFactorOutputObject
+                    //update the trustFactorOutputObject with newly created storedTrustFactorObject
                     trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                 
                     //perform baseline analysis against storedTrustFactorObject
@@ -257,93 +180,47 @@
                         return nil;
                     }
                 
-                
-                    //add the new storedTrustFactorObject to the global store
-                    if (![globalStore addStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
-                        //Error out, no storedTrustFactorObjects were able to be added
+                    //replace existing in the local store
+                    if (![localStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                        // Error out, no storedTrustFactorOutputObjects were able to be added
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                        [errorDetails setValue:@"No storedTrustFactorObjects addeded to global store" forKey:NSLocalizedDescriptionKey];
-                        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
+                        [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
+                        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
                     
                         // Don't return anything
                         return nil;
                     }
                 
                 
-                
-                
                 }
-                else // we found an existing stored assertion, check revisions
-                {
+                else{ //revisions match, no creation required
                 
+                    //update the trustFactorOutputObject with newly created storedTrustFactorObject
+                    trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                 
-                    //if revisions do not match create new
-                    if (![Sentegrity_Baseline_Analysis checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject]) {
+                    //perform baseline analysis against storedTrustFactorObject
+                    updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+                
+                    // Check if created
+                    if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
+                        // Error out, something went wrong in compare
+                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                        [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
                     
-                        //create a new object in the global store
-                        storedTrustFactorObject = [globalStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
-                    
-                        //update the trustFactorOutputObject with newly created storedTrustFactorObject
-                        trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-                    
-                        //perform baseline analysis against storedTrustFactorObject
-                        updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
-                    
-                        // Check if created
-                        if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
-                            // Error out, something went wrong in compare
-                            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                            [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
-                            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                        
-                            // Don't return anything
-                            return nil;
-                        }
-                    
-                        //replace existing in the global store
-                        if (![globalStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
-                            // Error out, no storedTrustFactorOutputObjects were able to be added
-                            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                            [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
-                            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
-                        
-                            // Don't return anything
-                            return nil;
-                        }
-                    
-                    
+                        // Don't return anything
+                        return nil;
                     }
-                    else{ //revisions match, no modification required only check learning
+                
+                    //since we modified, replace existing in the local store
+                    if (![localStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                        // Error out, no storedTrustFactorOutputObjects were able to be added
+                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                        [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
+                        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
                     
-                        //update the trustFactorOutputObject with newly created storedTrustFactorObject
-                        trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-                    
-                        //perform baseline analysis against storedTrustFactorObject
-                        updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
-                    
-                        // Check if created
-                        if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
-                            // Error out, something went wrong in compare
-                            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                            [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
-                            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                        
-                            // Don't return anything
-                            return nil;
-                        }
-                    
-                        //since we modified, replace existing in the local store
-                        if (![globalStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
-                            // Error out, no storedTrustFactorOutputObjects were able to be added
-                            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                            [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
-                            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
-                        
-                                // Don't return anything
-                            return nil;
-                        }
-                    
-                    
+                        // Don't return anything
+                        return nil;
                     }
                 
                 
@@ -351,6 +228,141 @@
             
             
             }
+        
+        
+            //TrustFactor belongs to the global store
+        } else {
+        
+            // Find the matching stored assertion object for the trustfactor in the global store
+            storedTrustFactorObject = [globalStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
+        
+        
+            // If could not find in the global store create it
+            if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
+            
+                storedTrustFactorObject = [globalStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
+            
+                // Check if created
+                if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
+                    // Error out, no trustFactorOutputObject were able to be added
+                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                    [errorDetails setValue:@"Unable to create new storedTrustFactorObject for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                    *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToCreateNewStoredAssertion userInfo:errorDetails];
+                
+                    // Don't return anything
+                    return nil;
+                }
+            
+                //add the created storedTrustFactorObject to the current trustFactorOutputObject
+                trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
+            
+                //perform baseline analysis against storedTrustFactorObject
+                updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+            
+                // Check if created
+                if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
+                    // Error out, something went wrong in compare
+                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                    [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                    *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
+                
+                    // Don't return anything
+                    return nil;
+                }
+            
+            
+                //add the new storedTrustFactorObject to the global store
+                if (![globalStore addStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                    //Error out, no storedTrustFactorObjects were able to be added
+                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                    [errorDetails setValue:@"No storedTrustFactorObjects addeded to global store" forKey:NSLocalizedDescriptionKey];
+                    *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
+                
+                    // Don't return anything
+                    return nil;
+                }
+            
+            
+            
+            
+            }
+            else // we found an existing stored assertion, check revisions
+            {
+            
+            
+                //if revisions do not match create new
+                if (![Sentegrity_Baseline_Analysis checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject]) {
+                
+                    //create a new object in the global store
+                    storedTrustFactorObject = [globalStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
+                
+                    //update the trustFactorOutputObject with newly created storedTrustFactorObject
+                    trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
+                
+                    //perform baseline analysis against storedTrustFactorObject
+                    updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+                
+                    // Check if created
+                    if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
+                        // Error out, something went wrong in compare
+                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                        [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
+                    
+                        // Don't return anything
+                        return nil;
+                    }
+                
+                    //replace existing in the global store
+                    if (![globalStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                        // Error out, no storedTrustFactorOutputObjects were able to be added
+                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                        [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
+                        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
+                    
+                        // Don't return anything
+                        return nil;
+                    }
+                
+                
+                }
+                else{ //revisions match, no modification required only check learning
+                
+                    //update the trustFactorOutputObject with newly created storedTrustFactorObject
+                    trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
+                
+                    //perform baseline analysis against storedTrustFactorObject
+                    updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+                
+                    // Check if created
+                    if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
+                        // Error out, something went wrong in compare
+                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                        [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
+                    
+                        // Don't return anything
+                        return nil;
+                    }
+                
+                    //since we modified, replace existing in the local store
+                    if (![globalStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                        // Error out, no storedTrustFactorOutputObjects were able to be added
+                        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+                        [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
+                        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
+                    
+                            // Don't return anything
+                        return nil;
+                    }
+                
+                
+                }
+            
+            
+            }
+        
+        
         }
         
     } //end FOR
@@ -668,43 +680,6 @@
     
     
     return YES;
-}
-
-// Get the assertion store (if any) for the policy
-+ (Sentegrity_Assertion_Store *)getLocalAssertionStoreForPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
-    // Make sure we got a policy
-    if (!policy || policy.policyID < 0) {
-        // Error out, no trustfactors set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No policy provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoPolicyProvided userInfo:errorDetails];
-        
-        // Don't return anything
-        return nil;
-    }
-    
-    // Create the store
-    Sentegrity_Assertion_Store *store;
-    
-    // Create a bool to check if it exists
-    BOOL exists = NO;
-    
-    // Check with the assertion storage to see if we have one for the policy
-    if ([[Sentegrity_TrustFactor_Storage sharedStorage] getListOfStores:error].count > 0) {
-        
-        // Find the local store by the name
-        store = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStoreWithAppID:policy.appID doesExist:&exists withError:error];
-        
-    }
-    
-    // Store doesn't exist, create it
-    if ((!store || store == nil) && !exists) {
-        // Set the store
-        store = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:nil forAppID:policy.appID overwrite:NO withError:error];
-    }
-    
-    // Return the store
-    return store;
 }
 
 // Include date helper method to determine number of days between two dates

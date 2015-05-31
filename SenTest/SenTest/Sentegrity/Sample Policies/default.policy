@@ -6,17 +6,17 @@
   "userThreshold": 60,
   "systemThreshold": 65,
   "DNEModifiers": {
-      "unauthorized": 1,
-      "unsupported": 0.7,
-      "disabled": 1,
+      "unauthorized": 0.5,
+      "unsupported": 0,
+      "disabled": 0.5,
       "expired": 0.5,
-      "error": 0.5
+      "error": 0
   },
   "classifications": [{
     "id": 1,
     "name": "BREACH_INDICATOR",
     "weight": 0,
-    "protectMode": 1,
+    "protectMode": 2,
     "protectViolationName": "Breach",
     "protectInfo": "A system breach has been detected, please contact Sentegrity for assistance.",
     "contactPhone": 18005556666,
@@ -26,7 +26,7 @@
     "id": 2,
     "name": "POLICY_VIOLATION",
     "weight": 0,
-    "protectMode": 0,
+    "protectMode": 3,
     "protectViolationName": "Policy",
     "protectInfo": "A violation of application policy has been detected. Please contact the application administrator.",
     "contactPhone": 18005556666,
@@ -36,7 +36,7 @@
     "id": 3,
     "name": "SYSTEM_SECURITY",
     "weight": 0,
-    "protectMode": 2,
+    "protectMode": 3,
     "protectViolationName": "Anomaly",
     "protectInfo": "A system anomaly has been detected, please contact Sentegrity for assistance.",
     "contactPhone": 18005556666,
@@ -46,7 +46,7 @@
     "id": 4,
     "name": "USER_ANOMALY",
     "weight": 1,
-    "protectMode": 3,
+    "protectMode": 2,
     "protectViolationName": "Anomaly",
     "protectInfo": "Are you the ower of this device? Please authenticate to confirm.",
     "contactPhone": 18005556666,
@@ -58,19 +58,19 @@
     "classID": 1,
     "name": "ThreatSpecific",
     "dneMessage": "",
-    "weight": 3
+    "weight": 0
   }, {
     "id": 2,
     "classID": 1,
     "name": "Tamper",
     "dneMessage": "",
-    "weight": 3
+    "weight": 0
   }, {
     "id": 3,
     "classID": 1,
     "name": "Sandbox",
     "dneMessage": "",
-    "weight": 3
+    "weight": 0
   }, {
     "id": 1,
     "classID": 2,
@@ -118,49 +118,49 @@
     "classID": 3,
     "name": "Time",
     "dneMessage": "",
-    "weight": 3
+    "weight": 0
   }, {
     "id": 2,
     "classID": 3,
     "name": "Location",
     "dneMessage": "Sentegrity was unable to verify policy, allowing location services may prevent this situation from reoccuring. [View Privacy Information]",
-    "weight": 3
+    "weight": 0
   }, {
     "id": 3,
     "classID": 3,
     "name": "Wifi",
     "dneMessage": "Sentegrity was unable to verify policy, connecting to Wifi may prevent this from reoccuring.  [View Privacy Information]",
-    "weight": 3
+    "weight": 0
   }, {
     "id": 4,
     "classID": 3,
     "name": "Platform",
     "dneMessage": "",
-    "weight": 3
+    "weight": 0
   }, {
     "id": 1,
     "classID": 4,
     "name": "Position",
     "dneMessage": "",
-    "weight": 0
+    "weight": 3
   }, {
     "id": 2,
     "classID": 4,
     "name": "Location",
     "dneMessage": "Sentegrity was unable to authenticate you, allowing location services may prevent this situation from reoccuring. [View Privacy Information]",
-    "weight": 3
+    "weight": 0
   }, {
     "id": 3,
     "classID": 4,
     "name": "Time",
     "dneMessage": "",
-    "weight": 2
+    "weight": 1
   }, {
     "id": 4,
     "classID": 4,
     "name": "KnownDevices",
     "dneMessage": "Sentegrity was unable to authenticate you, allowing bluetooth access and connecting to Wifi may prevent this from reoccuring.  [View Privacy Information]",
-    "weight": 3
+    "weight": 0
   }, {
     "id": 5,
     "classID": 4,
@@ -189,7 +189,6 @@
       "priority": 1,
       "name": "badFileNames",
       "penalty": 100,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -221,7 +220,6 @@
       "priority": 1,
       "name": "badProcessNames",
       "penalty": 100,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -252,7 +250,6 @@
       "priority": 3,
       "name": "badNetworkDestination",
       "penalty": 100,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -280,7 +277,6 @@
       "priority": 2,
       "name": "privledgedNetworkServices",
       "penalty": 100,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -306,7 +302,6 @@
       "priority": 1,
       "name": "badURIHandler",
       "penalty": 100,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -331,7 +326,6 @@
       "priority": 2,
       "name": "sandboxIntegrityVerification",
       "penalty": 100,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -353,7 +347,6 @@
       "priority": 1,
       "name": "sentegrityTamperDetection",
       "penalty": 100,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -375,7 +368,6 @@
       "priority": 1,
       "name": "locationAllowed",
       "penalty": 100,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -400,7 +392,6 @@
       "priority": 1,
       "name": "timeAllowed",
       "penalty": 100,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -424,7 +415,6 @@
       "priority": 1,
       "name": "platformAllowed",
       "penalty": 100,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -448,7 +438,6 @@
       "priority": 1,
       "name": "fileSizeChange",
       "penalty": 30,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -473,7 +462,6 @@
       "priority": 2,
       "name": "newRootProcesses",
       "penalty": 70,
-      "dnePenalty": 0.25,
       "learnMode": 2,
       "learnTime": 7,
       "learnAssertionCount": 0,
@@ -495,7 +483,6 @@
       "priority": 2,
       "name": "newNetworkService",
       "penalty": 80,
-      "dnePenalty": 0.25,
       "learnMode": 2,
       "learnTime": 7,
       "learnAssertionCount": 0,
@@ -517,7 +504,6 @@
       "priority": 3,
       "name": "noRoute",
       "penalty": 30,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -539,7 +525,6 @@
       "priority": 3,
       "name": "unknownVpnUp",
       "penalty": 30,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -561,7 +546,6 @@
       "priority": 1,
       "name": "SOHOWifiAP",
       "penalty": 30,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -647,7 +631,6 @@
       "priority": 2,
       "name": "wifiSSIDKnown",
       "penalty": 30,
-      "dnePenalty": 0.25,
       "learnMode": 2,
       "learnTime": 7,
       "learnAssertionCount": 0,
@@ -669,7 +652,6 @@
       "priority": 2,
       "name": "wifiBSSIDKnown",
       "penalty": -100,
-      "dnePenalty": 0.25,
       "learnMode": 2,
       "learnTime": 7,
       "learnAssertionCount": 0,
@@ -691,7 +673,6 @@
       "priority": 1,
       "name": "unencryptedWifi",
       "penalty": 30,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -713,7 +694,6 @@
       "priority": 2,
       "name": "highRiskApplications",
       "penalty": 30,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -742,7 +722,6 @@
       "priority": 1,
       "name": "platformVulnerable",
       "penalty": 40,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -766,7 +745,6 @@
       "priority": 1,
       "name": "shortDeviceUptime",
       "penalty": 40,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -790,7 +768,6 @@
       "priority": 1,
       "name": "deviceBackupEnabled",
       "penalty": 30,
-      "dnePenalty": 0.25,
       "learnMode": 1,
       "learnTime": 0,
       "learnAssertionCount": 0,
@@ -816,7 +793,6 @@
       "priority": 3,
       "name": "deviceMovement",
       "penalty": 40,
-      "dnePenalty": 0.25,
       "learnMode": 3,
       "learnTime": 7,
       "learnAssertionCount": 3,
@@ -840,7 +816,6 @@
       "priority": 3,
       "name": "unknownDevicePosition",
       "penalty": 40,
-      "dnePenalty": 0.25,
       "learnMode": 3,
       "learnTime": 7,
       "learnAssertionCount": 3,
@@ -864,7 +839,6 @@
       "priority": 1,
       "name": "unknownDeviceLocation",
       "penalty": 70,
-      "dnePenalty": 0.25,
       "learnMode": 2,
       "learnTime": 7,
       "learnAssertionCount": 0,
@@ -888,7 +862,6 @@
       "priority": 1,
       "name": "knownAccessTime",
       "penalty": 70,
-      "dnePenalty": 0.25,
       "learnMode": 2,
       "learnTime": 7,
       "learnAssertionCount": 0,
@@ -912,7 +885,6 @@
       "priority": 1,
       "name": "knownBluetoothBLEDevice",
       "penalty": -100,
-      "dnePenalty": 0.25,
       "learnMode": 2,
       "learnTime": 7,
       "learnAssertionCount": 0,
@@ -934,7 +906,6 @@
       "priority": 3,
       "name": "powerLevelKnown",
       "penalty": 30,
-      "dnePenalty": 0.25,
       "learnMode": 2,
       "learnTime": 7,
       "learnAssertionCount": 0,

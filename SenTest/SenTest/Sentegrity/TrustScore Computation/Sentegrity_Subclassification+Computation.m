@@ -13,10 +13,23 @@
 
 @implementation Sentegrity_Subclassification (Computation)
 
+NSString const *basePenaltyKey = @"Sentegrity.basePenalty";
 NSString const *weightedPenaltyKey = @"Sentegrity.weightedPenalty";
 NSString const *subClassificationsKey = @"Sentegrity.subClassifications";
 NSString const *trustFactorsKey = @"Sentegrity.trustFactors";
 
+
+// Base Penalty
+
+- (void)setBasePenalty:(NSInteger)basePenalty {
+    NSNumber *basePenaltyNumber = [NSNumber numberWithInteger:basePenalty];
+    objc_setAssociatedObject(self, &basePenaltyKey, basePenaltyNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSInteger)basePenalty {
+    NSNumber *basePenaltyNumber = objc_getAssociatedObject(self, &basePenaltyKey);
+    return [basePenaltyNumber integerValue];
+}
 
 // Weighted Penalty
 

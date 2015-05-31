@@ -56,21 +56,16 @@
     // Start by creating the parser
     Sentegrity_Parser *parser = [[Sentegrity_Parser alloc] init];
     
-    // Get the list of stores
-    NSArray *listOfStores = [self getListOfStores:error];
+    // Create store name
+    NSString *storeName = [appID stringByAppendingString:@".store"];
     
-    // Check if the list of stores is valid
-    if (!listOfStores || listOfStores.count < 1) {
-        // No stores found, return nothing
-        *exists = NO;
-        return nil;
-    }
-    
-    // Run through all the store paths we know of
-    for (NSString *storePaths in listOfStores) {
-        
+    NSString *storePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:storeName];
+   
+    // Check if it exits
+    if([[NSFileManager defaultManager] fileExistsAtPath:storePath])
+    {
         // Turn the path into an object
-        Sentegrity_Assertion_Store *store = [parser parseAssertionStoreWithPath:[NSURL URLWithString:storePaths] withError:error];
+        Sentegrity_Assertion_Store *store = [parser parseAssertionStoreWithPath:[NSURL URLWithString:storePath] withError:error];
         
         // Check if the store's appID matches the policies appID
         if (store && [store.appID isEqualToString:appID]) {
@@ -78,6 +73,7 @@
             *exists = YES;
             return store;
         }
+
     }
     
     // Return nothing
@@ -135,13 +131,9 @@
 // Get a list of stores
 - (NSArray *)getListOfStores:(NSError **)error {
     
-    // Search for the stores path
-    if (![[NSFileManager defaultManager] fileExistsAtPath:self.assertionStorePath.path]) {
-        return nil;
-    }
     
     // Get the contents of the directory
-    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.assertionStorePath.path error:error];
+    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSBundle mainBundle] resourcePath] error:error];
     
     // Sort the contents based on the predicate
     NSPredicate *assertionPredicate = [NSPredicate predicateWithFormat:@"self ENDSWITH '.store'"];

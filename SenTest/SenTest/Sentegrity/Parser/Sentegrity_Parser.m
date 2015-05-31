@@ -309,11 +309,11 @@
         return nil;
     }
     
-    // Load the plist
+    // Load the store
     NSDictionary *jsonParsed = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:assertionStorePathURL.path]
                                                                options:NSJSONReadingMutableContainers error:error];
     
-    // Check the policy plist
+    // Check the parsed store
     if (jsonParsed.count < 1 || jsonParsed == nil) {
         // Fail
         return nil;

@@ -122,34 +122,40 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
                 NSMutableArray *trustFactorsInSubClass = [NSMutableArray array];
                 
                 // Sort all the trustfactors into their respective classifications/subclassifications
-                for (Sentegrity_TrustFactor *policyTrustFactors in trustFactors) {
+                for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in trustFactorOutputObjectsForComputation) {
+                    //if its an inverse rule and not ok do not apply
+                    if(trustFactorOutputObject.trustFactor.inverse.intValue==1){
+                        continue;
+                    }
+                    
+                    //if the implementation determined the rule is unsupported by the device do or an error occured do not apply
+                    if(trustFactorOutputObject.statusCode == DNEStatus_unsupported || trustFactorOutputObject.statusCode == DNEStatus_error){
+                        continue;
+                    }
                     
                     // Check if the subclass belongs in the class and if the trustfactor class id and subclass id match the class and subclass
-                    if ([[class identification] intValue] == [[subClass classID] intValue] && ([policyTrustFactors.classID intValue] == [[class identification] intValue] && [policyTrustFactors.subClassID intValue] == [[subClass identification] intValue])) {
-                        
-                        
-                        // JS - TODO: Could probably get better performance by using the existing trustFactorOutputObjects array instead and referencing the trustfactor attribute to identify class/subclass instead of starting over with the policy based trustfactor list
-                        
-                        //Get the cooresponding trustfactor output object
-          
-                        Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [self getTrustFactorOutputObjectForTrustFactor:policyTrustFactors withTrustFactorOutputObjects:trustFactorOutputObjectsForComputation withError:error];
-
-                        //need to check for trustFactorOutputObject == nil, meaning something went wrong and we have a missing trustFactorOutputObject for the policy trustFactors
+                    if ([[class identification] intValue] == [[subClass classID] intValue] && ([trustFactorOutputObject.trustFactor.classID intValue] == [[class identification] intValue] && [trustFactorOutputObject.trustFactor.subClassID intValue] == [[subClass identification] intValue])) {
                         
                         
                         // Check if the trustfactor was executed successfully
                         if (trustFactorOutputObject.statusCode == DNEStatus_ok) {
                             
-                            //apply penalty
-                            subClass.weightedPenalty = (subClass.weightedPenalty + policyTrustFactors.penalty.integerValue);
+                            //apply normal penalty
+                            subClass.basePenalty = (subClass.basePenalty + trustFactorOutputObject.trustFactor.penalty.integerValue);
 
                         } else {
                             // TrustFactor did not run successfully (DNE)
                             
+                            // if its an inverse rule skip it as there is no partial penalty when not OK
+                            if (trustFactorOutputObject.trustFactor.inverse.intValue ==1){
+                                continue;
+                            }
+                            
                             // Create an int to hold the dnePenalty multiplied by the modifier
-                            int penaltyMod = 0;
+                            double penaltyMod = 0;
                             
                             // Find out which DNE exit code was set
+                            
                             switch (trustFactorOutputObject.statusCode) {
                                 case DNEStatus_error:
                                     // Error
@@ -172,17 +178,17 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
                                     penaltyMod = [policy.DNEModifiers.expired doubleValue];
                                     break;
                                 default:
-                                    // Error
+                                    // apply error by default
                                     penaltyMod = [policy.DNEModifiers.error doubleValue];
                                     break;
                             }
                             
                             // DNE weighted penalty based on modifiers
-                            subClass.weightedPenalty = (subClass.weightedPenalty + (policyTrustFactors.dnePenalty.integerValue * penaltyMod));
+                            subClass.basePenalty = subClass.basePenalty + (trustFactorOutputObject.trustFactor.penalty.integerValue * penaltyMod);
                         }
                         
                         // Add the trustfactor to the subclassifications trustfactor array
-                        [trustFactorsInSubClass addObject:policyTrustFactors];
+                        [trustFactorsInSubClass addObject:trustFactorOutputObject.trustFactor];
                     }
                     
                  
@@ -193,9 +199,11 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
                 [subClass setTrustFactors:trustFactorsInSubClass];
                 
                 // Set the penalty weight for the subclass
-                subClass.weightedPenalty = (subClass.weightedPenalty * subClass.weight.integerValue);
-                // Set the penalty for the classification
-                class.weightedPenalty = (class.weightedPenalty + subClass.weightedPenalty);
+                subClass.weightedPenalty = (subClass.basePenalty * (1-(0.1 * subClass.weight.integerValue)) );
+                NSLog(@"Subclass Name:%@ %d",subClass.name,subClass.weightedPenalty);
+                
+                // Add the subclass weightedPenalty to the classification basePenalty
+                class.basePenalty = (class.basePenalty + subClass.weightedPenalty);
                 
                 // Add the subclass to the classifications subclass array
                 [subClassesInClass addObject:subClass];
@@ -217,11 +225,11 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
             }
         }// End trustfactor loop
         
-        // Add the trustfactors to the classification name appended by trustfactors
+        // Add the trustfactors that belong to the classification
         [class setTrustFactors:trustFactorsInClass];
         
         // Set the penalty weight for the classification
-        class.weightedPenalty = (class.weightedPenalty * class.weight.integerValue);
+        class.weightedPenalty = (class.basePenalty * (1-(0.1 * class.weight.integerValue)) );
         
     }// End classifications loop
     
@@ -240,17 +248,21 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     // Interim variables
     
     //Generate the System score by averaging the BREACH_INDICATOR and SYSTEM_SECURITY scores
-    computationResults.systemBreachScore = [[Sentegrity_TrustScore_Computation getClassificationForName:kBreachIndicator fromArray:policy.classifications withError:error] weightedPenalty];
-    computationResults.systemSecurityScore = [[Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error] weightedPenalty];
-    computationResults.systemScore = (int)((computationResults.systemBreachScore + computationResults.systemSecurityScore) / 2);
+    int systemBreachScore =  (int)[[Sentegrity_TrustScore_Computation getClassificationForName:kBreachIndicator fromArray:policy.classifications withError:error] weightedPenalty];
+    int systemSecurityScore = (int) [[Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error] weightedPenalty];
+    computationResults.systemBreachScore = MIN(100,MAX(0,100-systemBreachScore));
+    computationResults.systemSecurityScore = MIN(100,MAX(0,100-systemSecurityScore));
+    computationResults.systemScore =  (computationResults.systemSecurityScore + computationResults.systemBreachScore) / 2;
     
     //Generate the User score by averaging the POLICY_VIOLATION and USER_ANOMALLY scores
-    computationResults.policyScore = [[Sentegrity_TrustScore_Computation getClassificationForName:kPolicyViolation fromArray:policy.classifications withError:error] weightedPenalty];
-    computationResults.userAnomalyScore = [[Sentegrity_TrustScore_Computation getClassificationForName:kUserAnomally fromArray:policy.classifications withError:error] weightedPenalty];
-    computationResults.userScore = (int)((computationResults.policyScore + computationResults.userAnomalyScore) / 2);
+    int policyScore =  (int)[[Sentegrity_TrustScore_Computation getClassificationForName:kPolicyViolation fromArray:policy.classifications withError:error] weightedPenalty];
+    int userAnomalyScore = (int) [[Sentegrity_TrustScore_Computation getClassificationForName:kUserAnomally fromArray:policy.classifications withError:error] weightedPenalty];
+    computationResults.policyScore = MIN(100,MAX(0,100-policyScore));
+    computationResults.userAnomalyScore = MIN(100,MAX(0,100-userAnomalyScore));
+    computationResults.userScore = (computationResults.policyScore + computationResults.userAnomalyScore) / 2;
     
     //Generate the Device score by averaging the user score and the system scores
-    computationResults.deviceScore = (int)((computationResults.userScore + computationResults.systemScore) / 2);
+    computationResults.deviceScore = (computationResults.userScore + computationResults.systemScore) / 2;
     
     //Analyze Results
     

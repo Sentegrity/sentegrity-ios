@@ -12,6 +12,7 @@
 
 @property (nonatomic,retain) NSArray *subClassifications;
 @property (nonatomic,retain) NSArray *trustFactors;
+@property (nonatomic) NSInteger basePenalty;
 @property (nonatomic) NSInteger weightedPenalty;
 
 @end

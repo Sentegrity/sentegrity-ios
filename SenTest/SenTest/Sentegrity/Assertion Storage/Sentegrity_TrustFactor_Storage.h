@@ -11,8 +11,6 @@
 
 @interface Sentegrity_TrustFactor_Storage : NSObject
 
-@property (nonatomic,retain) NSURL *assertionStorePath;
-
 //TODO: Best way to identify applications to name the local store
 
 // Singleton instance
