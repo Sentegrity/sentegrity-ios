@@ -111,9 +111,22 @@
         }
         
         // Save to disk
+        // BETA2: Nick's Addtion = Store is now assumed to be JSON and will be written as such
         NSData *data = [store JSONData];
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
-        [dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.store", appID]] atomically:NO];
+        BOOL outFileWrite = [data writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.store", appID]] options:kNilOptions error:error];
+        //NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
+        //[dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.store", appID]] atomically:NO];
+        
+        // BETA2: Nick's added write out validation
+        if (!outFileWrite) {
+            // Unable to write out local store!!!
+            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+            [errorDetails setValue:@"Unable to write store" forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
+            
+            // Return nil
+            return nil;
+        }
     } else {
         // cannot write as already exists or no overwrite command
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];

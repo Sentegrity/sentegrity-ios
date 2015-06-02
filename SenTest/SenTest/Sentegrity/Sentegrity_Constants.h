@@ -23,6 +23,7 @@
 #define kAssertionStorePath @"/Assertion_Stores/"
 #define kPolicyPath @"/Policies/"
 #define kResumePath @"/Resume/"
+#define kStoredTrustFactorObjectMapping @"storedTrustFactorObjects"
 
 #pragma mark - Policy Keys
 
@@ -224,7 +225,9 @@ enum {
     // Unable to perform computation as no trustfactor objects provided
     SAErrorDuringComputation = 40,
     // Unable to find a stored assertion during whitelisting
-    SAErrorDuringWhitelisting = 41
+    SAErrorDuringWhitelisting = 41,
+    // Unable to write the assertion store
+    SAUnableToWriteStore = 42
 };
 
 #endif

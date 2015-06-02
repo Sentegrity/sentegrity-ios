@@ -15,7 +15,7 @@
 - (Sentegrity_Policy *)parsePolicy:(NSURL *)policyPath withError:(NSError **)error;
 
 // Protect Mode Analysis Callback
-- (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults withBaselineResults:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *) error:(NSError *)error;
+- (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults withBaselineResults:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *)policy andError:(NSError *)error;
 
 @end
 
@@ -47,7 +47,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
         
         // Don't return anything
-        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil withPolicy:nil error:error];
+        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil withPolicy:nil andError:error];
         return;
     }
     
@@ -63,7 +63,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
         
         // Don't return anything
-        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil withPolicy:nil error:error];
+        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil withPolicy:nil andError:error];
         return;
     }
 
@@ -80,7 +80,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         [errorDetails setValue:@"No trustFactorOutputObjects available for computation" forKey:NSLocalizedDescriptionKey];
         error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsForComputation userInfo:errorDetails];
 
-        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil withPolicy:nil error:error];
+        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil withPolicy:nil andError:error];
         return;
     }
     
@@ -96,19 +96,19 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         [errorDetails setValue:@"No computation object returned, error during computation" forKey:NSLocalizedDescriptionKey];
         error = [NSError errorWithDomain:@"Sentegrity" code:SAErrorDuringComputation userInfo:errorDetails];
         
-        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil withPolicy:nil error:error];
+        [self coreDetectionResponse:NO withComputationResults:nil withBaselineResults:nil withPolicy:nil andError:error];
         return;
     }
     
 
     
     // Return through the block callback
-    [self coreDetectionResponse:YES withComputationResults:computationResults withBaselineResults:baselineAnalysisResults withPolicy:policy error:error];
+    [self coreDetectionResponse:YES withComputationResults:computationResults withBaselineResults:baselineAnalysisResults withPolicy:policy andError:error];
     
 }
 
 // Callback function for core detection
-- (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults withBaselineResults:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *)policy error:(NSError *)error {
+- (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults withBaselineResults:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *)policy andError:(NSError *)error {
     // Block callback
     coreDetectionBlockCallBack(success, computationResults, baselineAnalysisResults, policy, error);
 }

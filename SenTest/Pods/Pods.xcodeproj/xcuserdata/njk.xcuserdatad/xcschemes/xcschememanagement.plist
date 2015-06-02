@@ -14,6 +14,11 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>Pods-NSString-Hashes.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -22,12 +27,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>23CA341CE58F535C16BB89AA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>29F8E9A1CCDF8D01550BAF79</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>3CAA8C758B27E5CDACFC9D3A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>78851F4E2BA73563E05A716C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>88208E6ADD374B3C70DBDBAD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A8CA094649D58D8C9F5EB12E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

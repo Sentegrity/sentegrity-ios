@@ -310,17 +310,27 @@
     }
     
     // Load the store
+    // BETA2: Nick's addtion = Store is assumed to be JSON
     NSDictionary *jsonParsed = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:assertionStorePathURL.path]
                                                                options:NSJSONReadingMutableContainers error:error];
-    
+
     // Check the parsed store
     if (jsonParsed.count < 1 || jsonParsed == nil) {
         // Fail
         return nil;
     }
     
+    // BETA2: Nick's Addtions = Added additional JSON array mapping to map stored trustfactor object array object parsing to assertion storage
+    
+    // Map Sentegrity Assertion Store Class
+    DCArrayMapping *mapper = [DCArrayMapping mapperForClassElements:[Sentegrity_Stored_TrustFactor_Object class] forAttribute:kStoredTrustFactorObjectMapping onClass:[Sentegrity_Assertion_Store class]];
+    
+    // Set up the parser configuration for json parsing
+    DCParserConfiguration *config = [DCParserConfiguration configuration];
+    [config addArrayMapper:mapper];
+    
     // Set the parser and include the configuration
-    DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[Sentegrity_Assertion_Store class]];
+    DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[Sentegrity_Assertion_Store class] andConfiguration:config];
     
     // Get the policy from the parsing
     Sentegrity_Assertion_Store *store = [parser parseDictionary:jsonParsed];

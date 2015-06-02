@@ -200,7 +200,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
                 
                 // Set the penalty weight for the subclass
                 subClass.weightedPenalty = (subClass.basePenalty * (1-(0.1 * subClass.weight.integerValue)) );
-                NSLog(@"Subclass Name:%@ %d",subClass.name,subClass.weightedPenalty);
+                NSLog(@"Subclass Name:%@ %ld",subClass.name,(long)subClass.weightedPenalty);
                 
                 // Add the subclass weightedPenalty to the classification basePenalty
                 class.basePenalty = (class.basePenalty + subClass.weightedPenalty);
