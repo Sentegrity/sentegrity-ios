@@ -163,8 +163,9 @@
     
     //get shared stores
     Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:&error];
-    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStoreWithAppID:_currentPolicy.appID doesExist:&exists withError:&error];
+    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:_currentPolicy.appID withError:&error];
     
+    //probably should check if stores contain stuff
     
     // Create stored object
     Sentegrity_Stored_TrustFactor_Object *updatedStoredTrustFactorObject;
@@ -187,7 +188,7 @@
             if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) { continue;}
                 
             //Try to set the storedTrustFactorObject back in the store, skip if fail
-            if (![localStore setStoredTrustFactorObject:updatedStoredTrustFactorObject withError:&error]) {
+            if (![localStore replaceSingleObjectInStore:updatedStoredTrustFactorObject withError:&error]) {
                 continue;
             }
             
@@ -201,7 +202,7 @@
             if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) { continue;}
             
             //Try to set the storedTrustFactorObject back in the store, skip if fail
-            if (![globalStore setStoredTrustFactorObject:updatedStoredTrustFactorObject withError:&error]) {
+            if (![globalStore replaceSingleObjectInStore:updatedStoredTrustFactorObject withError:&error]) {
                 continue;
             }
         }
@@ -209,11 +210,22 @@
     }
     
     //update stores
-    localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore forAppID:_currentPolicy.appID overwrite:YES withError:&error];
-    globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore overwrite:YES withError:&error];
+   Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:_currentPolicy.appID withError:&error];
+   Sentegrity_Assertion_Store *globalStoreOutput =  [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore withError:&error];
+    
+    if (!localStoreOutput || localStoreOutput == nil) {
+        // Error trying to write
+        NSLog(@"Error trying to write local store");
+    }
+    
+    if (!globalStoreOutput || globalStoreOutput == nil) {
+        // Error trying to write
+        NSLog(@"Error trying to write global store");
+    }
+
     
 }
 
 
 @end
-    
+

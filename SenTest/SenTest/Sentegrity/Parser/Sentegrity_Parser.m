@@ -225,19 +225,7 @@
 
 // Parse a policy json with a valid path
 - (id)parsePolicyJSONWithPath:(NSURL *)filePathURL withError:(NSError **)error {
-    // First, check if the file exists
-    if (![self fileExists:filePathURL]) {
-        // Check if the error is set
-        if (error) {
-            // No such file
-            *error = [NSError errorWithDomain:NSCocoaErrorDomain
-                                         code:NSFileNoSuchFileError
-                                     userInfo:nil];
-        }
-        // Fail out
-      
-        return nil;
-    }
+    
     
     // Load the json
     NSError *error2;

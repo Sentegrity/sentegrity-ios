@@ -16,30 +16,30 @@
 @property (nonatomic,strong) NSString *appID;
 
 // Assertion Objects
-@property (nonatomic,strong) NSArray *storedTrustFactorObjects;
+@property (nonatomic,strong) NSMutableArray *storedTrustFactorObjects;
 
 #pragma mark - Add
 // Add an array of new storedTrustFactorObjects to the store
-- (BOOL)addStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
+- (BOOL)addMultipleObjectsToStore:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
 
 // add a single storedTrustFactorObject into the store
-- (BOOL)addStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
+- (BOOL)addSingleObjectToStore:(Sentegrity_Stored_TrustFactor_Object *)newStoredTrustFactorObject withError:(NSError **)error;
 
 #pragma mark - Replace
 
 // Replace an array of storedTrustFactorObjects  in the store
-- (BOOL)setStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
+- (BOOL)replaceMultipleObjectsInStore:(NSArray *)existingStoredTrustFactorObjects withError:(NSError **)error;
 
 // Replace a single storedTrustFactorObject in the store
-- (BOOL)setStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
+- (BOOL)replaceSingleObjectInStore:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
 
 #pragma mark - Remove
 
 // Remove provided storedTrustFactorObject  from the store - returns whether it passed or failed
-- (BOOL)removeStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
+- (BOOL)removeSingleObjectFromStore:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
 
 // Remove array of storedTrustFactorObjects  from the store - returns whether it passed or failed
-- (BOOL)removeStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
+- (BOOL)removeMultipleObjectsFromStore:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
 
 #pragma mark - Helper Methods
 

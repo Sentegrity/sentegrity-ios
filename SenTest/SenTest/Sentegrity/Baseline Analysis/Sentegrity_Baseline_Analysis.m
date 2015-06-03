@@ -34,14 +34,14 @@
     
     
     // Attempt to get our local assertion store
-    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStoreWithAppID:policy.appID doesExist:&exists withError:error];
+    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:policy.appID withError:error];
     
     // Check if the local store exists (should, unless is the first run for this policy)
     if (!localStore || localStore == nil || !exists) {
 
-        NSLog(@"Local store did not exist...creating");
+        NSLog(@"Local store did not exist...creating blank");
         // Create the store for the first time
-        localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:nil forAppID:policy.appID overwrite:NO withError:error];
+        localStore = [[Sentegrity_Assertion_Store alloc] init];
         
         // Check if we've failed again
         if (!localStore || localStore == nil) {
@@ -55,10 +55,10 @@
     // Check if the global store exists (should, unless is the first ever run)
     if (!globalStore || globalStore == nil || !exists) {
 
-        NSLog(@"Global store did not exist...creating");
+        NSLog(@"Global store did not exist...creating blank");
         
         // Create the store for the first time
-        globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:nil overwrite:NO withError:error];
+        globalStore = [[Sentegrity_Assertion_Store alloc] init];
         
         // Check if we've failed again
         if (!globalStore || globalStore == nil) {
@@ -107,6 +107,8 @@
             if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) {
             
                 storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
+                
+                NSLog(@"Could not find storedTrustFctorObject in local store, creating new");
             
                 // Check if created
                 if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
@@ -139,7 +141,7 @@
             
             
                 //add the new storedTrustFactorObject to the local store
-                if (![localStore addStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                if (![localStore addSingleObjectToStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                     //Error out, no storedTrustFactorObjects were able to be added
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"No storedTrustFactorObjects addeded to local store" forKey:NSLocalizedDescriptionKey];
@@ -157,6 +159,8 @@
             {
             
             
+                NSLog(@"Existing storedTrustFctorObject found in local store");
+                
                 //if revisions do not match create new
                 if (![self checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject]) {
                 
@@ -181,7 +185,7 @@
                     }
                 
                     //replace existing in the local store
-                    if (![localStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                    if (![localStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                         // Error out, no storedTrustFactorOutputObjects were able to be added
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
@@ -213,7 +217,7 @@
                     }
                 
                     //since we modified, replace existing in the local store
-                    if (![localStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                    if (![localStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                         // Error out, no storedTrustFactorOutputObjects were able to be added
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
@@ -239,6 +243,8 @@
         
             // If could not find in the global store create it
             if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
+                
+                NSLog(@"Could not find storedTrustFctorObject in global store, creating new");
             
                 storedTrustFactorObject = [globalStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
             
@@ -272,7 +278,7 @@
             
             
                 //add the new storedTrustFactorObject to the global store
-                if (![globalStore addStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                if (![globalStore addSingleObjectToStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                     //Error out, no storedTrustFactorObjects were able to be added
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"No storedTrustFactorObjects addeded to global store" forKey:NSLocalizedDescriptionKey];
@@ -289,6 +295,7 @@
             else // we found an existing stored assertion, check revisions
             {
             
+                NSLog(@"Found existing storedTrustFactorObject in global store");
             
                 //if revisions do not match create new
                 if (![Sentegrity_Baseline_Analysis checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject]) {
@@ -314,7 +321,7 @@
                     }
                 
                     //replace existing in the global store
-                    if (![globalStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                    if (![globalStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                         // Error out, no storedTrustFactorOutputObjects were able to be added
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
@@ -346,7 +353,7 @@
                     }
                 
                     //since we modified, replace existing in the local store
-                    if (![globalStore setStoredTrustFactorObject:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                    if (![globalStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                         // Error out, no storedTrustFactorOutputObjects were able to be added
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
@@ -369,9 +376,21 @@
     
     //save stores due to learning mode updates
     exists = YES;
-
-    localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore forAppID:policy.appID overwrite:YES withError:error];
-    globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore overwrite:YES withError:error];
+    
+    
+    //update stores
+    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:policy.appID withError:error];
+    Sentegrity_Assertion_Store *globalStoreOutput =  [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore withError:error];
+    
+    if (!localStoreOutput || localStoreOutput == nil) {
+        // Error trying to write
+        NSLog(@"Error trying to write local store");
+    }
+    
+    if (!globalStoreOutput || globalStoreOutput == nil) {
+        // Error trying to write
+        NSLog(@"Error trying to write global store");
+    }
     
     return baselineAnalysisResults;
 }

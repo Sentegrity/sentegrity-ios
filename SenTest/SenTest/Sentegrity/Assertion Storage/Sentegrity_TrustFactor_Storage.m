@@ -28,19 +28,38 @@
     return sharedStorage;
 }
 
+// Init (Defaults)
+- (id)init {
+    if (self = [super init]) {
+        // Set defaults here if need be
+        [self setStorePath:[[NSBundle mainBundle] resourcePath]];
+    }
+    return self;
+}
+
 // Get the global store
 - (Sentegrity_Assertion_Store *)getGlobalStore:(BOOL *)exists withError:(NSError **)error {
-    return [self getLocalStoreWithAppID:kDefaultGlobalStoreName doesExist:exists withError:error];
+    return [self getStoreWithAppID:kDefaultGlobalStoreName doesExist:exists withError:error];
 }
 
 // Set the global store
-- (Sentegrity_Assertion_Store *)setGlobalStore:(Sentegrity_Assertion_Store *)store overwrite:(BOOL)overWrite withError:(NSError **)error {
-    return [self setLocalStore:store forAppID:kDefaultGlobalStoreName overwrite:overWrite withError:error];
+- (Sentegrity_Assertion_Store *)setGlobalStore:(Sentegrity_Assertion_Store *)store withError:(NSError **)error {
+    return [self setStore:store forAppID:kDefaultGlobalStoreName withError:error];
 }
 
 
-// Get a local store by app ID
-- (Sentegrity_Assertion_Store *)getLocalStoreWithAppID:(NSString *)appID doesExist:(BOOL *)exists withError:(NSError **)error {
+// Get the local store
+- (Sentegrity_Assertion_Store *)getLocalStore:(BOOL *)exists withAppID:(NSString *)appID withError:(NSError **)error {
+    return [self getStoreWithAppID:appID doesExist:exists withError:error];
+}
+
+// Set the local store
+- (Sentegrity_Assertion_Store *)setLocalStore:(Sentegrity_Assertion_Store *)store withAppID:(NSString *)appID withError:(NSError **)error {
+    return [self setStore:store forAppID:appID withError:error];
+}
+
+// Get a store by app ID
+- (Sentegrity_Assertion_Store *)getStoreWithAppID:(NSString *)appID doesExist:(BOOL *)exists withError:(NSError **)error {
     // Check the app ID first
     if (!appID || appID.length < 1) {
         // No app ID provided
@@ -56,16 +75,16 @@
     // Start by creating the parser
     Sentegrity_Parser *parser = [[Sentegrity_Parser alloc] init];
     
-    // Create store name
+    // Create store name & path
     NSString *storeName = [appID stringByAppendingString:@".store"];
-    
-    NSString *storePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:storeName];
+    NSString *storePath = [_storePath stringByAppendingPathComponent:storeName];
+    NSURL *storeURLPath = [NSURL URLWithString:storePath];
    
     // Check if it exits
     if([[NSFileManager defaultManager] fileExistsAtPath:storePath])
     {
         // Turn the path into an object
-        Sentegrity_Assertion_Store *store = [parser parseAssertionStoreWithPath:[NSURL URLWithString:storePath] withError:error];
+        Sentegrity_Assertion_Store *store = [parser parseAssertionStoreWithPath:storeURLPath withError:error];
         
         // Check if the store's appID matches the policies appID
         if (store && [store.appID isEqualToString:appID]) {
@@ -82,7 +101,7 @@
 }
 
 // Set a local store by app id
-- (Sentegrity_Assertion_Store *)setLocalStore:(Sentegrity_Assertion_Store *)store forAppID:(NSString *)appID overwrite:(BOOL)overWrite withError:(NSError **)error
+- (Sentegrity_Assertion_Store *)setStore:(Sentegrity_Assertion_Store *)store forAppID:(NSString *)appID withError:(NSError **)error
 {
     // Check the app id first
     if (!appID || appID.length < 1) {
@@ -95,30 +114,26 @@
         return nil;
     }
     
-    // Check if we already have one
-    BOOL exists;
-    // Get the store
-    [self getLocalStoreWithAppID:appID doesExist:&exists withError:error];
-    
-    //if it does not already exist or it exists and we want to overwrite
-    if (!exists || (exists && overWrite)) {
-        // Overwrite the app id value being passed
-        if (!store || store == nil) {
-            store = [[Sentegrity_Assertion_Store alloc] init];
-            [store setAppID:appID];
-        } else {
-            [store setAppID:appID];
-        }
-        
+
         // Save to disk
         // BETA2: Nick's Addtion = Store is now assumed to be JSON and will be written as such
         NSData *data = [store JSONData];
-        BOOL outFileWrite = [data writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.store", appID]] options:kNilOptions error:error];
+    
+        // Create store name & path
+        NSString *storeName = [appID stringByAppendingString:@".store"];
+        NSString *storePath = [_storePath stringByAppendingPathComponent:storeName];
+    
+        NSError *error1 = nil;
+    
+        BOOL outFileWrite = [data writeToFile:storePath options:NSDataWritingAtomic error:&error1];
         //NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
         //[dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.store", appID]] atomically:NO];
-        
+    
+    if (error) {
+        NSLog(@"Fail: %@", [error1 localizedDescription]);
+    }
         // BETA2: Nick's added write out validation
-        if (!outFileWrite) {
+        if (!outFileWrite ) {
             // Unable to write out local store!!!
             NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
             [errorDetails setValue:@"Unable to write store" forKey:NSLocalizedDescriptionKey];
@@ -127,33 +142,11 @@
             // Return nil
             return nil;
         }
-    } else {
-        // cannot write as already exists or no overwrite command
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Cannot overwrite existing store, no overwrite command" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SACannotOverwriteExistingStore userInfo:errorDetails];
-        
-        // Return nil
-        return nil;
-    }
     
     // Return the new or existing store
     return store;
 }
 
-// Get a list of stores
-- (NSArray *)getListOfStores:(NSError **)error {
-    
-    
-    // Get the contents of the directory
-    NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSBundle mainBundle] resourcePath] error:error];
-    
-    // Sort the contents based on the predicate
-    NSPredicate *assertionPredicate = [NSPredicate predicateWithFormat:@"self ENDSWITH '.store'"];
-    
-    // Return the contents
-    return [contents filteredArrayUsingPredicate:assertionPredicate];
-}
 
 
 @end

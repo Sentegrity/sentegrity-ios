@@ -20,15 +20,15 @@
 - (Sentegrity_Assertion_Store *)getGlobalStore:(BOOL *)exists withError:(NSError **)error;
 
 // Set the global store
-- (Sentegrity_Assertion_Store *)setGlobalStore:(Sentegrity_Assertion_Store *)store overwrite:(BOOL)overWrite withError:(NSError **)error;
+- (Sentegrity_Assertion_Store *)setGlobalStore:(Sentegrity_Assertion_Store *)store withError:(NSError **)error;
 
-// Get a local store by name
-- (Sentegrity_Assertion_Store *)getLocalStoreWithAppID:(NSString *)appID doesExist:(BOOL *)exists withError:(NSError **)error;
+// Get the local store
+- (Sentegrity_Assertion_Store *)getLocalStore:(BOOL *)exists withAppID:(NSString *)appID withError:(NSError **)error;
 
-// Set a store value - Returns the existing store (even if you overwrite it)
-- (Sentegrity_Assertion_Store *)setLocalStore:(Sentegrity_Assertion_Store *)store forAppID:(NSString *)appID overwrite:(BOOL)overWrite withError:(NSError **)error;
+// Set the local store
+- (Sentegrity_Assertion_Store *)setLocalStore:(Sentegrity_Assertion_Store *)store withAppID:(NSString *)appID withError:(NSError **)error;
 
-// Get a list of stores
-- (NSArray *)getListOfStores:(NSError **)error;
+//Store Path
+@property (nonatomic,strong) NSString *storePath;
 
 @end

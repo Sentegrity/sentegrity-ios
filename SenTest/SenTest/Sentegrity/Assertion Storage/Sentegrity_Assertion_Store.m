@@ -15,13 +15,13 @@
 - (id)init {
     self = [super init];
     if (self) {
-        [self setStoredTrustFactorObjects:[NSArray array]];
+        [self setStoredTrustFactorObjects:[NSMutableArray array]];
     }
     return self;
 }
 
-// Add StoredTrustFactorObjects to the master list
-- (BOOL)addStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
+// Add multiple new StoredTrustFactorObjects to the store
+- (BOOL)addMultipleObjectsToStore:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
     // Check if we received StoredTrustFactorObjects
     if (!storedTrustFactorObjects || storedTrustFactorObjects.count < 1) {
         // Error out, no StoredTrustFactorObjects received
@@ -33,33 +33,29 @@
         return NO;
     }
     
-    // Run through this array of storedTrustFactorObjects
-    for (Sentegrity_Stored_TrustFactor_Object *StoredTrustFactorObject in storedTrustFactorObjects) {
+    // Run through provided array of storedTrustFactorObjects
+    for (Sentegrity_Stored_TrustFactor_Object *newStoredTrustFactorObject in storedTrustFactorObjects) {
         
-        // Check to make sure the StoredTrustFactorObject was added to the store
-        if (![self addStoredTrustFactorObject:StoredTrustFactorObject withError:error]) {
-            
-            // Error out, unable to add StoredTrustFactorObject into the store
-            if (!*error || *error == nil) {
-                // Create the error
-                NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Unable to add StoredTrustFactorObject into the store" forKey:NSLocalizedDescriptionKey];
-                *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
-            }
+        // Add the new StoredTrustFactorObject into the array
+        if (![self addSingleObjectToStore:newStoredTrustFactorObject withError:error]) {
+            // Error out, unable to add the StoredTrustFactorObject into the store
+            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+            [errorDetails setValue:@"Unable to add StoredTrustFactorObject" forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
             
             // Return NO
             return NO;
         }
+
     }
-    
     // Return yes
     return YES;
 }
 
-// Add single StoredTrustFactorObject into the master list
-- (BOOL)addStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error {
+// Add a single new StoredTrustFactorObject to the store
+- (BOOL)addSingleObjectToStore:(Sentegrity_Stored_TrustFactor_Object *)newStoredTrustFactorObject withError:(NSError **)error {
     // Check that the passed StoredTrustFactorObject is valid
-    if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
+    if (!newStoredTrustFactorObject || newStoredTrustFactorObject == nil) {
         // Error out, no trustfactors set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No storedTrustFactorObject provided" forKey:NSLocalizedDescriptionKey];
@@ -69,25 +65,17 @@
         return NO;
     }
     
+    // Add the new StoredTrustFactorObject into the array
+    [[self storedTrustFactorObjects] addObject:newStoredTrustFactorObject];
     
-    // We've gotten to this point
-
-    NSMutableArray *StoredTrustFactorObjectsArray = [self.storedTrustFactorObjects mutableCopy];
-    
-    // Add the StoredTrustFactorObject into the array
-    [StoredTrustFactorObjectsArray addObject:storedTrustFactorObject];
-    
-    // Set the StoredTrustFactorObjects
-    [self setStoredTrustFactorObjects:StoredTrustFactorObjectsArray];
-
     // Return YES
     return YES;
 }
 
 // Replace multiple storedTrustFactorObjets in the master list
-- (BOOL)setStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
+- (BOOL)replaceMultipleObjectsInStore:(NSArray *)existingStoredTrustFactorObjects withError:(NSError **)error {
     // Check if we received assertions
-    if (!storedTrustFactorObjects || storedTrustFactorObjects.count < 1) {
+    if (!existingStoredTrustFactorObjects || existingStoredTrustFactorObjects.count < 1) {
         // Error out, no assertions received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"Invalid storedTrustFactorObjects objects provided for replacement" forKey:NSLocalizedDescriptionKey];
@@ -98,10 +86,10 @@
     }
     
     // Run through this array of storedTrustFactorObjects
-    for (Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject in storedTrustFactorObjects) {
+    for (Sentegrity_Stored_TrustFactor_Object *existingStoredTrustFactorObject in existingStoredTrustFactorObjects) {
         
         // Check to make sure the storedTrustFactorObject was added to the store
-        if (![self setStoredTrustFactorObject:storedTrustFactorObject withError:error]) {
+        if (![self replaceSingleObjectInStore:existingStoredTrustFactorObject withError:error]) {
             
             // Error out, unable to add storedTrustFactorObject into the store
             if (!*error || *error == nil) {
@@ -121,7 +109,7 @@
 }
 
 // Replace a single storedTrustFactorObject in the store
-- (BOOL)setStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error {
+- (BOOL)replaceSingleObjectInStore:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error {
     
     if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
         // Error out, no storedTrustFactorObjects received
@@ -138,7 +126,7 @@
     Sentegrity_Stored_TrustFactor_Object *existing = [self getStoredTrustFactorObjectWithFactorID:storedTrustFactorObject.factorID doesExist:&exists withError:error];
     if (existing || existing != nil || exists) {
         // Remove the original storedTrustFactorObject from the array
-        if (![self removeStoredTrustFactorObject:existing withError:error]) {
+        if (![self removeSingleObjectFromStore:existing withError:error]) {
             // Error out, unable to remove StoredTrustFactorObject
             NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
             [errorDetails setValue:@"Unable to remove StoredTrustFactorObject" forKey:NSLocalizedDescriptionKey];
@@ -150,7 +138,7 @@
     }
     
     // Add the new StoredTrustFactorObject into the array
-    if (![self addStoredTrustFactorObject:storedTrustFactorObject withError:error]) {
+    if (![self addSingleObjectToStore:storedTrustFactorObject withError:error]) {
         // Error out, unable to add the StoredTrustFactorObject into the store
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"Unable to add StoredTrustFactorObject" forKey:NSLocalizedDescriptionKey];
@@ -165,7 +153,7 @@
 }
 
 // Remove the single provided storedTrustFactorObject  from the store - returns whether it passed or failed
-- (BOOL)removeStoredTrustFactorObject:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error {
+- (BOOL)removeSingleObjectFromStore:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error {
     // Check that the passed storedTrustFactorObject is valid
     if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
         // Error out, no assertion object provided
@@ -180,14 +168,10 @@
     // Check to see if the storedTrustFactorObject already exists
     BOOL exists;
     if ([self getStoredTrustFactorObjectWithFactorID:storedTrustFactorObject.factorID doesExist:&exists withError:error] != nil || exists) {
-        // Remove it
-        NSMutableArray *storedTrustFactorObjectArray = [self.storedTrustFactorObjects mutableCopy];
         
         // Remove the storedTrustFactorObject from the array
-        [storedTrustFactorObjectArray removeObject:storedTrustFactorObject];
+        [[self storedTrustFactorObjects] removeObject:storedTrustFactorObject];
         
-        // Set the storedTrustFactorObjects
-        [self setStoredTrustFactorObjects:storedTrustFactorObjectArray];
     } else {
         // Error out, no matching storedTrustFactorObjects  found
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
@@ -204,7 +188,7 @@
 }
 
 // Remove provided storedTrustFactorObjects from the store - returns whether it passed or failed
-- (BOOL)removeStoredTrustFactorObjects:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
+- (BOOL)removeMultipleObjectsFromStore:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
     // Check if we received assertions
     if (!storedTrustFactorObjects || storedTrustFactorObjects.count < 1) {
         // Error out, no assertions received
@@ -220,7 +204,7 @@
     for (Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject in storedTrustFactorObjects) {
         
         // Check to make sure the storedTrustFactorObject was added to the store
-        if (![self removeStoredTrustFactorObject:storedTrustFactorObject withError:error]) {
+        if (![self removeSingleObjectFromStore:storedTrustFactorObject withError:error]) {
             
             // Error out, unable to add storedTrustFactorObject into the store
             if (!*error || *error == nil) {
