@@ -16,7 +16,7 @@
 @property (nonatomic,strong) NSString *appID;
 
 // Assertion Objects
-@property (nonatomic,strong) NSMutableArray *storedTrustFactorObjects;
+@property (nonatomic,strong) NSArray *storedTrustFactorObjects; // BETA2 - Nick's Additions = Changed this back to NSArray
 
 #pragma mark - Add
 // Add an array of new storedTrustFactorObjects to the store

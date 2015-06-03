@@ -32,7 +32,9 @@
 - (id)init {
     if (self = [super init]) {
         // Set defaults here if need be
-        [self setStorePath:[[NSBundle mainBundle] resourcePath]];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+        [self setStorePath:basePath];
     }
     return self;
 }
@@ -71,7 +73,6 @@
         return nil;
     }
     
-    
     // Start by creating the parser
     Sentegrity_Parser *parser = [[Sentegrity_Parser alloc] init];
     
@@ -79,10 +80,12 @@
     NSString *storeName = [appID stringByAppendingString:@".store"];
     NSString *storePath = [_storePath stringByAppendingPathComponent:storeName];
     NSURL *storeURLPath = [NSURL URLWithString:storePath];
-   
+    
+    // TODO: Remove this NSLog
+    NSLog(@"Store Path From Assertion Storage: %@", storePath);
+    
     // Check if it exits
-    if([[NSFileManager defaultManager] fileExistsAtPath:storePath])
-    {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:storePath]) {
         // Turn the path into an object
         Sentegrity_Assertion_Store *store = [parser parseAssertionStoreWithPath:storeURLPath withError:error];
         
@@ -114,34 +117,34 @@
         return nil;
     }
     
-
-        // Save to disk
-        // BETA2: Nick's Addtion = Store is now assumed to be JSON and will be written as such
-        NSData *data = [store JSONData];
-    
-        // Create store name & path
-        NSString *storeName = [appID stringByAppendingString:@".store"];
-        NSString *storePath = [_storePath stringByAppendingPathComponent:storeName];
-    
-        NSError *error1 = nil;
-    
-        BOOL outFileWrite = [data writeToFile:storePath options:NSDataWritingAtomic error:&error1];
-        //NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
-        //[dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.store", appID]] atomically:NO];
-    
-    if (error) {
-        NSLog(@"Fail: %@", [error1 localizedDescription]);
+    // Check if the store contains a valid id
+    if (!store.appID || store.appID.length < 1) {
+        // Set the app id to the store
+        [store setAppID:appID];
     }
-        // BETA2: Nick's added write out validation
-        if (!outFileWrite ) {
-            // Unable to write out local store!!!
-            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-            [errorDetails setValue:@"Unable to write store" forKey:NSLocalizedDescriptionKey];
-            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
-            
-            // Return nil
-            return nil;
-        }
+    
+    // Save to disk
+    // BETA2: Nick's Addtion = Store is now assumed to be JSON and will be written as such
+    NSData *data = [store JSONData];
+    
+    // Create store name & path
+    NSString *storeName = [appID stringByAppendingString:@".store"];
+    NSString *storePath = [_storePath stringByAppendingPathComponent:storeName];
+    
+    BOOL outFileWrite = [data writeToFile:storePath options:kNilOptions error:error];
+    //NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
+    //[dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.store", appID]] atomically:NO];
+    
+    // BETA2: Nick's added write out validation
+    if (!outFileWrite ) {
+        // Unable to write out local store!!!
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"Unable to write store" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
+        
+        // Return nil
+        return nil;
+    }
     
     // Return the new or existing store
     return store;

@@ -158,13 +158,13 @@
 
 - (void)whitelistAttributingTrustFactorOutputObjects{
     
-    BOOL exists=YES;
+    BOOL exists=NO;
     NSError *error;
     
     //get shared stores
     Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:&error];
     Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:_currentPolicy.appID withError:&error];
-    
+
     //probably should check if stores contain stuff
     
     // Create stored object

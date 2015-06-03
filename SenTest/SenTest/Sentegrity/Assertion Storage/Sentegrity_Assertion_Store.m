@@ -15,7 +15,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        [self setStoredTrustFactorObjects:[NSMutableArray array]];
+        [self setStoredTrustFactorObjects:[NSArray array]];
     }
     return self;
 }
@@ -65,8 +65,16 @@
         return NO;
     }
     
+    // BETA2 - Nick's Additions = Added this back
     // Add the new StoredTrustFactorObject into the array
-    [[self storedTrustFactorObjects] addObject:newStoredTrustFactorObject];
+    //[[self storedTrustFactorObjects] addObject:newStoredTrustFactorObject];
+    NSMutableArray *StoredTrustFactorObjectsArray = [self.storedTrustFactorObjects mutableCopy];
+    
+    // Add the StoredTrustFactorObject into the array
+    [StoredTrustFactorObjectsArray addObject:newStoredTrustFactorObject];
+    
+    // Set the StoredTrustFactorObjects
+    [self setStoredTrustFactorObjects:StoredTrustFactorObjectsArray];
     
     // Return YES
     return YES;
@@ -169,8 +177,16 @@
     BOOL exists;
     if ([self getStoredTrustFactorObjectWithFactorID:storedTrustFactorObject.factorID doesExist:&exists withError:error] != nil || exists) {
         
+        // BETA2 - Nick's Additions = Added this back
         // Remove the storedTrustFactorObject from the array
-        [[self storedTrustFactorObjects] removeObject:storedTrustFactorObject];
+        NSMutableArray *storedTrustFactorObjectArray = [self.storedTrustFactorObjects mutableCopy];
+        
+        // Remove the storedTrustFactorObject from the array
+        [storedTrustFactorObjectArray removeObject:storedTrustFactorObject];
+        //[[self storedTrustFactorObjects] removeObject:storedTrustFactorObject];
+        
+        // Set the storedTrustFactorObjects
+        [self setStoredTrustFactorObjects:storedTrustFactorObjectArray];
         
     } else {
         // Error out, no matching storedTrustFactorObjects  found
