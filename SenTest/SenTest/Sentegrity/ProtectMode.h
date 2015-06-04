@@ -19,13 +19,13 @@
 
 #pragma mark - Analysis
 // Analyze computation and baseline results
-- (void)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withBaseline:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError *)error;
+- (BOOL)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withBaseline:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error;
 
 #pragma mark - Deactivation
 
-- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN;
+- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN withError:(NSError **)error;
 
-- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN;
+- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN withError:(NSError **)error;
 
 
 #pragma mark - Properties

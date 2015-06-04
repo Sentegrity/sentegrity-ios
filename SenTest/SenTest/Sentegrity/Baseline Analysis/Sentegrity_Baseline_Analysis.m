@@ -382,14 +382,13 @@
     Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:policy.appID withError:error];
     Sentegrity_Assertion_Store *globalStoreOutput =  [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore withError:error];
     
-    if (!localStoreOutput || localStoreOutput == nil) {
-        // Error trying to write
-        NSLog(@"Error trying to write local store");
-    }
-    
-    if (!globalStoreOutput || globalStoreOutput == nil) {
-        // Error trying to write
-        NSLog(@"Error trying to write global store");
+    if (!localStoreOutput || localStoreOutput == nil || !globalStoreOutput || globalStoreOutput == nil) {
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"Error writing assertion stores" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
+        
+        // Don't return anything
+        return nil;
     }
     
     return baselineAnalysisResults;

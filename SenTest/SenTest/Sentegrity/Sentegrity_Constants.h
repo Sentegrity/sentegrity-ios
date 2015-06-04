@@ -227,7 +227,13 @@ enum {
     // Unable to find a stored assertion during whitelisting
     SAErrorDuringWhitelisting = 41,
     // Unable to write the assertion store
-    SAUnableToWriteStore = 42
+    SAUnableToWriteStore = 42,
+    // Error performing core detection result analysis
+    SACannotPerformAnalysis = 43,
+    // Unable to deactivate protect mode due to error
+    SAUnableToDeactivateProtectMode = 44,
+    // Unable to deactivate protect mode due to error
+    SAUnableToWhitelistAssertions = 45
 };
 
 #endif

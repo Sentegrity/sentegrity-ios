@@ -35,7 +35,38 @@
     return self;
 }
 // Analyze attributing trustFactors
-- (void)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withBaseline:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError *)error {
+- (BOOL)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withBaseline:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
+    
+    //check for errors
+    if (!computationResults || computationResults == nil) {
+        // Error out, no trustFactorOutputObject were able to be added
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No computationResults to analyze" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SACannotPerformAnalysis userInfo:errorDetails];
+        
+        // Don't return anything
+        return false;
+    }
+    
+    if (!baselineAnalysisResults || baselineAnalysisResults == nil) {
+        // Error out, no trustFactorOutputObject were able to be added
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No baselineAnalysisResults to analyze" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SACannotPerformAnalysis userInfo:errorDetails];
+        
+        // Don't return anything
+        return false;
+    }
+    
+    if (!policy || policy == nil) {
+        // Error out, no trustFactorOutputObject were able to be added
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No policy for use during result analysis" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SACannotPerformAnalysis userInfo:errorDetails];
+        
+        // Don't return anything
+        return false;
+    }
     
     if(computationResults.deviceTrusted==NO){
         
@@ -61,30 +92,26 @@
                     //do nothing but provide score to app
                     break;
                 case 1:
-                    [self activateProtectModeWipe];
+                    [self activateProtectModeWipeWithError:error];
                     break;
                 case 2:
-                    [self activateProtectModeUser];
+                    [self activateProtectModeUserWithError:error];
                     break;
                 case 3:
-                    [self activateProtectModePolicy];
+                    [self activateProtectModePolicyWithError:error];
                     break;
                 default:
                     break;
             
             }
     }
-    NSLog(@"\n\nCore Detection Class Score Results: \nBreach Indicator:%d, \nSystem Security:%d, \nUser Anomaly:%d, \nPolicy Violation:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.userAnomalyScore,computationResults.policyScore );
 
-    NSLog(@"\n\nCore Detection Score Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceScore, computationResults.systemScore, computationResults.userScore );
-    NSLog(@"\n\nCore Detection Trust Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceTrusted, computationResults.systemTrusted, computationResults.userTrusted);
-    NSLog(@"\n\nErrors: %@", error.localizedDescription);
     
-   
+    return true;
     
 }
 
-- (void)activateProtectModePolicy{
+- (void)activateProtectModePolicyWithError:(NSError **)error{
 
     NSLog(@"Protect Mode: Policy");
     
@@ -92,12 +119,16 @@
     
     //prompt for admin pin and wait
     
-    //for demo purposes
-    [self deactivateProtectModePolicyWithPIN:@"admin"];
+    //for testing purposes
+    if(![self deactivateProtectModePolicyWithPIN:@"user" withError:error]){
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"Error during policy protect mode deactivation" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToDeactivateProtectMode userInfo:errorDetails];
+    }
     
 }
 
-- (void)activateProtectModeUser{
+- (void)activateProtectModeUserWithError:(NSError **)error{
     
     NSLog(@"Protect Mode: User");
     
@@ -105,12 +136,15 @@
     
     //prompt for user pin and wait
     
-    //for demo purposes
-    [self deactivateProtectModeUserWithPIN:@"user"];
-    
+    //for testing purposes
+    if(![self deactivateProtectModeUserWithPIN:@"user" withError:error]){
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"Error during user protect mode deactivation" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToDeactivateProtectMode userInfo:errorDetails];
+    }
 }
 
-- (void)activateProtectModeWipe{
+- (void)activateProtectModeWipeWithError:(NSError **)error{
   
     NSLog(@"Protect Mode: Wipe");
     
@@ -121,7 +155,14 @@
 }
 
 
-- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN{
+- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN withError:(NSError **)error {
+    
+    //check error
+    if(!policyPIN || policyPIN==nil){
+
+        // Don't return anything
+        return nil;
+    }
     
     if([policyPIN isEqualToString:@"admin"])
     {
@@ -130,42 +171,60 @@
         //take re-enable crypto action
         
         //whitelist
-        [self whitelistAttributingTrustFactorOutputObjects];
+        if(![self whitelistAttributingTrustFactorOutputObjectsWithError:*error]){
+            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+            [errorDetails setValue:@"Error during assertion whitelisting" forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+            return NO;
+        }
         
-        return YES;
     }
-    else{return NO;}
+    return YES;
     
 }
 
-- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN{
+- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN withError:(NSError **)error{
+    
+    //check error
+    if(!userPIN || userPIN==nil){
+        
+        // Don't return anything
+        return nil;
+    }
     
     if([userPIN isEqualToString:@"user"])
     {
         NSLog(@"Deactivating Protect Mode: User");
         
         //take re-enable crypto action
-    
+        
         //whitelist
-        [self whitelistAttributingTrustFactorOutputObjects];
-    
-        return YES;
+        if(![self whitelistAttributingTrustFactorOutputObjectsWithError:*error]){
+            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+            [errorDetails setValue:@"Error during assertion whitelisting" forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+            return NO;
+        }
+        
+
     }
-    else{return NO;}
+    return YES;
     
 }
 
 
-- (void)whitelistAttributingTrustFactorOutputObjects{
+- (BOOL)whitelistAttributingTrustFactorOutputObjectsWithError:(NSError *)error{
     
     BOOL exists=NO;
-    NSError *error;
     
     //get shared stores
     Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:&error];
     Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:_currentPolicy.appID withError:&error];
 
-    //probably should check if stores contain stuff
+    //check for errors
+    if(!globalStore || globalStore == nil || !localStore || localStore==nil || _trustFactorsToWhitelist.count<1 || !exists){
+        return NO;
+    }
     
     // Create stored object
     Sentegrity_Stored_TrustFactor_Object *updatedStoredTrustFactorObject;
@@ -213,16 +272,16 @@
    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:_currentPolicy.appID withError:&error];
    Sentegrity_Assertion_Store *globalStoreOutput =  [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore withError:&error];
     
-    if (!localStoreOutput || localStoreOutput == nil) {
-        // Error trying to write
-        NSLog(@"Error trying to write local store");
-    }
-    
-    if (!globalStoreOutput || globalStoreOutput == nil) {
-        // Error trying to write
-        NSLog(@"Error trying to write global store");
+    if (!localStoreOutput || localStoreOutput == nil || !globalStoreOutput || globalStoreOutput == nil) {
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"Error writing assertion stores" forKey:NSLocalizedDescriptionKey];
+        error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
+        
+        // Don't return anything
+        return NO;
     }
 
+    return YES;
     
 }
 

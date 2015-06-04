@@ -50,7 +50,15 @@
         if (success) {
 
             //protect mode analysis
-            [[ProtectMode sharedProtectMode] analyzeResults:computationResults withBaseline:baselineResults withPolicy:policy withError:error];
+            if(![[ProtectMode sharedProtectMode] analyzeResults:computationResults withBaseline:baselineResults withPolicy:policy withError:&error]){
+                NSLog(@"Failed to analyze Core Detection results: %@", error.localizedDescription);
+            }
+            else{
+                NSLog(@"\n\nCore Detection Class Score Results: \nBreach Indicator:%d, \nSystem Security:%d, \nUser Anomaly:%d, \nPolicy Violation:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.userAnomalyScore,computationResults.policyScore );
+                NSLog(@"\n\nCore Detection Score Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceScore, computationResults.systemScore, computationResults.userScore );
+                NSLog(@"\n\nCore Detection Trust Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceTrusted, computationResults.systemTrusted, computationResults.userTrusted);
+                NSLog(@"\n\nErrors: %@", error.localizedDescription);
+            }
             
         }
         else {NSLog(@"Failed to run Core Detection: %@", error.localizedDescription);}
