@@ -52,7 +52,7 @@
     
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject; 
     
-    // Validate payload prior
+    /* Validate payload prior
     if (trustFactor.payload.count<1) {
         // Error out, no payload
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
@@ -66,6 +66,7 @@
         // Return the assertion
         return trustFactorOutputObject;
     }
+    */
     
     //try to run implementation
     

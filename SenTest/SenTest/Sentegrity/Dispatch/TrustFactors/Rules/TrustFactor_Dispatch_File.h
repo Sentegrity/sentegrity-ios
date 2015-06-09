@@ -10,10 +10,10 @@
 
 @interface TrustFactor_Dispatch_File : Sentegrity_TrustFactor_Rule
 
-// BadFiles check
+// 1 - knownBad Files Check
 + (Sentegrity_TrustFactor_Output_Object *)knownBad:(NSArray *)payload;
 
-// FileSizeChange check
+// 10 - fileSize check
 + (Sentegrity_TrustFactor_Output_Object *)sizeChange:(NSArray *)payload;
 
 @end

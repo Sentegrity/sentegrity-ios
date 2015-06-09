@@ -10,14 +10,10 @@
 
 @implementation TrustFactor_Dispatch_Sandbox
 
-
-
-// 8
+// TODO: Which api's would you like us to verify
 + (Sentegrity_TrustFactor_Output_Object *)apiVerification:(NSArray *)payload {
     
     return 0;
 }
-
-
 
 @end

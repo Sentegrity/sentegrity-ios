@@ -150,13 +150,13 @@
 #pragma mark - DNE Status Cases for TrustFactor output
 
 typedef enum {
-    DNEStatus_ok           = 0,
-    DNEStatus_unauthorized = 1,
-    DNEStatus_unsupported  = 2,
-    DNEStatus_disabled     = 3,
-    DNEStatus_expired      = 4,
-    DNEStatus_error        = 5,
-    DNEStatus_nodata       = 6
+    DNEStatus_ok           = 0, // OK
+    DNEStatus_unauthorized = 1, // Unauthorized - Permissions
+    DNEStatus_unsupported  = 2, // Unsupported OS or Device
+    DNEStatus_disabled     = 3, // Disabled
+    DNEStatus_expired      = 4, // Expired
+    DNEStatus_error        = 5, // Error
+    DNEStatus_nodata       = 6  // No data found or received
 } DNEStatusCode;
 
 #pragma mark - Error Cases

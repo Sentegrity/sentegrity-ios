@@ -16,4 +16,15 @@
 
 @interface Sentegrity_TrustFactor_Rule : NSObject
 
+// Validate the given payload
++ (BOOL)validatePayload:(NSArray *)payload;
+
+/* Process Information */
+
+// List of process information including PID's, Names, PPID's, and Status'
++ (NSArray *)processInformation;
+
+// Parent ID for a certain PID
++ (int)parentPIDForProcess:(int)pid;
+
 @end
