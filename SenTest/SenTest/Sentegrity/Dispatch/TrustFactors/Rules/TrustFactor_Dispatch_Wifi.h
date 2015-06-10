@@ -11,16 +11,16 @@
 @interface TrustFactor_Dispatch_Wifi : Sentegrity_TrustFactor_Rule
 
 
-// 17
+// 17 - Determine if the connected access point is a SOHO (Small Office/Home Offic) network
 + (Sentegrity_TrustFactor_Output_Object *)apSoho:(NSArray *)payload;
 
-// 19
+// 19 - TODO: This ability is not available on iOS outside of private API's
 + (Sentegrity_TrustFactor_Output_Object *)unencrypted:(NSArray *)payload;
 
-// 19
+// 19 - Unknown SSID Check - Get the current AP SSID
 + (Sentegrity_TrustFactor_Output_Object *)unknownSSID:(NSArray *)payload;
 
-// 27
+// 27 - Known BSSID - Get the current BSSID of the AP
 + (Sentegrity_TrustFactor_Output_Object *)knownBSSID:(NSArray *)payload;
 
 

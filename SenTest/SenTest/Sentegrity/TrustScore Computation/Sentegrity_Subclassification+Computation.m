@@ -9,7 +9,7 @@
 #import "Sentegrity_Subclassification+Computation.h"
 
 // Import the objc runtime
-#import <objc/objc-runtime.h>
+#import <objc/runtime.h>
 
 @implementation Sentegrity_Subclassification (Computation)
 

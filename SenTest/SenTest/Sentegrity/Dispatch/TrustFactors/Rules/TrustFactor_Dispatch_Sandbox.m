@@ -13,7 +13,27 @@
 // TODO: Which api's would you like us to verify
 + (Sentegrity_TrustFactor_Output_Object *)apiVerification:(NSArray *)payload {
     
-    return 0;
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
+    
+    // Get the current process environment info
+    NSDictionary *environmentInfo = [[NSProcessInfo processInfo] environment];
+    if ([environmentInfo objectForKey:@"APP_SANDBOX_CONTAINER_ID"] != nil) {
+        // Sandboxed
+        [outputArray addObject:[[environmentInfo objectForKey:@"APP_SANDBOX_CONTAINER_ID"] stringValue]];
+    }
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
 }
 
 @end

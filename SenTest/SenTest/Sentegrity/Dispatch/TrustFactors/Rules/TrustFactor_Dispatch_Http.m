@@ -46,9 +46,8 @@
             
             // make sure we don't add more than one instance of the proc
             if (![outputArray containsObject:[fakeURL path]]){
-                
                 // Add the process to the output array
-                [outputArray addObject:[fakeURL path]];
+                [outputArray addObject:[fakeURL absoluteString]];
             }
         }
     }

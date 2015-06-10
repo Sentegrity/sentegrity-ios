@@ -485,7 +485,15 @@
                         {
                             //increment hitCount for matching stored assertion (used for decay)
                             newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
-                            [trustFactorOutputObject.storedTrustFactorObject.assertions setObject:newHitCount forKey:candidate];
+                            
+                            // Get a copy of the assertion store assertions dictionary
+                            NSMutableDictionary *assertionsCopy = [trustFactorOutputObject.storedTrustFactorObject.assertions mutableCopy];
+                            
+                            // Set the new hit count in the assertion store assertions dictionary copy
+                            [assertionsCopy setObject:newHitCount forKey:candidate];
+                            
+                            // Set the assertions back
+                            [trustFactorOutputObject.storedTrustFactorObject setAssertions:[assertionsCopy copy]];
                             
                             //test next assertion
                     
@@ -528,9 +536,15 @@
                     
                             //increment hitCount in all situations for the matching stored assertion (used for decay)
                             newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
-                            [trustFactorOutputObject.storedTrustFactorObject.assertions setObject:newHitCount forKey:candidate];
+                            
+                            // Get a copy of the assertion store assertions dictionary
+                            NSMutableDictionary *assertionsCopy = [trustFactorOutputObject.storedTrustFactorObject.assertions mutableCopy];
+                            
+                            // Set the new hit count on the assertions copy
+                            [assertionsCopy setObject:newHitCount forKey:candidate];
                     
-                    
+                            // Set the assertions back
+                            [trustFactorOutputObject.storedTrustFactorObject setAssertions:[assertionsCopy copy]];
                     
                         }
                         else //no match, but add assertions to whitelist
@@ -592,14 +606,13 @@
     
     //stored assertions
     NSMutableDictionary *storedAssertions;
-    storedAssertions = trustFactorOutputObject.storedTrustFactorObject.assertions;
+    storedAssertions = [trustFactorOutputObject.storedTrustFactorObject.assertions mutableCopy];
     
     // If we dont have any storedAssertion then just add the candidates right in
     if (!storedAssertions || storedAssertions == nil || storedAssertions.count < 1) {
         
         // Empty assertions, must be the first run, set it to the candidates
-        trustFactorOutputObject.storedTrustFactorObject.assertions = candidateAssertions;
-
+        [trustFactorOutputObject.storedTrustFactorObject setAssertions:[candidateAssertions copy]];
         
     } else {
         // Contains existing assertions, we must append the new assertions by adding the dictionary to the existing dictionary but leave out duplicates
@@ -702,7 +715,11 @@
 
 // Include date helper method to determine number of days between two dates
 // http://stackoverflow.com/questions/4739483/number-of-days-between-two-nsdates
-+ (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime {
++ (NSInteger)daysBetweenDate:(NSDate *)fromDateTime andDate:(NSDate *)toDateTime {
+
+    // TODO: Validate the input dates - otherwise there will be issues
+    // Currently, I'm not aware of any way to validate dates
+    
     NSDate *fromDate;
     NSDate *toDate;
     

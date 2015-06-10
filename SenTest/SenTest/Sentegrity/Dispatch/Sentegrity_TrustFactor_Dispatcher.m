@@ -12,7 +12,7 @@
 #import "Sentegrity_Constants.h"
 
 // Import the objc runtime to get class by name
-#import <objc/objc-runtime.h>
+#import <objc/runtime.h>
 
 @implementation Sentegrity_TrustFactor_Dispatcher
 

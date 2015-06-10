@@ -13,9 +13,39 @@
 
 @implementation Sentegrity_TrustFactor_Rule
 
+/* Default Rule Implementation */
+/*
+ // Create the trustfactor output object
+ Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+ 
+ // Set the default status code to OK (default = DNEStatus_ok)
+ [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+ 
+ // Validate the payload
+ if (![self validatePayload:payload]) {
+ // Payload is EMPTY
+ 
+ // Set the DNE status code to NODATA
+ [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+ 
+ // Return with the blank output object
+ return trustFactorOutputObject;
+ }
+ 
+ // Create the output array
+ NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
+ 
+ 
+ // Set the trustfactor output to the output array (regardless if empty)
+ [trustFactorOutputObject setOutput:outputArray];
+ 
+ // Return the trustfactor output object
+ return trustFactorOutputObject;
+*/
+
 // Validate the given payload
 + (BOOL)validatePayload:(NSArray *)payload {
-    
+ 
     // Check if the payload is empty
     if (!payload || payload == nil || payload.count < 1) {
         return NO;

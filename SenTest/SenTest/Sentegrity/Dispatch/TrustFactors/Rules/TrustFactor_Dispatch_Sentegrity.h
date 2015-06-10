@@ -10,7 +10,6 @@
 
 @interface TrustFactor_Dispatch_Sentegrity : Sentegrity_TrustFactor_Rule
 
-
 // 6
 + (Sentegrity_TrustFactor_Output_Object *)tamper:(NSArray *)payload;
 

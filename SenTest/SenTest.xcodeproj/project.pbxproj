@@ -82,6 +82,7 @@
 		4C35F8091A9CE0B800FC6A43 /* Sentegrity_TrustFactor_Output_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sentegrity_TrustFactor_Output_Object.m; path = ../../Assertions/Sentegrity_TrustFactor_Output_Object.m; sourceTree = "<group>"; };
 		4C3AC0E41AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4C3AC0E51AD59888009EF3B9 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
+		4C5F85991B28BB1B00DCAD89 /* libobjc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.dylib; path = usr/lib/libobjc.dylib; sourceTree = SDKROOT; };
 		4CBED84E1A9E5301000A7B42 /* Sentegrity_Assertion_Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Assertion_Store.h; sourceTree = "<group>"; };
 		4CBED84F1A9E5301000A7B42 /* Sentegrity_Assertion_Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Assertion_Store.m; sourceTree = "<group>"; };
 		4CF091131AA3758100018685 /* Sentegrity_Stored_TrustFactor_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Stored_TrustFactor_Object.h; sourceTree = "<group>"; };
@@ -154,6 +155,7 @@
 		01485BEF7462F3B49BC6E1C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C5F85991B28BB1B00DCAD89 /* libobjc.dylib */,
 				161D0E47DCF4C6E84D9DB454 /* libPods.a */,
 			);
 			name = Frameworks;

@@ -31,7 +31,7 @@
     }
     
     // Create the output array
-    NSMutableArray *badFiles = [[NSMutableArray alloc] initWithCapacity:payload.count];
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     // Get the filemanager singleton
     NSFileManager *fileMan = [NSFileManager defaultManager];
@@ -43,13 +43,13 @@
         if ([fileMan fileExistsAtPath:path]) {
            
             // If the bad file exists, mark it in the array
-            [badFiles addObject:path];
+            [outputArray addObject:path];
 
         }
     }
     
     // Set the trustfactor output to the output array (regardless if empty)
-    [trustFactorOutputObject setOutput:badFiles];
+    [trustFactorOutputObject setOutput:outputArray];
     
     // Return the trustfactor output object
     return trustFactorOutputObject;

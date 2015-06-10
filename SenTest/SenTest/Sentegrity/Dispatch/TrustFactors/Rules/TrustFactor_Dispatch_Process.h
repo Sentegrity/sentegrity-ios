@@ -10,15 +10,15 @@
 
 @interface TrustFactor_Dispatch_Process : Sentegrity_TrustFactor_Rule
 
-// 2
+// 2 - Known Bad Processes
 + (Sentegrity_TrustFactor_Output_Object *)knownBad:(NSArray *)payload;
 
 
-// 11
+// 11 - New Root Processes (gets all root processes: launched by launchd)
 + (Sentegrity_TrustFactor_Output_Object *)newRoot:(NSArray *)payload;
 
 
-// 20
+// 20 - Checks for process names that match high risk application names
 + (Sentegrity_TrustFactor_Output_Object *)highRiskApp:(NSArray *)payload;
 
 @end

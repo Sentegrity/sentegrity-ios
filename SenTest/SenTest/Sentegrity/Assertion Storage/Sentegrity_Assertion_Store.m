@@ -74,7 +74,7 @@
     [StoredTrustFactorObjectsArray addObject:newStoredTrustFactorObject];
     
     // Set the StoredTrustFactorObjects
-    [self setStoredTrustFactorObjects:StoredTrustFactorObjectsArray];
+    [self setStoredTrustFactorObjects:[StoredTrustFactorObjectsArray copy]];
     
     // Return YES
     return YES;
@@ -186,7 +186,7 @@
         //[[self storedTrustFactorObjects] removeObject:storedTrustFactorObject];
         
         // Set the storedTrustFactorObjects
-        [self setStoredTrustFactorObjects:storedTrustFactorObjectArray];
+        [self setStoredTrustFactorObjects:[storedTrustFactorObjectArray copy]];
         
     } else {
         // Error out, no matching storedTrustFactorObjects  found

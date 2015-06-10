@@ -31,9 +31,8 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
-#define OMDateFormat @"yyyy-MM-dd'T'HH:mm:ss.SSS"
+#define OMDateFormat @"eee MMM dd HH:mm:ss ZZZZ yyyy"
 #define OMTimeZone @"UTC"
-
 
 typedef NS_ENUM(NSInteger, CAPSDataType) {
     CAPSDataTypeJSON,

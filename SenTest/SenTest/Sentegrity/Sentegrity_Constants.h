@@ -147,6 +147,10 @@
 #define kPolicyViolation @"POLICY_VIOLATION"
 #define kUserAnomally    @"USER_ANOMALLY"
 
+# pragma mark - Date and Time Defaults
+
+#define kDateFormat @"eee MMM dd HH:mm:ss ZZZZ yyyy"
+
 #pragma mark - DNE Status Cases for TrustFactor output
 
 typedef enum {
