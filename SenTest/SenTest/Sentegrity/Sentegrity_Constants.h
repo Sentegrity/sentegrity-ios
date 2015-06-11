@@ -155,7 +155,7 @@
 #define kSystemSecurity  @"SYSTEM_SECURITY"
 #define kSystemPolicy @"SYSTEM_POLICY"
 #define kUserPolicy @"USER_POLICY"
-#define kUserAnomally    @"USER_ANOMALLY"
+#define kUserAnomally @"USER_ANOMALY"
 
 # pragma mark - Date and Time Defaults
 

@@ -34,19 +34,20 @@
 // System Trusted
 @property (nonatomic) BOOL systemTrusted;
 
-// System Attributing Classification
-@property (nonatomic) BOOL systemAttributingClassID;
+// System Icon index for dash and detailed view
+@property (nonatomic) int systemGUIIconID;
 
-// Issue Messages
+// System text to accompany icon
+@property (nonatomic) NSString *systemGUIIconText;
+
+// System detailed view: Issue Messages
 @property (nonatomic) NSArray *systemGUIIssues;
 
-// Suggesstion Messages
-@property (nonatomic) NSArray *systemGUISuggesstion;
+// System detailed view: Suggesstion Messages
+@property (nonatomic) NSArray *systemGUISuggestions;
 
-// Analysis Messages
+// System detailed view: Analysis Messages
 @property (nonatomic) NSArray *systemGUIAnalysis;
-
-
 
 
 // COMPOSITE USER SCORE
@@ -57,16 +58,19 @@
 // User Trusted
 @property (nonatomic) BOOL  userTrusted;
 
-// User Attributing Classification
-@property (nonatomic) BOOL  userAttributingClassID;
+// User Icon index for dash and detailed view
+@property (nonatomic) int  userGUIIconID;
 
-// Issue Messages
+// User text to accompany icon on dash and detailed view
+@property (nonatomic) NSString *userGUIIconText;
+
+// User detailed view: Issue Messages
 @property (nonatomic) NSArray *userGUIIssues;
 
-// Suggesstion Messages
-@property (nonatomic) NSArray *userGUISuggesstion;
+// User detailed view: Suggesstion Messages
+@property (nonatomic) NSArray *userGUISuggestions;
 
-// Analysis Messages
+// User detailed view: Analysis Messages
 @property (nonatomic) NSArray *userGUIAnalysis;
 
 
@@ -81,16 +85,17 @@
 
 //PROTECT MODE
 
-// Device Score
+// Classification responsible for causing protect mode
 @property (nonatomic) NSInteger protectModeClassID;
 
+// Action to take (e.g., prompt user or admin pin)
 @property (nonatomic) NSInteger protectModeAction;
 
+// Message to display in prompt box
 @property (nonatomic) NSString *protectModeMessage;
 
 //Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
 @property (nonatomic) NSArray *protectModeWhitelist;
-
 
 
 

@@ -469,7 +469,15 @@
                 {
                     //increment hitCount for matching stored assertion (used for decay)
                     newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
-                    [trustFactorOutputObject.storedTrustFactorObject.assertions setObject:newHitCount forKey:candidate];
+                    
+                    // Get a copy of the assertion store assertions dictionary
+                    NSMutableDictionary *assertionsCopy = [trustFactorOutputObject.storedTrustFactorObject.assertions mutableCopy];
+                    
+                    // Set the new hit count in the assertion store assertions dictionary copy
+                    [assertionsCopy setObject:newHitCount forKey:candidate];
+                    
+                    // Set the assertions back
+                    [trustFactorOutputObject.storedTrustFactorObject setAssertions:[assertionsCopy copy]];
                     
                     //test next assertion
             
@@ -512,7 +520,15 @@
             
                     //increment hitCount in all situations for the matching stored assertion (used for decay)
                     newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
-                    [trustFactorOutputObject.storedTrustFactorObject.assertions setObject:newHitCount forKey:candidate];
+                    
+                    // Get a copy of the assertion store assertions dictionary
+                    NSMutableDictionary *assertionsCopy = [trustFactorOutputObject.storedTrustFactorObject.assertions mutableCopy];
+                    
+                    // Set the new hit count on the assertions copy
+                    [assertionsCopy setObject:newHitCount forKey:candidate];
+                    
+                    // Set the assertions back
+                    [trustFactorOutputObject.storedTrustFactorObject setAssertions:[assertionsCopy copy]];
             
             
             

@@ -353,45 +353,61 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     
     // Identify attributing system classifications
     if (!computationResults.systemTrusted)
-    {
         
+    {
         //see which classification inside system attributed the most and set protect mode
         
         if(computationResults.systemBreachScore <= computationResults.systemSecurityScore) // SYSTEM_BREACH is attributing
         {
+            // Set protect mode
             computationResults.protectModeClassID = [systemBreachClass.identification integerValue] ;
             computationResults.protectModeAction = [systemBreachClass.protectModeAction integerValue];
             computationResults.protectModeMessage = systemBreachClass.protectModeMessage;
             computationResults.protectModeWhitelist = systemBreachClass.trustFactorsToWhitelist;
             
-            //Set messaging for GUI
+            // Set dashboard and detailed system view info
+            computationResults.systemGUIIconID = [systemBreachClass.identification intValue];
+            computationResults.systemGUIIconText = systemBreachClass.desc;
+            
+            //Set messaging for detailed system view
             computationResults.systemGUIIssues = systemBreachClass.issuesInClass;
-            computationResults.systemGUISuggesstion = systemBreachClass.suggestionsInClass;
+            computationResults.systemGUISuggestions = systemBreachClass.suggestionsInClass;
             computationResults.systemGUIAnalysis = systemBreachClass.subClassStatus;
             
         }
         else if(computationResults.systemPolicyScore <= computationResults.systemSecurityScore) // SYSTEM_POLICY is attributing
         {
-            computationResults.protectModeClassID = [systemPolicyClass.identification integerValue] ;
+            // Set protect mode
+            computationResults.protectModeClassID = [systemPolicyClass.identification intValue] ;
             computationResults.protectModeAction = [systemPolicyClass.protectModeAction integerValue];
             computationResults.protectModeMessage = systemPolicyClass.protectModeMessage;
             computationResults.protectModeWhitelist = systemPolicyClass.trustFactorsToWhitelist;
             
-            //Set messaging for GUI
+            // Set dashboard and detailed system view info
+            computationResults.systemGUIIconID = [systemPolicyClass.identification intValue];
+            computationResults.systemGUIIconText = systemPolicyClass.desc;
+            
+            //Set messaging for detailed system view
             computationResults.systemGUIIssues = systemPolicyClass.issuesInClass;
-            computationResults.systemGUISuggesstion = systemPolicyClass.suggestionsInClass;
+            computationResults.systemGUISuggestions = systemPolicyClass.suggestionsInClass;
             computationResults.systemGUIAnalysis = systemPolicyClass.subClassStatus;
         }
         else //SYSTEM_SECURITY is attributing
         {
-            computationResults.protectModeClassID = [systemSecurityClass.identification integerValue] ;
+
+            // Set protect mode
+            computationResults.protectModeClassID = [systemSecurityClass.identification integerValue];
             computationResults.protectModeAction = [systemSecurityClass.protectModeAction integerValue];
             computationResults.protectModeMessage = systemSecurityClass.protectModeMessage;
             computationResults.protectModeWhitelist = systemSecurityClass.trustFactorsToWhitelist;
             
-            //Set messaging for GUI
+            // Set dashboard and detailed system view info
+            computationResults.systemGUIIconID = [systemSecurityClass.identification intValue];
+            computationResults.systemGUIIconText = systemSecurityClass.desc;
+            
+            //Set messaging for detailed system view
             computationResults.systemGUIIssues = systemSecurityClass.issuesInClass;
-            computationResults.systemGUISuggesstion = systemSecurityClass.suggestionsInClass;
+            computationResults.systemGUISuggestions = systemSecurityClass.suggestionsInClass;
             computationResults.systemGUIAnalysis = systemSecurityClass.subClassStatus;
         }
         
@@ -399,13 +415,21 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     }
     else //it is trusted, combine messages from all classifications
     {
+        // Set protect mode
+        computationResults.protectModeClassID = 0;
+        computationResults.protectModeAction = 0;
+        
+        // Set dashboard and detailed system view info
+        computationResults.systemGUIIconID = 0;
+        computationResults.systemGUIIconText = @"Device Trusted";
+        
         //Combine issue messages
         NSMutableArray *combinedIssues = [[NSMutableArray alloc] init];
         [combinedIssues addObjectsFromArray:systemBreachClass.issuesInClass];
         [combinedIssues addObjectsFromArray:systemPolicyClass.issuesInClass];
         [combinedIssues addObjectsFromArray:systemSecurityClass.issuesInClass];
         
-        //set
+        // remove dups and set
         computationResults.systemGUIIssues = [[NSSet setWithArray:combinedIssues] allObjects];
         
         //Combine suggesstion messages
@@ -414,9 +438,8 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         [combinedSuggestions addObjectsFromArray:systemPolicyClass.suggestionsInClass];
         [combinedSuggestions addObjectsFromArray:systemSecurityClass.suggestionsInClass];
         
-        
-        //set
-        computationResults.systemGUISuggesstion = [[NSSet setWithArray:combinedSuggestions] allObjects];
+        // remove dups and set
+        computationResults.systemGUISuggestions = [[NSSet setWithArray:combinedSuggestions] allObjects];
         
         //Combine analysis messages
         NSMutableArray *combinedAnalysis = [[NSMutableArray alloc] init];
@@ -424,7 +447,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         [combinedAnalysis addObjectsFromArray:systemPolicyClass.subClassStatus];
         [combinedAnalysis addObjectsFromArray:systemSecurityClass.subClassStatus];
         
-        //set
+        // remove dups and set
         computationResults.systemGUIAnalysis = [[NSSet setWithArray:combinedAnalysis] allObjects];
 
     }
@@ -437,28 +460,37 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         
         if(computationResults.userPolicyScore <= computationResults.userAnomalyScore) //USER_POLICY is attributing
         {
-            //populate protect mode
-            computationResults.protectModeClassID = [userPolicyClass.identification integerValue] ;
+
+            // Set protect mode
+            computationResults.protectModeClassID = [userPolicyClass.identification integerValue];
             computationResults.protectModeAction = [userPolicyClass.protectModeAction integerValue];
             computationResults.protectModeMessage = userPolicyClass.protectModeMessage;
             computationResults.protectModeWhitelist = userPolicyClass.trustFactorsToWhitelist;
             
-            //Set messaging for GUI
+            // Set dashboard and detailed user view info
+            computationResults.userGUIIconID = [userPolicyClass.identification intValue];
+            computationResults.userGUIIconText = userPolicyClass.desc;
+            
+            //Set messaging for detailed user view
             computationResults.userGUIIssues = userPolicyClass.issuesInClass;
-            computationResults.userGUISuggesstion = userPolicyClass.suggestionsInClass;
+            computationResults.userGUISuggestions = userPolicyClass.suggestionsInClass;
             computationResults.userGUIAnalysis = userPolicyClass.subClassStatus;
         }
         else //USER_ANOMALY is attributing
         {
-            //populate protect mode
-            computationResults.protectModeClassID = [userAnomalyClass.identification integerValue] ;
+            // Set protect mode
+            computationResults.protectModeClassID = [userAnomalyClass.identification integerValue];
             computationResults.protectModeAction = [userAnomalyClass.protectModeAction integerValue];
             computationResults.protectModeMessage = userAnomalyClass.protectModeMessage;
             computationResults.protectModeWhitelist = userAnomalyClass.trustFactorsToWhitelist;
             
-            //Set messaging for GUI
+            // Set dashboard and detailed user view info
+            computationResults.userGUIIconID = [userAnomalyClass.identification intValue];
+            computationResults.userGUIIconText = userAnomalyClass.desc;
+            
+            //Set messaging for detailed user view
             computationResults.userGUIIssues = userAnomalyClass.issuesInClass;
-            computationResults.userGUISuggesstion = userAnomalyClass.suggestionsInClass;
+            computationResults.userGUISuggestions = userAnomalyClass.suggestionsInClass;
             computationResults.userGUIAnalysis = userAnomalyClass.subClassStatus;
         }
         
@@ -467,12 +499,20 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     else //it is trusted, combine messages from all user classifications
     {
 
+        // Set protect mode
+        computationResults.protectModeClassID = 0;
+        computationResults.protectModeAction = 0;
+        
+        // Set dashboard and detailed system view info
+        computationResults.userGUIIconID = 0;
+        computationResults.userGUIIconText = @"User Trusted";
+        
         //Combine issue messages
         NSMutableArray *combinedIssues = [[NSMutableArray alloc] init];
         [combinedIssues addObjectsFromArray:userAnomalyClass.issuesInClass];
         [combinedIssues addObjectsFromArray:userPolicyClass.issuesInClass];
         
-        //set
+        //remove dups and set
         computationResults.userGUIIssues = [[NSSet setWithArray:combinedIssues] allObjects];
         
         //Combine suggesstion messages
@@ -480,8 +520,8 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         [combinedSuggestions addObjectsFromArray:userAnomalyClass.suggestionsInClass];
         [combinedSuggestions addObjectsFromArray:userPolicyClass.suggestionsInClass];
         
-        //set
-        computationResults.userGUISuggesstion = [[NSSet setWithArray:combinedSuggestions] allObjects];
+        //remove dups and set
+        computationResults.userGUISuggestions = [[NSSet setWithArray:combinedSuggestions] allObjects];
         
         //Combine analysis messages
         NSMutableArray *combinedAnalysis = [[NSMutableArray alloc] init];
