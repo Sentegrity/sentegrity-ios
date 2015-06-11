@@ -10,12 +10,10 @@
 
 @interface TrustFactor_Dispatch_Time : Sentegrity_TrustFactor_Rule
 
-
 // 25
 + (Sentegrity_TrustFactor_Output_Object *)allowed:(NSArray *)payload;
 
 // 32
 + (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload;
-
 
 @end

@@ -1,0 +1,19 @@
+PODS:
+  - ChameleonFramework (1.2.0)
+  - CircleProgressBar (0.12)
+  - JTHamburgerButton (1.0.5)
+  - RESideMenu (4.0.7)
+
+DEPENDENCIES:
+  - ChameleonFramework (~> 1.2)
+  - CircleProgressBar (~> 0.2)
+  - JTHamburgerButton (~> 1.0)
+  - RESideMenu (~> 4.0)
+
+SPEC CHECKSUMS:
+  ChameleonFramework: 4d6bf87fcaee176f487176cdccc4229637ec97f0
+  CircleProgressBar: 29a4261cf51502bbf5b40d08f21cf8751e1b704b
+  JTHamburgerButton: 9a41c7d051c72590a9d2c18416d84d1b912f12e3
+  RESideMenu: f24c508404b49c667344c54aba7e590883533958
+
+COCOAPODS: 0.37.2

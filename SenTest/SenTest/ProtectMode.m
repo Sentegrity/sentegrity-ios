@@ -127,7 +127,7 @@
     if(!policyPIN || policyPIN==nil){
 
         // Don't return anything
-        return nil;
+        return NO;
     }
     
     if([policyPIN isEqualToString:@"admin"])
@@ -155,7 +155,7 @@
     if(!userPIN || userPIN==nil){
         
         // Don't return anything
-        return nil;
+        return NO;
     }
     
     if([userPIN isEqualToString:@"user"])
@@ -199,8 +199,15 @@
     for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in _trustFactorsToWhitelist)
     {
         updatedStoredTrustFactorObject = trustFactorOutputObject.storedTrustFactorObject;
+        
+        // Get a copy of the assertion store assertions dictionary
+        NSMutableDictionary *assertionsCopy = [updatedStoredTrustFactorObject.assertions mutableCopy];
+        
         //append the assertions to be whitelisted
-        [updatedStoredTrustFactorObject.assertions addEntriesFromDictionary:trustFactorOutputObject.assertionsToWhitelist];
+        [assertionsCopy addEntriesFromDictionary:trustFactorOutputObject.assertionsToWhitelist];
+        
+        // Set the assertions back
+        [updatedStoredTrustFactorObject setAssertions:[assertionsCopy copy]];
         
         //check for local
         if(trustFactorOutputObject.trustFactor.local.intValue==1)

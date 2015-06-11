@@ -15,8 +15,8 @@
 
 @implementation Sentegrity_TrustFactor_Output_Object
 
-//called during baseline analysis
--(void)generateAssertionsFromOutput
+// called during baseline analysis
+- (void)generateAssertionsFromOutput
 {
 
    self.assertions = [[NSMutableDictionary alloc]init];

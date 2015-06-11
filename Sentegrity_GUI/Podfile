@@ -1,0 +1,4 @@
+pod 'CircleProgressBar', '~> 0.2'
+pod 'JTHamburgerButton', '~> 1.0'
+pod 'ChameleonFramework', '~> 1.2'
+pod 'RESideMenu', '~> 4.0'

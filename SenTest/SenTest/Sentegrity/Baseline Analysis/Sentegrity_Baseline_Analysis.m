@@ -552,14 +552,13 @@
     
     //stored assertions
     NSMutableDictionary *storedAssertions;
-    storedAssertions = trustFactorOutputObject.storedTrustFactorObject.assertions;
+    storedAssertions = [trustFactorOutputObject.storedTrustFactorObject.assertions mutableCopy];
     
     // If we dont have any storedAssertion then just add the candidates right in
     if (!storedAssertions || storedAssertions == nil || storedAssertions.count < 1) {
         
         // Empty assertions, must be the first run, set it to the candidates
-        trustFactorOutputObject.storedTrustFactorObject.assertions = candidateAssertions;
-
+        [trustFactorOutputObject.storedTrustFactorObject setAssertions:[candidateAssertions copy]];
         
     } else {
         // Contains existing assertions, we must append the new assertions by adding the dictionary to the existing dictionary but leave out duplicates
@@ -662,7 +661,11 @@
 
 // Include date helper method to determine number of days between two dates
 // http://stackoverflow.com/questions/4739483/number-of-days-between-two-nsdates
-+ (NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime {
++ (NSInteger)daysBetweenDate:(NSDate *)fromDateTime andDate:(NSDate *)toDateTime {
+
+    // TODO: Validate the input dates - otherwise there will be issues
+    // Currently, I'm not aware of any way to validate dates
+    
     NSDate *fromDate;
     NSDate *toDate;
     

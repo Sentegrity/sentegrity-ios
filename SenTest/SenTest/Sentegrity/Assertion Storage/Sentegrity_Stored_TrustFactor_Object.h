@@ -23,6 +23,6 @@
 // Run count
 @property (nonatomic,retain) NSNumber *runCount;
 // Stored assertions
-@property (nonatomic,retain) NSMutableDictionary *assertions;
+@property (nonatomic,retain) NSDictionary *assertions;
 
 @end

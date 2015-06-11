@@ -10,7 +10,7 @@
 
 @interface TrustFactor_Dispatch_Sandbox : Sentegrity_TrustFactor_Rule
 
-// 8
+// 8 - Sandbox Verification
 + (Sentegrity_TrustFactor_Output_Object *)apiVerification:(NSArray *)payload;
 
 @end
