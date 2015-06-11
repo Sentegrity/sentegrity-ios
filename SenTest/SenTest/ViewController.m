@@ -46,16 +46,18 @@
     Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyURLPath withError:&error];
     
     //Perform Core Detection
-    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, Sentegrity_Baseline_Analysis *baselineResults, Sentegrity_Policy *policy, NSError *error) {
+    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError *error) {
         if (success) {
 
             //protect mode analysis
-            if(![[ProtectMode sharedProtectMode] analyzeResults:computationResults withBaseline:baselineResults withPolicy:policy withError:&error]){
+            if(![[ProtectMode sharedProtectMode] analyzeResults:computationResults withError:&error]){
                 NSLog(@"Failed to analyze Core Detection results: %@", error.localizedDescription);
             }
             else{
-                NSLog(@"\n\nCore Detection Class Score Results: \nBreach Indicator:%d, \nSystem Security:%d, \nUser Anomaly:%d, \nPolicy Violation:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.userAnomalyScore,computationResults.policyScore );
+                NSLog(@"\n\nCore Detection Class Score Results: \nBreach Indicator:%d, \nSystem Security:%d, \nSystem Policy:%d, \nUser Anomaly:%d, \nUser Policy:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.systemPolicyScore, computationResults.userAnomalyScore,computationResults.userPolicyScore );
+                
                 NSLog(@"\n\nCore Detection Score Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceScore, computationResults.systemScore, computationResults.userScore );
+                
                 NSLog(@"\n\nCore Detection Trust Results: \nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceTrusted, computationResults.systemTrusted, computationResults.userTrusted);
                 NSLog(@"\n\nErrors: %@", error.localizedDescription);
             }

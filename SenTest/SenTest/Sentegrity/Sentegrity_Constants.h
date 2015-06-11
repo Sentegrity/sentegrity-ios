@@ -32,43 +32,52 @@
 #define kRuntime @"runtime"
 #define kUserThreshold @"userThreshold"
 #define kSystemThreshold @"systemThreshold"
+#define KContactPhone @"contactPhone"
+#define KContactEmail @"contactEmail"
+#define KContactURL @"contactURL"
 #define kDNEModifiers @"DNEModifiers"
 #define kClassifications @"classifications"
-#define kSubClassifications @"subclassification"
+#define kSubClassifications @"subclassifications"
 #define kTrustFactors @"trustFactors"
 
 #pragma mark - DNEModifier Keys
 
 #define kUnauthorized @"unauthorized"
 #define kUnsupported @"unsupported"
+#define kUnavailable @"unavailable"
 #define kDisabled @"disabled"
+#define kNoData @"noData"
 #define kExpired @"expired"
 #define kError @"error"
+
 
 #pragma mark - Classification Keys
 
 #define kIdentification @"id"
 #define kName @"name"
+#define kDesc @"desc"
 #define kWeight @"weight"
-#define kProtectMode @"protectMode"
-#define kProtectViolationName @"protectViolationName"
-#define kProtectInfo @"protectInfo"
-#define kContactPhone @"contactPhone"
-#define kContactURL @"contactURL"
-#define kContactEmail @"contactEmail"
+#define kProtectModeAction @"protectModeAction"
+#define kProtectModeMessage @"protectModeMessage"
+
 
 #pragma mark - Subclassification Keys
 
+    
 #define kSCIdentification @"id"
-#define kSCClassID @"classID"
 #define kSCName @"name"
-#define kSCDNEMessage @"dneMessage"
+#define kSCDNEUnauthorized @"dneUnauthorized"
+#define kSCDNEUnsupported @"dneUnsupported"
+#define kSCDNEUnavailable @"dneUnavailable"
+#define kSCDNEDisabled @"dneDisabled"
+#define kSCDNENoData @"dneNoData"
 #define kSCWeight @"weight"
 
 #pragma mark - TrustFactor Keys
 
 #define kTFIdentification @"id"
-#define kTFDescription @"desc"
+#define kTFIssueMessage @"issueMessage"
+#define kTFSuggestionMessage @"suggestionMessage"
 #define kTFRevision @"revision"
 #define kTFClassID @"classID"
 #define kTFSubclassID @"subClassID"
@@ -142,9 +151,10 @@
 
 #pragma mark - TrustScore Computation
 
-#define kBreachIndicator @"BREACH_INDICATOR"
+#define KSystemBreach @"SYSTEM_BREACH"
 #define kSystemSecurity  @"SYSTEM_SECURITY"
-#define kPolicyViolation @"POLICY_VIOLATION"
+#define kSystemPolicy @"SYSTEM_POLICY"
+#define kUserPolicy @"USER_POLICY"
 #define kUserAnomally    @"USER_ANOMALLY"
 
 #pragma mark - DNE Status Cases for TrustFactor output
@@ -153,10 +163,11 @@ typedef enum {
     DNEStatus_ok           = 0,
     DNEStatus_unauthorized = 1,
     DNEStatus_unsupported  = 2,
-    DNEStatus_disabled     = 3,
-    DNEStatus_expired      = 4,
-    DNEStatus_error        = 5,
-    DNEStatus_nodata       = 6
+    DNEStatus_unavailable  = 3,
+    DNEStatus_disabled     = 4,
+    DNEStatus_expired      = 5,
+    DNEStatus_error        = 6,
+    DNEStatus_nodata       = 7
 } DNEStatusCode;
 
 #pragma mark - Error Cases

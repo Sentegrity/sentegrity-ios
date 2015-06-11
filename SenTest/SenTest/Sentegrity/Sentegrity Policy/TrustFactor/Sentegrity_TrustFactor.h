@@ -11,7 +11,8 @@
 @interface Sentegrity_TrustFactor : NSObject
 
 @property (nonatomic, retain) NSNumber *identification;
-@property (nonatomic, retain) NSString *desc;
+@property (nonatomic, retain) NSString *issueMessage;
+@property (nonatomic, retain) NSString *suggestionMessage;
 @property (nonatomic, retain) NSNumber *revision;
 @property (nonatomic, retain) NSNumber *classID;
 @property (nonatomic, retain) NSNumber *subClassID;

@@ -5,184 +5,195 @@
   "runtime": 5,
   "userThreshold": 60,
   "systemThreshold": 65,
+  "contactPhone": "18005556666",
+  "contactURL": "www.application.com",
+  "contactEmail": "help@application.com",
   "DNEModifiers": {
       "unauthorized": 0.5,
       "unsupported": 0,
+      "unavailable": 0.5,
       "disabled": 0.5,
-      "expired": 0.5,
+      "noData": 0,
+      "expired": 0,
       "error": 0
   },
-  "classifications": [{
+   "classifications": [{
     "id": 1,
-    "name": "BREACH_INDICATOR",
+    "name": "SYSTEM_BREACH",
+    "desc": "High Risk Device",
     "weight": 0,
-    "protectMode": 2,
-    "protectViolationName": "Breach",
-    "protectInfo": "A system breach has been detected, please contact Sentegrity for assistance.",
-    "contactPhone": 18005556666,
-    "contactURL": "wwww.Sentegrity.com/help",
-    "contactEmail": "help@Sentegrity.com"
+    "protectModeAction": 3,
+    "protectModeMessage": "Enter administrator PIN to deactivate."
   }, {
     "id": 2,
-    "name": "POLICY_VIOLATION",
+    "name": "SYSTEM_POLICY",
+    "desc": "Device Violation",
     "weight": 0,
-    "protectMode": 3,
-    "protectViolationName": "Policy",
-    "protectInfo": "A violation of application policy has been detected. Please contact the application administrator.",
-    "contactPhone": 18005556666,
-    "contactURL": "www.application.com",
-    "contactEmail": "help@application.com"
+    "protectModeAction": 3,
+    "protectModeMessage": "Enter administrator PIN to deactivate."
   }, {
     "id": 3,
     "name": "SYSTEM_SECURITY",
+    "desc": "Device Anomaly",
     "weight": 0,
-    "protectMode": 3,
-    "protectViolationName": "Anomaly",
-    "protectInfo": "A system anomaly has been detected, please contact Sentegrity for assistance.",
-    "contactPhone": 18005556666,
-    "contactURL": "wwww.Sentegrity.com/help",
-    "contactEmail": "help@Sentegrity.com"
+    "protectModeAction": 3,
+    "protectModeMessage": "Enter administrator PIN to deactivate."
   }, {
     "id": 4,
+    "name": "USER_POLICY",
+    "desc": "User Violation",
+    "weight": 0,
+    "protectModeAction": 3,
+    "protectModeMessage": "Enter administrator PIN to deactivate."
+  }, {
+    "id": 5,
     "name": "USER_ANOMALY",
+    "desc": "User Anomaly",
     "weight": 1,
-    "protectMode": 2,
-    "protectViolationName": "Anomaly",
-    "protectInfo": "Are you the ower of this device? Please authenticate to confirm.",
-    "contactPhone": 18005556666,
-    "contactURL": "www.application.com",
-    "contactEmail": "help@application.com"
+    "protectModeAction": 2,
+    "protectModeMessage": "Enter user PIN to deactivate."
   }],
-  "subclassification": [{
+  "subclassifications": [{
     "id": 1,
-    "classID": 1,
-    "name": "ThreatSpecific",
-    "dneMessage": "",
+    "name": "Filesystem",
+    "dneUnauthorized": "",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
     "weight": 0
   }, {
     "id": 2,
-    "classID": 1,
-    "name": "Tamper",
-    "dneMessage": "",
-    "weight": 0
-  }, {
-    "id": 3,
-    "classID": 1,
-    "name": "Sandbox",
-    "dneMessage": "",
-    "weight": 0
-  }, {
-    "id": 1,
-    "classID": 2,
-    "name": "File",
-    "dneMessage": "",
-    "weight": 2
-  }, {
-    "id": 2,
-    "classID": 2,
     "name": "Process",
-    "dneMessage": "",
-    "weight": 1
+    "dneUnauthorized": "",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
+    "weight": 0
   }, {
     "id": 3,
-    "classID": 2,
     "name": "Network",
-    "dneMessage": "",
-    "weight": 2
+    "dneUnauthorized": "",
+    "dneUnsupported": "This device does not support network analysis",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "Connect to an active network",
+    "weight": 0
   }, {
     "id": 4,
-    "classID": 2,
     "name": "Wifi",
-    "dneMessage": "",
-    "weight": 2
+    "dneUnauthorized": "Authorize WiFi access",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "Enable WiFi on this device",
+    "dneNoData": "",
+    "weight": 0
   }, {
     "id": 5,
-    "classID": 2,
-    "name": "InstalledApps",
-    "dneMessage": "",
-    "weight": 2
+    "name": "Application",
+    "dneUnauthorized": "",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
+    "weight": 0
   }, {
     "id": 6,
-    "classID": 2,
-    "name": "Versioning",
-    "dneMessage": "",
+    "name": "Version",
+    "dneUnauthorized": "",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
     "weight": 2
   }, {
     "id": 7,
-    "classID": 2,
-    "name": "ProtectMode",
-    "dneMessage": "",
-    "weight": 3
-  }, {
-    "id": 1,
-    "classID": 3,
-    "name": "Time",
-    "dneMessage": "",
+    "name": "Access Time",
+    "dneUnauthorized": "",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
     "weight": 0
   }, {
-    "id": 2,
-    "classID": 3,
+    "id": 8,
+    "name": "Platform Integrity",
+    "dneUnauthorized": "",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
+    "weight": 0
+  }, {
+    "id": 9,
+    "name": "Application Integrity",
+    "dneUnauthorized": "",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
+    "weight": 0
+  }, {
+    "id": 10,
     "name": "Location",
-    "dneMessage": "Sentegrity was unable to verify policy, allowing location services may prevent this situation from reoccuring. [View Privacy Information]",
+    "dneUnauthorized": "Authorize location data usage.",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
     "weight": 0
   }, {
-    "id": 3,
-    "classID": 3,
-    "name": "Wifi",
-    "dneMessage": "Sentegrity was unable to verify policy, connecting to Wifi may prevent this from reoccuring.  [View Privacy Information]",
-    "weight": 0
-  }, {
-    "id": 4,
-    "classID": 3,
-    "name": "Platform",
-    "dneMessage": "",
-    "weight": 0
-  }, {
-    "id": 1,
-    "classID": 4,
+
+    "id": 11,
     "name": "Position",
-    "dneMessage": "",
-    "weight": 3
-  }, {
-    "id": 2,
-    "classID": 4,
-    "name": "Location",
-    "dneMessage": "Sentegrity was unable to authenticate you, allowing location services may prevent this situation from reoccuring. [View Privacy Information]",
+    "dneUnauthorized": "Authorize motion data",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
     "weight": 0
   }, {
-    "id": 3,
-    "classID": 4,
-    "name": "Time",
-    "dneMessage": "",
-    "weight": 1
-  }, {
-    "id": 4,
-    "classID": 4,
-    "name": "KnownDevices",
-    "dneMessage": "Sentegrity was unable to authenticate you, allowing bluetooth access and connecting to Wifi may prevent this from reoccuring.  [View Privacy Information]",
+    "id": 12,
+    "name": "Bluetooth",
+    "dneUnauthorized": "Authorize Bluetooth data.",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "Enable Bluetooth on device.",
+    "dneNoData": "",
     "weight": 0
   }, {
-    "id": 5,
-    "classID": 4,
+    "id": 13,
     "name": "Power",
-    "dneMessage": "",
-    "weight": 1
+    "dneUnauthorized": "",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
+    "weight": 0
   }, {
-    "id": 6,
-    "classID": 4,
+    "id": 14,
     "name": "Activity",
-    "dneMessage": "",
-    "weight": 2
+    "dneUnauthorized": "Authorize activity data",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "Enabled activity data on device.",
+    "dneNoData": "",
+    "weight": 0
   }, {
-    "id": 7,
-    "classID": 4,
-    "name": "ProtectMode",
-    "dneMessage": "",
-    "weight": 3
+    "id": 15,
+    "name": "Configuration",
+    "dneUnauthorized": "",
+    "dneUnsupported": "",
+    "dneUnavailable": "",
+    "dneDisabled": "",
+    "dneNoData": "",
+    "weight": 0
   }],
-  "trustFactors": [{
+"trustFactors": [{
       "id": 1001,
-      "desc": "PURPOSE: Identify known bad files, HOW: Scan for payload file names, if found use first found filename else 0 (baseline) to generate single canidate assertion for TrustFactor, BASELINE: Created using assertion generated from 0",
+      "issueMessage": "Malicious filesystem artifacts detected",
+      "suggestionMessage": "Reinstall operating system",
       "revision": 1,
       "classID": 1,
       "subClassID": 1,
@@ -213,10 +224,11 @@
       ]
     }, {
       "id": 1002,
-      "desc": "PURPOSE: Identify known bad process names, HOW: Scan for payload process names if found use first found process name else 0 (baseline) to generate single candidate assertion for TrustFactor, BASELINE: Created using assertion generated from 0",
+      "issueMessage": "Malicious processes detected",
+      "suggestionMessage": "Reinstall operating system",
       "revision": 1,
       "classID": 1,
-      "subClassID": 1,
+      "subClassID": 2,
       "priority": 1,
       "name": "badProcessNames",
       "penalty": 100,
@@ -243,12 +255,13 @@
 
     {
       "id": 1003,
-      "desc": "PURPOSE: Identify active network destinations using known bad IPs, HOW: Scan for network destinations in payload if found use first found network destination else 0 (baseline) to generate single candidate assertion for TrustFactor, BASELINE: Created using assertion generated from 0",
+      "issueMessage": "Malicious network destination(s) detected",
+      "suggestionMessage": "Disconnect from network",
       "revision": 1,
       "classID": 1,
-      "subClassID": 1,
+      "subClassID": 3,
       "priority": 3,
-      "name": "badNetworkDestination",
+      "name": "bad network destination",
       "penalty": 100,
       "learnMode": 1,
       "learnTime": 0,
@@ -270,12 +283,13 @@
       ]
     }, {
       "id": 1004,
-      "desc": "PURPOSE: Identify known bad service/port in use, HOW: Scan for listening ports in payload if found use found port number else 0 (baseline) to generate single candidate assertion for TrustFactor, BASELINE: Created using assertion generated from 0",
+      "issueMessage": "Malicious network service detected",
+      "suggestionMessage": "Reinstall operating system",
       "revision": 1,
       "classID":1,
       "subClassID": 3,
       "priority": 2,
-      "name": "privledgedNetworkServices",
+      "name": "privileged network services",
       "penalty": 100,
       "learnMode": 1,
       "learnTime": 0,
@@ -295,12 +309,13 @@
       ]
     }, {
       "id": 1005,
-      "desc": "PURPOSE: identify bad uri handlers of known malicious apps, HOW: Attempt to access bad URIs from payload if found use found URI name else 0 (baseline) to generate single candidate assertion for TrustFactor, BASELINE: Created using assertion generated from 0",
+      "issueMessage": "Malicious applications detected",
+      "suggestionMessage": "Reinstall operating system",
       "revision": 1,
       "classID": 1,
-      "subClassID": 1,
+      "subClassID": 5,
       "priority": 1,
-      "name": "badURIHandler",
+      "name": "bad URI handler",
       "penalty": 100,
       "learnMode": 1,
       "learnTime": 0,
@@ -319,12 +334,13 @@
       ]
     }, {
       "id": 1006,
-      "desc": "PURPOSE: Identify integrity of the sandbox via API calls, HOW: Perform platform-specific tests, use result from a single or multiple API call functions to generate a single or multiple candidate assertions for TrustFactor, BASELINE: Created using assertion generated from known-good (expected) result of API calls",
+      "issueMessage": "Platform sandbox integrity violated",
+      "suggestionMessage": "Reinstall operating system",
       "revision": 1,
       "classID": 1,
-      "subClassID": 3,
+      "subClassID": 8,
       "priority": 2,
-      "name": "sandboxIntegrityVerification",
+      "name": "sandbox integrity",
       "penalty": 100,
       "learnMode": 1,
       "learnTime": 0,
@@ -340,12 +356,13 @@
       "payload": []
     }, {
       "id": 1008,
-      "desc": "PURPOSE: Detect tamper of sentegrity binary or core detection policy, HOW: This rule is forcibly triggered as a result of embedded detection or policy or runtime checksum violations and triggered using a random number else 0 to generate a single assertion for the TrustFactor that is guaranteed to be unique, BASELINE: created using assertion generated from 0",
+      "issueMessage": "Application integrity violated",
+      "suggestionMessage": "Reinstall application",
       "revision": 1,
       "classID": 1,
-      "subClassID": 2,
+      "subClassID": 9,
       "priority": 1,
-      "name": "sentegrityTamperDetection",
+      "name": "tamper detection",
       "penalty": 100,
       "learnMode": 1,
       "learnTime": 0,
@@ -361,12 +378,13 @@
       "payload": []
     }, {
       "id": 1009,
-      "desc": "PURPOSE: Policy that only allows access from specific locations, HOW: The current location (long/lat) is rounded and concatenated to generate a single candidate assertion for the TrustFactor, BASELINE: Created from pre-established payload values set by policy owner",
+      "issueMessage": "Device location is outside of policy",
+      "suggestionMessage": "Request policy exception",
       "revision": 1,
-      "classID": 2,
-      "subClassID": 2,
+      "classID": 4,
+      "subClassID": 10,
       "priority": 1,
-      "name": "locationAllowed",
+      "name": "location policy",
       "penalty": 100,
       "learnMode": 1,
       "learnTime": 0,
@@ -385,12 +403,13 @@
       ]
     }, {
       "id": 1010,
-      "desc": "PURPOSE: Policy that only allows access during specific times, HOW: The current time is compared to allowed payload times spans, if not in the time span (violation) use current time else 0 (baseline) to generate a single candidate assertion for the TrustFactor, BASELINE: Created from 0",
+      "issueMessage": "Application access time policy violation",
+      "suggestionMessage": "Request policy exception",
       "revision": 1,
-      "classID": 2,
-      "subClassID": 1,
+      "classID": 4,
+      "subClassID": 7,
       "priority": 1,
-      "name": "timeAllowed",
+      "name": "access time policy",
       "penalty": 100,
       "learnMode": 1,
       "learnTime": 0,
@@ -408,12 +427,13 @@
       ]
     }, {
       "id": 1011,
-      "desc": "PURPOSE: Policy that does not allow vulnerable platforms, HOW: The current platform version is compared to payload known-good versions, if match not found use current version, else 0 (baseline) to generate a single candidate assertion for the TrustFactor  , BASELINE: Created from 0",
+      "issueMessage": "Platform OS version policy violation",
+      "suggestionMessage": "Upgrade platform OS",
       "revision": 1,
       "classID": 2,
-      "subClassID": 4,
+      "subClassID": 6,
       "priority": 1,
-      "name": "platformAllowed",
+      "name": "platform version policy",
       "penalty": 100,
       "learnMode": 1,
       "learnTime": 0,
@@ -431,12 +451,13 @@
       ]
     }, {
       "id": 1012,
-      "desc": "PURPOSE: Identify change in critical file sizes, HOW: Iterate through payload files and determine sizes for each, summarize all to generate candidate assertion for the TrustFactor, BASELINE: Learned from first candidate assertion",
+      "issueMessage": "Modification to platform filesystem detected",
+      "suggestionMessage": "Reinstall operating system",
       "revision": 1,
       "classID": 3,
-      "subClassID": 1,
+      "subClassID": 8,
       "priority": 1,
-      "name": "fileSizeChange",
+      "name": "critical file size",
       "penalty": 30,
       "learnMode": 1,
       "learnTime": 0,
@@ -455,12 +476,13 @@
       ]
     }, {
       "id": 1013,
-      "desc": "PURPOSE: Identify new root (uid=0) processes, HOW: Iterate through all current root processes and generate candidate assertion for each root process name resulting in multiple candidate assertions for the TrustFactor, BASELINE: Multiple created from each root process name discovered",
+      "issueMessage": "Privileged process detected",
+      "suggestionMessage": "Reinstall opearting system",
       "revision": 1,
       "classID": 3,
       "subClassID": 2,
       "priority": 2,
-      "name": "newRootProcesses",
+      "name": "privileged processes",
       "penalty": 70,
       "learnMode": 2,
       "learnTime": 7,
@@ -476,12 +498,13 @@
       "payload": []
     }, {
       "id": 1014,
-      "desc": "PURPOSE: Identify new network services, HOW: Iterate through all low port (0-1023) source port network connection, generate assertion for each port resulting in multiple candidate assertions for the TrustFactor, BASELINE: Multiple created from each low port",
+      "issueMessage": "Unknown network services detected",
+      "suggestionMessage": "Reinstall operating system",
       "revision": 1,
       "classID": 3,
       "subClassID": 3,
       "priority": 2,
-      "name": "newNetworkService",
+      "name": "anomalous network service",
       "penalty": 80,
       "learnMode": 2,
       "learnTime": 7,
@@ -497,12 +520,13 @@
       "payload": []
     }, {
       "id": 1015,
-      "desc": "PURPOSE: Identify if no interface is up (no route), HOW: Check if loopback adapter is the default gw if yes use interface  name, else 0 (baseline),to generate candidate assertion for TrustFactor, BASELINE: Created from 0",
+      "issueMessage": "Device has no network connection",
+      "suggestionMessage": "Connect to network",
       "revision": 1,
       "classID": 3,
       "subClassID": 3,
       "priority": 3,
-      "name": "noRoute",
+      "name": "network route",
       "penalty": 30,
       "learnMode": 1,
       "learnTime": 0,
@@ -518,12 +542,13 @@
       "payload": []
     }, {
       "id": 1016,
-      "desc": "PURPOSE: Identify if VPN interface is up, HOW: Check if VPN interface adapter is the default gw, if yes use interface  name, else 0 (baseline),to generate candidate assertion for TrustFactor, BASELINE: Created from 0",
+      "issueMessage": "Connected to unknown VPN",
+      "suggestionMessage": "Disable VPN",
       "revision": 1,
       "classID": 3,
       "subClassID": 3,
       "priority": 3,
-      "name": "unknownVpnUp",
+      "name": "vpn connection",
       "penalty": 30,
       "learnMode": 1,
       "learnTime": 0,
@@ -539,12 +564,13 @@
       "payload": []
     }, {
       "id": 1017,
-      "desc": "PURPOSE: Identify if connected AP is a SOHO, HOW: If current AP MAC (BSSID) matches any payload OUIs use current OUI, else 0 (baseline),to generate candidate assertion for TrustFactor, BASELINE: Created from 0",
+      "issueMessage": "High risk WiFi access point",
+      "suggestionMessage": "",
       "revision": 1,
       "classID": 3,
       "subClassID": 4,
       "priority": 1,
-      "name": "SOHOWifiAP",
+      "name": "high risk access point",
       "penalty": 30,
       "learnMode": 1,
       "learnTime": 0,
@@ -624,12 +650,13 @@
       ]
     }, {
       "id": 1018,
-      "desc": "PURPOSE: Identify if connected AP is known by SSID, HOW: Use current AP SSID to generate candidate assertion for TrustFactor, BASELINE: Created from learned AP SSID",
+      "issueMessage": "Connected WiFi unknown",
+      "suggestionMessage": "",
       "revision": 1,
-      "classID": 3,
+      "classID": 5,
       "subClassID": 4,
       "priority": 2,
-      "name": "wifiSSIDKnown",
+      "name": "wifi ssid",
       "penalty": 30,
       "learnMode": 2,
       "learnTime": 7,
@@ -645,12 +672,13 @@
       "payload": []
     }, {
       "id": 1018,
-      "desc": "PURPOSE: Identify if connected AP is known by BSSID, HOW: Use current AP MAC (BSSID) to generate candidate assertion for TrustFactor, BASELINE: Created from learned AP MAC (BSSIDs)",
+      "issueMessage": "Connected WiFi unknown",
+      "suggestionMessage": "",
       "revision": 1,
-      "classID": 4,
+      "classID": 5,
       "subClassID": 4,
       "priority": 2,
-      "name": "wifiBSSIDKnown",
+      "name": "wifi bssid",
       "penalty": -100,
       "learnMode": 2,
       "learnTime": 7,
@@ -666,12 +694,13 @@
       "payload": []
     }, {
       "id": 1020,
-      "desc": "PURPOSE: Identify if connected AP is unencrypted, HOW: If unencrypted use AP MAC, else 0 (baseline), to generate candidate assertion, BASELINE: created from zero",
+      "issueMessage": "Connected WiFi is unencrypted",
+      "suggestionMessage": "",
       "revision": 1,
       "classID": 3,
       "subClassID": 4,
       "priority": 1,
-      "name": "unencryptedWifi",
+      "name": "wifi encryption",
       "penalty": 30,
       "learnMode": 1,
       "learnTime": 0,
@@ -687,12 +716,13 @@
       "payload": []
     }, {
       "id": 1021,
-      "desc": "PURPOSE: Identify if a high risk App is running, HOW: Scan current processes for payload names, if found use process name, else 0 (baseline), to generate candidate assertion for TrustFactor, BASELINE: created from zero",
+      "issueMessage": "High risk applications detected",
+      "suggestionMessage": "Closed background applications",
       "revision": 1,
       "classID": 3,
       "subClassID": 5,
       "priority": 2,
-      "name": "highRiskApplications",
+      "name": "high risk application",
       "penalty": 30,
       "learnMode": 1,
       "learnTime": 0,
@@ -715,12 +745,13 @@
       ]
     }, {
       "id": 1022,
-      "desc": "PURPOSE: Identify vulnerable platform in use, HOW: The current platform version is compared to payload versions, if match, current platform version is used, else 0 (baseline),to generate a single candidate assertion for the TrustFactor, BASELINE: created from zero",
+      "issueMessage": "Vulnerable operating system",
+      "suggestionMessage": "Upgrade operating system",
       "revision": 1,
       "classID": 3,
       "subClassID": 6,
       "priority": 1,
-      "name": "platformVulnerable",
+      "name": "vulnerable platform",
       "penalty": 40,
       "learnMode": 1,
       "learnTime": 0,
@@ -738,12 +769,13 @@
       ]
     }, {
       "id": 1022,
-      "desc": "Identify if uptime is short",
+      "issueMessage": "Short uptime",
+      "suggestionMessage": "",
       "revision": 1,
       "classID": 3,
-      "subClassID": 4,
+      "subClassID": 13,
       "priority": 1,
-      "name": "shortDeviceUptime",
+      "name": "device uptime",
       "penalty": 40,
       "learnMode": 1,
       "learnTime": 0,
@@ -761,12 +793,13 @@
         ]
       }, {
       "id": 1023,
-      "desc": "PURPOSE: Identify if a device backup is enabled (via process in this instance), HOW: Determine if iCloud backup enabled, if yes, use name, else 0 (baseline),to generate a single candidate assertion for the TrustFactor, BASELINE: created from zero",
+      "issueMessage": "Device backup enabled",
+      "suggestionMessage": "",
       "revision": 1,
       "classID": 3,
-      "subClassID": 6,
+      "subClassID": 14,
       "priority": 1,
-      "name": "deviceBackupEnabled",
+      "name": "device backup",
       "penalty": 30,
       "learnMode": 1,
       "learnTime": 0,
@@ -786,12 +819,13 @@
       ]
     }, {
       "id": 1024,
-      "desc": "PURPOSE: Profile the device movement during analysis, HOW: Leverage payload \"rounding\" to round current X/Y/Z Gyro data and concat to generate a single candidate assertion for the TrustFactor, BASELINE: Learned from readings",
+      "issueMessage": "Device movement is untrusted",
+      "suggestionMessage": "",
       "revision": 1,
-      "classID": 4,
-      "subClassID": 1,
+      "classID": 5,
+      "subClassID": 11,
       "priority": 3,
-      "name": "deviceMovement",
+      "name": "device movement",
       "penalty": 40,
       "learnMode": 3,
       "learnTime": 7,
@@ -809,12 +843,13 @@
       }]
     }, {
       "id": 1025,
-      "desc": "PURPOSE: Profile the device position during analysis (how it is held), HOW: Leverage payload \"rounding\" to round current X/Y/Z accelerometer data and concat to generate a single candidate assertion for the TrustFactor, BASELINE: Learned from readings",
+      "issueMessage": "Device position is untrusted",
+      "suggestionMessage": "",
       "revision": 1,
-      "classID": 4,
-      "subClassID": 1,
+      "classID": 5,
+      "subClassID": 11,
       "priority": 3,
-      "name": "unknownDevicePosition",
+      "name": "device position",
       "penalty": 40,
       "learnMode": 3,
       "learnTime": 7,
@@ -832,12 +867,13 @@
       }]
     }, {
       "id": 1026,
-      "desc": "PURPOSE: Profile access location, HOW: The current location (long/lat) is rounded based on pyaload, concatenated and used to generate a single candidate assertion for the TrustFactor, BASELINE: Learned from readings",
+      "issueMessage": "Device location is untrusted",
+      "suggestionMessage": "",
       "revision": 1,
-      "classID": 4,
-      "subClassID": 2,
+      "classID": 5,
+      "subClassID": 10,
       "priority": 1,
-      "name": "unknownDeviceLocation",
+      "name": "device location",
       "penalty": 70,
       "learnMode": 2,
       "learnTime": 7,
@@ -855,12 +891,13 @@
       }]
     }, {
       "id": 1027,
-      "desc": "PURPOSE: Profile access time, HOW: Leverage payload \"blocksize\" to divide day into chunks, use block number of current time to generate a single candidate assertion for the TrustFactor, BASELINE: Learned from readings",
+      "issueMessage": "Access time unknown",
+      "suggestionMessage": "",
       "revision": 1,
-      "classID": 4,
-      "subClassID": 3,
+      "classID": 5,
+      "subClassID": 7,
       "priority": 1,
-      "name": "knownAccessTime",
+      "name": "access time",
       "penalty": 70,
       "learnMode": 2,
       "learnTime": 7,
@@ -878,12 +915,13 @@
       }]
     }, {
       "id": 1028,
-      "desc": "PURPOSE: Identify known bluetooth BLE devices in close proximity, HOW: Iterate through top 3 found BLE device IDs and generate multiple candidate assertions for the TrustFactor, BASELINE: Learned from readings",
+      "issueMessage": "Unknown bluetooth devices",
+      "suggestionMessage": "",
       "revision": 1,
-      "classID": 4,
-      "subClassID": 4,
+      "classID": 5,
+      "subClassID": 12,
       "priority": 1,
-      "name": "knownBluetoothBLEDevice",
+      "name": "bluetooth device",
       "penalty": -100,
       "learnMode": 2,
       "learnTime": 7,
@@ -899,12 +937,13 @@
       "payload": []
     }, {
       "id": 1029,
-      "desc": "PURPOSE: Profile device power level, HOW: Leverage payload \"blocksize\" to divide power level into chunks, use block number of current power level to generate a single candidate assertion for the TrustFactor,BASELINE: Learned from readings",
+      "issueMessage": "Power level unknown",
+      "suggestionMessage": "",
       "revision": 1,
-      "classID": 4,
-      "subClassID": 5,
+      "classID": 5,
+      "subClassID": 13,
       "priority": 3,
-      "name": "powerLevelKnown",
+      "name": "power level",
       "penalty": 30,
       "learnMode": 2,
       "learnTime": 7,

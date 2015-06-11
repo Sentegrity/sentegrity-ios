@@ -20,6 +20,11 @@
     _unsupported = unsupported;
 }
 
+// Unavailable
+- (void)setUnavailable:(NSNumber *)unavailable{
+    _unavailable = unavailable;
+}
+
 // Disabled
 - (void)setDisabled:(NSNumber *)disabled{
     _disabled = disabled;
@@ -33,6 +38,11 @@
 //Error
 - (void)setError:(NSNumber *)error{
     _error = error;
+}
+
+//noData
+- (void)noData:(NSNumber *)noData{
+    _noData = noData;
 }
 
 

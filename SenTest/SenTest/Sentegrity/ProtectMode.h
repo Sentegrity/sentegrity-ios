@@ -19,7 +19,7 @@
 
 #pragma mark - Analysis
 // Analyze computation and baseline results
-- (BOOL)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withBaseline:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error;
+- (BOOL)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)error;
 
 #pragma mark - Deactivation
 
@@ -32,6 +32,6 @@
 
 @property (nonatomic, retain) Sentegrity_Policy *currentPolicy;
 
-@property (nonatomic, retain) NSMutableArray *trustFactorsToWhitelist;
+@property (nonatomic, retain) NSArray *trustFactorsToWhitelist;
 
 @end

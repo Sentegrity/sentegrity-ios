@@ -19,6 +19,7 @@ NSString const *subClassificationsKey = @"Sentegrity.subClassifications";
 NSString const *trustFactorsKey = @"Sentegrity.trustFactors";
 
 
+
 // Base Penalty
 
 - (void)setBasePenalty:(NSInteger)basePenalty {
@@ -52,5 +53,6 @@ NSString const *trustFactorsKey = @"Sentegrity.trustFactors";
 - (NSArray *)trustFactors {
     return objc_getAssociatedObject(self, &trustFactorsKey);
 }
+
 
 @end

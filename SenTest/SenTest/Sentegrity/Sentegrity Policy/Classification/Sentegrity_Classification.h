@@ -12,12 +12,10 @@
 
 @property (nonatomic,retain) NSNumber *identification;
 @property (nonatomic,retain) NSString *name;
+@property (nonatomic,retain) NSString *desc;
 @property (nonatomic,retain) NSNumber *weight;
-@property (nonatomic,retain) NSNumber *protectMode;
-@property (nonatomic,retain) NSString *protectViolationName;
-@property (nonatomic,retain) NSString *protectInfo;
-@property (nonatomic,retain) NSString *contactPhone;
-@property (nonatomic,retain) NSString *contactURL;
-@property (nonatomic,retain) NSString *contactEmail;
+@property (nonatomic,retain) NSNumber *protectModeAction;
+@property (nonatomic,retain) NSString *protectModeMessage;
+
 
 @end

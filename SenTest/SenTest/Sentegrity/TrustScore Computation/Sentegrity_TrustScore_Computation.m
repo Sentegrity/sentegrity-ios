@@ -46,11 +46,8 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
  */
 
 // Compute the systemScore and the UserScore from the policy
-+ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjectsForComputation withError:(NSError **)error {
++ (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error {
 
-    
-    // get the policy provided trustFactors objects
-    NSArray *trustFactors = policy.trustFactors;
     
     // Make sure we got a policy
     if (!policy || policy == nil || policy.policyID < 0) {
@@ -64,10 +61,10 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     }
     
     // Validate trustFactorOutputObjects
-    if (!trustFactorOutputObjectsForComputation || trustFactorOutputObjectsForComputation == nil || trustFactorOutputObjectsForComputation.count < 1) {
+    if (!trustFactorOutputObjects || trustFactorOutputObjects == nil || trustFactorOutputObjects.count < 1) {
         // Error out, no assertion objects set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No assertions found to compute" forKey:NSLocalizedDescriptionKey];
+        [errorDetails setValue:@"No TrustFactorOutputObjects found to compute" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
@@ -86,7 +83,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     }
     
     // Validate the subclassifications
-    if (!policy.subclassification || policy.subclassification.count < 1) {
+    if (!policy.subclassifications || policy.subclassifications.count < 1) {
         // Failed, no classifications found
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No subclassifications found" forKey:NSLocalizedDescriptionKey];
@@ -108,128 +105,189 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     // 10. Generate the classification's trustscore
     // 11. Do this for all classifications/subclassifications
 
-    // Go through all the classifications in the policy
+    //For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
+        
+        // Links
+        NSMutableArray *trustFactorsInClass = [NSMutableArray array];
         
         NSMutableArray *subClassesInClass = [NSMutableArray array];
         
+        NSMutableArray *trustFactorsToWhitelistInClass = [NSMutableArray array];
+        
+        //GUI messages
+        
+        //Not learned (debug)
+        NSMutableArray *trustFactorsNotLearnedInClass = [NSMutableArray array];
+        
+        //GUI: Analysis results displayed on a per subclass basis
+        NSMutableArray *subClassStatus = [NSMutableArray array];
+        
+        //GUI: Issues displayed
+        NSMutableArray *issuesInClass = [NSMutableArray array];
+        
+        //GUI: Suggestions displayed
+        NSMutableArray *suggestionsInClass = [NSMutableArray array];
+        
         // Run through all the subclassifications that are in the policy
-        for (Sentegrity_Subclassification *subClass in policy.subclassification) {
+        for (Sentegrity_Subclassification *subClass in policy.subclassifications) {
             
-            // Match up all the subclassifications that belong to the classification
-            if ([subClass.classID intValue] == [class.identification intValue]) {
+            NSMutableArray *trustFactorsInSubClass = [NSMutableArray array];
+            
+            BOOL subClassContainsTrustFactors=NO;
+            BOOL subClassContainsErrors=NO;
+            
+            // Run through all trustfactors
+            for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in trustFactorOutputObjects) {
                 
-                NSMutableArray *trustFactorsInSubClass = [NSMutableArray array];
-                
-                // Sort all the trustfactors into their respective classifications/subclassifications
-                for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in trustFactorOutputObjectsForComputation) {
-                    //if its an inverse rule and not ok do not apply
-                    if(trustFactorOutputObject.trustFactor.inverse.intValue==1){
-                        continue;
-                    }
-                    
-                    //if the implementation determined the rule is unsupported by the device do or an error occured do not apply
-                    if(trustFactorOutputObject.statusCode == DNEStatus_unsupported || trustFactorOutputObject.statusCode == DNEStatus_error){
-                        continue;
-                    }
-                    
-                    // Check if the subclass belongs in the class and if the trustfactor class id and subclass id match the class and subclass
-                    if ([[class identification] intValue] == [[subClass classID] intValue] && ([trustFactorOutputObject.trustFactor.classID intValue] == [[class identification] intValue] && [trustFactorOutputObject.trustFactor.subClassID intValue] == [[subClass identification] intValue])) {
-                        
-                        
-                        // Check if the trustfactor was executed successfully
-                        if (trustFactorOutputObject.statusCode == DNEStatus_ok) {
-                            
-                            //apply normal penalty
-                            subClass.basePenalty = (subClass.basePenalty + trustFactorOutputObject.trustFactor.penalty.integerValue);
 
-                        } else {
-                            // TrustFactor did not run successfully (DNE)
-                            
-                            // if its an inverse rule skip it as there is no partial penalty when not OK
-                            if (trustFactorOutputObject.trustFactor.inverse.intValue ==1){
-                                continue;
-                            }
-                            
-                            // Create an int to hold the dnePenalty multiplied by the modifier
-                            double penaltyMod = 0;
-                            
-                            // Find out which DNE exit code was set
-                            
-                            switch (trustFactorOutputObject.statusCode) {
-                                case DNEStatus_error:
-                                    // Error
-                                    penaltyMod = [policy.DNEModifiers.error doubleValue];
-                                    break;
-                                case DNEStatus_unauthorized:
-                                    // Unauthorized
-                                    penaltyMod = [policy.DNEModifiers.unauthorized doubleValue];
-                                    break;
-                                case DNEStatus_unsupported:
-                                    // Unsupported
-                                    penaltyMod = [policy.DNEModifiers.unsupported doubleValue];
-                                    break;
-                                case DNEStatus_disabled:
-                                    // Disabled
-                                    penaltyMod = [policy.DNEModifiers.disabled doubleValue];
-                                    break;
-                                case DNEStatus_expired:
-                                    // Error
-                                    penaltyMod = [policy.DNEModifiers.expired doubleValue];
-                                    break;
-                                default:
-                                    // apply error by default
-                                    penaltyMod = [policy.DNEModifiers.error doubleValue];
-                                    break;
-                            }
-                            
-                            // DNE weighted penalty based on modifiers
-                            subClass.basePenalty = subClass.basePenalty + (trustFactorOutputObject.trustFactor.penalty.integerValue * penaltyMod);
+                // Check if the trustfactor class id and subclass id match (we may have no TFs in the current subclass otherwise)
+                if (([trustFactorOutputObject.trustFactor.classID intValue] == [[class identification] intValue]) && ([trustFactorOutputObject.trustFactor.subClassID intValue] == [[subClass identification] intValue])) {
+                    
+                    //Check for hit
+                    subClassContainsTrustFactors=YES;
+                    
+                    // Check if the trustfactor was executed successfully
+                    if (trustFactorOutputObject.statusCode == DNEStatus_ok) {
+                        
+                        //add to whitelist array if baseline analysis determined this is whitelistable
+                        if(trustFactorOutputObject.whitelist==YES){
+                            [trustFactorsToWhitelistInClass addObject:trustFactorOutputObject];
                         }
                         
-                        // Add the trustfactor to the subclassifications trustfactor array
-                        [trustFactorsInSubClass addObject:trustFactorOutputObject.trustFactor];
-                    }
+                        if(trustFactorOutputObject.storedTrustFactorObject.learned==NO){
+                            
+                            //add not learned message
+                            [trustFactorsNotLearnedInClass addObject:[NSString stringWithFormat:@"%@ %@ %@", @"TrustFactor:", trustFactorOutputObject.trustFactor.name, @" not yet learned."]];
+                            //go to next TF
+                            continue;
+                        }
+                        
+                        if(trustFactorOutputObject.triggered==YES){
+                            
+                            //apply penalty to subclass base
+                            subClass.basePenalty = (subClass.basePenalty + trustFactorOutputObject.trustFactor.penalty.integerValue);
+                            
+                            // IF normal rule: Update issues and suggestion messages  (triggering a normal rule is bad)
+                            if(trustFactorOutputObject.trustFactor.inverse.intValue==0){
+                                
+                                //Is a issue set for this TF?
+                                if(trustFactorOutputObject.trustFactor.issueMessage.length != 0)
+                                {   //Does issue already exist in our list?
+                                    if(![issuesInClass containsObject:trustFactorOutputObject.trustFactor.issueMessage]){
+                                        [issuesInClass addObject:trustFactorOutputObject.trustFactor.issueMessage];
+                                    }
+                                }
+                                
+                                //Is a suggestion set for this TF?
+                                if(trustFactorOutputObject.trustFactor.suggestionMessage.length != 0)
+                                {   //Does suggestion already exist in our list?
+                                    if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.suggestionMessage]){
+                                        [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.suggestionMessage];
+                                    }
+                                }
+                                
+                            }
+                            
+                        }
+                        else{
+                            // IF inverse rule: Update issues message (not triggering inverse rule is bad)
+                            if(trustFactorOutputObject.trustFactor.inverse.intValue==1){
+                                
+                                //Is a issue set for this TF?
+                                if(trustFactorOutputObject.trustFactor.issueMessage.length != 0)
+                                {   //Does issue already exist in our list?
+                                    if(![issuesInClass containsObject:trustFactorOutputObject.trustFactor.issueMessage]){
+                                        [issuesInClass addObject:trustFactorOutputObject.trustFactor.issueMessage];
+                                    }
+                                }
+                                
+                                //Is suggestion set for this TF?
+                                if(trustFactorOutputObject.trustFactor.suggestionMessage.length != 0)
+                                {   //Does suggestion already exist in our list?
+                                    if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.suggestionMessage]){
+                                        [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.suggestionMessage];
+                                    }
+                                }
+                            }
+                            
+                        }
+
+
+                    }else {
+                        // TrustFactor did not run successfully (DNE)
+                        //  Update issues/suggesstions as possible and penalty for non-inverse rules
                     
-                 
-                    
-                }// End trustfactors loop
+                        subClassContainsErrors=YES;
+                        // if its an inverse rule there is no DNE penalty applied, don't do the penalty calculation but add suggestions
+                        if (trustFactorOutputObject.trustFactor.inverse.intValue ==1)
+                        {
                 
-                // Set the trustfactors for the subclass
-                [subClass setTrustFactors:trustFactorsInSubClass];
+                            [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
+
+                        }
+                        else //not an inverse rule therefore record messages and penalty
+                        {
+                
+                            [self addSuggestionsForClassAndCalcPenalty:class withPolicy:policy withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
+                        }
+                
+                    }
+                
+                    //add TF to classification
+                    [trustFactorsInClass addObject:trustFactorOutputObject.trustFactor];
+                    //add TF to subclass
+                    [trustFactorsInSubClass addObject:trustFactorOutputObject.trustFactor];
+                    
+                } // End IF class/subclass match
+                
+            }// End trustfactors loop
+            
+            //If any trustFactors existed within this subClass
+            if(subClassContainsTrustFactors){
+                
+                //update analysis message with subclass complete or failed
+                if(!subClassContainsErrors) {
+                    [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@ %@", @"Completed", subClass.name, @"analysis."]];
+                }
+                else{
+                    [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis failed."]];
+                }
                 
                 // Set the penalty weight for the subclass
                 subClass.weightedPenalty = (subClass.basePenalty * (1-(0.1 * subClass.weight.integerValue)) );
-                NSLog(@"Subclass Name:%@ %ld",subClass.name,(long)subClass.weightedPenalty);
                 
                 // Add the subclass weightedPenalty to the classification basePenalty
                 class.basePenalty = (class.basePenalty + subClass.weightedPenalty);
                 
-                // Add the subclass to the classifications subclass array
+                // Add trustFactors to the list of trusfactors in a subclass
+                [subClass setTrustFactors:trustFactorsInSubClass];
+                
+                // Add the subclass to list of subclasses in class
                 [subClassesInClass addObject:subClass];
             }
+
+
+            
             
         }// End subclassifications loop
-        
-        // Add the subclassifications for the classification name
+            
+        //Link subclassification list to classification
         [class setSubClassifications:subClassesInClass];
         
-        // Trust Factors that belong to the class being iterated through will be placed here
-        NSMutableArray *trustFactorsInClass = [NSMutableArray array];
-        
-        // Add all the trustfactors that belong in the class
-        for (Sentegrity_TrustFactor *trustFactor in trustFactors) {
-            if ([trustFactor.classID intValue] == [class.identification intValue]) {
-                // Add to the trustfactorsinclass array
-                [trustFactorsInClass addObject:trustFactor];
-            }
-        }// End trustfactor loop
-        
-        // Add the trustfactors that belong to the classification
+        //Link trustfactors to the classification
         [class setTrustFactors:trustFactorsInClass];
+        
+        //Add the trustfactors for protect mode to the classification
+        [class setTrustFactorsToWhitelist:trustFactorsToWhitelistInClass];
         
         // Set the penalty weight for the classification
         class.weightedPenalty = (class.basePenalty * (1-(0.1 * class.weight.integerValue)) );
+            
+        // Set GUI elements
+        [class setSubClassStatus: subClassStatus];
+        [class setIssuesInClass: issuesInClass];
+        [class setSuggestionsInClass:suggestionsInClass];
         
     }// End classifications loop
     
@@ -245,38 +303,44 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     // Create the computation to return
     Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc] init];
     
-    // Interim variables
+    Sentegrity_Classification *systemBreachClass = [Sentegrity_TrustScore_Computation getClassificationForName:KSystemBreach fromArray:policy.classifications withError:error];
+    Sentegrity_Classification *systemSecurityClass = [Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error];
+    Sentegrity_Classification *systemPolicyClass = [Sentegrity_TrustScore_Computation getClassificationForName:kSystemPolicy fromArray:policy.classifications withError:error];
+    Sentegrity_Classification *userPolicyClass = [Sentegrity_TrustScore_Computation getClassificationForName:kUserPolicy fromArray:policy.classifications withError:error];
+    Sentegrity_Classification *userAnomalyClass = [Sentegrity_TrustScore_Computation getClassificationForName:kUserAnomally fromArray:policy.classifications withError:error];
+     
+    // Get classification scores
+    int systemBreachScore =  (int)[systemBreachClass weightedPenalty];
+    int systemSecurityScore = (int) [systemSecurityClass weightedPenalty];
+    int systemPolicyScore = (int) [systemPolicyClass weightedPenalty];
+    int userPolicyScore =  (int)[userPolicyClass weightedPenalty];
+    int userAnomalyScore = (int) [userAnomalyClass weightedPenalty];
     
-    //Generate the System score by averaging the BREACH_INDICATOR and SYSTEM_SECURITY scores
-    int systemBreachScore =  (int)[[Sentegrity_TrustScore_Computation getClassificationForName:kBreachIndicator fromArray:policy.classifications withError:error] weightedPenalty];
-    int systemSecurityScore = (int) [[Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error] weightedPenalty];
+    // Min/Max to adjust from 0-100
     computationResults.systemBreachScore = MIN(100,MAX(0,100-systemBreachScore));
     computationResults.systemSecurityScore = MIN(100,MAX(0,100-systemSecurityScore));
-    computationResults.systemScore =  (computationResults.systemSecurityScore + computationResults.systemBreachScore) / 2;
-    
-    //Generate the User score by averaging the POLICY_VIOLATION and USER_ANOMALLY scores
-    int policyScore =  (int)[[Sentegrity_TrustScore_Computation getClassificationForName:kPolicyViolation fromArray:policy.classifications withError:error] weightedPenalty];
-    int userAnomalyScore = (int) [[Sentegrity_TrustScore_Computation getClassificationForName:kUserAnomally fromArray:policy.classifications withError:error] weightedPenalty];
-    computationResults.policyScore = MIN(100,MAX(0,100-policyScore));
+    computationResults.systemPolicyScore = MIN(100,MAX(0,100-systemPolicyScore));
+    computationResults.userPolicyScore = MIN(100,MAX(0,100-userPolicyScore));
     computationResults.userAnomalyScore = MIN(100,MAX(0,100-userAnomalyScore));
-    computationResults.userScore = (computationResults.policyScore + computationResults.userAnomalyScore) / 2;
     
-    //Generate the Device score by averaging the user score and the system scores
+    // Get composite scores
+    computationResults.systemScore =  (computationResults.systemSecurityScore + computationResults.systemBreachScore + computationResults.systemPolicyScore) / 3;
+    computationResults.userScore = (computationResults.userPolicyScore + computationResults.userAnomalyScore) / 2;
     computationResults.deviceScore = (computationResults.userScore + computationResults.systemScore) / 2;
     
     //Analyze Results
     
     //Defaults
+    computationResults.deviceTrusted = YES;
     computationResults.userTrusted = YES;
     computationResults.systemTrusted = YES;
-    computationResults.deviceTrusted = YES;
     
-    //Check System Threshold
+    //Check system threshold
     if (computationResults.systemScore < policy.systemThreshold.integerValue) {
         
         // System is not trusted
         computationResults.systemTrusted = NO;
-        
+        computationResults.deviceTrusted = NO;
     }
     
     // Check User Threshold
@@ -284,70 +348,155 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         
         // User is not trusted
         computationResults.userTrusted = NO;
+        computationResults.deviceTrusted = NO;
+    }
+    
+    // Identify attributing system classifications
+    if (!computationResults.systemTrusted)
+    {
+        
+        //see which classification inside system attributed the most and set protect mode
+        
+        if(computationResults.systemBreachScore <= computationResults.systemSecurityScore) // SYSTEM_BREACH is attributing
+        {
+            computationResults.protectModeClassID = [systemBreachClass.identification integerValue] ;
+            computationResults.protectModeAction = [systemBreachClass.protectModeAction integerValue];
+            computationResults.protectModeMessage = systemBreachClass.protectModeMessage;
+            computationResults.protectModeWhitelist = systemBreachClass.trustFactorsToWhitelist;
+            
+            //Set messaging for GUI
+            computationResults.systemGUIIssues = systemBreachClass.issuesInClass;
+            computationResults.systemGUISuggesstion = systemBreachClass.suggestionsInClass;
+            computationResults.systemGUIAnalysis = systemBreachClass.subClassStatus;
+            
+        }
+        else if(computationResults.systemPolicyScore <= computationResults.systemSecurityScore) // SYSTEM_POLICY is attributing
+        {
+            computationResults.protectModeClassID = [systemPolicyClass.identification integerValue] ;
+            computationResults.protectModeAction = [systemPolicyClass.protectModeAction integerValue];
+            computationResults.protectModeMessage = systemPolicyClass.protectModeMessage;
+            computationResults.protectModeWhitelist = systemPolicyClass.trustFactorsToWhitelist;
+            
+            //Set messaging for GUI
+            computationResults.systemGUIIssues = systemPolicyClass.issuesInClass;
+            computationResults.systemGUISuggesstion = systemPolicyClass.suggestionsInClass;
+            computationResults.systemGUIAnalysis = systemPolicyClass.subClassStatus;
+        }
+        else //SYSTEM_SECURITY is attributing
+        {
+            computationResults.protectModeClassID = [systemSecurityClass.identification integerValue] ;
+            computationResults.protectModeAction = [systemSecurityClass.protectModeAction integerValue];
+            computationResults.protectModeMessage = systemSecurityClass.protectModeMessage;
+            computationResults.protectModeWhitelist = systemSecurityClass.trustFactorsToWhitelist;
+            
+            //Set messaging for GUI
+            computationResults.systemGUIIssues = systemSecurityClass.issuesInClass;
+            computationResults.systemGUISuggesstion = systemSecurityClass.suggestionsInClass;
+            computationResults.systemGUIAnalysis = systemSecurityClass.subClassStatus;
+        }
+        
+
+    }
+    else //it is trusted, combine messages from all classifications
+    {
+        //Combine issue messages
+        NSMutableArray *combinedIssues = [[NSMutableArray alloc] init];
+        [combinedIssues addObjectsFromArray:systemBreachClass.issuesInClass];
+        [combinedIssues addObjectsFromArray:systemPolicyClass.issuesInClass];
+        [combinedIssues addObjectsFromArray:systemSecurityClass.issuesInClass];
+        
+        //set
+        computationResults.systemGUIIssues = [[NSSet setWithArray:combinedIssues] allObjects];
+        
+        //Combine suggesstion messages
+        NSMutableArray *combinedSuggestions = [[NSMutableArray alloc] init];
+        [combinedSuggestions addObjectsFromArray:systemBreachClass.suggestionsInClass];
+        [combinedSuggestions addObjectsFromArray:systemPolicyClass.suggestionsInClass];
+        [combinedSuggestions addObjectsFromArray:systemSecurityClass.suggestionsInClass];
+        
+        
+        //set
+        computationResults.systemGUISuggesstion = [[NSSet setWithArray:combinedSuggestions] allObjects];
+        
+        //Combine analysis messages
+        NSMutableArray *combinedAnalysis = [[NSMutableArray alloc] init];
+        [combinedAnalysis addObjectsFromArray:systemBreachClass.subClassStatus];
+        [combinedAnalysis addObjectsFromArray:systemPolicyClass.subClassStatus];
+        [combinedAnalysis addObjectsFromArray:systemSecurityClass.subClassStatus];
+        
+        //set
+        computationResults.systemGUIAnalysis = [[NSSet setWithArray:combinedAnalysis] allObjects];
+
+    }
+    
+    // check if user is untrusted
+    if (!computationResults.userTrusted)
+    {
+        
+        //see which classification inside user attributed the most and set protect mode
+        
+        if(computationResults.userPolicyScore <= computationResults.userAnomalyScore) //USER_POLICY is attributing
+        {
+            //populate protect mode
+            computationResults.protectModeClassID = [userPolicyClass.identification integerValue] ;
+            computationResults.protectModeAction = [userPolicyClass.protectModeAction integerValue];
+            computationResults.protectModeMessage = userPolicyClass.protectModeMessage;
+            computationResults.protectModeWhitelist = userPolicyClass.trustFactorsToWhitelist;
+            
+            //Set messaging for GUI
+            computationResults.userGUIIssues = userPolicyClass.issuesInClass;
+            computationResults.userGUISuggesstion = userPolicyClass.suggestionsInClass;
+            computationResults.userGUIAnalysis = userPolicyClass.subClassStatus;
+        }
+        else //USER_ANOMALY is attributing
+        {
+            //populate protect mode
+            computationResults.protectModeClassID = [userAnomalyClass.identification integerValue] ;
+            computationResults.protectModeAction = [userAnomalyClass.protectModeAction integerValue];
+            computationResults.protectModeMessage = userAnomalyClass.protectModeMessage;
+            computationResults.protectModeWhitelist = userAnomalyClass.trustFactorsToWhitelist;
+            
+            //Set messaging for GUI
+            computationResults.userGUIIssues = userAnomalyClass.issuesInClass;
+            computationResults.userGUISuggesstion = userAnomalyClass.suggestionsInClass;
+            computationResults.userGUIAnalysis = userAnomalyClass.subClassStatus;
+        }
+        
+
+    }
+    else //it is trusted, combine messages from all user classifications
+    {
+
+        //Combine issue messages
+        NSMutableArray *combinedIssues = [[NSMutableArray alloc] init];
+        [combinedIssues addObjectsFromArray:userAnomalyClass.issuesInClass];
+        [combinedIssues addObjectsFromArray:userPolicyClass.issuesInClass];
+        
+        //set
+        computationResults.userGUIIssues = [[NSSet setWithArray:combinedIssues] allObjects];
+        
+        //Combine suggesstion messages
+        NSMutableArray *combinedSuggestions = [[NSMutableArray alloc] init];
+        [combinedSuggestions addObjectsFromArray:userAnomalyClass.suggestionsInClass];
+        [combinedSuggestions addObjectsFromArray:userPolicyClass.suggestionsInClass];
+        
+        //set
+        computationResults.userGUISuggesstion = [[NSSet setWithArray:combinedSuggestions] allObjects];
+        
+        //Combine analysis messages
+        NSMutableArray *combinedAnalysis = [[NSMutableArray alloc] init];
+        [combinedAnalysis addObjectsFromArray:userAnomalyClass.subClassStatus];
+        [combinedAnalysis addObjectsFromArray:userPolicyClass.subClassStatus];
+    
+        
+        //set
+        computationResults.userGUIAnalysis =  [[NSSet setWithArray:combinedAnalysis] allObjects];
         
     }
     
-    // Check the device, system always has priority over user
-    if (!computationResults.systemTrusted)
-    {
-        // Device is not trusted
-        computationResults.deviceTrusted = NO;
-        
-        //see which classification inside system attributed the most
-        if(computationResults.systemBreachScore <= computationResults.systemSecurityScore) //breach indicator
-        {
-            //get the classification in question
-            Sentegrity_Classification *attributingClassification = [Sentegrity_TrustScore_Computation getClassificationForName:kBreachIndicator fromArray:policy.classifications withError:error];
-            
-            //populate results
-            computationResults.protectModeClassification = [attributingClassification.identification integerValue] ;
-            computationResults.protectModeAction = [attributingClassification.protectMode integerValue];
-            computationResults.protectModeInfo = attributingClassification.protectViolationName;
-            computationResults.protectModeName = attributingClassification.protectInfo;
-        }
-        else //system anomaly
-        {
-            //get the classification in question
-            Sentegrity_Classification *attributingClassification = [Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error];
-            
-            //populate results
-            computationResults.protectModeClassification = [attributingClassification.identification integerValue];
-            computationResults.protectModeAction = [attributingClassification.protectMode integerValue];
-            computationResults.protectModeInfo = attributingClassification.protectViolationName;
-            computationResults.protectModeName = attributingClassification.protectInfo;
-        }
-    }
-    else if (!computationResults.userTrusted)
-    {
-        
-        // Device is not trusted
-        computationResults.userTrusted = NO;
-        
-        //see which classification inside user attributed the most
-        if(computationResults.policyScore <= computationResults.userAnomalyScore) //policy violation
-        {
-            //get the classification in question
-            Sentegrity_Classification *attributingClassification = [Sentegrity_TrustScore_Computation getClassificationForName:kPolicyViolation fromArray:policy.classifications withError:error];
-            
-            //populate results
-            computationResults.protectModeClassification = [attributingClassification.identification integerValue];
-            computationResults.protectModeAction = [attributingClassification.protectMode integerValue];
-            computationResults.protectModeInfo = attributingClassification.protectViolationName;
-            computationResults.protectModeName = attributingClassification.protectInfo;
-        }
-        else //user anomaly
-        {
-            //get the classification in question
-            Sentegrity_Classification *attributingClassification = [Sentegrity_TrustScore_Computation getClassificationForName:kUserAnomally fromArray:policy.classifications withError:error];
-            
-            //populate results
-            computationResults.protectModeClassification = [attributingClassification.identification integerValue];
-            computationResults.protectModeAction = [attributingClassification.protectMode integerValue];
-            computationResults.protectModeInfo = attributingClassification.protectViolationName;
-            computationResults.protectModeName = attributingClassification.protectInfo;
-        }
-        
-    }
+    //TODO: Bundle whitelists, IF system policy violation then whitelist user anomaly as well (since they are legit), etc
+
+    
     
     return computationResults;
 }
@@ -406,6 +555,100 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     return nil;
 }
 
+
++(void)addSuggestionsForClass:(Sentegrity_Classification *)class withSubClass:(Sentegrity_Subclassification *)subClass withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
+    
+    switch (trustFactorOutputObject.statusCode) {
+        case DNEStatus_unauthorized:
+            // Unauthorized
+            
+            //Is suggestion set?
+            if(subClass.dneUnauthorized.length != 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
+                    [suggestionsInClass addObject:subClass.dneUnauthorized];
+                }
+            }
+        case DNEStatus_disabled:
+            // Disabled
+            
+            //Is suggestion set?
+            if(subClass.dneUnauthorized.length != 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
+                    [suggestionsInClass addObject:subClass.dneUnauthorized];
+                }
+            }
+            break;
+        default:
+            break;
+    }
+
+}
+    
++(void)addSuggestionsForClassAndCalcPenalty:(Sentegrity_Classification *)class withPolicy:(Sentegrity_Policy *)policy withSubClass:(Sentegrity_Subclassification *)subClass withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
+
+    // Create an int to hold the dnePenalty multiplied by the modifier
+    double penaltyMod = 0;
+    
+    switch (trustFactorOutputObject.statusCode) {
+        case DNEStatus_error:
+            // Error
+            penaltyMod = [policy.DNEModifiers.error doubleValue];
+            break;
+        case DNEStatus_unauthorized:
+            // Unauthorized
+            penaltyMod = [policy.DNEModifiers.unauthorized doubleValue];
+            
+            //Is suggestion set?
+            if(subClass.dneUnauthorized.length!= 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
+                    [suggestionsInClass addObject:subClass.dneUnauthorized];
+                }
+            }
+            
+            break;
+        case DNEStatus_unsupported:
+            // Unsupported
+            penaltyMod = [policy.DNEModifiers.unsupported doubleValue];
+            //Check if we have a custom message
+            break;
+        case DNEStatus_unavailable:
+            // Unavailable
+            penaltyMod = [policy.DNEModifiers.unavailable doubleValue];
+            break;
+        case DNEStatus_disabled:
+            // Unavailable
+            penaltyMod = [policy.DNEModifiers.disabled doubleValue];
+
+            //Is suggestion set?
+            if(subClass.dneUnauthorized.length != 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
+                    [suggestionsInClass addObject:subClass.dneUnauthorized];
+                }
+            }            break;
+        case DNEStatus_nodata:
+            // Unavailable
+            penaltyMod = [policy.DNEModifiers.noData doubleValue];
+            break;
+        case DNEStatus_expired:
+            // Expired
+            penaltyMod = [policy.DNEModifiers.expired doubleValue];
+            break;
+        default:
+            // apply error by default
+            penaltyMod = [policy.DNEModifiers.error doubleValue];
+            break;
+    }
+    
+    
+    // Apply DNE percent to the TFs normal penalty to reduce it (penaltyMode of 0 negates the rule completely)
+    subClass.basePenalty = subClass.basePenalty + (trustFactorOutputObject.trustFactor.penalty.integerValue * penaltyMod);
+    
+}
+    
 
 
 

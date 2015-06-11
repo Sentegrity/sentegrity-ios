@@ -63,6 +63,9 @@
     [policy setRuntime:[policyPlist valueForKey:kRuntime]];
     [policy setUserThreshold:[policyPlist valueForKey:kUserThreshold]];
     [policy setSystemThreshold:[policyPlist valueForKey:kSystemThreshold]];
+    [policy setContactURL:[policyPlist valueForKey:KContactURL]];
+    [policy setContactPhone:[policyPlist valueForKey:KContactPhone]];
+    [policy setContactEmail:[policyPlist valueForKey:KContactEmail]];
     
     // Get the sub-dictionary of the dnemodifiers
     NSDictionary *modifiers = [NSDictionary dictionaryWithDictionary:[policyPlist valueForKey:kDNEModifiers]];
@@ -73,6 +76,7 @@
     // DNEModifiers
     [dne setUnauthorized:[modifiers valueForKey:kUnauthorized]];
     [dne setUnsupported:[modifiers valueForKey:kUnsupported]];
+    [dne setUnavailable:[modifiers valueForKey:kUnavailable]];
     [dne setDisabled:[modifiers valueForKey:kDisabled]];
     [dne setExpired:[modifiers valueForKey:kExpired]];
     [dne setError:[modifiers valueForKey:kError]];
@@ -92,12 +96,10 @@
             [classer setIdentification:[classifiers objectForKey:kIdentification]];
             [classer setName:[classifiers objectForKey:kName]];
             [classer setWeight:[classifiers objectForKey:kWeight]];
-            [classer setProtectMode:[classifiers objectForKey:kProtectMode]];
-            [classer setProtectViolationName: [classifiers objectForKey:kProtectViolationName]];
-            [classer setProtectInfo:[classifiers objectForKey:kProtectInfo]];
-            [classer setContactPhone:[classifiers objectForKey:kContactPhone]];
-            [classer setContactURL:[classifiers objectForKey:kContactURL]];
-            [classer setContactEmail:[classifiers objectForKey:kContactEmail]];
+            [classer setDesc:[classifiers objectForKey:kDesc]];
+            [classer setProtectModeAction:[classifiers objectForKey:kProtectModeAction]];
+            [classer setProtectModeMessage: [classifiers objectForKey:kProtectModeMessage]];
+
             
             // Add it to the array
             [classificationsArray addObject:classer];
@@ -110,6 +112,7 @@
     // Subclassifications
     NSArray *subclassifications = [[NSArray alloc] initWithArray:[policyPlist valueForKey:kSubClassifications]];
     NSMutableArray *subclassificationsArray = [[NSMutableArray alloc] initWithCapacity:subclassifications.count];
+
     
     // Validation
     if (subclassifications && subclassifications.count > 0) {
@@ -117,9 +120,12 @@
         for (NSDictionary *subclassifiers in subclassifications){
             Sentegrity_Subclassification *subclasser = [[Sentegrity_Subclassification alloc] init];
             [subclasser setIdentification: [subclassifiers objectForKey:kSCIdentification]];
-            [subclasser setClassID: [subclassifiers objectForKey:kSCClassID]];
             [subclasser setName: [subclassifiers objectForKey:kSCName]];
-            [subclasser setDneMessage:[subclassifiers objectForKey:kSCDNEMessage]];
+            [subclasser setDneUnauthorized:[subclassifiers objectForKey:kSCDNEUnauthorized]];
+            [subclasser setDneUnsupported:[subclassifiers objectForKey:kSCDNEUnsupported]];
+            [subclasser setDneUnavailable:[subclassifiers objectForKey:kSCDNEUnavailable]];
+            [subclasser setDneDisabled:[subclassifiers objectForKey:kSCDNEDisabled]];
+            [subclasser setDneNoData:[subclassifiers objectForKey:kSCDNENoData]];
             [subclasser setWeight:[subclassifiers objectForKey:kSCWeight]];
             
             // Add it to the array
@@ -127,12 +133,13 @@
         }
         
         // Set the Subclassifications
-        [policy setSubclassification:subclassificationsArray];
+        [policy setSubclassifications:subclassificationsArray];
     }
     
     // TrustFactors
     NSArray *trustFactors = [[NSArray alloc] initWithArray:[policyPlist valueForKey:kTrustFactors]];
     NSMutableArray *trustFactorsArray = [[NSMutableArray alloc] initWithCapacity:trustFactors.count];
+    
     
     // Validation
     if (trustFactors && trustFactors.count > 0) {
@@ -140,7 +147,8 @@
         for(NSDictionary *trustFactorClassifier in trustFactors){
             Sentegrity_TrustFactor *trustFactorClasser = [[Sentegrity_TrustFactor alloc] init];
             [trustFactorClasser setIdentification:[trustFactorClassifier objectForKey:kTFIdentification]];
-            [trustFactorClasser setDesc:[trustFactorClassifier objectForKey:kTFDescription]];
+            [trustFactorClasser setIssueMessage:[trustFactorClassifier objectForKey:kTFIssueMessage]];
+            [trustFactorClasser setSuggestionMessage:[trustFactorClassifier objectForKey:kTFSuggestionMessage]];
             [trustFactorClasser setClassID:[trustFactorClassifier objectForKey:kTFClassID]];
             [trustFactorClasser setSubClassID:[trustFactorClassifier objectForKey:kTFSubclassID]];
             [trustFactorClasser setPriority:[trustFactorClassifier objectForKey:kTFPriority]];

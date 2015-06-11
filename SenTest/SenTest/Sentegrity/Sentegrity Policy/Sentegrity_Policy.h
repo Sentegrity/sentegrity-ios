@@ -17,9 +17,12 @@
 @property (nonatomic,retain) NSNumber *runtime;
 @property (nonatomic,retain) NSNumber *userThreshold;
 @property (nonatomic,retain) NSNumber *systemThreshold;
+@property (nonatomic,retain) NSString *contactURL;
+@property (nonatomic,retain) NSString *contactPhone;
+@property (nonatomic,retain) NSString *contactEmail;
 @property (nonatomic,retain) Sentegrity_DNEModifiers *DNEModifiers;
 @property (nonatomic,retain) NSArray *classifications;
-@property (nonatomic,retain) NSArray *subclassification;
+@property (nonatomic,retain) NSArray *subclassifications;
 @property (nonatomic,retain) NSArray *trustFactors;
 
 // Is the policy the default policy?

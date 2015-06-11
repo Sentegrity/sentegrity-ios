@@ -34,7 +34,7 @@
 #pragma mark - Core Detection
 
 // Block Definition
-typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, Sentegrity_Baseline_Analysis *baselineResults, Sentegrity_Policy *policy, NSError *error);
+typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError *error);
 
 // Core Detection
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback;

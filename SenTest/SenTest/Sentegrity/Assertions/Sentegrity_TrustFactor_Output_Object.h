@@ -32,6 +32,12 @@
 // Get the trustfactor output dne modifier (only if the check failed or didn't run)
 @property (nonatomic) DNEStatusCode statusCode;
 
+// Trigger bool set during baseline analysis and checked during computation
+@property (nonatomic) BOOL triggered;
+
+// Trigger bool set during baseline analysis and checked during computation
+@property (nonatomic) BOOL whitelist;
+
 // Generates assertions from the output of trustfactor impleentation
 - (void)generateAssertionsFromOutput;
 
@@ -40,5 +46,7 @@
 
 //custom init to set DNE=OK
 - (id) init;
+
+
 
 @end

@@ -43,6 +43,21 @@
     _systemThreshold = systemThreshold;
 }
 
+// ContactPhone
+- (void)setContactPhone:(NSString *)contactPhone{
+    _contactPhone  = contactPhone;
+}
+
+// ContactURL
+- (void)setContactURL:(NSString *)contactURL{
+    _contactURL = contactURL;
+}
+
+// ContactEmail
+- (void)setContactEmail:(NSString *)contactEmail{
+    _contactEmail = contactEmail;
+}
+
 // DNEModifiers
 - (void)setDNEModifiers:(Sentegrity_DNEModifiers *)DNEModifiers{
     _DNEModifiers = DNEModifiers;
@@ -54,8 +69,8 @@
 }
 
 // Subclassifications
-- (void)setSubclassification:(NSArray *)subclassification{
-    _subclassification = subclassification;
+- (void)setSubclassifications:(NSArray *)subclassifications{
+    _subclassifications = subclassifications;
 }
 
 // TrustFactors

@@ -11,9 +11,12 @@
 @interface Sentegrity_Subclassification : NSObject
 
 @property (nonatomic, retain) NSNumber *identification;
-@property (nonatomic, retain) NSNumber *classID;
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *dneMessage;
+@property (nonatomic, retain) NSString *dneUnauthorized;
+@property (nonatomic, retain) NSString *dneUnsupported;
+@property (nonatomic, retain) NSString *dneUnavailable;
+@property (nonatomic, retain) NSString *dneDisabled;
+@property (nonatomic, retain) NSString *dneNoData;
 @property (nonatomic, retain) NSNumber *weight;
 
 @end

@@ -35,7 +35,7 @@
     return self;
 }
 // Analyze attributing trustFactors
-- (BOOL)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withBaseline:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
+- (BOOL)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)error {
     
     //check for errors
     if (!computationResults || computationResults == nil) {
@@ -48,43 +48,9 @@
         return false;
     }
     
-    if (!baselineAnalysisResults || baselineAnalysisResults == nil) {
-        // Error out, no trustFactorOutputObject were able to be added
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No baselineAnalysisResults to analyze" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SACannotPerformAnalysis userInfo:errorDetails];
-        
-        // Don't return anything
-        return false;
-    }
     
-    if (!policy || policy == nil) {
-        // Error out, no trustFactorOutputObject were able to be added
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No policy for use during result analysis" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SACannotPerformAnalysis userInfo:errorDetails];
-        
-        // Don't return anything
-        return false;
-    }
+    _trustFactorsToWhitelist = computationResults.protectModeWhitelist;
     
-    if(computationResults.deviceTrusted==NO){
-        
-        //set policy
-        [self setCurrentPolicy:policy];
-    
-        //run through all trustfactors that attributed to protect mode
-        for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in baselineAnalysisResults.trustFactorOutputObjectsForProtectMode)
-        {
-            //find trustFactors that match the class at fault
-            if([trustFactorOutputObject.trustFactor.classID integerValue] == computationResults.protectModeClassification)
-            {
-                
-                [_trustFactorsToWhitelist addObject:trustFactorOutputObject];
-                
-            }
-        
-        }
         
             //check protect mode action
             switch (computationResults.protectModeAction) {
@@ -104,7 +70,7 @@
                     break;
             
             }
-    }
+    
 
     
     return true;

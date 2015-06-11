@@ -15,19 +15,34 @@
     _identification = identification;
 }
 
-// ClassID
-- (void)setClassID:(NSNumber *)classID{
-    _classID = classID;
-}
-
 // Name
 - (void)setName:(NSString *)name{
     _name = name;
 }
 
-// DNEMessage
-- (void)setDneMessage:(NSString *)dneMessage{
-    _dneMessage = dneMessage;
+// dneUnauthorized
+- (void)setDneUnauthorized:(NSString *)dneUnauthorized{
+    _dneUnauthorized = dneUnauthorized;
+}
+
+// dneUnsupported
+- (void)setDneUnsupported:(NSString *)dneUnsupported{
+    _dneUnsupported = dneUnsupported;
+}
+
+// dneUnavailable
+- (void)setDneUnavailable:(NSString *)dneUnavailable{
+    _dneUnavailable = dneUnavailable;
+}
+
+// dneDisabled
+- (void)setDneDisabled:(NSString *)dneDisabled{
+    _dneDisabled = dneDisabled;
+}
+
+// dneNoData
+- (void)setDneNoData:(NSString *)dneNoData{
+    _dneNoData = dneNoData;
 }
 
 // Weight

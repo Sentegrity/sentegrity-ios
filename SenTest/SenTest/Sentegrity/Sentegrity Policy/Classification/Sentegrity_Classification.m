@@ -22,46 +22,30 @@
     _name = name;
 }
 
+// Description
+
+- (void)setDesc:(NSString *)desc{
+    _desc = desc;
+}
+
 // Weight
 
 - (void)setWeight:(NSNumber *)weight{
     _weight = weight;
 }
 
-// ProtectMode
+// ProtectModeAction
 
-- (void)setProtectMode:(NSNumber *)protectMode{
-    _protectMode = protectMode;
+- (void)setProtectModeAction:(NSNumber *)protectModeAction{
+    _protectModeAction = protectModeAction;
 }
 
-// ProtectViolationName
+// ProtectModeMessage
 
-- (void)setProtectViolationName:(NSString *)protectViolationName{
-    _protectViolationName = protectViolationName;
+- (void)setProtectModeMessage:(NSString *)protectModeMessage{
+    _protectModeMessage = protectModeMessage;
 }
 
-// ProtectInfo
 
-- (void)setProtectInfo:(NSString *)protectInfo{
-    _protectInfo = protectInfo;
-}
-
-// Contact Phone
-
-- (void)setContactPhone:(NSString *)contactPhone{
-    _contactPhone = contactPhone;
-}
-
-// Contact URL
-
-- (void)setContactURL:(NSString *)contactURL{
-    _contactURL = contactURL;
-}
-
-// Contact Email
-
-- (void)setContactEmail:(NSString *)contactEmail{
-    _contactEmail = contactEmail;
-}
 
 @end

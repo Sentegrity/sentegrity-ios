@@ -15,10 +15,17 @@
     _identification = identification;
 }
 
-// Description
-- (void)setDesc:(NSString *)desc{
-    _desc = desc;
+
+// issue message
+- (void)setIssueMessage:(NSString *)trustedMessage{
+    _issueMessage = trustedMessage;
 }
+
+// suggestion message
+- (void)setSuggestionMessage:(NSString *)untrustedMessage{
+    _suggestionMessage = untrustedMessage;
+}
+
 
 // Revision
 - (void)setRevision:(NSNumber *)revision{

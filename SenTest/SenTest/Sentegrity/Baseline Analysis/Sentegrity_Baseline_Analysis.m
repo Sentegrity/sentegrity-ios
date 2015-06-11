@@ -21,13 +21,9 @@
 
 
 // Retrieve stored assertions
-+ (instancetype)performBaselineAnalysisUsing:(NSArray *)trustFactorOutputObjects forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
++ (NSArray *)performBaselineAnalysisUsing:(NSArray *)trustFactorOutputObjects forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
     
     
-    //Create baseline object to return
-    Sentegrity_Baseline_Analysis *baselineAnalysisResults = [[Sentegrity_Baseline_Analysis alloc] init];
-    baselineAnalysisResults.trustFactorOutputObjectsForProtectMode = [[NSMutableArray alloc]init];
-    baselineAnalysisResults.trustFactorOutputObjectsForComputation = [[NSMutableArray alloc]init];
     
     // Create a bool to check if local store exists
     BOOL exists = NO;
@@ -90,8 +86,6 @@
         // Check DNE status code prior to computation to avoid evaluation non-ok rules
         if(trustFactorOutputObject.statusCode != DNEStatus_ok)
         {
-            //otherwise account for it during computation and skip
-            [baselineAnalysisResults.trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
             continue;
         }
 
@@ -126,7 +120,7 @@
             
             
                 //perform baseline analysis against storedTrustFactorObject
-                updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+                updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
             
                 // Check if created
                 if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -171,7 +165,7 @@
                     trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                 
                     //perform baseline analysis against storedTrustFactorObject
-                    updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+                    updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
                 
                     // Check if created
                     if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -203,7 +197,7 @@
                     trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                 
                     //perform baseline analysis against storedTrustFactorObject
-                    updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+                    updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
                 
                     // Check if created
                     if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -263,7 +257,7 @@
                 trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
             
                 //perform baseline analysis against storedTrustFactorObject
-                updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+                updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
             
                 // Check if created
                 if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -307,7 +301,7 @@
                     trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                 
                     //perform baseline analysis against storedTrustFactorObject
-                    updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+                    updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
                 
                     // Check if created
                     if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -339,7 +333,7 @@
                     trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                 
                     //perform baseline analysis against storedTrustFactorObject
-                    updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withBaselineAnalysisResults:baselineAnalysisResults withError:error];
+                    updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
                 
                     // Check if created
                     if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -391,17 +385,13 @@
         return nil;
     }
     
-    return baselineAnalysisResults;
+    return trustFactorOutputObjects;
 }
 
 
 
 
-+ (Sentegrity_TrustFactor_Output_Object *)performBaselineAnalysisUsing:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withBaselineAnalysisResults:(Sentegrity_Baseline_Analysis *)baselineAnalysisResults withError:(NSError **)error {
-    
-    //bool to indicate if rule should be added to computation/protect mode lists based on variety of factors
-    BOOL addToProtectModeList=NO;
-    BOOL addToComputationList=NO;
++ (Sentegrity_TrustFactor_Output_Object *)performBaselineAnalysisUsing:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
     
     trustFactorOutputObject.assertionsToWhitelist = [[NSMutableDictionary alloc] init];
     
@@ -417,162 +407,133 @@
         return nil;
     }
     
+        
+    //Check if this rule should detect during provioning (first run), these to be BREACH_INDICATOR style rules
+    //that return known bad values as output or the default if none are found, the purpose of this is to ensure
+    //that if the device is compromised or high risk we don't learn bad baseline values during the first run of the rule
+    //we correct this by manually checking for the default assertion prior to the actual comparison
     
-        //If the TF did not run then we don't update anything
-        if(trustFactorOutputObject.statusCode==DNEStatus_ok)
+    if(!trustFactorOutputObject.storedTrustFactorObject.learned && trustFactorOutputObject.trustFactor.provision.intValue==1)
+    {
+        //if the TF with provisoning attribute does not have the baseline, it found something bad
+        if(![trustFactorOutputObject.assertions objectForKey:[trustFactorOutputObject generateDefaultAssertion]])
         {
+            //manually trigger it by setting the default assertion and moving others to whitelist
+            trustFactorOutputObject.storedTrustFactorObject.assertions = [trustFactorOutputObject generateDefaultAssertion];
             
-            //Check if this rule should detect during provioning (first run), these to be BREACH_INDICATOR style rules
-            //that return known bad values as output or the default if none are found, the purpose of this is to ensure
-            //that if the device is compromised or high risk we don't learn bad baseline values during the first run of the rule
-            //we correct this by manually checking for the default assertion prior to the actual comparison
+            //set to learned to avoid compareAndUpdateLearning on next run
+            trustFactorOutputObject.storedTrustFactorObject.learned=YES;
             
-            if(!trustFactorOutputObject.storedTrustFactorObject.learned && trustFactorOutputObject.trustFactor.provision.intValue==1)
+            // Increment the run count for consisteny
+            trustFactorOutputObject.storedTrustFactorObject.runCount = [NSNumber numberWithInt:(trustFactorOutputObject.storedTrustFactorObject.runCount.intValue + 1)];
+        }
+    }
+    
+    
+    //Check if TF is not learned and update it, this TF won't count towards computation
+    if(!trustFactorOutputObject.storedTrustFactorObject.learned)
+    {
+        
+            //update learning attributes
+            return [self compareAndUpdateLearning:trustFactorOutputObject];
+ 
+    }
+
+        //for increment
+        NSNumber *newHitCount;
+        
+        //for increment
+        NSNumber *currentHitCount;
+        
+        
+        //check if this is a normal rule and trigger on NO MATCH
+        //e.g., knownBadProcesses, shortUptime, newRootProcess, etc
+        if(trustFactorOutputObject.trustFactor.inverse.intValue==0)
+        {
+            for(NSString *candidate in trustFactorOutputObject.assertions)
             {
-                //if the TF with provisoning attribute does not have the baseline, it found something bad
-                if(![trustFactorOutputObject.assertions objectForKey:[trustFactorOutputObject generateDefaultAssertion]])
+                //We DID NOT find a match for the candidate in the store = RULE TRIGGERED (a bad thing, since it should match the kDefaultTrustFactorOutput assertion at the very least)
+                if(![trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate])
                 {
-                    //manually trigger it by setting the default assertion and moving others to whitelist
-                    trustFactorOutputObject.storedTrustFactorObject.assertions = [trustFactorOutputObject generateDefaultAssertion];
+            
+                    //update list, but we still need to look at all assertions before exiting loop
+                    trustFactorOutputObject.whitelist=YES;
+                    trustFactorOutputObject.triggered=YES;
                     
-                    //set to learned to avoid compareAndUpdateLearning on next run
-                    trustFactorOutputObject.storedTrustFactorObject.learned=YES;
+                    //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
+                    [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
+  
+                     
+                }
+                else //we DID find a match = RULE NOT YET TRIGGERED  (increment matching stored assertions hitcount)
+                {
+                    //increment hitCount for matching stored assertion (used for decay)
+                    newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
+                    [trustFactorOutputObject.storedTrustFactorObject.assertions setObject:newHitCount forKey:candidate];
                     
-                    // Increment the run count for consisteny
-                    trustFactorOutputObject.storedTrustFactorObject.runCount = [NSNumber numberWithInt:(trustFactorOutputObject.storedTrustFactorObject.runCount.intValue + 1)];
+                    //test next assertion
+            
                 }
             }
             
-            
-            //Check if TF is not learned and update it, this TF won't count towards computation
-            if(!trustFactorOutputObject.storedTrustFactorObject.learned)
+          
+        }
+        else //this is an inverse rule,  trigger on MATCH to ensure negative penalty is applied, these are authenticator type rules (e.g., knownBLEDevice, KnowWifiBSSID)
+        {
+            for(NSString *candidate in trustFactorOutputObject.assertions)
             {
+                //search for a match in the store
+                 currentHitCount = [trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate];
                 
-                    //update learning attributes
-                    [self compareAndUpdateLearning:trustFactorOutputObject];
- 
-            }
-            else //TF is learned so lets compare assertions and add to computation
-            {
-        
-                //for increment
-                NSNumber *newHitCount;
-                
-                //for increment
-                NSNumber *currentHitCount;
-                
-                
-                //check if this is a normal rule and trigger on NO MATCH
-                //e.g., knownBadProcesses, shortUptime, newRootProcess, etc
-                if(trustFactorOutputObject.trustFactor.inverse.intValue==0)
+                //We FOUND a match for the candidate in the store
+                if(currentHitCount)
                 {
-                    for(NSString *candidate in trustFactorOutputObject.assertions)
+                    //if this rules has frequency requirments then enforce them
+                    if(trustFactorOutputObject.trustFactor.threshold.intValue != 0)
                     {
-                        //We DID NOT find a match for the candidate in the store = RULE TRIGGERED (a bad thing, since it should match the kDefaultTrustFactorOutput assertion at the very least)
-                        if(![trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate])
+                        // frequency threshold meet = RULE TRIGGERED (apply negative penalty and update the store)
+                        if(currentHitCount >= trustFactorOutputObject.trustFactor.threshold)
                         {
-                    
-                            //update list, but we still need to look at all assertions before exiting loop
-                            addToProtectModeList=YES;
-                            addToComputationList=YES;
+                            //only add as triggered if meet
+                            trustFactorOutputObject.triggered=YES;
                             
-                            //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
-                            [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
-  
-                             
                         }
-                        else //we DID find a match = RULE NOT YET TRIGGERED  (increment matching stored assertions hitcount)
-                        {
-                            //increment hitCount for matching stored assertion (used for decay)
-                            newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
-                            [trustFactorOutputObject.storedTrustFactorObject.assertions setObject:newHitCount forKey:candidate];
-                            
-                            //test next assertion
-                    
-                        }
+                        
+                        //else, we do nothing and wait for the hitcount to rise
+                    }
+                    else {
+                        
+                        //trigger rule
+                        trustFactorOutputObject.triggered=YES;
+                        
                     }
                     
-                  
+
+            
+                    //increment hitCount in all situations for the matching stored assertion (used for decay)
+                    newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
+                    [trustFactorOutputObject.storedTrustFactorObject.assertions setObject:newHitCount forKey:candidate];
+            
+            
+            
                 }
-                else //this is an inverse rule,  trigger on MATCH to ensure negative penalty is applied, these are authenticator type rules (e.g., knownBLEDevice, KnowWifiBSSID)
+                else //no match, but add assertions to whitelist
                 {
-                    for(NSString *candidate in trustFactorOutputObject.assertions)
-                    {
-                        //search for a match in the store
-                         currentHitCount = [trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate];
-                        
-                        //We FOUND a match for the candidate in the store
-                        if(currentHitCount)
-                        {
-                            //if this rules has frequency requirments then enforce them
-                            if(trustFactorOutputObject.trustFactor.threshold.intValue != 0)
-                            {
-                                // frequency threshold meet = RULE TRIGGERED (apply negative penalty and update the store)
-                                if(currentHitCount >= trustFactorOutputObject.trustFactor.threshold)
-                                {
-                                    //only add as triggered if meet
-                                    addToComputationList=YES;
-                                    
-                                }
-                                
-                                //else, we do nothing and wait for the hitcount to rise
-                            }
-                            else {
-                                
-                                //add TF to the computation list, but not protect mode (as we dont need to learn anything new)
-                                addToComputationList=YES;
-                                
-                            }
-                            
+                    //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
+                    [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
+                    
+                    
+                    // mark TF as whitelistable
+                    trustFactorOutputObject.whitelist=YES;
+                    
+                }
+            } //Inverse for loop
+            
+    
+    
+        } //Inverse if-else
+    
 
-                    
-                            //increment hitCount in all situations for the matching stored assertion (used for decay)
-                            newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
-                            [trustFactorOutputObject.storedTrustFactorObject.assertions setObject:newHitCount forKey:candidate];
-                    
-                    
-                    
-                        }
-                        else //no match, but add assertions to whitelist
-                        {
-                            //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
-                            [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
-                            
-                            
-                            //add TF to the protectMode list, but not computation
-                            addToProtectModeList=YES;
-                            
-                        }
-                    } //Inverse for loop
-                    
-            
-            
-                } //Inverse if-else
-
-        
-            } //TF learned if-then
-            
-            
-            //add trustFactorOutputObject to protect mode list where appropriate
-            if(addToProtectModeList)
-            {
-                //add TF to the protectMode list
-                [baselineAnalysisResults.trustFactorOutputObjectsForProtectMode  addObject:trustFactorOutputObject];
-            }
-            
-            //add trustFactorOutputObject to computation list where appropriate
-            if(addToComputationList)
-            {
-                //add TF to the computation list
-                [baselineAnalysisResults.trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
-                
-            }
-        }
-        else{
-            //add non-executed rules so their DNE_Status codes impact the score
-            [baselineAnalysisResults.trustFactorOutputObjectsForComputation addObject:trustFactorOutputObject];
-            
-        } //dnestatus_OK if-then
     
     
     return trustFactorOutputObject;
@@ -580,8 +541,7 @@
     
 }
 
-+ (void)compareAndUpdateLearning:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject
-
++ (Sentegrity_TrustFactor_Output_Object *)compareAndUpdateLearning:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject
 {
     
     //first we must do the actual compare
@@ -685,7 +645,7 @@
             break;
     }
     
-    
+    return trustFactorOutputObject;
     
 }
 

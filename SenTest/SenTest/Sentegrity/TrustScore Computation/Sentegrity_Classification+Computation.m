@@ -17,6 +17,13 @@ NSString const *basePenaltyKeyClass = @"Sentegrity.basePenalty";
 NSString const *weightedPenaltyKeyClass = @"Sentegrity.weightedPenalty";
 NSString const *subClassificationsKeyClass = @"Sentegrity.subClassifications";
 NSString const *trustFactorsKeyClass = @"Sentegrity.trustFactors";
+NSString const *trustFactorsToWhitelistKey = @"Sentegrity.trustFactorsToWhitelist";
+
+// GUI messages
+NSString const *issuesInClassKey = @"Sentegrity.issuesInClass";
+NSString const *suggestionsInClassKey = @"Sentegrity.suggestionsInClass";
+NSString const *subClassStatusKey = @"Sentegrity.subClassStatus";
+
 
 // Base Penalty
 
@@ -59,6 +66,42 @@ NSString const *trustFactorsKeyClass = @"Sentegrity.trustFactors";
 
 - (NSArray *)trustFactors {
     return objc_getAssociatedObject(self, &trustFactorsKeyClass);
+}
+
+// trustFactors to whitelist during protect mode deactivation
+
+- (void)setTrustFactorsToWhitelist:(NSArray *)trustFactorsToWhitelist{
+    objc_setAssociatedObject(self, &trustFactorsToWhitelistKey, trustFactorsToWhitelist, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)trustFactorsToWhitelist {
+    return objc_getAssociatedObject(self, &trustFactorsToWhitelistKey);
+}
+
+- (void)setIssuesInClass:(NSArray *)issuesInClass{
+    objc_setAssociatedObject(self, &issuesInClassKey, issuesInClass, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)issuesInClass {
+    return objc_getAssociatedObject(self, &issuesInClassKey);
+}
+
+
+- (void)setSuggestionsInClass:(NSArray *)suggestionsInClass{
+    objc_setAssociatedObject(self, &suggestionsInClassKey, suggestionsInClass, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)suggestionsInClass {
+    return objc_getAssociatedObject(self, &suggestionsInClassKey);
+}
+
+
+- (void)setSubClassStatus:(NSArray *)subClassStatus{
+    objc_setAssociatedObject(self, &subClassStatusKey, subClassStatus, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)subClassStatus {
+    return objc_getAssociatedObject(self, &subClassStatusKey);
 }
 
 @end

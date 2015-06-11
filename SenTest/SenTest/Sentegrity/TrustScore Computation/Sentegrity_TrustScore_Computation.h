@@ -11,55 +11,87 @@
 
 @interface Sentegrity_TrustScore_Computation : NSObject
 
-// TODO: BETA2 Change the way scores are computed
-// TODO: BETA2 Establish learning mode
 
 //CLASSIFICATION SCORES
 
-// System Score
+// System Breach
 @property (nonatomic) int systemBreachScore;
-// User Score
+// Device Policy Violation
+@property (nonatomic) int systemPolicyScore;
+// System Security (Anomaly)
 @property (nonatomic) int systemSecurityScore;
-// Device Score
-@property (nonatomic) int policyScore;
-// Device Score
+// User Policy Violation
+@property (nonatomic) int userPolicyScore;
+// User Anomaly
 @property (nonatomic) int userAnomalyScore;
 
-//SUBSET SCORES
+
+// COMPOSITE SYSTEM SCORE
 
 // System Score
 @property (nonatomic) int systemScore;
+
+// System Trusted
+@property (nonatomic) BOOL systemTrusted;
+
+// System Attributing Classification
+@property (nonatomic) BOOL systemAttributingClassID;
+
+// Issue Messages
+@property (nonatomic) NSArray *systemGUIIssues;
+
+// Suggesstion Messages
+@property (nonatomic) NSArray *systemGUISuggesstion;
+
+// Analysis Messages
+@property (nonatomic) NSArray *systemGUIAnalysis;
+
+
+
+
+// COMPOSITE USER SCORE
+
 // User Score
 @property (nonatomic) int userScore;
 
-//DEVICE SCORES
+// User Trusted
+@property (nonatomic) BOOL  userTrusted;
+
+// User Attributing Classification
+@property (nonatomic) BOOL  userAttributingClassID;
+
+// Issue Messages
+@property (nonatomic) NSArray *userGUIIssues;
+
+// Suggesstion Messages
+@property (nonatomic) NSArray *userGUISuggesstion;
+
+// Analysis Messages
+@property (nonatomic) NSArray *userGUIAnalysis;
+
+
+// COMPOSITE DEVICE SCORE
 
 // Device Score
 @property (nonatomic) int deviceScore;
 
-//TRUST RESULTS
+// device Trusted
+@property (nonatomic) BOOL  deviceTrusted;
 
-// System Trusted
-@property (nonatomic) BOOL systemTrusted;
-// User Trusted
-@property (nonatomic) BOOL  userTrusted;
-// Device Trusted
-@property (nonatomic) BOOL deviceTrusted;
 
 //PROTECT MODE
 
 // Device Score
-@property (nonatomic) NSInteger protectModeClassification;
+@property (nonatomic) NSInteger protectModeClassID;
 
 @property (nonatomic) NSInteger protectModeAction;
 
-@property (nonatomic) NSString *protectModeInfo;
+@property (nonatomic) NSString *protectModeMessage;
 
-@property (nonatomic) NSString *protectModeName;
+//Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
+@property (nonatomic) NSArray *protectModeWhitelist;
 
 
-// Classification information
-@property (nonatomic,retain) NSArray *classificationInformation;
 
 
 // Compute the systemScore and the UserScore from the trust scores and the assertion storage objects
