@@ -10,8 +10,10 @@
 
 @implementation TrustFactor_Dispatch_Sandbox
 
-// TODO: Which api's would you like us to verify
+// 8 - Sandbox API Verification and Kernel Configurations - Basically Jailbreak Checks
 + (Sentegrity_TrustFactor_Output_Object *)apiVerification:(NSArray *)payload {
+    
+    // TODO: Fork() Check
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];

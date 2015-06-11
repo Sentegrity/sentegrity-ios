@@ -13,7 +13,7 @@
 
 // TODO: What files should we validate?
 + (Sentegrity_TrustFactor_Output_Object *)tamper:(NSArray *)payload {
-    
+    // List of loaded libraries
     return 0;
 }
 
