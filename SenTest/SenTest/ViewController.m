@@ -46,12 +46,12 @@
     Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyURLPath withError:&error];
     
     //Perform Core Detection
-    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError *error) {
+    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
         if (success) {
 
             //protect mode analysis
-            if(![[ProtectMode sharedProtectMode] analyzeResults:computationResults withError:&error]){
-                NSLog(@"Failed to analyze Core Detection results: %@", error.localizedDescription);
+            if(![[ProtectMode sharedProtectMode] analyzeResults:computationResults withError:error]){
+                NSLog(@"Failed to analyze Core Detection results: %@", [*error localizedDescription]);
             }
             else{
                 NSLog(@"\n\n+++ Core Detection Classification Scores +++ \n\nBreach Indicator:%d, \nSystem Security:%d, \nSystem Policy:%d, \nUser Anomaly:%d, \nUser Policy:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.systemPolicyScore, computationResults.userAnomalyScore,computationResults.userPolicyScore );
@@ -67,11 +67,11 @@
                 NSLog(@"\n\n+++ User Detailed View +++\n\nUser Score:%d, \nUser Icon:%d,  \nUser Icon Text:%@, \nIssues:%@, \nSuggestions:%@, \nAnalysis:%@\n\n", computationResults.userScore, computationResults.userGUIIconID, computationResults.userGUIIconText, computationResults.userGUIIssues, computationResults.userGUISuggestions, computationResults.userGUIAnalysis);
                 
                 
-                NSLog(@"\n\nErrors: %@", error.localizedDescription);
+                NSLog(@"\n\nErrors: %@", [*error localizedDescription]);
             }
             
         }
-        else {NSLog(@"Failed to run Core Detection: %@", error.localizedDescription);}
+        else {NSLog(@"Failed to run Core Detection: %@", [*error localizedDescription]);}
     }];
     
     

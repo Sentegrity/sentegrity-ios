@@ -1,0 +1,1037 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		008A09A88A16B246D1BA5F01 /* Pods-CircleProgressBar-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8AD0AF3424603BC57B0CE2 /* Pods-CircleProgressBar-dummy.m */; };
+		06BD8890D98940326A2DA9A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E35AB5E61008D4366212AD /* QuartzCore.framework */; };
+		126AE67008584767B1F62075 /* ChameleonStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6DB8D644CDB26F92B83A44 /* ChameleonStatusBar.m */; };
+		18F74A162E7B43EC545FC70C /* JTHamburgerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1C66AB0E5F97A6580B3271 /* JTHamburgerButton.m */; };
+		1C2A3EEB7D6D37C373DA7759 /* ChameleonStatusBar.h in Headers */ = {isa = PBXBuildFile; fileRef = CE6FB960C761811750BB672B /* ChameleonStatusBar.h */; };
+		1DE633B8FBE2F613E7CE0FD9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D71AD27BD9243073B2A309C4 /* Foundation.framework */; };
+		229B74A1F0ADAC29A41BDF22 /* UIViewController+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = DB44663FE70FAF8C779D7BB4 /* UIViewController+Chameleon.m */; };
+		25DCC55CD2E447B74B20FBE9 /* Pods-Facade-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 21BD7CA84E078016C35BE336 /* Pods-Facade-dummy.m */; };
+		281DBCB6E3B9181D4C60D66D /* JTHamburgerButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 60B80EEB675040CFC5E85802 /* JTHamburgerButton.h */; };
+		2AB944DB7117367FFD088929 /* UIView+Facade.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FD103A0C5AD94240E29A385 /* UIView+Facade.h */; };
+		37D386E244D1BCBEBDF35C0C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D71AD27BD9243073B2A309C4 /* Foundation.framework */; };
+		3B909C1E66BD7106ECC53963 /* Pods-JTHamburgerButton-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E60A627C39B97B668D51AE1 /* Pods-JTHamburgerButton-dummy.m */; };
+		412EB729FAC6FB99B5AC4330 /* RECommonFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 28C7BFC097B900E19F4E76A0 /* RECommonFunctions.h */; };
+		4EE9F44574C5E0877582F4C7 /* CircleProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = BE55EC8160817C9D8FD479A8 /* CircleProgressBar.m */; };
+		538121698BF462617CD6E4F2 /* UIColor+CIELAB.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAE66846A15668A3B7C6641 /* UIColor+CIELAB.m */; };
+		5D2CB9ECBBDA923CA661C5DC /* RESideMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = B57770173F585850ED1F3FF2 /* RESideMenu.h */; };
+		68C5593F9E27C6D5C1EA6966 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D71AD27BD9243073B2A309C4 /* Foundation.framework */; };
+		6E9491B3A2565DE7FC01D934 /* UIViewController+RESideMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D598E9F7BC0AD37E8409C6D /* UIViewController+RESideMenu.h */; };
+		7022F1C29DD49FAEC6468215 /* CircleProgressBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F505081FC1398B9FDF9189D /* CircleProgressBar.h */; };
+		754ABC73BF5D9793AFC34887 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D71AD27BD9243073B2A309C4 /* Foundation.framework */; };
+		7B7B1171F19656480750B945 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D71AD27BD9243073B2A309C4 /* Foundation.framework */; };
+		7E4F3D00F4AEF1C0EC7CA480 /* UIViewController+Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = A14731906D7EF99D5658C08C /* UIViewController+Chameleon.h */; };
+		89E261198F9EDEB405D9C8CD /* RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 411ADF5ECF53227555D90C1B /* RESideMenu.m */; };
+		9AE2B2F1761E197BF27FBEA9 /* UIColor+Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = 1626960A2E685EA3FD06B1F1 /* UIColor+Chameleon.h */; };
+		9DD351133D6E2DA668152846 /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F02AEC692A76BEE2AC1003D2 /* RECommonFunctions.m */; };
+		AA52914E5775E04AAF95D338 /* NSArray+Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BF442C00AABBE8CCC6823E4 /* NSArray+Chameleon.h */; };
+		AE624F9DBD9033BF697D9372 /* UIColor+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D04C6AD99D7093750AD6F36 /* UIColor+Chameleon.m */; };
+		B1F71138746BDF467A5F2661 /* UIColor+CIELAB.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B3A21BC7010DBB245A158A9 /* UIColor+CIELAB.h */; };
+		B1FD8E6328A4CC31FCBFD8BF /* Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = DEF611B246A40C8ECF1F7B05 /* Chameleon.h */; };
+		B8C08A026CAA77D0DFCF58AB /* UIViewController+RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CC79802DECB49151DE89A8 /* UIViewController+RESideMenu.m */; };
+		BB6F4D90D8AD4610A619A002 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8D3281A188791DC8B3684DC /* UIKit.framework */; };
+		C1B331319FECF927D4CAEB34 /* Pods-ChameleonFramework-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D922A56A7D8F32567ADA63F0 /* Pods-ChameleonFramework-dummy.m */; };
+		C9AB9E5AA706C376C4BC3D7C /* UIView+Facade.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E147AFFDECB1E3159AF0 /* UIView+Facade.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		D786FE48DE54B9C936A542AA /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22888646994F46E5D8D808FA /* Pods-dummy.m */; };
+		E90800AA18AE50629DE916B7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D71AD27BD9243073B2A309C4 /* Foundation.framework */; };
+		EC9A814F8F5C14A626989553 /* NSArray+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = 938069712984899ADCF640E3 /* NSArray+Chameleon.m */; };
+		EE8856DDB3D1AC0D90A97EBD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8D3281A188791DC8B3684DC /* UIKit.framework */; };
+		EED98657A8C0358E89B08BA5 /* Pods-RESideMenu-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 93964AEDE2F13A32E1F5E39A /* Pods-RESideMenu-dummy.m */; };
+		F46EB19EA87F74AF83465A90 /* ChameleonMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 163C95FA5105A887AF353474 /* ChameleonMacros.h */; };
+		F7C7EB57DC4E89A1183B814D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E35AB5E61008D4366212AD /* QuartzCore.framework */; };
+		F87282528BAC3D775670454E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F10D7D4856E82A1B54FE6C9 /* CoreGraphics.framework */; };
+		FE884F8911C0DD9E7392C047 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E35AB5E61008D4366212AD /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		08E8994A3D2648E0EE21D853 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E77178DA44351CB7BB0E97C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE168AFC42CDAEB565C864A0;
+			remoteInfo = "Pods-RESideMenu";
+		};
+		5173B8F3967FE7C0B88D3A03 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E77178DA44351CB7BB0E97C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9627D14F983C0DC731F7B74F;
+			remoteInfo = "Pods-ChameleonFramework";
+		};
+		60F29E5E9952BBF287EF3758 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E77178DA44351CB7BB0E97C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF88E2621FDE8A61023180A9;
+			remoteInfo = "Pods-Facade";
+		};
+		7B7B2B6D0346181211703964 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E77178DA44351CB7BB0E97C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B42F31E00039FC66564C0B7B;
+			remoteInfo = "Pods-CircleProgressBar";
+		};
+		C7DA797CA18D03D4B9636731 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E77178DA44351CB7BB0E97C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DA82DA23D913A1A2E8E4DF5;
+			remoteInfo = "Pods-JTHamburgerButton";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		02B5B5D591F1134EFA83188A /* Pods-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-environment.h"; sourceTree = "<group>"; };
+		083F3580DD84CED1164901CD /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
+		0B012BE5D2382112B3EAB0D8 /* libPods-CircleProgressBar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CircleProgressBar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B1C66AB0E5F97A6580B3271 /* JTHamburgerButton.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = JTHamburgerButton.m; path = JTHamburgerButton/JTHamburgerButton.m; sourceTree = "<group>"; };
+		0D598E9F7BC0AD37E8409C6D /* UIViewController+RESideMenu.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+RESideMenu.h"; path = "RESideMenu/UIViewController+RESideMenu.h"; sourceTree = "<group>"; };
+		0DF279B4E8911626583CD1E7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
+		10E5C2FEE8F059675C49825E /* Pods-Facade-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Facade-Private.xcconfig"; sourceTree = "<group>"; };
+		11F8A760FC3223C95D04CB1F /* Pods-CircleProgressBar.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CircleProgressBar.xcconfig"; sourceTree = "<group>"; };
+		1245667C16153D91983205F7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1626960A2E685EA3FD06B1F1 /* UIColor+Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIColor+Chameleon.h"; path = "Pod/Classes/Objective-C/UIColor+Chameleon.h"; sourceTree = "<group>"; };
+		163C95FA5105A887AF353474 /* ChameleonMacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ChameleonMacros.h; path = "Pod/Classes/Objective-C/ChameleonMacros.h"; sourceTree = "<group>"; };
+		1F3737A1B6D8027A174355D9 /* Pods-ChameleonFramework-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ChameleonFramework-prefix.pch"; sourceTree = "<group>"; };
+		1F505081FC1398B9FDF9189D /* CircleProgressBar.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CircleProgressBar.h; path = CircleProgressBarDemo/CircleProgressBar/CircleProgressBar.h; sourceTree = "<group>"; };
+		21BD7CA84E078016C35BE336 /* Pods-Facade-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Facade-dummy.m"; sourceTree = "<group>"; };
+		22888646994F46E5D8D808FA /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
+		28C7BFC097B900E19F4E76A0 /* RECommonFunctions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RECommonFunctions.h; path = RESideMenu/RECommonFunctions.h; sourceTree = "<group>"; };
+		3B3A21BC7010DBB245A158A9 /* UIColor+CIELAB.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIColor+CIELAB.h"; path = "Pod/Classes/Objective-C/UIColor+CIELAB.h"; sourceTree = "<group>"; };
+		411ADF5ECF53227555D90C1B /* RESideMenu.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RESideMenu.m; path = RESideMenu/RESideMenu.m; sourceTree = "<group>"; };
+		4BF442C00AABBE8CCC6823E4 /* NSArray+Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+Chameleon.h"; path = "Pod/Classes/Objective-C/NSArray+Chameleon.h"; sourceTree = "<group>"; };
+		4FC37E3C728C20BC453424F2 /* Pods-ChameleonFramework-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ChameleonFramework-Private.xcconfig"; sourceTree = "<group>"; };
+		52AB23AF7700ECD053BD757D /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		60B80EEB675040CFC5E85802 /* JTHamburgerButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JTHamburgerButton.h; path = JTHamburgerButton/JTHamburgerButton.h; sourceTree = "<group>"; };
+		670413AD172389AC61D61D87 /* Pods-CircleProgressBar-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-CircleProgressBar-prefix.pch"; sourceTree = "<group>"; };
+		69DA21E9F7585C52AA32E75D /* Pods-CircleProgressBar-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-CircleProgressBar-Private.xcconfig"; sourceTree = "<group>"; };
+		6B8AD0AF3424603BC57B0CE2 /* Pods-CircleProgressBar-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-CircleProgressBar-dummy.m"; sourceTree = "<group>"; };
+		6D04C6AD99D7093750AD6F36 /* UIColor+Chameleon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Chameleon.m"; path = "Pod/Classes/Objective-C/UIColor+Chameleon.m"; sourceTree = "<group>"; };
+		71B07F38E1166B5115507554 /* Pods-JTHamburgerButton-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-JTHamburgerButton-prefix.pch"; sourceTree = "<group>"; };
+		76C7173343B18C8B606B0554 /* libPods-Facade.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Facade.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CD42A4F7E3A43120D968461 /* libPods-ChameleonFramework.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChameleonFramework.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DC22BEF648A48E482476509 /* Pods-RESideMenu-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-RESideMenu-prefix.pch"; sourceTree = "<group>"; };
+		7FD103A0C5AD94240E29A385 /* UIView+Facade.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+Facade.h"; path = "Facade/UIView+Facade.h"; sourceTree = "<group>"; };
+		84E1E147AFFDECB1E3159AF0 /* UIView+Facade.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+Facade.m"; path = "Facade/UIView+Facade.m"; sourceTree = "<group>"; };
+		8509FA18E4F77A9B7302C35A /* Pods-RESideMenu.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RESideMenu.xcconfig"; sourceTree = "<group>"; };
+		930190A01CC1E40A62625627 /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
+		938069712984899ADCF640E3 /* NSArray+Chameleon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Chameleon.m"; path = "Pod/Classes/Objective-C/NSArray+Chameleon.m"; sourceTree = "<group>"; };
+		93964AEDE2F13A32E1F5E39A /* Pods-RESideMenu-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-RESideMenu-dummy.m"; sourceTree = "<group>"; };
+		9662CDD3E4834C2FBCCD08CE /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
+		9E60A627C39B97B668D51AE1 /* Pods-JTHamburgerButton-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-JTHamburgerButton-dummy.m"; sourceTree = "<group>"; };
+		9F10D7D4856E82A1B54FE6C9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		A14731906D7EF99D5658C08C /* UIViewController+Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Chameleon.h"; path = "Pod/Classes/Objective-C/UIViewController+Chameleon.h"; sourceTree = "<group>"; };
+		AFAE66846A15668A3B7C6641 /* UIColor+CIELAB.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIColor+CIELAB.m"; path = "Pod/Classes/Objective-C/UIColor+CIELAB.m"; sourceTree = "<group>"; };
+		B57770173F585850ED1F3FF2 /* RESideMenu.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RESideMenu.h; path = RESideMenu/RESideMenu.h; sourceTree = "<group>"; };
+		BE55EC8160817C9D8FD479A8 /* CircleProgressBar.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CircleProgressBar.m; path = CircleProgressBarDemo/CircleProgressBar/CircleProgressBar.m; sourceTree = "<group>"; };
+		C7F0F1963C178986172BAB36 /* Pods-RESideMenu-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RESideMenu-Private.xcconfig"; sourceTree = "<group>"; };
+		C9E420ABFFEC974CCB19C24C /* Pods-ChameleonFramework.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ChameleonFramework.xcconfig"; sourceTree = "<group>"; };
+		CE6FB960C761811750BB672B /* ChameleonStatusBar.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ChameleonStatusBar.h; path = "Pod/Classes/Objective-C/ChameleonStatusBar.h"; sourceTree = "<group>"; };
+		D0C4B517FF2924C34D073428 /* Pods-Facade-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Facade-prefix.pch"; sourceTree = "<group>"; };
+		D71AD27BD9243073B2A309C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		D8D3281A188791DC8B3684DC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		D922A56A7D8F32567ADA63F0 /* Pods-ChameleonFramework-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ChameleonFramework-dummy.m"; sourceTree = "<group>"; };
+		D9E35AB5E61008D4366212AD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		DB44663FE70FAF8C779D7BB4 /* UIViewController+Chameleon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Chameleon.m"; path = "Pod/Classes/Objective-C/UIViewController+Chameleon.m"; sourceTree = "<group>"; };
+		DB6DB8D644CDB26F92B83A44 /* ChameleonStatusBar.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ChameleonStatusBar.m; path = "Pod/Classes/Objective-C/ChameleonStatusBar.m"; sourceTree = "<group>"; };
+		DEF611B246A40C8ECF1F7B05 /* Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Chameleon.h; path = "Pod/Classes/Objective-C/Chameleon.h"; sourceTree = "<group>"; };
+		E0EE129E985B3B32EFF4BAC0 /* Pods-Facade.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Facade.xcconfig"; sourceTree = "<group>"; };
+		E2CC79802DECB49151DE89A8 /* UIViewController+RESideMenu.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+RESideMenu.m"; path = "RESideMenu/UIViewController+RESideMenu.m"; sourceTree = "<group>"; };
+		EA3D18BB2AFB6118DEB343D6 /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
+		ED345DD1F91370129514A92A /* libPods-JTHamburgerButton.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JTHamburgerButton.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F02AEC692A76BEE2AC1003D2 /* RECommonFunctions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RECommonFunctions.m; path = RESideMenu/RECommonFunctions.m; sourceTree = "<group>"; };
+		F40F0B74458DF9A5839C0D1E /* libPods-RESideMenu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RESideMenu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F967EC553000021B689FAA97 /* Pods-JTHamburgerButton.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-JTHamburgerButton.xcconfig"; sourceTree = "<group>"; };
+		FA138E969010C90432CA0AB4 /* Pods-JTHamburgerButton-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-JTHamburgerButton-Private.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		267100EB93663152E1ECFD16 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E90800AA18AE50629DE916B7 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D619DB94DC08E8FB24E0653 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F87282528BAC3D775670454E /* CoreGraphics.framework in Frameworks */,
+				68C5593F9E27C6D5C1EA6966 /* Foundation.framework in Frameworks */,
+				06BD8890D98940326A2DA9A7 /* QuartzCore.framework in Frameworks */,
+				EE8856DDB3D1AC0D90A97EBD /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90B6A81AB02FAB67528DFAD6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DE633B8FBE2F613E7CE0FD9 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ED332F5864F324EC6798CF1D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				754ABC73BF5D9793AFC34887 /* Foundation.framework in Frameworks */,
+				F7C7EB57DC4E89A1183B814D /* QuartzCore.framework in Frameworks */,
+				BB6F4D90D8AD4610A619A002 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F05EF6E6F54BC5B883E5D736 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37D386E244D1BCBEBDF35C0C /* Foundation.framework in Frameworks */,
+				FE884F8911C0DD9E7392C047 /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE49EA05C49E31119D54EB08 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B7B1171F19656480750B945 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00778218247392E32B16E7A2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EA3D18BB2AFB6118DEB343D6 /* Pods-acknowledgements.markdown */,
+				9662CDD3E4834C2FBCCD08CE /* Pods-acknowledgements.plist */,
+				22888646994F46E5D8D808FA /* Pods-dummy.m */,
+				02B5B5D591F1134EFA83188A /* Pods-environment.h */,
+				930190A01CC1E40A62625627 /* Pods-resources.sh */,
+				0DF279B4E8911626583CD1E7 /* Pods.debug.xcconfig */,
+				083F3580DD84CED1164901CD /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			path = "Target Support Files/Pods";
+			sourceTree = "<group>";
+		};
+		02C122F0993BC81E65876745 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5875B0A0CB04366AE603C8D8 /* ChameleonFramework */,
+				2B1A807FC9A5DB608F9636DC /* CircleProgressBar */,
+				F3D4BA57BB8ED191C53ADBBD /* Facade */,
+				6DA1BA8D90D69A1084BC522D /* JTHamburgerButton */,
+				0BFA81A1BFEFED75175F3859 /* RESideMenu */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		0BFA81A1BFEFED75175F3859 /* RESideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				28C7BFC097B900E19F4E76A0 /* RECommonFunctions.h */,
+				F02AEC692A76BEE2AC1003D2 /* RECommonFunctions.m */,
+				B57770173F585850ED1F3FF2 /* RESideMenu.h */,
+				411ADF5ECF53227555D90C1B /* RESideMenu.m */,
+				0D598E9F7BC0AD37E8409C6D /* UIViewController+RESideMenu.h */,
+				E2CC79802DECB49151DE89A8 /* UIViewController+RESideMenu.m */,
+				3498212FD23900E5CEB1EA0D /* Support Files */,
+			);
+			path = RESideMenu;
+			sourceTree = "<group>";
+		};
+		2B1A807FC9A5DB608F9636DC /* CircleProgressBar */ = {
+			isa = PBXGroup;
+			children = (
+				1F505081FC1398B9FDF9189D /* CircleProgressBar.h */,
+				BE55EC8160817C9D8FD479A8 /* CircleProgressBar.m */,
+				D5233A66A26DDE92C41D7745 /* Support Files */,
+			);
+			path = CircleProgressBar;
+			sourceTree = "<group>";
+		};
+		3498212FD23900E5CEB1EA0D /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8509FA18E4F77A9B7302C35A /* Pods-RESideMenu.xcconfig */,
+				C7F0F1963C178986172BAB36 /* Pods-RESideMenu-Private.xcconfig */,
+				93964AEDE2F13A32E1F5E39A /* Pods-RESideMenu-dummy.m */,
+				7DC22BEF648A48E482476509 /* Pods-RESideMenu-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-RESideMenu";
+			sourceTree = "<group>";
+		};
+		39E0463EB2521AB4706A0A23 = {
+			isa = PBXGroup;
+			children = (
+				52AB23AF7700ECD053BD757D /* Podfile */,
+				B65D3C3445BADBF02A0349A4 /* Frameworks */,
+				02C122F0993BC81E65876745 /* Pods */,
+				4B8AED873BED31431E41DC5B /* Products */,
+				84CF835D6722B35945B455DC /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		4B8AED873BED31431E41DC5B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1245667C16153D91983205F7 /* libPods.a */,
+				7CD42A4F7E3A43120D968461 /* libPods-ChameleonFramework.a */,
+				0B012BE5D2382112B3EAB0D8 /* libPods-CircleProgressBar.a */,
+				76C7173343B18C8B606B0554 /* libPods-Facade.a */,
+				ED345DD1F91370129514A92A /* libPods-JTHamburgerButton.a */,
+				F40F0B74458DF9A5839C0D1E /* libPods-RESideMenu.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5875B0A0CB04366AE603C8D8 /* ChameleonFramework */ = {
+			isa = PBXGroup;
+			children = (
+				DEF611B246A40C8ECF1F7B05 /* Chameleon.h */,
+				163C95FA5105A887AF353474 /* ChameleonMacros.h */,
+				CE6FB960C761811750BB672B /* ChameleonStatusBar.h */,
+				DB6DB8D644CDB26F92B83A44 /* ChameleonStatusBar.m */,
+				4BF442C00AABBE8CCC6823E4 /* NSArray+Chameleon.h */,
+				938069712984899ADCF640E3 /* NSArray+Chameleon.m */,
+				3B3A21BC7010DBB245A158A9 /* UIColor+CIELAB.h */,
+				AFAE66846A15668A3B7C6641 /* UIColor+CIELAB.m */,
+				1626960A2E685EA3FD06B1F1 /* UIColor+Chameleon.h */,
+				6D04C6AD99D7093750AD6F36 /* UIColor+Chameleon.m */,
+				A14731906D7EF99D5658C08C /* UIViewController+Chameleon.h */,
+				DB44663FE70FAF8C779D7BB4 /* UIViewController+Chameleon.m */,
+				9AFCBF2743B1951E40ECEF03 /* Support Files */,
+			);
+			path = ChameleonFramework;
+			sourceTree = "<group>";
+		};
+		6729CCF0D4AE689A7B34C6C1 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				E0EE129E985B3B32EFF4BAC0 /* Pods-Facade.xcconfig */,
+				10E5C2FEE8F059675C49825E /* Pods-Facade-Private.xcconfig */,
+				21BD7CA84E078016C35BE336 /* Pods-Facade-dummy.m */,
+				D0C4B517FF2924C34D073428 /* Pods-Facade-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Facade";
+			sourceTree = "<group>";
+		};
+		6DA1BA8D90D69A1084BC522D /* JTHamburgerButton */ = {
+			isa = PBXGroup;
+			children = (
+				60B80EEB675040CFC5E85802 /* JTHamburgerButton.h */,
+				0B1C66AB0E5F97A6580B3271 /* JTHamburgerButton.m */,
+				BB0F4D03F5979C936C612E3C /* Support Files */,
+			);
+			path = JTHamburgerButton;
+			sourceTree = "<group>";
+		};
+		84CF835D6722B35945B455DC /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				00778218247392E32B16E7A2 /* Pods */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		9AFCBF2743B1951E40ECEF03 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				C9E420ABFFEC974CCB19C24C /* Pods-ChameleonFramework.xcconfig */,
+				4FC37E3C728C20BC453424F2 /* Pods-ChameleonFramework-Private.xcconfig */,
+				D922A56A7D8F32567ADA63F0 /* Pods-ChameleonFramework-dummy.m */,
+				1F3737A1B6D8027A174355D9 /* Pods-ChameleonFramework-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-ChameleonFramework";
+			sourceTree = "<group>";
+		};
+		B65D3C3445BADBF02A0349A4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CC5BB26C8FCDDBA256C646E9 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BB0F4D03F5979C936C612E3C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				F967EC553000021B689FAA97 /* Pods-JTHamburgerButton.xcconfig */,
+				FA138E969010C90432CA0AB4 /* Pods-JTHamburgerButton-Private.xcconfig */,
+				9E60A627C39B97B668D51AE1 /* Pods-JTHamburgerButton-dummy.m */,
+				71B07F38E1166B5115507554 /* Pods-JTHamburgerButton-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-JTHamburgerButton";
+			sourceTree = "<group>";
+		};
+		CC5BB26C8FCDDBA256C646E9 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				9F10D7D4856E82A1B54FE6C9 /* CoreGraphics.framework */,
+				D71AD27BD9243073B2A309C4 /* Foundation.framework */,
+				D9E35AB5E61008D4366212AD /* QuartzCore.framework */,
+				D8D3281A188791DC8B3684DC /* UIKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		D5233A66A26DDE92C41D7745 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				11F8A760FC3223C95D04CB1F /* Pods-CircleProgressBar.xcconfig */,
+				69DA21E9F7585C52AA32E75D /* Pods-CircleProgressBar-Private.xcconfig */,
+				6B8AD0AF3424603BC57B0CE2 /* Pods-CircleProgressBar-dummy.m */,
+				670413AD172389AC61D61D87 /* Pods-CircleProgressBar-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-CircleProgressBar";
+			sourceTree = "<group>";
+		};
+		F3D4BA57BB8ED191C53ADBBD /* Facade */ = {
+			isa = PBXGroup;
+			children = (
+				7FD103A0C5AD94240E29A385 /* UIView+Facade.h */,
+				84E1E147AFFDECB1E3159AF0 /* UIView+Facade.m */,
+				6729CCF0D4AE689A7B34C6C1 /* Support Files */,
+			);
+			path = Facade;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		02A625D009D252244F6E92DD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				281DBCB6E3B9181D4C60D66D /* JTHamburgerButton.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0495C9D8AC5BDFE2D2D9F96E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				412EB729FAC6FB99B5AC4330 /* RECommonFunctions.h in Headers */,
+				5D2CB9ECBBDA923CA661C5DC /* RESideMenu.h in Headers */,
+				6E9491B3A2565DE7FC01D934 /* UIViewController+RESideMenu.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		185919FBDD195D039F0193CE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AB944DB7117367FFD088929 /* UIView+Facade.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91EE0816FA4BACF2383D0767 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7022F1C29DD49FAEC6468215 /* CircleProgressBar.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC5B8491641776A7A0F0C334 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1FD8E6328A4CC31FCBFD8BF /* Chameleon.h in Headers */,
+				F46EB19EA87F74AF83465A90 /* ChameleonMacros.h in Headers */,
+				1C2A3EEB7D6D37C373DA7759 /* ChameleonStatusBar.h in Headers */,
+				AA52914E5775E04AAF95D338 /* NSArray+Chameleon.h in Headers */,
+				B1F71138746BDF467A5F2661 /* UIColor+CIELAB.h in Headers */,
+				9AE2B2F1761E197BF27FBEA9 /* UIColor+Chameleon.h in Headers */,
+				7E4F3D00F4AEF1C0EC7CA480 /* UIViewController+Chameleon.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6CB4F25D328F4234724C7A2D /* Pods */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD0BF83150E8748DBA28A49A /* Build configuration list for PBXNativeTarget "Pods" */;
+			buildPhases = (
+				D0827969DFBBCD3634798585 /* Sources */,
+				FE49EA05C49E31119D54EB08 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0785BA9FAA822371192E8693 /* PBXTargetDependency */,
+				D3875DA61DE66FEBED52411D /* PBXTargetDependency */,
+				674689963489D27C4F0CB0B3 /* PBXTargetDependency */,
+				00EFBFD954FB81888D4CDEB4 /* PBXTargetDependency */,
+				EFBED911815979F18648F282 /* PBXTargetDependency */,
+			);
+			name = Pods;
+			productName = Pods;
+			productReference = 1245667C16153D91983205F7 /* libPods.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		7DA82DA23D913A1A2E8E4DF5 /* Pods-JTHamburgerButton */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7A76361BF7B4A35C0E283747 /* Build configuration list for PBXNativeTarget "Pods-JTHamburgerButton" */;
+			buildPhases = (
+				9CD36E7C5B1BA59C5CA0AC58 /* Sources */,
+				90B6A81AB02FAB67528DFAD6 /* Frameworks */,
+				02A625D009D252244F6E92DD /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-JTHamburgerButton";
+			productName = "Pods-JTHamburgerButton";
+			productReference = ED345DD1F91370129514A92A /* libPods-JTHamburgerButton.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		9627D14F983C0DC731F7B74F /* Pods-ChameleonFramework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 683D0AD30667787166C764F8 /* Build configuration list for PBXNativeTarget "Pods-ChameleonFramework" */;
+			buildPhases = (
+				27BD3F4D35D5F8C73B20D9A6 /* Sources */,
+				5D619DB94DC08E8FB24E0653 /* Frameworks */,
+				BC5B8491641776A7A0F0C334 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-ChameleonFramework";
+			productName = "Pods-ChameleonFramework";
+			productReference = 7CD42A4F7E3A43120D968461 /* libPods-ChameleonFramework.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B42F31E00039FC66564C0B7B /* Pods-CircleProgressBar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D58159EF3FB6B6100F11036 /* Build configuration list for PBXNativeTarget "Pods-CircleProgressBar" */;
+			buildPhases = (
+				72DC5A40DB37B12BB1B116CC /* Sources */,
+				ED332F5864F324EC6798CF1D /* Frameworks */,
+				91EE0816FA4BACF2383D0767 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-CircleProgressBar";
+			productName = "Pods-CircleProgressBar";
+			productReference = 0B012BE5D2382112B3EAB0D8 /* libPods-CircleProgressBar.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		EE168AFC42CDAEB565C864A0 /* Pods-RESideMenu */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2F7B942698F22E6782B0FEF /* Build configuration list for PBXNativeTarget "Pods-RESideMenu" */;
+			buildPhases = (
+				E1C7EDB2D73EF1D84157B0CB /* Sources */,
+				F05EF6E6F54BC5B883E5D736 /* Frameworks */,
+				0495C9D8AC5BDFE2D2D9F96E /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-RESideMenu";
+			productName = "Pods-RESideMenu";
+			productReference = F40F0B74458DF9A5839C0D1E /* libPods-RESideMenu.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		EF88E2621FDE8A61023180A9 /* Pods-Facade */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A370AD74CCEEB1C181C05A8 /* Build configuration list for PBXNativeTarget "Pods-Facade" */;
+			buildPhases = (
+				B38E8C0BD2BE9E4225BBC259 /* Sources */,
+				267100EB93663152E1ECFD16 /* Frameworks */,
+				185919FBDD195D039F0193CE /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Facade";
+			productName = "Pods-Facade";
+			productReference = 76C7173343B18C8B606B0554 /* libPods-Facade.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4E77178DA44351CB7BB0E97C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+			};
+			buildConfigurationList = 8F93032BB7503EBE41A14F85 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 39E0463EB2521AB4706A0A23;
+			productRefGroup = 4B8AED873BED31431E41DC5B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6CB4F25D328F4234724C7A2D /* Pods */,
+				9627D14F983C0DC731F7B74F /* Pods-ChameleonFramework */,
+				B42F31E00039FC66564C0B7B /* Pods-CircleProgressBar */,
+				EF88E2621FDE8A61023180A9 /* Pods-Facade */,
+				7DA82DA23D913A1A2E8E4DF5 /* Pods-JTHamburgerButton */,
+				EE168AFC42CDAEB565C864A0 /* Pods-RESideMenu */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		27BD3F4D35D5F8C73B20D9A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				126AE67008584767B1F62075 /* ChameleonStatusBar.m in Sources */,
+				EC9A814F8F5C14A626989553 /* NSArray+Chameleon.m in Sources */,
+				C1B331319FECF927D4CAEB34 /* Pods-ChameleonFramework-dummy.m in Sources */,
+				538121698BF462617CD6E4F2 /* UIColor+CIELAB.m in Sources */,
+				AE624F9DBD9033BF697D9372 /* UIColor+Chameleon.m in Sources */,
+				229B74A1F0ADAC29A41BDF22 /* UIViewController+Chameleon.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		72DC5A40DB37B12BB1B116CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4EE9F44574C5E0877582F4C7 /* CircleProgressBar.m in Sources */,
+				008A09A88A16B246D1BA5F01 /* Pods-CircleProgressBar-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9CD36E7C5B1BA59C5CA0AC58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18F74A162E7B43EC545FC70C /* JTHamburgerButton.m in Sources */,
+				3B909C1E66BD7106ECC53963 /* Pods-JTHamburgerButton-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B38E8C0BD2BE9E4225BBC259 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25DCC55CD2E447B74B20FBE9 /* Pods-Facade-dummy.m in Sources */,
+				C9AB9E5AA706C376C4BC3D7C /* UIView+Facade.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0827969DFBBCD3634798585 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D786FE48DE54B9C936A542AA /* Pods-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E1C7EDB2D73EF1D84157B0CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EED98657A8C0358E89B08BA5 /* Pods-RESideMenu-dummy.m in Sources */,
+				9DD351133D6E2DA668152846 /* RECommonFunctions.m in Sources */,
+				89E261198F9EDEB405D9C8CD /* RESideMenu.m in Sources */,
+				B8C08A026CAA77D0DFCF58AB /* UIViewController+RESideMenu.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		00EFBFD954FB81888D4CDEB4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-JTHamburgerButton";
+			target = 7DA82DA23D913A1A2E8E4DF5 /* Pods-JTHamburgerButton */;
+			targetProxy = C7DA797CA18D03D4B9636731 /* PBXContainerItemProxy */;
+		};
+		0785BA9FAA822371192E8693 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-ChameleonFramework";
+			target = 9627D14F983C0DC731F7B74F /* Pods-ChameleonFramework */;
+			targetProxy = 5173B8F3967FE7C0B88D3A03 /* PBXContainerItemProxy */;
+		};
+		674689963489D27C4F0CB0B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Facade";
+			target = EF88E2621FDE8A61023180A9 /* Pods-Facade */;
+			targetProxy = 60F29E5E9952BBF287EF3758 /* PBXContainerItemProxy */;
+		};
+		D3875DA61DE66FEBED52411D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-CircleProgressBar";
+			target = B42F31E00039FC66564C0B7B /* Pods-CircleProgressBar */;
+			targetProxy = 7B7B2B6D0346181211703964 /* PBXContainerItemProxy */;
+		};
+		EFBED911815979F18648F282 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-RESideMenu";
+			target = EE168AFC42CDAEB565C864A0 /* Pods-RESideMenu */;
+			targetProxy = 08E8994A3D2648E0EE21D853 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		022F0608C0ECA18E3404D709 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7F0F1963C178986172BAB36 /* Pods-RESideMenu-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-RESideMenu/Pods-RESideMenu-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		03A681A9C6315AE5911F3C4B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		03F9CDD5E0ED2E475398DFEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4FC37E3C728C20BC453424F2 /* Pods-ChameleonFramework-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-ChameleonFramework/Pods-ChameleonFramework-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		2AD21144D86B8EEE288340A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 083F3580DD84CED1164901CD /* Pods.release.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		2F55E095CB52F17E932D200E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 10E5C2FEE8F059675C49825E /* Pods-Facade-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Facade/Pods-Facade-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		5C8D6234078449A12D71ECC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4FC37E3C728C20BC453424F2 /* Pods-ChameleonFramework-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-ChameleonFramework/Pods-ChameleonFramework-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		72176890E9E7CFD66082F3F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA138E969010C90432CA0AB4 /* Pods-JTHamburgerButton-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-JTHamburgerButton/Pods-JTHamburgerButton-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		8925AC0B4A4D93B079E483E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7F0F1963C178986172BAB36 /* Pods-RESideMenu-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-RESideMenu/Pods-RESideMenu-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A6CAF7208BF959362B1EECC9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69DA21E9F7585C52AA32E75D /* Pods-CircleProgressBar-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-CircleProgressBar/Pods-CircleProgressBar-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		CD7765EB66CF44C8F68A75C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69DA21E9F7585C52AA32E75D /* Pods-CircleProgressBar-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-CircleProgressBar/Pods-CircleProgressBar-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		CD8E9CD34D95D016C40D5B3E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 10E5C2FEE8F059675C49825E /* Pods-Facade-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Facade/Pods-Facade-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F07394063FA4C5BD3DE65AD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		F8BFB9AEBF24022DCF90D1C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0DF279B4E8911626583CD1E7 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		FC0008A9A49C7C8252DD83CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA138E969010C90432CA0AB4 /* Pods-JTHamburgerButton-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-JTHamburgerButton/Pods-JTHamburgerButton-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		683D0AD30667787166C764F8 /* Build configuration list for PBXNativeTarget "Pods-ChameleonFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03F9CDD5E0ED2E475398DFEE /* Debug */,
+				5C8D6234078449A12D71ECC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7A76361BF7B4A35C0E283747 /* Build configuration list for PBXNativeTarget "Pods-JTHamburgerButton" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC0008A9A49C7C8252DD83CF /* Debug */,
+				72176890E9E7CFD66082F3F4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8A370AD74CCEEB1C181C05A8 /* Build configuration list for PBXNativeTarget "Pods-Facade" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD8E9CD34D95D016C40D5B3E /* Debug */,
+				2F55E095CB52F17E932D200E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F93032BB7503EBE41A14F85 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F07394063FA4C5BD3DE65AD3 /* Debug */,
+				03A681A9C6315AE5911F3C4B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D58159EF3FB6B6100F11036 /* Build configuration list for PBXNativeTarget "Pods-CircleProgressBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD7765EB66CF44C8F68A75C3 /* Debug */,
+				A6CAF7208BF959362B1EECC9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2F7B942698F22E6782B0FEF /* Build configuration list for PBXNativeTarget "Pods-RESideMenu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8925AC0B4A4D93B079E483E3 /* Debug */,
+				022F0608C0ECA18E3404D709 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD0BF83150E8748DBA28A49A /* Build configuration list for PBXNativeTarget "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8BFB9AEBF24022DCF90D1C1 /* Debug */,
+				2AD21144D86B8EEE288340A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4E77178DA44351CB7BB0E97C /* Project object */;
+}

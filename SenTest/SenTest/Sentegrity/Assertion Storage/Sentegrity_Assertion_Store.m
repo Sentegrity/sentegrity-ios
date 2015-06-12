@@ -126,7 +126,7 @@
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
-        return nil;
+        return NO;
     }
     
     // MAke sure it already exists before replacement

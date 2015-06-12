@@ -15,7 +15,7 @@
 - (Sentegrity_Policy *)parsePolicy:(NSURL *)policyPath withError:(NSError **)error;
 
 // Protect Mode Analysis Callback
-- (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults andError:(NSError *)error;
+- (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults andError:(NSError **)error;
 
 @end
 
@@ -24,7 +24,7 @@
 #pragma mark - Protect Mode Analysis
 
 // Callback block definition
-void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError *error);
+void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error);
 
 // Start Core Detection
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback {
@@ -47,7 +47,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
         
         // Don't return anything
-        [self coreDetectionResponse:NO withComputationResults:nil andError:error];
+        [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
         return;
     }
     
@@ -63,7 +63,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
         
         // Don't return anything
-        [self coreDetectionResponse:NO withComputationResults:nil andError:error];
+        [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
         return;
     }
 
@@ -80,7 +80,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         [errorDetails setValue:@"No trustFactorOutputObjects available for computation" forKey:NSLocalizedDescriptionKey];
         error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsForComputation userInfo:errorDetails];
 
-        [self coreDetectionResponse:NO withComputationResults:nil andError:error];
+        [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
         return;
     }
     
@@ -96,21 +96,28 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         [errorDetails setValue:@"No computation object returned, error during computation" forKey:NSLocalizedDescriptionKey];
         error = [NSError errorWithDomain:@"Sentegrity" code:SAErrorDuringComputation userInfo:errorDetails];
         
-        [self coreDetectionResponse:NO withComputationResults:nil andError:error];
+        [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
         return;
     }
     
 
     
     // Return through the block callback
-    [self coreDetectionResponse:YES withComputationResults:computationResults andError:error];
+    [self coreDetectionResponse:YES withComputationResults:computationResults andError:&error];
     
 }
 
 // Callback function for core detection
-- (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults andError:(NSError *)error {
+- (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults andError:(NSError **)error {
     // Block callback
-    coreDetectionBlockCallBack(success, computationResults, error);
+    if (coreDetectionBlockCallBack) {
+        coreDetectionBlockCallBack(success, computationResults, error);
+    } else {
+        // Block callback is nil (something is really wrong)
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"Unable to provide Core Detection Response, block callback is nil" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUknownError userInfo:errorDetails];
+    }
 }
 
 #pragma mark Singleton Methods
