@@ -27,4 +27,8 @@
 // Parent ID for a certain PID
 + (int)parentPIDForProcess:(int)pid;
 
+// Get self PID 
++ (int) getOurPID;
+
+
 @end
