@@ -8,6 +8,7 @@
 
 #import "Sentegrity_TrustFactor_Rule.h"
 
+
 @interface TrustFactor_Dispatch_Sentegrity : Sentegrity_TrustFactor_Rule
 
 // 6

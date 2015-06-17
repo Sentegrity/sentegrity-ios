@@ -7,6 +7,7 @@
 //
 
 #import "TrustFactor_Dispatch_File.h"
+#import <sys/stat.h>
 
 @implementation TrustFactor_Dispatch_File
 
@@ -119,6 +120,18 @@
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
+}
+
+//for future use
++ (BOOL)doFstabSize {
+    struct stat sb;
+    stat("/etc/fstab", &sb);
+    long long size = sb.st_size;
+    if (size == 80){
+        return NO;
+    }
+    return YES;
+    
 }
 
 @end

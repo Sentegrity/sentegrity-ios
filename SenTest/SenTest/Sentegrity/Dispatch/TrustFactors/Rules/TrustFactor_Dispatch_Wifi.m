@@ -8,6 +8,8 @@
 
 #import "TrustFactor_Dispatch_Wifi.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
+#import <ifaddrs.h>
+#import <net/if.h>
 
 @implementation TrustFactor_Dispatch_Wifi
 
@@ -216,6 +218,23 @@
     // Return the trustfactor output object
     return trustFactorOutputObject;
     
+}
+
+- (BOOL) isWiFiEnabled {
+    
+    NSCountedSet * cset = [NSCountedSet new];
+    
+    struct ifaddrs *interfaces;
+    
+    if( ! getifaddrs(&interfaces) ) {
+        for( struct ifaddrs *interface = interfaces; interface; interface = interface->ifa_next) {
+            if ( (interface->ifa_flags & IFF_UP) == IFF_UP ) {
+                [cset addObject:[NSString stringWithUTF8String:interface->ifa_name]];
+            }
+        }
+    }
+    
+    return [cset countForObject:@"awdl0"] > 1 ? YES : NO;
 }
 
 @end

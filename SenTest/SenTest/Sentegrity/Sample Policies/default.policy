@@ -213,7 +213,12 @@
       "inverse": 0,
       "payload": [
         "/bin/bash",
-        "/bin/sh",
+        "/var/cache/apt",
+        "/var/tmp/cydia.log",
+        "/usr/sbin/sshd",
+        "/usr/libexec/ssh-keysign",
+        "/etc/apt",
+        "/etc/ssh/sshd_config",
         "/Library/MobileSubstrate/MobileSubstrate.dylib",
         "/var/log/syslog",
         "/etc/clutch.conf",
@@ -351,9 +356,14 @@
       "local": 0,
       "history": 3,
       "dispatch": "Sandbox",
-      "implementation": "apiVerification:",
+      "implementation": "integrity:",
       "inverse": 0,
-      "payload": []
+      "payload": [
+      "/usr/arm-apple-darwin9",
+      "/usr/libexec",
+      "/usr/share",
+      "/Library/Ringtones"
+      ]
     }, {
       "id": 1008,
       "issueMessage": "Application integrity violated",
@@ -375,7 +385,10 @@
       "dispatch": "Sentegrity",
       "implementation": "tamper:",
       "inverse": 0,
-      "payload": []
+      "payload": [
+        "MobileSubstrate",
+        "XCon"
+      ]
     }, {
       "id": 1009,
       "issueMessage": "Device location is outside of policy",
