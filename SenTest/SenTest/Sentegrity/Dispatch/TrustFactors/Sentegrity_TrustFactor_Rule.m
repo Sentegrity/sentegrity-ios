@@ -263,4 +263,13 @@ static NSArray* processData;
     }
 }
 
+// Get the current platform version ID
+
+static NSString *platformVersion;
++ (NSString*)platformVersion {
+
+    return nil;
+
+}
+
 @end
