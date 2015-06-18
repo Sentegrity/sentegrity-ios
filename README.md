@@ -1,9 +1,9 @@
 # Sentegrity
-Sentegrity is an iOS Application
+Sentegrity iOS Application
 
 ## Usage
 
-1.  Get a policy path
+1)  Get a policy path
 
 ```
 	// Create an error
@@ -27,14 +27,16 @@ Sentegrity is an iOS Application
         NSLog(@"Failed to run Core Detection: No Policy");
     }
 ```
-2.  Parse the policy
+
+2)  Parse the policy
+
 
 ```
     // Parse the policy
     Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyURLPath withError:&error];
 ```
     
-3.  Perform Core Detection
+3)  Perform Core Detection
 
 ```
     // Perform Core Detection
