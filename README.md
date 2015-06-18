@@ -5,7 +5,8 @@ Sentegrity is an iOS Application
 
 1.  Get a policy path
 
-    `// Create an error
+```
+	// Create an error
     NSError *error;
     
     // Get appID and filenames for CoreDetection
@@ -24,16 +25,19 @@ Sentegrity is an iOS Application
     }
     else{
         NSLog(@"Failed to run Core Detection: No Policy");
-    }`
-
+    }
+```
 2.  Parse the policy
 
-    `//Parse policy
-    Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyURLPath withError:&error];`
+```
+    // Parse the policy
+    Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyURLPath withError:&error];
+```
     
 3.  Perform Core Detection
 
-    `//Perform Core Detection
+```
+    // Perform Core Detection
     [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
         if (success) {
 
@@ -60,4 +64,5 @@ Sentegrity is an iOS Application
             
         }
         else {NSLog(@"Failed to run Core Detection: %@", [*error localizedDescription]);}
-    }];`
+    }];
+```
