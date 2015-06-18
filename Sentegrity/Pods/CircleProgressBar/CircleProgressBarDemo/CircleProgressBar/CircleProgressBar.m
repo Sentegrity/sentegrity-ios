@@ -202,17 +202,17 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
         barWidth = radius;
     }
     
-    radius = radius - 10;
+    //radius = radius - 10;
     
     // Border Color
-    UIColor *borderColor = [UIColor colorWithGradientStyle:UIGradientStyleTopToBottom withFrame:self.frame andColors:@[[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f], [UIColor whiteColor]]];
+    //UIColor *borderColor = [UIColor colorWithGradientStyle:UIGradientStyleTopToBottom withFrame:self.frame andColors:@[[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f], [UIColor whiteColor]]];
     
-    CGContextSetFillColorWithColor(context, borderColor.CGColor);
-    CGContextBeginPath(context);
-    CGContextAddArc(context, center.x, center.y, radius + (radius / 10.0f), DEGREES_TO_RADIANS(_startAngle), DEGREES_TO_RADIANS(progressAngle), 0);
-    CGContextAddArc(context, center.x, center.y, radius - barWidth, DEGREES_TO_RADIANS(progressAngle), DEGREES_TO_RADIANS(_startAngle), 1);
-    CGContextClosePath(context);
-    CGContextFillPath(context);
+//    CGContextSetFillColorWithColor(context, borderColor.CGColor);
+//    CGContextBeginPath(context);
+//    CGContextAddArc(context, center.x, center.y, radius + (radius / 10.0f), DEGREES_TO_RADIANS(_startAngle), DEGREES_TO_RADIANS(progressAngle), 0);
+//    CGContextAddArc(context, center.x, center.y, radius - barWidth, DEGREES_TO_RADIANS(progressAngle), DEGREES_TO_RADIANS(_startAngle), 1);
+//    CGContextClosePath(context);
+//    CGContextFillPath(context);
     
     CGContextSetFillColorWithColor(context, self.progressBarProgressColorForDrawing.CGColor);
     CGContextBeginPath(context);
@@ -221,12 +221,12 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
     CGContextClosePath(context);
     CGContextFillPath(context);
     
-    CGContextSetFillColorWithColor(context, borderColor.CGColor);
-    CGContextBeginPath(context);
-    CGContextAddArc(context, center.x, center.y, radius + (radius / 10.0f), DEGREES_TO_RADIANS(progressAngle), DEGREES_TO_RADIANS(_startAngle + 360), 0);
-    CGContextAddArc(context, center.x, center.y, radius - barWidth, DEGREES_TO_RADIANS(_startAngle + 360), DEGREES_TO_RADIANS(progressAngle), 1);
-    CGContextClosePath(context);
-    CGContextFillPath(context);
+//    CGContextSetFillColorWithColor(context, borderColor.CGColor);
+//    CGContextBeginPath(context);
+//    CGContextAddArc(context, center.x, center.y, radius + (radius / 10.0f), DEGREES_TO_RADIANS(progressAngle), DEGREES_TO_RADIANS(_startAngle + 360), 0);
+//    CGContextAddArc(context, center.x, center.y, radius - barWidth, DEGREES_TO_RADIANS(_startAngle + 360), DEGREES_TO_RADIANS(progressAngle), 1);
+//    CGContextClosePath(context);
+//    CGContextFillPath(context);
     
     CGContextSetFillColorWithColor(context, self.progressBarTrackColorForDrawing.CGColor);
     CGContextBeginPath(context);

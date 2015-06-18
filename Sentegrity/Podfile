@@ -1,5 +1,11 @@
+# GUI
 pod 'CircleProgressBar', '~> 0.2'
 pod 'JTHamburgerButton', '~> 1.0'
 pod 'ChameleonFramework', '~> 1.2'
 pod 'RESideMenu', '~> 4.0'
 pod 'Facade', '~> 0.2'
+
+# Core Detection
+pod 'DCKeyValueObjectMapping', '~> 1.4'
+pod 'NSObject-ObjectMap', '~> 2.0'
+pod 'NSString-Hashes', '~> 1.2'

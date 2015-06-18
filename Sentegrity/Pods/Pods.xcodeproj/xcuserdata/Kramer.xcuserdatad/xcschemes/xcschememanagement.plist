@@ -14,12 +14,27 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-DCKeyValueObjectMapping.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Facade.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Pods-JTHamburgerButton.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-NSObject-ObjectMap.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-NSString-Hashes.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -37,32 +52,47 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>6CB4F25D328F4234724C7A2D</key>
+		<key>292EB18646287A4C266ADEBF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7DA82DA23D913A1A2E8E4DF5</key>
+		<key>2AE5A953396DBE54AA0D9087</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9627D14F983C0DC731F7B74F</key>
+		<key>3D16D51474A7DD8386FA4592</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B42F31E00039FC66564C0B7B</key>
+		<key>710A884DF3FFE5BCB8A189B8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EE168AFC42CDAEB565C864A0</key>
+		<key>A352A6ACE3C7CE79F347B0EB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EF88E2621FDE8A61023180A9</key>
+		<key>B8E1298153B0211BADC75A48</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C3C76C473EFA29B385CD6B01</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D3DE7D486BFE5F48B3DA43A4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC88A47E053F2D1DAE9020BA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
