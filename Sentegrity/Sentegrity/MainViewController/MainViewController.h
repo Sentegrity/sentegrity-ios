@@ -39,7 +39,23 @@
 // Last Update Holding Label
 @property (strong, nonatomic) IBOutlet UILabel *lastUpdateHoldingLabel;
 
-// System Score Progress Bar
+// Device Image View
+@property (strong, nonatomic) IBOutlet UIImageView *deviceImageView;
+
+// Device Status Image View
+@property (strong, nonatomic) IBOutlet UIImageView *deviceStatusImageView;
+
+// Device Status Label
+@property (strong, nonatomic) IBOutlet UILabel *deviceStatusLabel;
+
+// User Image View
+@property (strong, nonatomic) IBOutlet UIImageView *userImageView;
+
+// User Status Image View
+@property (strong, nonatomic) IBOutlet UIImageView *userStatusImageView;
+
+// User Status Label
+@property (strong, nonatomic) IBOutlet UILabel *userStatusLabel;
 
 /* Actions */
 
