@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "Sentegrity.h"
 
 @interface SentegrityTests : XCTestCase
 
@@ -25,9 +26,27 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+- (void)testCoreDetectionSingleton {
+    // Make sure the core detection singleton is valid
+    XCTAssertNotNil([CoreDetection sharedDetection], @"Core Detection Shared Instance is valid");
+}
+
+- (void)testCoreDetectionDefaultPolicyParsing {
+    // Make sure the core detection policy parsing is valid
+    // Create an error
+    NSError *error;
+    
+    // Get the policy
+    NSURL *policyPath = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"default" ofType:@"policy"]];
+    
+    // Check if the policy path exists
+    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:policyPath.path]);
+    
+    // Parse the policy
+    Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyPath withError:&error];
+    
+    // Check if the policy is empty
+    XCTAssertNotNil(policy);
 }
 
 - (void)testPerformanceExample {

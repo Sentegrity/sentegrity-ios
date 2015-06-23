@@ -82,7 +82,7 @@
     NSURL *storeURLPath = [NSURL URLWithString:storePath];
     
     // TODO: Remove this NSLog
-    NSLog(@"Store Path From Assertion Storage: %@", storePath);
+    //NSLog(@"Store Path From Assertion Storage: %@", storePath);
     
     // Check if it exits
     if ([[NSFileManager defaultManager] fileExistsAtPath:storePath]) {

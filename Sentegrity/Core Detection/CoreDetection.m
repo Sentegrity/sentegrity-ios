@@ -67,7 +67,6 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         return;
     }
 
-
     // Perform Baseline Analysis (get stored trustfactor objects, perform learning, and compare)
     
     // Retrieve storedTrustFactorObjects & attach to trustFactorOutputObjects
@@ -84,9 +83,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         return;
     }
     
-    
     // Perform TrustScore Computation (generates scores)
-
     Sentegrity_TrustScore_Computation *computationResults = [Sentegrity_TrustScore_Computation performTrustFactorComputationWithPolicy:policy withTrustFactorOutputObjects:updatedTrustFactorOutputObjects withError:&error];
     
     // Validate the computation
@@ -99,8 +96,6 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
         return;
     }
-    
-
     
     // Return through the block callback
     [self coreDetectionResponse:YES withComputationResults:computationResults andError:&error];
@@ -141,8 +136,6 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     return self;
 }
 
-
-
 #pragma mark - Main Methods
 
 // Parse policy
@@ -153,7 +146,6 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     // Get the policy
     Sentegrity_Policy *policy;
     policy = [parser parsePolicyJSONWithPath:policyPath withError:error];
-    
     
     // Error check the policy
     if (!policy && *error != nil) {
@@ -169,11 +161,8 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         return nil;
     }
     
-    
     // Return the policy
     return policy;
 }
-
-
 
 @end

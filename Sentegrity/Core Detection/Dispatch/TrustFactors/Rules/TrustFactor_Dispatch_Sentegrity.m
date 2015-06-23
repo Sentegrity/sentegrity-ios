@@ -167,7 +167,7 @@ struct encryption_info_command
     
     if (info.kp_proc.p_flag & DBGCHK_P_TRACED) {
 
-        NSLog(@"being debuged");
+        //NSLog(@"being debuged");
         return DBGCHK_P_TRACED;
         
     }

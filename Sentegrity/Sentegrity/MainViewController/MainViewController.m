@@ -8,16 +8,31 @@
 
 #import "MainViewController.h"
 
+// Sentegrity
+#import "Sentegrity.h"
+
 // Flat Colors
 #import "Chameleon.h"
 
 // Side Menu
 #import "RESideMenu.h"
 
+// Delayed block
+#import "IIDelayedAction.h"
+
+// Date tools
+#import "DateTools.h"
+
 @interface MainViewController () <RESideMenuDelegate>
+
+// Set up the customizations for the view
+- (void)customizeView;
 
 // Right Menu Button Press
 - (void)rightMenuButtonPressed:(JTHamburgerButton *)sender;
+
+/* Perform Core Detection */
+- (void)performCoreDetection;
 
 @end
 
@@ -27,9 +42,84 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    // Trust Score
-    CGFloat trustScore = 62.0f;
+    // Customize the view
+    [self customizeView];
     
+    // Perform Core Detection
+    [self performCoreDetection];
+}
+
+// Perform Core Detection
+- (void)performCoreDetection {
+    /* Perform Core Detection */
+
+    // Create an error
+    NSError *error;
+    
+    // Get the policy
+    NSURL *policyPath = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"default" ofType:@"policy"]];
+    
+    // Parse the policy
+    Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyPath withError:&error];
+    
+    // Run Core Detection
+    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
+        
+        // Computation results here!
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
+        
+        /* Set the label and progress bar */
+        
+        // Trust Score
+        CGFloat trustScore = computationResults.deviceScore;
+        
+        // Set the trustscore
+        [self.trustScoreLabel setText:[NSString stringWithFormat:@"%.0f", trustScore]];
+        
+        // Set the progress bar
+        [self.trustScoreProgressBar setProgress:trustScore/100.0f animated:YES];
+        
+        // Set the device message
+        [self.deviceStatusLabel setText:computationResults.systemGUIIconText];
+        // Set the user message
+        [self.userStatusLabel setText:computationResults.userGUIIconText];
+        
+        // Set the device image
+        if (computationResults.systemGUIIconID == 0) {
+            [self.deviceStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
+            self.deviceStatusImageView.backgroundColor = [UIColor clearColor];
+        }
+        // Set the user image
+        if (computationResults.userGUIIconID == 0) {
+            [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
+            self.userStatusImageView.backgroundColor = [UIColor clearColor];
+        }
+        
+        // Remove animations from the reload button after a delay
+        [IIDelayedAction delayedAction:^{
+            // Remove all reload button animations
+            [self.reloadButton.layer removeAllAnimations];
+        } withDelay:1.0];
+        
+        // Set the last run date
+        NSDate *lastRunDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"kLastRun"];
+        if (!lastRunDate) {
+            
+            [UIView transitionWithView:self.lastUpdateLabel duration:1.0f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                // Set the text to never
+                [self.lastUpdateLabel setText:@"Never"];
+            } completion:nil];
+        } else {
+            
+            [UIView transitionWithView:self.lastUpdateLabel duration:1.0f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                [self.lastUpdateLabel setText:[lastRunDate timeAgoSinceNow]];
+            } completion:nil];
+        }
+    }];
+}
+
+// Set up the customizations for the view
+- (void)customizeView {
     // Set the background color
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
@@ -45,7 +135,6 @@
     [self.trustScoreProgressBar setStartAngle:90.0f];
     [self.trustScoreProgressBar setHintHidden:YES];
     [self.trustScoreProgressBar setProgressBarWidth:21.0f];
-    [self.trustScoreProgressBar setProgress:trustScore/100.0f animated:YES];
     
     // Set the menu button
     [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
@@ -55,10 +144,6 @@
     [self.menuButton setLineSpacing:7.0f];
     [self.menuButton setShowsTouchWhenHighlighted:YES];
     [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    // Set the trustscore
-    [self.trustScoreLabel setText:[NSString stringWithFormat:@"%.0f", trustScore]];
-    //[self.trustScoreLabel setFont:[UIFont fontWithName:@"DINPro" size:100]];
     
     // Set the trustscore holding label
     [self.trustScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];
@@ -78,6 +163,21 @@
     self.userStatusImageView.layer.cornerRadius = self.userStatusImageView.frame.size.height /2;
     self.userStatusImageView.layer.masksToBounds = YES;
     self.userStatusImageView.layer.borderWidth = 0;
+    
+    // Set the last run date
+    NSDate *lastRunDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"kLastRun"];
+    if (!lastRunDate) {
+        
+        [UIView transitionWithView:self.lastUpdateLabel duration:1.0f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+            // Set the text to never
+            [self.lastUpdateLabel setText:@"Never"];
+        } completion:nil];
+    } else {
+        
+        [UIView transitionWithView:self.lastUpdateLabel duration:1.0f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+            [self.lastUpdateLabel setText:[lastRunDate timeAgoSinceNow]];
+        } completion:nil];
+    }
 }
 
 // Layout subviews
@@ -140,15 +240,7 @@
     }
 }
 
-// More Information
-- (IBAction)moreInfo:(id)sender {
-    NSLog(@"Info Button Clicked");
-    [self.reloadButton.layer removeAllAnimations];
-}
-
 - (IBAction)reload:(id)sender {
-    NSLog(@"Reload Button Clicked");
-    
     // Animate the reload button
     CABasicAnimation *rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
@@ -157,6 +249,9 @@
     rotationAnimation.cumulative = YES;
     rotationAnimation.repeatCount = HUGE_VALF;
     [self.reloadButton.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    
+    // Perform Core Detection
+    [self performCoreDetection];
 }
 
 @end

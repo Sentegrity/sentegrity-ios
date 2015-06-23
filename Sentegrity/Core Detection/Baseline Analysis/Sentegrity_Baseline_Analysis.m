@@ -288,9 +288,6 @@
             }
             else // we found an existing stored assertion, check revisions
             {
-            
-                NSLog(@"Found existing storedTrustFactorObject in global store");
-            
                 //if revisions do not match create new
                 if (![Sentegrity_Baseline_Analysis checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject]) {
                 

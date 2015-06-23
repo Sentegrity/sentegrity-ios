@@ -19,6 +19,8 @@
 #import "DCArrayMapping.h"
 #import "DCParserConfiguration.h"
 
+#import "NSObject+ObjectMap.h"
+
 @interface Sentegrity_Parser()
 // Check if a file exists
 - (BOOL)fileExists:(NSURL *)filePathURL;
@@ -279,6 +281,9 @@
     [config addObjectMapping:idToIdentificationSubClassifications];
     [config addObjectMapping:idToIdentificationTrustFactors];
     
+    // Set up the date parsing configuration
+    config.datePattern = OMDateFormat;
+    
     // Set the parser and include the configuration
     DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[Sentegrity_Policy class] andConfiguration:config];
     
@@ -324,6 +329,9 @@
     // Set up the parser configuration for json parsing
     DCParserConfiguration *config = [DCParserConfiguration configuration];
     [config addArrayMapper:mapper];
+    
+    // Set up the date parsing configuration
+    config.datePattern = OMDateFormat;
     
     // Set the parser and include the configuration
     DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[Sentegrity_Assertion_Store class] andConfiguration:config];
