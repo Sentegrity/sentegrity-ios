@@ -13,19 +13,67 @@
 
 
 
-// 25
-+ (Sentegrity_TrustFactor_Output_Object *)allowed:(NSArray *)payload {
+// Not implemented in default policy
+//+ (Sentegrity_TrustFactor_Output_Object *)allowedAccessTime:(NSArray *)payload {
+//    return 0;
+//}
+
+
+
++ (Sentegrity_TrustFactor_Output_Object *)unknownAccessTime:(NSArray *)payload {
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
-    return 0;
-}
-
-
-
-
-// 32
-+ (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload {
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
-    return 0;
+    // Validate the payload
+    if (![self validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
+    
+    //day of week
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *comps = [calendar components:NSWeekdayCalendarUnit fromDate:[NSDate date]];
+    NSInteger dayOfWeek = [comps weekday];
+    
+    NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
+    NSInteger hourOfDay = [components hour];
+    NSInteger minutes = [components minute];
+    
+    //round up if needed
+    if(minutes > 30){
+        hourOfDay = hourOfDay+1;
+    }
+    
+    
+    NSInteger blockOfDay;
+    
+    NSInteger blocksize = [[[payload objectAtIndex:0] objectForKey:@"blocksize"] integerValue];
+    //part of day
+    if(blocksize>0){
+        blockOfDay = floor(hourOfDay / (24/blocksize))+1;
+    }
+    
+    // Create assertion
+    [outputArray addObject: [NSString stringWithFormat:@"D%ld-H%ld",(long)dayOfWeek,(long)blockOfDay]];
+    
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
 }
 
 

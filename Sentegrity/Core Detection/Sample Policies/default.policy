@@ -415,30 +415,6 @@
         "41,-87"
       ]
     }, {
-      "id": 1010,
-      "issueMessage": "Application access time policy violation",
-      "suggestionMessage": "Request policy exception",
-      "revision": 1,
-      "classID": 4,
-      "subClassID": 7,
-      "priority": 1,
-      "name": "access time policy",
-      "penalty": 100,
-      "learnMode": 1,
-      "learnTime": 0,
-      "learnAssertionCount": 0,
-      "learnRunCount": 0,
-      "threshold": 0,
-      "provision": 0,
-      "local": 1,
-      "history": 5,
-      "dispatch": "Time",
-      "implementation": "allowed:",
-      "inverse": 0,
-      "payload": [
-        "8-17"
-      ]
-    }, {
       "id": 1011,
       "issueMessage": "Platform OS version policy violation",
       "suggestionMessage": "Upgrade platform OS",
@@ -574,7 +550,10 @@
       "dispatch": "Route",
       "implementation": "unknownVpnUp:",
       "inverse": 0,
-      "payload": []
+      "payload": [
+        "ppp0",
+        "lo0",
+      ]
     }, {
       "id": 1017,
       "issueMessage": "High risk WiFi access point",
@@ -816,7 +795,7 @@
       "implementation": "shortUptime:",
       "inverse": 0,
       "payload": [
-        "1"
+        "6"
         ]
       }, {
       "id": 1023,
@@ -837,12 +816,10 @@
       "local": 0,
       "history": 3,
       "dispatch": "Platform",
-      "implementation": "backupEnabled",
+      "implementation": "backupEnabled:",
       "inverse": 0,
       "payload": [
-        "backupd",
-        "profiled",
-        "awdd"
+        "backupd"
       ]
     }, {
       "id": 1024,
@@ -935,7 +912,7 @@
       "local": 1,
       "history": 3,
       "dispatch": "Time",
-      "implementation": "unknown:",
+      "implementation": "unknownAccessTime:",
       "inverse": 0,
       "payload": [{
         "blocksize": 6
@@ -964,6 +941,28 @@
       "payload": []
     }, {
       "id": 1029,
+      "issueMessage": "Device plugged in",
+      "suggestionMessage": "Unplug device",
+      "revision": 1,
+      "classID": 3,
+      "subClassID": 8,
+      "priority": 1,
+      "name": "plugged in",
+      "penalty": 30,
+      "learnMode": 1,
+      "learnTime": 0,
+      "learnAssertionCount": 0,
+      "learnRunCount": 0,
+      "threshold": 0,
+      "provision": 0,
+      "local": 0,
+      "history": 30,
+      "dispatch": "Platform",
+      "implementation": "pluggedIn:",
+      "inverse": 0,
+      "payload": []
+    }, {
+      "id": 1030,
       "issueMessage": "Power level unknown",
       "suggestionMessage": "",
       "revision": 1,
