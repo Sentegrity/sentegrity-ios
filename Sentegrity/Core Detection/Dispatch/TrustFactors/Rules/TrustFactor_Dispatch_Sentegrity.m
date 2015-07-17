@@ -136,7 +136,7 @@ struct encryption_info_command
     #define DBGCHK_P_TRACED 0x00000800
     
     // Current process name
-    int ourPID = [self getOurPID];
+    int ourPID = [[self getOurPID] intValue];
  
     if (ourPID == 0){ //something is wrong, didn't find our PID
         return -1;

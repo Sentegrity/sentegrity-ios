@@ -25,7 +25,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
     // Get routes
-    NSArray *routeArray = [self routeData];
+    NSArray *routeArray = [self routeInfo];
     
     [self wiFiRouterAddress];
     
@@ -97,7 +97,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
     // Get routes
-    NSArray *routeArray = [self routeData];
+    NSArray *routeArray = [self routeInfo];
     bool defaultRoute = NO;
     
     // Check for routesy

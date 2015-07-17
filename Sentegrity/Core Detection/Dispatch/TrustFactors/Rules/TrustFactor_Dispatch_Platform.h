@@ -23,6 +23,9 @@
 + (Sentegrity_TrustFactor_Output_Object *)shortUptime:(NSArray *)payload;
 
 // 38
++ (Sentegrity_TrustFactor_Output_Object *)pluggedIn:(NSArray *)payload;
+
+// 38
 + (Sentegrity_TrustFactor_Output_Object *)backupEnabled:(NSArray *)payload;
 
 @end

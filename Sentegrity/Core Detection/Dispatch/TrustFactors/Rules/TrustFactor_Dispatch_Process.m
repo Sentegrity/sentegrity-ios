@@ -39,7 +39,7 @@
     NSString *procName;
     
     // Get the current processes
-    NSArray *currentProcesses = [self processInformation];
+    NSArray *currentProcesses = [self processInfo];
     
     // Check the array
     if (!currentProcesses || currentProcesses == nil || currentProcesses.count < 1) {
@@ -98,7 +98,7 @@
     int procParentID;
     
     // Get the current processes
-    NSArray *currentProcesses = [self processInformation];
+    NSArray *currentProcesses = [self processInfo];
     
     // Check the array
     if (!currentProcesses || currentProcesses == nil || currentProcesses.count < 1) {
@@ -168,7 +168,7 @@
     NSString *procName;
     
     // Get the current processes
-    NSArray *currentProcesses = [self processInformation];
+    NSArray *currentProcesses = [self processInfo];
     
     // Check the array
     if (!currentProcesses || currentProcesses == nil || currentProcesses.count < 1) {
