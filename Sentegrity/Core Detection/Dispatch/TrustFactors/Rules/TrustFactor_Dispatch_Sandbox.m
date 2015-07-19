@@ -38,11 +38,13 @@
         [outputArray addObject:[[environmentInfo objectForKey:@"DYLD_INSERT_LIBRARIES"] stringValue]];
     }
 
-    
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     // Check for shell
     if (system(0)) { //returned 1 therefore device is JB'ed
         [outputArray addObject:@"systemFound"];
     }
+    #pragma GCC diagnostic pop
     
     // Check for fork
     if (fork() >= 0) { /* If the fork succeeded, we're jailbroken */

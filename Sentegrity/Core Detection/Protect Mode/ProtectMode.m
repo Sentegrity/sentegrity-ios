@@ -26,7 +26,7 @@
 - (id)init {
     if (self = [super init]) {
         // Set defaults here if need be
-        [self setCurrentPolicy:nil];
+        [self setPolicy:nil];
         [self setTrustFactorsToWhitelist:nil];
         _trustFactorsToWhitelist = [[NSMutableArray alloc]init];
     }
@@ -84,7 +84,7 @@
     //prompt for admin pin and wait
     
     //for testing purposes
-    if(![self deactivateProtectModePolicyWithPIN:@"user" withError:error]){
+    if(![self deactivateProtectModePolicyWithPIN:@"admin" withError:error]){
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"Error during policy protect mode deactivation" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToDeactivateProtectMode userInfo:errorDetails];
@@ -183,7 +183,7 @@
     
     //get shared stores
     Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:&error];
-    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:_currentPolicy.appID withError:&error];
+    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:_policy.appID withError:&error];
 
     //check for errors
     if(!globalStore || globalStore == nil || !localStore || localStore==nil || _trustFactorsToWhitelist.count<1 || !exists){
@@ -240,7 +240,7 @@
     }
     
     //update stores
-   Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:_currentPolicy.appID withError:&error];
+   Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:_policy.appID withError:&error];
    Sentegrity_Assertion_Store *globalStoreOutput =  [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore withError:&error];
     
     if (!localStoreOutput || localStoreOutput == nil || !globalStoreOutput || globalStoreOutput == nil) {

@@ -30,7 +30,7 @@
 
 #pragma mark - Properties
 
-@property (nonatomic, retain) Sentegrity_Policy *currentPolicy;
+@property (nonatomic, retain) Sentegrity_Policy *policy;
 
 @property (nonatomic, retain) NSArray *trustFactorsToWhitelist;
 

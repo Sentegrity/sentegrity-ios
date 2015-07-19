@@ -192,6 +192,11 @@
     
     float batteryCharge = [Device batteryLevel];
     
+    // Can't get battery level on simulator so spoof it
+    #if TARGET_IPHONE_SIMULATOR
+    batteryCharge = 0.5;
+    #endif
+    
     if (batteryCharge > 0.0f) {
         batteryLevel = batteryCharge * 100;
     } else {
@@ -219,7 +224,7 @@
     }
     
     
-    [outputArray addObject:[NSString stringWithFormat:@"B%ld",blockOfPower]];
+    [outputArray addObject:[NSString stringWithFormat:@"B%ld",(long)blockOfPower]];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
@@ -419,70 +424,68 @@
     
     //only supported on iOS 8
     if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")){
-        
-        if (&kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly != NULL) {
-            
-            static NSData *password = nil;
-            static dispatch_once_t onceToken;
-            dispatch_once(&onceToken, ^{
-                password = [NSKeyedArchiver archivedDataWithRootObject:NSStringFromSelector(_cmd)];
-            });
-            
-            NSDictionary *query = @{
-                                    (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
-                                    (__bridge id)kSecAttrService: @"UIDevice-PasscodeStatus_KeychainService",
-                                    (__bridge id)kSecAttrAccount: @"UIDevice-PasscodeStatus_KeychainAccount",
-                                    (__bridge id)kSecReturnData: @YES,
-                                    };
-            
-            CFErrorRef sacError = NULL;
-            SecAccessControlRef sacObject;
-            sacObject = SecAccessControlCreateWithFlags(kCFAllocatorDefault, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, kNilOptions, &sacError);
-            
-            // unable to create the access control item.
-            if (sacObject == NULL || sacError != NULL) {
-                [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-                
-                // Set the trustfactor output to the output array (regardless if empty)
-                [trustFactorOutputObject setOutput:outputArray];
-                
-                // Return the trustfactor output object
-                return trustFactorOutputObject;
-            }
-            
-            
-            NSMutableDictionary *setQuery = [query mutableCopy];
-            [setQuery setObject:password forKey:(__bridge id)kSecValueData];
-            [setQuery setObject:(__bridge id)sacObject forKey:(__bridge id)kSecAttrAccessControl];
-            
-            OSStatus status;
-            status = SecItemAdd((__bridge CFDictionaryRef)setQuery, NULL);
-            
-            // if it failed to add the item.
-            if (status == errSecDecode) {
-                [outputArray addObject:[NSNumber numberWithInt:status]];
-            }
-            
-            status = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
-            
-            // it managed to retrieve data successfully
-            if (status == errSecSuccess) {
-                //enabled
-            }
-            else
-            {
-                // not sure what happened, returning unknown
-                [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-            
-                // Set the trustfactor output to the output array (regardless if empty)
-                [trustFactorOutputObject setOutput:outputArray];
-            
-                // Return the trustfactor output object
-                return trustFactorOutputObject;
-            
-            }
-        
-        }
+ 
+       static NSData *password = nil;
+       static dispatch_once_t onceToken;
+       dispatch_once(&onceToken, ^{
+           password = [NSKeyedArchiver archivedDataWithRootObject:NSStringFromSelector(_cmd)];
+       });
+       
+       NSDictionary *query = @{
+                               (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+                               (__bridge id)kSecAttrService: @"UIDevice-PasscodeStatus_KeychainService",
+                               (__bridge id)kSecAttrAccount: @"UIDevice-PasscodeStatus_KeychainAccount",
+                               (__bridge id)kSecReturnData: @YES,
+                               };
+       
+       CFErrorRef sacError = NULL;
+       SecAccessControlRef sacObject;
+       sacObject = SecAccessControlCreateWithFlags(kCFAllocatorDefault, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, kNilOptions, &sacError);
+       
+       // unable to create the access control item.
+       if (sacObject == NULL || sacError != NULL) {
+           [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+           
+           // Set the trustfactor output to the output array (regardless if empty)
+           [trustFactorOutputObject setOutput:outputArray];
+           
+           // Return the trustfactor output object
+           return trustFactorOutputObject;
+       }
+       
+       
+       NSMutableDictionary *setQuery = [query mutableCopy];
+       [setQuery setObject:password forKey:(__bridge id)kSecValueData];
+       [setQuery setObject:(__bridge id)sacObject forKey:(__bridge id)kSecAttrAccessControl];
+       
+       OSStatus status;
+       status = SecItemAdd((__bridge CFDictionaryRef)setQuery, NULL);
+       
+       // if it failed to add the item.
+       if (status == errSecDecode) {
+           [outputArray addObject:[NSNumber numberWithInt:status]];
+       }
+       
+       status = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
+       
+       // it managed to retrieve data successfully
+       if (status == errSecSuccess) {
+           //enabled
+       }
+       else
+       {
+           // not sure what happened, returning unknown
+           [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+       
+           // Set the trustfactor output to the output array (regardless if empty)
+           [trustFactorOutputObject setOutput:outputArray];
+       
+           // Return the trustfactor output object
+           return trustFactorOutputObject;
+       
+       }
+       
+
     }
     else{
         [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];

@@ -42,6 +42,8 @@
 + (NSString *)wiFiRouterAddress;
 
 // ** NETSTAT **
+// Connection Info
++ (NSArray *) netstatInfo;
 
 
 @end

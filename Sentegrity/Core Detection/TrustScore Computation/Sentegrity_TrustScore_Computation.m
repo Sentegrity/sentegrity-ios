@@ -219,9 +219,8 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
                         //  Update issues/suggesstions as possible and penalty for non-inverse rules
                     
                         subClassContainsErrors=YES;
-                        // if its an inverse rule there is no DNE penalty applied, don't do the penalty calculation but add suggestions
-                        if (trustFactorOutputObject.trustFactor.inverse.intValue ==1)
-                        {
+                        // if its an inverse rule there is no DNE penalty applied, don't do the penalty calculation but add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
+                        if (trustFactorOutputObject.trustFactor.inverse.intValue ==1){
                 
                             [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
 
@@ -251,7 +250,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
                     [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@ %@", @"Completed", subClass.name, @"analysis."]];
                 }
                 else{
-                    [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis failed."]];
+                    [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis incomplete (error)."]];
                 }
                 
                 // Set the penalty weight for the subclass
@@ -359,7 +358,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         
         if(computationResults.systemBreachScore <= computationResults.systemSecurityScore) // SYSTEM_BREACH is attributing
         {
-            // Set protect mode
+            // Set protect mode action to the class specified action
             computationResults.protectModeClassID = [systemBreachClass.identification integerValue] ;
             computationResults.protectModeAction = [systemBreachClass.protectModeAction integerValue];
             computationResults.protectModeMessage = systemBreachClass.protectModeMessage;
@@ -377,7 +376,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         }
         else if(computationResults.systemPolicyScore <= computationResults.systemSecurityScore) // SYSTEM_POLICY is attributing
         {
-            // Set protect mode
+            // Set protect mode action to the class specified action
             computationResults.protectModeClassID = [systemPolicyClass.identification intValue] ;
             computationResults.protectModeAction = [systemPolicyClass.protectModeAction integerValue];
             computationResults.protectModeMessage = systemPolicyClass.protectModeMessage;
@@ -395,7 +394,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         else //SYSTEM_SECURITY is attributing
         {
 
-            // Set protect mode
+            // Set protect mode action to the class specified action
             computationResults.protectModeClassID = [systemSecurityClass.identification integerValue];
             computationResults.protectModeAction = [systemSecurityClass.protectModeAction integerValue];
             computationResults.protectModeMessage = systemSecurityClass.protectModeMessage;
@@ -415,7 +414,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     }
     else //it is trusted, combine messages from all classifications
     {
-        // Set protect mode
+        // Set protect mode to 0
         computationResults.protectModeClassID = 0;
         computationResults.protectModeAction = 0;
         
@@ -461,7 +460,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         if(computationResults.userPolicyScore <= computationResults.userAnomalyScore) //USER_POLICY is attributing
         {
 
-            // Set protect mode
+            // Set protect mode action to the class specified action
             computationResults.protectModeClassID = [userPolicyClass.identification integerValue];
             computationResults.protectModeAction = [userPolicyClass.protectModeAction integerValue];
             computationResults.protectModeMessage = userPolicyClass.protectModeMessage;
@@ -478,7 +477,7 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         }
         else //USER_ANOMALY is attributing
         {
-            // Set protect mode
+            // Set protect mode action to the class specified action
             computationResults.protectModeClassID = [userAnomalyClass.identification integerValue];
             computationResults.protectModeAction = [userAnomalyClass.protectModeAction integerValue];
             computationResults.protectModeMessage = userAnomalyClass.protectModeMessage;
@@ -499,9 +498,9 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     else //it is trusted, combine messages from all user classifications
     {
 
-        // Set protect mode
-        computationResults.protectModeClassID = 0;
-        computationResults.protectModeAction = 0;
+        // Set protect mode (commented otherwise it overrides system values)
+        //computationResults.protectModeClassID = 0;
+        //computationResults.protectModeAction = 0;
         
         // Set dashboard and detailed system view info
         computationResults.userGUIIconID = 0;
@@ -534,8 +533,11 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         
     }
     
-    //TODO: Bundle whitelists, IF system policy violation then whitelist user anomaly as well (since they are legit), etc
-
+    //Combine user whitelist-able trustfactors with at-fault system trustfactors if the system protect mode action is admin/policy, since this is more powerful than a user pin
+    if(computationResults.protectModeAction == 3 && !computationResults.systemTrusted){
+        NSArray *existing = computationResults.protectModeWhitelist;
+        computationResults.protectModeWhitelist = [[existing arrayByAddingObjectsFromArray:userPolicyClass.trustFactorsToWhitelist] arrayByAddingObjectsFromArray:userAnomalyClass.trustFactorsToWhitelist];
+    }
     
     
     return computationResults;

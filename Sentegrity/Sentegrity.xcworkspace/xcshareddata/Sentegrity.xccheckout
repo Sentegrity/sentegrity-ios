@@ -10,6 +10,10 @@
 	<string>Sentegrity</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>02800F849BB5D5C2AD07E361EB77151DB84A1815</key>
+		<string>github.com:project-imas/system-monitor.git</string>
+		<key>1B52DA5F16F8F6F06BF84246ACBD8A44C511F29A</key>
+		<string>github.com:dcorbatta/StackoverflowTest.git</string>
 		<key>664DC41F713285FFC0FAD4B06CBB88956A712838</key>
 		<string>https://github.com/Sentegrity/sentegrity-ios.git</string>
 	</dict>
@@ -17,6 +21,10 @@
 	<string>Sentegrity/Sentegrity.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>02800F849BB5D5C2AD07E361EB77151DB84A1815</key>
+		<string>../../../system-monitor</string>
+		<key>1B52DA5F16F8F6F06BF84246ACBD8A44C511F29A</key>
+		<string>../../../StackoverflowTest</string>
 		<key>664DC41F713285FFC0FAD4B06CBB88956A712838</key>
 		<string>../..</string>
 	</dict>
@@ -35,6 +43,22 @@
 			<string>664DC41F713285FFC0FAD4B06CBB88956A712838</string>
 			<key>IDESourceControlWCCName</key>
 			<string>sentegrity-ios</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1B52DA5F16F8F6F06BF84246ACBD8A44C511F29A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>StackoverflowTest</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>02800F849BB5D5C2AD07E361EB77151DB84A1815</string>
+			<key>IDESourceControlWCCName</key>
+			<string>system-monitor</string>
 		</dict>
 	</array>
 </dict>

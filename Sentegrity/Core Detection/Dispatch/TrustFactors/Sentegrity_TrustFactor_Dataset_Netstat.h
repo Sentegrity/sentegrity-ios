@@ -1,13 +1,18 @@
 //
-//  Sentegrity_TrustFactor_Dataset_Netstat.h
-//  Sentegrity
+//  SystemMonitor.h
+//  SystemMonitor
 //
-//  Created by Jason Sinchak on 7/17/15.
-//  Copyright (c) 2015 Sentegrity. All rights reserved.
+//  Created by Ren, Alice on 7/24/14.
+//
 //
 
-#ifndef Sentegrity_Sentegrity_TrustFactor_Dataset_Netstat_h
-#define Sentegrity_Sentegrity_TrustFactor_Dataset_Netstat_h
+#import <Foundation/Foundation.h>
+//#import "otherHeaders.h"
+
+@interface Netstat_Info : NSObject
+
++ (NSArray *) getTCPConnections;
++ (NSArray *) getUDPConnections;
 
 
-#endif
+@end

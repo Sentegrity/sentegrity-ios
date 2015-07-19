@@ -28,7 +28,6 @@
 #include <stdio.h>
 #import <TargetConditionals.h>
 #import <netinet/in.h>
-#include <net/route.h>
 
 #if TARGET_IPHONE_SIMULATOR
 #include <net/route.h>

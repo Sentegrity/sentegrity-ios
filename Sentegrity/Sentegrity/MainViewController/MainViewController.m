@@ -117,6 +117,9 @@
         }
         if (success) {
             
+            //set policy
+            [[ProtectMode sharedProtectMode] setPolicy:policy];
+            
             //protect mode analysis
             if(![[ProtectMode sharedProtectMode] analyzeResults:computationResults withError:error]){
                 NSLog(@"Failed to analyze Core Detection results: %@", [*error localizedDescription]);

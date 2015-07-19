@@ -9,6 +9,7 @@
 #import "Sentegrity_TrustFactor_Rule.h"
 #import "Sentegrity_TrustFactor_Dataset_Routes.h"
 #import "Sentegrity_TrustFactor_Dataset_Process.h"
+#import "Sentegrity_TrustFactor_Dataset_Netstat.h"
 
 // This class is designed to cache the results of datasets between the TrustFactor_Dispatch_[Rule] and Sentegrity_TrustFactor_Dataset_[Category]
 
@@ -37,7 +38,7 @@ static NSArray* processData;
         @try {
             
             processData = [Process_Info getProcessInfo];
-            return routeData;
+            return processData;
             
         }
         @catch (NSException * ex) {
@@ -117,6 +118,33 @@ static NSString* wiFiRouterAddress;
         return wiFiRouterAddress;
     }
 }
+
+
+// Netstat info
+static NSArray* netstatData;
++ (NSArray *)netstatInfo {
+    
+    if(!netstatData || netstatData==nil) //dataset not populated
+    {
+        // Get the list of processes and all information about them
+        @try {
+            
+            netstatData = [Netstat_Info getTCPConnections];
+            return netstatData;
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+    }
+    else //already populated
+    {
+        return netstatData;
+    }
+}
+
 
 @end
 

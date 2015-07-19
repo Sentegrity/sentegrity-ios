@@ -9,25 +9,12 @@
 #import "Sentegrity_TrustFactor_Dataset_Process.h"
 
 @implementation Process_Info : NSObject 
-#if TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
-
-//------------------------------------------
-// Assembly level interface to sysctl
-//------------------------------------------
-
-#define sysCtlSz(nm,cnt,sz)   readSys((int *)nm,cnt,NULL,sz)
-#define sysCtl(nm,cnt,lst,sz) readSys((int *)nm,cnt,lst, sz)
-
-#else
-
-//------------------------------------------
-// C level interface to sysctl
-//------------------------------------------
 
 #define sysCtlSz(nm,cnt,sz)   sysctl((int *)nm,cnt,NULL,sz,NULL,0)
 #define sysCtl(nm,cnt,lst,sz) sysctl((int *)nm,cnt,lst, sz,NULL,0)
 
-#endif
+
+int readSys(int *, u_int, void *, size_t *);
 
 //Return ourPID for TFs like debug
 

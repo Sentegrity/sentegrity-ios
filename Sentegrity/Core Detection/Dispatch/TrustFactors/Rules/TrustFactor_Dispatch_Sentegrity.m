@@ -17,25 +17,8 @@
 
 @implementation TrustFactor_Dispatch_Sentegrity
 
-#if TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
-
-//------------------------------------------
-// Assembly interface to sysctl
-//------------------------------------------
-
-#define sysCtlSz(nm,cnt,sz)   readSys((int *)nm,cnt,NULL,sz)
-#define sysCtl(nm,cnt,lst,sz) readSys((int *)nm,cnt,lst, sz)
-
-#else
-
-//------------------------------------------
-// C interface to sysctl
-//------------------------------------------
-
 #define sysCtlSz(nm,cnt,sz)   sysctl((int *)nm,cnt,NULL,sz,NULL,0)
 #define sysCtl(nm,cnt,lst,sz) sysctl((int *)nm,cnt,lst, sz,NULL,0)
-
-#endif
 
 #if TARGET_IPHONE_SIMULATOR && !defined(LC_ENCRYPTION_INFO)
 #define LC_ENCRYPTION_INFO 0x21
