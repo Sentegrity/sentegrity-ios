@@ -70,9 +70,9 @@
 		4CE9D8891B323B05006D43D8 /* Sentegrity_Classification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8631B323B05006D43D8 /* Sentegrity_Classification+Computation.m */; };
 		4CE9D88A1B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */; };
 		4CE9D88B1B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */; };
-		96C0FE7A1B5998CB003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FE791B5998CB003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */; };
-		96C0FE7D1B599C1C003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FE7C1B599C1C003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */; };
-		96C0FE801B59AE79003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FE7F1B59AE79003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */; };
+		96C0FF281B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF231B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */; };
+		96C0FF291B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF251B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */; };
+		96C0FF2A1B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF271B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,46 +192,46 @@
 		4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Subclassification+Computation.m"; sourceTree = "<group>"; };
 		4CE9D8661B323B05006D43D8 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
-		96C0FE791B5998CB003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Routes.m; sourceTree = "<group>"; };
-		96C0FE7B1B5998E4003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Routes.h; sourceTree = "<group>"; };
-		96C0FE7C1B599C1C003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Netstat.m; sourceTree = "<group>"; };
-		96C0FE7E1B59A576003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Netstat.h; sourceTree = "<group>"; };
-		96C0FE7F1B59AE79003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Process.m; sourceTree = "<group>"; };
-		96C0FE811B59AE8E003F4213 /* Sentegrity_TrustFactor_Dataset_Process.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Process.h; sourceTree = "<group>"; };
-		96C0FE821B59C103003F4213 /* otherConnectionHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = otherConnectionHeaders.h; path = "../../../../../system-monitor/SystemMonitor/otherConnectionHeaders.h"; sourceTree = "<group>"; };
-		96C0FEDA1B5AF10C003F4213 /* clock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clock.h; sourceTree = "<group>"; };
-		96C0FEDB1B5AF10C003F4213 /* ev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ev.h; sourceTree = "<group>"; };
-		96C0FEDC1B5AF10C003F4213 /* kern_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kern_types.h; sourceTree = "<group>"; };
-		96C0FEDD1B5AF10C003F4213 /* kext_net.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kext_net.h; sourceTree = "<group>"; };
-		96C0FEDF1B5AF10C003F4213 /* bootp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bootp.h; sourceTree = "<group>"; };
-		96C0FEE01B5AF10C003F4213 /* icmp6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icmp6.h; sourceTree = "<group>"; };
-		96C0FEE11B5AF10C003F4213 /* icmp_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icmp_var.h; sourceTree = "<group>"; };
-		96C0FEE21B5AF10C003F4213 /* if_ether.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = if_ether.h; sourceTree = "<group>"; };
-		96C0FEE31B5AF10C003F4213 /* igmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = igmp.h; sourceTree = "<group>"; };
-		96C0FEE41B5AF10C003F4213 /* igmp_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = igmp_var.h; sourceTree = "<group>"; };
-		96C0FEE51B5AF10C003F4213 /* in.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = in.h; sourceTree = "<group>"; };
-		96C0FEE61B5AF10C003F4213 /* in_arp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = in_arp.h; sourceTree = "<group>"; };
-		96C0FEE71B5AF10C003F4213 /* in_pcb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = in_pcb.h; sourceTree = "<group>"; };
-		96C0FEE81B5AF10C003F4213 /* in_systm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = in_systm.h; sourceTree = "<group>"; };
-		96C0FEE91B5AF10C003F4213 /* in_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = in_var.h; sourceTree = "<group>"; };
-		96C0FEEA1B5AF10C003F4213 /* ip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ip.h; sourceTree = "<group>"; };
-		96C0FEEB1B5AF10C003F4213 /* ip6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ip6.h; sourceTree = "<group>"; };
-		96C0FEEC1B5AF10C003F4213 /* ip_icmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ip_icmp.h; sourceTree = "<group>"; };
-		96C0FEED1B5AF10C003F4213 /* ip_mroute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ip_mroute.h; sourceTree = "<group>"; };
-		96C0FEEE1B5AF10C003F4213 /* ip_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ip_var.h; sourceTree = "<group>"; };
-		96C0FEEF1B5AF10C003F4213 /* kpi_ipfilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kpi_ipfilter.h; sourceTree = "<group>"; };
-		96C0FEF01B5AF10C003F4213 /* tcp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcp.h; sourceTree = "<group>"; };
-		96C0FEF11B5AF10C003F4213 /* tcp_fsm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcp_fsm.h; sourceTree = "<group>"; };
-		96C0FEF21B5AF10C003F4213 /* tcp_seq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcp_seq.h; sourceTree = "<group>"; };
-		96C0FEF31B5AF10C003F4213 /* tcp_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcp_timer.h; sourceTree = "<group>"; };
-		96C0FEF41B5AF10C003F4213 /* tcp_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcp_var.h; sourceTree = "<group>"; };
-		96C0FEF51B5AF10C003F4213 /* tcpip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcpip.h; sourceTree = "<group>"; };
-		96C0FEF61B5AF10C003F4213 /* udp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udp.h; sourceTree = "<group>"; };
-		96C0FEF71B5AF10C003F4213 /* udp_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udp_var.h; sourceTree = "<group>"; };
-		96C0FEF81B5AF10C003F4213 /* netstat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netstat.h; sourceTree = "<group>"; };
-		96C0FEF91B5AF10C003F4213 /* route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = route.h; sourceTree = "<group>"; };
-		96C0FEFA1B5AF10C003F4213 /* socketvar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socketvar.h; sourceTree = "<group>"; };
-		96C0FEFB1B5AF10C003F4213 /* thread_call.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread_call.h; sourceTree = "<group>"; };
+		96C0FEFE1B5BE7D5003F4213 /* clock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clock.h; sourceTree = "<group>"; };
+		96C0FEFF1B5BE7D5003F4213 /* ev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ev.h; sourceTree = "<group>"; };
+		96C0FF001B5BE7D5003F4213 /* kern_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kern_types.h; sourceTree = "<group>"; };
+		96C0FF011B5BE7D5003F4213 /* kext_net.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kext_net.h; sourceTree = "<group>"; };
+		96C0FF031B5BE7D5003F4213 /* bootp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bootp.h; sourceTree = "<group>"; };
+		96C0FF041B5BE7D5003F4213 /* icmp6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icmp6.h; sourceTree = "<group>"; };
+		96C0FF051B5BE7D5003F4213 /* icmp_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icmp_var.h; sourceTree = "<group>"; };
+		96C0FF061B5BE7D5003F4213 /* if_ether.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = if_ether.h; sourceTree = "<group>"; };
+		96C0FF071B5BE7D5003F4213 /* igmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = igmp.h; sourceTree = "<group>"; };
+		96C0FF081B5BE7D5003F4213 /* igmp_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = igmp_var.h; sourceTree = "<group>"; };
+		96C0FF091B5BE7D5003F4213 /* in.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = in.h; sourceTree = "<group>"; };
+		96C0FF0A1B5BE7D5003F4213 /* in_arp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = in_arp.h; sourceTree = "<group>"; };
+		96C0FF0B1B5BE7D5003F4213 /* in_pcb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = in_pcb.h; sourceTree = "<group>"; };
+		96C0FF0C1B5BE7D5003F4213 /* in_systm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = in_systm.h; sourceTree = "<group>"; };
+		96C0FF0D1B5BE7D5003F4213 /* in_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = in_var.h; sourceTree = "<group>"; };
+		96C0FF0E1B5BE7D5003F4213 /* ip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ip.h; sourceTree = "<group>"; };
+		96C0FF0F1B5BE7D5003F4213 /* ip6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ip6.h; sourceTree = "<group>"; };
+		96C0FF101B5BE7D5003F4213 /* ip_icmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ip_icmp.h; sourceTree = "<group>"; };
+		96C0FF111B5BE7D5003F4213 /* ip_mroute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ip_mroute.h; sourceTree = "<group>"; };
+		96C0FF121B5BE7D5003F4213 /* ip_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ip_var.h; sourceTree = "<group>"; };
+		96C0FF131B5BE7D5003F4213 /* kpi_ipfilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kpi_ipfilter.h; sourceTree = "<group>"; };
+		96C0FF141B5BE7D5003F4213 /* tcp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcp.h; sourceTree = "<group>"; };
+		96C0FF151B5BE7D5003F4213 /* tcp_fsm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcp_fsm.h; sourceTree = "<group>"; };
+		96C0FF161B5BE7D5003F4213 /* tcp_seq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcp_seq.h; sourceTree = "<group>"; };
+		96C0FF171B5BE7D5003F4213 /* tcp_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcp_timer.h; sourceTree = "<group>"; };
+		96C0FF181B5BE7D5003F4213 /* tcp_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcp_var.h; sourceTree = "<group>"; };
+		96C0FF191B5BE7D5003F4213 /* tcpip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tcpip.h; sourceTree = "<group>"; };
+		96C0FF1A1B5BE7D5003F4213 /* udp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udp.h; sourceTree = "<group>"; };
+		96C0FF1B1B5BE7D5003F4213 /* udp_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udp_var.h; sourceTree = "<group>"; };
+		96C0FF1C1B5BE7D5003F4213 /* netstat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netstat.h; sourceTree = "<group>"; };
+		96C0FF1D1B5BE7D5003F4213 /* route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = route.h; sourceTree = "<group>"; };
+		96C0FF1E1B5BE7D5003F4213 /* socketvar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socketvar.h; sourceTree = "<group>"; };
+		96C0FF1F1B5BE7D5003F4213 /* thread_call.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread_call.h; sourceTree = "<group>"; };
+		96C0FF201B5BE7D5003F4213 /* otherConnectionHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = otherConnectionHeaders.h; sourceTree = "<group>"; };
+		96C0FF221B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Netstat.h; sourceTree = "<group>"; };
+		96C0FF231B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Netstat.m; sourceTree = "<group>"; };
+		96C0FF241B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Process.h; sourceTree = "<group>"; };
+		96C0FF251B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Process.m; sourceTree = "<group>"; };
+		96C0FF261B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Routes.h; sourceTree = "<group>"; };
+		96C0FF271B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Routes.m; sourceTree = "<group>"; };
 		A861559935991A5C1535CE5A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F48570A0D36F3F3E38C7B515 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -448,7 +448,8 @@
 		4CE9D8201B323B05006D43D8 /* TrustFactors */ = {
 			isa = PBXGroup;
 			children = (
-				96C0FE781B59986D003F4213 /* Helpers */,
+				96C0FF211B5BE7E2003F4213 /* Helpers */,
+				96C0FEFC1B5BE7D5003F4213 /* Headers */,
 				4CE9D8211B323B05006D43D8 /* Rules */,
 				4CE9D8401B323B05006D43D8 /* Sentegrity_TrustFactor_Output_Object.h */,
 				4CE9D8411B323B05006D43D8 /* Sentegrity_TrustFactor_Output_Object.m */,
@@ -601,76 +602,74 @@
 			path = "Protect Mode";
 			sourceTree = "<group>";
 		};
-		96C0FE781B59986D003F4213 /* Helpers */ = {
+		96C0FEFC1B5BE7D5003F4213 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				96C0FE821B59C103003F4213 /* otherConnectionHeaders.h */,
-				96C0FE791B5998CB003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */,
-				96C0FE7B1B5998E4003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.h */,
-				96C0FE7C1B599C1C003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */,
-				96C0FE7E1B59A576003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.h */,
-				96C0FE7F1B59AE79003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */,
-				96C0FE811B59AE8E003F4213 /* Sentegrity_TrustFactor_Dataset_Process.h */,
-				96C0FEBF1B5AEDD0003F4213 /* Headers */,
+				96C0FEFD1B5BE7D5003F4213 /* kernel includes */,
+				96C0FF201B5BE7D5003F4213 /* otherConnectionHeaders.h */,
 			);
-			name = Helpers;
+			path = Headers;
 			sourceTree = "<group>";
 		};
-		96C0FEBF1B5AEDD0003F4213 /* Headers */ = {
+		96C0FEFD1B5BE7D5003F4213 /* kernel includes */ = {
 			isa = PBXGroup;
 			children = (
-				96C0FED91B5AF10C003F4213 /* kernel includes */,
+				96C0FEFE1B5BE7D5003F4213 /* clock.h */,
+				96C0FEFF1B5BE7D5003F4213 /* ev.h */,
+				96C0FF001B5BE7D5003F4213 /* kern_types.h */,
+				96C0FF011B5BE7D5003F4213 /* kext_net.h */,
+				96C0FF021B5BE7D5003F4213 /* netinet */,
+				96C0FF1C1B5BE7D5003F4213 /* netstat.h */,
+				96C0FF1D1B5BE7D5003F4213 /* route.h */,
+				96C0FF1E1B5BE7D5003F4213 /* socketvar.h */,
+				96C0FF1F1B5BE7D5003F4213 /* thread_call.h */,
 			);
-			name = Headers;
+			path = "kernel includes";
 			sourceTree = "<group>";
 		};
-		96C0FED91B5AF10C003F4213 /* kernel includes */ = {
+		96C0FF021B5BE7D5003F4213 /* netinet */ = {
 			isa = PBXGroup;
 			children = (
-				96C0FEDA1B5AF10C003F4213 /* clock.h */,
-				96C0FEDB1B5AF10C003F4213 /* ev.h */,
-				96C0FEDC1B5AF10C003F4213 /* kern_types.h */,
-				96C0FEDD1B5AF10C003F4213 /* kext_net.h */,
-				96C0FEDE1B5AF10C003F4213 /* netinet */,
-				96C0FEF81B5AF10C003F4213 /* netstat.h */,
-				96C0FEF91B5AF10C003F4213 /* route.h */,
-				96C0FEFA1B5AF10C003F4213 /* socketvar.h */,
-				96C0FEFB1B5AF10C003F4213 /* thread_call.h */,
-			);
-			name = "kernel includes";
-			path = "../../../../../StackoverflowTest/InetTest/InetTest/kernel includes";
-			sourceTree = "<group>";
-		};
-		96C0FEDE1B5AF10C003F4213 /* netinet */ = {
-			isa = PBXGroup;
-			children = (
-				96C0FEDF1B5AF10C003F4213 /* bootp.h */,
-				96C0FEE01B5AF10C003F4213 /* icmp6.h */,
-				96C0FEE11B5AF10C003F4213 /* icmp_var.h */,
-				96C0FEE21B5AF10C003F4213 /* if_ether.h */,
-				96C0FEE31B5AF10C003F4213 /* igmp.h */,
-				96C0FEE41B5AF10C003F4213 /* igmp_var.h */,
-				96C0FEE51B5AF10C003F4213 /* in.h */,
-				96C0FEE61B5AF10C003F4213 /* in_arp.h */,
-				96C0FEE71B5AF10C003F4213 /* in_pcb.h */,
-				96C0FEE81B5AF10C003F4213 /* in_systm.h */,
-				96C0FEE91B5AF10C003F4213 /* in_var.h */,
-				96C0FEEA1B5AF10C003F4213 /* ip.h */,
-				96C0FEEB1B5AF10C003F4213 /* ip6.h */,
-				96C0FEEC1B5AF10C003F4213 /* ip_icmp.h */,
-				96C0FEED1B5AF10C003F4213 /* ip_mroute.h */,
-				96C0FEEE1B5AF10C003F4213 /* ip_var.h */,
-				96C0FEEF1B5AF10C003F4213 /* kpi_ipfilter.h */,
-				96C0FEF01B5AF10C003F4213 /* tcp.h */,
-				96C0FEF11B5AF10C003F4213 /* tcp_fsm.h */,
-				96C0FEF21B5AF10C003F4213 /* tcp_seq.h */,
-				96C0FEF31B5AF10C003F4213 /* tcp_timer.h */,
-				96C0FEF41B5AF10C003F4213 /* tcp_var.h */,
-				96C0FEF51B5AF10C003F4213 /* tcpip.h */,
-				96C0FEF61B5AF10C003F4213 /* udp.h */,
-				96C0FEF71B5AF10C003F4213 /* udp_var.h */,
+				96C0FF031B5BE7D5003F4213 /* bootp.h */,
+				96C0FF041B5BE7D5003F4213 /* icmp6.h */,
+				96C0FF051B5BE7D5003F4213 /* icmp_var.h */,
+				96C0FF061B5BE7D5003F4213 /* if_ether.h */,
+				96C0FF071B5BE7D5003F4213 /* igmp.h */,
+				96C0FF081B5BE7D5003F4213 /* igmp_var.h */,
+				96C0FF091B5BE7D5003F4213 /* in.h */,
+				96C0FF0A1B5BE7D5003F4213 /* in_arp.h */,
+				96C0FF0B1B5BE7D5003F4213 /* in_pcb.h */,
+				96C0FF0C1B5BE7D5003F4213 /* in_systm.h */,
+				96C0FF0D1B5BE7D5003F4213 /* in_var.h */,
+				96C0FF0E1B5BE7D5003F4213 /* ip.h */,
+				96C0FF0F1B5BE7D5003F4213 /* ip6.h */,
+				96C0FF101B5BE7D5003F4213 /* ip_icmp.h */,
+				96C0FF111B5BE7D5003F4213 /* ip_mroute.h */,
+				96C0FF121B5BE7D5003F4213 /* ip_var.h */,
+				96C0FF131B5BE7D5003F4213 /* kpi_ipfilter.h */,
+				96C0FF141B5BE7D5003F4213 /* tcp.h */,
+				96C0FF151B5BE7D5003F4213 /* tcp_fsm.h */,
+				96C0FF161B5BE7D5003F4213 /* tcp_seq.h */,
+				96C0FF171B5BE7D5003F4213 /* tcp_timer.h */,
+				96C0FF181B5BE7D5003F4213 /* tcp_var.h */,
+				96C0FF191B5BE7D5003F4213 /* tcpip.h */,
+				96C0FF1A1B5BE7D5003F4213 /* udp.h */,
+				96C0FF1B1B5BE7D5003F4213 /* udp_var.h */,
 			);
 			path = netinet;
+			sourceTree = "<group>";
+		};
+		96C0FF211B5BE7E2003F4213 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				96C0FF221B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.h */,
+				96C0FF231B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */,
+				96C0FF241B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.h */,
+				96C0FF251B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */,
+				96C0FF261B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.h */,
+				96C0FF271B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		BCE0E0550A85C5B5C27375E3 /* Pods */ = {
@@ -837,9 +836,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96C0FF2A1B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */,
 				4CE9D86C1B323B05006D43D8 /* CoreDetection.m in Sources */,
 				4CE9D8881B323B05006D43D8 /* Sentegrity_TrustFactor.m in Sources */,
-				96C0FE7A1B5998CB003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */,
 				4CE9D8711B323B05006D43D8 /* TrustFactor_Dispatch_Http.m in Sources */,
 				4CE9D87C1B323B05006D43D8 /* TrustFactor_Dispatch_Wifi.m in Sources */,
 				4CE9D8801B323B05006D43D8 /* Sentegrity_Parser.m in Sources */,
@@ -852,21 +851,21 @@
 				4CE9D8691B323B05006D43D8 /* Sentegrity_Stored_TrustFactor_Object.m in Sources */,
 				4CE9D8751B323B05006D43D8 /* TrustFactor_Dispatch_Process.m in Sources */,
 				4CE9D8721B323B05006D43D8 /* TrustFactor_Dispatch_Location.m in Sources */,
-				96C0FE801B59AE79003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */,
 				4CE9D8871B323B05006D43D8 /* Sentegrity_Subclassification.m in Sources */,
 				04A249021B266AC2007D9460 /* AppDelegate.m in Sources */,
 				4CE9D86F1B323B05006D43D8 /* TrustFactor_Dispatch_Bluetooth.m in Sources */,
 				4CE9D88B1B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m in Sources */,
 				4CE9D8841B323B05006D43D8 /* Sentegrity_Classification.m in Sources */,
 				4CE9D86E1B323B05006D43D8 /* TrustFactor_Dispatch_Activity.m in Sources */,
+				96C0FF281B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */,
 				4CE9D8861B323B05006D43D8 /* Sentegrity_Policy.m in Sources */,
 				4CE9D8791B323B05006D43D8 /* TrustFactor_Dispatch_Sensor.m in Sources */,
 				4CE9D86D1B323B05006D43D8 /* Sentegrity_TrustFactor_Dispatcher.m in Sources */,
-				96C0FE7D1B599C1C003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */,
 				4CE9D87D1B323B05006D43D8 /* Sentegrity_TrustFactor_Output_Object.m in Sources */,
 				4CE9D8701B323B05006D43D8 /* TrustFactor_Dispatch_File.m in Sources */,
 				4CE9D8681B323B05006D43D8 /* Sentegrity_Assertion_Store.m in Sources */,
 				4CE9D87E1B323B05006D43D8 /* Sentegrity_TrustFactor_Rule.m in Sources */,
+				96C0FF291B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */,
 				4CE9D8731B323B05006D43D8 /* TrustFactor_Dispatch_Netstat.m in Sources */,
 				4CE9D8761B323B05006D43D8 /* TrustFactor_Dispatch_Route.m in Sources */,
 				4CE9D86B1B323B05006D43D8 /* Sentegrity_Baseline_Analysis.m in Sources */,
