@@ -19,6 +19,9 @@
 // Headers
 #import <sys/sysctl.h>
 
+// Location data
+@import CoreLocation;
+
 
 
 
@@ -45,5 +48,15 @@
 // Connection Info
 + (NSArray *) netstatInfo;
 
+// ** LOCATION **
+// Location Info
++ (CLLocation *)locationInfo;
+
+// Sets location
++ (void)setLocation:(CLLocation *)location;
+
+// Location errors identified in app delegate
++ (void)setLocationDNEStatus:(int)dneStatus;
++ (int)locationDNEStatus;
 
 @end

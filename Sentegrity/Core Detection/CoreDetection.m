@@ -7,6 +7,8 @@
 //
 
 #import "CoreDetection.h"
+#import "Sentegrity_TrustFactor_Rule.h"
+
 
 
 @interface CoreDetection(Private)
@@ -29,6 +31,8 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 // Start Core Detection
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback {
     
+
+    
     //set the policy to the current
     [self setCurrentPolicy:policy];
     
@@ -50,9 +54,10 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
         return;
     }
+
     
     // Start Dispatcher (executes trustfactors and populates output objects)
-    
+ 
     NSArray *trustFactorOutputObjects = [Sentegrity_TrustFactor_Dispatcher performTrustFactorAnalysis:policy.trustFactors withError:&error];
     
     // Check for valid trustFactorOutputObjects

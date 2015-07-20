@@ -10,6 +10,7 @@
 #import "Sentegrity_TrustFactor_Dataset_Routes.h"
 #import "Sentegrity_TrustFactor_Dataset_Process.h"
 #import "Sentegrity_TrustFactor_Dataset_Netstat.h"
+@import CoreLocation;
 
 // This class is designed to cache the results of datasets between the TrustFactor_Dispatch_[Rule] and Sentegrity_TrustFactor_Dataset_[Category]
 
@@ -145,6 +146,60 @@ static NSArray* netstatData;
     }
 }
 
+// Unique setter used by main thread when Core Location returns, Core Detection thread will wait
+static CLLocation* currentLocation = nil;
++ (void)setLocation:(CLLocation *)location {
+    currentLocation = location;
+}
+
+static int locationDNEStatus = 0;
++ (void)setLocationDNEStatus:(int)dneStatus {
+    locationDNEStatus = dneStatus;
+}
+
++ (int)locationDNEStatus {
+    return locationDNEStatus;
+}
+
++ (CLLocation *)locationInfo {
+
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    CFAbsoluteTime currentTime = 0.0;
+    
+    //Do we have a location yet?
+    if(currentLocation == nil){
+        
+        //Nope, wait for location data
+        bool exit=NO;
+        while (exit==NO){
+            
+            if(currentLocation != nil){
+                NSLog(@"Got a location after waiting..");
+                exit=YES;
+                return currentLocation;
+
+            }
+            else{
+                currentTime = CFAbsoluteTimeGetCurrent();
+                                // we've waited more than a second, exit
+                if ((startTime-currentTime) > 1.0){
+                NSLog(@"Location timer expired");
+                    exit=YES;
+                    [self setLocationDNEStatus:DNEStatus_expired];
+                 return currentLocation;
+
+                }
+            }
+            
+        }
+        
+        
+    }
+    //we've already got location data
+    NSLog(@"Got a location without waiting...");
+    return currentLocation;
+    
+}
 
 @end
 

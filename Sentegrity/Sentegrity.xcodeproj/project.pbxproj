@@ -73,6 +73,7 @@
 		96C0FF281B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF231B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */; };
 		96C0FF291B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF251B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */; };
 		96C0FF2A1B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF271B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */; };
+		96C0FF2C1B5BEC25003F4213 /* Sentegrity_TrustFactor_Dataset_Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF2B1B5BEC25003F4213 /* Sentegrity_TrustFactor_Dataset_Location.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -232,6 +233,8 @@
 		96C0FF251B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Process.m; sourceTree = "<group>"; };
 		96C0FF261B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Routes.h; sourceTree = "<group>"; };
 		96C0FF271B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Routes.m; sourceTree = "<group>"; };
+		96C0FF2B1B5BEC25003F4213 /* Sentegrity_TrustFactor_Dataset_Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Location.m; sourceTree = "<group>"; };
+		96C0FF2D1B5BEC3C003F4213 /* Sentegrity_TrustFactor_Dataset_Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Location.h; sourceTree = "<group>"; };
 		A861559935991A5C1535CE5A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F48570A0D36F3F3E38C7B515 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -668,6 +671,8 @@
 				96C0FF251B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */,
 				96C0FF261B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.h */,
 				96C0FF271B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */,
+				96C0FF2B1B5BEC25003F4213 /* Sentegrity_TrustFactor_Dataset_Location.m */,
+				96C0FF2D1B5BEC3C003F4213 /* Sentegrity_TrustFactor_Dataset_Location.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -865,6 +870,7 @@
 				4CE9D8701B323B05006D43D8 /* TrustFactor_Dispatch_File.m in Sources */,
 				4CE9D8681B323B05006D43D8 /* Sentegrity_Assertion_Store.m in Sources */,
 				4CE9D87E1B323B05006D43D8 /* Sentegrity_TrustFactor_Rule.m in Sources */,
+				96C0FF2C1B5BEC25003F4213 /* Sentegrity_TrustFactor_Dataset_Location.m in Sources */,
 				96C0FF291B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */,
 				4CE9D8731B323B05006D43D8 /* TrustFactor_Dispatch_Netstat.m in Sources */,
 				4CE9D8761B323B05006D43D8 /* TrustFactor_Dispatch_Route.m in Sources */,

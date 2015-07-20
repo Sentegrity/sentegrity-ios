@@ -11,6 +11,10 @@
 // Side Menu
 #import "RESideMenu.h"
 
+#import "Sentegrity_TrustFactor_Dataset_Location.h"
+
+#import "Sentegrity_TrustFactor_Rule.h"
+
 @interface AppDelegate ()
 
 @end
@@ -19,6 +23,11 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    //Call async data functions such as location/core
+    [self startLocation];
+    
+    
     // Override point for customization after application launch.
     
     // Get the storyboard
@@ -41,10 +50,11 @@
     
     // Make it a root controller
     self.window.rootViewController = sideMenuViewController;
-        
+    
     // Return YES
     return YES;
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -66,6 +76,58 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)startLocation {
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+            NSUInteger code = [CLLocationManager authorizationStatus];
+    
+    if(![CLLocationManager locationServicesEnabled]){
+        
+        //NSLog(@"Location services disabled");
+        [Sentegrity_TrustFactor_Rule setLocationDNEStatus:DNEStatus_disabled];
+    }
+    else{
+
+         if(code == kCLAuthorizationStatusNotDetermined && [_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]){
+            
+            [self.locationManager  requestWhenInUseAuthorization];
+            
+        }
+    }
+
+    
+    if(code == kCLAuthorizationStatusAuthorizedWhenInUse){
+        
+        //set accuracy to low
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+        
+        //start
+        [self.locationManager startUpdatingLocation];
+            
+    }
+    else if(code ==kCLAuthorizationStatusDenied){
+        [Sentegrity_TrustFactor_Rule setLocationDNEStatus:DNEStatus_unauthorized];
+        
+    }
+    else{
+        [Sentegrity_TrustFactor_Rule setLocationDNEStatus:DNEStatus_error];
+    }
+    
+
+}
+
+// Location Manager Delegate Methods
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    
+    // stop all future updates (we only needed one)
+    [manager stopUpdatingLocation];
+    
+    [Sentegrity_TrustFactor_Rule setLocation:newLocation];
+
 }
 
 @end

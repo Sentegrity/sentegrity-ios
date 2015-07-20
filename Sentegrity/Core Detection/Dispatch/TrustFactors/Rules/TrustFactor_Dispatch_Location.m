@@ -7,6 +7,7 @@
 //
 
 #import "TrustFactor_Dispatch_Location.h"
+@import CoreLocation;
 
 @implementation TrustFactor_Dispatch_Location
 
@@ -15,7 +16,57 @@
 // 26
 + (Sentegrity_TrustFactor_Output_Object *)allowed:(NSArray *)payload {
     
-    return 0;
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Validate the payload
+    if (![self validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
+    
+    // Get the current location
+    CLLocation *currentLocation = [self locationInfo];
+    
+    // Check the location, if its empty check DNE and set it
+    if (!currentLocation || currentLocation == nil) {
+        // Current Processes array is EMPTY
+        if([self locationDNEStatus] != 0)
+        {
+            // Set the DNE status code to what was previously determined
+            [trustFactorOutputObject setStatusCode:[self locationDNEStatus]];
+        }else{
+            // We don't know what happened but its nil so set to error
+            [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        }
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+   
+    NSString *lng = [NSString stringWithFormat:@"%.2f", currentLocation.coordinate.longitude];
+    NSString *lat = [NSString stringWithFormat:@"%.2f", currentLocation.coordinate.latitude];
+    [outputArray addObject:[lng stringByAppendingString:lat]];
+    
+    //TODO: convert to int and round
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+
 }
 
 
