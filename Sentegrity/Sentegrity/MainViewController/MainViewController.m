@@ -71,7 +71,7 @@
     // Run Core Detection
     // Doing something on the main thread
     
-    dispatch_queue_t myQueue = dispatch_queue_create("My Queue",NULL);
+    dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
     dispatch_async(myQueue, ^{
         // Perform long running process
         

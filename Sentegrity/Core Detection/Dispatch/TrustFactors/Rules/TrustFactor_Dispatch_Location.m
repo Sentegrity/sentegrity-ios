@@ -56,12 +56,26 @@
     }
    
     NSString *roundedLocation = [NSString stringWithFormat:@"%.0f,%.0f",currentLocation.coordinate.longitude,currentLocation.coordinate.latitude];
-    NSLog(roundedLocation);
     
+    bool match=NO;
     
-    [outputArray addObject:roundedLocation];
+    // Iterate through payload locations and look for matching location
+    for (NSString *allowLocation in payload) {
+        
+        // Check if the locations match
+        if([roundedLocation isEqualToString:allowLocation]) {
+            
+            // If match found exit
+            match=YES;
+            break;
+        }
+    }
+
+    // If no match found return current location to trigger rule
+    if(match==NO){
+        [outputArray addObject:roundedLocation];
+    }
     
-    //TODO: compare to payload
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
@@ -115,14 +129,15 @@
         return trustFactorOutputObject;
     }
     
+    // Rounding from policy
+    NSInteger decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"rounding"] integerValue];
     
-    NSString *lng = [NSString stringWithFormat:@"%.*f", [[[payload objectAtIndex:0] objectForKey:@"rounding"] integerValue],currentLocation.coordinate.longitude];
-    NSString *lat = [NSString stringWithFormat:@"%.*f", [[[payload objectAtIndex:0] objectForKey:@"rounding"] integerValue], currentLocation.coordinate.latitude];
+    // Rounded location
+    NSString *roundedLocation = [NSString stringWithFormat:@"%.*f,%.*f",decimalPlaces,currentLocation.coordinate.longitude,decimalPlaces,currentLocation.coordinate.latitude];
+  
+
+    [outputArray addObject:roundedLocation];
     
-    
-    [outputArray addObject:[lng stringByAppendingString:lat]];
-    
-    //TODO: convert to int and round
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];

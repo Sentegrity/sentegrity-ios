@@ -411,8 +411,8 @@
       "implementation": "allowed:",
       "inverse": 0,
       "payload": [
-        "41,-88",
-        "41,-87"
+        "-100,5",
+        "-122,37"
       ]
     }, {
       "id": 1011,
@@ -891,7 +891,7 @@
       "implementation": "unknown:",
       "inverse": 0,
       "payload": [{
-        "rounding": 2
+        "rounding": 1
       }]
     }, {
       "id": 1027,
