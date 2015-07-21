@@ -156,7 +156,7 @@
                     }
                     
                 }
-                else {NSLog(@"Failed to run Core Detection: %@", *error );}
+                else {NSLog(@"Failed to run Core Detection: %@", [*error localizedDescription] );}
                 
             });
         }];
