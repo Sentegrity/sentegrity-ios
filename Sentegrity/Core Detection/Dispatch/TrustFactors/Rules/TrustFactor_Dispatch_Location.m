@@ -55,11 +55,11 @@
         return trustFactorOutputObject;
     }
    
-    NSString *lng = [NSString stringWithFormat:@"%.*f", 2,currentLocation.coordinate.longitude];
-    NSString *lat = [NSString stringWithFormat:@"%.*f", 2, currentLocation.coordinate.latitude];
+    NSString *roundedLocation = [NSString stringWithFormat:@"%.0f,%.0f",currentLocation.coordinate.longitude,currentLocation.coordinate.latitude];
+    NSLog(roundedLocation);
     
     
-    [outputArray addObject:[lng stringByAppendingString:lat]];
+    [outputArray addObject:roundedLocation];
     
     //TODO: compare to payload
     

@@ -129,6 +129,8 @@
                         [self.lastUpdateLabel setText:[lastRunDate timeAgoSinceNow]];
                     } completion:nil];
                 }
+                
+            });
                 if (success) {
                     
                     //set policy
@@ -152,13 +154,13 @@
                         NSLog(@"\n\n+++ User Detailed View +++\n\nUser Score:%d, \nUser Icon:%d,  \nUser Icon Text:%@, \nIssues:%@, \nSuggestions:%@, \nAnalysis:%@\n\n", computationResults.userScore, computationResults.userGUIIconID, computationResults.userGUIIconText, computationResults.userGUIIssues, computationResults.userGUISuggestions, computationResults.userGUIAnalysis);
                         
                         
-                        //NSLog(@"\n\nErrors: %@", [*error localizedDescription]);
+                        NSLog(@"\n\nErrors: %@", [*error localizedDescription]);
                     }
                     
                 }
                 else {NSLog(@"Failed to run Core Detection: %@", [*error localizedDescription] );}
                 
-            });
+
         }];
 
 
