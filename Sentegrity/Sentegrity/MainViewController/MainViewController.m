@@ -46,11 +46,11 @@
     
     // Customize the view
     [self customizeView];
-
+    
     // Perform Core Detection
     [self performCoreDetection];
     
-
+    
 }
 
 
@@ -58,7 +58,7 @@
 // Perform Core Detection
 - (void)performCoreDetection {
     /* Perform Core Detection */
-
+    
     // Create an error
     NSError *error;
     
@@ -71,66 +71,67 @@
     // Run Core Detection
     // Doing something on the main thread
     
-    dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
-    dispatch_async(myQueue, ^{
-        // Perform long running process
-        
-        [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
+    @autoreleasepool {
+        dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
+        dispatch_async(myQueue, ^{
+            // Perform long running process
             
-            dispatch_async(dispatch_get_main_queue(), ^{
+            [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
                 
-                // Computation results here!
-                [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
-                
-                /* Set the label and progress bar */
-                
-                // Trust Score
-                CGFloat trustScore = computationResults.deviceScore;
-                
-                // Set the trustscore
-                [self.trustScoreLabel setText:[NSString stringWithFormat:@"%.0f", trustScore]];
-                
-                // Set the progress bar
-                [self.trustScoreProgressBar setProgress:trustScore/100.0f animated:YES];
-                
-                // Set the device message
-                [self.deviceStatusLabel setText:computationResults.systemGUIIconText];
-                // Set the user message
-                [self.userStatusLabel setText:computationResults.userGUIIconText];
-                
-                // Set the device image
-                if (computationResults.systemGUIIconID == 0) {
-                    [self.deviceStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
-                    self.deviceStatusImageView.backgroundColor = [UIColor clearColor];
-                }
-                // Set the user image
-                if (computationResults.userGUIIconID == 0) {
-                    [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
-                    self.userStatusImageView.backgroundColor = [UIColor clearColor];
-                }
-                
-                // Remove animations from the reload button after a delay
-                [IIDelayedAction delayedAction:^{
-                    // Remove all reload button animations
-                    [self.reloadButton.layer removeAllAnimations];
-                } withDelay:1.0];
-                
-                // Set the last run date
-                NSDate *lastRunDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"kLastRun"];
-                if (!lastRunDate) {
+                dispatch_async(dispatch_get_main_queue(), ^{
                     
-                    [UIView transitionWithView:self.lastUpdateLabel duration:1.0f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-                        // Set the text to never
-                        [self.lastUpdateLabel setText:@"Never"];
-                    } completion:nil];
-                } else {
+                    // Computation results here!
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
                     
-                    [UIView transitionWithView:self.lastUpdateLabel duration:1.0f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-                        [self.lastUpdateLabel setText:[lastRunDate timeAgoSinceNow]];
-                    } completion:nil];
-                }
-                
-            });
+                    /* Set the label and progress bar */
+                    
+                    // Trust Score
+                    CGFloat trustScore = computationResults.deviceScore;
+                    
+                    // Set the trustscore
+                    [self.trustScoreLabel setText:[NSString stringWithFormat:@"%.0f", trustScore]];
+                    
+                    // Set the progress bar
+                    [self.trustScoreProgressBar setProgress:trustScore/100.0f animated:YES];
+                    
+                    // Set the device message
+                    [self.deviceStatusLabel setText:computationResults.systemGUIIconText];
+                    // Set the user message
+                    [self.userStatusLabel setText:computationResults.userGUIIconText];
+                    
+                    // Set the device image
+                    if (computationResults.systemGUIIconID == 0) {
+                        [self.deviceStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
+                        self.deviceStatusImageView.backgroundColor = [UIColor clearColor];
+                    }
+                    // Set the user image
+                    if (computationResults.userGUIIconID == 0) {
+                        [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
+                        self.userStatusImageView.backgroundColor = [UIColor clearColor];
+                    }
+                    
+                    // Remove animations from the reload button after a delay
+                    [IIDelayedAction delayedAction:^{
+                        // Remove all reload button animations
+                        [self.reloadButton.layer removeAllAnimations];
+                    } withDelay:1.0];
+                    
+                    // Set the last run date
+                    NSDate *lastRunDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"kLastRun"];
+                    if (!lastRunDate) {
+                        
+                        [UIView transitionWithView:self.lastUpdateLabel duration:1.0f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                            // Set the text to never
+                            [self.lastUpdateLabel setText:@"Never"];
+                        } completion:nil];
+                    } else {
+                        
+                        [UIView transitionWithView:self.lastUpdateLabel duration:1.0f options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                            [self.lastUpdateLabel setText:[lastRunDate timeAgoSinceNow]];
+                        } completion:nil];
+                    }
+                    
+                });
                 if (success) {
                     
                     //set policy
@@ -160,11 +161,12 @@
                 }
                 else {NSLog(@"Failed to run Core Detection: %@", [*error localizedDescription] );}
                 
-
-        }];
-
-
-    });
+                
+            }];
+            
+            
+        });
+    }
     
     // Continue doing other stuff on the
     
