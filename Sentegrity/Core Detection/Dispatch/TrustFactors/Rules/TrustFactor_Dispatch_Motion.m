@@ -6,13 +6,11 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "TrustFactor_Dispatch_Activity.h"
+#import "TrustFactor_Dispatch_Motion.h"
 
-@implementation TrustFactor_Dispatch_Activity
+@implementation TrustFactor_Dispatch_Motion
 
 
-
-// 39
 + (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -20,65 +18,56 @@
     
     // Set the default status code to OK (default = DNEStatus_ok)
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+
+    // Validate the payload
+    if (![self validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
     
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    // Get the user's activity history
-    NSArray *activities;
+    // Get motion dataset
+    NSArray *motion;
     
     // If the handler already determined a problem
-    if ([self activityDNEStatus] != 0 ){
+    if ([self motionDNEStatus] != 0 ){
         // Set the DNE status code to what was previously determined
-        [trustFactorOutputObject setStatusCode:[self activityDNEStatus]];
+        [trustFactorOutputObject setStatusCode:[self motionDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
     }
     else{ //try to get dataset
         
-        activities = [self activityInfo];
+        motion = [self motionInfo];
         
-        // Check activity dataset again 
-        if (!activities || activities == nil || activities.count < 4) {
+        // Check motion dataset again
+        if (!motion || motion == nil || motion.count < 3) {
             
             [trustFactorOutputObject setStatusCode:DNEStatus_error];
             // Return with the blank output object
             return trustFactorOutputObject;
         }
         
-        
+
     }
+
     
-    bool walking = 0;
-    bool running = 0;
-    bool driving = 0;
-    bool stationary = 0;
+
+    // Rounding from policy
+    NSInteger decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"rounding"] integerValue];
     
-    // Check each category for hit since lots of activities are returned in most cases
-    for (CMMotionActivity *actItem in activities)
-    {
-        if (actItem.walking == 1)
-            walking=1;
-        if (actItem.running == 1)
-            running=1;
-        if (actItem.automotive == 1)
-            driving=1;
-        if (actItem.stationary == 1)
-            stationary=1;
-    }
+    // Rounded motion
+    NSString *motionTuple = [NSString stringWithFormat:@"%.*f,%.*f,%.*f",decimalPlaces,[[motion objectAtIndex:0] floatValue],decimalPlaces,[[motion objectAtIndex:1] floatValue],decimalPlaces,[[motion objectAtIndex:2]floatValue]];
     
-    
-    NSLog(@"walking: %i", walking);
-    NSLog(@"running: %i", running);
-    NSLog(@"driving: %i",  driving);
-    NSLog(@"stationary: %i", stationary);
-    
-    NSString *activityTuple = [NSString stringWithFormat:@"%i%i%i%i",walking,running,driving,stationary];
-    
-    NSLog(@"activityTuple: %@", activityTuple);
-    
-    [outputArray addObject:activityTuple];
+    [outputArray addObject:motionTuple];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];

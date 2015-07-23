@@ -6,6 +6,7 @@ PODS:
   - Facade (0.2)
   - IIDelayedAction (1.0.1)
   - JTHamburgerButton (1.0.5)
+  - MBProgressHUD (0.9.1)
   - NSObject-ObjectMap (2.3.1)
   - NSString-Hashes (1.2.2)
   - RESideMenu (4.0.7)
@@ -19,6 +20,7 @@ DEPENDENCIES:
   - Facade (~> 0.2)
   - IIDelayedAction (~> 1.0)
   - JTHamburgerButton (~> 1.0)
+  - MBProgressHUD (~> 0.9.1)
   - NSObject-ObjectMap (~> 2.0)
   - NSString-Hashes (~> 1.2)
   - RESideMenu (~> 4.0)
@@ -32,9 +34,10 @@ SPEC CHECKSUMS:
   Facade: 7b95ffd1fcb12168787ed44640362ac6b4485323
   IIDelayedAction: bc1193338973d9fbe99c38da71f6d777a12a5a6e
   JTHamburgerButton: 9a41c7d051c72590a9d2c18416d84d1b912f12e3
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   NSObject-ObjectMap: 3223c0c994a8e3de44ccb74ddf3e63c86821c015
   NSString-Hashes: c3848d809e92650e4fb17db5d8cc4bd2aa1eaddd
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
   SCLAlertView-Objective-C: 4bf9a07c8a8d1840e5174e643e16bc032239914d
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.38.0

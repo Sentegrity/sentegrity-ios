@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @import CoreLocation;
+#import <CoreMotion/CoreMotion.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate>
 

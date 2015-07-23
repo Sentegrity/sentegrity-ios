@@ -146,7 +146,7 @@ static NSArray* netstatData;
     }
 }
 
-// Unique setter used by main thread when Core Location returns, Core Detection thread will wait
+// Location info
 static CLLocation* currentLocation = nil;
 + (void)setLocation:(CLLocation *)location {
     currentLocation = location;
@@ -182,7 +182,7 @@ static int locationDNEStatus = 0;
             else{
                 currentTime = CFAbsoluteTimeGetCurrent();
                                 // we've waited more than a second, exit
-                if ((startTime-currentTime) > 1.0){
+                if ((currentTime-startTime) > 1.0){
                 NSLog(@"Location timer expired");
                     exit=YES;
                     [self setLocationDNEStatus:DNEStatus_expired];
@@ -191,6 +191,8 @@ static int locationDNEStatus = 0;
                 }
             }
             
+            [NSThread sleepForTimeInterval:0.1];
+            
         }
         
         
@@ -198,6 +200,120 @@ static int locationDNEStatus = 0;
     //we've already got location data
     NSLog(@"Got a location without waiting...");
     return currentLocation;
+    
+}
+
+// Activity info
+static NSArray* activities = nil;
++ (void)setActivity:(NSArray *)previousActivities {
+    activities = previousActivities;
+}
+
+static int activityDNEStatus = 0;
++ (void)setActivityDNEStatus:(int)dneStatus {
+    activityDNEStatus = dneStatus;
+}
+
++ (int)activityDNEStatus {
+    return activityDNEStatus;
+}
+
++ (NSArray *)activityInfo {
+    
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    CFAbsoluteTime currentTime = 0.0;
+    
+    //Do we have a location yet?
+    if(activities == nil){
+        
+        //Nope, wait for activity data
+        bool exit=NO;
+        while (exit==NO){
+            
+            if(activities != nil){
+                NSLog(@"Got activities after waiting..");
+                exit=YES;
+                return activities;
+                
+            }
+            else{
+                currentTime = CFAbsoluteTimeGetCurrent();
+                // we've waited more than a second, exit
+                if ((currentTime-startTime) > 5.0){
+                    NSLog(@"Activity timer expired");
+                    exit=YES;
+                    [self setActivityDNEStatus:DNEStatus_expired];
+                    return activities;
+                    
+                }
+            }
+            
+            [NSThread sleepForTimeInterval:0.1];
+            
+        }
+        
+        
+    }
+    //we've already got location data
+    NSLog(@"Got activities without waiting...");
+    return activities;
+    
+}
+
+// Motion info
+static NSArray* motion = nil;
++ (void)setMotion:(NSArray *)currentMotion {
+    motion = currentMotion;
+}
+
+static int motionDNEStatus = 0;
++ (void)setMotionDNEStatus:(int)dneStatus {
+    motionDNEStatus = dneStatus;
+}
+
++ (int)motionDNEStatus {
+    return motionDNEStatus;
+}
+
++ (NSArray *)motionInfo {
+    
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    CFAbsoluteTime currentTime = 0.0;
+    
+    //Do we have a location yet?
+    if(motion == nil){
+        
+        //Nope, wait for activity data
+        bool exit=NO;
+        while (exit==NO){
+            
+            if(motion != nil){
+                NSLog(@"Got motion after waiting..");
+                exit=YES;
+                return motion;
+                
+            }
+            else{
+                currentTime = CFAbsoluteTimeGetCurrent();
+                // we've waited more than a second, exit
+                if ((currentTime-startTime) > 1.0){
+                    NSLog(@"Motion timer expired");
+                    exit=YES;
+                    [self setMotionDNEStatus:DNEStatus_expired];
+                    return motion;
+                    
+                }
+            }
+            
+            [NSThread sleepForTimeInterval:0.1];
+            
+        }
+        
+        
+    }
+    //we've already got location data
+    NSLog(@"Got motion without waiting...");
+    return motion;
     
 }
 

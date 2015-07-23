@@ -217,8 +217,11 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
                     }else {
                         // TrustFactor did not run successfully (DNE)
                         //  Update issues/suggesstions as possible and penalty for non-inverse rules
-                    
-                        subClassContainsErrors=YES;
+                        
+                        // We only report when there are errors not user issues (disabled/unauthorized)
+                        if(trustFactorOutputObject.statusCode == DNEStatus_error)
+                            subClassContainsErrors=YES;
+                        
                         // if its an inverse rule there is no DNE penalty applied, don't do the penalty calculation but add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
                         if (trustFactorOutputObject.trustFactor.inverse.intValue ==1){
                 

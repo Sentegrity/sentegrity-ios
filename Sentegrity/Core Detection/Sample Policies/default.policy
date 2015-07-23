@@ -824,7 +824,7 @@
     }, {
       "id": 1024,
       "issueMessage": "Device movement is untrusted",
-      "suggestionMessage": "",
+      "suggestionMessage": "Hold the device normal foo",
       "revision": 1,
       "classID": 5,
       "subClassID": 11,
@@ -839,35 +839,11 @@
       "provision": 0,
       "local": 0,
       "history": 5,
-      "dispatch": "Sensor",
-      "implementation": "unknownMovement:",
+      "dispatch": "Motion",
+      "implementation": "unknown:",
       "inverse": 0,
       "payload": [{
-        "rounding": 100
-      }]
-    }, {
-      "id": 1025,
-      "issueMessage": "Device position is untrusted",
-      "suggestionMessage": "",
-      "revision": 1,
-      "classID": 5,
-      "subClassID": 11,
-      "priority": 3,
-      "name": "device position",
-      "penalty": 40,
-      "learnMode": 3,
-      "learnTime": 7,
-      "learnAssertionCount": 3,
-      "learnRunCount": 0,
-      "threshold": 0,
-      "provision": 0,
-      "local": 0,
-      "history": 5,
-      "dispatch": "Sensor",
-      "implementation": "knownPosition:",
-      "inverse": 0,
-      "payload": [{
-        "rounding": 100
+        "rounding": 2
       }]
     }, {
       "id": 1026,
@@ -984,6 +960,30 @@
       "inverse": 0,
       "payload": [{
         "blocksize": 4
+      }]
+    }, {
+      "id": 1031,
+      "issueMessage": "Unknown user activity",
+      "suggestionMessage": "",
+      "revision": 1,
+      "classID": 5,
+      "subClassID": 14,
+      "priority": 1,
+      "name": "user activity",
+      "penalty": 30,
+      "learnMode": 2,
+      "learnTime": 7,
+      "learnAssertionCount": 0,
+      "learnRunCount": 20,
+      "threshold": 0,
+      "provision": 0,
+      "local": 0,
+      "history": 5,
+      "dispatch": "Activity",
+      "implementation": "unknown:",
+      "inverse": 0,
+      "payload": [{
+      "rounding": 2
       }]
     }
   ]

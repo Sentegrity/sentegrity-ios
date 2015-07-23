@@ -70,6 +70,7 @@
 		4CE9D8891B323B05006D43D8 /* Sentegrity_Classification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8631B323B05006D43D8 /* Sentegrity_Classification+Computation.m */; };
 		4CE9D88A1B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */; };
 		4CE9D88B1B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */; };
+		967786281B6044D500715110 /* TrustFactor_Dispatch_Motion.m in Sources */ = {isa = PBXBuildFile; fileRef = 967786271B6044D500715110 /* TrustFactor_Dispatch_Motion.m */; };
 		96C0FF281B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF231B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */; };
 		96C0FF291B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF251B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */; };
 		96C0FF2A1B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF271B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */; };
@@ -193,6 +194,8 @@
 		4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Subclassification+Computation.m"; sourceTree = "<group>"; };
 		4CE9D8661B323B05006D43D8 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
+		967786271B6044D500715110 /* TrustFactor_Dispatch_Motion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Motion.m; sourceTree = "<group>"; };
+		967786291B6044EB00715110 /* TrustFactor_Dispatch_Motion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Motion.h; sourceTree = "<group>"; };
 		96C0FEFE1B5BE7D5003F4213 /* clock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clock.h; sourceTree = "<group>"; };
 		96C0FEFF1B5BE7D5003F4213 /* ev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ev.h; sourceTree = "<group>"; };
 		96C0FF001B5BE7D5003F4213 /* kern_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kern_types.h; sourceTree = "<group>"; };
@@ -495,6 +498,8 @@
 				4CE9D83D1B323B05006D43D8 /* TrustFactor_Dispatch_Time.m */,
 				4CE9D83E1B323B05006D43D8 /* TrustFactor_Dispatch_Wifi.h */,
 				4CE9D83F1B323B05006D43D8 /* TrustFactor_Dispatch_Wifi.m */,
+				967786271B6044D500715110 /* TrustFactor_Dispatch_Motion.m */,
+				967786291B6044EB00715110 /* TrustFactor_Dispatch_Motion.h */,
 			);
 			path = Rules;
 			sourceTree = "<group>";
@@ -878,6 +883,7 @@
 				4CE9D8811B323B05006D43D8 /* ProtectMode.m in Sources */,
 				4CE9D8851B323B05006D43D8 /* Sentegrity_DNEModifiers.m in Sources */,
 				4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */,
+				967786281B6044D500715110 /* TrustFactor_Dispatch_Motion.m in Sources */,
 				4CE9D8781B323B05006D43D8 /* TrustFactor_Dispatch_Scan.m in Sources */,
 				04A248FF1B266AC2007D9460 /* main.m in Sources */,
 				4CE9D88A1B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m in Sources */,

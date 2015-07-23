@@ -37,23 +37,31 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     // Get the current location
-    CLLocation *currentLocation = [self locationInfo];
+    CLLocation *currentLocation;
     
-    // Check the location, if its empty check DNE and set it
-    if (!currentLocation || currentLocation == nil) {
-        // Current Processes array is EMPTY
-        if([self locationDNEStatus] != 0)
-        {
-            // Set the DNE status code to what was previously determined
-            [trustFactorOutputObject setStatusCode:[self locationDNEStatus]];
-        }else{
-            // We don't know what happened but its nil so set to error
-            [trustFactorOutputObject setStatusCode:DNEStatus_error];
-        }
+    // If the handler already determined a problem
+    if ([self locationDNEStatus] != 0 ){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[self locationDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
     }
+    else{ //try to get dataset
+        
+        currentLocation = [self locationInfo];
+        
+        // Check location dataset again
+        if (!currentLocation || currentLocation == nil) {
+            
+            [trustFactorOutputObject setStatusCode:DNEStatus_error];
+            // Return with the blank output object
+            return trustFactorOutputObject;
+        }
+        
+        
+    }
+    
    
     NSString *roundedLocation = [NSString stringWithFormat:@"%.0f,%.0f",currentLocation.coordinate.longitude,currentLocation.coordinate.latitude];
     

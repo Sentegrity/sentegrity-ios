@@ -10,7 +10,7 @@
 
 #import <CoreMotion/CoreMotion.h>
 
-@interface TrustFactor_Dispatch_Activity : Sentegrity_TrustFactor_Rule
+@interface TrustFactor_Dispatch_Motion : Sentegrity_TrustFactor_Rule
 
 
 + (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload;

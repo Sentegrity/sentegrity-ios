@@ -51,12 +51,22 @@
 // ** LOCATION **
 // Location Info
 + (CLLocation *)locationInfo;
-
-// Sets location
 + (void)setLocation:(CLLocation *)location;
-
-// Location errors identified in app delegate
 + (void)setLocationDNEStatus:(int)dneStatus;
 + (int)locationDNEStatus;
+
+// ** ACTIVITIES **
+// Activity Info
++ (NSArray *)activityInfo;
++ (void)setActivity:(NSArray *)location;
++ (void)setActivityDNEStatus:(int)dneStatus;
++ (int)activityDNEStatus;
+
+// ** MOTION **
+// Motion Info
++ (NSArray *)motionInfo;
++ (void)setMotion:(NSArray *)motion;
++ (void)setMotionDNEStatus:(int)dneStatus;
++ (int)motionDNEStatus;
 
 @end

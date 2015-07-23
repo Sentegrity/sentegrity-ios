@@ -27,6 +27,10 @@
     //Call async data functions such as location/core
     [self startLocation];
     
+    [self startActivity];
+    
+    [self startMotion];
+    
     
     // Override point for customization after application launch.
     
@@ -130,4 +134,82 @@
 
 }
 
+-(void)startActivity{
+    
+    
+    if(![CMMotionActivityManager isActivityAvailable]){
+                [Sentegrity_TrustFactor_Rule setActivityDNEStatus:DNEStatus_unsupported];
+        
+    }else{
+        
+        CMMotionActivityManager *manager = [CMMotionActivityManager new];
+        
+        [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-2 * 60 * 60]
+                                        toDate:[NSDate new]
+                                       toQueue:[NSOperationQueue new]
+                                   withHandler:^(NSArray *activities, NSError *error) {
+                                       
+                                       // Stop future updates
+                                       [manager stopActivityUpdates];
+                                       
+                                       if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
+                                           // The app isn't authorized to use motion activity support.
+                                           [Sentegrity_TrustFactor_Rule setActivityDNEStatus:DNEStatus_unauthorized];
+                                        }
+                                        else{
+                                        
+                                            // Set activities array
+                                            [Sentegrity_TrustFactor_Rule setActivity:activities];
+
+                                            
+                                        }
+                                            
+                                    }];
+        
+    }
+    
+
+}
+
+-(void)startMotion{
+    
+    
+    CMMotionManager *manager = [[CMMotionManager alloc] init];
+    
+    if(![manager isDeviceMotionAvailable] || manager == nil){
+        
+        [Sentegrity_TrustFactor_Rule setMotionDNEStatus:DNEStatus_unsupported];
+        
+    }else{
+        
+         manager.deviceMotionUpdateInterval = .2;
+        
+        [manager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
+                                     withHandler:^(CMDeviceMotion  *motion, NSError *error) {
+                                         
+                                        [manager stopDeviceMotionUpdates];
+                                         
+                                         if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
+                                             // The app isn't authorized to use motion activity support.
+                                             [Sentegrity_TrustFactor_Rule setMotionDNEStatus:DNEStatus_unauthorized];
+                                         }
+                                         else{
+                                             
+                                             // Pass the raw values to the implementation such that rounding can be configured per policy
+                                             NSArray *array = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.userAcceleration.x],[NSNumber numberWithFloat:motion.userAcceleration.y],[NSNumber numberWithFloat:motion.userAcceleration.z], nil];
+                                             
+
+                                             [Sentegrity_TrustFactor_Rule setMotion:array];
+                                             
+                                         }
+                                         
+                                         
+                                     }];
+    
+        
+    }
+    
+    
+    
+}
 @end
