@@ -162,7 +162,7 @@ static int locationDNEStatus = 0;
 }
 
 + (CLLocation *)locationInfo {
-    
+
     CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
     CFAbsoluteTime currentTime = 0.0;
     
@@ -177,16 +177,17 @@ static int locationDNEStatus = 0;
                 NSLog(@"Got a location after waiting..");
                 exit=YES;
                 return currentLocation;
-                
-            } else {
+
+            }
+            else{
                 currentTime = CFAbsoluteTimeGetCurrent();
                                 // we've waited more than a second, exit
                 if ((currentTime-startTime) > 1.0){
                 NSLog(@"Location timer expired");
                     exit=YES;
                     [self setLocationDNEStatus:DNEStatus_expired];
-                    return currentLocation;
-                    
+                 return currentLocation;
+
                 }
             }
             
