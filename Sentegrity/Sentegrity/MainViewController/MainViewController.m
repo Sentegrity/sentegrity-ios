@@ -48,11 +48,11 @@
     
     // Customize the view
     [self customizeView];
-
+    
     // Perform Core Detection
     [self performCoreDetection];
     
-
+    
 }
 
 
