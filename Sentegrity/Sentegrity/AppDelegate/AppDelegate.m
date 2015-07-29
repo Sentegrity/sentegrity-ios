@@ -90,8 +90,11 @@
     
     if(![CLLocationManager locationServicesEnabled]){
         
-        //NSLog(@"Location services disabled");
+        //Set location disabled
         [Sentegrity_TrustFactor_Rule setLocationDNEStatus:DNEStatus_disabled];
+        
+        //Set placemark disabled
+        [Sentegrity_TrustFactor_Rule setPlacemarkDNEStatus:DNEStatus_disabled];
     }
     else{
 
@@ -113,11 +116,21 @@
             
     }
     else if(code ==kCLAuthorizationStatusDenied){
+        
+        //Set location unauthorized
         [Sentegrity_TrustFactor_Rule setLocationDNEStatus:DNEStatus_unauthorized];
+        
+        //Set placemark unauthorized
+        [Sentegrity_TrustFactor_Rule setPlacemarkDNEStatus:DNEStatus_unauthorized];
         
     }
     else{
+        
+        //Set location error
         [Sentegrity_TrustFactor_Rule setLocationDNEStatus:DNEStatus_error];
+        
+        //Set placemark error
+        [Sentegrity_TrustFactor_Rule setPlacemarkDNEStatus:DNEStatus_unauthorized];
     }
     
 
@@ -130,7 +143,33 @@
     // stop all future updates (we only needed one)
     [manager stopUpdatingLocation];
     
+    // Set the long/lat location
     [Sentegrity_TrustFactor_Rule setLocation:newLocation];
+    
+    // Attempt to obtain geo data for country
+    CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
+    
+    [reverseGeocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error)
+     {
+         // Cancel any future requests
+         
+         [reverseGeocoder cancelGeocode];
+         if (error){
+             [Sentegrity_TrustFactor_Rule setPlacemarkDNEStatus:DNEStatus_error];
+         }
+         else{
+             
+             // Get placemark object
+             CLPlacemark *myPlacemark = [placemarks objectAtIndex:0];
+             
+             // Set the placemark
+             [Sentegrity_TrustFactor_Rule setPlacemark:myPlacemark];
+             
+         }
+         
+    
+         
+     }];
 
 }
 
@@ -143,8 +182,9 @@
     }else{
         
         CMMotionActivityManager *manager = [CMMotionActivityManager new];
+
         
-        [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-2 * 60 * 60]
+        [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*10)]
                                         toDate:[NSDate new]
                                        toQueue:[NSOperationQueue new]
                                    withHandler:^(NSArray *activities, NSError *error) {
@@ -171,23 +211,24 @@
 
 }
 
+static int runCount = 0;
+static NSMutableArray *array;
 -(void)startMotion{
     
     
     CMMotionManager *manager = [[CMMotionManager alloc] init];
+     array = [[NSMutableArray alloc]init];
     
-    if(![manager isDeviceMotionAvailable] || manager == nil){
+    if(![manager isAccelerometerAvailable] || manager == nil){
         
         [Sentegrity_TrustFactor_Rule setMotionDNEStatus:DNEStatus_unsupported];
         
     }else{
         
-         manager.deviceMotionUpdateInterval = .2;
-        
-        [manager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
-                                     withHandler:^(CMDeviceMotion  *motion, NSError *error) {
-                                         
-                                        [manager stopDeviceMotionUpdates];
+         manager.accelerometerUpdateInterval = .1;
+        [manager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
+                                     withHandler:^(CMAccelerometerData  *motion, NSError *error) {
+                                        
                                          
                                          if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
                                              // The app isn't authorized to use motion activity support.
@@ -195,14 +236,32 @@
                                          }
                                          else{
                                              
-                                             // Pass the raw values to the implementation such that rounding can be configured per policy
-                                             NSArray *array = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.userAcceleration.x],[NSNumber numberWithFloat:motion.userAcceleration.y],[NSNumber numberWithFloat:motion.userAcceleration.z], nil];
+                                             // Create an array of motion samples
+                                             NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.acceleration.x], [NSNumber numberWithFloat:motion.acceleration.y], [NSNumber numberWithFloat:motion.acceleration.z], nil];
+                                             
+                                             // Create an array of keys
+                                             NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+                                             
+                                             // Create the dictionary
+                                             NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                                             
+                                             // Add sample to array
+                                             [array addObject:dict];
+                                             
+                                             // Increment run count
+                                             runCount = runCount + 1;
+                                             
+                                             // We want a minimum of 3 samples before we average them inside the TF
+                                             // its possible we will get more as this handler gets called additional times prior to
+                                             // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more we update accordingly.
+                                             
+                                             if(runCount > 3){
+                                                 [Sentegrity_TrustFactor_Rule setMotion:array];
+                                                 [manager stopAccelerometerUpdates];
+                                             }
                                              
 
-                                             [Sentegrity_TrustFactor_Rule setMotion:array];
-                                             
                                          }
-                                         
                                          
                                      }];
     

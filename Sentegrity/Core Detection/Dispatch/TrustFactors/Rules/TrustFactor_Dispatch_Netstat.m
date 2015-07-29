@@ -54,18 +54,19 @@
     // Run through all the connection dictionaries
     for (NSDictionary *connection in connections) {
         
-        // Skip if this is a listening socket
-        if([[connection objectForKey:@"state"] isEqualToString:@"LISTEN"])
+        // Skip if this is a listening socket or local
+        if([[connection objectForKey:@"state"] isEqualToString:@"LISTEN"] || [[connection objectForKey:@"dst_ip"] isEqualToString:@"localhost"] )
             continue;
-                
+
+        
         // Get the current destination IP
         dstIP = [connection objectForKey:@"dst_ip"];
         
         // Iterate through payload names and look for matching processes
         for (NSString *badDstIP in payload) {
             
-            // Check if the process name is equal to the current process being viewed
-            if([badDstIP isEqualToString:dstIP]) {
+            // Check if the domain of the connection equal one in payload
+            if([dstIP hasSuffix:badDstIP]) {
                 
                 // make sure we don't add more than one instance of the proc
                 if (![outputArray containsObject:dstIP]){
@@ -103,7 +104,7 @@
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
-        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return with the blank output object
         return trustFactorOutputObject;

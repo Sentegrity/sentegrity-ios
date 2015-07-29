@@ -18,9 +18,14 @@
 
 // Headers
 #import <sys/sysctl.h>
+#import "Sentegrity_TrustFactor_Dataset_Routes.h"
+#import "Sentegrity_TrustFactor_Dataset_Process.h"
+#import "Sentegrity_TrustFactor_Dataset_Netstat.h"
+#import "Sentegrity_TrustFactor_Dataset_Wifi.h"
 
 // Location data
 @import CoreLocation;
+
 
 
 
@@ -31,9 +36,9 @@
 + (BOOL)validatePayload:(NSArray *)payload;
 
 // ** PROCESS **
-// List of process information including PID's, Names, PPID's, and Status'
+// Proces data srouce
 + (NSArray *)processInfo;
-
+// Returns PID
 + (NSNumber *) getOurPID;
 
 
@@ -41,12 +46,18 @@
 // Route data source
 + (NSArray *)routeInfo;
 
-// Get WiFi Router Address
-+ (NSString *)wiFiRouterAddress;
+
+// ** WIFI **
+// WiFi data srouce
++ (NSDictionary *)wifiInfo;
+// If wifiInfo=Null can check if its enabled to set proper DNE
++ (BOOL )wifiEnabled;
+
 
 // ** NETSTAT **
 // Connection Info
 + (NSArray *) netstatInfo;
+
 
 // ** LOCATION **
 // Location Info
@@ -55,12 +66,20 @@
 + (void)setLocationDNEStatus:(int)dneStatus;
 + (int)locationDNEStatus;
 
+// Geo Info
++ (CLPlacemark *)placemarkInfo;
++ (void)setPlacemark:(CLPlacemark *)placemark;
++ (void)setPlacemarkDNEStatus:(int)dneStatus;
++ (int)placemarkDNEStatus;
+
+
 // ** ACTIVITIES **
 // Activity Info
 + (NSArray *)activityInfo;
 + (void)setActivity:(NSArray *)location;
 + (void)setActivityDNEStatus:(int)dneStatus;
 + (int)activityDNEStatus;
+
 
 // ** MOTION **
 // Motion Info

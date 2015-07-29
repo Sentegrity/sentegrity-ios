@@ -198,8 +198,8 @@ NSMutableArray* getActiveConnections(uint32_t proto, char *name, int af)
         which = 0;
         
         /* Ignore sockets for protocols other than the desired one. */
-        if (so->xso_protocol != (int)proto)
-            continue;
+       // if (so->xso_protocol != (int)proto)
+        //    continue;
         
         /* Ignore PCBs which were freed during copyout. */
         if (inp->inp_gencnt > oxig->xig_gen)

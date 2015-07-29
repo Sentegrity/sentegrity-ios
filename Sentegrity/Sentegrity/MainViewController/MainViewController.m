@@ -85,6 +85,8 @@
         
         dispatch_async(myQueue, ^{
             
+            //[NSThread sleepForTimeInterval:1];
+            
             [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
                 
                 dispatch_async(dispatch_get_main_queue(), ^{

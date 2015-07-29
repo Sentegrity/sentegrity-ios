@@ -41,25 +41,31 @@ struct encryption_info_command
     // Set the default status code to OK (default = DNEStatus_ok)
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
 
-
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
-    //binary checksum check
-    
-    // debugger check
-    int debugCheck = [self debuggerCheck];
-    // Check the result
-    if (debugCheck < 0 ) {
-        // Problem during debug check
-        // Set the DNE status code to error
+    // Validate the payload
+    if (![self validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return with the blank output object
         return trustFactorOutputObject;
     }
-    else if(debugCheck>1){
+    
+    
+    // debugger check
+    int debugCheck = [self debuggerCheck];
+    
+    // Check the result
+    if(debugCheck>1){
         [outputArray addObject:[NSNumber numberWithInt:debugCheck]];
+    }else if(debugCheck==-1){ //Error
+
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        return trustFactorOutputObject;
     }
     
     // binary check
@@ -69,6 +75,17 @@ struct encryption_info_command
     //if(checksum != nil){
     //    [outputArray addObject:checksum];
     //}
+    int hookResult = [self checkAddress];
+    if(hookResult>1) {
+        
+        //Method imp changed
+         [outputArray addObject:@"hook detected"];
+        
+    }else if(hookResult==-1){ //Error
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        return trustFactorOutputObject;
+    }
     
     // Iterate through payload names and look for bad modules
     uint32_t count = _dyld_image_count();
@@ -79,10 +96,12 @@ struct encryption_info_command
         {
             //Name of image (includes full path)
             const char *dyld = _dyld_get_image_name(i);
+            
             if(!strstr(dyld,[badModule cStringUsingEncoding:NSASCIIStringEncoding])) {
                 continue;
             }
             else {
+                //NSLog([NSString stringWithFormat:@"%s",dyld]);
                 [outputArray addObject:badModule];
             }
         }
@@ -94,21 +113,22 @@ struct encryption_info_command
     return trustFactorOutputObject;
 }
 
-// Helper functions
-
 // Check for hook
 // static int checkAddress __attribute__((always_inline));
 +(int) checkAddress{
     Dl_info info;
-    const char * class = "Sentegrity_TrustFactor_Rule";
-    const char * method = "tampera";
+    const char * class = "TrustFactor_Dispatch_Sentegrity";
+    const char * method = "tamper:";
     IMP imp = class_getMethodImplementation(objc_getClass(class), sel_registerName(method));
     if (dladdr(imp, &info)){
         //do checks
-        return 1;
-    } else {
-        NSLog(@"Error");
-        return 0;
+        if([[NSString stringWithFormat:@"%s",info.dli_fname] containsString:@"libobjc.A.dylib"]){
+            return 1;
+        }else{
+            return 2;
+        }
+    } else { //Error
+        return -1;
     }
 }
 

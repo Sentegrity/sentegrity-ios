@@ -76,28 +76,6 @@
 // Parse individual route
 + (Route_Info*) getRoute:(struct rt_msghdr2 *)rtm;
 
-// Get Current IP Address
-+ (NSString *)currentIPAddress;
-
-// Get the External IP Address
-+ (NSString *)externalIPAddress;
-
-// Get Cell IP Address
-+ (NSString *)cellIPAddress;
-
-// Get WiFi IP Address
-+ (NSString *)wiFiIPAddress;
-
-// Get WiFi Router Address
-+ (NSString *)wiFiRouterAddress;
-
-// Connected to WiFi?
-+ (BOOL)connectedToWiFi;
-
-// Connected to Cellular Network?
-+ (BOOL)connectedToCellNetwork;
-
-
 
 // Private methods
 

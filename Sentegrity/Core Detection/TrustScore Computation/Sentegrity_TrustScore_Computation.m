@@ -140,6 +140,10 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
             // Run through all trustfactors
             for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in trustFactorOutputObjects) {
                 
+                if(trustFactorOutputObject.trustFactor.identification == [NSNumber numberWithInt:1026]){
+                    
+                    
+                }
 
                 // Check if the trustfactor class id and subclass id match (we may have no TFs in the current subclass otherwise)
                 if (([trustFactorOutputObject.trustFactor.classID intValue] == [[class identification] intValue]) && ([trustFactorOutputObject.trustFactor.subClassID intValue] == [[subClass identification] intValue])) {

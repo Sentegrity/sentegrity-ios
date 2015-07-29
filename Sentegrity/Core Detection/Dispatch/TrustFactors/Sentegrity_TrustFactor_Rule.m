@@ -7,17 +7,14 @@
 //
 
 #import "Sentegrity_TrustFactor_Rule.h"
-#import "Sentegrity_TrustFactor_Dataset_Routes.h"
-#import "Sentegrity_TrustFactor_Dataset_Process.h"
-#import "Sentegrity_TrustFactor_Dataset_Netstat.h"
-@import CoreLocation;
+
 
 // This class is designed to cache the results of datasets between the TrustFactor_Dispatch_[Rule] and Sentegrity_TrustFactor_Dataset_[Category]
 
 @implementation Sentegrity_TrustFactor_Rule
 
 
-// Validate the given payload
+// Share payload validation routine for TFs that should have payload items
 + (BOOL)validatePayload:(NSArray *)payload {
     
     // Check if the payload is empty
@@ -29,7 +26,8 @@
     return YES;
 }
 
-// PROCESS: Process info
+// Process dataset caching
+
 static NSArray* processData;
 + (NSArray *)processInfo {
     
@@ -54,7 +52,6 @@ static NSArray* processData;
     }
 }
 
-// PROCESS: Process PID
 static NSNumber *ourPID;
 + (NSNumber *)getOurPID {
       // Get the PID 
@@ -72,7 +69,8 @@ static NSNumber *ourPID;
 
 
 
-// Route Data
+// Route dataset caching
+
 static NSArray* routeData;
 + (NSArray *)routeInfo {
     
@@ -96,32 +94,10 @@ static NSArray* routeData;
     }
 }
 
-// WiFi router address
-static NSString* wiFiRouterAddress;
-+ (NSString *)wiFiRouterAddress {
-    
-    if(!wiFiRouterAddress || wiFiRouterAddress==nil) //dataset not populated
-    {
-        // Get the router address
-        @try {
-            
-            wiFiRouterAddress = [Route_Info wiFiRouterAddress];
-            return wiFiRouterAddress;
-            
-        }
-        @catch (NSException * ex) {
-            // Error
-            return nil;
-        }
-    }
-    else //already populated
-    {
-        return wiFiRouterAddress;
-    }
-}
 
 
-// Netstat info
+// Netstat dataset caching
+
 static NSArray* netstatData;
 + (NSArray *)netstatInfo {
     
@@ -146,7 +122,9 @@ static NSArray* netstatData;
     }
 }
 
-// Location info
+// Location dataset caching
+// setters required due to async operation (main thread)
+
 static CLLocation* currentLocation = nil;
 + (void)setLocation:(CLLocation *)location {
     currentLocation = location;
@@ -203,7 +181,69 @@ static int locationDNEStatus = 0;
     
 }
 
-// Activity info
+// Placemark dataset caching
+// setters required due to async operation (main thread)
+
+static CLPlacemark* currentPlacemark = nil;
++ (void)setPlacemark:(CLPlacemark *)placemark {
+    currentPlacemark = placemark;
+}
+
+static int placemarkDNEStatus = 0;
++ (void)setPlacemarkDNEStatus:(int)dneStatus {
+    placemarkDNEStatus = dneStatus;
+}
+
++ (int)placemarkDNEStatus {
+    return placemarkDNEStatus;
+}
+
++ (CLPlacemark *)placemarkInfo {
+    
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    CFAbsoluteTime currentTime = 0.0;
+    
+    //Do we have a placemark yet?
+    if(currentPlacemark == nil){
+        
+        //Nope, wait for placemark data
+        bool exit=NO;
+        while (exit==NO){
+            
+            if(currentPlacemark != nil){
+                NSLog(@"Got a placemark after waiting..");
+                exit=YES;
+                return currentPlacemark;
+                
+            }
+            else{
+                currentTime = CFAbsoluteTimeGetCurrent();
+                // we've waited more than a second, exit
+                if ((currentTime-startTime) > 1.0){
+                    NSLog(@"Placemark timer expired");
+                    exit=YES;
+                    [self setPlacemarkDNEStatus:DNEStatus_expired];
+                    return currentPlacemark;
+                    
+                }
+            }
+            
+            [NSThread sleepForTimeInterval:0.1];
+            
+        }
+        
+        
+    }
+    //we've already got placemark data
+    NSLog(@"Got a placemark without waiting...");
+    return currentPlacemark;
+    
+}
+
+
+// Activity dataset caching
+// setters required due to async operation (main thread)
+
 static NSArray* activities = nil;
 + (void)setActivity:(NSArray *)previousActivities {
     activities = previousActivities;
@@ -260,7 +300,10 @@ static int activityDNEStatus = 0;
     
 }
 
-// Motion info
+
+// Motion dataset caching
+// setters required due to async operation (main thread)
+
 static NSArray* motion = nil;
 + (void)setMotion:(NSArray *)currentMotion {
     motion = currentMotion;
@@ -316,6 +359,65 @@ static int motionDNEStatus = 0;
     return motion;
     
 }
+
+
+//WiFi dataset caching
+
+static NSDictionary *wifiData;
++ (NSDictionary *)wifiInfo {
+    
+    if(!wifiData || wifiData==nil) //dataset not populated
+    {
+        // Get the list of processes and all information about them
+        @try {
+            
+            wifiData = [Wifi_Info getWifi];
+            return wifiData;
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+    }
+    else //already populated
+    {
+        return wifiData;
+    }
+}
+
+static BOOL wifiEnabled;
++ (BOOL)wifiEnabled {
+    if(!wifiEnabled) //dataset not populated
+    {
+        // Get the list of processes and all information about them
+        @try {
+            
+            wifiEnabled= [Wifi_Info isWiFiEnabled];
+            return wifiEnabled;
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return NO;
+        }
+        
+    }
+    else //already populated
+    {
+        return wifiEnabled;
+    }
+
+}
+
+static int wifiConnected = 0;
++ (int)wifiConnected {
+    return wifiConnected;
+}
+
+
+
 
 @end
 

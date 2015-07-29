@@ -57,12 +57,20 @@
     }
     
     
-    NSInteger blockOfDay;
+    NSInteger blockOfDay=0;
     
     NSInteger blocksize = [[[payload objectAtIndex:0] objectForKey:@"blocksize"] integerValue];
     //part of day
     if(blocksize>0){
         blockOfDay = floor(hourOfDay / (24/blocksize))+1;
+    }
+    else{
+        // No blocksize
+        // Set the DNE status code to error
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
     }
     
     // Create assertion

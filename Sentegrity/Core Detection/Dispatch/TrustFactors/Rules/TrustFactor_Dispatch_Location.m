@@ -27,7 +27,7 @@
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
-        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -36,55 +36,66 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    // Get the current location
-    CLLocation *currentLocation;
+    // Placemark
+    CLPlacemark *currentPlacemark;
     
-    // If the handler already determined a problem
-    if ([self locationDNEStatus] != 0 ){
+    // Error has occured in main thread handler
+    if([self placemarkDNEStatus] != 0){
+        
         // Set the DNE status code to what was previously determined
-        [trustFactorOutputObject setStatusCode:[self locationDNEStatus]];
+        [trustFactorOutputObject setStatusCode:[self placemarkDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
-    }
-    else{ //try to get dataset
         
-        currentLocation = [self locationInfo];
+    }else{
         
-        // Check location dataset again
-        if (!currentLocation || currentLocation == nil) {
+        // Get the current placemark
+        currentPlacemark = [self placemarkInfo];
+        
+        // Check the placemark, if its empty check DNE and set it
+        if (!currentPlacemark || currentPlacemark == nil) {
             
             [trustFactorOutputObject setStatusCode:DNEStatus_error];
             // Return with the blank output object
             return trustFactorOutputObject;
         }
         
-        
     }
     
-   
-    NSString *roundedLocation = [NSString stringWithFormat:@"%.0f,%.0f",currentLocation.coordinate.longitude,currentLocation.coordinate.latitude];
+    NSString *countryCode = currentPlacemark.ISOcountryCode;
     
-    bool match=NO;
+    // Used to increase complexity of policy violation hashes
+    NSString *assertion = currentPlacemark.country;
     
-    // Iterate through payload locations and look for matching location
-    for (NSString *allowLocation in payload) {
+    BOOL match=NO;
+    
+    if(countryCode != nil && assertion != nil){
         
-        // Check if the locations match
-        if([roundedLocation isEqualToString:allowLocation]) {
+        // Iterate through payload names and look for matching processes
+        for (NSString *allowedCountryCode in payload) {
             
-            // If match found exit
-            match=YES;
-            break;
+            // Check if the country code matches one in the payload
+            if([countryCode isEqualToString:allowedCountryCode]) {
+                match=YES;
+                break;
+            }
         }
+        
+        // Did not match any of the payloads
+        if(!match){
+            // Add the country to the output array (add the asseriton which is the full country name, not just the code)
+            [outputArray addObject:assertion];
+        }
+        
+    }else{
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
     }
 
-    // If no match found return current location to trigger rule
-    if(match==NO){
-        [outputArray addObject:roundedLocation];
-    }
-    
-    
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
@@ -118,27 +129,45 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    // Get the current location
-    CLLocation *currentLocation = [self locationInfo];
+    // Location
+    CLLocation *currentLocation;
     
-    // Check the location, if its empty check DNE and set it
-    if (!currentLocation || currentLocation == nil) {
-        // Current Processes array is EMPTY
-        if([self locationDNEStatus] != 0)
-        {
-            // Set the DNE status code to what was previously determined
-            [trustFactorOutputObject setStatusCode:[self locationDNEStatus]];
-        }else{
-            // We don't know what happened but its nil so set to error
+    // Error has occured in main thread handler
+    if([self locationDNEStatus] != 0){
+        
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[self locationDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
+    }else{
+
+        // Get the current location
+        currentLocation = [self locationInfo];
+        
+        // Check the location, if its empty check DNE and set it
+        if (!currentLocation || currentLocation == nil) {
+            
             [trustFactorOutputObject setStatusCode:DNEStatus_error];
+            // Return with the blank output object
+            return trustFactorOutputObject;
         }
+        
+    }
+    
+    // Rounding from policy
+    int decimalPlaces = -1;
+    decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"rounding"] intValue];
+    
+    // Validate the payload
+    if (decimalPlaces < 0) {
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return with the blank output object
         return trustFactorOutputObject;
     }
-    
-    // Rounding from policy
-    NSInteger decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"rounding"] integerValue];
     
     // Rounded location
     NSString *roundedLocation = [NSString stringWithFormat:@"%.*f,%.*f",decimalPlaces,currentLocation.coordinate.longitude,decimalPlaces,currentLocation.coordinate.latitude];

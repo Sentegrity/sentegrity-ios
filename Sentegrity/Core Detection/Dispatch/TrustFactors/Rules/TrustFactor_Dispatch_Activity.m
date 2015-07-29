@@ -21,8 +21,30 @@
     // Set the default status code to OK (default = DNEStatus_ok)
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
+    // Validate the payload
+    if (![self validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
+    
+    // Average from policy ?
+    int maxSampleSize = [[[payload objectAtIndex:0] objectForKey:@"maxSampleSize"] intValue];
+    
+    if (maxSampleSize == 0){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
     
     // Get the user's activity history
     NSArray *activities;
@@ -40,9 +62,9 @@
         activities = [self activityInfo];
         
         // Check activity dataset again 
-        if (!activities || activities == nil || activities.count < 4) {
+        if (!activities || activities == nil) {
             
-            [trustFactorOutputObject setStatusCode:DNEStatus_error];
+            [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
             // Return with the blank output object
             return trustFactorOutputObject;
         }
@@ -50,14 +72,24 @@
         
     }
     
+    if(activities.count < 1){
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+
+    CMMotionActivity *actItem;
     bool walking = 0;
     bool running = 0;
     bool driving = 0;
     bool stationary = 0;
     
     // Check each category for hit since lots of activities are returned in most cases
-    for (CMMotionActivity *actItem in activities)
+    for (int i = 0; i <= maxSampleSize-1; i++)
     {
+        actItem = [activities objectAtIndex:i];
+        
         if (actItem.walking == 1)
             walking=1;
         if (actItem.running == 1)

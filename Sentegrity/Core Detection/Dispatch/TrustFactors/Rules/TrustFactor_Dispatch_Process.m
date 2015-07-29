@@ -62,15 +62,39 @@
         for (NSString *badProcName in payload) {
             
             // Check if the process name is equal to the current process being viewed
-            if([badProcName isEqualToString:procName]) {
+            
+            // Does the badProcName contain a wildcard?
+            if([badProcName containsString:@"*"]){
                 
-                // make sure we don't add more than one instance of the proc
-                if (![outputArray containsObject:procName]){
+                NSString *trimmedString = [[badProcName componentsSeparatedByString:@"*"] objectAtIndex:0];
+                
+                // Has wildcard, only check for prefix
+                if([procName hasPrefix:trimmedString]) {
                     
-                    // Add the process to the output array
-                    [outputArray addObject:procName];
+                    // make sure we don't add more than one instance of the proc
+                    if (![outputArray containsObject:procName]){
+                        
+                        // Add the process to the output array
+                        [outputArray addObject:procName];
+                    }
                 }
+                
             }
+            else{ // Does not contain wildecard
+                
+                if([procName isEqualToString:badProcName]) {
+                    
+                    // make sure we don't add more than one instance of the proc
+                    if (![outputArray containsObject:procName]){
+                        
+                        // Add the process to the output array
+                        [outputArray addObject:procName];
+                    }
+                }
+
+                
+            }
+            
         }
     }
     

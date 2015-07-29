@@ -45,7 +45,7 @@
     if (!currentVersion) {
         // NO VERSION
         // Set the DNE status code to error
-        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -62,9 +62,14 @@
             }
         }
         else if([badVersions containsString:@"*"]){ //wild card version number
-            NSArray* range = [badVersions componentsSeparatedByString:@"*"];
+            NSArray* startRange = [badVersions componentsSeparatedByString:@"*"];
+            NSArray* endRange = [[startRange objectAtIndex:0] componentsSeparatedByString:@"."];
+            
+            NSString *botVersion = [startRange objectAtIndex:0];
+            NSString *topVersion = [NSString stringWithFormat:@"%@.9",[endRange objectAtIndex:0]];
+            
             // Check for version match
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO([range objectAtIndex:0])) {
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(botVersion) && SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(topVersion)) {
                 [outputArray addObject:currentVersion];
                 break;
             }
@@ -131,9 +136,14 @@
             }
         }
         else if([allowedVersions containsString:@"*"]){ //wild card version number
-            NSArray* range = [allowedVersions componentsSeparatedByString:@"*"];
+            NSArray* startRange = [allowedVersions componentsSeparatedByString:@"*"];
+            NSArray* endRange = [[startRange objectAtIndex:0] componentsSeparatedByString:@"."];
+            
+            NSString *botVersion = [startRange objectAtIndex:0];
+            NSString *topVersion = [NSString stringWithFormat:@"%@.9",[endRange objectAtIndex:0]];
+            
             // Check for version match
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO([range objectAtIndex:0])) {
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(botVersion) && SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(topVersion)) {
                 allowed=YES;
                 break;
             }
@@ -184,6 +194,37 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
+    // Get the time of day
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:[NSDate date]];
+    
+    NSInteger hourOfDay = [components hour];
+    NSInteger minutes = [components minute];
+    
+    //round up if needed
+    if(minutes > 30){
+        hourOfDay = hourOfDay+1;
+    }
+    
+    NSInteger blockOfDay = 0;
+    NSInteger hourBlocksize = [[[payload objectAtIndex:0] objectForKey:@"hourBlocksize"] integerValue];
+    
+    //part of day
+    if(hourBlocksize>0){
+        blockOfDay = floor(hourOfDay / (24/hourBlocksize))+1;
+    }
+    else{
+        // No blocksize
+        // Set the DNE status code to error
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+
+    
+    
+    // Get the associated power level
     UIDevice *Device = [UIDevice currentDevice];
     
     Device.batteryMonitoringEnabled = YES;
@@ -207,12 +248,13 @@
         return trustFactorOutputObject;
     }
     
-    NSInteger blockOfPower;
+    NSInteger blockOfPower = 0;
     
-    NSInteger blocksize = [[[payload objectAtIndex:0] objectForKey:@"blocksize"] integerValue];
+    NSInteger powerBlocksize = [[[payload objectAtIndex:0] objectForKey:@"powerBlocksize"] integerValue];
+    
     //part of day
-    if(blocksize>0){
-        blockOfPower = floor(batteryLevel / (100/blocksize))+1;
+    if(powerBlocksize>0){
+        blockOfPower = floor(batteryLevel / (100/powerBlocksize))+1;
     }
     else{
         // No blocksize
@@ -222,9 +264,8 @@
         // Return with the blank output object
         return trustFactorOutputObject;
     }
-    
-    
-    [outputArray addObject:[NSString stringWithFormat:@"B%ld",(long)blockOfPower]];
+    // Create assertion
+    [outputArray addObject: [NSString stringWithFormat:@"H%ld-B%ld",(long)blockOfDay,(long)blockOfPower]];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
@@ -270,12 +311,12 @@
     }
     
     int secondsInHour = 3600;
-    double hoursUp = uptime/secondsInHour;
+    NSString *hoursUp = [NSString stringWithFormat:@"%.0f",uptime/secondsInHour];
     
     // less than desired uptime
-    if(hoursUp < [[payload objectAtIndex:0] integerValue])
+    if([hoursUp integerValue] < [[[payload objectAtIndex:0] objectForKey:@"minimumHoursUp"] integerValue])
     {
-        [outputArray addObject:[NSNumber numberWithInt:hoursUp]];
+        [outputArray addObject:hoursUp];
     }
     
     // Set the trustfactor output to the output array (regardless if empty)
@@ -354,7 +395,7 @@
         // Current Processes array is EMPTY
         
         // Set the DNE status code to UNAVAILABLE
-        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
         
         // Return with the blank output object
         return trustFactorOutputObject;

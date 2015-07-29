@@ -13,7 +13,7 @@
 
 
 // 15
-+ (Sentegrity_TrustFactor_Output_Object *)unknownVpnUp:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)vpnUp:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -24,10 +24,20 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
+    // Validate the payload
+    if (![self validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     // Get routes
     NSArray *routeArray = [self routeInfo];
-    
-    [self wiFiRouterAddress];
+
     
     // Check for routes
     if (!routeArray || routeArray == nil || routeArray.count < 1) {
