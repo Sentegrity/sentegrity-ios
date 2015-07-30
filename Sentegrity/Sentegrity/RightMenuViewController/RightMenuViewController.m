@@ -73,9 +73,13 @@
             
             // Create the alert
             SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+            alert.backgroundViewColor = [UIColor whiteColor];
+            alert.customViewColor = [UIColor grayColor];
             
+
             // Use Blocks for the reset button
             [alert addButton:@"Reset" actionBlock:^{
+                
                 // handle successful validation here
                 NSLog(@"Chose to reset the stores");
                 

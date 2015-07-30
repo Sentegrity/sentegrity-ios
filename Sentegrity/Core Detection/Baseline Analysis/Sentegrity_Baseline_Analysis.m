@@ -14,6 +14,8 @@
 #import "Sentegrity_TrustFactor_Storage.h"
 
 
+// Pod for hashing
+#import "NSString+Hashes.h"
 
 @implementation Sentegrity_Baseline_Analysis
 
@@ -413,10 +415,10 @@
     if(!trustFactorOutputObject.storedTrustFactorObject.learned && trustFactorOutputObject.trustFactor.provision.intValue==1)
     {
         //if the TF with provisoning attribute does not have the baseline, it found something bad
-        if(![trustFactorOutputObject.assertions objectForKey:[trustFactorOutputObject generateDefaultAssertion]])
+        if(![trustFactorOutputObject.assertions objectForKey:[trustFactorOutputObject generateDefaultAssertionString]])
         {
-            //manually trigger it by setting the default assertion and moving others to whitelist
-            trustFactorOutputObject.storedTrustFactorObject.assertions = [trustFactorOutputObject generateDefaultAssertion];
+            //manually trigger it by setting the stored assertions to the default (to force a no match condition)
+            trustFactorOutputObject.storedTrustFactorObject.assertions = [trustFactorOutputObject generateDefaultAssertionDict];
             
             //set to learned to avoid compareAndUpdateLearning on next run
             trustFactorOutputObject.storedTrustFactorObject.learned=YES;

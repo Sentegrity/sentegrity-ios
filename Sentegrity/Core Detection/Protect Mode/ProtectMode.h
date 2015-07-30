@@ -17,9 +17,14 @@
 // Singleton instance
 + (id)sharedProtectMode;
 
-#pragma mark - Analysis
-// Analyze computation and baseline results
-- (BOOL)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)error;
+#pragma mark - Activate
+
+- (void)activateProtectModePolicyWithError:(NSError **)error;
+
+- (void)activateProtectModeUserWithError:(NSError **)error;
+
+- (void)activateProtectModeWipeWithError:(NSError **)error;
+
 
 #pragma mark - Deactivation
 
@@ -27,11 +32,14 @@
 
 - (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN withError:(NSError **)error;
 
+#pragma mark - Setters
 
-#pragma mark - Properties
+- (void)setTrustFactorsToWhitelist:(NSArray *)trustFactorsToWhitelist;
 
-@property (nonatomic, retain) Sentegrity_Policy *policy;
+- (void)setPolicy:(Sentegrity_Policy *)policy;
 
-@property (nonatomic, retain) NSArray *trustFactorsToWhitelist;
+#pragma mark - Whitelisting
+
+- (BOOL)whitelistAttributingTrustFactorOutputObjectsWithError:(NSError **)error;
 
 @end

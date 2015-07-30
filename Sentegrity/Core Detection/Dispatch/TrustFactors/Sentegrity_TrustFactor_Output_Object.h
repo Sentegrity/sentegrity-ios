@@ -38,11 +38,17 @@
 // Trigger bool set during baseline analysis and checked during computation
 @property (nonatomic) BOOL whitelist;
 
-// Generates assertions from the output of trustfactor impleentation
+// Generates assertions from the output of trustfactor implentation
 - (void)generateAssertionsFromOutput;
 
-// Generates default assertion for manual comparison on provisoning rules
--(NSMutableDictionary *)generateDefaultAssertion;
+// Generates default assertion dictionary to be provided when a rule does not return anything
+-(NSMutableDictionary *)generateDefaultAssertionDict;
+
+// Generates the default assertion and adds it to the TFs assertion property
+-(void)generateDefaultAssertion;
+
+// Generates the default string to check if a rule didn't return the default (for provisoning)
+-(NSString *)generateDefaultAssertionString;
 
 //custom init to set DNE=OK
 - (id) init;

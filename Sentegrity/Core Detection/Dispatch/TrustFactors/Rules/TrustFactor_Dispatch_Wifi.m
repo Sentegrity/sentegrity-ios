@@ -14,7 +14,7 @@
 @implementation TrustFactor_Dispatch_Wifi
 
 // 17 - Determine if the connected access point is a SOHO (Small Office/Home Offic) network
-+ (Sentegrity_TrustFactor_Output_Object *)apSoho:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)highRiskAP:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -136,8 +136,8 @@
 
 }
 
-// 18 - Unencrypted AP Check - Not available
-+ (Sentegrity_TrustFactor_Output_Object *)unencrypted:(NSArray *)payload {
+// 18 - Captive Portal Unencrypted AP Check - Not available
++ (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -176,12 +176,23 @@
     [urlRequest setValue:@"CaptiveNetworkSupport/1.0 wispr" forHTTPHeaderField:@"User-Agent"];
     
     NSData *data = [ NSURLConnection sendSynchronousRequest:urlRequest returningResponse: nil error: nil ];
-    NSString *returnData = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
- 
-    if([returnData containsString:@"Success"])
+    NSString *returnDataWispr = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
+    
+    //Perform Blank page check
+    url =@"http://www.google.com/blank.html";
+    urlRequest = [[NSMutableURLRequest alloc]
+                                       initWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    
+    data = [ NSURLConnection sendSynchronousRequest:urlRequest returningResponse: nil error: nil ];
+    NSString *returnDataBlank = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
+    
+    // Check if WISPR return something other than "Success" HTML AND if the AP returns a login page instead of blank during google check
+    if(![returnDataWispr containsString:@"Success"] || [returnDataBlank length] > 1)
     {
-        [outputArray addObject:@"soho"];
+        [outputArray addObject:returnDataBlank];
     }
+
+    
   
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];

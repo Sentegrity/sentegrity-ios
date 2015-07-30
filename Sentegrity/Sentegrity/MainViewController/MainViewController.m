@@ -26,6 +26,8 @@
 // Animation
 #import "MBProgressHUD.h"
 
+#import "SCLAlertView.h"
+
 
 @interface MainViewController () <RESideMenuDelegate>
 
@@ -148,30 +150,29 @@
                 });
                 if (success) {
                     
-                    //set policy
-                    [[ProtectMode sharedProtectMode] setPolicy:policy];
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         
+                         [self analyzeResults:computationResults withPolicy:policy withError:error];
+                         
+                     });
                     
-                    //protect mode analysis
-                    if(![[ProtectMode sharedProtectMode] analyzeResults:computationResults withError:error]){
-                        NSLog(@"Failed to analyze Core Detection results: %@", [*error localizedDescription]);
-                    }
-                    else{
-                        NSLog(@"\n\n+++ Core Detection Classification Scores +++ \n\nBreach Indicator:%d, \nSystem Security:%d, \nSystem Policy:%d, \nUser Anomaly:%d, \nUser Policy:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.systemPolicyScore, computationResults.userAnomalyScore,computationResults.userPolicyScore );
-                        
-                        NSLog(@"\n\n+++ Core Detection Composite Results +++ \n\nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceScore, computationResults.systemScore, computationResults.userScore );
-                        
-                        NSLog(@"\n\n+++ Core Detection Trust Determinations +++\n\nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceTrusted, computationResults.systemTrusted, computationResults.userTrusted);
-                        
-                        NSLog(@"\n\n+++ Dashboard Data +++\n\nDevice Score:%d, \nSystem Icon:%d,  \nSystem Icon Text:%@, \nUser Icon:%d, \nUser Icon Text:%@\n\n", computationResults.deviceScore, computationResults.systemGUIIconID, computationResults.systemGUIIconText, computationResults.userGUIIconID, computationResults.userGUIIconText);
-                        
-                        NSLog(@"\n\n+++ System Detailed View +++\n\nSystem Score:%d, \nSystem Icon:%d,  \nSystem Icon Text:%@, \nIssues:%@, \nSuggestions:%@, \nAnalysis:%@\n\n", computationResults.systemScore, computationResults.systemGUIIconID, computationResults.systemGUIIconText, computationResults.systemGUIIssues, computationResults.systemGUISuggestions, computationResults.systemGUIAnalysis);
-                        
-                        NSLog(@"\n\n+++ User Detailed View +++\n\nUser Score:%d, \nUser Icon:%d,  \nUser Icon Text:%@, \nIssues:%@, \nSuggestions:%@, \nAnalysis:%@\n\n", computationResults.userScore, computationResults.userGUIIconID, computationResults.userGUIIconText, computationResults.userGUIIssues, computationResults.userGUISuggestions, computationResults.userGUIAnalysis);
-                        
-                        
-                        NSLog(@"\n\nErrors: %@", [*error localizedDescription]);
-                    }
+                    NSLog(@"\n\n+++ Core Detection Classification Scores +++ \n\nBreach Indicator:%d, \nSystem Security:%d, \nSystem Policy:%d, \nUser Anomaly:%d, \nUser Policy:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.systemPolicyScore, computationResults.userAnomalyScore,computationResults.userPolicyScore );
                     
+                    NSLog(@"\n\n+++ Core Detection Composite Results +++ \n\nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceScore, computationResults.systemScore, computationResults.userScore );
+                    
+                    NSLog(@"\n\n+++ Core Detection Trust Determinations +++\n\nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceTrusted, computationResults.systemTrusted, computationResults.userTrusted);
+                    
+                    NSLog(@"\n\n+++ Dashboard Data +++\n\nDevice Score:%d, \nSystem Icon:%d,  \nSystem Icon Text:%@, \nUser Icon:%d, \nUser Icon Text:%@\n\n", computationResults.deviceScore, computationResults.systemGUIIconID, computationResults.systemGUIIconText, computationResults.userGUIIconID, computationResults.userGUIIconText);
+                    
+                    NSLog(@"\n\n+++ System Detailed View +++\n\nSystem Score:%d, \nSystem Icon:%d,  \nSystem Icon Text:%@, \nIssues:%@, \nSuggestions:%@, \nAnalysis:%@\n\n", computationResults.systemScore, computationResults.systemGUIIconID, computationResults.systemGUIIconText, computationResults.systemGUIIssues, computationResults.systemGUISuggestions, computationResults.systemGUIAnalysis);
+                    
+                    NSLog(@"\n\n+++ User Detailed View +++\n\nUser Score:%d, \nUser Icon:%d,  \nUser Icon Text:%@, \nIssues:%@, \nSuggestions:%@, \nAnalysis:%@\n\n", computationResults.userScore, computationResults.userGUIIconID, computationResults.userGUIIconText, computationResults.userGUIIssues, computationResults.userGUISuggestions, computationResults.userGUIAnalysis);
+                    
+                    NSLog(@"\n\n+++ Rule Information +++\n\nRules Not Learned:%@, \nRules Triggered:%@, \nRules To Whitelist:%@\n\n", computationResults.trustFactorsNotLearned, computationResults.trustFactorsTriggered , computationResults.protectModeWhitelist);
+                    
+                    
+                    NSLog(@"\n\nErrors: %@", [*error localizedDescription]);
+
                 }
                 else {NSLog(@"Failed to run Core Detection: %@", [*error localizedDescription] );}
                 
@@ -183,10 +184,110 @@
 
     }
     
-    // Continue doing other stuff on the
-    
+ 
+
 }
 
+
+// Set up the customizations for the view
+- (void)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
+    
+    //check for errors
+    if (!computationResults || computationResults == nil) {
+        // Error out, no trustFactorOutputObject were able to be added
+        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+        [errorDetails setValue:@"No computationResults to analyze" forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SACannotPerformAnalysis userInfo:errorDetails];
+
+    }
+    
+    // Set static vars
+    
+    [[ProtectMode sharedProtectMode] setPolicy:policy];
+    
+    [[ProtectMode sharedProtectMode] setTrustFactorsToWhitelist:computationResults.protectModeWhitelist];
+    
+
+    
+    //check protect mode action
+    switch (computationResults.protectModeAction) {
+        case 0:
+            //do nothing but provide score to app
+            break;
+            
+        case 1: {
+            
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            alert.customViewColor = [UIColor grayColor];
+            // Show wipe warning
+            [alert addButton:@"Wipe" actionBlock:^{
+                // Active protect mode
+                [[ProtectMode sharedProtectMode] activateProtectModeWipeWithError:error];
+                
+            }];
+            // Show the alert
+            [alert showWarning:self title:@"Wipe Data" subTitle:@"Continue with Protect Mode Wipe?" closeButtonTitle:@"Cancel" duration:0.0f]; // Warning
+
+        }
+            break;
+            
+        case 2: {
+            
+            // Active protect mode
+            [[ProtectMode sharedProtectMode] activateProtectModeUserWithError:error];
+            
+            SCLAlertView *userPIN = [[SCLAlertView alloc] init];
+            userPIN.customViewColor = [UIColor grayColor];
+            
+            UITextField *userText = [userPIN addTextField:@"User Password"];
+            
+            // Show deactivation textbox
+            
+            [userPIN addButton:@"Unlock" actionBlock:^(void) {
+                
+                
+                [[ProtectMode sharedProtectMode] deactivateProtectModeUserWithPIN:userText.text withError:error];
+               
+            }];
+            
+            [userPIN showEdit:self title:@"Unlock" subTitle:@"User Authentication is Required" closeButtonTitle:@"Cancel" duration:0.0f];
+            
+        }
+            break;
+            
+        case 3: {
+            
+            // Active protect mode
+            [[ProtectMode sharedProtectMode] activateProtectModePolicyWithError:error];
+            
+            SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
+            policyPIN.customViewColor = [UIColor grayColor];
+            UITextField *policyText = [policyPIN addTextField:@"Administrator Password"];
+            
+            // Show deactivation textbox
+            
+            [policyPIN addButton:@"Unlock" actionBlock:^(void) {
+
+                
+                [[ProtectMode sharedProtectMode] deactivateProtectModePolicyWithPIN:policyText.text withError:error];
+                
+            }];
+            
+            [policyPIN showEdit:self title:@"Unlock" subTitle:@"Policy Override is Required" closeButtonTitle:@"Cancel" duration:0.0f];
+            
+        }
+            break;
+            
+        default:
+            break;
+            
+    }
+
+    
+  
+    
+
+}
 // Set up the customizations for the view
 - (void)customizeView {
     // Set the background color
@@ -311,13 +412,13 @@
 
 - (IBAction)reload:(id)sender {
     // Animate the reload button
-    CABasicAnimation *rotationAnimation;
-    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
-    rotationAnimation.duration = 2.0;
-    rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = HUGE_VALF;
-    [self.reloadButton.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    //CABasicAnimation *rotationAnimation;
+    //rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    //rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
+    //rotationAnimation.duration = 2.0;
+    //rotationAnimation.cumulative = YES;
+   // rotationAnimation.repeatCount = HUGE_VALF;
+   // [self.reloadButton.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     
     // Perform Core Detection
     [self performCoreDetection];

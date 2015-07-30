@@ -11,6 +11,9 @@
 
 @interface Sentegrity_TrustScore_Computation : NSObject
 
+//DEBUG
+@property (nonatomic) NSArray *trustFactorsNotLearned;
+@property (nonatomic) NSArray *trustFactorsTriggered;
 
 //CLASSIFICATION SCORES
 

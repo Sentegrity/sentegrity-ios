@@ -24,7 +24,7 @@
 
 @implementation Sentegrity_TrustScore_Computation
 
-NSMutableArray *triggeredTrustFactorOutputObjects;
+
 
 @synthesize systemScore = _systemScore, userScore = _userScore, deviceScore = _deviceScore;
 
@@ -104,6 +104,11 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     // 9.  Apply the classification's weight to the summarized weighted totals per classification
     // 10. Generate the classification's trustscore
     // 11. Do this for all classifications/subclassifications
+    
+    //Not learned (debug)
+    NSMutableArray *trustFactorsNotLearned = [NSMutableArray array];
+    
+    NSMutableArray *trustFactorsTriggered = [NSMutableArray array];
 
     //For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
@@ -115,10 +120,6 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         
         NSMutableArray *trustFactorsToWhitelistInClass = [NSMutableArray array];
         
-        //GUI messages
-        
-        //Not learned (debug)
-        NSMutableArray *trustFactorsNotLearnedInClass = [NSMutableArray array];
         
         //GUI: Analysis results displayed on a per subclass basis
         NSMutableArray *subClassStatus = [NSMutableArray array];
@@ -161,13 +162,17 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
                         
                         if(trustFactorOutputObject.storedTrustFactorObject.learned==NO){
                             
-                            //add not learned message
-                            [trustFactorsNotLearnedInClass addObject:[NSString stringWithFormat:@"%@ %@ %@", @"TrustFactor:", trustFactorOutputObject.trustFactor.name, @" not yet learned."]];
+                            //DEBUG
+                            [trustFactorsNotLearned addObject:trustFactorOutputObject.trustFactor.name];
+                            
                             //go to next TF
                             continue;
                         }
                         
                         if(trustFactorOutputObject.triggered==YES){
+                            
+                            //DEBUG
+                            [trustFactorsTriggered addObject:trustFactorOutputObject.trustFactor.name];
                             
                             //apply penalty to subclass base
                             subClass.basePenalty = (subClass.basePenalty + trustFactorOutputObject.trustFactor.penalty.integerValue);
@@ -298,16 +303,21 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     }// End classifications loop
     
 
-    // Return computation
-    return [self analyzeResultsWithPolicy:policy withError:error];
+    // Return computation (trustFactorsNotLearned/Triggered added for debug purposes)
+    return [self analyzeResultsWithPolicy:policy trustFactorsNotLearned:trustFactorsNotLearned trustFactorsTriggered:trustFactorsTriggered withError:error];
 }
 
 #pragma mark - Private Helper Methods
 // Get a classification from an array with the name provided
-+ (Sentegrity_TrustScore_Computation *)analyzeResultsWithPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
++ (Sentegrity_TrustScore_Computation *)analyzeResultsWithPolicy:(Sentegrity_Policy *)policy trustFactorsNotLearned:(NSMutableArray *)trustFactorsNotLearned trustFactorsTriggered:(NSMutableArray *)trustFactorsTriggered withError:(NSError **)error {
     
     // Create the computation to return
     Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc] init];
+    
+    // DEBUG
+    computationResults.trustFactorsNotLearned = trustFactorsNotLearned;
+    computationResults.trustFactorsTriggered = trustFactorsTriggered;
+    
     
     Sentegrity_Classification *systemBreachClass = [Sentegrity_TrustScore_Computation getClassificationForName:KSystemBreach fromArray:policy.classifications withError:error];
     Sentegrity_Classification *systemSecurityClass = [Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error];
@@ -622,10 +632,10 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
             // Disabled
             
             //Is suggestion set?
-            if(subClass.dneUnauthorized.length != 0)
+            if(subClass.dneDisabled.length != 0)
             {   //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
-                    [suggestionsInClass addObject:subClass.dneUnauthorized];
+                if(![suggestionsInClass containsObject:subClass.dneDisabled]){
+                    [suggestionsInClass addObject:subClass.dneDisabled];
                 }
             }
             break;
@@ -640,16 +650,28 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
     // Create an int to hold the dnePenalty multiplied by the modifier
     double penaltyMod = 0;
     
+    // Static suggestion strings
+    NSString *errorMsg;
+    NSString *expiredMsg;
+    
     switch (trustFactorOutputObject.statusCode) {
         case DNEStatus_error:
             // Error
             penaltyMod = [policy.DNEModifiers.error doubleValue];
+            // Only show suggestions for fixable TFs
+            // Is suggestion set for rule in policy?
+            errorMsg = [subClass.name stringByAppendingString:@" dataset error"];
+            
+            if(![suggestionsInClass containsObject:errorMsg]){
+                [suggestionsInClass addObject:errorMsg];
+            }
             break;
         case DNEStatus_unauthorized:
             // Unauthorized
             penaltyMod = [policy.DNEModifiers.unauthorized doubleValue];
             
-            //Is suggestion set?
+            // Only show suggestions for fixable TFs
+            // Is suggestion set for rule in policy?
             if(subClass.dneUnauthorized.length!= 0)
             {   //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
@@ -661,30 +683,68 @@ NSMutableArray *triggeredTrustFactorOutputObjects;
         case DNEStatus_unsupported:
             // Unsupported
             penaltyMod = [policy.DNEModifiers.unsupported doubleValue];
-            //Check if we have a custom message
+
+            // Only show suggestions for fixable TFs
+            // Is suggestion set for rule in policy?
+            if(subClass.dneUnsupported.length!= 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneUnsupported]){
+                    [suggestionsInClass addObject:subClass.dneUnsupported];
+                }
+            }
             break;
         case DNEStatus_unavailable:
             // Unavailable
             penaltyMod = [policy.DNEModifiers.unavailable doubleValue];
+            
+            // Only show suggestions for fixable TFs
+            // Is suggestion set for rule in policy?
+            if(subClass.dneUnavailable.length!= 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneUnavailable]){
+                    [suggestionsInClass addObject:subClass.dneUnavailable];
+                }
+            }
             break;
         case DNEStatus_disabled:
             // Unavailable
             penaltyMod = [policy.DNEModifiers.disabled doubleValue];
 
-            //Is suggestion set?
-            if(subClass.dneUnauthorized.length != 0)
+            // Only show suggestions for fixable TFs
+            // Is suggestion set for rule in policy?
+            if(subClass.dneDisabled.length!= 0)
             {   //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
-                    [suggestionsInClass addObject:subClass.dneUnauthorized];
+                if(![suggestionsInClass containsObject:subClass.dneDisabled]){
+                    [suggestionsInClass addObject:subClass.dneDisabled];
                 }
-            }            break;
+            }
+            break;
         case DNEStatus_nodata:
             // Unavailable
             penaltyMod = [policy.DNEModifiers.noData doubleValue];
+            
+            // Only show suggestions for fixable TFs
+            // Is suggestion set for rule in policy?
+            if(subClass.dneNoData.length!= 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneNoData]){
+                    [suggestionsInClass addObject:subClass.dneNoData];
+                }
+            }
+            
             break;
         case DNEStatus_expired:
             // Expired
             penaltyMod = [policy.DNEModifiers.expired doubleValue];
+            
+            // Only show suggestions for fixable TFs
+            // Is suggestion set for rule in policy?
+             expiredMsg = [subClass.name stringByAppendingString:@" dataset timer expired"];
+        
+            if(![suggestionsInClass containsObject:expiredMsg]){
+                [suggestionsInClass addObject:expiredMsg];
+            }
+            
             break;
         default:
             // apply error by default

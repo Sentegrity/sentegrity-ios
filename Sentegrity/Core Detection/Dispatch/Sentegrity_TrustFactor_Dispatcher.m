@@ -13,6 +13,8 @@
 
 // Import the objc runtime to get class by name
 #import <objc/runtime.h>
+// Pod for hashing
+#import "NSString+Hashes.h"
 
 @implementation Sentegrity_TrustFactor_Dispatcher
 
@@ -36,9 +38,6 @@
         // Run the TrustFactor and populate output object
         Sentegrity_TrustFactor_Output_Object *trustFactorOutputObjects = [self executeTrustFactor:trustFactor withError:error];
         
-        //add trustfactor to trustFactorOutput object
-        
-        trustFactorOutputObjects.trustFactor = trustFactor;
         // Add the trustFactorOutput object to the output array
         [processedTrustFactorArray addObject:trustFactorOutputObjects];
     
@@ -50,26 +49,11 @@
 
 + (Sentegrity_TrustFactor_Output_Object *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error {
     
-    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject; 
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject;
     
-    /* Validate payload prior
-    if (trustFactor.payload.count<1) {
-        // Error out, no payload
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:[@"No trustFactor payload, cannot run trustfactor" stringByAppendingString:trustFactor.name] forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectGenerated userInfo:errorDetails];
-        
-        // Create an trustFactorOutputObject with just the error
-        trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
-        [trustFactorOutputObject setStatusCode:DNEStatus_error];
-        
-        // Return the assertion
-        return trustFactorOutputObject;
-    }
-    */
+
     
     //try to run implementation
-    
     @try {
         // run the trustfactor implementation and get trustFactorOutputObject
         trustFactorOutputObject = [self runTrustFactorWithDispatch:trustFactor.dispatch andImplementation:trustFactor.implementation withPayload:trustFactor.payload andError:error];
@@ -89,6 +73,10 @@
         
     }
 
+    
+    //add trustfactor to trustFactorOutput object
+    
+    trustFactorOutputObject.trustFactor = trustFactor;
     
     // Validate trustFactorOutputObject
     if (!trustFactorOutputObject || trustFactorOutputObject == nil) {
@@ -112,22 +100,29 @@
         if(trustFactorOutputObject.output.count<1)
         {
             //output has nothing, implementation must not have found what it was looking for (generally a good thing)
+            
             //set the default output
-            [trustFactorOutputObject.output insertObject:kDefaultTrustFactorOutput atIndex:0];
+            [trustFactorOutputObject generateDefaultAssertion];
+            
+            //[trustFactorOutputObject.output insertObject:kDefaultTrustFactorOutput atIndex:0];
+        }
+        else{
+            //generate assertions for each output
+            [trustFactorOutputObject generateAssertionsFromOutput];
         }
         
-        //generate assertions for each output
-        [trustFactorOutputObject generateAssertionsFromOutput];
+
     }
     else //inverse rule, output DOES NOT have contain anything
     {
         //only attempt to generate assertions if non-empty, otherwise leave empty and set status
         if(trustFactorOutputObject.output.count>0)
         {
-            //set the default output
+            // Generate based on actual output
             [trustFactorOutputObject generateAssertionsFromOutput];
         }
         else{
+            // Else do nothing but set DNE (don't generate default assertion, does not exist for inverse rules)
              [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
         }
         
