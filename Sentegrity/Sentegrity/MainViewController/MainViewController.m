@@ -10,6 +10,7 @@
 
 // Sentegrity
 #import "Sentegrity.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 
 // Flat Colors
 #import "Chameleon.h"
@@ -156,6 +157,14 @@
                          
                      });
                     
+                    NSString *allObject = @"";
+                    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.allTrustFactorOutputObjects){
+                        
+                        allObject = [allObject stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+                        
+                    }
+                    NSLog(@"\n\n+++ All Output Objects +++\n\n%@", allObject);
+                    
                     NSLog(@"\n\n+++ Core Detection Classification Scores +++ \n\nBreach Indicator:%d, \nSystem Security:%d, \nSystem Policy:%d, \nUser Anomaly:%d, \nUser Policy:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.systemPolicyScore, computationResults.userAnomalyScore,computationResults.userPolicyScore );
                     
                     NSLog(@"\n\n+++ Core Detection Composite Results +++ \n\nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceScore, computationResults.systemScore, computationResults.userScore );
@@ -168,7 +177,24 @@
                     
                     NSLog(@"\n\n+++ User Detailed View +++\n\nUser Score:%d, \nUser Icon:%d,  \nUser Icon Text:%@, \nIssues:%@, \nSuggestions:%@, \nAnalysis:%@\n\n", computationResults.userScore, computationResults.userGUIIconID, computationResults.userGUIIconText, computationResults.userGUIIssues, computationResults.userGUISuggestions, computationResults.userGUIAnalysis);
                     
-                    NSLog(@"\n\n+++ Rule Information +++\n\nRules Not Learned:%@, \nRules Triggered:%@, \nRules To Whitelist:%@\n\n", computationResults.trustFactorsNotLearned, computationResults.trustFactorsTriggered , computationResults.protectModeWhitelist);
+                    NSLog(@"\n\n+++ Learning Information +++\n\nRules Not Learned:%@\n", computationResults.trustFactorsNotLearned);
+                    
+                    NSString *triggered = @"";
+                    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.trustFactorsTriggered){
+                        
+                        triggered = [triggered stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+                        
+                    }
+                    NSLog(@"\n\n+++ Triggered Rules +++\n\n%@", triggered);
+
+                    
+                    NSString *whitelist = @"";
+                    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.protectModeWhitelist){
+                        
+                     whitelist = [whitelist stringByAppendingFormat:@"\nRules to whitelist:%@\n\n",trustFactorOutputObject.trustFactor.name];
+                        
+                    }
+                    NSLog(@"\n\n+++ Whitelistable Rules +++\n\n%@", whitelist);
                     
                     
                     NSLog(@"\n\nErrors: %@", [*error localizedDescription]);

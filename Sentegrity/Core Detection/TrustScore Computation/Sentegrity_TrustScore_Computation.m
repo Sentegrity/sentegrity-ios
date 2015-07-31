@@ -105,10 +105,10 @@
     // 10. Generate the classification's trustscore
     // 11. Do this for all classifications/subclassifications
     
-    //Not learned (debug)
+    //DEBUG
     NSMutableArray *trustFactorsNotLearned = [NSMutableArray array];
-    
     NSMutableArray *trustFactorsTriggered = [NSMutableArray array];
+
 
     //For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
@@ -163,7 +163,7 @@
                         if(trustFactorOutputObject.storedTrustFactorObject.learned==NO){
                             
                             //DEBUG
-                            [trustFactorsNotLearned addObject:trustFactorOutputObject.trustFactor.name];
+                            [trustFactorsNotLearned addObject:trustFactorOutputObject];
                             
                             //go to next TF
                             continue;
@@ -172,7 +172,7 @@
                         if(trustFactorOutputObject.triggered==YES){
                             
                             //DEBUG
-                            [trustFactorsTriggered addObject:trustFactorOutputObject.trustFactor.name];
+                            [trustFactorsTriggered addObject:trustFactorOutputObject];
                             
                             //apply penalty to subclass base
                             subClass.basePenalty = (subClass.basePenalty + trustFactorOutputObject.trustFactor.penalty.integerValue);
@@ -303,13 +303,13 @@
     }// End classifications loop
     
 
-    // Return computation (trustFactorsNotLearned/Triggered added for debug purposes)
-    return [self analyzeResultsWithPolicy:policy trustFactorsNotLearned:trustFactorsNotLearned trustFactorsTriggered:trustFactorsTriggered withError:error];
+    // Return computation (trustFactorsNotLearned/trustFactorsTriggered/allTrustFactorOutputObjects added for debug purposes)
+    return [self analyzeResultsWithPolicy:policy trustFactorsNotLearned:trustFactorsNotLearned trustFactorsTriggered:trustFactorsTriggered allTrustFactorOutputObjects:trustFactorOutputObjects withError:error];
 }
 
 #pragma mark - Private Helper Methods
 // Get a classification from an array with the name provided
-+ (Sentegrity_TrustScore_Computation *)analyzeResultsWithPolicy:(Sentegrity_Policy *)policy trustFactorsNotLearned:(NSMutableArray *)trustFactorsNotLearned trustFactorsTriggered:(NSMutableArray *)trustFactorsTriggered withError:(NSError **)error {
++ (Sentegrity_TrustScore_Computation *)analyzeResultsWithPolicy:(Sentegrity_Policy *)policy trustFactorsNotLearned:(NSMutableArray *)trustFactorsNotLearned trustFactorsTriggered:(NSMutableArray *)trustFactorsTriggered allTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error {
     
     // Create the computation to return
     Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc] init];
@@ -317,7 +317,7 @@
     // DEBUG
     computationResults.trustFactorsNotLearned = trustFactorsNotLearned;
     computationResults.trustFactorsTriggered = trustFactorsTriggered;
-    
+    computationResults.allTrustFactorOutputObjects = trustFactorOutputObjects;
     
     Sentegrity_Classification *systemBreachClass = [Sentegrity_TrustScore_Computation getClassificationForName:KSystemBreach fromArray:policy.classifications withError:error];
     Sentegrity_Classification *systemSecurityClass = [Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error];

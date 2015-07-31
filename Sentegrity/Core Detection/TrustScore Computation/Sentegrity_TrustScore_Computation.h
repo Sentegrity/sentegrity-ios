@@ -14,6 +14,7 @@
 //DEBUG
 @property (nonatomic) NSArray *trustFactorsNotLearned;
 @property (nonatomic) NSArray *trustFactorsTriggered;
+@property (nonatomic) NSArray *allTrustFactorOutputObjects;
 
 //CLASSIFICATION SCORES
 

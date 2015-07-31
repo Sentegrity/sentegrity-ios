@@ -51,6 +51,12 @@
             // Set the BSSID variable
             bssid = info[@"BSSID"];
             
+            //Check if it starts with 00:, as if it does it seems to truncate the first 0 so fix it up
+            if([[bssid substringToIndex:2] isEqualToString:@"0:"]){
+                
+                bssid = [@"0" stringByAppendingString:info[@"BSSID"]];
+            }
+            
             // Set the BSSID variable
             ssid = info[@"SSID"];
         }
