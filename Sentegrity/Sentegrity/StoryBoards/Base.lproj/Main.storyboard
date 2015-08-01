@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -38,7 +38,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9x-Hr-dxC">
-                                <rect key="frame" x="74" y="92" width="225" height="121.5"/>
+                                <rect key="frame" x="74" y="92" width="225" height="122"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="106" id="K8c-ji-1Pf"/>
                                     <constraint firstAttribute="height" constant="81" id="Wm6-xG-XJA"/>
@@ -62,7 +62,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TrustScore" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5B-Fj-azv">
-                                <rect key="frame" x="74" y="198" width="225" height="49.5"/>
+                                <rect key="frame" x="74" y="198" width="225" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="3gD-o1-6xj"/>
                                     <constraint firstAttribute="width" constant="127" id="5gm-Aj-Tek"/>
@@ -105,10 +105,10 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUh-7Z-2E7">
-                                <rect key="frame" x="60" y="572" width="256.5" height="80"/>
+                                <rect key="frame" x="60" y="572" width="257" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last update" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dA2-DQ-LSt">
-                                        <rect key="frame" x="68" y="20" width="168.5" height="20"/>
+                                        <rect key="frame" x="68" y="20" width="169" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="61" id="5b0-L2-xJ0"/>
                                             <constraint firstAttribute="height" constant="15" id="blA-R3-YvQ"/>
@@ -149,7 +149,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 hours 12 minutes ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63z-UG-ePO">
-                                        <rect key="frame" x="68" y="40" width="168.5" height="20"/>
+                                        <rect key="frame" x="68" y="40" width="169" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="ZyC-vz-xwh"/>
                                             <constraint firstAttribute="width" constant="125.5" id="d9A-Xs-L2S"/>
@@ -255,7 +255,7 @@
                                         <string key="text">User
 Anomaly</string>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="32"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error" translatesAutoresizingMaskIntoConstraints="NO" id="Cci-sx-jte">
@@ -323,7 +323,7 @@ Anomaly</string>
                                             <constraint firstAttribute="width" constant="192" id="aB5-7i-Liu"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="32"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
                                             <mask key="constraints">
@@ -542,6 +542,7 @@ Anomaly</string>
                         <outlet property="lastUpdateLabel" destination="63z-UG-ePO" id="B0f-in-JHg"/>
                         <outlet property="menuButton" destination="Myw-L9-ttt" id="iYr-u7-eRz"/>
                         <outlet property="reloadButton" destination="U4M-4p-aFa" id="Gb1-HD-8br"/>
+                        <outlet property="sentegrityButton" destination="ziL-ad-E3R" id="3Vw-h0-Cgy"/>
                         <outlet property="trustScoreHoldingLabel" destination="S5B-Fj-azv" id="qTu-tg-oeI"/>
                         <outlet property="trustScoreLabel" destination="L9x-Hr-dxC" id="Hqf-Li-odY"/>
                         <outlet property="trustScoreProgressBar" destination="EMX-d1-ZQf" id="Xy3-dA-nya"/>

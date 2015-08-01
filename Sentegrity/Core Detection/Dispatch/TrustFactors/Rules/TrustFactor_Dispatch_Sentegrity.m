@@ -188,7 +188,7 @@ typedef int (*ptrace_ptr_t)(int _request, pid_t _pid, caddr_t _addr, int _data);
 
 +(void)denyAttach
 {
-    void* handle = dlopen(0, RTLD_GLOBAL | RTLD_NOW);
+    void *handle = dlopen(0, RTLD_GLOBAL | RTLD_NOW);
     ptrace_ptr_t ptrace_ptr = dlsym(handle, "ptrace");
     ptrace_ptr(PT_DENY_ATTACH, 0, 0, 0);
     dlclose(handle);
@@ -244,7 +244,7 @@ typedef int (*ptrace_ptr_t)(int _request, pid_t _pid, caddr_t _addr, int _data);
                 int textSectionAddr = (int)section->addr;
                 int textSectionSize = (int)section->size;
                 int vmaddr = (int)segment->vmaddr;
-                char * textSectionPtr = (char *)((int)header + (int)textSectionAddr - (int)vmaddr);
+                char * textSectionPtr = (char *)(uintptr_t)((int)header + (int)textSectionAddr - (int)vmaddr);
                 // Calculate the signature of the data,
                 // store the result in a string
                 // and compare to the original one

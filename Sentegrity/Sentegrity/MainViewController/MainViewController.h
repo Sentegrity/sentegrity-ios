@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+// UIKit
 #import <UIKit/UIKit.h>
 
 // Circle Progress Bar
@@ -15,31 +16,31 @@
 #import <JTHamburgerButton.h>
 
 
-@interface MainViewController : UIViewController 
+@interface MainViewController : UIViewController
 
 
-/* Properties */
+/** Properties **/
 
-// Main Progress Bar
+/* Main Progress Bar */
+
+// Main Progress Bar - middle
 @property (weak, nonatomic) IBOutlet CircleProgressBar *trustScoreProgressBar;
 
-// Menu Button
-@property (strong, nonatomic) IBOutlet JTHamburgerButton *menuButton;
-
-// TrustScore Label
+// TrustScore Label - middle of Main Progress Bar
 @property (strong, nonatomic) IBOutlet UILabel *trustScoreLabel;
 
-// TrustScore Holding Label
+// TrustScore Holding Label - middle, underneath TrustScore Label
 @property (strong, nonatomic) IBOutlet UILabel *trustScoreHoldingLabel;
 
-// Reload Button
-@property (strong, nonatomic) IBOutlet UIButton *reloadButton;
+/* Top Bar */
 
-// Last Update Label
-@property (strong, nonatomic) IBOutlet UILabel *lastUpdateLabel;
+// Menu Button - Top Right
+@property (strong, nonatomic) IBOutlet JTHamburgerButton *menuButton;
 
-// Last Update Holding Label
-@property (strong, nonatomic) IBOutlet UILabel *lastUpdateHoldingLabel;
+// Sentegrity Button - Top Left
+@property (strong, nonatomic) IBOutlet UIButton *sentegrityButton;
+
+/* Score Labels */
 
 // Device Image View
 @property (strong, nonatomic) IBOutlet UIImageView *deviceImageView;
@@ -59,10 +60,27 @@
 // User Status Label
 @property (strong, nonatomic) IBOutlet UILabel *userStatusLabel;
 
-/* Actions */
+/* Bottom Bar */
+
+// Reload Button
+@property (strong, nonatomic) IBOutlet UIButton *reloadButton;
+
+// Last Update Label
+@property (strong, nonatomic) IBOutlet UILabel *lastUpdateLabel;
+
+// Last Update Holding Label
+@property (strong, nonatomic) IBOutlet UILabel *lastUpdateHoldingLabel;
+
+/** Actions **/
 
 // Reload
 - (IBAction)reload:(id)sender;
+
+// Update the last update label
+- (void)updateLastUpdateLabel:(id)sender;
+
+/* Perform Core Detection */
+- (void)performCoreDetection:(id)sender;
 
 
 @end

@@ -34,8 +34,11 @@
     
     // Check if DYLD_INSERT_LIBRARY path is available (JBs only)
     if ([environmentInfo objectForKey:@"DYLD_INSERT_LIBRARIES"]) {
-        
-        [outputArray addObject:[[environmentInfo objectForKey:@"DYLD_INSERT_LIBRARIES"] stringValue]];
+        // Check if the environment info responds to stringvalue selectors
+        if ([[environmentInfo objectForKey:@"DYLD_INSERT_LIBRARIES"] respondsToSelector:@selector(stringValue)]) {
+            // Add it to the array
+            [outputArray addObject:[[environmentInfo objectForKey:@"DYLD_INSERT_LIBRARIES"] stringValue]];
+        }
     }
 
     #pragma GCC diagnostic push

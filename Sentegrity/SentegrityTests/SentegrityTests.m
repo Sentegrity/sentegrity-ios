@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+
+// Sentegrity
 #import "Sentegrity.h"
 
 @interface SentegrityTests : XCTestCase
@@ -26,6 +28,7 @@
     [super tearDown];
 }
 
+// Test the Core Detection Singleton
 - (void)testCoreDetectionSingleton {
     // Make sure the core detection singleton is valid
     XCTAssertNotNil([CoreDetection sharedDetection], @"Core Detection Shared Instance is valid");
@@ -33,6 +36,7 @@
 
 - (void)testCoreDetectionDefaultPolicyParsing {
     // Make sure the core detection policy parsing is valid
+    
     // Create an error
     NSError *error;
     
@@ -47,6 +51,33 @@
     
     // Check if the policy is empty
     XCTAssertNotNil(policy);
+}
+
+// Test the Core Detection Sentegrity_TrustFactor_Storage Singleton
+- (void)testCoreDetectionTrustFactorStorageSingleton {
+    // Make sure it's not nil
+    XCTAssertNotNil([Sentegrity_TrustFactor_Storage sharedStorage], @"Sentegrity_TrustFactor_Storage Shared Instance is valid");
+}
+
+// Test to make sure we can get the global store if it supposedly exists
+- (void)testGlobalStoreExists {
+    
+    // Variables
+    NSError *errorValue;
+    BOOL globalStoreExists;
+    
+    // Get the test assertion store
+    Sentegrity_Assertion_Store *testAssertionStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&globalStoreExists withError:&errorValue];
+    
+    // Check fi the global store exists
+    if (globalStoreExists) {
+        
+        // Check to make sure the global store is not nil if it supposedly exists
+        XCTAssertNotNil(testAssertionStore, @"Sentegrity Global Assertion Store says exists but nil");
+
+        // Check to make sure there is no error
+        XCTAssertNil(errorValue, @"Error value is nil");
+    }
 }
 
 - (void)testPerformanceExample {
