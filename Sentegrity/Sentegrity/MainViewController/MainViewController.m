@@ -48,14 +48,28 @@
 
 // View Loaded
 - (void)viewDidLoad {
+    
+    // Show Animation
+    MBProgressHUD *HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    HUD.labelText = @"Analyzing Device";
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
     // Customize the view
     [self customizeView];
+    
+    @autoreleasepool {
+        
+        dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
+        
+        dispatch_async(myQueue, ^{
 
-    // Perform Core Detection
-    [self performCoreDetection:self];
+            // Perform Core Detection
+            [self performCoreDetection:self];
+            
+             });
+    }
     
 }
 
@@ -135,10 +149,7 @@
 - (void)performCoreDetection:(id)sender {
     
     /* Perform Core Detection */
-    
-    // Show Animation
-    MBProgressHUD *HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    HUD.labelText = @"Analyzing Device";
+  
     
     // Create an error
     NSError *error;

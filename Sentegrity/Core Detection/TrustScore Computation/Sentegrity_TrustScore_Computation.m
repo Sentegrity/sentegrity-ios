@@ -378,7 +378,7 @@
         computationResults.protectModeWhitelist = [[[computationResults.protectModeWhitelist arrayByAddingObjectsFromArray:systemBreachClass.trustFactorsToWhitelist] arrayByAddingObjectsFromArray:systemPolicyClass.trustFactorsToWhitelist] arrayByAddingObjectsFromArray:systemSecurityClass.trustFactorsToWhitelist];
         
         // Add user anomaly assertions whitelist (not policy)
-        computationResults.protectModeWhitelist = [computationResults.protectModeWhitelist arrayByAddingObjectsFromArray:userAnomalyClass.trustFactorsToWhitelist];
+        //computationResults.protectModeWhitelist = [computationResults.protectModeWhitelist arrayByAddingObjectsFromArray:userAnomalyClass.trustFactorsToWhitelist];
         
         //Combine issue messages
         NSMutableArray *combinedIssues = [[NSMutableArray alloc] init];

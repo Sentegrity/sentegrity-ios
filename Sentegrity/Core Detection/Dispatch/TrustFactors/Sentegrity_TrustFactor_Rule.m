@@ -279,7 +279,7 @@ static int activityDNEStatus = 0;
             else{
                 currentTime = CFAbsoluteTimeGetCurrent();
                 // we've waited more than a second, exit
-                if ((currentTime-startTime) > 5.0){
+                if ((currentTime-startTime) > 1.0){
                     NSLog(@"Activity timer expired");
                     exit=YES;
                     [self setActivityDNEStatus:DNEStatus_expired];
