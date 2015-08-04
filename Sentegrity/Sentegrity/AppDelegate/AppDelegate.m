@@ -82,7 +82,7 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-
+    
     
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
@@ -95,7 +95,7 @@
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
-            NSUInteger code = [CLLocationManager authorizationStatus];
+    NSUInteger code = [CLLocationManager authorizationStatus];
     
     if(![CLLocationManager locationServicesEnabled]){
         
@@ -106,14 +106,14 @@
         [Sentegrity_TrustFactor_Rule setPlacemarkDNEStatus:DNEStatus_disabled];
     }
     else{
-
-         if(code == kCLAuthorizationStatusNotDetermined && [_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]){
+        
+        if(code == kCLAuthorizationStatusNotDetermined && [_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]){
             
             [self.locationManager  requestWhenInUseAuthorization];
             
         }
     }
-
+    
     
     if(code == kCLAuthorizationStatusAuthorizedWhenInUse){
         
@@ -122,7 +122,7 @@
         
         //start
         [self.locationManager startUpdatingLocation];
-            
+        
     }
     else if(code ==kCLAuthorizationStatusDenied){
         
@@ -136,13 +136,13 @@
     else{
         
         //Set location error
-        [Sentegrity_TrustFactor_Rule setLocationDNEStatus:DNEStatus_error];
+        [Sentegrity_TrustFactor_Rule setLocationDNEStatus:DNEStatus_unauthorized];
         
         //Set placemark error
         [Sentegrity_TrustFactor_Rule setPlacemarkDNEStatus:DNEStatus_unauthorized];
     }
     
-
+    
 }
 
 // Location Manager Delegate Methods
@@ -176,22 +176,22 @@
              
          }
          
-    
+         
          
      }];
-
+    
 }
 
 -(void)startActivity{
     
     
     if(![CMMotionActivityManager isActivityAvailable]){
-                [Sentegrity_TrustFactor_Rule setActivityDNEStatus:DNEStatus_unsupported];
+        [Sentegrity_TrustFactor_Rule setActivityDNEStatus:DNEStatus_unsupported];
         
     }else{
         
         CMMotionActivityManager *manager = [CMMotionActivityManager new];
-
+        
         
         [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*10)]
                                         toDate:[NSDate new]
@@ -204,20 +204,20 @@
                                        if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
                                            // The app isn't authorized to use motion activity support.
                                            [Sentegrity_TrustFactor_Rule setActivityDNEStatus:DNEStatus_unauthorized];
-                                        }
-                                        else{
-                                        
-                                            // Set activities array
-                                            [Sentegrity_TrustFactor_Rule setActivity:activities];
-
-                                            
-                                        }
-                                            
-                                    }];
+                                       }
+                                       else{
+                                           
+                                           // Set activities array
+                                           [Sentegrity_TrustFactor_Rule setActivity:activities];
+                                           
+                                           
+                                       }
+                                       
+                                   }];
         
     }
     
-
+    
 }
 
 static int runCount = 0;
@@ -226,7 +226,7 @@ static NSMutableArray *array;
     
     
     CMMotionManager *manager = [[CMMotionManager alloc] init];
-     array = [[NSMutableArray alloc]init];
+    array = [[NSMutableArray alloc]init];
     
     if(![manager isAccelerometerAvailable] || manager == nil){
         
@@ -234,46 +234,46 @@ static NSMutableArray *array;
         
     }else{
         
-         manager.accelerometerUpdateInterval = .1;
+        manager.accelerometerUpdateInterval = .1;
         [manager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
-                                     withHandler:^(CMAccelerometerData  *motion, NSError *error) {
-                                        
-                                         
-                                         if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
-                                             // The app isn't authorized to use motion activity support.
-                                             [Sentegrity_TrustFactor_Rule setMotionDNEStatus:DNEStatus_unauthorized];
-                                         }
-                                         else{
-                                             
-                                             // Create an array of motion samples
-                                             NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.acceleration.x], [NSNumber numberWithFloat:motion.acceleration.y], [NSNumber numberWithFloat:motion.acceleration.z], nil];
-                                             
-                                             // Create an array of keys
-                                             NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
-                                             
-                                             // Create the dictionary
-                                             NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
-                                             
-                                             // Add sample to array
-                                             [array addObject:dict];
-                                             
-                                             // Increment run count
-                                             runCount = runCount + 1;
-                                             
-                                             // We want a minimum of 3 samples before we average them inside the TF
-                                             // its possible we will get more as this handler gets called additional times prior to
-                                             // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more we update accordingly.
-                                             
-                                             if(runCount > 3){
-                                                 [Sentegrity_TrustFactor_Rule setMotion:array];
-                                                 [manager stopAccelerometerUpdates];
-                                             }
-                                             
-
-                                         }
-                                         
-                                     }];
-    
+                                      withHandler:^(CMAccelerometerData  *motion, NSError *error) {
+                                          
+                                          
+                                          if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
+                                              // The app isn't authorized to use motion activity support.
+                                              [Sentegrity_TrustFactor_Rule setMotionDNEStatus:DNEStatus_unauthorized];
+                                          }
+                                          else{
+                                              
+                                              // Create an array of motion samples
+                                              NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.acceleration.x], [NSNumber numberWithFloat:motion.acceleration.y], [NSNumber numberWithFloat:motion.acceleration.z], nil];
+                                              
+                                              // Create an array of keys
+                                              NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+                                              
+                                              // Create the dictionary
+                                              NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                                              
+                                              // Add sample to array
+                                              [array addObject:dict];
+                                              
+                                              // Increment run count
+                                              runCount = runCount + 1;
+                                              
+                                              // We want a minimum of 3 samples before we average them inside the TF
+                                              // its possible we will get more as this handler gets called additional times prior to
+                                              // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more we update accordingly.
+                                              
+                                              if(runCount > 3){
+                                                  [Sentegrity_TrustFactor_Rule setMotion:array];
+                                                  [manager stopAccelerometerUpdates];
+                                              }
+                                              
+                                              
+                                          }
+                                          
+                                      }];
+        
         
     }
     

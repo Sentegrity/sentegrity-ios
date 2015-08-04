@@ -122,6 +122,11 @@
     _inverse = inverse;
 }
 
+// Whitelistable
+- (void)setWhitelistable:(NSNumber *)whitelistable{
+    _whitelistable = whitelistable;
+}
+
 // Payload
 - (void)setPayload:(NSArray *)payload{
     _payload = payload;

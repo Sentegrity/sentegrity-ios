@@ -63,7 +63,7 @@
 
 #pragma mark - Subclassification Keys
 
-    
+
 #define kSCIdentification @"id"
 #define kSCName @"name"
 #define kSCDNEUnauthorized @"dneUnauthorized"
@@ -97,6 +97,7 @@
 #define kTFDispatch @"dispatch"
 #define kTFImplementation @"implementation"
 #define kTFInverse @"inverse"
+#define kTFWhitelistable @"whitelistable"
 #define kTFPayload @"payload"
 
 #pragma mark - Dispatch Routines

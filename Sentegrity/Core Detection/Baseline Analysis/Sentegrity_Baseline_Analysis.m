@@ -36,7 +36,7 @@
     
     // Check if the local store exists (should, unless is the first run for this policy)
     if (!localStore || localStore == nil || !exists) {
-
+        
         NSLog(@"Local store did not exist...creating blank");
         // Create the store for the first time
         localStore = [[Sentegrity_Assertion_Store alloc] init];
@@ -52,7 +52,7 @@
     
     // Check if the global store exists (should, unless is the first ever run)
     if (!globalStore || globalStore == nil || !exists) {
-
+        
         NSLog(@"Global store did not exist...creating blank");
         
         // Create the store for the first time
@@ -90,279 +90,280 @@
         {
             continue;
         }
-
+        
         //TrustFactor belongs to the local store (user store)
         
         if ([trustFactorOutputObject.trustFactor.local boolValue]) {
-        
+            
             // Find the matching stored assertion object for the trustfactor in the local store
             storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
-        
-        
+            
+            
             // If could not find in the local store create it
             if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) {
-            
+                
                 storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
                 
                 NSLog(@"Could not find storedTrustFctorObject in local store, creating new");
-            
+                
                 // Check if created
                 if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
                     // Error out, no trustFactorOutputObject were able to be added
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"Unable to create new storedTrustFactorObject for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToCreateNewStoredAssertion userInfo:errorDetails];
-                
+                    
                     // Don't return anything
                     return nil;
                 }
                 
                 //add the created storedTrustFactorObject to the current trustFactorOutputObject
                 trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-            
-            
+                
+                
                 //perform baseline analysis against storedTrustFactorObject
                 updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
-            
+                
                 // Check if created
                 if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
                     // Error out, something went wrong in compare
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                
+                    
                     // Don't return anything
                     return nil;
                 }
-            
-            
+                
+                
                 //add the new storedTrustFactorObject to the local store
                 if (![localStore addSingleObjectToStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                     //Error out, no storedTrustFactorObjects were able to be added
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"No storedTrustFactorObjects addeded to local store" forKey:NSLocalizedDescriptionKey];
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
-                
+                    
                     // Don't return anything
                     return nil;
                 }
-            
-            
-            
+                
+                
+                
                 
             }
             else // we found an existing stored assertion, check revisions
             {
-            
-            
+                
+                
                 NSLog(@"Existing storedTrustFctorObject found in local store");
                 
                 //if revisions do not match create new
                 if (![self checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject]) {
-                
+                    
                     //create a new object in the local store
                     storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
-                
+                    
                     //update the trustFactorOutputObject with newly created storedTrustFactorObject
                     trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-                
+                    
                     //perform baseline analysis against storedTrustFactorObject
                     updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
-                
+                    
                     // Check if created
                     if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
                         // Error out, something went wrong in compare
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
                         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                    
+                        
                         // Don't return anything
                         return nil;
                     }
-                
+                    
                     //replace existing in the local store
                     if (![localStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                         // Error out, no storedTrustFactorOutputObjects were able to be added
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
                         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
-                    
+                        
                         // Don't return anything
                         return nil;
                     }
-                
-                
+                    
+                    
                 }
                 else{ //revisions match, no creation required
-                
+                    
                     //update the trustFactorOutputObject with newly created storedTrustFactorObject
                     trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-                
+                    
+                    
                     //perform baseline analysis against storedTrustFactorObject
                     updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
-                
+                    
                     // Check if created
                     if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
                         // Error out, something went wrong in compare
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
                         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                    
+                        
                         // Don't return anything
                         return nil;
                     }
-                
+                    
                     //since we modified, replace existing in the local store
                     if (![localStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                         // Error out, no storedTrustFactorOutputObjects were able to be added
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
                         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
-                    
+                        
                         // Don't return anything
                         return nil;
                     }
-                
-                
+                    
+                    
                 }
-            
-            
+                
+                
             }
-        
-        
+            
+            
             //TrustFactor belongs to the global store
         } else {
-        
+            
             // Find the matching stored assertion object for the trustfactor in the global store
             storedTrustFactorObject = [globalStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
-        
-        
+            
+            
             // If could not find in the global store create it
             if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
                 
                 NSLog(@"Could not find storedTrustFctorObject in global store, creating new");
-            
+                
                 storedTrustFactorObject = [globalStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
-            
+                
                 // Check if created
                 if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
                     // Error out, no trustFactorOutputObject were able to be added
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"Unable to create new storedTrustFactorObject for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToCreateNewStoredAssertion userInfo:errorDetails];
-                
+                    
                     // Don't return anything
                     return nil;
                 }
-            
+                
                 //add the created storedTrustFactorObject to the current trustFactorOutputObject
                 trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-            
+                
                 //perform baseline analysis against storedTrustFactorObject
                 updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
-            
+                
                 // Check if created
                 if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
                     // Error out, something went wrong in compare
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                
+                    
                     // Don't return anything
                     return nil;
                 }
-            
-            
+                
+                
                 //add the new storedTrustFactorObject to the global store
                 if (![globalStore addSingleObjectToStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                     //Error out, no storedTrustFactorObjects were able to be added
                     NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                     [errorDetails setValue:@"No storedTrustFactorObjects addeded to global store" forKey:NSLocalizedDescriptionKey];
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
-                
+                    
                     // Don't return anything
                     return nil;
                 }
-            
-            
-            
-            
+                
+                
+                
+                
             }
             else // we found an existing stored assertion, check revisions
             {
                 //if revisions do not match create new
                 if (![Sentegrity_Baseline_Analysis checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject]) {
-                
+                    
                     //create a new object in the global store
                     storedTrustFactorObject = [globalStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
-                
+                    
                     //update the trustFactorOutputObject with newly created storedTrustFactorObject
                     trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-                
+                    
                     //perform baseline analysis against storedTrustFactorObject
                     updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
-                
+                    
                     // Check if created
                     if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
                         // Error out, something went wrong in compare
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
                         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                    
+                        
                         // Don't return anything
                         return nil;
                     }
-                
+                    
                     //replace existing in the global store
                     if (![globalStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                         // Error out, no storedTrustFactorOutputObjects were able to be added
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
                         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
-                    
+                        
                         // Don't return anything
                         return nil;
                     }
-                
-                
+                    
+                    
                 }
                 else{ //revisions match, no modification required only check learning
-                
+                    
                     //update the trustFactorOutputObject with newly created storedTrustFactorObject
                     trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-                
+                    
                     //perform baseline analysis against storedTrustFactorObject
                     updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
-                
+                    
                     // Check if created
                     if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
                         // Error out, something went wrong in compare
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
                         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
-                    
+                        
                         // Don't return anything
                         return nil;
                     }
-                
+                    
                     //since we modified, replace existing in the local store
                     if (![globalStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                         // Error out, no storedTrustFactorOutputObjects were able to be added
                         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
                         [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
                         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
-                    
-                            // Don't return anything
+                        
+                        // Don't return anything
                         return nil;
                     }
-                
-                
+                    
+                    
                 }
-            
-            
+                
+                
             }
-        
-        
+            
+            
         }
         
     } //end FOR
@@ -394,7 +395,7 @@
     
     trustFactorOutputObject.assertionsToWhitelist = [[NSMutableDictionary alloc] init];
     
-
+    
     
     if (!trustFactorOutputObject) {
         // Failed, no trustFactorOutputObject found
@@ -406,13 +407,13 @@
         return nil;
     }
     
-        
+    
     //Check if this rule should detect during provioning (first run), these to be BREACH_INDICATOR style rules
     //that return known bad values as output or the default if none are found, the purpose of this is to ensure
     //that if the device is compromised or high risk we don't learn bad baseline values during the first run of the rule
     //we correct this by manually checking for the default assertion prior to the actual comparison
     
-    if(!trustFactorOutputObject.storedTrustFactorObject.learned && trustFactorOutputObject.trustFactor.provision.intValue==1)
+    if(trustFactorOutputObject.storedTrustFactorObject.learned == NO && trustFactorOutputObject.trustFactor.provision.intValue==1)
     {
         //if the TF with provisoning attribute does not have the baseline, it found something bad
         if(![trustFactorOutputObject.assertions objectForKey:[trustFactorOutputObject generateDefaultAssertionString]])
@@ -430,129 +431,176 @@
     
     
     //Check if TF is not learned and update it, this TF won't count towards computation
-    if(!trustFactorOutputObject.storedTrustFactorObject.learned)
+    if(trustFactorOutputObject.storedTrustFactorObject.learned==NO)
     {
         
-            //update learning attributes
-            return [self compareAndUpdateLearning:trustFactorOutputObject];
- 
+        //update learning attributes
+        return [self compareAndUpdateLearning:trustFactorOutputObject];
+        
     }
-
-        //for increment
-        NSNumber *newHitCount;
+    
+    
+    // If learned and stored assertion count > allowed history perform Decay
+    
+    if(trustFactorOutputObject.storedTrustFactorObject.assertions.count > [trustFactorOutputObject.trustFactor.history integerValue]){
         
-        //for increment
-        NSNumber *currentHitCount;
+        // Current stored assertions
+        NSDictionary *assertionsCopy = trustFactorOutputObject.storedTrustFactorObject.assertions;
         
+        // Store new dictionary
+        NSMutableDictionary *decayedAssertions =  [[NSMutableDictionary alloc] init];
         
-        //check if this is a normal rule and trigger on NO MATCH
-        //e.g., knownBadProcesses, shortUptime, newRootProcess, etc
-        if(trustFactorOutputObject.trustFactor.inverse.intValue==0)
-        {
-            for(NSString *candidate in trustFactorOutputObject.assertions)
-            {
-                //We DID NOT find a match for the candidate in the store = RULE TRIGGERED (a bad thing, since it should match the kDefaultTrustFactorOutput assertion at the very least)
-                if(![trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate])
-                {
+        // Sory by hitcount
+        [assertionsCopy keysSortedByValueUsingSelector:@selector(compare:)];
+        
+        // Get array of keys
+        NSArray *origKeys = [assertionsCopy allKeys];
+        
+        // Take top X indicated by history value
+        for(int i = 0; i < [trustFactorOutputObject.trustFactor.history intValue]; i++){
             
-                    //update list, but we still need to look at all assertions before exiting loop
-                    trustFactorOutputObject.whitelist=YES;
-                    trustFactorOutputObject.triggered=YES;
-                    
-                    //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
-                    [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
-  
-                     
-                }
-                else //we DID find a match = RULE NOT YET TRIGGERED  (increment matching stored assertions hitcount)
-                {
-                    //increment hitCount for matching stored assertion (used for decay)
-                    newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
-                    
-                    // Get a copy of the assertion store assertions dictionary
-                    NSMutableDictionary *assertionsCopy = [trustFactorOutputObject.storedTrustFactorObject.assertions mutableCopy];
-                    
-                    // Set the new hit count in the assertion store assertions dictionary copy
-                    [assertionsCopy setObject:newHitCount forKey:candidate];
-                    
-                    // Set the assertions back
-                    [trustFactorOutputObject.storedTrustFactorObject setAssertions:[assertionsCopy copy]];
-                    
-                    //test next assertion
+            id aKey = [origKeys objectAtIndex:i];
+            [decayedAssertions setValue:[assertionsCopy objectForKey:aKey] forKey:aKey];
             
-                }
-            }
-            
-          
         }
-        else //this is an inverse rule,  trigger on MATCH to ensure negative penalty is applied, these are authenticator type rules (e.g., knownBLEDevice, KnowWifiBSSID)
+        
+        // Set
+        trustFactorOutputObject.storedTrustFactorObject.assertions = decayedAssertions;
+        
+        
+    }
+    
+    
+    
+    
+    // Set the new hit count in the assertion store assertions dictionary copy
+    //[assertionsCopy setObject:newHitCount forKey:candidate];
+    
+    // Set the assertions back
+    //[trustFactorOutputObject.storedTrustFactorObject setAssertions:[assertionsCopy copy]];
+    
+    
+    
+    //for increment
+    NSNumber *newHitCount;
+    
+    //for increment
+    NSNumber *currentHitCount;
+    
+    
+    //check if this is a normal rule and trigger on NO MATCH
+    //e.g., knownBadProcesses, shortUptime, newRootProcess, etc
+    if(trustFactorOutputObject.trustFactor.inverse.intValue==0)
+    {
+        for(NSString *candidate in trustFactorOutputObject.assertions)
         {
-            for(NSString *candidate in trustFactorOutputObject.assertions)
+            //We DID NOT find a match for the candidate in the store = RULE TRIGGERED (a bad thing, since it should match the kDefaultTrustFactorOutput assertion at the very least)
+            if(![trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate])
             {
-                //search for a match in the store
-                 currentHitCount = [trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate];
                 
-                //We FOUND a match for the candidate in the store
-                if(currentHitCount)
+                //update list, but we still need to look at all assertions before exiting loop
+                if(trustFactorOutputObject.trustFactor.whitelistable.intValue == 1){
+                    trustFactorOutputObject.whitelist=YES;
+                }
+                trustFactorOutputObject.triggered=YES;
+                
+                //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
+                [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
+                
+                
+            }
+            else //we DID find a match = RULE NOT YET TRIGGERED  (increment matching stored assertions hitcount)
+            {
+                //increment hitCount for matching stored assertion (used for decay)
+                newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
+                
+                // Get a copy of the assertion store assertions dictionary
+                NSMutableDictionary *assertionsCopy = [trustFactorOutputObject.storedTrustFactorObject.assertions mutableCopy];
+                
+                // Set the new hit count in the assertion store assertions dictionary copy
+                [assertionsCopy setObject:newHitCount forKey:candidate];
+                
+                // Set the assertions back
+                [trustFactorOutputObject.storedTrustFactorObject setAssertions:[assertionsCopy copy]];
+                
+                //test next assertion
+                
+            }
+        }
+        
+        
+    }
+    else //this is an inverse rule,  trigger on MATCH to ensure negative penalty is applied, these are authenticator type rules (e.g., knownBLEDevice, KnowWifiBSSID)
+    {
+        for(NSString *candidate in trustFactorOutputObject.assertions)
+        {
+            //search for a match in the store
+            currentHitCount = [trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate];
+            
+            //We FOUND a match for the candidate in the store
+            if(currentHitCount)
+            {
+                //if this rules has frequency requirments then enforce them
+                if(trustFactorOutputObject.trustFactor.threshold.intValue != 0)
                 {
-                    //if this rules has frequency requirments then enforce them
-                    if(trustFactorOutputObject.trustFactor.threshold.intValue != 0)
+                    // frequency threshold meet = RULE TRIGGERED (apply negative penalty and update the store)
+                    if(currentHitCount >= trustFactorOutputObject.trustFactor.threshold)
                     {
-                        // frequency threshold meet = RULE TRIGGERED (apply negative penalty and update the store)
-                        if(currentHitCount >= trustFactorOutputObject.trustFactor.threshold)
-                        {
-                            //only add as triggered if meet
-                            trustFactorOutputObject.triggered=YES;
-                            
-                        }
-                        
-                        //else, we do nothing and wait for the hitcount to rise
-                    }
-                    else {
-                        
-                        //trigger rule
+                        //only add as triggered if meet
                         trustFactorOutputObject.triggered=YES;
                         
                     }
                     
-
-            
-                    //increment hitCount in all situations for the matching stored assertion (used for decay)
-                    newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
-                    
-                    // Get a copy of the assertion store assertions dictionary
-                    NSMutableDictionary *assertionsCopy = [trustFactorOutputObject.storedTrustFactorObject.assertions mutableCopy];
-                    
-                    // Set the new hit count on the assertions copy
-                    [assertionsCopy setObject:newHitCount forKey:candidate];
-                    
-                    // Set the assertions back
-                    [trustFactorOutputObject.storedTrustFactorObject setAssertions:[assertionsCopy copy]];
-            
-            
-            
+                    //else, we do nothing and wait for the hitcount to rise
                 }
-                else //no match, but add assertions to whitelist
-                {
-                    //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
-                    [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
+                else {
                     
+                    //trigger rule
+                    trustFactorOutputObject.triggered=YES;
                     
-                    // mark TF as whitelistable
+                }
+                
+                
+                
+                //increment hitCount in all situations for the matching stored assertion (used for decay)
+                newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
+                
+                // Get a copy of the assertion store assertions dictionary
+                NSMutableDictionary *assertionsCopy = [trustFactorOutputObject.storedTrustFactorObject.assertions mutableCopy];
+                
+                // Set the new hit count on the assertions copy
+                [assertionsCopy setObject:newHitCount forKey:candidate];
+                
+                // Set the assertions back
+                [trustFactorOutputObject.storedTrustFactorObject setAssertions:[assertionsCopy copy]];
+                
+                
+                
+            }
+            else //no match, but add assertions to whitelist
+            {
+                //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
+                [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
+                
+                
+                // mark TF as whitelistable
+                if(trustFactorOutputObject.trustFactor.whitelistable.intValue==1){
                     trustFactorOutputObject.whitelist=YES;
-                    
                 }
-            } //Inverse for loop
-            
+                
+                
+            }
+        } //Inverse for loop
+        
+        
+        
+    } //Inverse if-else
     
     
-        } //Inverse if-else
-    
-
     
     
     return trustFactorOutputObject;
-
+    
     
 }
 
@@ -603,7 +651,7 @@
     // Increment the run count to ensure a valid learning check
     trustFactorOutputObject.storedTrustFactorObject.runCount = [NSNumber numberWithInt:(trustFactorOutputObject.storedTrustFactorObject.runCount.intValue + 1)];
     
-
+    
     // Determine which kind of learning mode the trustfactor has
     switch (trustFactorOutputObject.trustFactor.learnMode.integerValue) {
         case 1:
@@ -677,7 +725,7 @@
 // Include date helper method to determine number of days between two dates
 // http://stackoverflow.com/questions/4739483/number-of-days-between-two-nsdates
 + (NSInteger)daysBetweenDate:(NSDate *)fromDateTime andDate:(NSDate *)toDateTime {
-
+    
     // TODO: Validate the input dates - otherwise there will be issues
     // Currently, I'm not aware of any way to validate dates
     
@@ -698,6 +746,6 @@
 }
 
 
-    
+
 @end
 

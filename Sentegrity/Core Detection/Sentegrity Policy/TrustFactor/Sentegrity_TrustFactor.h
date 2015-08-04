@@ -29,6 +29,7 @@
 @property (nonatomic, retain) NSNumber *managed;
 @property (nonatomic, retain) NSNumber *local;
 @property (nonatomic, retain) NSNumber *inverse;
+@property (nonatomic, retain) NSNumber *whitelistable;
 @property (nonatomic, retain) NSNumber *history;
 @property (nonatomic, retain) NSString *dispatch;
 @property (nonatomic, retain) NSString *implementation;

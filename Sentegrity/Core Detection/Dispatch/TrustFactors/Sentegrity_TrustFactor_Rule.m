@@ -169,7 +169,7 @@ static int locationDNEStatus = 0;
                 }
             }
             
-            [NSThread sleepForTimeInterval:0.1];
+            [NSThread sleepForTimeInterval:.1];
             
         }
         

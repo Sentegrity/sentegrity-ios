@@ -12,7 +12,7 @@
 @implementation TrustFactor_Dispatch_Http
 
 // Check for bad url handlers
-+ (Sentegrity_TrustFactor_Output_Object *)badURIHandlers:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)maliciousApps:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -57,7 +57,7 @@
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-
+    
 }
 
 

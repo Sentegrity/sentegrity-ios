@@ -42,10 +42,10 @@
         
         // Check if they exist
         if ([fileMan fileExistsAtPath:path]) {
-           
+            
             // If the bad file exists, mark it in the array
             [outputArray addObject:path];
-
+            
         }
     }
     
@@ -85,6 +85,30 @@
     // Run through all the files in the payload
     for (NSString *path in payload) {
         
+        // struct stat buffer;
+        //stat([path UTF8String], &buffer);
+        
+        // long long size = buffer.st_size;
+        
+        //FILE *f = fopen([path UTF8String], "r");
+        //if (errno == ENOENT)
+        // {
+        // device is NOT jailbroken
+        //    fclose(f);
+        //    NSLog(@"no");
+        //    return NO;
+        //}
+        //else {
+        // device IS jailbroken
+        //fclose(f);
+        //NSLog(@"yes");
+        //return YES;
+        
+        //}
+        
+        // if(stat(, &buffer) == 0){
+        
+        // }
         // Check if they exist
         if ([fileMan fileExistsAtPath:path]) {
             // Found the file
@@ -109,7 +133,7 @@
                 // No error
                 
                 // Add the file size to the output array
-                [fileSizes addObject:[NSNumber numberWithUnsignedLongLong:fileSize]];
+                [fileSizes addObject:[path stringByAppendingString:[[NSNumber numberWithUnsignedLongLong:fileSize] stringValue]]];
             }
             
         }

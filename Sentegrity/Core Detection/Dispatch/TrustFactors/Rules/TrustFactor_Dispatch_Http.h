@@ -11,6 +11,6 @@
 @interface TrustFactor_Dispatch_Http : Sentegrity_TrustFactor_Rule
 
 // 4 - Bad URL Handler Checks (cydia://, snoopi-it://, etc)
-+ (Sentegrity_TrustFactor_Output_Object *)badURIHandlers:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)maliciousApps:(NSArray *)payload;
 
 @end
