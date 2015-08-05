@@ -45,6 +45,10 @@
     _dneNoData = dneNoData;
 }
 
+// dneExpired
+- (void)setDneExpired:(NSString *)dneExpired{
+    _dneExpired = dneExpired;
+}
 // Weight
 - (void)setWeight:(NSNumber *)weight{
     _weight = weight;

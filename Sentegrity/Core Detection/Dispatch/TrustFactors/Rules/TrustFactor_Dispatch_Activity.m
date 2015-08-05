@@ -49,7 +49,8 @@
     // Get the user's activity history
     NSArray *activities;
     
-    // If the handler already determined a problem
+    
+    // Check if error was already determined when activity was started
     if ([self activityDNEStatus] != 0 ){
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[self activityDNEStatus]];
@@ -57,7 +58,7 @@
         // Return with the blank output object
         return trustFactorOutputObject;
     }
-    else{ //try to get dataset
+    else{ // No known errors occured previously, try to get dataset and check our object
         
         activities = [self activityInfo];
         

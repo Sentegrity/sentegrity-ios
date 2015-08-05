@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSString *dneUnavailable;
 @property (nonatomic, retain) NSString *dneDisabled;
 @property (nonatomic, retain) NSString *dneNoData;
+@property (nonatomic, retain) NSString *dneExpired;
 @property (nonatomic, retain) NSNumber *weight;
 
 @end

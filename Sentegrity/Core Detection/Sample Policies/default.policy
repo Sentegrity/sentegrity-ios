@@ -61,6 +61,7 @@
 "dneUnavailable": "",
 "dneDisabled": "",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 2,
@@ -75,19 +76,21 @@
 "id": 3,
 "name": "Network",
 "dneUnauthorized": "",
-"dneUnsupported": "Network analysis unsupported",
-"dneUnavailable": "Network connection unavailable",
+"dneUnsupported": "",
+"dneUnavailable": "No Network connections",
 "dneDisabled": "",
 "dneNoData": "No network data found",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 4,
 "name": "Wifi",
 "dneUnauthorized": "Authorize WiFi access",
-"dneUnsupported": "WiFi is unsupported",
+"dneUnsupported": "",
 "dneUnavailable": "",
 "dneDisabled": "Enable WiFi",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 5,
@@ -97,6 +100,7 @@
 "dneUnavailable": "",
 "dneDisabled": "",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 6,
@@ -106,6 +110,7 @@
 "dneUnavailable": "",
 "dneDisabled": "",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 2
 }, {
 "id": 7,
@@ -115,6 +120,7 @@
 "dneUnavailable": "",
 "dneDisabled": "",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 8,
@@ -124,6 +130,7 @@
 "dneUnavailable": "",
 "dneDisabled": "",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 9,
@@ -133,34 +140,38 @@
 "dneUnavailable": "",
 "dneDisabled": "",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 10,
 "name": "Location",
 "dneUnauthorized": "Authorize location services",
-"dneUnsupported": "Location analysis unsupported",
-"dneUnavailable": "Location data unavailable",
+"dneUnsupported": "Employ a device with GPS OR WiFi",
+"dneUnavailable": "",
 "dneDisabled": "Enable location services",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }, {
 
 "id": 11,
 "name": "Position",
 "dneUnauthorized": "Authorize motion services",
-"dneUnsupported": "Motion analysis unsupported",
-"dneUnavailable": "Motion data unavailable",
+"dneUnsupported": "Employ a device with motion services",
+"dneUnavailable": "",
 "dneDisabled": "Enable motion services",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 12,
 "name": "Bluetooth",
 "dneUnauthorized": "Authorize Bluetooth data.",
-"dneUnsupported": "Bluetooth analysis unsupported",
-"dneUnavailable": "Bluetooth data unavailable",
+"dneUnsupported": "Employ a device with Bluetooth",
+"dneUnavailable": "",
 "dneDisabled": "Enable Bluetooth",
-"dneNoData": "No BLE devices found",
+"dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 13,
@@ -170,15 +181,17 @@
 "dneUnavailable": "",
 "dneDisabled": "",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 14,
 "name": "Activity",
 "dneUnauthorized": "Authorize activity data",
-"dneUnsupported": "Use a device with activity data",
-"dneUnavailable": "Activity data unavailable",
+"dneUnsupported": "",
+"dneUnavailable": "",
 "dneDisabled": "Enabled activity data",
 "dneNoData": "No activity data found",
+"dneExpired": "",
 "weight": 0
 }, {
 "id": 15,
@@ -188,6 +201,7 @@
 "dneUnavailable": "",
 "dneDisabled": "",
 "dneNoData": "",
+"dneExpired": "",
 "weight": 0
 }],
 "trustFactors": [{
@@ -498,7 +512,7 @@
 }, {
 "id": 1012,
 "issueMessage": "Possible physical attack",
-"suggestionMessage": "Connect to network",
+"suggestionMessage": "",
 "revision": 1,
 "classID": 3,
 "subClassID": 3,
@@ -603,7 +617,7 @@
 "learnTime": 0,
 "learnAssertionCount": 0,
 "learnRunCount": 0,
-"threshold": 0,
+"threshold": 3,
 "provision": 1,
 "local": 1,
 "history": 10,
@@ -897,9 +911,9 @@
 "dispatch": "Motion",
 "implementation": "unknown:",
 "inverse": 0,
+"whitelistable": 1,
 "payload": [{
 "rounding": 1,
-"whitelistable": 1,
 "maxSampleSize": 4
 }]
 }, {
@@ -916,7 +930,7 @@
 "learnTime": 0,
 "learnAssertionCount": 0,
 "learnRunCount": 0,
-"threshold": 0,
+"threshold": 3,
 "provision": 0,
 "local": 0,
 "history": 10,

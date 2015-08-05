@@ -128,6 +128,7 @@
             [subclasser setDneUnavailable:[subclassifiers objectForKey:kSCDNEUnavailable]];
             [subclasser setDneDisabled:[subclassifiers objectForKey:kSCDNEDisabled]];
             [subclasser setDneNoData:[subclassifiers objectForKey:kSCDNENoData]];
+            [subclasser setDneExpired:[subclassifiers objectForKey:kSCDNEExpired]];
             [subclasser setWeight:[subclassifiers objectForKey:kSCWeight]];
             
             // Add it to the array

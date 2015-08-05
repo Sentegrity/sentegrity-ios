@@ -71,6 +71,7 @@
 #define kSCDNEUnavailable @"dneUnavailable"
 #define kSCDNEDisabled @"dneDisabled"
 #define kSCDNENoData @"dneNoData"
+#define kSCDNEExpired @"dneExpired"
 #define kSCWeight @"weight"
 
 #pragma mark - TrustFactor Keys
