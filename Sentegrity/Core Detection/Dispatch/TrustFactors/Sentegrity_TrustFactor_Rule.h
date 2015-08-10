@@ -80,12 +80,18 @@
 + (void)setActivityDNEStatus:(int)dneStatus;
 + (int)activityDNEStatus;
 
-
 // ** MOTION **
 // Motion Info
 + (NSArray *)motionInfo;
 + (void)setMotion:(NSArray *)motion;
 + (void)setMotionDNEStatus:(int)dneStatus;
 + (int)motionDNEStatus;
+
+// ** BLUETOOTH **
+// Bluetooth Info
++ (NSArray *)bluetoothInfo;
++ (void)setBluetooth:(NSArray *)devices;
++ (void)setBluetoothDNEStatus:(int)dneStatus;
++ (int)bluetoothDNEStatus;
 
 @end

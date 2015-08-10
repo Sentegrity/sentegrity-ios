@@ -223,6 +223,7 @@ static NSArray *allTrustFactorsOutputObjects;
                         
                     }else { // TF did not run successfully (DNE)
                         
+<<<<<<< HEAD
                         
                         // FOR DEBUG OUTPUT
                         [trustFactorsWithErrors addObject:trustFactorOutputObject];
@@ -232,6 +233,17 @@ static NSArray *allTrustFactorsOutputObjects;
                         
                         subClassAnalysisIncomplete=YES;
                         
+=======
+                        
+                        // FOR DEBUG OUTPUT
+                        [trustFactorsWithErrors addObject:trustFactorOutputObject];
+                        
+                        // Record all DNE status codes within the subclass
+                        [subClassDNECodes addObject:[NSNumber numberWithInt:trustFactorOutputObject.statusCode]];
+                        
+                        subClassAnalysisIncomplete=YES;
+                        
+>>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
                         // If TF is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
                         if (trustFactorOutputObject.trustFactor.inverse.intValue ==1){
                             
@@ -696,6 +708,28 @@ static NSArray *allTrustFactorsOutputObjects;
             {   //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneDisabled]){
                     [suggestionsInClass addObject:subClass.dneDisabled];
+                }
+            }
+            break;
+        case DNEStatus_expired:
+            // Expired
+            
+            // Check if subclass contains custom suggestion for the current error code
+            if(subClass.dneExpired.length != 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneExpired]){
+                    [suggestionsInClass addObject:subClass.dneExpired];
+                }
+            }
+            break;
+        case DNEStatus_nodata:
+            // Expired
+            
+            // Check if subclass contains custom suggestion for the current error code
+            if(subClass.dneNoData.length != 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneNoData]){
+                    [suggestionsInClass addObject:subClass.dneNoData];
                 }
             }
             break;

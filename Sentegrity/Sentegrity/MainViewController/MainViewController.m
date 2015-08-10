@@ -90,7 +90,7 @@
     [self.trustScoreProgressBar setBackgroundColor:[UIColor clearColor]];
     [self.trustScoreProgressBar setStartAngle:90.0f];
     [self.trustScoreProgressBar setHintHidden:YES];
-    [self.trustScoreProgressBar setProgressBarWidth:21.0f];
+    [self.trustScoreProgressBar setProgressBarWidth:18.0f];
     
     // Set the menu button
     [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];

@@ -77,6 +77,7 @@
 		967786401B6269D900715110 /* oui_all.list in Resources */ = {isa = PBXBuildFile; fileRef = 9677863E1B6269D900715110 /* oui_all.list */; };
 		967786411B6269D900715110 /* oui.list in Resources */ = {isa = PBXBuildFile; fileRef = 9677863F1B6269D900715110 /* oui.list */; };
 		967786441B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 967786431B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m */; };
+		96AE2C1A1B759B1C008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AE2C191B759B1C008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.m */; };
 		96C0FF281B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF231B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */; };
 		96C0FF291B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF251B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */; };
 		96C0FF2A1B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF271B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m */; };
@@ -212,6 +213,8 @@
 		9677863F1B6269D900715110 /* oui.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oui.list; sourceTree = "<group>"; };
 		967786421B62B56900715110 /* Sentegrity_TrustFactor_Dataset_Wifi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Wifi.h; sourceTree = "<group>"; };
 		967786431B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Wifi.m; sourceTree = "<group>"; };
+		96AE2C191B759B1C008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Bluetooth.m; sourceTree = "<group>"; };
+		96AE2C1B1B759B31008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Bluetooth.h; sourceTree = "<group>"; };
 		96C0FEFE1B5BE7D5003F4213 /* clock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clock.h; sourceTree = "<group>"; };
 		96C0FEFF1B5BE7D5003F4213 /* ev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ev.h; sourceTree = "<group>"; };
 		96C0FF001B5BE7D5003F4213 /* kern_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kern_types.h; sourceTree = "<group>"; };
@@ -712,6 +715,8 @@
 				96C0FF2D1B5BEC3C003F4213 /* Sentegrity_TrustFactor_Dataset_Location.h */,
 				967786421B62B56900715110 /* Sentegrity_TrustFactor_Dataset_Wifi.h */,
 				967786431B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m */,
+				96AE2C191B759B1C008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.m */,
+				96AE2C1B1B759B31008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -924,6 +929,7 @@
 				4CE9D8811B323B05006D43D8 /* ProtectMode.m in Sources */,
 				4CE9D8851B323B05006D43D8 /* Sentegrity_DNEModifiers.m in Sources */,
 				4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */,
+				96AE2C1A1B759B1C008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.m in Sources */,
 				967786281B6044D500715110 /* TrustFactor_Dispatch_Motion.m in Sources */,
 				4CE9D8781B323B05006D43D8 /* TrustFactor_Dispatch_Scan.m in Sources */,
 				04A248FF1B266AC2007D9460 /* main.m in Sources */,

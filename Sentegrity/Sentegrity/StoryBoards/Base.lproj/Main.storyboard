@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -81,6 +81,32 @@
                                     </mask>
                                 </variation>
                             </label>
+<<<<<<< HEAD
+=======
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Myw-L9-ttt" customClass="JTHamburgerButton">
+                                <rect key="frame" x="349" y="25" width="0.0" height="33"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="dKN-9x-BbN"/>
+                                    <constraint firstAttribute="width" constant="50" id="hFx-aE-Bfg"/>
+                                    <constraint firstAttribute="width" constant="40" id="iaJ-Tp-cpL"/>
+                                    <constraint firstAttribute="width" constant="30" id="idH-WR-rpY"/>
+                                    <constraint firstAttribute="height" constant="30" id="q5J-hp-sVn"/>
+                                    <constraint firstAttribute="width" constant="50" id="vCy-gH-34J"/>
+                                    <constraint firstAttribute="height" constant="33" id="xNq-8n-Fg0"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="hFx-aE-Bfg"/>
+                                        <exclude reference="iaJ-Tp-cpL"/>
+                                        <exclude reference="idH-WR-rpY"/>
+                                        <exclude reference="q5J-hp-sVn"/>
+                                        <exclude reference="vCy-gH-34J"/>
+                                        <exclude reference="xNq-8n-Fg0"/>
+                                    </mask>
+                                </variation>
+                            </view>
+>>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUh-7Z-2E7">
                                 <rect key="frame" x="55.5" y="572" width="264" height="80"/>
                                 <subviews>

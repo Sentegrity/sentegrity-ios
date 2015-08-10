@@ -31,6 +31,8 @@
     
     [self startMotion];
     
+    [self startBluetooth];
+    
     
     // Override point for customization after application launch.
     
@@ -262,9 +264,9 @@ static NSMutableArray *array;
                                               
                                               // We want a minimum of 3 samples before we average them inside the TF
                                               // its possible we will get more as this handler gets called additional times prior to
-                                              // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more we update accordingly.
+                                              // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
                                               
-                                              if(runCount > 3){
+                                              if(runCount == 3){
                                                   [Sentegrity_TrustFactor_Rule setMotion:array];
                                                   [manager stopAccelerometerUpdates];
                                               }
@@ -278,6 +280,100 @@ static NSMutableArray *array;
     }
     
     
+    
+}
+
+
+static CBCentralManager *mgr;
+static NSMutableArray *bluetoothDevices;
+static int maxDeviceCount=10;
+static CFAbsoluteTime startTime=0.0;
+
+- (void) startBluetooth{
+    mgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    [Sentegrity_TrustFactor_Rule setBluetooth:bluetoothDevices];
+}
+
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
+    
+    // Update timer with current time
+    CFAbsoluteTime currentTime = 0.0;
+    currentTime = CFAbsoluteTimeGetCurrent();
+    
+    // we've waited more than 3 seconds OR exceeded max devices so stop scan
+    if ((currentTime-startTime) > 3.0 || bluetoothDevices.count >= maxDeviceCount){
+        NSLog(@"Bluetooth scanning stopped");
+        [mgr stopScan];
+        
+    }
+    
+    //NSLog(@"Did discover peripheral. peripheral: %@ rssi: %@, UUID: %@ advertisementData: %@ ", peripheral, RSSI, peripheral.UUID, advertisementData);
+    
+    // Add the device dictionary to the list
+    [bluetoothDevices addObject:[NSString stringWithFormat:@"%@",peripheral.identifier]];
+    
+
+    
+
+}
+
+
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central{
+
+    
+    switch (central.state) {
+        case CBCentralManagerStateUnknown:
+        {
+            //messtoshow=[NSString stringWithFormat:@"State unknown, update imminent."];
+            
+            // Wait
+            break;
+        }
+        case CBCentralManagerStateResetting:
+        {
+            //messtoshow=[NSString stringWithFormat:@"The connection with the system service was momentarily lost, update imminent."];
+            
+            // Wait
+            break;
+        }
+        case CBCentralManagerStateUnsupported:
+        {
+            //messtoshow=[NSString stringWithFormat:@"The platform doesn't support Bluetooth Low Energy"];
+            
+            [Sentegrity_TrustFactor_Rule setBluetoothDNEStatus:DNEStatus_unsupported];
+            break;
+        }
+        case CBCentralManagerStateUnauthorized:
+        {
+            //messtoshow=[NSString stringWithFormat:@"The app is not authorized to use Bluetooth Low Energy"];
+            
+            [Sentegrity_TrustFactor_Rule setBluetoothDNEStatus:DNEStatus_unauthorized];
+            break;
+        }
+        case CBCentralManagerStatePoweredOff:
+        {
+            //messtoshow=[NSString stringWithFormat:@"Bluetooth is currently powered off."];
+            
+            [Sentegrity_TrustFactor_Rule setBluetoothDNEStatus:DNEStatus_disabled];
+            break;
+        }
+        case CBCentralManagerStatePoweredOn:
+        {
+            
+            // Set bluetooth array
+            bluetoothDevices = [[NSMutableArray alloc] init];
+            
+            // Set timer to eventually stop scanning (otherwise if we don't find any it will keep trying during app use and kill battery)
+            startTime = CFAbsoluteTimeGetCurrent();
+            
+            // Start scanning for any peripheral
+            [mgr scanForPeripheralsWithServices:nil options:nil];
+         
+            
+            break;
+        }   
+            
+    }
     
 }
 @end

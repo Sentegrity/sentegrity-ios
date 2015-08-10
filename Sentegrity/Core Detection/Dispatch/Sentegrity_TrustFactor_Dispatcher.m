@@ -122,8 +122,13 @@
             [trustFactorOutputObject generateAssertionsFromOutput];
         }
         else{
-            // Else do nothing but set DNE (don't generate default assertion, does not exist for inverse rules)
-             [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+            // Else do nothing but set DNE if its currently set to OK still
+            // (don't generate default assertion, does not exist for inverse rules)
+            if([trustFactorOutputObject statusCode] == DNEStatus_ok){
+                
+                //Change DNEStatus_ok to DNEStatus_nodata, but leave all others as is
+                [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+            }
         }
         
     }

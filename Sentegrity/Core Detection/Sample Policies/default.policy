@@ -170,8 +170,13 @@
 "dneUnsupported": "Employ a device with Bluetooth",
 "dneUnavailable": "",
 "dneDisabled": "Enable Bluetooth",
+<<<<<<< HEAD
 "dneNoData": "",
 "dneExpired": "",
+=======
+"dneNoData": "Employ a bluetooth device",
+"dneExpired": "Employ a bluetooth device",
+>>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
 "weight": 0
 }, {
 "id": 13,
@@ -612,12 +617,16 @@
 "subClassID": 4,
 "priority": 2,
 "name": "wifi bssid",
-"penalty": -30,
+"penalty": -60,
 "learnMode": 1,
 "learnTime": 0,
 "learnAssertionCount": 0,
 "learnRunCount": 0,
+<<<<<<< HEAD
 "threshold": 3,
+=======
+"threshold": 5,
+>>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
 "provision": 1,
 "local": 1,
 "history": 10,
@@ -688,7 +697,7 @@
 "subClassID": 6,
 "priority": 1,
 "name": "vulnerable platform",
-"penalty": 40,
+"penalty": 50,
 "learnMode": 1,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -752,7 +761,7 @@
 "subClassID": 14,
 "priority": 1,
 "name": "device backup",
-"penalty": 30,
+"penalty": 40,
 "learnMode": 1,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -777,7 +786,7 @@
 "subClassID": 7,
 "priority": 1,
 "name": "access time",
-"penalty": 70,
+"penalty": 30,
 "learnMode": 1,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -795,6 +804,31 @@
 }]
 }, {
 "id": 1023,
+"issueMessage": "Unfamiliar light conditions",
+"suggestionMessage": "",
+"revision": 1,
+"classID": 5,
+"subClassID": 7,
+"priority": 1,
+"name": "light conditions",
+"penalty": 20,
+"learnMode": 1,
+"learnTime": 0,
+"learnAssertionCount": 0,
+"learnRunCount": 0,
+"threshold": 0,
+"provision": 1,
+"local": 1,
+"history": 21,
+"dispatch": "Time",
+"implementation": "unknownLight:",
+"inverse": 0,
+"whitelistable": 1,
+"payload": [{
+"blocksize": 6
+}]
+}, {
+"id": 1024,
 "issueMessage": "Possible USB attack",
 "suggestionMessage": "Unplug device",
 "revision": 1,
@@ -817,7 +851,7 @@
 "whitelistable": 0,
 "payload": []
 }, {
-"id": 1024,
+"id": 1025,
 "issueMessage": "Unfamiliar power consumption",
 "suggestionMessage": "",
 "revision": 1,
@@ -843,7 +877,7 @@
 "powerBlocksize": 4
 }]
 }, {
-"id": 1025,
+"id": 1026,
 "issueMessage": "Unfamiliar device orientation",
 "suggestionMessage": "",
 "revision": 1,
@@ -859,14 +893,14 @@
 "threshold": 0,
 "provision": 1,
 "local": 0,
-"history": 2,
+"history": 3,
 "dispatch": "Motion",
 "implementation": "orientation:",
 "inverse": 0,
 "whitelistable": 1,
 "payload": []
 }, {
-"id": 1026,
+"id": 1027,
 "issueMessage": "Unfamiliar user activity",
 "suggestionMessage": "",
 "revision": 1,
@@ -874,7 +908,7 @@
 "subClassID": 14,
 "priority": 1,
 "name": "user activity",
-"penalty": 30,
+"penalty": 20,
 "learnMode": 1,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -891,7 +925,7 @@
 "maxSampleSize": 4
 }]
 }, {
-"id": 1027,
+"id": 1028,
 "issueMessage": "Unfamiliar device grip",
 "suggestionMessage": "",
 "revision": 1,
@@ -899,7 +933,7 @@
 "subClassID": 11,
 "priority": 3,
 "name": "device movement",
-"penalty": 40,
+"penalty": 20,
 "learnMode": 1,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -917,7 +951,7 @@
 "maxSampleSize": 4
 }]
 }, {
-"id": 1028,
+"id": 1029,
 "issueMessage": "",
 "suggestionMessage": "Employ bluetooth low-energy devices",
 "revision": 1,
@@ -940,7 +974,7 @@
 "whitelistable": 1,
 "payload": []
 }, {
-"id": 1029,
+"id": 1030,
 "issueMessage": "Unfamiliar device location",
 "suggestionMessage": "Access device in familiar areas",
 "revision": 1,
@@ -967,7 +1001,7 @@
 "allowed": "41.88,-87.61"
 }]
 }, {
-"id": 1030,
+"id": 1031,
 "issueMessage": "Device location policy violation",
 "suggestionMessage": "Request a policy exception",
 "revision": 1,
