@@ -36,7 +36,8 @@
     // Get motion dataset
     NSArray *motion;
     
-    // If the handler already determined a problem
+    
+     // Check if error was already determined when motion was started
     if ([self motionDNEStatus] != 0 ){
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[self motionDNEStatus]];
@@ -44,14 +45,15 @@
         // Return with the blank output object
         return trustFactorOutputObject;
     }
-    else{ //try to get dataset
+    else{ // No known errors occured previously, try to get dataset and check our object
         
+        // Attempt to get motion data
         motion = [self motionInfo];
         
         // Check motion dataset again
         if (!motion || motion == nil || motion.count < 3) {
             
-            [trustFactorOutputObject setStatusCode:DNEStatus_error];
+            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
             // Return with the blank output object
             return trustFactorOutputObject;
         }

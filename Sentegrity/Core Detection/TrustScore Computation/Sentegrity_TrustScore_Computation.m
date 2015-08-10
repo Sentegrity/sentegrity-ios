@@ -28,22 +28,11 @@
 
 @synthesize systemScore = _systemScore, userScore = _userScore, deviceScore = _deviceScore;
 
-/* Steps:
- 1.  Go through all the trustfactors
- 2.  Sort into unique classifications
- 3.  Sort into unique subclassifications
- 4.  Go through each trustfactor of the same subclass
- 5.  Summarize all penalties for trustfactors in the same subclass
- 6.  Apply subclass object's weight to the penalties
- 7.  Store the subclass weighted penalty
- 8.  Summarize all subclass weighted totals
- 9.  Apply the classification's weight to the summarized weighted totals per classification
- 10. Generate the classification's trustscore
- 11. Do this for all classifications/subclassifications
- 12. Generate the System score by averaging the BREACH_INDICATOR and SYSTEM_SECURITY scores
- 13. Generate the User score by averaging the POLICY_VIOLATION and USER_ANOMALLY scores
- 14. Generate the Device score by averaging the user score and the system scores
- */
+//FOR DEBUG OUTPUT
+static NSMutableArray *trustFactorsNotLearned;
+static NSMutableArray *trustFactorsTriggered;
+static NSMutableArray *trustFactorsWithErrors;
+static NSArray *allTrustFactorsOutputObjects;
 
 // Compute the systemScore and the UserScore from the policy
 + (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error {
@@ -93,22 +82,11 @@
         return nil;
     }
     
-    // 1.  Go through all the trustfactors
-    // 2.  Sort into unique classifications
-    // 3.  Sort into unique subclassifications
-    // 4.  Go through each trustfactor of the same subclass
-    // 5.  Summarize all penalties for trustfactors in the same subclass
-    // 6.  Apply subclass object's weight to the penalties
-    // 7.  Store the subclass weighted penalty
-    // 8.  Summarize all subclass weighted totals
-    // 9.  Apply the classification's weight to the summarized weighted totals per classification
-    // 10. Generate the classification's trustscore
-    // 11. Do this for all classifications/subclassifications
-    
-    //DEBUG
-    NSMutableArray *trustFactorsNotLearned = [NSMutableArray array];
-    NSMutableArray *trustFactorsTriggered = [NSMutableArray array];
-    
+    //FOR DEBUG OUTPUT
+    trustFactorsNotLearned = [NSMutableArray array];
+    trustFactorsTriggered = [NSMutableArray array];
+    trustFactorsWithErrors = [NSMutableArray array];
+    allTrustFactorsOutputObjects = trustFactorOutputObjects;
     
     //For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
@@ -121,13 +99,13 @@
         NSMutableArray *trustFactorsToWhitelistInClass = [NSMutableArray array];
         
         
-        //GUI: Analysis results displayed on a per subclass basis
+        //GUI: Analysis results are displayed on a subclass basis to categorize issues across multiple rules  (no location, no network, etc)
         NSMutableArray *subClassStatus = [NSMutableArray array];
         
-        //GUI: Issues displayed
+        //GUI: Issues displayed on a per trustfactor basis
         NSMutableArray *issuesInClass = [NSMutableArray array];
         
-        //GUI: Suggestions displayed
+        //GUI: Suggestions displayed on a per subclass basis OR trustfactor (if the trustfactor contains specific suggestion text)
         NSMutableArray *suggestionsInClass = [NSMutableArray array];
         
         // Run through all the subclassifications that are in the policy
@@ -136,7 +114,12 @@
             NSMutableArray *trustFactorsInSubClass = [NSMutableArray array];
             
             BOOL subClassContainsTrustFactors=NO;
-            BOOL subClassContainsErrors=NO;
+            
+            // Determines if any error existed in any TF within the subclass
+            BOOL subClassAnalysisIncomplete=NO;
+            
+            // Determines which errors occured
+            NSMutableArray *subClassDNECodes = [NSMutableArray array];
             
             // Run through all trustfactors
             for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in trustFactorOutputObjects) {
@@ -146,52 +129,60 @@
                     
                 }
                 
-                // Check if the trustfactor class id and subclass id match (we may have no TFs in the current subclass otherwise)
+                // Check if the TF class id and subclass id match (we may have no TFs in the current subclass otherwise)
                 if (([trustFactorOutputObject.trustFactor.classID intValue] == [[class identification] intValue]) && ([trustFactorOutputObject.trustFactor.subClassID intValue] == [[subClass identification] intValue])) {
                     
                     //Check for hit
                     subClassContainsTrustFactors=YES;
                     
-                    // Check if the trustfactor was executed successfully
+                    // Check if the TF was executed successfully
                     if (trustFactorOutputObject.statusCode == DNEStatus_ok) {
                         
-                        //add to whitelist array if baseline analysis determined this is whitelistable
+                        // Add TF to whitelist array if baseline analysis determined this is whitelistable
                         if(trustFactorOutputObject.whitelist==YES){
                             [trustFactorsToWhitelistInClass addObject:trustFactorOutputObject];
                         }
                         
+                        // Do not count TF if its not learned yet
                         if(trustFactorOutputObject.storedTrustFactorObject.learned==NO){
                             
-                            //DEBUG
+                            //FOR DEBUG OUTPUT
                             [trustFactorsNotLearned addObject:trustFactorOutputObject];
                             
                             //go to next TF
                             continue;
                         }
                         
+                        // IF RULE TRIGGERED
                         if(trustFactorOutputObject.triggered==YES){
                             
-                            //DEBUG
+                            //FOR DEBUG OUTPUT
                             [trustFactorsTriggered addObject:trustFactorOutputObject];
                             
-                            //apply penalty to subclass base
+                            // Apply TF's penalty to subclass base penalty score
                             subClass.basePenalty = (subClass.basePenalty + trustFactorOutputObject.trustFactor.penalty.integerValue);
                             
-                            // IF normal rule: Update issues and suggestion messages  (triggering a normal rule is bad)
+                            // IF the TF operates as a normal rule (triger on no match), update issues and suggestion messages  (triggering a normal rule is bad)
                             if(trustFactorOutputObject.trustFactor.inverse.intValue==0){
                                 
-                                //Is a issue set for this TF?
+                                // Check if the TF contains a custom issue message
                                 if(trustFactorOutputObject.trustFactor.issueMessage.length != 0)
-                                {   //Does issue already exist in our list?
+                                {
+                                    // Check if we already have the issue in the our list
                                     if(![issuesInClass containsObject:trustFactorOutputObject.trustFactor.issueMessage]){
+                                        
+                                        // Add it
                                         [issuesInClass addObject:trustFactorOutputObject.trustFactor.issueMessage];
                                     }
                                 }
                                 
-                                //Is a suggestion set for this TF?
+                                // Check if the TF contains a custom suggestion message
                                 if(trustFactorOutputObject.trustFactor.suggestionMessage.length != 0)
-                                {   //Does suggestion already exist in our list?
+                                {
+                                    // Check if the we already have the issue in our list
                                     if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.suggestionMessage]){
+                                        
+                                        // Add it
                                         [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.suggestionMessage];
                                     }
                                 }
@@ -199,22 +190,29 @@
                             }
                             
                         }
-                        else{
-                            // IF inverse rule: Update issues message (not triggering inverse rule is bad)
+                        else{ // RULE DID NOT TRIGGER
+                            
+                            // Check if TF is inverse (not triggering inverse rule does not boost score)
                             if(trustFactorOutputObject.trustFactor.inverse.intValue==1){
                                 
-                                //Is a issue set for this TF?
+                                // Check if the inverse TF contains a custom issue message (this is rare, don't think any inverse rules have one)
                                 if(trustFactorOutputObject.trustFactor.issueMessage.length != 0)
-                                {   //Does issue already exist in our list?
+                                {
+                                    // Check if we already have the issue in our list
                                     if(![issuesInClass containsObject:trustFactorOutputObject.trustFactor.issueMessage]){
+                                        
+                                        // Add it
                                         [issuesInClass addObject:trustFactorOutputObject.trustFactor.issueMessage];
                                     }
                                 }
                                 
-                                //Is suggestion set for this TF?
+                                // Check if the inverse TF contains a suggestion message (this is common as it gives the user ways to boost score)
                                 if(trustFactorOutputObject.trustFactor.suggestionMessage.length != 0)
-                                {   //Does suggestion already exist in our list?
+                                {
+                                    // Check if we already have the suggestion in our list
                                     if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.suggestionMessage]){
+                                        
+                                        // Add it
                                         [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.suggestionMessage];
                                     }
                                 }
@@ -223,21 +221,24 @@
                         }
                         
                         
-                    }else {
-                        // TrustFactor did not run successfully (DNE)
-                        //  Update issues/suggesstions as possible and penalty for non-inverse rules
+                    }else { // TF did not run successfully (DNE)
                         
-                        // We only report when there are errors not user issues (disabled/unauthorized)
-                        if(trustFactorOutputObject.statusCode == DNEStatus_error)
-                            subClassContainsErrors=YES;
                         
-                        // if its an inverse rule there is no DNE penalty applied, don't do the penalty calculation but add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
+                        // FOR DEBUG OUTPUT
+                        [trustFactorsWithErrors addObject:trustFactorOutputObject];
+                        
+                        // Record all DNE status codes within the subclass
+                        [subClassDNECodes addObject:[NSNumber numberWithInt:trustFactorOutputObject.statusCode]];
+                        
+                        subClassAnalysisIncomplete=YES;
+                        
+                        // If TF is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
                         if (trustFactorOutputObject.trustFactor.inverse.intValue ==1){
                             
                             [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
                             
                         }
-                        else //not an inverse rule therefore record messages and penalty
+                        else //not an inverse rule therefore record messages AND apply modified DNE penalty
                         {
                             
                             [self addSuggestionsForClassAndCalcPenalty:class withPolicy:policy withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
@@ -250,20 +251,56 @@
                     //add TF to subclass
                     [trustFactorsInSubClass addObject:trustFactorOutputObject.trustFactor];
                     
-                } // End IF class/subclass match
+                }
                 
             }// End trustfactors loop
             
-            //If any trustFactors existed within this subClass
-            if(subClassContainsTrustFactors){
+            // Create Analysis category list for output
+            if(subClassContainsTrustFactors){ // If any trustFactors existed within this subClass
                 
-                //update analysis message with subclass complete or failed
-                if(!subClassContainsErrors) {
-                    [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@ %@", @"Completed", subClass.name, @"analysis."]];
+                // No errors, update analysis message with subclass complete
+                if(!subClassAnalysisIncomplete) {
+                    [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis complete"]];
                 }
-                else{
-                    [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis incomplete (error)."]];
+                else{ // Subclass contains TFs with issues, identify which, if there are multiple the first (higher priority one is used)
+                    
+                    if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_disabled]]){
+                        
+                        [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis disabled"]];
+                        
+                    }
+                    else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_nodata]]){
+                        
+                        [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis complete"]];
+                        
+                    }
+                    else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_unauthorized]]){
+                        
+                        [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis unauthorized"]];
+                        
+                    }
+                    else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_expired]]){
+                        
+                        [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis expired"]];
+                        
+                    }
+                    else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_unsupported]]){
+                        
+                        [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis unsupported"]];
+                        
+                    }
+                    else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_unavailable]]){
+                        
+                        [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis unavailable"]];
+                        
+                    }
+                    else{
+                        
+                        [subClassStatus addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"analysis error"]];
+                    }
+                    
                 }
+                
                 
                 // Set the penalty weight for the subclass
                 subClass.weightedPenalty = (subClass.basePenalty * (1-(0.1 * subClass.weight.integerValue)) );
@@ -277,8 +314,6 @@
                 // Add the subclass to list of subclasses in class
                 [subClassesInClass addObject:subClass];
             }
-            
-            
             
             
         }// End subclassifications loop
@@ -304,20 +339,21 @@
     
     
     // Return computation (trustFactorsNotLearned/trustFactorsTriggered/allTrustFactorOutputObjects added for debug purposes)
-    return [self analyzeResultsWithPolicy:policy trustFactorsNotLearned:trustFactorsNotLearned trustFactorsTriggered:trustFactorsTriggered allTrustFactorOutputObjects:trustFactorOutputObjects withError:error];
+    return [self analyzeResultsWithPolicy:policy withError:error];
 }
 
 #pragma mark - Private Helper Methods
 // Get a classification from an array with the name provided
-+ (Sentegrity_TrustScore_Computation *)analyzeResultsWithPolicy:(Sentegrity_Policy *)policy trustFactorsNotLearned:(NSMutableArray *)trustFactorsNotLearned trustFactorsTriggered:(NSMutableArray *)trustFactorsTriggered allTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error {
++ (Sentegrity_TrustScore_Computation *)analyzeResultsWithPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
     
     // Create the computation to return
     Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc] init];
     
-    // DEBUG
+    //FOR DEBUG OUTPUT (can eventualy revert method call as well)
     computationResults.trustFactorsNotLearned = trustFactorsNotLearned;
+    computationResults.trustFactorsWithErrors = trustFactorsWithErrors;
     computationResults.trustFactorsTriggered = trustFactorsTriggered;
-    computationResults.allTrustFactorOutputObjects = trustFactorOutputObjects;
+    computationResults.allTrustFactorOutputObjects = allTrustFactorsOutputObjects;
     
     Sentegrity_Classification *systemBreachClass = [Sentegrity_TrustScore_Computation getClassificationForName:KSystemBreach fromArray:policy.classifications withError:error];
     Sentegrity_Classification *systemSecurityClass = [Sentegrity_TrustScore_Computation getClassificationForName:kSystemSecurity fromArray:policy.classifications withError:error];
@@ -639,11 +675,13 @@
 
 +(void)addSuggestionsForClass:(Sentegrity_Classification *)class withSubClass:(Sentegrity_Subclassification *)subClass withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
     
+    // This is really only for inverse rules, thus we only cover a couple DNE errors
+    
     switch (trustFactorOutputObject.statusCode) {
         case DNEStatus_unauthorized:
             // Unauthorized
             
-            //Is suggestion set?
+            // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneUnauthorized.length != 0)
             {   //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
@@ -653,7 +691,7 @@
         case DNEStatus_disabled:
             // Disabled
             
-            //Is suggestion set?
+            // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneDisabled.length != 0)
             {   //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneDisabled]){
@@ -672,28 +710,17 @@
     // Create an int to hold the dnePenalty multiplied by the modifier
     double penaltyMod = 0;
     
-    // Static suggestion strings
-    NSString *errorMsg;
-    NSString *expiredMsg;
-    
     switch (trustFactorOutputObject.statusCode) {
         case DNEStatus_error:
             // Error
             penaltyMod = [policy.DNEModifiers.error doubleValue];
-            // Only show suggestions for fixable TFs
-            // Is suggestion set for rule in policy?
-            errorMsg = [subClass.name stringByAppendingString:@" dataset error"];
-            
-            if(![suggestionsInClass containsObject:errorMsg]){
-                [suggestionsInClass addObject:errorMsg];
-            }
+
             break;
         case DNEStatus_unauthorized:
             // Unauthorized
             penaltyMod = [policy.DNEModifiers.unauthorized doubleValue];
             
-            // Only show suggestions for fixable TFs
-            // Is suggestion set for rule in policy?
+            // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneUnauthorized.length!= 0)
             {   //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
@@ -706,8 +733,7 @@
             // Unsupported
             penaltyMod = [policy.DNEModifiers.unsupported doubleValue];
             
-            // Only show suggestions for fixable TFs
-            // Is suggestion set for rule in policy?
+            // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneUnsupported.length!= 0)
             {   //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneUnsupported]){
@@ -719,8 +745,7 @@
             // Unavailable
             penaltyMod = [policy.DNEModifiers.unavailable doubleValue];
             
-            // Only show suggestions for fixable TFs
-            // Is suggestion set for rule in policy?
+            // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneUnavailable.length!= 0)
             {   //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneUnavailable]){
@@ -732,8 +757,7 @@
             // Unavailable
             penaltyMod = [policy.DNEModifiers.disabled doubleValue];
             
-            // Only show suggestions for fixable TFs
-            // Is suggestion set for rule in policy?
+            // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneDisabled.length!= 0)
             {   //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneDisabled]){
@@ -745,8 +769,7 @@
             // Unavailable
             penaltyMod = [policy.DNEModifiers.noData doubleValue];
             
-            // Only show suggestions for fixable TFs
-            // Is suggestion set for rule in policy?
+            // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneNoData.length!= 0)
             {   //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneNoData]){
@@ -759,12 +782,13 @@
             // Expired
             penaltyMod = [policy.DNEModifiers.expired doubleValue];
             
-            // Only show suggestions for fixable TFs
-            // Is suggestion set for rule in policy?
-            expiredMsg = [subClass.name stringByAppendingString:@" dataset timer expired"];
-            
-            if(![suggestionsInClass containsObject:expiredMsg]){
-                [suggestionsInClass addObject:expiredMsg];
+            // Check if subclass contains custom suggestion for the current error code
+
+            if(subClass.dneExpired.length!= 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneExpired]){
+                    [suggestionsInClass addObject:subClass.dneExpired];
+                }
             }
             
             break;

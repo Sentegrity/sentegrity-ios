@@ -100,6 +100,7 @@
     [self.menuButton setLineSpacing:7.0f];
     [self.menuButton setShowsTouchWhenHighlighted:YES];
     [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.menuButton updateAppearance];
     
     // Set the trustscore holding label
     [self.trustScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];
@@ -387,6 +388,7 @@
     self.view.layer.mask = maskLayer;
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
+    // Use the screen rectangle, not the current size
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     
     // Set the frame - depending on the orientation

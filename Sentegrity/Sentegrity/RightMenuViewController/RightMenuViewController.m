@@ -8,6 +8,12 @@
 
 #import "RightMenuViewController.h"
 
+// User Debug View Controller
+#import "UserDebugViewController.h"
+
+// System Debug View Controller
+#import "SystemDebugViewController.h"
+
 // Get the trustfactor storage class
 #import "Sentegrity_TrustFactor_Storage.h"
 
@@ -59,13 +65,47 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.row) {
-        case 0:
-            [self.sideMenuViewController hideMenuViewController];
+        case 0: {
+            // User Debug
+            
+            // Get the storyboard
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            // Create the user debug view controller
+            UserDebugViewController *userDebugController = [mainStoryboard instantiateViewControllerWithIdentifier:@"userdebugviewcontroller"];
+            
+            // Present it
+            [self presentViewController:userDebugController animated:YES completion:^{
+                // Done presenting
+                
+                // Hide the side menu
+                [self.sideMenuViewController hideMenuViewController];
+            }];
+            
+            // Done
             break;
-        case 1:
-            [self.sideMenuViewController hideMenuViewController];
+        }
+        case 1: {
+            // System Debug
+            
+            // Get the storyboard
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            // Create the system debug view controller
+            SystemDebugViewController *systemDebugController = [mainStoryboard instantiateViewControllerWithIdentifier:@"systemdebugviewcontroller"];
+            
+            // Present it
+            [self presentViewController:systemDebugController animated:YES completion:^{
+                // Done presenting
+                
+                // Hide the side menu
+                [self.sideMenuViewController hideMenuViewController];
+            }];
+            
             break;
+        }
         case 2:
+            // Computation Info
             [self.sideMenuViewController hideMenuViewController];
             break;
         case 3: {
@@ -124,6 +164,7 @@
             break;
         }
         default:
+            // Do nothing
             [self.sideMenuViewController hideMenuViewController];
             break;
     }
@@ -134,11 +175,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    // Number of sections - only need 1
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
+    // Number of rows
     return 4;
 }
 
@@ -157,6 +200,7 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
+    // Titles of our rows
     NSArray *titles = @[@"User Debug", @"System Debug", @"Computation Info", @"Reset Stores"];
     cell.textLabel.text = titles[indexPath.row];
     cell.textLabel.textAlignment = NSTextAlignmentRight;

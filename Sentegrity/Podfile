@@ -5,7 +5,7 @@ pod 'JTHamburgerButton', '~> 1.0'
 pod 'ChameleonFramework', '~> 1.2'
 pod 'RESideMenu', '~> 4.0'
 pod 'Facade', '~> 0.2'
-pod 'SCLAlertView-Objective-C', '~> 0.7'
+pod 'SCLAlertView-Objective-C', '~> 0.7.4'
 pod 'IIDelayedAction', '~> 1.0'
 pod 'DateTools', '~> 1.6'
 

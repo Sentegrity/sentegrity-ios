@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0427EFF71B7908FE000658AB /* UserDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427EFF61B7908FE000658AB /* UserDebugViewController.m */; };
+		0427EFFB1B792037000658AB /* SystemDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427EFFA1B792037000658AB /* SystemDebugViewController.m */; };
+		0427EFFF1B79361E000658AB /* ComputationInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427EFFE1B79361E000658AB /* ComputationInfoViewController.m */; };
 		04A248FF1B266AC2007D9460 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A248FE1B266AC2007D9460 /* main.m */; };
 		04A249021B266AC2007D9460 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A249011B266AC2007D9460 /* AppDelegate.m */; };
 		04A249051B266AC2007D9460 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A249041B266AC2007D9460 /* MainViewController.m */; };
@@ -91,6 +94,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0427EFF51B7908FE000658AB /* UserDebugViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDebugViewController.h; sourceTree = "<group>"; };
+		0427EFF61B7908FE000658AB /* UserDebugViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDebugViewController.m; sourceTree = "<group>"; };
+		0427EFF91B792037000658AB /* SystemDebugViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemDebugViewController.h; sourceTree = "<group>"; };
+		0427EFFA1B792037000658AB /* SystemDebugViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemDebugViewController.m; sourceTree = "<group>"; };
+		0427EFFD1B79361E000658AB /* ComputationInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComputationInfoViewController.h; sourceTree = "<group>"; };
+		0427EFFE1B79361E000658AB /* ComputationInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComputationInfoViewController.m; sourceTree = "<group>"; };
 		04A248F91B266AC2007D9460 /* Sentegrity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sentegrity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A248FD1B266AC2007D9460 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04A248FE1B266AC2007D9460 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -268,6 +277,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0427EFF41B7908CC000658AB /* DebugViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0427EFF51B7908FE000658AB /* UserDebugViewController.h */,
+				0427EFF61B7908FE000658AB /* UserDebugViewController.m */,
+				0427EFF91B792037000658AB /* SystemDebugViewController.h */,
+				0427EFFA1B792037000658AB /* SystemDebugViewController.m */,
+				0427EFFD1B79361E000658AB /* ComputationInfoViewController.h */,
+				0427EFFE1B79361E000658AB /* ComputationInfoViewController.m */,
+			);
+			path = DebugViewControllers;
+			sourceTree = "<group>";
+		};
 		04A248F01B266AC2007D9460 = {
 			isa = PBXGroup;
 			children = (
@@ -295,6 +317,7 @@
 				4CE9D80A1B3233D2006D43D8 /* AppDelegate */,
 				4CE9D8081B3233B2006D43D8 /* MainViewController */,
 				4CE9D8091B3233C1006D43D8 /* RightMenuViewController */,
+				0427EFF41B7908CC000658AB /* DebugViewControllers */,
 				4CE9D80B1B3233DC006D43D8 /* StoryBoards */,
 				04A248FC1B266AC2007D9460 /* Supporting Files */,
 			);
@@ -866,6 +889,7 @@
 				4CE9D8711B323B05006D43D8 /* TrustFactor_Dispatch_Http.m in Sources */,
 				4CE9D87C1B323B05006D43D8 /* TrustFactor_Dispatch_Wifi.m in Sources */,
 				4CE9D8801B323B05006D43D8 /* Sentegrity_Parser.m in Sources */,
+				0427EFFF1B79361E000658AB /* ComputationInfoViewController.m in Sources */,
 				4CE9D8891B323B05006D43D8 /* Sentegrity_Classification+Computation.m in Sources */,
 				04A249051B266AC2007D9460 /* MainViewController.m in Sources */,
 				4CE9D87F1B323B05006D43D8 /* Sentegrity_History_Store.m in Sources */,
@@ -875,6 +899,7 @@
 				4CE9D8691B323B05006D43D8 /* Sentegrity_Stored_TrustFactor_Object.m in Sources */,
 				4CE9D8751B323B05006D43D8 /* TrustFactor_Dispatch_Process.m in Sources */,
 				4CE9D8721B323B05006D43D8 /* TrustFactor_Dispatch_Location.m in Sources */,
+				0427EFFB1B792037000658AB /* SystemDebugViewController.m in Sources */,
 				4CE9D8871B323B05006D43D8 /* Sentegrity_Subclassification.m in Sources */,
 				04A249021B266AC2007D9460 /* AppDelegate.m in Sources */,
 				4CE9D86F1B323B05006D43D8 /* TrustFactor_Dispatch_Bluetooth.m in Sources */,
@@ -883,6 +908,7 @@
 				4CE9D86E1B323B05006D43D8 /* TrustFactor_Dispatch_Activity.m in Sources */,
 				96C0FF281B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */,
 				4CE9D8861B323B05006D43D8 /* Sentegrity_Policy.m in Sources */,
+				0427EFF71B7908FE000658AB /* UserDebugViewController.m in Sources */,
 				4CE9D8791B323B05006D43D8 /* TrustFactor_Dispatch_Sensor.m in Sources */,
 				4CE9D86D1B323B05006D43D8 /* Sentegrity_TrustFactor_Dispatcher.m in Sources */,
 				967786441B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m in Sources */,

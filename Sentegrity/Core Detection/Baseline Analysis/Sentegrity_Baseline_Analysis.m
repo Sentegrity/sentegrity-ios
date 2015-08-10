@@ -47,6 +47,7 @@
         }
     }
     
+    
     // Attempt to get our global store
     Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:error];
     
@@ -104,7 +105,7 @@
                 
                 storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
                 
-                NSLog(@"Could not find storedTrustFctorObject in local store, creating new");
+                //NSLog(@"Could not find storedTrustFctorObject in local store, creating new");
                 
                 // Check if created
                 if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
@@ -378,7 +379,7 @@
     
     if (!localStoreOutput || localStoreOutput == nil || !globalStoreOutput || globalStoreOutput == nil) {
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Error writing assertion stores" forKey:NSLocalizedDescriptionKey];
+        [errorDetails setValue:@"Error writing assertion stores after baseline analysis" forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
         
         // Don't return anything
@@ -494,22 +495,28 @@
     {
         for(NSString *candidate in trustFactorOutputObject.assertions)
         {
+            //search for a match in the store
+            currentHitCount = nil;
+            currentHitCount = [trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate];
+            
             //We DID NOT find a match for the candidate in the store = RULE TRIGGERED (a bad thing, since it should match the kDefaultTrustFactorOutput assertion at the very least)
-            if(![trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate])
+            if(currentHitCount==nil)
             {
+                // Trigger rule
+               trustFactorOutputObject.triggered=YES;
                 
                 //update list, but we still need to look at all assertions before exiting loop
                 if(trustFactorOutputObject.trustFactor.whitelistable.intValue == 1){
                     trustFactorOutputObject.whitelist=YES;
                 }
-                trustFactorOutputObject.triggered=YES;
+ 
                 
                 //keep track of which assertions did not match for whitelisting within the TF itself (may be multiple)
                 [trustFactorOutputObject.assertionsToWhitelist setValue:[NSNumber numberWithInt:0] forKey:candidate];
                 
                 
             }
-            else //we DID find a match = RULE NOT YET TRIGGERED  (increment matching stored assertions hitcount)
+            else //we DID find a match, RULE NOT YET TRIGGERED  (increment matching stored assertions hitcount & check threshold)
             {
                 //increment hitCount for matching stored assertion (used for decay)
                 newHitCount = [NSNumber numberWithInt:[[trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate] intValue]+1];
@@ -523,6 +530,20 @@
                 // Set the assertions back
                 [trustFactorOutputObject.storedTrustFactorObject setAssertions:[assertionsCopy copy]];
                 
+                //if this rules has frequency requirments then enforce them
+                if(trustFactorOutputObject.trustFactor.threshold.intValue != 0)
+                {
+                    // Still strigger the rule if we have not meet the hitcount threshold, regardless of if its in the store or not (generally only user anomaly rules)
+                    if(currentHitCount < trustFactorOutputObject.trustFactor.threshold)
+                    {
+                        //only add as triggered if meet
+                        trustFactorOutputObject.triggered=YES;
+                        
+                    }
+
+                }
+
+                
                 //test next assertion
                 
             }
@@ -530,15 +551,16 @@
         
         
     }
-    else //this is an inverse rule,  trigger on MATCH to ensure negative penalty is applied, these are authenticator type rules (e.g., knownBLEDevice, KnowWifiBSSID)
+    else //this is an inverse rule,  trigger on MATCH to ensure negative penalty is applied, these are authenticator type rules (currently only: knownBLEDevice, KnowWifiBSSID)
     {
         for(NSString *candidate in trustFactorOutputObject.assertions)
         {
             //search for a match in the store
+            currentHitCount = nil;
             currentHitCount = [trustFactorOutputObject.storedTrustFactorObject.assertions objectForKey:candidate];
             
             //We FOUND a match for the candidate in the store
-            if(currentHitCount)
+            if(currentHitCount!=nil)
             {
                 //if this rules has frequency requirments then enforce them
                 if(trustFactorOutputObject.trustFactor.threshold.intValue != 0)

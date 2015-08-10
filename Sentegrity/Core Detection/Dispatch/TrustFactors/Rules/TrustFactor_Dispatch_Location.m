@@ -39,24 +39,26 @@
     // Placemark
     CLPlacemark *currentPlacemark;
     
-    // Error has occured in main thread handler
+    // Attempt to get the current placemark
+    currentPlacemark = [self placemarkInfo];
+    
+    // Check if error was already determined when placemark was started
     if([self placemarkDNEStatus] != 0){
         
-        // Set the DNE status code to what was previously determined
+        // Set the DNE status code for the TF to what was previously determined by placemark
         [trustFactorOutputObject setStatusCode:[self placemarkDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
         
-    }else{
+    }else{ // No known errors occured previously, try to get dataset and check our object
         
-        // Get the current placemark
-        currentPlacemark = [self placemarkInfo];
+
         
-        // Check the placemark, if its empty check DNE and set it
+        // Check the placemark, if its empty set DNE
         if (!currentPlacemark || currentPlacemark == nil) {
             
-            [trustFactorOutputObject setStatusCode:DNEStatus_error];
+            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
             // Return with the blank output object
             return trustFactorOutputObject;
         }
@@ -120,7 +122,7 @@
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
-        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -132,24 +134,24 @@
     // Location
     CLLocation *currentLocation;
     
-    // Error has occured in main thread handler
+    // Attempt to get the current location
+    currentLocation = [self locationInfo];
+    
+     // Check if error was already determined when placemark was started
     if([self locationDNEStatus] != 0){
         
-        // Set the DNE status code to what was previously determined
+        // Set the DNE status code for the TF to what was previously determined by location services
         [trustFactorOutputObject setStatusCode:[self locationDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
         
-    }else{
-
-        // Get the current location
-        currentLocation = [self locationInfo];
+    }else{ // No known errors occured previously, check our object
         
-        // Check the location, if its empty check DNE and set it
+        // Check the location, if its empty  set DNE
         if (!currentLocation || currentLocation == nil) {
             
-            [trustFactorOutputObject setStatusCode:DNEStatus_error];
+            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
             // Return with the blank output object
             return trustFactorOutputObject;
         }
