@@ -699,6 +699,28 @@ static NSArray *allTrustFactorsOutputObjects;
                 }
             }
             break;
+        case DNEStatus_expired:
+            // Expired
+            
+            // Check if subclass contains custom suggestion for the current error code
+            if(subClass.dneExpired.length != 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneExpired]){
+                    [suggestionsInClass addObject:subClass.dneExpired];
+                }
+            }
+            break;
+        case DNEStatus_nodata:
+            // Expired
+            
+            // Check if subclass contains custom suggestion for the current error code
+            if(subClass.dneNoData.length != 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneNoData]){
+                    [suggestionsInClass addObject:subClass.dneNoData];
+                }
+            }
+            break;
         default:
             break;
     }

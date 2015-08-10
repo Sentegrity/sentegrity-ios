@@ -316,7 +316,7 @@
     // less than desired uptime
     if([hoursUp integerValue] < [[[payload objectAtIndex:0] objectForKey:@"minimumHoursUp"] integerValue])
     {
-        [outputArray addObject:hoursUp];
+        [outputArray addObject:[NSString stringWithFormat:@"up%@",hoursUp]];
     }
     
     // Set the trustfactor output to the output array (regardless if empty)

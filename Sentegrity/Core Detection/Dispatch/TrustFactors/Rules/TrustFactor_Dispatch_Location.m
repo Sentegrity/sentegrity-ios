@@ -51,19 +51,19 @@
         // Return with the blank output object
         return trustFactorOutputObject;
         
-    }else{ // No known errors occured previously, try to get dataset and check our object
+    }
+    
+    // No known errors occured previously, try to get dataset and check our object
+    
+    // Check the placemark, if its empty set DNE
+    if (!currentPlacemark || currentPlacemark == nil) {
+            
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
         
 
-        
-        // Check the placemark, if its empty set DNE
-        if (!currentPlacemark || currentPlacemark == nil) {
-            
-            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-            // Return with the blank output object
-            return trustFactorOutputObject;
-        }
-        
-    }
     
     NSString *countryCode = currentPlacemark.ISOcountryCode;
     
@@ -146,17 +146,18 @@
         // Return with the blank output object
         return trustFactorOutputObject;
         
-    }else{ // No known errors occured previously, check our object
-        
-        // Check the location, if its empty  set DNE
-        if (!currentLocation || currentLocation == nil) {
-            
-            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-            // Return with the blank output object
-            return trustFactorOutputObject;
-        }
-        
     }
+    
+    // No known errors occured previously, check our object
+        
+    // Check the location, if its empty  set DNE
+    if (!currentLocation || currentLocation == nil) {
+            
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     
     // Rounding from policy
     int decimalPlaces = -1;

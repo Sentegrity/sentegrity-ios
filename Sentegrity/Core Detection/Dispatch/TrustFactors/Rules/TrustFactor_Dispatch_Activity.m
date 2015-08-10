@@ -58,26 +58,20 @@
         // Return with the blank output object
         return trustFactorOutputObject;
     }
-    else{ // No known errors occured previously, try to get dataset and check our object
+   
+    // No known errors occured previously, try to get dataset and check our object
         
-        activities = [self activityInfo];
+    activities = [self activityInfo];
         
-        // Check activity dataset again 
-        if (!activities || activities == nil) {
+    // Check activity dataset again
+    if (!activities || activities == nil || activities.count < 1) {
             
-            [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
-            // Return with the blank output object
-            return trustFactorOutputObject;
-        }
-        
-        
-    }
-    
-    if(activities.count < 1){
         [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        
         // Return with the blank output object
         return trustFactorOutputObject;
     }
+        
     
 
     CMMotionActivity *actItem;

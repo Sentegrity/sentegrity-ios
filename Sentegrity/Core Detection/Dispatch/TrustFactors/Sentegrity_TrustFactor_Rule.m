@@ -157,17 +157,17 @@ static int locationDNEStatus = 0;
                 return currentLocation;
 
             }
-            else{
-                currentTime = CFAbsoluteTimeGetCurrent();
+            
+            currentTime = CFAbsoluteTimeGetCurrent();
                                 // we've waited more than a second, exit
-                if ((currentTime-startTime) > 1.0){
+            if ((currentTime-startTime) > 1.0){
                 NSLog(@"Location timer expired");
-                    exit=YES;
-                    [self setLocationDNEStatus:DNEStatus_expired];
-                 return currentLocation;
+                exit=YES;
+                [self setLocationDNEStatus:DNEStatus_expired];
+                return currentLocation;
 
-                }
             }
+            
             
             [NSThread sleepForTimeInterval:.1];
             
@@ -216,17 +216,17 @@ static int placemarkDNEStatus = 0;
                 return currentPlacemark;
                 
             }
-            else{
-                currentTime = CFAbsoluteTimeGetCurrent();
-                // we've waited more than a second, exit
-                if ((currentTime-startTime) > 1.0){
-                    NSLog(@"Placemark timer expired");
-                    exit=YES;
-                    [self setPlacemarkDNEStatus:DNEStatus_expired];
-                    return currentPlacemark;
+            
+            currentTime = CFAbsoluteTimeGetCurrent();
+            // we've waited more than a second, exit
+            if ((currentTime-startTime) > 1.0){
+                NSLog(@"Placemark timer expired");
+                exit=YES;
+                [self setPlacemarkDNEStatus:DNEStatus_expired];
+                return currentPlacemark;
                     
-                }
             }
+            
             
             [NSThread sleepForTimeInterval:0.1];
             
@@ -276,17 +276,17 @@ static int activityDNEStatus = 0;
                 return activities;
                 
             }
-            else{
-                currentTime = CFAbsoluteTimeGetCurrent();
-                // we've waited more than a second, exit
-                if ((currentTime-startTime) > 1.0){
-                    NSLog(@"Activity timer expired");
-                    exit=YES;
-                    [self setActivityDNEStatus:DNEStatus_expired];
-                    return activities;
+            
+            currentTime = CFAbsoluteTimeGetCurrent();
+            // we've waited more than a second, exit
+            if ((currentTime-startTime) > 1.0){
+                NSLog(@"Activity timer expired");
+                exit=YES;
+                [self setActivityDNEStatus:DNEStatus_expired];
+                return activities;
                     
-                }
             }
+            
             
             [NSThread sleepForTimeInterval:0.1];
             
@@ -336,16 +336,16 @@ static int motionDNEStatus = 0;
                 return motion;
                 
             }
-            else{
-                currentTime = CFAbsoluteTimeGetCurrent();
-                // we've waited more than a second, exit
-                if ((currentTime-startTime) > 1.0){
-                    NSLog(@"Motion timer expired");
-                    exit=YES;
-                    [self setMotionDNEStatus:DNEStatus_expired];
-                    return motion;
+           
+            currentTime = CFAbsoluteTimeGetCurrent();
+            // we've waited more than a second, exit
+            if ((currentTime-startTime) > 1.0){
+                NSLog(@"Motion timer expired");
+                exit=YES;
+                [self setMotionDNEStatus:DNEStatus_expired];
+                return motion;
                     
-                }
+
             }
             
             [NSThread sleepForTimeInterval:0.1];
@@ -414,6 +414,66 @@ static BOOL wifiEnabled;
 static int wifiConnected = 0;
 + (int)wifiConnected {
     return wifiConnected;
+}
+
+
+
+
+// Bluetooth dataset caching
+// setters required due to async operation (main thread)
+
+static NSArray* bluetoothDevices = nil;
++ (void)setBluetooth:(NSArray *)devices {
+    bluetoothDevices = devices;
+}
+
+static int bluetoothDNEStatus = 0;
++ (void)setBluetoothDNEStatus:(int)dneStatus {
+    bluetoothDNEStatus = dneStatus;
+}
+
++ (int)bluetoothDNEStatus {
+    return bluetoothDNEStatus;
+}
+
++ (NSArray *)bluetoothInfo {
+    
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    CFAbsoluteTime currentTime = 0.0;
+    
+    //Do we any devices yet?
+    if(bluetoothDevices == nil){
+        
+        //Nope, wait for devices
+        bool exit=NO;
+        while (exit==NO){
+            
+            if(bluetoothDevices != nil){
+                NSLog(@"Got bluetooth devices after waiting..");
+                exit=YES;
+                return bluetoothDevices;
+                
+            }
+
+            currentTime = CFAbsoluteTimeGetCurrent();
+            // we've waited more than a second, exit
+            if ((currentTime-startTime) > 0.5){
+                NSLog(@"Bluetooth timer expired");
+                exit=YES;
+                [self setBluetoothDNEStatus:DNEStatus_expired];
+                return bluetoothDevices;
+                    
+            }
+            
+            [NSThread sleepForTimeInterval:0.1];
+            
+        }
+        
+    }
+    //we've already got location data
+    NSLog(@"Got bluetooth devices without waiting...");
+    return bluetoothDevices;
+    
 }
 
 

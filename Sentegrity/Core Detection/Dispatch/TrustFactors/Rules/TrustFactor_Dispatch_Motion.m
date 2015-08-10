@@ -45,22 +45,18 @@
         // Return with the blank output object
         return trustFactorOutputObject;
     }
-    else{ // No known errors occured previously, try to get dataset and check our object
+    
+    // Attempt to get motion data
+    motion = [self motionInfo];
         
-        // Attempt to get motion data
-        motion = [self motionInfo];
-        
-        // Check motion dataset again
-        if (!motion || motion == nil || motion.count < 3) {
+    // Check motion dataset again
+    if (!motion || motion == nil || motion.count < 3) {
             
-            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-            // Return with the blank output object
-            return trustFactorOutputObject;
-        }
-        
-
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        // Return with the blank output object
+        return trustFactorOutputObject;
     }
-
+    
     // Rounding from policy
     int roundingPlace = [[[payload objectAtIndex:0] objectForKey:@"rounding"] intValue];
     
