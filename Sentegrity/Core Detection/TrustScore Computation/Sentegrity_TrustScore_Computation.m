@@ -223,6 +223,7 @@ static NSArray *allTrustFactorsOutputObjects;
                         
                     }else { // TF did not run successfully (DNE)
                         
+<<<<<<< HEAD
                         
                         // FOR DEBUG OUTPUT
                         [trustFactorsWithErrors addObject:trustFactorOutputObject];
@@ -232,6 +233,17 @@ static NSArray *allTrustFactorsOutputObjects;
                         
                         subClassAnalysisIncomplete=YES;
                         
+=======
+                        
+                        // FOR DEBUG OUTPUT
+                        [trustFactorsWithErrors addObject:trustFactorOutputObject];
+                        
+                        // Record all DNE status codes within the subclass
+                        [subClassDNECodes addObject:[NSNumber numberWithInt:trustFactorOutputObject.statusCode]];
+                        
+                        subClassAnalysisIncomplete=YES;
+                        
+>>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
                         // If TF is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
                         if (trustFactorOutputObject.trustFactor.inverse.intValue ==1){
                             

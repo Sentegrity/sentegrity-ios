@@ -51,6 +51,20 @@
         // Return with the blank output object
         return trustFactorOutputObject;
         
+<<<<<<< HEAD
+    }else{ // No known errors occured previously, try to get dataset and check our object
+        
+
+        
+        // Check the placemark, if its empty set DNE
+        if (!currentPlacemark || currentPlacemark == nil) {
+            
+            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+            // Return with the blank output object
+            return trustFactorOutputObject;
+        }
+        
+=======
     }
     
     // No known errors occured previously, try to get dataset and check our object
@@ -61,6 +75,7 @@
         [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
         // Return with the blank output object
         return trustFactorOutputObject;
+>>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
     }
         
 
@@ -146,6 +161,18 @@
         // Return with the blank output object
         return trustFactorOutputObject;
         
+<<<<<<< HEAD
+    }else{ // No known errors occured previously, check our object
+        
+        // Check the location, if its empty  set DNE
+        if (!currentLocation || currentLocation == nil) {
+            
+            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+            // Return with the blank output object
+            return trustFactorOutputObject;
+        }
+        
+=======
     }
     
     // No known errors occured previously, check our object
@@ -156,6 +183,7 @@
         [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
         // Return with the blank output object
         return trustFactorOutputObject;
+>>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
     }
     
     

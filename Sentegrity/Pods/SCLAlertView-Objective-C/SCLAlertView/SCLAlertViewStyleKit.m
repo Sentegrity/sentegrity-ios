@@ -185,8 +185,7 @@ static UIImage *imageOfEdit = nil;
 + (void)drawEdit
 {
     // Color Declarations
-   // UIColor *color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-    UIColor *color = [UIColor colorWithRed:0.236 green:0.236 blue:0.236 alpha:1.000];
+    UIColor *color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
     
     // Edit shape Drawing
     UIBezierPath *editPathPath = [[UIBezierPath alloc] init];

@@ -58,8 +58,12 @@
         // Return with the blank output object
         return trustFactorOutputObject;
     }
+<<<<<<< HEAD
+    else{ // No known errors occured previously, try to get dataset and check our object
+=======
    
     // No known errors occured previously, try to get dataset and check our object
+>>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
         
     activities = [self activityInfo];
         

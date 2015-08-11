@@ -11,7 +11,7 @@ PODS:
   - NSObject-ObjectMap (2.3.1)
   - NSString-Hashes (1.2.2)
   - RESideMenu (4.0.7)
-  - SCLAlertView-Objective-C (0.7.3)
+  - SCLAlertView-Objective-C (0.7.4)
 
 DEPENDENCIES:
   - ChameleonFramework (~> 1.2)
@@ -26,7 +26,7 @@ DEPENDENCIES:
   - NSObject-ObjectMap (~> 2.0)
   - NSString-Hashes (~> 1.2)
   - RESideMenu (~> 4.0)
-  - SCLAlertView-Objective-C (~> 0.7)
+  - SCLAlertView-Objective-C (~> 0.7.4)
 
 SPEC CHECKSUMS:
   ChameleonFramework: 4d6bf87fcaee176f487176cdccc4229637ec97f0
@@ -41,6 +41,6 @@ SPEC CHECKSUMS:
   NSObject-ObjectMap: 3223c0c994a8e3de44ccb74ddf3e63c86821c015
   NSString-Hashes: c3848d809e92650e4fb17db5d8cc4bd2aa1eaddd
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
-  SCLAlertView-Objective-C: 4bf9a07c8a8d1840e5174e643e16bc032239914d
+  SCLAlertView-Objective-C: 15ebfdac06ca289ba1f29fe34b5a03da6bd3fe37
 
 COCOAPODS: 0.38.0

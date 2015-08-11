@@ -45,16 +45,32 @@
         // Return with the blank output object
         return trustFactorOutputObject;
     }
+<<<<<<< HEAD
+    else{ // No known errors occured previously, try to get dataset and check our object
+        
+        // Attempt to get motion data
+        motion = [self motionInfo];
+=======
     
     // Attempt to get motion data
     motion = [self motionInfo];
+>>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
         
     // Check motion dataset again
     if (!motion || motion == nil || motion.count < 3) {
             
+<<<<<<< HEAD
+            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+            // Return with the blank output object
+            return trustFactorOutputObject;
+        }
+        
+
+=======
         [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
         // Return with the blank output object
         return trustFactorOutputObject;
+>>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
     }
     
     // Rounding from policy
