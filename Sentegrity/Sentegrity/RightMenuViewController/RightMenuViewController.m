@@ -40,7 +40,7 @@
     // Do any additional setup after loading the view.
     
     // Set the background color
-    [self.view setBackgroundColor:[UIColor flatWhiteColor]];
+    [self.view setBackgroundColor:[UIColor blackColor]];
     
     // Set the tableview
     self.tableView = ({
@@ -79,7 +79,7 @@
                 // Done presenting
                 
                 // Hide the side menu
-                [self.sideMenuViewController hideMenuViewController];
+                //[self.sideMenuViewController hideMenuViewController];
             }];
             
             // Done
@@ -99,7 +99,7 @@
                 // Done presenting
                 
                 // Hide the side menu
-                [self.sideMenuViewController hideMenuViewController];
+                //[self.sideMenuViewController hideMenuViewController];
             }];
             
             break;
@@ -195,8 +195,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
-        cell.textLabel.textColor = [UIColor blackColor];
-        cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
+        cell.textLabel.textColor = [UIColor flatWhiteColor];
+        cell.textLabel.highlightedTextColor = [UIColor flatGrayColor];
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     

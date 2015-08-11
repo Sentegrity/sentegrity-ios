@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FBC401D011A6CC633C9A660F"
+               BlueprintIdentifier = "C8A17F91F9ACE9E19A4F9EBC"
                BuildableName = "libNSObject-ObjectMap.a"
                BlueprintName = "NSObject-ObjectMap"
                ReferencedContainer = "container:Pods.xcodeproj">

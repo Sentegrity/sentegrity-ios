@@ -1,6 +1,6 @@
 PODS:
   - ChameleonFramework (1.2.0)
-  - CircleProgressBar (0.12)
+  - CircleProgressBar (0.21)
   - DateTools (1.6.1)
   - DCKeyValueObjectMapping (1.4)
   - Facade (0.2)
@@ -15,7 +15,7 @@ PODS:
 
 DEPENDENCIES:
   - ChameleonFramework (~> 1.2)
-  - CircleProgressBar (~> 0.2)
+  - CircleProgressBar (~> 0.21)
   - DateTools (~> 1.6)
   - DCKeyValueObjectMapping (~> 1.4)
   - Facade (~> 0.2)
@@ -30,7 +30,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   ChameleonFramework: 4d6bf87fcaee176f487176cdccc4229637ec97f0
-  CircleProgressBar: 29a4261cf51502bbf5b40d08f21cf8751e1b704b
+  CircleProgressBar: 4ce12ddcdc5673cc9f0fb83f6ec7b2a53ecb28df
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
   DCKeyValueObjectMapping: 04cd5a338c03ce1c02488926cab6e1d1f704a093
   Facade: 7b95ffd1fcb12168787ed44640362ac6b4485323
