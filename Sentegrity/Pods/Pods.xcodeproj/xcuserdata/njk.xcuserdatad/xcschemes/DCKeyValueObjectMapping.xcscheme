@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "44B60C0B375561A7436AED32"
+               BlueprintIdentifier = "113E8E26B0BB68FEB6E9E43D"
                BuildableName = "libDCKeyValueObjectMapping.a"
                BlueprintName = "DCKeyValueObjectMapping"
                ReferencedContainer = "container:Pods.xcodeproj">

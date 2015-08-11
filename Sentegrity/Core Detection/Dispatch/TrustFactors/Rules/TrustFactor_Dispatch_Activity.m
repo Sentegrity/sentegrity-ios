@@ -57,27 +57,21 @@
         
         // Return with the blank output object
         return trustFactorOutputObject;
-    }
-<<<<<<< HEAD
-    else{ // No known errors occured previously, try to get dataset and check our object
-=======
-   
-    // No known errors occured previously, try to get dataset and check our object
->>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
+    } else {
+        // No known errors occured previously, try to get dataset and check our object
         
-    activities = [self activityInfo];
+        activities = [self activityInfo];
         
-    // Check activity dataset again
-    if (!activities || activities == nil || activities.count < 1) {
+        // Check activity dataset again
+        if (!activities || activities == nil || activities.count < 1) {
             
-        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
+            [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+            
+            // Return with the blank output object
+            return trustFactorOutputObject;
+        }
     }
-        
     
-
     CMMotionActivity *actItem;
     bool walking = 0;
     bool running = 0;
@@ -98,7 +92,6 @@
         if (actItem.stationary == 1)
             stationary=1;
     }
-    
     
     NSLog(@"walking: %i", walking);
     NSLog(@"running: %i", running);

@@ -11,9 +11,6 @@
 
 @implementation Bluetooth_Info : NSObject
 
-
-
-
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     
     // Add the device to the list
@@ -83,5 +80,10 @@
     
 }
 
+// Singleton instance
++ (void)start
+{
+    // TODO: No content here?  Jason?
+}
 
 @end

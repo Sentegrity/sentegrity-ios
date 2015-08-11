@@ -15,7 +15,7 @@
 
 #import "Sentegrity_TrustFactor_Rule.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <CBCentralManagerDelegate>
 
 @end
 
@@ -312,14 +312,14 @@ static CFAbsoluteTime startTime=0.0;
     // Add the device dictionary to the list
     [bluetoothDevices addObject:[NSString stringWithFormat:@"%@",peripheral.identifier]];
     
-
     
-
+    
+    
 }
 
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central{
-
+    
     
     switch (central.state) {
         case CBCentralManagerStateUnknown:
@@ -368,10 +368,10 @@ static CFAbsoluteTime startTime=0.0;
             
             // Start scanning for any peripheral
             [mgr scanForPeripheralsWithServices:nil options:nil];
-         
+            
             
             break;
-        }   
+        }
             
     }
     
