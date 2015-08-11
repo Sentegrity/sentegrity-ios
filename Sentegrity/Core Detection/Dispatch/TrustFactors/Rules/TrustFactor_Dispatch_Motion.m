@@ -18,7 +18,7 @@
     
     // Set the default status code to OK (default = DNEStatus_ok)
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
-
+    
     // Validate the payload
     if (![self validatePayload:payload]) {
         // Payload is EMPTY
@@ -37,40 +37,25 @@
     NSArray *motion;
     
     
-     // Check if error was already determined when motion was started
+    // Check if error was already determined when motion was started
     if ([self motionDNEStatus] != 0 ){
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[self motionDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
-    }
-<<<<<<< HEAD
-    else{ // No known errors occured previously, try to get dataset and check our object
+    } else { // No known errors occured previously, try to get dataset and check our object
         
         // Attempt to get motion data
         motion = [self motionInfo];
-=======
-    
-    // Attempt to get motion data
-    motion = [self motionInfo];
->>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
         
-    // Check motion dataset again
-    if (!motion || motion == nil || motion.count < 3) {
+        // Check motion dataset again
+        if (!motion || motion == nil || motion.count < 3) {
             
-<<<<<<< HEAD
             [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
             // Return with the blank output object
             return trustFactorOutputObject;
         }
-        
-
-=======
-        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-        // Return with the blank output object
-        return trustFactorOutputObject;
->>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
     }
     
     // Rounding from policy
@@ -78,7 +63,7 @@
     
     // Average from policy ?
     int maxSampleSize = [[[payload objectAtIndex:0] objectForKey:@"maxSampleSize"] intValue];
-
+    
     if (maxSampleSize == 0 || roundingPlace == 0){
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
@@ -127,30 +112,30 @@
     NSString *motionX = [NSString stringWithFormat:@"%.*f",roundingPlace,xAverage];
     //NSString *motionY = [NSString stringWithFormat:@"%.*f",roundingPlace,yAverage];
     NSString *motionZ = [NSString stringWithFormat:@"%.*f",roundingPlace,zAverage];
-        
-
+    
+    
     // Get orientation, depending on portrait vs. landscape use Z or X
     UIDevice *device = [UIDevice currentDevice];
     UIDeviceOrientation orientation = device.orientation;
     
     switch (orientation) {
         case UIDeviceOrientationPortrait:
-           [outputArray addObject:motionZ];
+            [outputArray addObject:motionZ];
             break;
         case UIDeviceOrientationPortraitUpsideDown:
-           [outputArray addObject:motionZ];
+            [outputArray addObject:motionZ];
             break;
         case UIDeviceOrientationLandscapeLeft:
-           [outputArray addObject:motionX];
+            [outputArray addObject:motionX];
             break;
         case UIDeviceOrientationLandscapeRight:
-           [outputArray addObject:motionX];
+            [outputArray addObject:motionX];
             break;
         case UIDeviceOrientationFaceUp:
-           [outputArray addObject:motionZ];
+            [outputArray addObject:motionZ];
             break;
         case UIDeviceOrientationFaceDown:
-           [outputArray addObject:motionZ];
+            [outputArray addObject:motionZ];
             break;
         case UIDeviceOrientationUnknown:
             //Error
@@ -184,13 +169,13 @@
     
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
-  
+    
     // Get orientation
     UIDevice *device = [UIDevice currentDevice];
     UIDeviceOrientation orientation = device.orientation;
     
     NSString *orientationString;
-
+    
     switch (orientation) {
         case UIDeviceOrientationPortrait:
             orientationString =  @"Portrait";

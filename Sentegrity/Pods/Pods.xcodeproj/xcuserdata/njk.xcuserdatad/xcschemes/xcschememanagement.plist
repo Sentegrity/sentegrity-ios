@@ -39,6 +39,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>LGBluetooth.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -72,22 +77,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>01ACAE6A9331CE6479D254AA8242D20A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>1D033670A4D58165B723AB70747ED70D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>287505D279DCFE336B219BFF1368B6CD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>2965E38DCEBC6E89D5362BA6561D3FBD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2DDA02DC2CCD8896103D3D7C296D7915</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -97,42 +92,57 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>50D8807ADAD52D290B01EBD3420602B2</key>
+		<key>4586174A685E956694F0D29C1B4191F5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>54A5F109FD93F8C41A89D6B34F0258BD</key>
+		<key>4ED3AF6BB2298CEB80500827AAF19083</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>605E21D101E6B86D9600BB2ED61AD7D5</key>
+		<key>6C42661D9E3AFE63DFF4B85010F86177</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8F2A45A342321C97F3596D25BE6F413C</key>
+		<key>8DA991619FF89D963F6FB2BC01D1906B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>946598FFF6BE5A4BEAFDE92B244275B5</key>
+		<key>97E58D8443B2317981B44693D51F928B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A37B6AC89BC93D68082292EA2630908A</key>
+		<key>B2B16F5CDF2525266F05E95C877299D0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EE60DC345C8F7ECC789F18289C52E3C0</key>
+		<key>D05400EF5EB7CFD7ADE5361B641CB1BF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F56318C0C2A67B683EC1EB4F955C9DF1</key>
+		<key>DA56974F47A7E2194A75B25F4B7860CB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DB9856507BFBCDBF0B85B7870E09EA30</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E3E914BC01CC64118FAFB1244569B608</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FCBB9A64531BD93FCC2221D6E49E8993</key>
 		<dict>
 			<key>primary</key>
 			<true/>

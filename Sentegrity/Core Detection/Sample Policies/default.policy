@@ -170,13 +170,8 @@
 "dneUnsupported": "Employ a device with Bluetooth",
 "dneUnavailable": "",
 "dneDisabled": "Enable Bluetooth",
-<<<<<<< HEAD
-"dneNoData": "",
-"dneExpired": "",
-=======
 "dneNoData": "Employ a bluetooth device",
 "dneExpired": "Employ a bluetooth device",
->>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
 "weight": 0
 }, {
 "id": 13,
@@ -622,11 +617,7 @@
 "learnTime": 0,
 "learnAssertionCount": 0,
 "learnRunCount": 0,
-<<<<<<< HEAD
-"threshold": 3,
-=======
 "threshold": 5,
->>>>>>> 0a2c9b1e619d1e110f27e67b0d61f3645d049374
 "provision": 1,
 "local": 1,
 "history": 10,
