@@ -307,7 +307,7 @@
         case 1: {
             
             SCLAlertView *alert = [[SCLAlertView alloc] init];
-            alert.customViewColor = [UIColor grayColor];
+            //alert.customViewColor = [UIColor grayColor];
             // Show wipe warning
             [alert addButton:@"Wipe" actionBlock:^{
                 // Active protect mode
@@ -326,9 +326,14 @@
             [[ProtectMode sharedProtectMode] activateProtectModeUserWithError:error];
             
             SCLAlertView *userPIN = [[SCLAlertView alloc] init];
-            userPIN.customViewColor = [UIColor grayColor];
+            //userPIN.customViewColor = [UIColor grayColor];
             
             UITextField *userText = [userPIN addTextField:@"User Password"];
+            UIFont * font = [UIFont fontWithName:@"Helvetica-Bold"
+                                            size:[UIFont systemFontSize]];
+            [userText setFont:font];
+            
+            [userPIN setTitleFontFamily:@"Helvetics-Bold" withSize:[UIFont systemFontSize]];
             
             // Show deactivation textbox
             
@@ -338,8 +343,12 @@
                 [[ProtectMode sharedProtectMode] deactivateProtectModeUserWithPIN:userText.text withError:error];
                
             }];
+            //UIImage *bgImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"background" ofType:@"jpg"]]
+            UIImage *popup = [UIImage  imageNamed:@"Sentegrity_Logo"];
+
+            //[userPIN showCustom:self title:@"Unlock" subTitle:@"User Authentication is Required" closeButtonTitle:@"Cancel" duration:0.0f];
             
-            [userPIN showEdit:self title:@"Unlock" subTitle:@"User Authentication is Required" closeButtonTitle:@"Cancel" duration:0.0f];
+            [userPIN showCustom:self image:popup color:[UIColor grayColor] title:@"User Password" subTitle:@"User Authentication is Required" closeButtonTitle:@"Cancel" duration:0.0f];
             
         }
             break;

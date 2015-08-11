@@ -658,7 +658,7 @@
 "subClassID": 5,
 "priority": 2,
 "name": "high risk apps",
-"penalty": 30,
+"penalty": 40,
 "learnMode": 1,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -672,12 +672,9 @@
 "inverse": 0,
 "whitelistable": 1,
 "payload": [
-"scany",
-"systemMonitor",
-"BLE Scanner",
-"Core Monitor",
-"AppSwitch",
-"Lirum Info"
+"Scany",
+"SystemMonitor",
+"blescanner"
 ]
 }, {
 "id": 1019,
