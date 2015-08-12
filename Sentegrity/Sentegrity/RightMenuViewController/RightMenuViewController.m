@@ -14,6 +14,9 @@
 // System Debug View Controller
 #import "SystemDebugViewController.h"
 
+// Computation Info View Controller
+#import "ComputationInfoViewController.h"
+
 // Get the trustfactor storage class
 #import "Sentegrity_TrustFactor_Storage.h"
 
@@ -104,10 +107,25 @@
             
             break;
         }
-        case 2:
+        case 2: {
             // Computation Info
-            [self.sideMenuViewController hideMenuViewController];
+            
+            // Get the storyboard
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            // Create the system debug view controller
+            ComputationInfoViewController *computationInfoController = [mainStoryboard instantiateViewControllerWithIdentifier:@"computationinfoviewcontroller"];
+            
+            // Present it
+            [self presentViewController:computationInfoController animated:YES completion:^{
+                // Done presenting
+                
+                // Hide the side menu
+                //[self.sideMenuViewController hideMenuViewController];
+            }];
+            
             break;
+        }
         case 3: {
             // Reset Stores
             

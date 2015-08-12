@@ -1,31 +1,37 @@
 //
-//  ComputationInfoViewController.m
+//  UserInformationViewController.m
 //  Sentegrity
 //
-//  Created by Kramer, Nicholas on 8/10/15.
+//  Created by Kramer on 8/12/15.
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
-#import "ComputationInfoViewController.h"
+#import "UserInformationViewController.h"
 
-@interface ComputationInfoViewController () {
+// Side Menu
+#import "RESideMenu.h"
+
+@interface UserInformationViewController () <RESideMenuDelegate> {
     // Is the view dismissing?
     BOOL isDismissing;
 }
 
-// Right Menu Button Press
+// Right Menu Button Pressed
 - (void)rightMenuButtonPressed:(JTHamburgerButton *)sender;
+
+// Back Button Pressed
+- (void)backButtonPressed:(JTHamburgerButton *)sender;
 
 @end
 
-@implementation ComputationInfoViewController
+@implementation UserInformationViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    // Set up the menu button
-    [self.menuButton setCurrentMode:JTHamburgerButtonModeCross];
+    // Set the menu button
+    [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
     [self.menuButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
     [self.menuButton setLineWidth:40.0f];
     [self.menuButton setLineHeight:4.0f];
@@ -33,6 +39,27 @@
     [self.menuButton setShowsTouchWhenHighlighted:YES];
     [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.menuButton updateAppearance];
+    
+    // Set the back button
+    [self.backButton setCurrentMode:JTHamburgerButtonModeArrow];
+    [self.backButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
+    [self.backButton setLineWidth:40.0f];
+    [self.backButton setLineHeight:4.0f];
+    [self.backButton setLineSpacing:7.0f];
+    [self.backButton setShowsTouchWhenHighlighted:YES];
+    [self.backButton addTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.backButton updateAppearance];
+    
+    // Set the side menu delegate
+    [self.sideMenuViewController setDelegate:self];
+}
+
+#pragma mark - RESideMenu Delegate
+
+// Side Menu finished showing menu
+- (void)sideMenu:(RESideMenu *)sideMenu didHideMenuViewController:(UIViewController *)menuViewController {
+    // Set the hamburger button back
+    [self.menuButton setCurrentModeWithAnimation:JTHamburgerButtonModeHamburger];
 }
 
 #pragma mark - Actions
@@ -40,15 +67,33 @@
 // Right Menu Button Pressed
 - (void)rightMenuButtonPressed:(JTHamburgerButton *)sender {
     // Check which mode the menu button is in
-    if (sender.currentMode == JTHamburgerButtonModeCross) {
+    if (sender.currentMode == JTHamburgerButtonModeHamburger) {
+        // Set it to arrow
+        [sender setCurrentModeWithAnimation:JTHamburgerButtonModeArrow];
+        
+        // Present the right menu
+        [self presentRightMenuViewController:self];
+    } else {
+        // Set it to hamburger
+        [sender setCurrentModeWithAnimation:JTHamburgerButtonModeHamburger];
+    }
+}
+
+// Back Button Pressed
+- (void)backButtonPressed:(JTHamburgerButton *)sender {
+    // Check which mode the menu button is in
+    if (sender.currentMode == JTHamburgerButtonModeArrow) {
         
         // Set is dismissing to yes
         isDismissing = YES;
         
-        // Remove the view controller
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        // Push the view back
+        [self.navigationController popViewControllerAnimated:YES];
+        
     }
 }
+
+#pragma mark - Overrides
 
 // Layout subviews
 - (void)viewDidLayoutSubviews {
