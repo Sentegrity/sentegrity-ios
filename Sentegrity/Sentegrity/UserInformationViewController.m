@@ -11,6 +11,9 @@
 // Side Menu
 #import "RESideMenu.h"
 
+// Flat Colors
+#import "Chameleon.h"
+
 @interface UserInformationViewController () <RESideMenuDelegate> {
     // Is the view dismissing?
     BOOL isDismissing;
@@ -29,6 +32,165 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // Set the TrustScore progress bar
+    [self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:205.0f/255.0f green:205.0f/255.0f blue:205.0f/255.0f alpha:1.0f]];
+    [self.userScoreProgressBar setProgressBarTrackColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
+    [self.userScoreProgressBar setBackgroundColor:[UIColor clearColor]];
+    [self.userScoreProgressBar setStartAngle:90.0f];
+    [self.userScoreProgressBar setHintHidden:YES];
+    [self.userScoreProgressBar setProgressBarWidth:12.0f];
+    
+    // Set the trustscore holding label
+    [self.userScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];
+    
+    // Check if the computation results were parsed
+    if (self.computationResults != nil) {
+        
+        // User Score
+        CGFloat userScore = self.computationResults.userScore;
+        
+        // Set the User Score
+        [self.userScoreLabel setText:[NSString stringWithFormat:@"%.0f", userScore]];
+        
+        // Set the progress bar
+        [self.userScoreProgressBar setProgress:userScore/100.0f animated:YES];
+        
+        // Set the device message
+        [self.userStatusLabel setText:self.computationResults.userGUIIconText];
+        
+        // Set the device image
+        if (self.computationResults.userGUIIconID == 0) {
+            
+            // Set the image view to the shield if it passed
+            [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
+            
+            // Set the background color to clear
+            self.userStatusImageView.backgroundColor = [UIColor clearColor];
+        }
+        
+        // Create a string that will hold all of our textview info
+        NSMutableAttributedString *userAttributedString = [[NSMutableAttributedString alloc] init];
+        
+        // Create an attributed string dictionary for section info
+        NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:205.0f/255.0f green:205.0f/255.0f blue:205.0f/255.0f alpha:1.0f]};
+        
+        // Create an attributed string dictionary for content
+        NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.userStatusLabel.font.fontName size:16.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
+        
+        // Check if there are any GUI issues
+        if (self.computationResults.userGUIIssues.count > 0 && self.computationResults.userGUIIssues != nil) {
+            
+            // Set the issues section
+            NSAttributedString *issueSection = [[NSAttributedString alloc] initWithString:@"Issues\n" attributes:sectionStringDict];
+            
+            // Append the section
+            [userAttributedString appendAttributedString:issueSection];
+            
+            // Run through all the user GUI issues
+            for (NSString *string in self.computationResults.userGUIIssues) {
+                
+                // Create the X image in the string
+                NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+                textAttachment.image = [UIImage imageNamed:@"Close"];
+                textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+                
+                NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+                
+                // Append the string
+                [userAttributedString appendAttributedString:attrStringWithImage];
+                
+                // Create the issue string
+                NSAttributedString *issue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", string] attributes:contentStringDict];
+                
+                // Append the string
+                [userAttributedString appendAttributedString:issue];
+            }
+        }
+        
+        // Append a newline
+        [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+        
+        // Check if there are any GUI suggestions
+        if (self.computationResults.userGUISuggestions.count > 0 && self.computationResults.userGUISuggestions != nil) {
+            
+            // Set the suggestions section
+            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Suggestions\n" attributes:sectionStringDict];
+            
+            // Append the section
+            [userAttributedString appendAttributedString:section];
+            
+            // Run through all the user GUI suggestions
+            for (NSString *string in self.computationResults.userGUISuggestions) {
+                
+                // Create the checkmark image in the string
+                NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+                textAttachment.image = [UIImage imageNamed:@"CheckMark"];
+                textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+                
+                NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+                
+                // Append the string
+                [userAttributedString appendAttributedString:attrStringWithImage];
+                
+                // Create the suggestion string
+                NSAttributedString *issue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", string] attributes:contentStringDict];
+                
+                // Append the string
+                [userAttributedString appendAttributedString:issue];
+            }
+        }
+        
+        // Append a newline
+        [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+        
+        // Check if there are any GUI analysis
+        if (self.computationResults.userGUIAnalysis.count > 0 && self.computationResults.userGUIAnalysis != nil) {
+            
+            // Set the suggestions section
+            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Analysis\n" attributes:sectionStringDict];
+            
+            // Append the section
+            [userAttributedString appendAttributedString:section];
+            
+            // Run through all the user GUI suggestions
+            for (NSString *string in self.computationResults.userGUIAnalysis) {
+                
+                // Check if the string contains the word failed
+                if (![string containsString:@"complete"]) {
+                    // Create the X image in the string
+                    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+                    textAttachment.image = [UIImage imageNamed:@"Close"];
+                    textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+                    
+                    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+                    
+                    // Append the string
+                    [userAttributedString appendAttributedString:attrStringWithImage];
+                } else {
+                    // Create the checkmark image in the string
+                    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+                    textAttachment.image = [UIImage imageNamed:@"CheckMark"];
+                    textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+                    
+                    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+                    
+                    // Append the string
+                    [userAttributedString appendAttributedString:attrStringWithImage];
+                }
+                
+                // Create the analysis string
+                NSAttributedString *issue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", string] attributes:contentStringDict];
+                
+                // Append the string
+                [userAttributedString appendAttributedString:issue];
+            }
+        }
+        
+        // Set the user Text View Text
+        [self.userTextView setAttributedText:userAttributedString];
+        
+    }
     
     // Set the menu button
     [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
@@ -52,6 +214,14 @@
     
     // Set the side menu delegate
     [self.sideMenuViewController setDelegate:self];
+    
+    // Round out the device status image view
+    self.userStatusImageView.layer.cornerRadius = self.userStatusImageView.frame.size.height /2;
+    self.userStatusImageView.layer.masksToBounds = YES;
+    self.userStatusImageView.layer.borderWidth = 0;
+    
+    // Set the user Text View Font
+    [self.userTextView setFont:[UIFont fontWithName:self.userStatusLabel.font.familyName size:16]];
 }
 
 #pragma mark - RESideMenu Delegate

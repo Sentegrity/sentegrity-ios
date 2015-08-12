@@ -506,6 +506,12 @@
     // Create the system debug view controller
     SystemInformationViewController *deviceInfoController = [mainStoryboard instantiateViewControllerWithIdentifier:@"userinformationviewcontroller"];
     
+    // Set the computation results if it exists
+    if (self.computationResults != nil) {
+        // Set the device information view controller computation results
+        [deviceInfoController setComputationResults:self.computationResults];
+    }
+    
     // Push it
     [self.navigationController pushViewController:deviceInfoController animated:YES];
     

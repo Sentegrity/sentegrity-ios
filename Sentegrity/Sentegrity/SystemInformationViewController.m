@@ -157,7 +157,7 @@
             for (NSString *string in self.computationResults.systemGUIAnalysis) {
                 
                 // Check if the string contains the word failed
-                if ([string containsString:@"failed"]) {
+                if (![string containsString:@"complete"]) {
                     // Create the X image in the string
                     NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
                     textAttachment.image = [UIImage imageNamed:@"Close"];
