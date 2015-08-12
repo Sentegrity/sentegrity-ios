@@ -790,6 +790,11 @@ Anomaly</string>
                                 </constraints>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="zhf-Xp-e1u"/>
+                                    </mask>
+                                </variation>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1176,7 +1181,6 @@ Anomaly</string>
                                 <rect key="frame" x="26" y="315" width="323" height="332"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="332" id="IWo-VE-hXv"/>
                                     <constraint firstAttribute="width" constant="323" id="YDK-tc-jHK"/>
                                 </constraints>
                                 <attributedString key="attributedText"/>
