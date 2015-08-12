@@ -75,9 +75,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    // Customize the view
-    [self customizeView];
-    
     @autoreleasepool {
         
         dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
@@ -98,6 +95,9 @@
     
     // Set the side menu delegate
     [self.sideMenuViewController setDelegate:self];
+    
+    // Customize the view
+    [self customizeView];
 }
 
 // Set up the customizations for the view
