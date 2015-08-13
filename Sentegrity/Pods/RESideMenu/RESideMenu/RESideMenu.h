@@ -23,6 +23,7 @@
 // THE SOFTWARE.
 //
 
+
 #import <UIKit/UIKit.h>
 #import "UIViewController+RESideMenu.h"
 
@@ -33,6 +34,7 @@
 @protocol RESideMenuDelegate;
 
 @interface RESideMenu : UIViewController <UIGestureRecognizerDelegate>
+
 
 #if __IPHONE_8_0
 @property (strong, readwrite, nonatomic) IBInspectable NSString *contentViewStoryboardID;

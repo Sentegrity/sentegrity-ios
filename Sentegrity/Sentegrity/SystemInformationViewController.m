@@ -44,6 +44,9 @@
     // Set the trustscore holding label
     [self.systemScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];
     
+    // Set last computation
+    self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+    
     // Check if the computation results were parsed
     if (self.computationResults != nil) {
         
@@ -73,7 +76,7 @@
         NSMutableAttributedString *systemAttributedString = [[NSMutableAttributedString alloc] init];
         
         // Create an attributed string dictionary for section info
-        NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:205.0f/255.0f green:205.0f/255.0f blue:205.0f/255.0f alpha:1.0f]};
+        NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0f]};
         
         // Create an attributed string dictionary for content
         NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.systemStatusLabel.font.fontName size:16.0f], NSForegroundColorAttributeName : [UIColor blackColor]};

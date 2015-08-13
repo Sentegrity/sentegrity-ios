@@ -28,6 +28,11 @@
 // Callback block definition
 void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error);
 
+- (Sentegrity_TrustScore_Computation *)getLastComputationResults{
+    
+    return _computationResults;
+}
+
 // Start Core Detection
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback {
     
@@ -101,6 +106,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
         return;
     }
+    
+    // Set last computation results
+    [self setComputationResults:computationResults];
     
     // Return through the block callback
     [self coreDetectionResponse:YES withComputationResults:computationResults andError:&error];

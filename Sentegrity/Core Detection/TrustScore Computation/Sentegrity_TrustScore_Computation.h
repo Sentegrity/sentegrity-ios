@@ -11,8 +11,6 @@
 
 @interface Sentegrity_TrustScore_Computation : NSObject
 
-// Singleton instance
-+ (id)sharedComputationResults;
 
 // Policy object
 @property (nonatomic) Sentegrity_Policy *policy;

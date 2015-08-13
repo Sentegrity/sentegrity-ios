@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -641,10 +641,10 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V3x-rg-kDN" customClass="CircleProgressBar">
-                                <rect key="frame" x="118" y="16" width="140" height="140"/>
+                                <rect key="frame" x="110.5" y="28" width="155" height="155"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcZ-Wu-yfc">
-                                        <rect key="frame" x="0.0" y="26" width="140" height="60"/>
+                                        <rect key="frame" x="0.0" y="37" width="155" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="81" id="2TC-rF-HOa"/>
                                             <constraint firstAttribute="width" constant="120" id="Pug-14-hNr"/>
@@ -669,7 +669,7 @@ Anomaly</string>
                                         </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SystemScore" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yUE-xH-BbF">
-                                        <rect key="frame" x="0.0" y="86" width="140" height="25"/>
+                                        <rect key="frame" x="0.0" y="97" width="155" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="B4G-jX-VyS"/>
                                             <constraint firstAttribute="height" constant="29" id="Dm8-mV-HzX"/>
@@ -692,18 +692,18 @@ Anomaly</string>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="140" id="DkR-UI-zOm"/>
+                                    <constraint firstAttribute="width" constant="155" id="DkR-UI-zOm"/>
                                     <constraint firstItem="bcZ-Wu-yfc" firstAttribute="width" secondItem="V3x-rg-kDN" secondAttribute="width" id="FkI-gC-ALk"/>
                                     <constraint firstAttribute="centerX" secondItem="bcZ-Wu-yfc" secondAttribute="centerX" id="ICH-FS-PTh"/>
                                     <constraint firstItem="yUE-xH-BbF" firstAttribute="top" secondItem="bcZ-Wu-yfc" secondAttribute="bottom" id="UFx-mX-Ehf"/>
-                                    <constraint firstAttribute="height" constant="140" id="Z5N-O7-rOR"/>
-                                    <constraint firstItem="bcZ-Wu-yfc" firstAttribute="top" secondItem="V3x-rg-kDN" secondAttribute="top" constant="26" id="qik-eU-Sea"/>
+                                    <constraint firstAttribute="height" constant="155" id="Z5N-O7-rOR"/>
+                                    <constraint firstItem="bcZ-Wu-yfc" firstAttribute="top" secondItem="V3x-rg-kDN" secondAttribute="top" constant="37" id="qik-eU-Sea"/>
                                     <constraint firstItem="yUE-xH-BbF" firstAttribute="width" secondItem="V3x-rg-kDN" secondAttribute="width" id="ueV-l9-GGm"/>
                                     <constraint firstAttribute="centerX" secondItem="yUE-xH-BbF" secondAttribute="centerX" id="y7V-Ft-D6v"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78c-3F-PVy">
-                                <rect key="frame" x="36" y="200" width="303" height="88"/>
+                                <rect key="frame" x="36" y="227" width="303" height="88"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mobile_Grey" translatesAutoresizingMaskIntoConstraints="NO" id="jEA-hK-T2r">
                                         <rect key="frame" x="28" y="0.0" width="90" height="88"/>
@@ -782,7 +782,7 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GUl-6x-yYP">
-                                <rect key="frame" x="26" y="315" width="323" height="332"/>
+                                <rect key="frame" x="26" y="342" width="323" height="305"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="323" id="xiT-Nz-ZJ0"/>
@@ -873,12 +873,6 @@ Anomaly</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Debug View Controller" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Nc-7y-YQg">
-                                <rect key="frame" x="81" y="187" width="213" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mqI-iN-ezn" customClass="JTHamburgerButton">
                                 <rect key="frame" x="309" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -907,6 +901,18 @@ Anomaly</string>
                                     </mask>
                                 </variation>
                             </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="No debug output to display" translatesAutoresizingMaskIntoConstraints="NO" id="sgp-Ia-B0e">
+                                <rect key="frame" x="16" y="106" width="343" height="561"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Debug " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Nc-7y-YQg">
+                                <rect key="frame" x="138" y="67" width="98" height="31"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -917,6 +923,7 @@ Anomaly</string>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="menuButton" destination="mqI-iN-ezn" id="TC1-1K-br8"/>
+                        <outlet property="userDebugOutput" destination="sgp-Ia-B0e" id="u23-wQ-LH6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K5r-UZ-qqz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -969,6 +976,18 @@ Anomaly</string>
                                     </mask>
                                 </variation>
                             </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="No debug output to display" translatesAutoresizingMaskIntoConstraints="NO" id="v8w-Ch-Q5a">
+                                <rect key="frame" x="16" y="106" width="343" height="561"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="System Debug" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9sW-YR-1Di">
+                                <rect key="frame" x="128" y="67" width="119" height="31"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -979,6 +998,7 @@ Anomaly</string>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="menuButton" destination="eMw-2a-uLB" id="e83-1N-Qnr"/>
+                        <outlet property="systemDebugOutput" destination="v8w-Ch-Q5a" id="REC-ET-1c4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dLo-PE-9R9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1031,6 +1051,18 @@ Anomaly</string>
                                     </mask>
                                 </variation>
                             </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="No debug output to display" translatesAutoresizingMaskIntoConstraints="NO" id="gwm-DI-F7l">
+                                <rect key="frame" x="16" y="106" width="343" height="561"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Computation Debug" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RmU-V5-izL">
+                                <rect key="frame" x="105" y="67" width="165" height="31"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1040,6 +1072,7 @@ Anomaly</string>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="computationDebugOutput" destination="gwm-DI-F7l" id="Bbn-YB-YXW"/>
                         <outlet property="menuButton" destination="1T7-V7-buy" id="g2w-xZ-Di3"/>
                     </connections>
                 </viewController>
@@ -1116,10 +1149,10 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="udX-sP-GkB" customClass="CircleProgressBar">
-                                <rect key="frame" x="118" y="16" width="140" height="140"/>
+                                <rect key="frame" x="110.5" y="28" width="155" height="155"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d2t-of-9wM">
-                                        <rect key="frame" x="0.0" y="26" width="140" height="60"/>
+                                        <rect key="frame" x="0.0" y="37" width="155" height="60"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="81" id="0hv-T2-P1Y"/>
                                             <constraint firstAttribute="height" constant="90" id="BOU-cj-RFf"/>
@@ -1135,16 +1168,16 @@ Anomaly</string>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="0hv-T2-P1Y"/>
-                                                <exclude reference="xz9-81-ACQ"/>
-                                                <exclude reference="S6Y-bb-6Gx"/>
                                                 <exclude reference="BOU-cj-RFf"/>
+                                                <exclude reference="S6Y-bb-6Gx"/>
                                                 <exclude reference="jFl-7v-Bp0"/>
                                                 <exclude reference="nch-zf-ih6"/>
+                                                <exclude reference="xz9-81-ACQ"/>
                                             </mask>
                                         </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserScore" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hcf-6p-PCv">
-                                        <rect key="frame" x="0.0" y="86" width="140" height="25"/>
+                                        <rect key="frame" x="0.0" y="97" width="155" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="CVp-KD-wHd"/>
                                             <constraint firstAttribute="height" constant="25" id="abm-P3-JcS"/>
@@ -1168,17 +1201,17 @@ Anomaly</string>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Hcf-6p-PCv" firstAttribute="top" secondItem="d2t-of-9wM" secondAttribute="bottom" id="0iB-LR-i6i"/>
-                                    <constraint firstAttribute="width" constant="140" id="4qY-56-PW7"/>
+                                    <constraint firstAttribute="width" constant="155" id="4qY-56-PW7"/>
                                     <constraint firstItem="d2t-of-9wM" firstAttribute="width" secondItem="udX-sP-GkB" secondAttribute="width" id="6v7-7o-Ik9"/>
                                     <constraint firstAttribute="centerX" secondItem="Hcf-6p-PCv" secondAttribute="centerX" id="BdC-K7-Ux5"/>
-                                    <constraint firstItem="d2t-of-9wM" firstAttribute="top" secondItem="udX-sP-GkB" secondAttribute="top" constant="26" id="KuL-So-PfL"/>
+                                    <constraint firstItem="d2t-of-9wM" firstAttribute="top" secondItem="udX-sP-GkB" secondAttribute="top" constant="37" id="KuL-So-PfL"/>
                                     <constraint firstItem="Hcf-6p-PCv" firstAttribute="width" secondItem="udX-sP-GkB" secondAttribute="width" id="TMS-vo-clV"/>
-                                    <constraint firstAttribute="height" constant="140" id="bCS-eY-7VC"/>
+                                    <constraint firstAttribute="height" constant="155" id="bCS-eY-7VC"/>
                                     <constraint firstAttribute="centerX" secondItem="d2t-of-9wM" secondAttribute="centerX" id="nup-62-TiT"/>
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2lE-6s-aXN">
-                                <rect key="frame" x="26" y="315" width="323" height="332"/>
+                                <rect key="frame" x="26" y="342" width="323" height="305"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="323" id="YDK-tc-jHK"/>
@@ -1187,7 +1220,7 @@ Anomaly</string>
                                 <textInputTraits key="textInputTraits"/>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLP-Zw-LO9">
-                                <rect key="frame" x="36" y="200" width="303" height="88"/>
+                                <rect key="frame" x="36" y="227" width="303" height="88"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="User_Grey" translatesAutoresizingMaskIntoConstraints="NO" id="GKb-XS-wAn">
                                         <rect key="frame" x="28" y="0.0" width="90" height="88"/>
@@ -1201,10 +1234,10 @@ Anomaly</string>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="G05-Vt-J0G"/>
-                                                <exclude reference="j32-GM-OJK"/>
                                                 <exclude reference="1C7-mD-gpp"/>
+                                                <exclude reference="G05-Vt-J0G"/>
                                                 <exclude reference="SYx-ov-wer"/>
+                                                <exclude reference="j32-GM-OJK"/>
                                             </mask>
                                         </variation>
                                     </imageView>

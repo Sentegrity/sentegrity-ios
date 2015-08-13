@@ -64,13 +64,13 @@
 
 @implementation MainViewController
 
+static MBProgressHUD *HUD;
 
 // View Loaded
 - (void)viewDidLoad {
     
     // Show Animation
-    MBProgressHUD *HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    HUD.labelText = @"Analyzing Device";
+
     
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -103,6 +103,7 @@
 // Set up the customizations for the view
 - (void)customizeView {
     
+    
     // Set the background color
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
@@ -117,7 +118,7 @@
     [self.trustScoreProgressBar setBackgroundColor:[UIColor clearColor]];
     [self.trustScoreProgressBar setStartAngle:90.0f];
     [self.trustScoreProgressBar setHintHidden:YES];
-    [self.trustScoreProgressBar setProgressBarWidth:26.0f];
+    [self.trustScoreProgressBar setProgressBarWidth:18.0f];
     
     // Set the menu button
     [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
@@ -184,7 +185,16 @@
 - (void)performCoreDetection:(id)sender {
     
     /* Perform Core Detection */
-  
+    
+    // Show Animation
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Show Animation
+        HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        HUD.labelText = @"Analyzing Device";
+    });
+    
     
     // Create an error
     NSError *error;
@@ -258,54 +268,6 @@
             
             // Set the computation info property
             self.computationResults = computationResults;
-            
-            
-            NSString *userTrustFactorsTriggered = @"Triggered Rules\n\n";
-            for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.userTrustFactorsTriggered){
-                
-                userTrustFactorsTriggered = [userTrustFactorsTriggered stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\nDNE Errors:%i\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions,trustFactorOutputObject.statusCode];
-                
-            }
-            
-            
-            NSString *userTrustFactorsNotLearned = @"Not Leared\n\n";
-            for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.userTrustFactorsNotLearned){
-                
-                userTrustFactorsNotLearned = [userTrustFactorsNotLearned stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
-                
-            }
-            
-
-            
-            NSString *userTrustFactorsWithErrors = @"Errored\n\n";
-            for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.userTrustFactorsWithErrors){
-                
-                userTrustFactorsWithErrors = [userTrustFactorsWithErrors stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
-                
-            }
-
-            
-            
-            NSString *userTrustFactorsToWhitelist = @"To Whitelist";
-            for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.protectModeWhitelist){
-                
-                userTrustFactorsToWhitelist = [userTrustFactorsToWhitelist stringByAppendingFormat:@"\nRules to whitelist:%@\n\n",trustFactorOutputObject.trustFactor.name];
-                
-            }
-            
-            
-            
-            NSLog(@"\n\n+++ Core Detection Classification Scores +++ \n\nBreach Indicator:%d, \nSystem Security:%d, \nSystem Policy:%d, \nUser Anomaly:%d, \nUser Policy:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.systemPolicyScore, computationResults.userAnomalyScore,computationResults.userPolicyScore );
-            
-            NSLog(@"\n\n+++ Core Detection Composite Results +++ \n\nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceScore, computationResults.systemScore, computationResults.userScore );
-            
-            NSLog(@"\n\n+++ Core Detection Trust Determinations +++\n\nDevice:%d, \nSystem:%d, \nUser:%d\n\n", computationResults.deviceTrusted, computationResults.systemTrusted, computationResults.userTrusted);
-            
-            NSLog(@"\n\n+++ Dashboard Data +++\n\nDevice Score:%d, \nSystem Icon:%d,  \nSystem Icon Text:%@, \nUser Icon:%d, \nUser Icon Text:%@\n\n", computationResults.deviceScore, computationResults.systemGUIIconID, computationResults.systemGUIIconText, computationResults.userGUIIconID, computationResults.userGUIIconText);
-            
-            NSLog(@"\n\n+++ System Detailed View +++\n\nSystem Score:%d, \nSystem Icon:%d,  \nSystem Icon Text:%@, \nIssues:%@, \nSuggestions:%@, \nAnalysis:%@\n\n", computationResults.systemScore, computationResults.systemGUIIconID, computationResults.systemGUIIconText, computationResults.systemGUIIssues, computationResults.systemGUISuggestions, computationResults.systemGUIAnalysis);
-            
-            NSLog(@"\n\n+++ User Detailed View +++\n\nUser Score:%d, \nUser Icon:%d,  \nUser Icon Text:%@, \nIssues:%@, \nSuggestions:%@, \nAnalysis:%@\n\n", computationResults.userScore, computationResults.userGUIIconID, computationResults.userGUIIconText, computationResults.userGUIIssues, computationResults.userGUISuggestions, computationResults.userGUIAnalysis);
             
             NSLog(@"\n\nErrors: %@", [*error localizedDescription]);
             
@@ -492,17 +454,16 @@
     // Get the storyboard
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    // Create the system debug view controller
+    // Create the system info view controller
     SystemInformationViewController *deviceInfoController = [mainStoryboard instantiateViewControllerWithIdentifier:@"systeminformationviewcontroller"];
     
     // Set the computation results if it exists
     if (self.computationResults != nil) {
-        // Set the device information view controller computation results
-        [deviceInfoController setComputationResults:self.computationResults];
+        // Push it
+        [self.navigationController pushViewController:deviceInfoController animated:YES];
     }
     
-    // Push it
-    [self.navigationController pushViewController:deviceInfoController animated:YES];
+
     
 }
 
@@ -515,16 +476,15 @@
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     // Create the system debug view controller
-    SystemInformationViewController *deviceInfoController = [mainStoryboard instantiateViewControllerWithIdentifier:@"userinformationviewcontroller"];
+    UserInformationViewController *userInfoController = [mainStoryboard instantiateViewControllerWithIdentifier:@"userinformationviewcontroller"];
     
     // Set the computation results if it exists
     if (self.computationResults != nil) {
-        // Set the device information view controller computation results
-        [deviceInfoController setComputationResults:self.computationResults];
+        // Push it
+        [self.navigationController pushViewController:userInfoController animated:YES];
     }
     
-    // Push it
-    [self.navigationController pushViewController:deviceInfoController animated:YES];
+
     
 }
 
@@ -533,13 +493,23 @@
     CABasicAnimation *rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
-    rotationAnimation.duration = 2.0;
+    rotationAnimation.duration = 1.0;
     rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = 3.0f;
+    rotationAnimation.repeatCount = 1.0f;
     [self.reloadButton.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     
-    // Perform Core Detection
-    [self performCoreDetection:self];
+    @autoreleasepool {
+        
+        dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
+        
+        dispatch_async(myQueue, ^{
+            
+            // Perform Core Detection
+            [self performCoreDetection:self];
+            
+        });
+    }
+
 }
 
 @end

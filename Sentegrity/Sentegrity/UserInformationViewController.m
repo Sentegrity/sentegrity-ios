@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+
 #import "UserInformationViewController.h"
 
 // Side Menu
@@ -43,6 +44,9 @@
     
     // Set the trustscore holding label
     [self.userScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];
+    
+    // Set last computation
+    self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
     // Check if the computation results were parsed
     if (self.computationResults != nil) {

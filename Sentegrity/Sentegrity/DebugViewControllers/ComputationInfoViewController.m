@@ -33,6 +33,12 @@
     [self.menuButton setShowsTouchWhenHighlighted:YES];
     [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.menuButton updateAppearance];
+    
+    // Get last computation results
+    self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+    
+    // Populate debug text
+    [self setText];
 }
 
 #pragma mark - Actions
@@ -101,5 +107,38 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)setText {
+    
+    NSString *complete = @"";
+    
+    NSString *policy = @"\nPolicy Settings\n++++++++++++++++++++++++++++++\n";
+    
+    policy = [policy stringByAppendingFormat:@"\nUser Threshold: %@\nSystem Threshold: %@\n",self.computationResults.policy.systemThreshold,self.computationResults.policy.userThreshold];
+    
+    
+    complete = [complete stringByAppendingString:policy];
+    
+    NSString *systemSubScores = @"\nSystem Sub Scores\n++++++++++++++++++++++++++++++\n";
+    
+    systemSubScores = [systemSubScores stringByAppendingFormat:@"\nBREACH_INDICATOR: %d\nPOLICY_VIOLATION: %d\nSYSTEM_SECURITY: %d\n",self.computationResults.systemBreachScore, self.computationResults.systemPolicyScore,self.computationResults.systemSecurityScore];
+    
+    
+    complete = [complete stringByAppendingString:systemSubScores];
+    
+    
+    NSString *userSubScores = @"\nUser Sub Scores\n++++++++++++++++++++++++++++++\n";
+    
+    userSubScores = [userSubScores stringByAppendingFormat:@"\nUSER_POLICY: %d\nUSER_ANOMALY: %d\n",self.computationResults.userPolicyScore, self.computationResults.userAnomalyScore];
+    
+    
+    complete = [complete stringByAppendingString:userSubScores];
+
+    
+    [self.computationDebugOutput setEditable:NO];
+    self.computationDebugOutput.text = complete;
+    
+    
+}
 
 @end

@@ -39,10 +39,15 @@ typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computati
 // Core Detection
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback;
 
+// Core Detection
+- (Sentegrity_TrustScore_Computation *)getLastComputationResults;
+
 
 #pragma mark - Properties
 
 
 @property (nonatomic, retain) Sentegrity_Policy *currentPolicy;
+
+@property (nonatomic, retain) Sentegrity_TrustScore_Computation *computationResults;
 
 @end

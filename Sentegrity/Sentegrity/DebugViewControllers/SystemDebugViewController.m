@@ -33,6 +33,12 @@
     [self.menuButton setShowsTouchWhenHighlighted:YES];
     [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.menuButton updateAppearance];
+    
+    // Get last computation results
+    self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+    
+    // Populate debug text
+    [self setText];
 }
 
 #pragma mark - Actions
@@ -101,5 +107,55 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+- (void)setText {
+    
+    NSString *complete = @"";
+    
+    NSString *systemTrustFactorsTriggered = @"\nTrustFactors Triggered\n++++++++++++++++++++++++++++++\n";
+    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.systemTrustFactorsTriggered){
+        
+        systemTrustFactorsTriggered = [systemTrustFactorsTriggered stringByAppendingFormat:@"\nName: %@\nCurrent Assertion:%@\nStored Assertions:%@\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+        
+    }
+    complete = [complete stringByAppendingString:systemTrustFactorsTriggered];
+    
+    NSString *systemTrustFactorsNotLearned = @"\nTrustFactors Not Leared\n++++++++++++++++++++++++++++++\n";
+    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.systemTrustFactorsNotLearned){
+        
+        systemTrustFactorsNotLearned = [systemTrustFactorsNotLearned stringByAppendingFormat:@"\nName: %@\nCurrent Assertion:%@\nStored Assertions:%@\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+        
+    }
+    complete = [complete stringByAppendingString:systemTrustFactorsNotLearned];
+    
+    
+    
+    NSString *systemTrustFactorsWithErrors = @"\nTrustFactors Errored\n++++++++++++++++++++++++++++++\n";
+    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.systemTrustFactorsWithErrors){
+        
+        systemTrustFactorsWithErrors = [systemTrustFactorsWithErrors stringByAppendingFormat:@"\nName: %@\nDNE: %u\n",trustFactorOutputObject.trustFactor.name,trustFactorOutputObject.statusCode];
+        
+    }
+    
+    complete = [complete stringByAppendingString:systemTrustFactorsWithErrors];
+    
+    NSString *systemTrustFactorsToWhitelist = @"\nTrustFactors To Whitelist\n++++++++++++++++++++++++++++++\n";
+    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.protectModeSystemWhitelist){
+        
+        systemTrustFactorsToWhitelist = [systemTrustFactorsToWhitelist stringByAppendingFormat:@"\nName: %@\nCurrent Assertion:%@\nStored Assertions:%@\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+        
+    }
+    complete = [complete stringByAppendingString:systemTrustFactorsToWhitelist];
+    
+    
+    
+    
+    [self.systemDebugOutput setEditable:NO];
+    self.systemDebugOutput.text = complete;
+    
+    
+}
+
 
 @end

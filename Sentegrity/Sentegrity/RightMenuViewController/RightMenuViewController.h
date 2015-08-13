@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 
 @interface RightMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
 
 @end
