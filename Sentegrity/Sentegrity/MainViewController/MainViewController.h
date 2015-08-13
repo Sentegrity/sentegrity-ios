@@ -42,6 +42,9 @@
 
 /* Score Labels */
 
+// Device View
+@property (strong, nonatomic) IBOutlet UIView *deviceView;
+
 // Device Image View
 @property (strong, nonatomic) IBOutlet UIImageView *deviceImageView;
 
@@ -50,6 +53,9 @@
 
 // Device Status Label
 @property (strong, nonatomic) IBOutlet UILabel *deviceStatusLabel;
+
+// User View
+@property (strong, nonatomic) IBOutlet UIView *userView;
 
 // User Image View
 @property (strong, nonatomic) IBOutlet UIImageView *userImageView;

@@ -16,7 +16,7 @@ You can install this control in two ways:
 1. Using CocoaPods:
 
 ```ruby
-pod 'CircleProgressBar', '~> 0.12'
+pod 'CircleProgressBar', '~> 0.21'
 ```
 
 2. Manually:
@@ -40,6 +40,12 @@ To change progress, simply call "setProgress:animated:" method of CircleProgress
 
 ```objective-c
 [_circleProgressBar setProgress:(CGFloat)progress animated:(BOOL)animated];
+```
+
+or "setProgress:animated:duration:" method to define custom animation time:
+
+```objective-c
+[_circleProgressBar setProgress:(CGFloat)progress animated:(BOOL)animated duration:(CGFloat)duration];
 ```
 
 Customization

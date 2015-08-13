@@ -32,6 +32,8 @@
 		04E403291B307A1500A1705E /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E4031B1B307A1500A1705E /* OpenSans-Semibold.ttf */; };
 		04E4032A1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E4031C1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf */; };
 		4AAF480942FD8A13AE2789F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F48570A0D36F3F3E38C7B515 /* libPods.a */; };
+		4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */; };
+		4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */; };
 		4C5393851B2F965D00EA4484 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393841B2F965D00EA4484 /* loading.gif */; };
 		4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393861B2F966700EA4484 /* loadingWhite.gif */; };
 		4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */; };
@@ -129,6 +131,10 @@
 		04E4031B1B307A1500A1705E /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		04E4031C1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		42EFD5DFE715E4FE18052085 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		4C22BFFD1B7B985A00EFFD7D /* SystemInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemInformationViewController.h; sourceTree = "<group>"; };
+		4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemInformationViewController.m; sourceTree = "<group>"; };
+		4C22C0001B7B986800EFFD7D /* UserInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInformationViewController.h; sourceTree = "<group>"; };
+		4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInformationViewController.m; sourceTree = "<group>"; };
 		4C5393841B2F965D00EA4484 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		4C5393861B2F966700EA4484 /* loadingWhite.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loadingWhite.gif; sourceTree = "<group>"; };
 		4C9EBE191B2B5B58003ED356 /* RightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightMenuViewController.h; sourceTree = "<group>"; };
@@ -317,6 +323,7 @@
 		04A248FB1B266AC2007D9460 /* Sentegrity */ = {
 			isa = PBXGroup;
 			children = (
+				4C22BFFC1B7B983400EFFD7D /* InformationViewControllers */,
 				4CE9D80A1B3233D2006D43D8 /* AppDelegate */,
 				4CE9D8081B3233B2006D43D8 /* MainViewController */,
 				4CE9D8091B3233C1006D43D8 /* RightMenuViewController */,
@@ -363,6 +370,17 @@
 				F48570A0D36F3F3E38C7B515 /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4C22BFFC1B7B983400EFFD7D /* InformationViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				4C22BFFD1B7B985A00EFFD7D /* SystemInformationViewController.h */,
+				4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */,
+				4C22C0001B7B986800EFFD7D /* UserInformationViewController.h */,
+				4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */,
+			);
+			name = InformationViewControllers;
 			sourceTree = "<group>";
 		};
 		4C5393831B2F965200EA4484 /* Gifs */ = {
@@ -928,9 +946,11 @@
 				4CE9D86B1B323B05006D43D8 /* Sentegrity_Baseline_Analysis.m in Sources */,
 				4CE9D8811B323B05006D43D8 /* ProtectMode.m in Sources */,
 				4CE9D8851B323B05006D43D8 /* Sentegrity_DNEModifiers.m in Sources */,
+				4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */,
 				4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */,
 				96AE2C1A1B759B1C008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.m in Sources */,
 				967786281B6044D500715110 /* TrustFactor_Dispatch_Motion.m in Sources */,
+				4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */,
 				4CE9D8781B323B05006D43D8 /* TrustFactor_Dispatch_Scan.m in Sources */,
 				04A248FF1B266AC2007D9460 /* main.m in Sources */,
 				4CE9D88A1B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m in Sources */,

@@ -1,5 +1,5 @@
 # GUI
-pod 'CircleProgressBar', '~> 0.2'
+pod 'CircleProgressBar', '~> 0.21'
 pod 'MBProgressHUD', '~> 0.9.1'
 pod 'JTHamburgerButton', '~> 1.0'
 pod 'ChameleonFramework', '~> 1.2'

@@ -14,6 +14,9 @@
 // System Debug View Controller
 #import "SystemDebugViewController.h"
 
+// Computation Info View Controller
+#import "ComputationInfoViewController.h"
+
 // Get the trustfactor storage class
 #import "Sentegrity_TrustFactor_Storage.h"
 
@@ -40,7 +43,7 @@
     // Do any additional setup after loading the view.
     
     // Set the background color
-    [self.view setBackgroundColor:[UIColor flatWhiteColor]];
+    [self.view setBackgroundColor:[UIColor blackColor]];
     
     // Set the tableview
     self.tableView = ({
@@ -79,7 +82,7 @@
                 // Done presenting
                 
                 // Hide the side menu
-                [self.sideMenuViewController hideMenuViewController];
+                //[self.sideMenuViewController hideMenuViewController];
             }];
             
             // Done
@@ -99,15 +102,30 @@
                 // Done presenting
                 
                 // Hide the side menu
-                [self.sideMenuViewController hideMenuViewController];
+                //[self.sideMenuViewController hideMenuViewController];
             }];
             
             break;
         }
-        case 2:
+        case 2: {
             // Computation Info
-            [self.sideMenuViewController hideMenuViewController];
+            
+            // Get the storyboard
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            // Create the system debug view controller
+            ComputationInfoViewController *computationInfoController = [mainStoryboard instantiateViewControllerWithIdentifier:@"computationinfoviewcontroller"];
+            
+            // Present it
+            [self presentViewController:computationInfoController animated:YES completion:^{
+                // Done presenting
+                
+                // Hide the side menu
+                //[self.sideMenuViewController hideMenuViewController];
+            }];
+            
             break;
+        }
         case 3: {
             // Reset Stores
             
@@ -195,8 +213,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
-        cell.textLabel.textColor = [UIColor blackColor];
-        cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
+        cell.textLabel.textColor = [UIColor flatWhiteColor];
+        cell.textLabel.highlightedTextColor = [UIColor flatGrayColor];
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     

@@ -9,6 +9,12 @@
 // Main View Controller
 #import "MainViewController.h"
 
+// Device Information Controller
+#import "SystemInformationViewController.h"
+
+// User Information Controller
+#import "UserInformationViewController.h"
+
 // Sentegrity
 #import "Sentegrity.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
@@ -34,11 +40,24 @@
 
 @interface MainViewController () <RESideMenuDelegate>
 
+/* Properties */
+
+// Computation Results
+@property (nonatomic,strong) Sentegrity_TrustScore_Computation *computationResults;
+
+/* Actions */
+
 // Set up the customizations for the view
 - (void)customizeView;
 
 // Right Menu Button Press
 - (void)rightMenuButtonPressed:(JTHamburgerButton *)sender;
+
+// Device Information Press
+- (void)deviceInformationPressed:(UITapGestureRecognizer *)sender;
+
+// User Information Press
+- (void)userInformationPressed:(UITapGestureRecognizer *)sender;
 
 @end
 
@@ -56,9 +75,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    // Customize the view
-    [self customizeView];
-    
     @autoreleasepool {
         
         dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
@@ -71,6 +87,17 @@
              });
     }
     
+}
+
+// View did appear
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    // Set the side menu delegate
+    [self.sideMenuViewController setDelegate:self];
+    
+    // Customize the view
+    [self customizeView];
 }
 
 // Set up the customizations for the view
@@ -90,7 +117,7 @@
     [self.trustScoreProgressBar setBackgroundColor:[UIColor clearColor]];
     [self.trustScoreProgressBar setStartAngle:90.0f];
     [self.trustScoreProgressBar setHintHidden:YES];
-    [self.trustScoreProgressBar setProgressBarWidth:18.0f];
+    [self.trustScoreProgressBar setProgressBarWidth:26.0f];
     
     // Set the menu button
     [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
@@ -105,9 +132,6 @@
     // Set the trustscore holding label
     [self.trustScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];
     
-    // Set the side menu delegate
-    [self.sideMenuViewController setDelegate:self];
-    
     // Set the button image to aspect fill
     [self.reloadButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
     
@@ -120,6 +144,16 @@
     self.userStatusImageView.layer.cornerRadius = self.userStatusImageView.frame.size.height /2;
     self.userStatusImageView.layer.masksToBounds = YES;
     self.userStatusImageView.layer.borderWidth = 0;
+    
+    // Set the device view target for touches
+    UITapGestureRecognizer *deviceTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(deviceInformationPressed:)];
+    [self.deviceView addGestureRecognizer:deviceTap];
+    
+    // Set the user view target for touches
+    UITapGestureRecognizer *userTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                action:@selector(userInformationPressed:)];
+    [self.userView addGestureRecognizer:userTap];
     
     // Update the last update label
     [self updateLastUpdateLabel:self];
@@ -221,6 +255,9 @@
             }); // End main thread
             
             /* Computation Information */
+            
+            // Set the computation info property
+            self.computationResults = computationResults;
             
             
             NSString *userTrustFactorsTriggered = @"Triggered Rules\n\n";
@@ -445,6 +482,50 @@
         // Set it to hamburger
         [sender setCurrentModeWithAnimation:JTHamburgerButtonModeHamburger];
     }
+}
+
+// Device Information View Pressed
+- (void)deviceInformationPressed:(UITapGestureRecognizer *)sender {
+    
+    // Show device information
+    
+    // Get the storyboard
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    // Create the system debug view controller
+    SystemInformationViewController *deviceInfoController = [mainStoryboard instantiateViewControllerWithIdentifier:@"systeminformationviewcontroller"];
+    
+    // Set the computation results if it exists
+    if (self.computationResults != nil) {
+        // Set the device information view controller computation results
+        [deviceInfoController setComputationResults:self.computationResults];
+    }
+    
+    // Push it
+    [self.navigationController pushViewController:deviceInfoController animated:YES];
+    
+}
+
+// User Information View Pressed
+- (void)userInformationPressed:(UITapGestureRecognizer *)sender {
+    
+    // Show user information
+    
+    // Get the storyboard
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    // Create the system debug view controller
+    SystemInformationViewController *deviceInfoController = [mainStoryboard instantiateViewControllerWithIdentifier:@"userinformationviewcontroller"];
+    
+    // Set the computation results if it exists
+    if (self.computationResults != nil) {
+        // Set the device information view controller computation results
+        [deviceInfoController setComputationResults:self.computationResults];
+    }
+    
+    // Push it
+    [self.navigationController pushViewController:deviceInfoController animated:YES];
+    
 }
 
 - (IBAction)reload:(id)sender {

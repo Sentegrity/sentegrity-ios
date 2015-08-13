@@ -7,7 +7,6 @@
 //
 
 #import "CircleProgressBar.h"
-#import "Chameleon.h"
 
 // Common
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
@@ -55,7 +54,7 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
 - (void)drawHint:(CGContextRef)context center:(CGPoint)center radius:(CGFloat)radius;
 
 // Animation
-- (void)animateProgressBarChangeFrom:(CGFloat)startProgress to:(CGFloat)endProgress;
+- (void)animateProgressBarChangeFrom:(CGFloat)startProgress to:(CGFloat)endProgress duration:(CGFloat)duration;
 - (void)updateProgressBarForAnimation;
 
 @end
@@ -68,6 +67,10 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
 }
 
 - (void)setProgress:(CGFloat)progress animated:(BOOL)animated {
+    [self setProgress:progress animated:animated duration:AnimationChangeTimeDuration];
+}
+
+- (void)setProgress:(CGFloat)progress animated:(BOOL)animated duration:(CGFloat)duration; {
     progress = [self progressAccordingToBounds:progress];
     if (_progress == progress) {
         return;
@@ -77,7 +80,7 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
     _animationTimer = nil;
     
     if (animated) {
-        [self animateProgressBarChangeFrom:_progress to:progress];
+        [self animateProgressBarChangeFrom:_progress to:progress duration:duration];
     } else {
         _progress = progress;
         [self setNeedsDisplay];
@@ -192,27 +195,11 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
     return (_progressBarWidth > 0 ? _progressBarWidth : DefaultProgressBarWidth);
 }
 
-- (CGFloat)startAngle {
-    return _startAngle;
-}
-
 - (void)drawProgressBar:(CGContextRef)context progressAngle:(CGFloat)progressAngle center:(CGPoint)center radius:(CGFloat)radius {
     CGFloat barWidth = self.progressBarWidthForDrawing;
     if (barWidth > radius) {
         barWidth = radius;
     }
-    
-    //radius = radius - 10;
-    
-    // Border Color
-    //UIColor *borderColor = [UIColor colorWithGradientStyle:UIGradientStyleTopToBottom withFrame:self.frame andColors:@[[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f], [UIColor whiteColor]]];
-    
-//    CGContextSetFillColorWithColor(context, borderColor.CGColor);
-//    CGContextBeginPath(context);
-//    CGContextAddArc(context, center.x, center.y, radius + (radius / 10.0f), DEGREES_TO_RADIANS(_startAngle), DEGREES_TO_RADIANS(progressAngle), 0);
-//    CGContextAddArc(context, center.x, center.y, radius - barWidth, DEGREES_TO_RADIANS(progressAngle), DEGREES_TO_RADIANS(_startAngle), 1);
-//    CGContextClosePath(context);
-//    CGContextFillPath(context);
     
     CGContextSetFillColorWithColor(context, self.progressBarProgressColorForDrawing.CGColor);
     CGContextBeginPath(context);
@@ -220,13 +207,6 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
     CGContextAddArc(context, center.x, center.y, radius - barWidth, DEGREES_TO_RADIANS(progressAngle), DEGREES_TO_RADIANS(_startAngle), 1);
     CGContextClosePath(context);
     CGContextFillPath(context);
-    
-//    CGContextSetFillColorWithColor(context, borderColor.CGColor);
-//    CGContextBeginPath(context);
-//    CGContextAddArc(context, center.x, center.y, radius + (radius / 10.0f), DEGREES_TO_RADIANS(progressAngle), DEGREES_TO_RADIANS(_startAngle + 360), 0);
-//    CGContextAddArc(context, center.x, center.y, radius - barWidth, DEGREES_TO_RADIANS(_startAngle + 360), DEGREES_TO_RADIANS(progressAngle), 1);
-//    CGContextClosePath(context);
-//    CGContextFillPath(context);
     
     CGContextSetFillColorWithColor(context, self.progressBarTrackColorForDrawing.CGColor);
     CGContextBeginPath(context);
@@ -291,11 +271,11 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
 
 #pragma mark - Amination
 
-- (void)animateProgressBarChangeFrom:(CGFloat)startProgress to:(CGFloat)endProgress {
+- (void)animateProgressBarChangeFrom:(CGFloat)startProgress to:(CGFloat)endProgress duration:(CGFloat)duration {
     _currentAnimationProgress = _startProgress = startProgress;
     _endProgress = endProgress;
     
-    _animationProgressStep = (_endProgress - _startProgress) * AnimationChangeTimeStep / AnimationChangeTimeDuration;
+    _animationProgressStep = (_endProgress - _startProgress) * AnimationChangeTimeStep / duration;
     
     _animationTimer = [NSTimer scheduledTimerWithTimeInterval:AnimationChangeTimeStep target:self selector:@selector(updateProgressBarForAnimation) userInfo:nil repeats:YES];
 }
