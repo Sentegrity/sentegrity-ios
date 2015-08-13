@@ -16,5 +16,8 @@
 // Menu Button
 @property (strong, nonatomic) IBOutlet JTHamburgerButton *menuButton;
 
+// Main Progress Bar - middle
+@property (strong, nonatomic) IBOutlet UILabel *userDebugOutput;
+
 
 @end

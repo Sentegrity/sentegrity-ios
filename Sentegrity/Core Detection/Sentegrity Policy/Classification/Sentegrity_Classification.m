@@ -16,6 +16,12 @@
     _identification = identification;
 }
 
+// User
+
+- (void)setUser:(NSNumber *)user{
+    _user = user;
+}
+
 // Name
 
 - (void)setName:(NSString *)name{

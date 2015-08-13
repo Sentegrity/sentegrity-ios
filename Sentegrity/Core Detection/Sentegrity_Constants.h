@@ -54,6 +54,7 @@
 #pragma mark - Classification Keys
 
 #define kIdentification @"id"
+#define kUser @"user"
 #define kName @"name"
 #define kDesc @"desc"
 #define kWeight @"weight"

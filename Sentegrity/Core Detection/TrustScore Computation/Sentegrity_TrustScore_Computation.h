@@ -11,11 +11,31 @@
 
 @interface Sentegrity_TrustScore_Computation : NSObject
 
+// Singleton instance
++ (id)sharedComputationResults;
+
+// Policy object
+@property (nonatomic) Sentegrity_Policy *policy;
+
+
 //DEBUG
-@property (nonatomic) NSArray *trustFactorsNotLearned;
-@property (nonatomic) NSArray *trustFactorsTriggered;
-@property (nonatomic) NSArray *trustFactorsWithErrors;
-@property (nonatomic) NSArray *allTrustFactorOutputObjects;
+
+// Tracking not learned
+@property (nonatomic) NSArray *userTrustFactorsNotLearned;
+@property (nonatomic) NSArray *systemTrustFactorsNotLearned;
+
+// Tracking triggered rules
+@property (nonatomic) NSArray *userTrustFactorsTriggered;
+@property (nonatomic) NSArray *systemTrustFactorsTriggered;
+
+// Tracking errors
+@property (nonatomic) NSArray *userTrustFactorsWithErrors;
+@property (nonatomic) NSArray *systemTrustFactorsWithErrors;
+
+// All Output
+@property (nonatomic) NSArray *userAllTrustFactorOutputObjects;
+@property (nonatomic) NSArray *systemAllTrustFactorOutputObjects;
+
 
 //CLASSIFICATION SCORES
 
@@ -101,6 +121,12 @@
 
 //Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
 @property (nonatomic) NSArray *protectModeWhitelist;
+
+//Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
+@property (nonatomic) NSArray *protectModeUserWhitelist;
+
+//Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
+@property (nonatomic) NSArray *protectModeSystemWhitelist;
 
 
 

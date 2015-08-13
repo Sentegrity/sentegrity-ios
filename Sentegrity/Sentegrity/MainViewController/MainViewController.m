@@ -181,6 +181,7 @@
             // Set the trustscore
             [self.trustScoreLabel setText:[NSString stringWithFormat:@"%.0f", trustScore]];
             
+            
             // Set the progress bar
             [self.trustScoreProgressBar setProgress:trustScore/100.0f animated:YES];
             
@@ -222,39 +223,40 @@
             /* Computation Information */
             
             
-            NSString *allObject = @"";
-            for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.allTrustFactorOutputObjects){
+            NSString *userTrustFactorsTriggered = @"Triggered Rules\n\n";
+            for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.userTrustFactorsTriggered){
                 
-                allObject = [allObject stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\nDNE Errors:%i\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions,trustFactorOutputObject.statusCode];
-                
-            }
-            NSLog(@"\n\n+++ All Output Objects +++\n\n%@", allObject);
-            
-            NSString *notLearned = @"";
-            for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.trustFactorsNotLearned){
-                
-                notLearned = [notLearned stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+                userTrustFactorsTriggered = [userTrustFactorsTriggered stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\nDNE Errors:%i\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions,trustFactorOutputObject.statusCode];
                 
             }
             
-            NSLog(@"\n\n+++ Rules Not Learned +++\n\n%@", notLearned);
             
-            NSString *triggered = @"";
-            for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.trustFactorsTriggered){
+            NSString *userTrustFactorsNotLearned = @"Not Leared\n\n";
+            for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.userTrustFactorsNotLearned){
                 
-                triggered = [triggered stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+                userTrustFactorsNotLearned = [userTrustFactorsNotLearned stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
                 
             }
-            NSLog(@"\n\n+++ Triggered Rules +++\n\n%@", triggered);
+            
+
+            
+            NSString *userTrustFactorsWithErrors = @"Errored\n\n";
+            for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.userTrustFactorsWithErrors){
+                
+                userTrustFactorsWithErrors = [userTrustFactorsWithErrors stringByAppendingFormat:@"\nRule Name:%@\nCurrent Assertion:%@\nStored Assertions:%@\n\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+                
+            }
+
             
             
-            NSString *whitelist = @"";
+            NSString *userTrustFactorsToWhitelist = @"To Whitelist";
             for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.protectModeWhitelist){
                 
-                whitelist = [whitelist stringByAppendingFormat:@"\nRules to whitelist:%@\n\n",trustFactorOutputObject.trustFactor.name];
+                userTrustFactorsToWhitelist = [userTrustFactorsToWhitelist stringByAppendingFormat:@"\nRules to whitelist:%@\n\n",trustFactorOutputObject.trustFactor.name];
                 
             }
-            NSLog(@"\n\n+++ Whitelistable Rules +++\n\n%@", whitelist);
+            
+            
             
             NSLog(@"\n\n+++ Core Detection Classification Scores +++ \n\nBreach Indicator:%d, \nSystem Security:%d, \nSystem Policy:%d, \nUser Anomaly:%d, \nUser Policy:%d\n\n", computationResults.systemBreachScore, computationResults.systemSecurityScore, computationResults.systemPolicyScore, computationResults.userAnomalyScore,computationResults.userPolicyScore );
             

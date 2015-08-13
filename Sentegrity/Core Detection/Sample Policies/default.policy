@@ -19,6 +19,7 @@
 },
 "classifications": [{
 "id": 1,
+"user": 0,
 "name": "SYSTEM_BREACH",
 "desc": "High Risk Device",
 "weight": 0,
@@ -26,6 +27,7 @@
 "protectModeMessage": "Enter administrator PIN to deactivate."
 }, {
 "id": 2,
+"user": 0,
 "name": "SYSTEM_POLICY",
 "desc": "Device Violation",
 "weight": 0,
@@ -33,6 +35,7 @@
 "protectModeMessage": "Enter administrator PIN to deactivate."
 }, {
 "id": 3,
+"user": 0,
 "name": "SYSTEM_SECURITY",
 "desc": "Device Anomaly",
 "weight": 0,
@@ -40,6 +43,7 @@
 "protectModeMessage": "Enter administrator PIN to deactivate."
 }, {
 "id": 4,
+"user": 1,
 "name": "USER_POLICY",
 "desc": "User Violation",
 "weight": 0,
@@ -47,6 +51,7 @@
 "protectModeMessage": "Enter administrator PIN to deactivate."
 }, {
 "id": 5,
+"user": 1,
 "name": "USER_ANOMALY",
 "desc": "User Anomaly",
 "weight": 1,
@@ -466,7 +471,7 @@
 }, {
 "id": 1010,
 "issueMessage": "New privileged processes",
-"suggestionMessage": "Reinstall opearting system",
+"suggestionMessage": "Reinstall operating system",
 "revision": 1,
 "classID": 3,
 "subClassID": 2,

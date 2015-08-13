@@ -17,13 +17,18 @@
 //protect mode
 @property (nonatomic,retain) NSArray *trustFactorsToWhitelist;
 
+//debug info
+@property (nonatomic,retain) NSArray *trustFactorsNotLearned;
+@property (nonatomic,retain) NSArray *trustFactorsTriggered;
+@property (nonatomic,retain) NSArray *trustFactorsWithErrors;
+
 //penalty
 @property (nonatomic) NSInteger basePenalty;
 @property (nonatomic) NSInteger weightedPenalty;
 
 //messages
-@property (nonatomic,retain) NSArray *issuesInClass;
-@property (nonatomic,retain) NSArray *suggestionsInClass;
-@property (nonatomic,retain) NSArray *subClassStatus;
+@property (nonatomic,retain) NSArray *issues;
+@property (nonatomic,retain) NSArray *suggestions;
+@property (nonatomic,retain) NSArray *status;
 
 @end

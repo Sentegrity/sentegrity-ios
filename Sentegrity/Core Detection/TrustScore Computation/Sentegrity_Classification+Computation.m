@@ -17,12 +17,19 @@ NSString const *basePenaltyKeyClass = @"Sentegrity.basePenalty";
 NSString const *weightedPenaltyKeyClass = @"Sentegrity.weightedPenalty";
 NSString const *subClassificationsKeyClass = @"Sentegrity.subClassifications";
 NSString const *trustFactorsKeyClass = @"Sentegrity.trustFactors";
+
+// ProtectMode
 NSString const *trustFactorsToWhitelistKey = @"Sentegrity.trustFactorsToWhitelist";
 
+// Debug
+NSString const *trustFactorsTriggeredKey = @"Sentegrity.trustFactorsTriggered";
+NSString const *trustFactorsNotLearnedKey = @"Sentegrity.trustFactorsNotLearned";
+NSString const *trustFactorsWithErrorsKey = @"Sentegrity.trustFactorsWithErrors";
+
 // GUI messages
-NSString const *issuesInClassKey = @"Sentegrity.issuesInClass";
-NSString const *suggestionsInClassKey = @"Sentegrity.suggestionsInClass";
-NSString const *subClassStatusKey = @"Sentegrity.subClassStatus";
+NSString const *issuesKey = @"Sentegrity.issues";
+NSString const *suggestionsKey = @"Sentegrity.suggestions";
+NSString const *statusKey = @"Sentegrity.status";
 
 
 // Base Penalty
@@ -78,30 +85,55 @@ NSString const *subClassStatusKey = @"Sentegrity.subClassStatus";
     return objc_getAssociatedObject(self, &trustFactorsToWhitelistKey);
 }
 
-- (void)setIssuesInClass:(NSArray *)issuesInClass{
-    objc_setAssociatedObject(self, &issuesInClassKey, issuesInClass, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setTrustFactorsTriggered:(NSArray *)trustFactorsTriggered{
+    objc_setAssociatedObject(self, &trustFactorsTriggeredKey, trustFactorsTriggered, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSArray *)issuesInClass {
-    return objc_getAssociatedObject(self, &issuesInClassKey);
+- (NSArray *)trustFactorsTriggered {
+    return objc_getAssociatedObject(self, &trustFactorsTriggeredKey);
+}
+
+- (void)setTrustFactorsNotLearned:(NSArray *)trustFactorsNotLearned{
+    objc_setAssociatedObject(self, &trustFactorsNotLearnedKey, trustFactorsNotLearned, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)trustFactorsNotLearned {
+    return objc_getAssociatedObject(self, &trustFactorsNotLearnedKey);
+}
+
+- (void)setTrustFactorsWithErrors:(NSArray *)trustFactorsWithErrors{
+    objc_setAssociatedObject(self, &trustFactorsWithErrorsKey, trustFactorsWithErrors, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)trustFactorsWithErrors {
+    return objc_getAssociatedObject(self, &trustFactorsWithErrorsKey);
 }
 
 
-- (void)setSuggestionsInClass:(NSArray *)suggestionsInClass{
-    objc_setAssociatedObject(self, &suggestionsInClassKey, suggestionsInClass, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setIssues:(NSArray *)issues{
+    objc_setAssociatedObject(self, &issuesKey, issues, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSArray *)suggestionsInClass {
-    return objc_getAssociatedObject(self, &suggestionsInClassKey);
+- (NSArray *)issues {
+    return objc_getAssociatedObject(self, &issuesKey);
 }
 
 
-- (void)setSubClassStatus:(NSArray *)subClassStatus{
-    objc_setAssociatedObject(self, &subClassStatusKey, subClassStatus, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setSuggestions:(NSArray *)suggestions{
+    objc_setAssociatedObject(self, &suggestionsKey, suggestions, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSArray *)subClassStatus {
-    return objc_getAssociatedObject(self, &subClassStatusKey);
+- (NSArray *)suggestions {
+    return objc_getAssociatedObject(self, &suggestionsKey);
+}
+
+
+- (void)setStatus:(NSArray *)status{
+    objc_setAssociatedObject(self, &statusKey, status, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)status {
+    return objc_getAssociatedObject(self, &statusKey);
 }
 
 @end

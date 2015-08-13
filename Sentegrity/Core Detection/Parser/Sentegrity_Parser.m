@@ -96,6 +96,7 @@
         for (NSDictionary *classifiers in classifications) {
             Sentegrity_Classification *classer = [[Sentegrity_Classification alloc] init];
             [classer setIdentification:[classifiers objectForKey:kIdentification]];
+            [classer setUser:[classifiers objectForKey:kUser]];
             [classer setName:[classifiers objectForKey:kName]];
             [classer setWeight:[classifiers objectForKey:kWeight]];
             [classer setDesc:[classifiers objectForKey:kDesc]];

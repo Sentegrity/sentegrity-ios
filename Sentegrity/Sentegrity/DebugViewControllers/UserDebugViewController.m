@@ -33,6 +33,9 @@
     [self.menuButton setShowsTouchWhenHighlighted:YES];
     [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.menuButton updateAppearance];
+    
+    self.userDebugOutput.text = @"test";
+    
 }
 
 #pragma mark - Actions

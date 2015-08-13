@@ -10,7 +10,9 @@
 
 @interface Sentegrity_Classification : NSObject
 
+
 @property (nonatomic,retain) NSNumber *identification;
+@property (nonatomic,retain) NSNumber *user;
 @property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) NSString *desc;
 @property (nonatomic,retain) NSNumber *weight;
