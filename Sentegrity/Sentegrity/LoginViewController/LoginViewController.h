@@ -9,12 +9,22 @@
 // UIKit
 #import <UIKit/UIKit.h>
 
+// Animated Progress Alerts
+#import "MBProgressHUD.h"
+
+// Custom Alert View
+#import "SCLAlertView.h"
 
 
+#import "Sentegrity.h"
+
+// Dashboard View Controller
+#import "DashboardViewController.h"
+
+// Landing Page View Controller
+#import "LandingViewController.h"
 
 @interface LoginViewController : UIViewController
-
-
 
 /* Perform Core Detection */
 - (void)performCoreDetection:(id)sender;

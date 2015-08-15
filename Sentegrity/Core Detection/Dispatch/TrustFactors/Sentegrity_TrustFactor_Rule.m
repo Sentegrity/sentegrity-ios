@@ -457,7 +457,7 @@ static int bluetoothDNEStatus = 0;
 
             currentTime = CFAbsoluteTimeGetCurrent();
             // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5){
+            if ((currentTime-startTime) > 3.0){
                 NSLog(@"Bluetooth timer expired");
                 exit=YES;
                 [self setBluetoothDNEStatus:DNEStatus_expired];

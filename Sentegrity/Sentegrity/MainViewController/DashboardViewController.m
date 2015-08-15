@@ -17,7 +17,6 @@
 
 // Sentegrity
 #import "Sentegrity.h"
-#import "Sentegrity_TrustFactor_Output_Object.h"
 
 // Flat Colors
 #import "Chameleon.h"
@@ -94,13 +93,7 @@ static MBProgressHUD *HUD;
 
 // Set up the customizations for the view
 - (void)customizeView {
-    
-    if(self.computationResults.deviceTrusted==YES){
-    UIImageView *dot =[[UIImageView alloc] initWithFrame:CGRectMake(0,0,375,667)];
-    dot.image=[UIImage imageNamed:@"good_open"];
-    [self.view addSubview:dot];
-    [dot removeFromSuperview];
-    }
+
     
     // Set the background color
     [self.view setBackgroundColor:[UIColor whiteColor]];
@@ -109,7 +102,13 @@ static MBProgressHUD *HUD;
     [self setNeedsStatusBarAppearanceUpdate];
     
     // Set the TrustScore progress bar
+    
+    // Sentegrity Gold
     [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+    
+    // Good color
+    //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+    
     //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithGradientStyle:UIGradientStyleLeftToRight withFrame:self.trustScoreProgressBar.frame andColors:@[[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f], [UIColor flatOrangeColor]]]];
     [self.trustScoreProgressBar setProgressBarTrackColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
     //[self.progressBar setProgressBarTrackColor:[UIColor colorWithGradientStyle:UIGradientStyleLeftToRight withFrame:self.progressBar.frame andColors:@[[UIColor flatWhiteColorDark], [UIColor flatGrayColor]]]];
@@ -184,47 +183,45 @@ static MBProgressHUD *HUD;
     
     /* Perform Core Detection */
     
-
-            
-            // Computation results here!
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
-            
-            /* Set the label and progress bar */
-            
-            // Trust Score
-            CGFloat trustScore = self.computationResults.deviceScore;
-            
-            // Set the trustscore
-            [self.trustScoreLabel setText:[NSString stringWithFormat:@"%.0f", trustScore]];
-            
-            
-            // Set the progress bar
-            [self.trustScoreProgressBar setProgress:trustScore/100.0f animated:YES];
-            
-            // Set the device message
-            [self.deviceStatusLabel setText:self.computationResults.systemGUIIconText];
-            // Set the user message
-            [self.userStatusLabel setText:self.computationResults.userGUIIconText];
-            
-            // Set the device image
-            if (self.computationResults.systemGUIIconID == 0) {
-                [self.deviceStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
-                self.deviceStatusImageView.backgroundColor = [UIColor clearColor];
-            }
-            // Set the user image
-            if (self.computationResults.userGUIIconID == 0) {
-                [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
-                self.userStatusImageView.backgroundColor = [UIColor clearColor];
-            }
-            
-            // Remove animations from the reload button after a delay
-            [IIDelayedAction delayedAction:^{
-                // Remove all reload button animations
-                [self.reloadButton.layer removeAllAnimations];
-            } withDelay:1.0];
-            
-            // Update the last update label
-            [self updateLastUpdateLabel:self];
+    // Computation results here!
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
+    
+    /* Set the label and progress bar */
+    
+    // Trust Score
+    CGFloat trustScore = self.computationResults.deviceScore;
+    
+    // Set the trustscore
+    [self.trustScoreLabel setText:[NSString stringWithFormat:@"%.0f", trustScore]];
+    
+    
+    // Set the progress bar
+    [self.trustScoreProgressBar setProgress:trustScore/100.0f animated:YES];
+    
+    // Set the device message
+    [self.deviceStatusLabel setText:self.computationResults.systemGUIIconText];
+    // Set the user message
+    [self.userStatusLabel setText:self.computationResults.userGUIIconText];
+    
+    // Set the device image
+    if (self.computationResults.systemGUIIconID == 0) {
+        [self.deviceStatusImageView setImage:[UIImage imageNamed:@"shield_checkmark_gold"]];
+        self.deviceStatusImageView.backgroundColor = [UIColor clearColor];
+    }
+    // Set the user image
+    if (self.computationResults.userGUIIconID == 0) {
+        [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_checkmark_gold"]];
+        self.userStatusImageView.backgroundColor = [UIColor clearColor];
+    }
+    
+    // Remove animations from the reload button after a delay
+    [IIDelayedAction delayedAction:^{
+        // Remove all reload button animations
+        [self.reloadButton.layer removeAllAnimations];
+    } withDelay:1.0];
+    
+    // Update the last update label
+    [self updateLastUpdateLabel:self];
     
 
 } // End of Core Detection Function

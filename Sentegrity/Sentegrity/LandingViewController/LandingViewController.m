@@ -11,6 +11,10 @@
 
 #import "DashboardViewController.h"
 
+#import "SCLAlertView.h"
+
+#import "Sentegrity.h"
+
 
 @interface LandingViewController ()
 
@@ -42,7 +46,7 @@
     
     [super viewDidAppear:animated];
     
-    [self performSelector:@selector(dismiss1) withObject:nil afterDelay:3.0f];
+    [self performSelector:@selector(showButton) withObject:nil afterDelay:1.5f];
     
 
     
@@ -54,6 +58,43 @@
     
  }
 
+-(void) showButton
+{
+    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                            action:@selector(handleTap:)];
+    
+    [self.view addGestureRecognizer:tapRecognizer];
+    
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+    
+    SCLAlertView *unlocked = [[SCLAlertView alloc] init];
+    unlocked.backgroundType = Shadow;
+    //unlocked.backgroundViewColor = [UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f];
+    [unlocked removeTopCircle];
+    
+    
+    [unlocked addButton:@"View Dashboard" actionBlock:^(void) {
+        // Get the storyboard
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        // Create the main view controller
+        DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+        [self.navigationController pushViewController:mainViewController animated:NO];
+    }];
+    
+    if([[CoreDetection sharedDetection] getLastComputationResults].deviceTrusted==YES){ // Transparently authentication
+        
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Welcome!" subTitle:@"Access to this app required NO PASSWORD! View the Sentegrity dashboard for more details." closeButtonTitle:nil duration:0.0f];
+        
+    }else if([[CoreDetection sharedDetection] getLastComputationResults].userTrusted==NO && [[CoreDetection sharedDetection] getLastComputationResults].deviceTrusted==YES){ // User anomaly
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Password Required" subTitle:@"Access to this app required a password. View the Sentegrity dashboard for more details." closeButtonTitle:nil duration:0.0f];
+    }else{ // Policy violation
+        
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Policy Exception" subTitle:@"Access to this app required a policy exception. View the Sentegrity dashboard for more details." closeButtonTitle:nil duration:0.0f];
+    }
+
+    
+}
 -(void) dismiss1
 {
     

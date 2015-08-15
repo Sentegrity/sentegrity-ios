@@ -345,8 +345,8 @@
 		04A248FB1B266AC2007D9460 /* Sentegrity */ = {
 			isa = PBXGroup;
 			children = (
-				9676DF7E1B7EA92900C508D6 /* LandingViewController */,
 				969CD06E1B7E7DEC00254F45 /* SCLAlertView */,
+				9676DF7E1B7EA92900C508D6 /* LandingViewController */,
 				969CD06A1B7E673900254F45 /* LoginViewController */,
 				4CE9D8081B3233B2006D43D8 /* DashboardViewController */,
 				4C22BFFC1B7B983400EFFD7D /* InformationViewControllers */,

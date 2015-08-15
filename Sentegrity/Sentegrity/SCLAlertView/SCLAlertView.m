@@ -89,16 +89,16 @@ NSTimer *durationTimer;
         kCircleHeight = 56.0f;
         kCircleHeightBackground = 62.0f;
         kActivityIndicatorHeight = 40.0f;
-        kTitleTop = 24.0f;
-        kTitleHeight = 40.0f;
-        self.subTitleY = 70.0f;
+        kTitleTop = 14.0f;
+        kTitleHeight = 30.0f;
+        self.subTitleY = 55.0f;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        self.subTitleHeight = 90.0f;
+        self.subTitleHeight = 70.0f;
 #pragma clang diagnostic pop
         self.circleIconHeight = 20.0f;
         self.windowWidth = 300.0f;
-        self.windowHeight = 220.0f;
+        self.windowHeight = 195.0f;
         self.shouldDismissOnTapOutside = NO;
         self.usingNewWindow = NO;
         self.canAddObservers = YES;
@@ -109,11 +109,11 @@ NSTimer *durationTimer;
         
         // Font
         _titleFontFamily = @"OpenSans-Bold";
-        _bodyTextFontFamily = @"OpenSans-Regular";
+        _bodyTextFontFamily = @"OpenSans-Light";
         _buttonsFontFamily = @"OpenSans-Bold";
-        _titleFontSize = 25.0f;
-        _bodyFontSize = 20.0f;
-        _buttonsFontSize = 20.0f;
+        _titleFontSize = 27.0f;
+        _bodyFontSize = 18.0f;
+        _buttonsFontSize = 22.0f;
         
         // Init
         _labelTitle = [[UILabel alloc] init];
@@ -290,11 +290,11 @@ NSTimer *durationTimer;
     
     {
         // Text fields
-        CGFloat y = (_labelTitle.text == nil) ? (kCircleHeight - 20.0f) : 74.0f;
+        CGFloat y = (_labelTitle.text == nil) ? (kCircleHeight - 20.0f) : 60.0f;
         y += _subTitleHeight + 14.0f;
         for (UITextField *textField in _inputs)
         {
-            textField.frame = CGRectMake(12.0f, y, _windowWidth - 24.0f, 30.0f);
+            textField.frame = CGRectMake(12.0f, y, _windowWidth - 24.0f, 50.0f);
             textField.layer.cornerRadius = 3.0f;
             y += 40.0f;
         }
@@ -302,7 +302,7 @@ NSTimer *durationTimer;
         // Buttons
         for (SCLButton *btn in _buttons)
         {
-            btn.frame = CGRectMake(12.0f, y, _windowWidth - 24.0f, 50.0f);
+            btn.frame = CGRectMake(12.0f, y + 20.0f, _windowWidth - 24.0f, 50.0f);
             btn.layer.cornerRadius = 3.0f;
             y += btn.frame.size.height + 10.0f;
         }

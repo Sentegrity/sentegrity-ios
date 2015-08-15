@@ -9,20 +9,6 @@
 // Main View Controller
 #import "LoginViewController.h"
 
-// Animated Progress Alerts
-#import "MBProgressHUD.h"
-
-// Custom Alert View
-#import "SCLAlertView.h"
-
-#import "Sentegrity.h"
-
-// Dashboard View Controller
-#import "DashboardViewController.h"
-
-// Landing Page View Controller
-#import "LandingViewController.h"
-
 
 @interface LoginViewController ()
 
@@ -38,15 +24,17 @@
 
 static MBProgressHUD *HUD;
 
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 // View Loaded
 - (void)viewDidLoad {
     
-    // Show Animation
-
+ 
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-
     
 }
 
@@ -60,7 +48,7 @@ static MBProgressHUD *HUD;
     HUD.labelText = @"Authenticating";
     HUD.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
     
-    HUD.detailsLabelText = @"Attempting Transparent Authentication";
+    HUD.detailsLabelText = @"Assessing security posture";
     HUD.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
     
     @autoreleasepool {
@@ -102,6 +90,8 @@ static MBProgressHUD *HUD;
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self analyzeResults:computationResults withPolicy:policy];
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+
             });
             
             
@@ -125,10 +115,8 @@ static MBProgressHUD *HUD;
     
         
     if(computationResults.deviceTrusted==YES){
-        // Stop analyzing screen
-        HUD.labelText = @"Downloading ...";
-        
-        [MBProgressHUD hideHUDForView:self.view animated:NO];
+
+        // Show landing page
         
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         // Create the main view controller
@@ -153,9 +141,6 @@ static MBProgressHUD *HUD;
                 
                 // Active protect mode
                 [[ProtectMode sharedProtectMode] activateProtectModeUser];
-                
-                // Stop analyzing screen
-                [MBProgressHUD hideHUDForView:self.view animated:NO];
                 
                 // Setup login box
                 SCLAlertView *userPIN = [[SCLAlertView alloc] init];
@@ -184,8 +169,6 @@ static MBProgressHUD *HUD;
                     }
                     
                 }];
-                //UIImage *bgImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"background" ofType:@"jpg"]]
-                UIImage *popup = [UIImage  imageNamed:@"Sentegrity_Logo"];
                 
                 [userPIN addButton:@"View Dashboard" actionBlock:^(void) {
                     // Get the storyboard
@@ -196,7 +179,7 @@ static MBProgressHUD *HUD;
                 }];
                 
                 
-                [userPIN showCustom:self image:popup color:[UIColor grayColor] title:@"Authentication Failed" subTitle:@"User password required for access" closeButtonTitle:nil duration:0.0f];
+                [userPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Login" subTitle:@"User anomaly detected, password required." closeButtonTitle:nil duration:0.0f];
                 
                 
             }
@@ -207,23 +190,21 @@ static MBProgressHUD *HUD;
                 // Active protect mode
                 [[ProtectMode sharedProtectMode] activateProtectModePolicy];
                 
-                // Stop analyzing screen
-                [MBProgressHUD hideHUDForView:self.view animated:NO];
-                
                 // Setup login box
                 SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
-                //policyPIN.customViewColor = [UIColor grayColor];
                 policyPIN.backgroundType = Transparent;
-                
+                [policyPIN removeTopCircle];
+
                 
                 UITextField *policyText = [policyPIN addTextField:@"Enter Administrator PIN"];
                 
                 // Show deactivation textbox
-                [policyPIN addButton:@"Override" actionBlock:^(void) {
+                [policyPIN addButton:@"Unlock" actionBlock:^(void) {
                     
                     // If pw is correct
                     if([[ProtectMode sharedProtectMode] deactivateProtectModePolicyWithPIN:policyText.text]==YES){
                         
+                        // Show demo landing page
                         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                         // Create the main view controller
                         LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
@@ -237,7 +218,7 @@ static MBProgressHUD *HUD;
                     }
                     
                 }];
-                
+
                 [policyPIN addButton:@"View Dashboard" actionBlock:^(void) {
                     // Get the storyboard
                     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -246,9 +227,8 @@ static MBProgressHUD *HUD;
                     [self.navigationController pushViewController:mainViewController animated:NO];
                 }];
                 
-
-                
-                [policyPIN showWarning:self title:@"High Risk Device" subTitle:@"Administrator authorization required for access" closeButtonTitle:nil duration:0.0f];
+                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Policy Violation" subTitle:@"High risk device detected, policy exception required." closeButtonTitle:nil duration:0.0f];
+            
                 
             }
                 break;
@@ -257,6 +237,7 @@ static MBProgressHUD *HUD;
 
     }
 }
+
 
 // Layout subviews
 - (void)viewDidLayoutSubviews {

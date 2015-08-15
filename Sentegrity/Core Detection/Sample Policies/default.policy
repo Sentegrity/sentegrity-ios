@@ -934,7 +934,7 @@
 "threshold": 0,
 "provision": 1,
 "local": 0,
-"history": 3,
+"history": 5,
 "dispatch": "Motion",
 "implementation": "unknown:",
 "inverse": 0,

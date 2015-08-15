@@ -130,10 +130,11 @@
         case 3: {
             // Reset Stores
             
-            // Create the alert
+            // Setup login box
             SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-            alert.backgroundViewColor = [UIColor whiteColor];
-            alert.customViewColor = [UIColor grayColor];
+            alert.backgroundType = Transparent;
+            [alert removeTopCircle];
+
             
 
             // Use Blocks for the reset button
@@ -178,7 +179,8 @@
             }];
             
             // Show the alert
-            [alert showWarning:self title:@"Reset Assertion Stores" subTitle:@"Are you sure you want to reset the Assertion Stores?" closeButtonTitle:@"Cancel" duration:0.0f]; // Warning
+            [alert showCustom:self image:nil color:[UIColor grayColor] title:@"Reset Stores" subTitle:@"Are you sure you want to reset the Assertion Stores?" closeButtonTitle:@"Cancel" duration:0.0f];
+
     
             break;
         }

@@ -33,11 +33,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="good_launch" translatesAutoresizingMaskIntoConstraints="NO" id="OUz-vd-aWb">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="good_launch" translatesAutoresizingMaskIntoConstraints="NO" id="5G9-2T-1Sl">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5G9-2T-1Sl" firstAttribute="leading" secondItem="8xF-kz-UPT" secondAttribute="leading" id="AEW-Ls-EC1"/>
+                            <constraint firstAttribute="centerX" secondItem="5G9-2T-1Sl" secondAttribute="centerX" id="TD9-Xs-dyd"/>
+                            <constraint firstItem="5G9-2T-1Sl" firstAttribute="top" secondItem="8xF-kz-UPT" secondAttribute="top" id="fC8-kA-fuf"/>
+                            <constraint firstItem="s4Y-fe-PeA" firstAttribute="bottom" secondItem="5G9-2T-1Sl" secondAttribute="bottom" id="oUM-bx-Jcb"/>
+                            <constraint firstAttribute="centerY" secondItem="5G9-2T-1Sl" secondAttribute="centerY" id="sef-Ex-VOy"/>
+                            <constraint firstAttribute="trailing" secondItem="5G9-2T-1Sl" secondAttribute="trailing" id="wqx-hA-sOE"/>
+                        </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
