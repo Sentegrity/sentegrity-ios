@@ -54,12 +54,29 @@
     }
 }
 
+- (void)addMapper: (id<DCMapping>)mapper {
+    if ([mapper isKindOfClass:[DCArrayMapping class]]){
+        [self addArrayMapper:mapper];
+    } else if ([mapper isKindOfClass:[DCObjectMapping class]]){
+        [self addObjectMapping:mapper];
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:[NSString stringWithFormat:@"unknown mapper class: %@", NSStringFromClass([mapper class])]
+                                     userInfo:nil];
+    }
+}
+
 - (void)addArrayMapper: (DCArrayMapping *)mapper {
     [self.arrayMappers addObject:mapper];
     [self.objectMappers addObject:mapper.objectMapping];
 }
 - (void) addObjectMapping: (DCObjectMapping *) mapper {
     [self.objectMappers addObject:mapper];
+}
+- (void) addObjectMappings: (NSArray *)mappers {
+    for (DCObjectMapping *mapper in mappers) {
+        [self.objectMappers addObject:mapper];
+    }
 }
 - (void) addAggregator: (DCPropertyAggregator *) aggregator {
     [self.aggregators addObject:aggregator];

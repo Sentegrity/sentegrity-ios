@@ -20,6 +20,7 @@
 
 #define KEYBOARD_HEIGHT 80
 #define PREDICTION_BAR_HEIGHT 40
+#define ADD_BUTTON_PADDING 10.0f
 
 @interface SCLAlertView ()  <UITextFieldDelegate, UIGestureRecognizerDelegate>
 
@@ -96,8 +97,8 @@ NSTimer *durationTimer;
         self.subTitleHeight = 90.0f;
 #pragma clang diagnostic pop
         self.circleIconHeight = 20.0f;
-        self.windowWidth = 240.0f;
-        self.windowHeight = 178.0f;
+        self.windowWidth = 300.0f;
+        self.windowHeight = 220.0f;
         self.shouldDismissOnTapOutside = NO;
         self.usingNewWindow = NO;
         self.canAddObservers = YES;
@@ -107,12 +108,12 @@ NSTimer *durationTimer;
         self.backgroundType = Shadow;
         
         // Font
-        _titleFontFamily = @"HelveticaNeue";
-        _bodyTextFontFamily = @"HelveticaNeue";
-        _buttonsFontFamily = @"HelveticaNeue-Bold";
-        _titleFontSize = 20.0f;
-        _bodyFontSize = 14.0f;
-        _buttonsFontSize = 14.0f;
+        _titleFontFamily = @"OpenSans-Bold";
+        _bodyTextFontFamily = @"OpenSans-Regular";
+        _buttonsFontFamily = @"OpenSans-Bold";
+        _titleFontSize = 25.0f;
+        _bodyFontSize = 20.0f;
+        _buttonsFontSize = 20.0f;
         
         // Init
         _labelTitle = [[UILabel alloc] init];
@@ -301,7 +302,7 @@ NSTimer *durationTimer;
         // Buttons
         for (SCLButton *btn in _buttons)
         {
-            btn.frame = CGRectMake(12.0f, y, btn.frame.size.width, btn.frame.size.height);
+            btn.frame = CGRectMake(12.0f, y, _windowWidth - 24.0f, 50.0f);
             btn.layer.cornerRadius = 3.0f;
             y += btn.frame.size.height + 10.0f;
         }
@@ -546,14 +547,14 @@ NSTimer *durationTimer;
 
 - (SCLButton *)addButton:(NSString *)title
 {
-    // Update view height
-    self.windowHeight += 45.0f;
-    
     // Add button
     SCLButton *btn = [[SCLButton alloc] init];
     btn.layer.masksToBounds = YES;
     [btn setTitle:title forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont fontWithName:_buttonsFontFamily size:_buttonsFontSize];
+    
+    // Update view height
+    self.windowHeight += (btn.frame.size.height + ADD_BUTTON_PADDING);
     
     [_contentView addSubview:btn];
     [_buttons addObject:btn];

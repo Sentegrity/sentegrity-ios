@@ -12,7 +12,6 @@
 		0427EFFF1B79361E000658AB /* ComputationInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427EFFE1B79361E000658AB /* ComputationInfoViewController.m */; };
 		04A248FF1B266AC2007D9460 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A248FE1B266AC2007D9460 /* main.m */; };
 		04A249021B266AC2007D9460 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A249011B266AC2007D9460 /* AppDelegate.m */; };
-		04A249051B266AC2007D9460 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A249041B266AC2007D9460 /* MainViewController.m */; };
 		04A249081B266AC2007D9460 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04A249061B266AC2007D9460 /* Main.storyboard */; };
 		04A2490A1B266AC2007D9460 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A249091B266AC2007D9460 /* Images.xcassets */; };
 		04A2490D1B266AC2007D9460 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04A2490B1B266AC2007D9460 /* LaunchScreen.xib */; };
@@ -75,10 +74,18 @@
 		4CE9D8891B323B05006D43D8 /* Sentegrity_Classification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8631B323B05006D43D8 /* Sentegrity_Classification+Computation.m */; };
 		4CE9D88A1B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */; };
 		4CE9D88B1B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */; };
+		9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9676DF801B7EA92900C508D6 /* LandingViewController.m */; };
 		967786281B6044D500715110 /* TrustFactor_Dispatch_Motion.m in Sources */ = {isa = PBXBuildFile; fileRef = 967786271B6044D500715110 /* TrustFactor_Dispatch_Motion.m */; };
 		967786401B6269D900715110 /* oui_all.list in Resources */ = {isa = PBXBuildFile; fileRef = 9677863E1B6269D900715110 /* oui_all.list */; };
 		967786411B6269D900715110 /* oui.list in Resources */ = {isa = PBXBuildFile; fileRef = 9677863F1B6269D900715110 /* oui.list */; };
 		967786441B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 967786431B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m */; };
+		969CD0691B7E668500254F45 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0681B7E668500254F45 /* DashboardViewController.m */; };
+		969CD06D1B7E673900254F45 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD06C1B7E673900254F45 /* LoginViewController.m */; };
+		969CD07A1B7E7DEC00254F45 /* SCLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0701B7E7DEC00254F45 /* SCLAlertView.m */; };
+		969CD07B1B7E7DEC00254F45 /* SCLAlertViewResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0721B7E7DEC00254F45 /* SCLAlertViewResponder.m */; };
+		969CD07C1B7E7DEC00254F45 /* SCLAlertViewStyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0741B7E7DEC00254F45 /* SCLAlertViewStyleKit.m */; };
+		969CD07D1B7E7DEC00254F45 /* SCLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0761B7E7DEC00254F45 /* SCLButton.m */; };
+		969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */; };
 		96AE2C1A1B759B1C008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AE2C191B759B1C008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.m */; };
 		96C0FF281B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF231B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */; };
 		96C0FF291B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C0FF251B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m */; };
@@ -108,8 +115,7 @@
 		04A248FE1B266AC2007D9460 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		04A249001B266AC2007D9460 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		04A249011B266AC2007D9460 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		04A249031B266AC2007D9460 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		04A249041B266AC2007D9460 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		04A249031B266AC2007D9460 /* DashboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
 		04A249071B266AC2007D9460 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		04A249091B266AC2007D9460 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		04A2490C1B266AC2007D9460 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -213,12 +219,28 @@
 		4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Subclassification+Computation.m"; sourceTree = "<group>"; };
 		4CE9D8661B323B05006D43D8 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
+		9676DF7F1B7EA92900C508D6 /* LandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandingViewController.h; sourceTree = "<group>"; };
+		9676DF801B7EA92900C508D6 /* LandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandingViewController.m; sourceTree = "<group>"; };
 		967786271B6044D500715110 /* TrustFactor_Dispatch_Motion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Motion.m; sourceTree = "<group>"; };
 		967786291B6044EB00715110 /* TrustFactor_Dispatch_Motion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Motion.h; sourceTree = "<group>"; };
 		9677863E1B6269D900715110 /* oui_all.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oui_all.list; sourceTree = "<group>"; };
 		9677863F1B6269D900715110 /* oui.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oui.list; sourceTree = "<group>"; };
 		967786421B62B56900715110 /* Sentegrity_TrustFactor_Dataset_Wifi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Wifi.h; sourceTree = "<group>"; };
 		967786431B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Wifi.m; sourceTree = "<group>"; };
+		969CD0681B7E668500254F45 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
+		969CD06B1B7E673900254F45 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		969CD06C1B7E673900254F45 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		969CD06F1B7E7DEC00254F45 /* SCLAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLAlertView.h; sourceTree = "<group>"; };
+		969CD0701B7E7DEC00254F45 /* SCLAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLAlertView.m; sourceTree = "<group>"; };
+		969CD0711B7E7DEC00254F45 /* SCLAlertViewResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLAlertViewResponder.h; sourceTree = "<group>"; };
+		969CD0721B7E7DEC00254F45 /* SCLAlertViewResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLAlertViewResponder.m; sourceTree = "<group>"; };
+		969CD0731B7E7DEC00254F45 /* SCLAlertViewStyleKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLAlertViewStyleKit.h; sourceTree = "<group>"; };
+		969CD0741B7E7DEC00254F45 /* SCLAlertViewStyleKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLAlertViewStyleKit.m; sourceTree = "<group>"; };
+		969CD0751B7E7DEC00254F45 /* SCLButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLButton.h; sourceTree = "<group>"; };
+		969CD0761B7E7DEC00254F45 /* SCLButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLButton.m; sourceTree = "<group>"; };
+		969CD0771B7E7DEC00254F45 /* SCLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLMacros.h; sourceTree = "<group>"; };
+		969CD0781B7E7DEC00254F45 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		96AE2C191B759B1C008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Bluetooth.m; sourceTree = "<group>"; };
 		96AE2C1B1B759B31008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Bluetooth.h; sourceTree = "<group>"; };
 		96C0FEFE1B5BE7D5003F4213 /* clock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clock.h; sourceTree = "<group>"; };
@@ -323,9 +345,12 @@
 		04A248FB1B266AC2007D9460 /* Sentegrity */ = {
 			isa = PBXGroup;
 			children = (
+				9676DF7E1B7EA92900C508D6 /* LandingViewController */,
+				969CD06E1B7E7DEC00254F45 /* SCLAlertView */,
+				969CD06A1B7E673900254F45 /* LoginViewController */,
+				4CE9D8081B3233B2006D43D8 /* DashboardViewController */,
 				4C22BFFC1B7B983400EFFD7D /* InformationViewControllers */,
 				4CE9D80A1B3233D2006D43D8 /* AppDelegate */,
-				4CE9D8081B3233B2006D43D8 /* MainViewController */,
 				4CE9D8091B3233C1006D43D8 /* RightMenuViewController */,
 				0427EFF41B7908CC000658AB /* DebugViewControllers */,
 				4CE9D80B1B3233DC006D43D8 /* StoryBoards */,
@@ -414,12 +439,13 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		4CE9D8081B3233B2006D43D8 /* MainViewController */ = {
+		4CE9D8081B3233B2006D43D8 /* DashboardViewController */ = {
 			isa = PBXGroup;
 			children = (
-				04A249031B266AC2007D9460 /* MainViewController.h */,
-				04A249041B266AC2007D9460 /* MainViewController.m */,
+				04A249031B266AC2007D9460 /* DashboardViewController.h */,
+				969CD0681B7E668500254F45 /* DashboardViewController.m */,
 			);
+			name = DashboardViewController;
 			path = MainViewController;
 			sourceTree = "<group>";
 		};
@@ -661,6 +687,42 @@
 				4CE9D84B1B323B05006D43D8 /* ProtectMode.m */,
 			);
 			path = "Protect Mode";
+			sourceTree = "<group>";
+		};
+		9676DF7E1B7EA92900C508D6 /* LandingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9676DF7F1B7EA92900C508D6 /* LandingViewController.h */,
+				9676DF801B7EA92900C508D6 /* LandingViewController.m */,
+			);
+			path = LandingViewController;
+			sourceTree = "<group>";
+		};
+		969CD06A1B7E673900254F45 /* LoginViewController */ = {
+			isa = PBXGroup;
+			children = (
+				969CD06B1B7E673900254F45 /* LoginViewController.h */,
+				969CD06C1B7E673900254F45 /* LoginViewController.m */,
+			);
+			path = LoginViewController;
+			sourceTree = "<group>";
+		};
+		969CD06E1B7E7DEC00254F45 /* SCLAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				969CD06F1B7E7DEC00254F45 /* SCLAlertView.h */,
+				969CD0701B7E7DEC00254F45 /* SCLAlertView.m */,
+				969CD0711B7E7DEC00254F45 /* SCLAlertViewResponder.h */,
+				969CD0721B7E7DEC00254F45 /* SCLAlertViewResponder.m */,
+				969CD0731B7E7DEC00254F45 /* SCLAlertViewStyleKit.h */,
+				969CD0741B7E7DEC00254F45 /* SCLAlertViewStyleKit.m */,
+				969CD0751B7E7DEC00254F45 /* SCLButton.h */,
+				969CD0761B7E7DEC00254F45 /* SCLButton.m */,
+				969CD0771B7E7DEC00254F45 /* SCLMacros.h */,
+				969CD0781B7E7DEC00254F45 /* UIImage+ImageEffects.h */,
+				969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */,
+			);
+			path = SCLAlertView;
 			sourceTree = "<group>";
 		};
 		96C0FEFC1B5BE7D5003F4213 /* Headers */ = {
@@ -911,14 +973,18 @@
 				4CE9D8881B323B05006D43D8 /* Sentegrity_TrustFactor.m in Sources */,
 				4CE9D8711B323B05006D43D8 /* TrustFactor_Dispatch_Http.m in Sources */,
 				4CE9D87C1B323B05006D43D8 /* TrustFactor_Dispatch_Wifi.m in Sources */,
+				969CD07C1B7E7DEC00254F45 /* SCLAlertViewStyleKit.m in Sources */,
 				4CE9D8801B323B05006D43D8 /* Sentegrity_Parser.m in Sources */,
+				969CD07B1B7E7DEC00254F45 /* SCLAlertViewResponder.m in Sources */,
+				969CD07D1B7E7DEC00254F45 /* SCLButton.m in Sources */,
+				969CD07A1B7E7DEC00254F45 /* SCLAlertView.m in Sources */,
 				0427EFFF1B79361E000658AB /* ComputationInfoViewController.m in Sources */,
 				4CE9D8891B323B05006D43D8 /* Sentegrity_Classification+Computation.m in Sources */,
-				04A249051B266AC2007D9460 /* MainViewController.m in Sources */,
 				4CE9D87F1B323B05006D43D8 /* Sentegrity_History_Store.m in Sources */,
 				4CE9D8771B323B05006D43D8 /* TrustFactor_Dispatch_Sandbox.m in Sources */,
 				4CE9D87B1B323B05006D43D8 /* TrustFactor_Dispatch_Time.m in Sources */,
 				4CE9D8741B323B05006D43D8 /* TrustFactor_Dispatch_Platform.m in Sources */,
+				969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */,
 				4CE9D8691B323B05006D43D8 /* Sentegrity_Stored_TrustFactor_Object.m in Sources */,
 				4CE9D8751B323B05006D43D8 /* TrustFactor_Dispatch_Process.m in Sources */,
 				4CE9D8721B323B05006D43D8 /* TrustFactor_Dispatch_Location.m in Sources */,
@@ -933,6 +999,7 @@
 				4CE9D8861B323B05006D43D8 /* Sentegrity_Policy.m in Sources */,
 				0427EFF71B7908FE000658AB /* UserDebugViewController.m in Sources */,
 				4CE9D8791B323B05006D43D8 /* TrustFactor_Dispatch_Sensor.m in Sources */,
+				969CD0691B7E668500254F45 /* DashboardViewController.m in Sources */,
 				4CE9D86D1B323B05006D43D8 /* Sentegrity_TrustFactor_Dispatcher.m in Sources */,
 				967786441B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m in Sources */,
 				4CE9D87D1B323B05006D43D8 /* Sentegrity_TrustFactor_Output_Object.m in Sources */,
@@ -944,9 +1011,11 @@
 				4CE9D8731B323B05006D43D8 /* TrustFactor_Dispatch_Netstat.m in Sources */,
 				4CE9D8761B323B05006D43D8 /* TrustFactor_Dispatch_Route.m in Sources */,
 				4CE9D86B1B323B05006D43D8 /* Sentegrity_Baseline_Analysis.m in Sources */,
+				9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */,
 				4CE9D8811B323B05006D43D8 /* ProtectMode.m in Sources */,
 				4CE9D8851B323B05006D43D8 /* Sentegrity_DNEModifiers.m in Sources */,
 				4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */,
+				969CD06D1B7E673900254F45 /* LoginViewController.m in Sources */,
 				4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */,
 				96AE2C1A1B759B1C008F8CC4 /* Sentegrity_TrustFactor_Dataset_Bluetooth.m in Sources */,
 				967786281B6044D500715110 /* TrustFactor_Dispatch_Motion.m in Sources */,

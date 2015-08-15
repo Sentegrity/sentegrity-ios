@@ -15,15 +15,21 @@
 
 #import "Sentegrity_TrustFactor_Rule.h"
 
+// Animated Progress Alerts
+#import "MBProgressHUD.h"
+
 @interface AppDelegate () <CBCentralManagerDelegate>
 
 @end
 
+
 @implementation AppDelegate
 
+static MBProgressHUD *HUD;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+
     //Call async data functions such as location/core
     [self startLocation];
     
@@ -40,7 +46,10 @@
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     // Set up the navigation controller
-    UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"mainviewcontroller"]];
+    //UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"mainviewcontroller"]];
+    // Set up the navigation controller
+    UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"]];
+    
     
     // Hide the navigation bar
     [controller setNavigationBarHidden:YES];
@@ -81,6 +90,8 @@
     [self startActivity];
     
     [self startMotion];
+    
+    [self startBluetooth];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

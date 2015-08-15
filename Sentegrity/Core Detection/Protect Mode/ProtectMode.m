@@ -50,13 +50,13 @@ static NSArray *trustFactorsToWhitelist;
     policy = policy1;
 }
 
-- (void)activateProtectModePolicyWithError:(NSError **)error{
+- (void)activateProtectModePolicy{
     
     NSLog(@"Protect Mode: Policy Executed");
     
 }
 
-- (void)activateProtectModeUserWithError:(NSError **)error{
+- (void)activateProtectModeUser{
     
 
     NSLog(@"Protect Mode: User Executed");
@@ -67,7 +67,7 @@ static NSArray *trustFactorsToWhitelist;
     
 }
 
-- (void)activateProtectModeWipeWithError:(NSError **)error{
+- (void)activateProtectModeWipe{
   
     NSLog(@"Protect Mode: Wipe Executed");
     
@@ -78,8 +78,9 @@ static NSArray *trustFactorsToWhitelist;
 }
 
 
-- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN withError:(NSError **)error {
+- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN {
     
+    NSError *error;
     
     //check error
     if(!policyPIN || policyPIN==nil){
@@ -95,20 +96,24 @@ static NSArray *trustFactorsToWhitelist;
         //take re-enable crypto action
         
         //whitelist
-        if(![self whitelistAttributingTrustFactorOutputObjectsWithError:error]){
+        if(![self whitelistAttributingTrustFactorOutputObjects]){
             NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
             [errorDetails setValue:@"Error during assertion whitelisting" forKey:NSLocalizedDescriptionKey];
-            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+            error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWhitelistAssertions userInfo:errorDetails];
             return NO;
         }
+        return YES;
         
     }
-    return YES;
+    
+    return NO;
+
     
 }
 
-- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN withError:(NSError **)error {
+- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN {
     
+    NSError *error;
     
     //check error
     if(!userPIN || userPIN==nil){
@@ -124,28 +129,31 @@ static NSArray *trustFactorsToWhitelist;
         //take re-enable crypto action
         
         //whitelist
-        if(![self whitelistAttributingTrustFactorOutputObjectsWithError:error]){
+        if(![self whitelistAttributingTrustFactorOutputObjects]){
             NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
             [errorDetails setValue:@"Error during assertion whitelisting" forKey:NSLocalizedDescriptionKey];
-            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+            error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWhitelistAssertions userInfo:errorDetails];
             return NO;
         }
         
-
+        return YES;
     }
-    return YES;
+    
+    return NO;
     
 }
 
 
 
-- (BOOL)whitelistAttributingTrustFactorOutputObjectsWithError:(NSError **)error{
+- (BOOL)whitelistAttributingTrustFactorOutputObjects{
+    
+    NSError *error;
     
     BOOL exists=NO;
     
     //get shared stores
-    Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:error];
-    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:policy.appID withError:error];
+    Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:&error];
+    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:policy.appID withError:&error];
 
     //check for errors
     if(!globalStore || globalStore == nil || !localStore || localStore==nil || trustFactorsToWhitelist.count<1 || !exists){
@@ -174,13 +182,13 @@ static NSArray *trustFactorsToWhitelist;
         {
             
             //Check for matching stored assertion object in the local store
-            Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
+            Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:&error];
             
             //If could not find in the local store then skip
             if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) { continue;}
                 
             //Try to set the storedTrustFactorObject back in the store, skip if fail
-            if (![localStore replaceSingleObjectInStore:updatedStoredTrustFactorObject withError:error]) {
+            if (![localStore replaceSingleObjectInStore:updatedStoredTrustFactorObject withError:&error]) {
                 continue;
             }
             
@@ -188,13 +196,13 @@ static NSArray *trustFactorsToWhitelist;
         else//global
         {
             //Check for matching stored assertion object in the local store
-            Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [globalStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
+            Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [globalStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:&error];
             
             //If could not find in the local store then skip
             if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) { continue;}
             
             //Try to set the storedTrustFactorObject back in the store, skip if fail
-            if (![globalStore replaceSingleObjectInStore:updatedStoredTrustFactorObject withError:error]) {
+            if (![globalStore replaceSingleObjectInStore:updatedStoredTrustFactorObject withError:&error]) {
                 continue;
             }
         }
@@ -202,13 +210,13 @@ static NSArray *trustFactorsToWhitelist;
     }
     
     //update stores
-   Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:policy.appID withError:error];
-   Sentegrity_Assertion_Store *globalStoreOutput =  [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore withError:error];
+   Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:policy.appID withError:&error];
+   Sentegrity_Assertion_Store *globalStoreOutput =  [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore withError:&error];
     
     if (!localStoreOutput || localStoreOutput == nil || !globalStoreOutput || globalStoreOutput == nil) {
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"Error writing assertion stores" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
+        error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
         
         // Don't return anything
         return NO;

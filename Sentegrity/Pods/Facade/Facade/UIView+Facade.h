@@ -45,6 +45,8 @@
 
 #pragma mark - To the right
 
+- (void)alignToTheRightOf:(UIView *)view withLeftPadding:(CGFloat)left topPadding:(CGFloat)top width:(CGFloat)width height:(CGFloat)height;
+- (void)alignToTheRightOf:(UIView *)view withLeftAndRightPadding:(CGFloat)leftAndRight topPadding:(CGFloat)top fillingWidthWithHeight:(CGFloat)height;
 - (void)alignToTheRightOf:(UIView *)view matchingTopWithLeftPadding:(CGFloat)left width:(CGFloat)width height:(CGFloat)height;
 - (void)alignToTheRightOf:(UIView *)view matchingTopAndFillingWidthWithLeftAndRightPadding:(CGFloat)leftAndRight height:(CGFloat)height;
 - (void)alignToTheRightOf:(UIView *)view matchingCenterWithLeftPadding:(CGFloat)left width:(CGFloat)width height:(CGFloat)height;
@@ -55,6 +57,7 @@
 
 #pragma mark - To the left
 
+- (void)alignToTheLeftOf:(UIView *)view fillingWidthAndHeightWithLeftAndRightPadding:(CGFloat)leftAndRight topAndBottomPadding:(CGFloat)topAndBottom;
 - (void)alignToTheLeftOf:(UIView *)view matchingTopWithRightPadding:(CGFloat)right width:(CGFloat)width height:(CGFloat)height;
 - (void)alignToTheLeftOf:(UIView *)view matchingTopAndFillingWidthWithLeftAndRightPadding:(CGFloat)leftAndRight height:(CGFloat)height;
 - (void)alignToTheLeftOf:(UIView *)view matchingCenterWithRightPadding:(CGFloat)right width:(CGFloat)width height:(CGFloat)height;
@@ -83,6 +86,7 @@
 - (void)alignAbove:(UIView *)view matchingLeftWithBottomPadding:(CGFloat)bottom width:(CGFloat)width height:(CGFloat)height;
 - (void)alignAbove:(UIView *)view matchingLeftAndFillingWidthWithRightPadding:(CGFloat)right bottomPadding:(CGFloat)bottom height:(CGFloat)height;
 - (void)alignAbove:(UIView *)view matchingCenterWithBottomPadding:(CGFloat)bottom width:(CGFloat)width height:(CGFloat)height;
+- (void)alignAbove:(UIView *)view fillingWidthWithLeftAndRightPadding:(CGFloat)leftAndRight bottomPadding:(CGFloat)bottom height:(CGFloat)height;
 - (void)alignAbove:(UIView *)view matchingRightWithBottomPadding:(CGFloat)bottom width:(CGFloat)width height:(CGFloat)height;
 - (void)alignAbove:(UIView *)view matchingRightAndFillingWidthWithLeftPadding:(CGFloat)left bottomPadding:(CGFloat)bottom height:(CGFloat)height;
 
@@ -90,13 +94,17 @@
 #pragma mark - Between
 
 - (void)alignBetweenLeft:(UIView *)leftView andRight:(UIView *)rightView matchingTopWithLeftAndRightPadding:(CGFloat)leftAndRight height:(CGFloat)height;
+- (void)alignBetweenLeft:(UIView *)leftView andRight:(UIView *)rightView matchingCenterWithLeftAndRightPadding:(CGFloat)leftAndRight height:(CGFloat)height;
 - (void)alignBetweenTop:(UIView *)topView andBottom:(UIView *)bottomView matchingLeftWithTopAndBottomPadding:(CGFloat)topAndBottom width:(CGFloat)width;
+- (void)alignBetweenTop:(UIView *)topView andBottom:(UIView *)bottomView centeredWithLeftAndRightPadding:(CGFloat)leftAndRight topAndBottomPadding:(CGFloat)topAndBottom;
 
 #pragma mark - Subview groups
 
 #pragma mark - Horizontal
 
 - (void)groupHorizontally:(NSArray *)subviews centeredUnderView:(UIView *)view topPadding:(CGFloat)top spacing:(CGFloat)spacing width:(CGFloat)width height:(CGFloat)height;
+- (void)groupHorizontally:(NSArray *)subviews fillingWidthAndHeightWithTopAndBottomPadding:(CGFloat)topAndBottom spacing:(CGFloat)spacing;
+- (void)groupHorizontally:(NSArray *)views fillingHeightWithLeftPadding:(CGFloat)left spacing:(CGFloat)spacing topAndBottomPadding:(CGFloat)topAndBottom width:(CGFloat)width;
 
 #pragma mark - Vertical
 

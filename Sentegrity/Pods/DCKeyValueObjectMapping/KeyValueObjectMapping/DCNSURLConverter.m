@@ -16,13 +16,16 @@
 }
 
 - (id)transformValue:(id)value forDynamicAttribute:(DCDynamicAttribute *)attribute dictionary:(NSDictionary *)dictionary parentObject:(id)parentObject {
-    return [NSURL URLWithString:value];
+    if ([value isKindOfClass:[NSString class]]) {
+        return [NSURL URLWithString:[value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    }
+    return nil;
 }
 - (id)serializeValue:(id)value forDynamicAttribute:(DCDynamicAttribute *)attribute {
     return [((NSURL *)value) absoluteString];
 }
-- (BOOL)canTransformValueForClass: (Class) class {
-    return [class isSubclassOfClass:[NSURL class]];
+- (BOOL)canTransformValueForClass: (Class) cls {
+    return [cls isSubclassOfClass:[NSURL class]];
 }
 
 @end

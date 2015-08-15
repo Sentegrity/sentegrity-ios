@@ -2,14 +2,14 @@ Chameleon for iOS
 =========
 
 <p align="center">
-  <img src="http://i.imgur.com/E5hHBMG.gif" alt="Chameleon by Vicc Alexander"/>
+  <img src="http://i.imgur.com/9U9FV4j.png" alt="Chameleon by Vicc Alexander"/>
 </p>
 
 ## Introduction
 
-**Chameleon** is a lightweight, yet powerful, flat color framework for iOS. It is built on the idea that software applications should function effortlessly while simultaneously maintaining their beautiful interfaces.
+**Chameleon** is a lightweight, yet powerful, flat color framework for iOS (Objective-C & Swift). It is built on the idea that software applications should function effortlessly while simultaneously maintaining their beautiful interfaces.
 
-Chameleon is the **first and only** color framework on the market that focuses its full attention and efforts on "flat colors". With Chameleon, you can easily forget about `UIColor` RGB values, wasting hours figuring out the right color combinations to use in your app, and worrying about whether your text will be readable on the various background colors of your app. 
+Chameleon is the **first and only** color framework that focuses its full attention and efforts on "flat colors". With Chameleon, you can easily forget about `UIColor` RGB values, wasting hours figuring out the right color combinations to use in your app, and worrying about whether your text will be readable on the various background colors of your app. 
 
 ### Chameleon vs Other Color Libraries
 
@@ -77,7 +77,7 @@ The flatify feature is the most innovative and easy-to-use feature of Chameleon.
 </p>
 
 ### Gradient Colors ![New](http://i.imgur.com/BX3b9ES.png)
-With iOS 7, Apple mainstreamed flat colors. Now, with the release of iOS 8, Chameleon strives to elevate the game. Say 'hello' to gradient colors. Using one line of code, you can easily set any object's color properties to a gradient (background colors, text colors, tint colors, etc). Other features, like Chameleon's contrasting feature, can also be applied to create a seamless product. Experimentation is encouraged, and gutsiness is applauded!
+With iOS 7, Apple mainstreamed flat colors. Now, with the release of iOS 8, Chameleon strives to elevate the game once more. Say hello to gradient colors. Using one line of code, you can easily set any object's color properties to a gradient (background colors, text colors, tint colors, etc). Other features, like Chameleon's contrasting feature, can also be applied to create a seamless product. Experimentation is encouraged, and gutsiness is applauded!
 
 <p align="center">
   <img src="http://i.imgur.com/7hTa5Pd.png" alt="Gradients"/>
@@ -104,10 +104,9 @@ If you're like me and love to use storyboard, Chameleon's got you covered. We've
 
 ## ⚠️ Requirements
 
-* Built with and for Objective-C
-* Requires a minimum of iOS 6.0 (No active development for anything earlier, but may work with 5.0)
-* Requires Xcode 5.1.1 for use in any iOS Project
-* Uses Apple LLVM compiler 5.1
+* Objective-C or Swift
+* Requires a minimum of iOS 6.0 for Objective-C (No active development for anything earlier, but may work with 5.0) and a minimum of iOS 8.0 for Swift.
+* Requires Xcode 6.3 for use in any iOS Project
 
 ## 🔑 License
 Chameleon is released and distributed under the terms and conditions of the [MIT license](https://github.com/ViccAlexander/Chameleon/blob/master/LICENSE.md).
@@ -115,7 +114,7 @@ Chameleon is released and distributed under the terms and conditions of the [MIT
 ## 👥 Contributions
 If you run into problems, please open up an issue. I also actively welcome pull requests. By contributing to Chameleon you agree that your contributions will be licensed under its MIT license.
 
-If you use the Chameleon framework in your app I would love to hear about it! Drop me a line at [madewithchameleon@gmail.com](mailto:madewithchameleon@gmail.com?Subject=We%20Used%20Chameleon!) or hit me up on [twitter](http://twitter.com/viccsmind).
+If you use the Chameleon framework in your app I would love to hear about it! Drop me a line on [twitter](http://twitter.com/viccsmind).
 
 ## 📗 Documentation
 All methods, properties, and types available in the Chameleon Framework are documented below. Although many people are not huge fans of macro files, I have included an optional "shorthand syntax" for each of the methods, properties, and types documented below.
@@ -131,11 +130,23 @@ All methods, properties, and types available in the Chameleon Framework are docu
 
 ###Installation
 ####CocoaPods Installation
-Chameleon is now available on [CocoaPods](http://cocoapods.org). Just add the following to your project Podfile:
+Chameleon is now available on [CocoaPods](http://cocoapods.org). Simply add the following to your project Podfile, and you'll be good to go.
 
+######Objective-C
 ```ruby
+use_frameworks!
+
 pod 'ChameleonFramework'
 ```
+######Swift
+```ruby
+use_frameworks!
+
+pod 'ChameleonFramework/Swift'
+```
+=======
+If you're working with Swift there's an additional step. If you'd like to use Chameleon Shorthand, download and drag the following file, [ChameleonShorthand.swift](https://github.com/ViccAlexander/Chameleon/blob/master/Pod/Classes/Swift/ChameleonShorthand.swift), into your project, and you'll be good to go.
+
 ####Manual Installation
 If you rather install this framework manually, just drag and drop the Chameleon folder into your project, and make sure you check the following boxes.
 
@@ -158,12 +169,12 @@ Once installed, make sure to restart XCode. You'll find all of Chameleon's color
 To use the myriad of features in Chameleon, include the following import:
 
 ###### If you installed Chameleon using cocoapods:
-```objective-c
-#import "ChameleonFramework/Chameleon.h"
+``` objective-c
+#import <ChameleonFramework/Chameleon.h>
 ```
 
 ###### If you installed Chameleon manually:
-```objective-c
+``` objective-c
 #import "Chameleon.h"
 ```
 
@@ -171,51 +182,96 @@ To use the myriad of features in Chameleon, include the following import:
 ####Flat Colors
 Using a flat color is as easy as adding any other color in your app (if not easier). For example, to set a view's background property to a flat color with a dark shade, you simply have to do the following:
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+
+######Objective-C
+``` objective-c
 self.view.backgroundColor = [UIColor flatGreenColorDark];
 ```
+######Swift
+``` swift
+view.backgroundColor = UIColor.flatGreenColorDark()
+```
 
-######Chameleon Shorthand:
-```objective-c
+#####Chameleon Shorthand:
+
+######Objective-C
+``` objective-c
 self.view.backgroundColor = FlatGreenDark;
+```
+######Swift
+``` swift
+view.backgroundColor = FlatGreenDark()
 ```
 
 Setting the color for a light shade is the same, except without adding the *Dark* suffix. (By default, all colors without a *Dark* suffix are light shades). For example:
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 self.view.backgroundColor = [UIColor flatGreenColor];
 ```
+######Swift
+``` swift
+view.backgroundColor = UIColor.flatGreenColor()
+```
 
-######Chameleon Shorthand:
-```objective-c
+#####Chameleon Shorthand:
+
+######Objective-C
+``` objective-c
 self.view.backgroundColor = FlatGreen;
+```
+######Swift
+``` swift
+view.backgroundColor = FlatGreen()
 ```
 
 ####Random Flat Color
 There are two ways to generate a random flat color. If you have no preference as to whether you want a light shade or a dark shade, you can do the following:
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 self.view.backgroundColor = [UIColor randomFlatColor];
 ```
+######Swift
+``` swift
+view.backgroundColor = UIColor.randomFlatColor()
+```
 
-######Chameleon Shorthand:
-```objective-c
+#####Chameleon Shorthand:
+###### Objective-C
+``` objective-c
 self.view.backgroundColor = RandomFlatColor;
+```
+
+######Swift
+``` swift
+view.backgroundColor = RandomFlatColor()
 ```
 
 Otherwise, you can perform the following method call to specify whether it should return either a light or dark shade:
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 [UIColor colorWithRandomFlatColorOfShadeStyle:UIShadeStyleLight];
 ```
 
-######Chameleon Shorthand:
-```objective-c
+######Swift
+``` swift
+UIColor(randomFlatColorOfShadeStyle:UIShadeStyle.Light)
+```
+
+#####Chameleon Shorthand:
+######Objective-C
+``` objective-c
 RandomFlatColorWithShade(UIShadeStyleLight);
+```
+######Swift
+``` swift
+RandomFlatColorWithShade(UIShadeStyle.Light)
 ```
 
 **UIShadeStyles:**
@@ -225,14 +281,26 @@ RandomFlatColorWithShade(UIShadeStyleLight);
 ####Complementary Color
 To generate a complementary color, perform the following method call, remembering to specify the color whose complement you want:
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 [UIColor colorWithComplementaryFlatColorOf:(UIColor *)color];
 ```
 
-######Chameleon Shorthand:
-```objective-c
+######Swift
+``` swift
+UIColor(complementaryFlatColorOf:UIColor!)
+```
+
+#####Chameleon Shorthand:
+######Objective-C
+``` objective-c
 ComplementaryFlatColorOf(color);
+```
+
+######Swift
+``` swift
+ComplementaryFlatColorOf(color)
 ```
 
 ####Contrasting Color
@@ -242,14 +310,26 @@ If you're trying to set a `UILabel's textColor` property, make sure you provide 
 
 Here's an example:
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 [UIColor colorWithContrastingBlackOrWhiteColorOn:(UIColor *)backgroundColor isFlat:(BOOL)flat];
 ```
 
-######Chameleon Shorthand:
-```objective-c
+######Swift
+``` swift
+UIColor(contrastingBlackOrWhiteColorOn:UIColor!, isFlat:Bool)
+```
+
+#####Chameleon Shorthand:
+######Objective-C
+``` objective-c
 ContrastColorOf(backgroundColor, isFlat);
+```
+
+######Swift
+``` swift
+ContrastColorOf(backgroundColor, isFlat)
 ```
 
 Note: As off Chameleon 1.1.0, *colorWithContrastingBlackOrWhiteColorOn:* is deprecated. Please use the methods listed above.
@@ -257,14 +337,26 @@ Note: As off Chameleon 1.1.0, *colorWithContrastingBlackOrWhiteColorOn:* is depr
 ####Flat Version of Non-Flat Color
 As mentioned previously, this feature is unique to Chameleon. While this feature is in its early stages of operation and can be improved, it is accurate in finding the nearest flat version of any color in the spectrum, and very simple to use:
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 [UIColor colorWithFlatVersionOf:(UIColor *)color];
 ```
 
-######Chameleon Shorthand:
-```objective-c
+######Swift
+``` swift
+UIColor(flatVersionOf:UIColor!)
+```
+
+#####Chameleon Shorthand:
+######Objective-C
+``` objective-c
 FlatVersionOf(color);
+```
+
+######Swift
+``` swift
+FlatVersionOf(color)
 ```
 
 #### Gradient Color ![New](http://i.imgur.com/BX3b9ES.png)
@@ -278,37 +370,84 @@ Chameleon provides three simple gradient styles. Gradients can be created from a
 * `UIGradientStyleTopToBottom`
 * `UIGradientStyleRadial`
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 [UIColor colorWithGradientStyle:(UIGradientStyle)gradientStyle withFrame:(CGRect)frame andColors:(NSArray *)colors];
 ```
 
-######Chameleon Shorthand:
-```objective-c
+######Swift
+``` swift
+UIColor(gradientStyle:UIGradientStyle, withFrame:CGRect, andColors:[AnyObject]!)
+```
+
+#####Chameleon Shorthand:
+######Objective-C
+``` objective-c
 GradientColor(gradientStyle, frame, colors);
 ```
-Note: If you use the Chameleon Shorthand, and use the NSArray literal ```@[]``` to set the array of colors, make sure you add parenthesis around it, or else you'll get an error.
 
-Note: Also note that `UIGradientStyleRadial` only uses a maximum of 2 colors at the moment. So if more colors are provided, they will not show.
+######Swift
+``` swift
+GradientColor(gradientStyle, frame, colors)
+```
+
+Objective-C Note: If you use the Chameleon Shorthand, and use the NSArray literal ```@[]``` to set the array of colors, make sure you add parenthesis around it, or else you'll get an error.
+
+Note: `UIGradientStyleRadial` only uses a maximum of 2 colors at the moment. So if more colors are provided, they will not show.
 
 ###UIStatusBarStyle Methods
 ####Contrasting UIStatusBarStyle
 Many apps on the market, even the most popular ones, overlook this aspect of a beautiful app: the status bar style. Assuming you have a `ViewController` embedded in a `NavigationController`, do the following in the `NavigationController`'s class:
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [ChameleonStatusBar statusBarStyleForColor:(UIColor *)backgroundColor];
 }
 ```
 
-######Chameleon Shorthand:
-```objective-c
+######Swift
+``` swift
+func preferredStatusBarStyle() -> UIStatusBarStyle {
+    return ChameleonStatusBar.statusBarStyleForColor(backgroundColor)
+}
+```
+
+#####Chameleon Shorthand:
+######Objective-C
+``` objective-c
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return StatusBarContrastColorOf((UIColor *)backgroundColor);
 }
 ```
 
+######Swift
+``` swift
+func preferredStatusBarStyle() -> UIStatusBarStyle {
+    return StatusBarContrastColorOf(backgroundColor)
+}
+```
+
+<<<<<<< Updated upstream
+You can also use Swift Extensions (No need for subclassing):
+
+``` swift
+extension UINavigationController {
+    public override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        //Shorthand
+        if let navBarTintColor = self.navigationBar.barTintColor {
+            return StatusBarContrastColorOf(navBarTintColor)
+        } else {
+            return .Default
+        }
+    }
+}
+```
+
+=======
+>>>>>>> Stashed changes
 Note: You should set the `backgroundColor` of the `navigationBar`'s `barTintColor` property if you want the status bar text to always contrast the navigation bar. If you're only using a `ViewController` just call this method in that controller's respective class file.
 
 ###Color Schemes Methods
@@ -328,43 +467,91 @@ A triadic scheme uses evenly spaced colors on the color wheel. The colors tend t
 ####Getting Colors in a Color Scheme
 To retrieve an array of colors, first make sure to initialize an NSMutableArray (in case you want to use the same array to replace with different colors later):
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 NSMutableArray *colorArray = [NSMutableArray alloc] initWithArray:[NSArray arrayOfColorsWithColorScheme:(ColorScheme)colorScheme 
                                                                                                     with:(UIColor *)color 
                                                                                              flatScheme:(BOOL)isFlatScheme]];
 ```
 
-######Chameleon Shorthand:
-```objective-c
+######Swift
+``` swift
+var colorArray = NSArray(ofColorsWithColorScheme:ColorScheme, with:UIColor!, flatScheme:Bool)
+```
+
+#####Chameleon Shorthand:
+######Objective-C
+``` objective-c
 NSMutableArray *colorArray = [[NSMutableArray alloc] initWithArray:ColorScheme(colorSchemeType, color, isFlatScheme)];
+```
+
+######Swift
+``` swift
+var colorArray = ColorSchemeOf(colorSchemeType, color, isFlatScheme)
 ```
 
 #####Example:
 Assuming you want to generate an analogous color scheme for the light shade of Flat Red, perform the following method call:
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 NSMutableArray *colorArray = [NSMutableArray alloc] initWithArray:[NSArray arrayOfColorsWithColorScheme:ColorSchemeAnalogous
                                                                                                     with:[UIColor flatRedColor] 
                                                                                              flatScheme:YES]];
 ```
 
-######Chameleon Shorthand:
-```objective-c
+######Swift
+``` swift
+var colorArray = NSArray(ofColorsWithColorScheme:ColorScheme.Analogous, with:UIColor.flatRedColor(), flatScheme:true)
+<<<<<<< Updated upstream
+```
+
+#####Chameleon Shorthand:
+``` objective-c
 NSMutableArray *colorArray = [[NSMutableArray alloc] initWithArray:ColorScheme(ColorSchemeAnalogous, FlatRed, YES)];
 ```
 
+######Swift
+``` swift
+var colorArray = ColorSchemeOf(ColorScheme.Analogous, FlatRed(), true)
+```  
+  
+You can then retrieve each individual color the same way you would normally retrieve any object from an array:
+#####Normal Convention:
+=======
+```  
+  
+#####Chameleon Shorthand:
+######Objective-C
+``` objective-c
+NSMutableArray *colorArray = [[NSMutableArray alloc] initWithArray:ColorScheme(ColorSchemeAnalogous, FlatRed, YES)];
+```
 
+######Swift
+``` swift
+var colorArray = ColorSchemeOf(ColorScheme.Analogous, FlatRed(), true)
+```
 
 You can then retrieve each individual color the same way you would normally retrieve any object from an array:
 
+>>>>>>> Stashed changes
+######Objective-C
 ```objective-c
 UIColor *firstColor = colorArray[0];
 ```
 
+######Swift
+``` swift
+var firstColor = colorArray[0] as! UIColor
+<<<<<<< Updated upstream
+```  
+  
+=======
+```
 
-
+>>>>>>> Stashed changes
 ###Flatify Methods (Beta)
 Again, this is the hallmark feature of Chameleon. Although 99% of objects can be identified and recolored, the `Flatify` feature can, as of yet, only be called from a `UIViewController` class. Other controllers will soon be supported. Keep in mind this is a beta feature, and it may not be 100% spot-on. :)
 
@@ -375,20 +562,42 @@ If a `UIViewController` is embedded inside a `UINavigationController`, the `navi
 #####Implementing Flatify
 Implementing this feature is so easy, there was no need to build a Chameleon shorthand.
 
-######Normal Convention:
+#####Normal Convention:
+######Objective-C
 ```objective-c
 [self flatify];
+<<<<<<< Updated upstream
 ```
 
+######Swift
+``` swift
+self.flatify()
+```
+
+=======
+```  
+  
+######Swift
+``` swift
+self.flatify()
+```  
+  
+>>>>>>> Stashed changes
 #####Implementing Flatify With Contrasting Colors
 
 We've also built a secondary flatify feature that not only flattens object colors, but also recognizes text and tint colors. After detecting such properties, it applies smart contrast to them, returning either a`flatBlackDark` or `flatWhite` color.
 
 To implement this perform the following method call:
 
-######Normal Convention:
-```objective-c
+#####Normal Convention:
+######Objective-C
+``` objective-c
 [self flatifyAndContrast];
+```
+
+######Swift
+``` swift
+self.flatifyAndContrast()
 ```
 
 *Note: In order to ship out Chameleon as soon as possible, some features were overlooked. However, they will be added promptly, here's a couple of things that may not work with the flatify feature:*
@@ -423,14 +632,24 @@ Huge thanks to [**Alexander List**](https://github.com/alist), [**An Tran**](htt
 * UIAppearance Convenience Methods
 
 ## 📄 Change Log
+### 1.2.0
+• Fixed cocoapods installation error [#30](https://github.com/ViccAlexander/Chameleon/issues/30).  
+• Updated Swift syntax to Swift 1.2 *(Fixed by [**@peacemoon**](https://github.com/peacemoon))*.    
+• Split Objective-C & Swift Files into separate folders to keep files better organized.  
+• Renamed `Constants.swift` to `ChameleonShorthand.swift`
+
+###### Deprecated Methods
+* ~~`ColorScheme(colorSchemeType: ColorScheme, color: UIColor, isFlatScheme: Bool)`~~   
+
+Replaced with: `ColorSchemeOf(colorSchemeType: ColorScheme, color: UIColor, isFlatScheme: Bool)` due to naming constraints. 
+
 ### 1.1.3
-• Updated Swift syntax to Swift 1.2 *(Fixed by [**@peacemoon**](https://github.com/peacemoon))*.  
-• Chameleon shorthand is now supported in Swift. *(Converted by [**@bre7**](https://github.com/bre7))*.  
+• Chameleon shorthand is now supported in Swift. *(Thanks to [**@bre7**](https://github.com/bre7))*.  
 • Fixed Small Syntax Typo. *(Fixed by [**@ddwang**](https://github.com/ddwang))*.  
 • Fixed issue where `-colorWithRandomFlatColorOfShadeStyle` always returns random color of `UIShadeStyleLight` *(Fixed by [**@smokyonion**](https://github.com/smokyonion))*.    
 • UIGraphics context now uses the current screen's scale, preventing pixel wrap around for certain `UIColors` generated by `+ (UIColor *)colorWithGradientStyle` methods *(Fixed by [**@alist**](https://github.com/alist))*.  
 • Removed warnings regarding the absolute value function `fabsf` *(Fixed by [**@jherran**](https://github.com/jherran))*.  
-• Fixed the `UIColor+Chameleon.m:444:13:` *code will never be executed*, error state *(Fixed by [**@jherran**](https://github.com/jherran))*.  
+• Fixed the *`UIColor+Chameleon.m:444:13: code will never be executed*`, error state *(Fixed by [**@jherran**](https://github.com/jherran))*.  
 
 
 ### 1.1.2

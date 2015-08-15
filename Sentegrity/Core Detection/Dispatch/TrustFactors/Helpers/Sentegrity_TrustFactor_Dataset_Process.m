@@ -80,7 +80,7 @@ static int ourPID=0;
                             NSString *processName = [[NSString alloc] initWithFormat:@"%s", process[i].kp_proc.p_comm];
                             NSString *processPriority = [[NSString alloc] initWithFormat:@"%d", process[i].kp_proc.p_priority];
                             NSDate   *processStartDate = [NSDate dateWithTimeIntervalSince1970:process[i].kp_proc.p_un.__p_starttime.tv_sec];
-                            NSString       *processParentID = [[NSString alloc] initWithFormat:@"%d", [self parentPIDForProcess:(int)process[i].kp_proc.p_pid]];
+                            NSString       *processUID = [[NSString alloc] initWithFormat:@"%d", [self UserIDForProcess:(int)process[i].kp_proc.p_pid]];
                             NSString       *processStatus = [[NSString alloc] initWithFormat:@"%d", (int)process[i].kp_proc.p_stat];
                             NSString       *processFlags = [[NSString alloc] initWithFormat:@"%d", (int)process[i].kp_proc.p_flag];
                             
@@ -101,9 +101,9 @@ static int ourPID=0;
                                 // Invalid value
                                 processStartDate = [NSDate date];
                             }
-                            if (processParentID == nil || processParentID.length <= 0) {
+                            if (processUID == nil || processUID.length <= 0) {
                                 // Invalid value
-                                processParentID = @"Unknown";
+                                processUID = @"Unknown";
                             }
                             if (processStatus == nil || processStatus.length <= 0) {
                                 // Invalid value
@@ -115,10 +115,10 @@ static int ourPID=0;
                             }
                             
                             // Create an array of the objects
-                            NSArray *ItemArray = [NSArray arrayWithObjects:processID, processName, processPriority, processStartDate, processParentID, processStatus, processFlags, nil];
+                            NSArray *ItemArray = [NSArray arrayWithObjects:processID, processName, processPriority, processStartDate, processUID, processStatus, processFlags, nil];
                             
                             // Create an array of keys
-                            NSArray *KeyArray = [NSArray arrayWithObjects:@"PID", @"Name", @"Priority", @"StartDate", @"ParentID", @"Status", @"Flags", nil];
+                            NSArray *KeyArray = [NSArray arrayWithObjects:@"PID", @"Name", @"Priority", @"StartDate", @"UID", @"Status", @"Flags", nil];
                             
                             // Create the dictionary
                             NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
@@ -159,7 +159,7 @@ static int ourPID=0;
 }
 
 // PROCESS: PID Info
-+ (int)parentPIDForProcess:(int)pid {
++ (int)UserIDForProcess:(int)pid {
     // Get the parent ID for a certain process
     @try {
         // Set up the variables
@@ -176,16 +176,16 @@ static int ourPID=0;
             return -1;
         
         // Make an int for the PPID
-        int PPID = info.kp_eproc.e_ppid;
+        int UID = info.kp_eproc.e_ucred.cr_uid;
         
         // Check to make sure it's valid
-        if (PPID <= 0) {
+        if (UID <= 0) {
             // No PPID found
             return -1;
         }
         
         // Successful
-        return PPID;
+        return UID;
     }
     @catch (NSException *exception) {
         // Error

@@ -25,19 +25,19 @@
     return [[self alloc] initWithKeyParser:_keyParser];
 }
 
-- (DCDynamicAttribute *) findAttributeForKey: (NSString *) key onClass: (Class) class {
+- (DCDynamicAttribute *) findAttributeForKey: (NSString *) key onClass: (Class) cls {
     NSString *originalKey = key;
     
-    DCObjectMapping *mapper = [self findMapperForKey:key onClass:class];
+    DCObjectMapping *mapper = [self findMapperForKey:key onClass:cls];
     
     if(mapper){
         key = mapper.attributeName;
     }
     
-    NSString *propertyDetails = [self findPropertyDetailsForKey:key onClass:class];
+    NSString *propertyDetails = [self findPropertyDetailsForKey:key onClass:cls];
     if(!propertyDetails){
         key = [self.keyParser splitKeyAndMakeCamelcased:key];
-        propertyDetails = [self findPropertyDetailsForKey:key onClass:class];
+        propertyDetails = [self findPropertyDetailsForKey:key onClass:cls];
     }
     
     if(!propertyDetails)
@@ -47,14 +47,14 @@
     if (mapper && mapper.converter) {
         dynamicAttribute = [[DCDynamicAttribute alloc] initWithAttributeDescription:propertyDetails
                                                                              forKey:originalKey
-                                                                            onClass:class
+                                                                            onClass:cls
                                                                       attributeName:key
                                                                           converter:mapper.converter];
     }
     else {
         dynamicAttribute = [[DCDynamicAttribute alloc] initWithAttributeDescription:propertyDetails
                                                                              forKey:originalKey
-                                                                            onClass:class
+                                                                            onClass:cls
                                                                       attributeName:key];
     }
 
@@ -75,8 +75,8 @@
     return self;
 }
 
-- (NSString *) findPropertyDetailsForKey: (NSString *)key onClass: (Class)class{
-    objc_property_t property = class_getProperty(class, [key UTF8String]);
+- (NSString *) findPropertyDetailsForKey: (NSString *)key onClass: (Class)cls{
+    objc_property_t property = class_getProperty(cls, [key UTF8String]);
     if (property) {
         NSString *attributeDetails = [NSString stringWithUTF8String:property_getAttributes(property)];
         return attributeDetails;
@@ -84,9 +84,9 @@
     return nil;
 }
 
-- (DCObjectMapping *) findMapperForKey: (NSString *) key onClass: (Class) class {
+- (DCObjectMapping *) findMapperForKey: (NSString *) key onClass: (Class) cls {
     for(DCObjectMapping *mapper in self.mappers){
-        if([mapper sameKey:key andClassReference:class]){
+        if([mapper sameKey:key andClassReference:cls]){
             return mapper;
         }
     }

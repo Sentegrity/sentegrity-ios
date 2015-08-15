@@ -1,9 +1,11 @@
 PODS:
-  - ChameleonFramework (1.2.0)
+  - ChameleonFramework (1.2.1):
+    - ChameleonFramework/Default (= 1.2.1)
+  - ChameleonFramework/Default (1.2.1)
   - CircleProgressBar (0.21)
   - DateTools (1.6.1)
-  - DCKeyValueObjectMapping (1.4)
-  - Facade (0.2)
+  - DCKeyValueObjectMapping (1.5)
+  - Facade (0.2.4)
   - IIDelayedAction (1.0.1)
   - JTHamburgerButton (1.0.5)
   - LGBluetooth (1.1.5)
@@ -11,7 +13,6 @@ PODS:
   - NSObject-ObjectMap (2.3.1)
   - NSString-Hashes (1.2.2)
   - RESideMenu (4.0.7)
-  - SCLAlertView-Objective-C (0.7.4)
 
 DEPENDENCIES:
   - ChameleonFramework (~> 1.2)
@@ -26,14 +27,13 @@ DEPENDENCIES:
   - NSObject-ObjectMap (~> 2.0)
   - NSString-Hashes (~> 1.2)
   - RESideMenu (~> 4.0)
-  - SCLAlertView-Objective-C (~> 0.7.4)
 
 SPEC CHECKSUMS:
-  ChameleonFramework: 4d6bf87fcaee176f487176cdccc4229637ec97f0
+  ChameleonFramework: 3476f813ac1615aef0a9a958f05520dfca47e09d
   CircleProgressBar: 4ce12ddcdc5673cc9f0fb83f6ec7b2a53ecb28df
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
-  DCKeyValueObjectMapping: 04cd5a338c03ce1c02488926cab6e1d1f704a093
-  Facade: 7b95ffd1fcb12168787ed44640362ac6b4485323
+  DCKeyValueObjectMapping: c2eb5a6529da100b2e49ef6a599663578051f077
+  Facade: 136fc8e5783a6b1f4fb1df1a391c44bbccd4d2f8
   IIDelayedAction: bc1193338973d9fbe99c38da71f6d777a12a5a6e
   JTHamburgerButton: 9a41c7d051c72590a9d2c18416d84d1b912f12e3
   LGBluetooth: 8407d2de27bcbd4a9e11243290b928293ffa8881
@@ -41,6 +41,5 @@ SPEC CHECKSUMS:
   NSObject-ObjectMap: 3223c0c994a8e3de44ccb74ddf3e63c86821c015
   NSString-Hashes: c3848d809e92650e4fb17db5d8cc4bd2aa1eaddd
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
-  SCLAlertView-Objective-C: 15ebfdac06ca289ba1f29fe34b5a03da6bd3fe37
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.38.0

@@ -16,7 +16,7 @@
 #import <JTHamburgerButton.h>
 
 
-@interface MainViewController : UIViewController
+@interface DashboardViewController : UIViewController
 
 
 /** Properties **/
@@ -86,7 +86,7 @@
 - (void)updateLastUpdateLabel:(id)sender;
 
 /* Perform Core Detection */
-- (void)performCoreDetection:(id)sender;
+- (void)updateComputationResults:(id)sender;
 
 
 @end

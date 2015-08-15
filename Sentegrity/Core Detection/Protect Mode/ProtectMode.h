@@ -19,18 +19,18 @@
 
 #pragma mark - Activate
 
-- (void)activateProtectModePolicyWithError:(NSError **)error;
+- (void)activateProtectModePolicy;
 
-- (void)activateProtectModeUserWithError:(NSError **)error;
+- (void)activateProtectModeUser;
 
-- (void)activateProtectModeWipeWithError:(NSError **)error;
+- (void)activateProtectModeWipe;
 
 
 #pragma mark - Deactivation
 
-- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN withError:(NSError **)error;
+- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN;
 
-- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN withError:(NSError **)error;
+- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN;
 
 #pragma mark - Setters
 
@@ -40,6 +40,6 @@
 
 #pragma mark - Whitelisting
 
-- (BOOL)whitelistAttributingTrustFactorOutputObjectsWithError:(NSError **)error;
+- (BOOL)whitelistAttributingTrustFactorOutputObjects;
 
 @end

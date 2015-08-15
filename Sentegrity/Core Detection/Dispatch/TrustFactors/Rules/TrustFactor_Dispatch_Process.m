@@ -118,8 +118,8 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    // Current process name
-    int procParentID;
+    // Current process UID
+    int UID;
     
     // Get the current processes
     NSArray *currentProcesses = [self processInfo];
@@ -139,10 +139,10 @@
     for (NSDictionary *processData in currentProcesses) {
         
         // Get the current process name
-        procParentID = [[processData objectForKey:@"ParentID"] intValue];
+        UID = [[processData objectForKey:@"UID"] intValue];
         
         // Check if the process parent id is 1 or less
-        if (procParentID <= 1) {
+        if (UID <= 0) {
             // Root process
             
             // Get the name of the process
@@ -156,6 +156,7 @@
             }
             
         }
+
     }
     
     // Set the trustfactor output to the output array (regardless if empty)

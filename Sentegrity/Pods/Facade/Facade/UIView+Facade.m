@@ -80,6 +80,14 @@
 
 #pragma mark - To the right
 
+- (void)alignToTheRightOf:(UIView *)view withLeftPadding:(CGFloat)left topPadding:(CGFloat)top width:(CGFloat)width height:(CGFloat)height {
+    self.frame = CGRectMake(CGRectGetMaxX(view.frame) + left, top, width, height);
+}
+
+- (void)alignToTheRightOf:(UIView *)view withLeftAndRightPadding:(CGFloat)leftAndRight topPadding:(CGFloat)top fillingWidthWithHeight:(CGFloat)height {
+    self.frame = CGRectMake(CGRectGetMaxX(view.frame) + leftAndRight, top, CGRectGetWidth(self.superview.frame) - CGRectGetMaxX(view.frame) - (2 * leftAndRight), height);
+}
+
 - (void)alignToTheRightOf:(UIView *)view matchingTopWithLeftPadding:(CGFloat)left width:(CGFloat)width height:(CGFloat)height {
     self.frame = CGRectMake(CGRectGetMaxX(view.frame) + left, CGRectGetMinY(view.frame), width, height);
 }
@@ -106,6 +114,10 @@
 
 
 #pragma mark - To the left
+
+- (void)alignToTheLeftOf:(UIView *)view fillingWidthAndHeightWithLeftAndRightPadding:(CGFloat)leftAndRight topAndBottomPadding:(CGFloat)topAndBottom {
+    self.frame = CGRectMake(leftAndRight, topAndBottom, CGRectGetMinX(view.frame) - (2 * leftAndRight), CGRectGetHeight(self.superview.frame) - (2 * topAndBottom));
+}
 
 - (void)alignToTheLeftOf:(UIView *)view matchingTopWithRightPadding:(CGFloat)right width:(CGFloat)width height:(CGFloat)height {
     self.frame = CGRectMake(CGRectGetMinX(view.frame) - width - right, CGRectGetMinY(view.frame), width, height);
@@ -193,7 +205,7 @@
     self.frame = CGRectMake(CGRectGetMidX(view.frame) - (width / 2.0), CGRectGetMinY(view.frame) - height - bottom, width, height);
 }
 
-- (void)alignAbove:(UIView *)view matchingCenterFillingWidthWithLeftAndRightPadding:(CGFloat)leftAndRight bottomPadding:(CGFloat)bottom height:(CGFloat)height {
+- (void)alignAbove:(UIView *)view fillingWidthWithLeftAndRightPadding:(CGFloat)leftAndRight bottomPadding:(CGFloat)bottom height:(CGFloat)height {
     self.frame = CGRectMake(leftAndRight, CGRectGetMinY(view.frame) - height - bottom, CGRectGetWidth(view.superview.frame) - (2 * leftAndRight), height);
 }
 
@@ -213,9 +225,18 @@
     self.frame = CGRectMake(xOrigin, CGRectGetMinY(leftView.frame), CGRectGetWidth(self.superview.frame) - xOrigin - (CGRectGetWidth(self.superview.frame) - CGRectGetMinX(rightView.frame)) - leftAndRight, height);
 }
 
+- (void)alignBetweenLeft:(UIView *)leftView andRight:(UIView *)rightView matchingCenterWithLeftAndRightPadding:(CGFloat)leftAndRight height:(CGFloat)height {
+    CGFloat xOrigin = CGRectGetMaxX(leftView.frame) + leftAndRight;
+    self.frame = CGRectMake(xOrigin, CGRectGetMidY(leftView.frame) - (height / 2.0), CGRectGetWidth(self.superview.frame) - xOrigin - (CGRectGetWidth(self.superview.frame) - CGRectGetMinX(rightView.frame)) - leftAndRight, height);
+}
+
 - (void)alignBetweenTop:(UIView *)topView andBottom:(UIView *)bottomView matchingLeftWithTopAndBottomPadding:(CGFloat)topAndBottom width:(CGFloat)width {
     CGFloat yOrigin = CGRectGetMaxY(topView.frame) + topAndBottom;
     self.frame = CGRectMake(CGRectGetMinX(topView.frame), CGRectGetMaxY(topView.frame) + topAndBottom, width, CGRectGetHeight(self.superview.frame) - yOrigin - (CGRectGetHeight(self.superview.frame) - CGRectGetMinY(bottomView.frame)) - topAndBottom);
+}
+
+- (void)alignBetweenTop:(UIView *)topView andBottom:(UIView *)bottomView centeredWithLeftAndRightPadding:(CGFloat)leftAndRight topAndBottomPadding:(CGFloat)topAndBottom {
+    self.frame = CGRectMake(leftAndRight, CGRectGetMaxY(topView.frame) + topAndBottom, CGRectGetWidth(self.superview.frame) - (2 * leftAndRight), CGRectGetMinY(bottomView.frame) - CGRectGetMaxY(topView.frame) - (2 * topAndBottom));
 }
 
 
@@ -228,6 +249,30 @@
 
     for (UIView *subview in views) {
         subview.frame = CGRectMake(xOrigin, CGRectGetMaxY(view.frame) + top, width, height);
+
+        xOrigin += width + spacing;
+    }
+}
+
+- (void)groupHorizontally:(NSArray *)subviews fillingWidthAndHeightWithTopAndBottomPadding:(CGFloat)topAndBottom spacing:(CGFloat)spacing {
+    NSInteger subviewCount = subviews.count;
+    CGFloat width = (CGRectGetWidth(self.frame) - ((subviewCount + 1) * spacing)) / (CGFloat)subviewCount;
+    CGFloat height = CGRectGetHeight(self.frame) - (2 * topAndBottom);
+    CGFloat xOrigin = spacing;
+
+    for (UIView *subview in subviews) {
+        subview.frame = CGRectMake(xOrigin, topAndBottom, width, height);
+
+        xOrigin += width + spacing;
+    }
+}
+
+- (void)groupHorizontally:(NSArray *)views fillingHeightWithLeftPadding:(CGFloat)left spacing:(CGFloat)spacing topAndBottomPadding:(CGFloat)topAndBottom width:(CGFloat)width {
+    CGFloat xOrigin = left;
+    CGFloat height = CGRectGetHeight(self.frame) - (2 * topAndBottom);
+
+    for (UIView *subview in views) {
+        subview.frame = CGRectMake(xOrigin, topAndBottom, width, height);
 
         xOrigin += width + spacing;
     }
