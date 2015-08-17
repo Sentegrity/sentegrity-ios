@@ -98,19 +98,27 @@ static MBProgressHUD *HUD;
     // Set the background color
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
+    // Set the background color Good
+     //[self.view setBackgroundColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+    
     // Set the status bar color to white
     [self setNeedsStatusBarAppearanceUpdate];
     
     // Set the TrustScore progress bar
     
     // Sentegrity Gold
-    [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+    //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
     
     // Good color
     //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+
+    // Good color
+
     
     //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithGradientStyle:UIGradientStyleLeftToRight withFrame:self.trustScoreProgressBar.frame andColors:@[[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f], [UIColor flatOrangeColor]]]];
+    
     [self.trustScoreProgressBar setProgressBarTrackColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
+    
     //[self.progressBar setProgressBarTrackColor:[UIColor colorWithGradientStyle:UIGradientStyleLeftToRight withFrame:self.progressBar.frame andColors:@[[UIColor flatWhiteColorDark], [UIColor flatGrayColor]]]];
     [self.trustScoreProgressBar setBackgroundColor:[UIColor clearColor]];
     [self.trustScoreProgressBar setStartAngle:90.0f];
@@ -188,6 +196,20 @@ static MBProgressHUD *HUD;
     
     /* Set the label and progress bar */
     
+    // Set color red of progress bar based on trust
+    if (self.computationResults.deviceTrusted==NO){
+        
+        // Set to red (Good color)
+        [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+
+    }
+    else{
+        //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithWhite:0.7f alpha:1.0f]];
+        [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+        [self.sentegrityButton setImage:[UIImage imageNamed:@"Sentegrity_Logo"] forState:UIControlStateNormal];
+        [self.sentegrityButton setAlpha:1];
+    }
+    
     // Trust Score
     CGFloat trustScore = self.computationResults.deviceScore;
     
@@ -205,12 +227,12 @@ static MBProgressHUD *HUD;
     
     // Set the device image
     if (self.computationResults.systemGUIIconID == 0) {
-        [self.deviceStatusImageView setImage:[UIImage imageNamed:@"shield_checkmark_gold"]];
+        [self.deviceStatusImageView setImage:[UIImage imageNamed:@"shield_black"]];
         self.deviceStatusImageView.backgroundColor = [UIColor clearColor];
     }
     // Set the user image
     if (self.computationResults.userGUIIconID == 0) {
-        [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_checkmark_gold"]];
+        [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_black"]];
         self.userStatusImageView.backgroundColor = [UIColor clearColor];
     }
     

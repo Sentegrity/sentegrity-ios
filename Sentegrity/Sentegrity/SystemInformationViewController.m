@@ -33,8 +33,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    // Set last computation
+    self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+    
     // Set the TrustScore progress bar
-    [self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:205.0f/255.0f green:205.0f/255.0f blue:205.0f/255.0f alpha:1.0f]];
+    // ORIG: [self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:205.0f/255.0f green:205.0f/255.0f blue:205.0f/255.0f alpha:1.0f]];
+    
+    // Set color red of progress bar based on trust
+    if (self.computationResults.systemTrusted==NO){
+        
+        // Set to red (Good color)
+        [self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+        
+    }
+    else{
+        [self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithWhite:0.7f alpha:1.0f]];
+    }
+    
     [self.systemScoreProgressBar setProgressBarTrackColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
     [self.systemScoreProgressBar setBackgroundColor:[UIColor clearColor]];
     [self.systemScoreProgressBar setStartAngle:90.0f];
@@ -44,8 +59,6 @@
     // Set the trustscore holding label
     [self.systemScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];
     
-    // Set last computation
-    self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
     // Check if the computation results were parsed
     if (self.computationResults != nil) {
@@ -66,7 +79,7 @@
         if (self.computationResults.systemGUIIconID == 0) {
             
             // Set the image view to the shield if it passed
-            [self.systemStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
+            [self.systemStatusImageView setImage:[UIImage imageNamed:@"shield_black"]];
             
             // Set the background color to clear
             self.systemStatusImageView.backgroundColor = [UIColor clearColor];
@@ -79,7 +92,7 @@
         NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0f]};
         
         // Create an attributed string dictionary for content
-        NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.systemStatusLabel.font.fontName size:16.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
+        NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.systemStatusLabel.font.fontName size:20.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
         
         // Check if there are any GUI issues
         if (self.computationResults.systemGUIIssues.count > 0 && self.computationResults.systemGUIIssues != nil) {

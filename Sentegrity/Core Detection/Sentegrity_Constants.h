@@ -177,6 +177,16 @@ typedef enum {
     DNEStatus_nodata       = 7
 } DNEStatusCode;
 
+typedef enum {
+    systemBreach           = 0,
+    systemPolicy = 1,
+    systemSecurity  = 2,
+    userPolicy  = 3,
+    userAnomaly     = 4
+} attributingClassID;
+
+
+
 #pragma mark - Error Cases
 
 /* NSError codes in NSCocoaErrorDomain. Note that other frameworks (such as AppKit and CoreData) also provide additional NSCocoaErrorDomain error codes.

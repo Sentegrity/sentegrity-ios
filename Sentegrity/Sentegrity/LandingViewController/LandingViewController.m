@@ -81,12 +81,14 @@
         DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
         [self.navigationController pushViewController:mainViewController animated:NO];
     }];
+   
+    Sentegrity_TrustScore_Computation *computation = [[CoreDetection sharedDetection] getLastComputationResults];
     
-    if([[CoreDetection sharedDetection] getLastComputationResults].deviceTrusted==YES){ // Transparently authentication
+    if(computation.deviceTrusted==YES){ // Transparently authentication
         
             [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Welcome!" subTitle:@"Access to this app required NO PASSWORD! View the Sentegrity dashboard for more details." closeButtonTitle:nil duration:0.0f];
         
-    }else if([[CoreDetection sharedDetection] getLastComputationResults].userTrusted==NO && [[CoreDetection sharedDetection] getLastComputationResults].deviceTrusted==YES){ // User anomaly
+    }else if((computation.userTrusted==NO) && (computation.systemTrusted==YES)){ // User anomaly
             [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Password Required" subTitle:@"Access to this app required a password. View the Sentegrity dashboard for more details." closeButtonTitle:nil duration:0.0f];
     }else{ // Policy violation
         

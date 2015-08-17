@@ -34,8 +34,22 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    // Set last computation
+    self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+    
     // Set the TrustScore progress bar
-    [self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:205.0f/255.0f green:205.0f/255.0f blue:205.0f/255.0f alpha:1.0f]];
+    // ORIG: [self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:205.0f/255.0f green:205.0f/255.0f blue:205.0f/255.0f alpha:1.0f]];
+    // Set color red of progress bar based on trust
+    if (self.computationResults.userTrusted==NO){
+        
+        // Set to red (Good color)
+        [self.self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+        
+    }
+    else{
+        [self.self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithWhite:0.7f alpha:1.0f]];
+    }
+    
     [self.userScoreProgressBar setProgressBarTrackColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
     [self.userScoreProgressBar setBackgroundColor:[UIColor clearColor]];
     [self.userScoreProgressBar setStartAngle:90.0f];
@@ -67,7 +81,7 @@
         if (self.computationResults.userGUIIconID == 0) {
             
             // Set the image view to the shield if it passed
-            [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_gold"]];
+            [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_black"]];
             
             // Set the background color to clear
             self.userStatusImageView.backgroundColor = [UIColor clearColor];

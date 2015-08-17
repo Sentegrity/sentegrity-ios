@@ -2,16 +2,8 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "shield_gold@2x.png"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "1x",
+      "filename" : "ic_verified_user_black_48dp_3x_yellow.png"
     }
   ],
   "info" : {

@@ -124,7 +124,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TrustScore" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5B-Fj-azv">
-                                <rect key="frame" x="62" y="210" width="250" height="50"/>
+                                <rect key="frame" x="62" y="210.5" width="250" height="49.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="3gD-o1-6xj"/>
                                     <constraint firstAttribute="width" constant="127" id="5gm-Aj-Tek"/>
@@ -297,7 +297,7 @@ Anomaly</string>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error" translatesAutoresizingMaskIntoConstraints="NO" id="Cci-sx-jte">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_red" translatesAutoresizingMaskIntoConstraints="NO" id="Cci-sx-jte">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -371,7 +371,7 @@ Anomaly</string>
                                             </mask>
                                         </variation>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-nt-m1r">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_red" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-nt-m1r">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -410,15 +410,15 @@ Anomaly</string>
                                     </mask>
                                 </variation>
                             </view>
-                            <button opaque="NO" contentMode="redraw" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziL-ad-E3R">
-                                <rect key="frame" x="26" y="25" width="33" height="33"/>
+                            <button opaque="NO" alpha="0.19999999999999968" contentMode="redraw" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziL-ad-E3R">
+                                <rect key="frame" x="26" y="25" width="51" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="27" id="NX4-be-0Yx"/>
-                                    <constraint firstAttribute="height" constant="33" id="XVe-7Q-Udu"/>
+                                    <constraint firstAttribute="height" constant="51" id="XVe-7Q-Udu"/>
                                     <constraint firstAttribute="height" constant="27" id="myA-C3-8mR"/>
-                                    <constraint firstAttribute="width" constant="33" id="oaS-tk-Ajs"/>
+                                    <constraint firstAttribute="width" constant="51" id="oaS-tk-Ajs"/>
                                 </constraints>
-                                <state key="normal" image="Sentegrity_Logo">
+                                <state key="normal" image="sentegrity_logo_black">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="default">
@@ -699,7 +699,7 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V3x-rg-kDN" customClass="CircleProgressBar">
-                                <rect key="frame" x="110.5" y="28" width="155" height="155"/>
+                                <rect key="frame" x="110" y="28" width="155" height="155"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcZ-Wu-yfc">
                                         <rect key="frame" x="0.0" y="37" width="155" height="60"/>
@@ -726,7 +726,7 @@ Anomaly</string>
                                             </mask>
                                         </variation>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SystemScore" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yUE-xH-BbF">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DeviceScore" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yUE-xH-BbF">
                                         <rect key="frame" x="0.0" y="97" width="155" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="B4G-jX-VyS"/>
@@ -735,7 +735,7 @@ Anomaly</string>
                                             <constraint firstAttribute="width" constant="127" id="gL3-hu-MkP"/>
                                             <constraint firstAttribute="width" constant="127" id="ij6-A5-XEH"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="18"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="22"/>
                                         <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
@@ -799,7 +799,7 @@ Anomaly</string>
                                             </mask>
                                         </variation>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error" translatesAutoresizingMaskIntoConstraints="NO" id="BHa-vS-aqU">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_red" translatesAutoresizingMaskIntoConstraints="NO" id="BHa-vS-aqU">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -1207,7 +1207,7 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="udX-sP-GkB" customClass="CircleProgressBar">
-                                <rect key="frame" x="110.5" y="28" width="155" height="155"/>
+                                <rect key="frame" x="110" y="28" width="155" height="155"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d2t-of-9wM">
                                         <rect key="frame" x="0.0" y="37" width="155" height="60"/>
@@ -1243,7 +1243,7 @@ Anomaly</string>
                                             <constraint firstAttribute="width" constant="127" id="kZi-gE-dg8"/>
                                             <constraint firstAttribute="width" constant="127" id="y7v-Db-wN1"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="18"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="22"/>
                                         <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
@@ -1310,7 +1310,7 @@ Anomaly</string>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-nU-Jl9">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_red" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-nU-Jl9">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -1390,12 +1390,12 @@ Anomaly</string>
         </scene>
     </scenes>
     <resources>
-        <image name="Error" width="48" height="48"/>
         <image name="Mobile_Grey" width="64" height="64"/>
         <image name="Refresh" width="48" height="48"/>
-        <image name="Sentegrity_Logo" width="30" height="32"/>
         <image name="User_Grey" width="128" height="128"/>
+        <image name="error_red" width="144" height="144"/>
         <image name="good_launch" width="640" height="1136"/>
         <image name="good_open" width="640" height="1136"/>
+        <image name="sentegrity_logo_black" width="155" height="164"/>
     </resources>
 </document>
