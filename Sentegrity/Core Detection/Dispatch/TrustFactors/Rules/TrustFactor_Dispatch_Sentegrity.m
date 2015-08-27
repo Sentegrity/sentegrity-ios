@@ -61,7 +61,7 @@ struct encryption_info_command
     
     // Check the result
     if(debugCheck>1){
-        [outputArray addObject:[NSNumber numberWithInt:debugCheck]];
+        [outputArray addObject:@"debuggerFound"];
     }else if(debugCheck==-1){ //Error
 
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
@@ -102,7 +102,13 @@ struct encryption_info_command
             }
             else {
                 //NSLog([NSString stringWithFormat:@"%s",dyld]);
-                [outputArray addObject:badModule];
+                // make sure we don't add more than one instance of the module
+                if (![outputArray containsObject:[@"dyldFound_" stringByAppendingString:badModule]]){
+                    
+                    // Add the module to the output array
+                    [outputArray addObject:[@"dyldFound_" stringByAppendingString:badModule]];
+                }
+
             }
         }
     }

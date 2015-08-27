@@ -152,70 +152,54 @@ static NSArray *trustFactorsToWhitelist;
     BOOL exists=NO;
     
     //get shared stores
-    Sentegrity_Assertion_Store *globalStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getGlobalStore:&exists withError:&error];
     Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:policy.appID withError:&error];
 
     //check for errors
-    if(!globalStore || globalStore == nil || !localStore || localStore==nil || trustFactorsToWhitelist.count<1 || !exists){
+    if(!localStore || localStore==nil || trustFactorsToWhitelist.count<1 || !exists){
         return NO;
     }
     
-    // Create stored object
-    Sentegrity_Stored_TrustFactor_Object *updatedStoredTrustFactorObject;
+    NSArray *existingStoredAssertionObjects = [NSArray array];
+    NSArray *mergedStoredAssertionObjects = [NSArray array];
     
     
     for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in trustFactorsToWhitelist)
     {
-        updatedStoredTrustFactorObject = trustFactorOutputObject.storedTrustFactorObject;
-        
-        // Get a copy of the assertion store assertions dictionary
-        NSMutableDictionary *assertionsCopy = [updatedStoredTrustFactorObject.assertions mutableCopy];
-        
-        //append the assertions to be whitelisted
-        [assertionsCopy addEntriesFromDictionary:trustFactorOutputObject.assertionsToWhitelist];
-        
-        // Set the assertions back
-        [updatedStoredTrustFactorObject setAssertions:[assertionsCopy copy]];
-        
-        //check for local
-        if(trustFactorOutputObject.trustFactor.local.intValue==1)
-        {
+        // Make sure assertionObjects is not empty or we cant merge
+        if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects==nil){
             
-            //Check for matching stored assertion object in the local store
-            Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:&error];
+            trustFactorOutputObject.storedTrustFactorObject.assertionObjects = trustFactorOutputObject.assertionObjectsToWhitelist;
             
-            //If could not find in the local store then skip
-            if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) { continue;}
-                
-            //Try to set the storedTrustFactorObject back in the store, skip if fail
-            if (![localStore replaceSingleObjectInStore:updatedStoredTrustFactorObject withError:&error]) {
-                continue;
-            }
+        }else{ // merge
             
-        }
-        else//global
-        {
-            //Check for matching stored assertion object in the local store
-            Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [globalStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:&error];
+            existingStoredAssertionObjects = trustFactorOutputObject.storedTrustFactorObject.assertionObjects;
+            mergedStoredAssertionObjects = [existingStoredAssertionObjects arrayByAddingObjectsFromArray:trustFactorOutputObject.assertionObjectsToWhitelist];
             
-            //If could not find in the local store then skip
-            if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) { continue;}
-            
-            //Try to set the storedTrustFactorObject back in the store, skip if fail
-            if (![globalStore replaceSingleObjectInStore:updatedStoredTrustFactorObject withError:&error]) {
-                continue;
-            }
+            //Set the merged list back to storedTrustFactorObject
+            trustFactorOutputObject.storedTrustFactorObject.assertionObjects = mergedStoredAssertionObjects;
         }
 
+        
+        //Check for matching stored assertion object in the local store
+        Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:&error];
+            
+        //If could not find in the local store then skip
+        if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) { continue;}
+                
+        //Try to set the storedTrustFactorObject back in the store, skip if fail
+        if (![localStore replaceSingleObjectInStore:trustFactorOutputObject.storedTrustFactorObject withError:&error]) {
+                continue;
+        }
+            
+        
     }
     
     //update stores
    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:policy.appID withError:&error];
-   Sentegrity_Assertion_Store *globalStoreOutput =  [[Sentegrity_TrustFactor_Storage sharedStorage] setGlobalStore:globalStore withError:&error];
     
-    if (!localStoreOutput || localStoreOutput == nil || !globalStoreOutput || globalStoreOutput == nil) {
+    if (!localStoreOutput || localStoreOutput == nil ) {
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Error writing assertion stores" forKey:NSLocalizedDescriptionKey];
+        [errorDetails setValue:@"Error writing local assertion store" forKey:NSLocalizedDescriptionKey];
         error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
         
         // Don't return anything

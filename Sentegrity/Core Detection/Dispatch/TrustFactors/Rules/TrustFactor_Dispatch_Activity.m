@@ -13,7 +13,7 @@
 
 
 // 39
-+ (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)previous:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -32,22 +32,12 @@
         return trustFactorOutputObject;
     }
     
+    
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    // Average from policy ?
-    int maxSampleSize = [[[payload objectAtIndex:0] objectForKey:@"maxSampleSize"] intValue];
-    
-    if (maxSampleSize == 0){
-        // Set the DNE status code to what was previously determined
-        [trustFactorOutputObject setStatusCode:DNEStatus_error];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
-    
     // Get the user's activity history
-    NSArray *activities;
+    NSArray *previousActivities;
     
     
     // Check if error was already determined when activity was started
@@ -60,10 +50,10 @@
     } else {
         // No known errors occured previously, try to get dataset and check our object
         
-        activities = [self activityInfo];
+        previousActivities = [self previousActivitiesInfo];
         
         // Check activity dataset again
-        if (!activities || activities == nil || activities.count < 1) {
+        if (!previousActivities || previousActivities == nil || previousActivities.count < 1) {
             
             [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
             
@@ -72,37 +62,118 @@
         }
     }
     
-    CMMotionActivity *actItem;
-    bool walking = 0;
-    bool running = 0;
-    bool driving = 0;
-    bool stationary = 0;
+    
+    float stillCount = 0;
+    float movingCount = 0;
+    float movingFastcount = 0;
+    float unknownCount = 0;
+    NSString *lastActivity;
     
     // Check each category for hit since lots of activities are returned in most cases
-    for (int i = 0; i <= maxSampleSize-1; i++)
+    for (CMMotionActivity *actItem in previousActivities)
     {
-        actItem = [activities objectAtIndex:i];
         
-        if (actItem.walking == 1)
-            walking=1;
-        if (actItem.running == 1)
-            running=1;
-        if (actItem.automotive == 1)
-            driving=1;
-        if (actItem.stationary == 1)
-            stationary=1;
+        // High confidence
+        if(actItem.confidence == 2){
+            
+            if (actItem.stationary == 1){
+                stillCount = stillCount + 2;
+            }else if (actItem.cycling == 1 || actItem.walking == 1 || actItem.running == 1){
+                movingCount = movingCount + 2;
+            }else if (actItem.automotive == 1){
+                movingFastcount = movingFastcount + 2;
+            }
+            else{
+                unknownCount = unknownCount + 2;
+            }
+
+            
+        }
+        
+        // Medium confidence
+        if(actItem.confidence == 1){
+            
+            if (actItem.stationary == 1){
+                stillCount++;
+            }else if (actItem.cycling == 1 || actItem.walking == 1 || actItem.running == 1){
+                movingCount++;
+            }else if (actItem.automotive == 1){
+                movingFastcount++;
+            }
+            else{
+                unknownCount++;
+            }
+            
+
+        }
+        
+        // Low confidence
+        if(actItem.confidence == 0){
+            
+            if (actItem.stationary == 1){
+                stillCount = stillCount + 0.5;
+            }else if (actItem.cycling == 1 || actItem.walking == 1 || actItem.running == 1){
+                movingCount = movingCount + 0.5;
+            }else if (actItem.automotive == 1){
+                movingFastcount = movingFastcount + 0.5;
+            }
+            else{
+                unknownCount = unknownCount + 0.5;
+            }
+            
+            
+        }
+        
+       // NSLog(@"Got a PREVIOUS core motion update");
+        //NSLog(@"Previous activity date is %f",actItem.timestamp);
+        //NSLog(@"Previous activity confidence from a scale of 0 to 2 - 2 being best- is: %ld",actItem.confidence);
+        //NSLog(@"Previous activity type is unknown: %i",actItem.unknown);
+        //NSLog(@"Previous activity type is stationary: %i",actItem.stationary);
+        //NSLog(@"Previous activity type is walking: %i",actItem.walking);
+        //NSLog(@"Previous activity type is running: %i",actItem.running);
+        //NSLog(@"Previous activity type is cycling: %i",actItem.cycling);
+        //NSLog(@"Previous activity type is automotive: %i",actItem.automotive);
     }
     
-    NSLog(@"walking: %i", walking);
-    NSLog(@"running: %i", running);
-    NSLog(@"driving: %i",  driving);
-    NSLog(@"stationary: %i", stationary);
+    if(stillCount >= movingCount && stillCount >= movingFastcount && stillCount >= unknownCount){
+        lastActivity = @"still";
+    }else if(movingCount > stillCount && movingCount > movingFastcount && movingCount > unknownCount) {
+        lastActivity = @"moving";
+    }else if(movingFastcount > stillCount && movingFastcount > movingCount && movingFastcount > unknownCount){
+        lastActivity = @"movingFast";
+    }else{
+        lastActivity=@"unknown";
+    }
     
-    NSString *activityTuple = [NSString stringWithFormat:@"%i%i%i%i",walking,running,driving,stationary];
+    NSLog(@"Previous activity result: %@", lastActivity);
     
-    NSLog(@"activityTuple: %@", activityTuple);
+
     
-    [outputArray addObject:activityTuple];
+    // Profile against hour of day
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:[NSDate date]];
+    NSInteger hourOfDay = [components hour];
+    NSInteger minutes = [components minute];
+    
+    
+    //round up if needed
+    if(minutes > 30){
+        hourOfDay = hourOfDay+1;
+    }
+    
+    
+    
+    // Hours partitioned across 24, adjust accordingly but it does impact multiple rules
+    // Hour block from policy
+    int hourBlockSize = [[[payload objectAtIndex:0] objectForKey:@"hourBlockSize"] intValue];
+    
+    // Block of day
+    NSInteger blockOfDay = floor(hourOfDay / (24/hourBlockSize))+1;
+    
+    NSString *dateString =  [NSString stringWithFormat:@"H%ld_",(long)blockOfDay];
+    
+    // Merge with activity and hour
+    [outputArray addObject:[dateString stringByAppendingString:lastActivity]];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
@@ -111,6 +182,87 @@
     return trustFactorOutputObject;
     
 }
+
+// 39
++ (Sentegrity_TrustFactor_Output_Object *)current:(NSArray *)payload {
+    
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+
+
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
+    
+    
+    // Get the user's current activity
+    CMMotionActivity *currentActivity;
+    
+    
+    // Check if error was already determined when activity was started
+    if ([self activityDNEStatus] != 0 ){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[self activityDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    } else {
+        // No known errors occured previously, try to get dataset and check our object
+        
+        currentActivity = [self currentActivityInfo];
+        
+        // Check activity dataset again
+        if (!currentActivity || currentActivity == nil) {
+            
+            [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+            
+            // Return with the blank output object
+            return trustFactorOutputObject;
+        }
+    }
+    
+    NSString *activity;
+    // If we're confident then take it and don't look at the others returned
+    if(currentActivity.confidence == 2){
+        
+        if (currentActivity.stationary == 1){
+            activity = @"still";
+        }
+        else if (currentActivity.cycling == 1 || currentActivity.walking == 1 || currentActivity.running ==1 || currentActivity.automotive==1){
+            activity = @"moving";
+        }
+        else{
+            activity = @"unknown";
+        }
+        
+    }else{
+        activity = @"unknown";
+    }
+    
+    //NSLog(@"Got a PREVIOUS core motion update");
+    //NSLog(@"Previous activity date is %f",currentActivity.timestamp);
+    //NSLog(@"Previous activity confidence from a scale of 0 to 2 - 2 being best- is: %ld",currentActivity.confidence);
+    //NSLog(@"Previous activity type is unknown: %i",currentActivity.unknown);
+    //NSLog(@"Previous activity type is stationary: %i",currentActivity.stationary);
+    //NSLog(@"Previous activity type is walking: %i",currentActivity.walking);
+    //NSLog(@"Previous activity type is running: %i",currentActivity.running);
+    //NSLog(@"Previous activity type is cycling: %i",currentActivity.cycling);
+    //NSLog(@"Previous activity type is automotive: %i",currentActivity.automotive);
+    
+    NSLog(@"Current activity result: %@", activity);
+    [outputArray addObject:activity];
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+    
+}
+
 
 
 @end

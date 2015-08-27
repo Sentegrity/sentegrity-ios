@@ -166,7 +166,7 @@
                             subClass.basePenalty = (subClass.basePenalty + trustFactorOutputObject.trustFactor.penalty.integerValue);
                             
                             // IF the TF operates as a normal rule (triger on no match), update issues and suggestion messages  (triggering a normal rule is bad)
-                            if(trustFactorOutputObject.trustFactor.inverse.intValue==0){
+                            if(trustFactorOutputObject.trustFactor.ruleType.intValue != 4){
                                 
                                 // Check if the TF contains a custom issue message
                                 if(trustFactorOutputObject.trustFactor.issueMessage.length != 0)
@@ -196,7 +196,7 @@
                         else{ // RULE DID NOT TRIGGER
                             
                             // Check if TF is inverse (not triggering inverse rule does not boost score)
-                            if(trustFactorOutputObject.trustFactor.inverse.intValue==1){
+                            if(trustFactorOutputObject.trustFactor.ruleType.intValue==4){
                                 
                                 // Check if the inverse TF contains a custom issue message (this is rare, don't think any inverse rules have one)
                                 if(trustFactorOutputObject.trustFactor.issueMessage.length != 0)
@@ -237,7 +237,7 @@
                         
                         // If TF is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
                         // If TF is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
-                        if (trustFactorOutputObject.trustFactor.inverse.intValue ==1){
+                        if (trustFactorOutputObject.trustFactor.ruleType.intValue==4){
                             
                             [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
                             

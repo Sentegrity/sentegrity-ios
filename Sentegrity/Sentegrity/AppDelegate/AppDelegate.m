@@ -206,9 +206,28 @@ static MBProgressHUD *HUD;
         
         CMMotionActivityManager *manager = [CMMotionActivityManager new];
         
-        
-        [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*10)]
-                                        toDate:[NSDate new]
+        [manager startActivityUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMMotionActivity *activity) {
+            
+            
+            
+            //if (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled) {
+                // The app isn't authorized to use motion activity support.
+              //  [Sentegrity_TrustFactor_Rule setActivityDNEStatus:DNEStatus_unauthorized];
+            //}
+            //else{
+                
+                // Set activities array
+                [Sentegrity_TrustFactor_Rule setCurrentActivity:activity];
+                
+                
+            //}
+
+            
+            
+            
+        }];
+        [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*30)]
+                                        toDate:[NSDate date]
                                        toQueue:[NSOperationQueue new]
                                    withHandler:^(NSArray *activities, NSError *error) {
                                        
@@ -222,7 +241,7 @@ static MBProgressHUD *HUD;
                                        else{
                                            
                                            // Set activities array
-                                           [Sentegrity_TrustFactor_Rule setActivity:activities];
+                                           [Sentegrity_TrustFactor_Rule setPreviousActivities:activities];
                                            
                                            
                                        }
@@ -278,7 +297,7 @@ static NSMutableArray *array;
                                               // its possible we will get more as this handler gets called additional times prior to
                                               // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
                                               
-                                              if(runCount == 3){
+                                              if(runCount > 5){
                                                   [Sentegrity_TrustFactor_Rule setMotion:array];
                                                   [manager stopAccelerometerUpdates];
                                               }
@@ -303,7 +322,7 @@ static CFAbsoluteTime startTime=0.0;
 
 - (void) startBluetooth{
     mgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    [Sentegrity_TrustFactor_Rule setBluetooth:bluetoothDevices];
+    
 }
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
@@ -322,8 +341,10 @@ static CFAbsoluteTime startTime=0.0;
     //NSLog(@"Did discover peripheral. peripheral: %@ rssi: %@, UUID: %@ advertisementData: %@ ", peripheral, RSSI, peripheral.UUID, advertisementData);
     
     // Add the device dictionary to the list
-    [bluetoothDevices addObject:[NSString stringWithFormat:@"%@",peripheral.identifier]];
+    [bluetoothDevices addObject:[NSString stringWithFormat:@"%@",peripheral.identifier.UUIDString]];
+    NSLog(@"%@",bluetoothDevices);
     
+    [Sentegrity_TrustFactor_Rule setBluetooth:bluetoothDevices];
     
     
     

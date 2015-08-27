@@ -18,7 +18,4 @@
 + (Sentegrity_TrustFactor_Output_Object *)newRoot:(NSArray *)payload;
 
 
-// 20 - Checks for process names that match high risk application names
-+ (Sentegrity_TrustFactor_Output_Object *)highRiskApp:(NSArray *)payload;
-
 @end

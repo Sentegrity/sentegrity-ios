@@ -28,9 +28,9 @@
     _revision = revision;
 }
 
-// Runtime
-- (void)setRuntime:(NSNumber *)runtime{
-    _runtime = runtime;
+// Private APIs
+- (void)setAllowPrivateAPIs:(NSNumber *)allowPrivateAPIs{
+    _allowPrivateAPIs = allowPrivateAPIs;
 }
 
 // UserThreshold

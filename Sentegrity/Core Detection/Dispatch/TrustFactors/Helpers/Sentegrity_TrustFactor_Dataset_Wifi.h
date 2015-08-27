@@ -21,7 +21,10 @@
 #import <net/if.h>
 
 
+
+
 @interface Wifi_Info : NSObject
+
 
 + (NSDictionary*)getWifi;
 

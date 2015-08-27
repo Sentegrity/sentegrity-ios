@@ -145,9 +145,10 @@ static MBProgressHUD *HUD;
                 // Setup login box
                 SCLAlertView *userPIN = [[SCLAlertView alloc] init];
                 userPIN.backgroundType = Transparent;
+                userPIN.showAnimationType = SlideInFromBottom;
                 [userPIN removeTopCircle];
                 
-                UITextField *userText = [userPIN addTextField:@"Enter User Password"];
+                UITextField *userText = [userPIN addTextField:@"Enter Password \"user\""];
                 
                 // Show deactivation textbox
                 
@@ -179,7 +180,7 @@ static MBProgressHUD *HUD;
                 }];
                 
                 
-                [userPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Login" subTitle:@"User anomaly detected, password required." closeButtonTitle:nil duration:0.0f];
+                [userPIN showCustom:self image:nil color:[UIColor grayColor] title:@"User Anomaly" subTitle:@"A user password is required." closeButtonTitle:nil duration:0.0f];
                 
                 
             }
@@ -196,7 +197,7 @@ static MBProgressHUD *HUD;
                 [policyPIN removeTopCircle];
 
                 
-                UITextField *policyText = [policyPIN addTextField:@"Enter Administrator PIN"];
+                UITextField *policyText = [policyPIN addTextField:@"Enter PIN \"admin\""];
                 
                 // Show deactivation textbox
                 [policyPIN addButton:@"Unlock" actionBlock:^(void) {
@@ -227,7 +228,7 @@ static MBProgressHUD *HUD;
                     [self.navigationController pushViewController:mainViewController animated:NO];
                 }];
                 
-                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Policy Violation" subTitle:@"High risk device detected, policy exception required." closeButtonTitle:nil duration:0.0f];
+                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Policy Violation" subTitle:@"A high risk device was detected. Administrator approval required." closeButtonTitle:nil duration:0.0f];
             
                 
             }

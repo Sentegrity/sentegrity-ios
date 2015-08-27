@@ -10,6 +10,7 @@
 #import "Sentegrity_Stored_TrustFactor_Object.h"
 #import "Sentegrity_TrustFactor.h"
 #import "Sentegrity_Constants.h"
+#import "Sentegrity_Stored_Assertion.h"
 
 
 @interface Sentegrity_TrustFactor_Output_Object : NSObject
@@ -20,16 +21,19 @@
 // attach the parsed storedTrustFactorObject data
 @property (nonatomic,retain) Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject;
 
-// Get the trustfactor output
-@property (nonatomic,retain) NSMutableArray *output;
+// Plaintext output from TrustFactor
+@property (nonatomic,retain) NSArray *output;
 
-// Assertions to whitelist if protect mode is deactivated
-@property (nonatomic,retain) NSMutableDictionary *assertionsToWhitelist;
+// Sentegrity_Stored_Assertion objects to whitelist if protect mode is deactivated
+@property (nonatomic,retain) NSArray *assertionObjectsToWhitelist;
 
-// Stored assertions
-@property (nonatomic,retain) NSMutableDictionary *assertions;
+// Sentegrity_Store_Assertion objects created from output
+@property (nonatomic,retain) NSArray *assertionObjects;
 
-// Get the trustfactor output dne modifier (only if the check failed or didn't run)
+// Default assertion string
+@property (nonatomic,retain) Sentegrity_Stored_Assertion *defaultAssertionObject;
+
+// dne modifier 
 @property (nonatomic) DNEStatusCode statusCode;
 
 // Trigger bool set during baseline analysis and checked during computation
@@ -38,21 +42,16 @@
 // Trigger bool set during baseline analysis and checked during computation
 @property (nonatomic) BOOL whitelist;
 
-// Generates assertions from the output of trustfactor implentation
-- (void)generateAssertionsFromOutput;
+-(void)generateDefaultAssertionObject;
 
-// Generates default assertion dictionary to be provided when a rule does not return anything
--(NSMutableDictionary *)generateDefaultAssertionDict;
+-(void)setAssertionObjectsFromOutput;
 
-// Generates the default assertion and adds it to the TFs assertion property
--(void)generateDefaultAssertion;
+-(void)setAssertionObjectsToDefault;
 
-// Generates the default string to check if a rule didn't return the default (for provisoning)
--(NSString *)generateDefaultAssertionString;
+-(BOOL)generatedAssertionObjectsContainsDefault;
 
-//custom init to set DNE=OK
+//custom init to set DNE=OK and defaultAssertionString
 - (id) init;
-
 
 
 @end

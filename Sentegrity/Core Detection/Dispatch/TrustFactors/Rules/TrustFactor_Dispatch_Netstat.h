@@ -21,6 +21,12 @@
 // 13
 + (Sentegrity_TrustFactor_Output_Object *)newService:(NSArray *)payload;
 
+// 13
++ (Sentegrity_TrustFactor_Output_Object *)dataExfiltration:(NSArray *)payload;
+
+// 13
++ (Sentegrity_TrustFactor_Output_Object *)unencryptedTraffic:(NSArray *)payload;
+
 
 
 @end

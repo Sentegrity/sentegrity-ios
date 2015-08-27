@@ -66,5 +66,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>com.apple.developer.ubiquity-container-identifiers</key>
+	<string>$(TeamIdentifierPrefix).$(CFBundleIdentifier)</string>
 </dict>
 </plist>

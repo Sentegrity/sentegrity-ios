@@ -73,6 +73,8 @@ static MBProgressHUD *HUD;
     // Do any additional setup after loading the view, typically from a nib.
 }
 
+
+
 // View did appear
 - (void)viewDidAppear:(BOOL)animated {
     
@@ -89,6 +91,8 @@ static MBProgressHUD *HUD;
     
     // Customize the view
     [self customizeView];
+    
+  
 }
 
 // Set up the customizations for the view
@@ -107,14 +111,12 @@ static MBProgressHUD *HUD;
     // Set the TrustScore progress bar
     
     // Sentegrity Gold
-    //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+    [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
     
-    // Good color
+    // Re (Good) color
     //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
 
-    // Good color
-
-    
+    //Gradient
     //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithGradientStyle:UIGradientStyleLeftToRight withFrame:self.trustScoreProgressBar.frame andColors:@[[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f], [UIColor flatOrangeColor]]]];
     
     [self.trustScoreProgressBar setProgressBarTrackColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
@@ -163,6 +165,8 @@ static MBProgressHUD *HUD;
     
     // Update the last update label
     [self updateLastUpdateLabel:self];
+    
+
 }
 
 // Update the last update label
@@ -199,13 +203,23 @@ static MBProgressHUD *HUD;
     // Set color red of progress bar based on trust
     if (self.computationResults.deviceTrusted==NO){
         
-        // Set to red (Good color)
-        [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+        //Red (Good color)
+        //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+        
+        // Sentegrity Gold
+        [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+        
+        [self.sentegrityButton setImage:[UIImage imageNamed:@"Sentegrity_Logo"] forState:UIControlStateNormal];
+        [self.sentegrityButton setAlpha:1];
 
     }
     else{
+        // Un-Dim logo
         //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithWhite:0.7f alpha:1.0f]];
+        
+        // Sentegrity Gold
         [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+
         [self.sentegrityButton setImage:[UIImage imageNamed:@"Sentegrity_Logo"] forState:UIControlStateNormal];
         [self.sentegrityButton setAlpha:1];
     }
@@ -246,6 +260,8 @@ static MBProgressHUD *HUD;
     [self updateLastUpdateLabel:self];
     
 
+    
+
 } // End of Core Detection Function
 
 // Layout subviews
@@ -273,6 +289,34 @@ static MBProgressHUD *HUD;
         // Portrait
         [self.view setFrame:CGRectMake(0, 0 + [UIApplication sharedApplication].statusBarFrame.size.height, screenRect.size.width, screenRect.size.height - [UIApplication sharedApplication].statusBarFrame.size.height)];
     }
+    
+}
+
+- (void)close{
+    // Give user info
+    SCLAlertView *untrusted = [[SCLAlertView alloc] init];
+    untrusted.showAnimationType = SlideInFromRight;
+    untrusted.backgroundType = Shadow;
+    //unlocked.backgroundViewColor = [UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f];
+    [untrusted removeTopCircle];
+    
+    [untrusted addButton:@"Exit now" actionBlock:^(void) {
+        exit(0);
+    }];
+    
+    if(self.computationResults.deviceTrusted==YES){
+            [untrusted showCustom:self image:nil color:[UIColor grayColor] title:@"Refresh" subTitle:@"The current TrustScore was computed during launch. The app must be re-launched to reflect an updated score due to any environment or behavioral changes." closeButtonTitle:@"Let me explore" duration:0.0f];
+        
+    }
+    else if(self.computationResults.systemTrusted==NO){ //was a system issue
+            [untrusted showCustom:self image:nil color:[UIColor grayColor] title:@"Refresh" subTitle:@"The current TrustScore was computed prior to the last policy exception. Sentegrity learns from administrator approval of high risk condition(s). The app must be re-launched to reflect an updated score." closeButtonTitle:@"Let me explore" duration:0.0f];
+        
+    }
+    else{ //must have been a user issue
+            [untrusted showCustom:self image:nil color:[UIColor grayColor] title:@"Refresh" subTitle:@"The current TrustScore was computed prior to this last user authentication. Sentegrity learns from user behavior during interactive logins. The app must be re-launched to reflect an updated score." closeButtonTitle:@"Let me explore" duration:0.0f];
+    }
+
+
 }
 
 // Set the status bar to white
@@ -354,6 +398,7 @@ static MBProgressHUD *HUD;
 
 - (IBAction)reload:(id)sender {
     // Animate the reload button
+    [self close];
     CABasicAnimation *rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];

@@ -80,7 +80,7 @@
     
 }
 
-// Singleton instance
+
 + (void)start
 {
     // TODO: No content here?  Jason?

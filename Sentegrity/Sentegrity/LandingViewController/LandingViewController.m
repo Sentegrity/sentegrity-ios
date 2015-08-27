@@ -46,7 +46,7 @@
     
     [super viewDidAppear:animated];
     
-    [self performSelector:@selector(showButton) withObject:nil afterDelay:1.5f];
+    [self performSelector:@selector(showButton) withObject:nil afterDelay:1.0f];
     
 
     
@@ -86,13 +86,27 @@
     
     if(computation.deviceTrusted==YES){ // Transparently authentication
         
-            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Welcome!" subTitle:@"Access to this app required NO PASSWORD! View the Sentegrity dashboard for more details." closeButtonTitle:nil duration:0.0f];
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Success!" subTitle:@"You've been transparently authenticated. You and your device are TRUSTED." closeButtonTitle:nil duration:0.0f];
+        
+//try to open inbox (airwatch)
+        
+        // Opens the Receiver app if installed, otherwise displays an error
+        UIApplication *ourApplication = [UIApplication sharedApplication];
+        NSURL *ourURL = [NSURL URLWithString:@"awemailclient://"];
+        if ([ourApplication canOpenURL:ourURL]) {
+            [ourApplication openURL:ourURL];
+        }
+        else {
+            //Display error
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Receiver Not Found" message:@"The Receiver App is not installed. It must be installed to send text." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+        }
         
     }else if((computation.userTrusted==NO) && (computation.systemTrusted==YES)){ // User anomaly
-            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Password Required" subTitle:@"Access to this app required a password. View the Sentegrity dashboard for more details." closeButtonTitle:nil duration:0.0f];
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"What happened?" subTitle:@"Transparent authentication FAILED due to user anomalies that require explicit authentication." closeButtonTitle:nil duration:0.0f];
     }else{ // Policy violation
         
-            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Policy Exception" subTitle:@"Access to this app required a policy exception. View the Sentegrity dashboard for more details." closeButtonTitle:nil duration:0.0f];
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"What happened?" subTitle:@"A policy exception (administrator PIN) was required due to HIGH RISK device conditions." closeButtonTitle:nil duration:0.0f];
     }
 
     

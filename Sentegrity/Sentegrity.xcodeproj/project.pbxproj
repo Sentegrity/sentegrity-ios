@@ -47,7 +47,6 @@
 		4CE9D86E1B323B05006D43D8 /* TrustFactor_Dispatch_Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8231B323B05006D43D8 /* TrustFactor_Dispatch_Activity.m */; };
 		4CE9D86F1B323B05006D43D8 /* TrustFactor_Dispatch_Bluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8251B323B05006D43D8 /* TrustFactor_Dispatch_Bluetooth.m */; };
 		4CE9D8701B323B05006D43D8 /* TrustFactor_Dispatch_File.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8271B323B05006D43D8 /* TrustFactor_Dispatch_File.m */; };
-		4CE9D8711B323B05006D43D8 /* TrustFactor_Dispatch_Http.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8291B323B05006D43D8 /* TrustFactor_Dispatch_Http.m */; };
 		4CE9D8721B323B05006D43D8 /* TrustFactor_Dispatch_Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D82B1B323B05006D43D8 /* TrustFactor_Dispatch_Location.m */; };
 		4CE9D8731B323B05006D43D8 /* TrustFactor_Dispatch_Netstat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D82D1B323B05006D43D8 /* TrustFactor_Dispatch_Netstat.m */; };
 		4CE9D8741B323B05006D43D8 /* TrustFactor_Dispatch_Platform.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D82F1B323B05006D43D8 /* TrustFactor_Dispatch_Platform.m */; };
@@ -74,11 +73,18 @@
 		4CE9D8891B323B05006D43D8 /* Sentegrity_Classification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8631B323B05006D43D8 /* Sentegrity_Classification+Computation.m */; };
 		4CE9D88A1B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */; };
 		4CE9D88B1B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */; };
+		966A41061B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41051B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m */; };
+		966A41091B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41081B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m */; };
+		966A410C1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A410B1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m */; };
+		966A410F1B8A31DE007DAFB7 /* TrustFactor_Dispatch_Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A410E1B8A31DE007DAFB7 /* TrustFactor_Dispatch_Application.m */; };
+		966A41121B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41111B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m */; };
 		9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9676DF801B7EA92900C508D6 /* LandingViewController.m */; };
 		967786281B6044D500715110 /* TrustFactor_Dispatch_Motion.m in Sources */ = {isa = PBXBuildFile; fileRef = 967786271B6044D500715110 /* TrustFactor_Dispatch_Motion.m */; };
 		967786401B6269D900715110 /* oui_all.list in Resources */ = {isa = PBXBuildFile; fileRef = 9677863E1B6269D900715110 /* oui_all.list */; };
 		967786411B6269D900715110 /* oui.list in Resources */ = {isa = PBXBuildFile; fileRef = 9677863F1B6269D900715110 /* oui.list */; };
 		967786441B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 967786431B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m */; };
+		969896351B84BD7E004C5C7E /* TrustFactor_Dispatch_Power.m in Sources */ = {isa = PBXBuildFile; fileRef = 969896341B84BD7E004C5C7E /* TrustFactor_Dispatch_Power.m */; };
+		969896381B84C0DF004C5C7E /* TrustFactor_Dispatch_Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 969896371B84C0DF004C5C7E /* TrustFactor_Dispatch_Configuration.m */; };
 		969CD0691B7E668500254F45 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0681B7E668500254F45 /* DashboardViewController.m */; };
 		969CD06D1B7E673900254F45 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD06C1B7E673900254F45 /* LoginViewController.m */; };
 		969CD07A1B7E7DEC00254F45 /* SCLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0701B7E7DEC00254F45 /* SCLAlertView.m */; };
@@ -165,8 +171,6 @@
 		4CE9D8251B323B05006D43D8 /* TrustFactor_Dispatch_Bluetooth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Bluetooth.m; sourceTree = "<group>"; };
 		4CE9D8261B323B05006D43D8 /* TrustFactor_Dispatch_File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_File.h; sourceTree = "<group>"; };
 		4CE9D8271B323B05006D43D8 /* TrustFactor_Dispatch_File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_File.m; sourceTree = "<group>"; };
-		4CE9D8281B323B05006D43D8 /* TrustFactor_Dispatch_Http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Http.h; sourceTree = "<group>"; };
-		4CE9D8291B323B05006D43D8 /* TrustFactor_Dispatch_Http.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Http.m; sourceTree = "<group>"; };
 		4CE9D82A1B323B05006D43D8 /* TrustFactor_Dispatch_Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Location.h; sourceTree = "<group>"; };
 		4CE9D82B1B323B05006D43D8 /* TrustFactor_Dispatch_Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Location.m; sourceTree = "<group>"; };
 		4CE9D82C1B323B05006D43D8 /* TrustFactor_Dispatch_Netstat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Netstat.h; sourceTree = "<group>"; };
@@ -219,6 +223,18 @@
 		4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Subclassification+Computation.m"; sourceTree = "<group>"; };
 		4CE9D8661B323B05006D43D8 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
+		966A41041B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Stored_Assertion.h; sourceTree = "<group>"; };
+		966A41051B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Stored_Assertion.m; sourceTree = "<group>"; };
+		966A41071B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Celluar.h; sourceTree = "<group>"; };
+		966A41081B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Celluar.m; sourceTree = "<group>"; };
+		966A410A1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_CPU.h; sourceTree = "<group>"; };
+		966A410B1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_CPU.m; sourceTree = "<group>"; };
+		966A410D1B8A31DE007DAFB7 /* TrustFactor_Dispatch_Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Application.h; sourceTree = "<group>"; };
+		966A410E1B8A31DE007DAFB7 /* TrustFactor_Dispatch_Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Application.m; sourceTree = "<group>"; };
+		966A41101B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Application.h; sourceTree = "<group>"; };
+		966A41111B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Application.m; sourceTree = "<group>"; };
+		966A41141B8A376B007DAFB7 /* LSApplicationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSApplicationProxy.h; sourceTree = "<group>"; };
+		966A41151B8A376B007DAFB7 /* LSApplicationWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSApplicationWorkspace.h; sourceTree = "<group>"; };
 		9676DF7F1B7EA92900C508D6 /* LandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandingViewController.h; sourceTree = "<group>"; };
 		9676DF801B7EA92900C508D6 /* LandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandingViewController.m; sourceTree = "<group>"; };
 		967786271B6044D500715110 /* TrustFactor_Dispatch_Motion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Motion.m; sourceTree = "<group>"; };
@@ -227,6 +243,11 @@
 		9677863F1B6269D900715110 /* oui.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oui.list; sourceTree = "<group>"; };
 		967786421B62B56900715110 /* Sentegrity_TrustFactor_Dataset_Wifi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Wifi.h; sourceTree = "<group>"; };
 		967786431B62B58100715110 /* Sentegrity_TrustFactor_Dataset_Wifi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Wifi.m; sourceTree = "<group>"; };
+		969896331B84BD7E004C5C7E /* TrustFactor_Dispatch_Power.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Power.h; sourceTree = "<group>"; };
+		969896341B84BD7E004C5C7E /* TrustFactor_Dispatch_Power.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Power.m; sourceTree = "<group>"; };
+		969896361B84C0DF004C5C7E /* TrustFactor_Dispatch_Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Configuration.h; sourceTree = "<group>"; };
+		969896371B84C0DF004C5C7E /* TrustFactor_Dispatch_Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Configuration.m; sourceTree = "<group>"; };
+		969896391B858E47004C5C7E /* Sentegrity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Sentegrity.entitlements; sourceTree = "<group>"; };
 		969CD0681B7E668500254F45 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
 		969CD06B1B7E673900254F45 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		969CD06C1B7E673900254F45 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
@@ -345,6 +366,7 @@
 		04A248FB1B266AC2007D9460 /* Sentegrity */ = {
 			isa = PBXGroup;
 			children = (
+				969896391B858E47004C5C7E /* Sentegrity.entitlements */,
 				969CD06E1B7E7DEC00254F45 /* SCLAlertView */,
 				9676DF7E1B7EA92900C508D6 /* LandingViewController */,
 				969CD06A1B7E673900254F45 /* LoginViewController */,
@@ -503,6 +525,8 @@
 				4CE9D8131B323B05006D43D8 /* Sentegrity_Assertion_Store.m */,
 				4CE9D8141B323B05006D43D8 /* Sentegrity_Stored_TrustFactor_Object.h */,
 				4CE9D8151B323B05006D43D8 /* Sentegrity_Stored_TrustFactor_Object.m */,
+				966A41041B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.h */,
+				966A41051B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m */,
 				4CE9D8161B323B05006D43D8 /* Sentegrity_TrustFactor_Storage.h */,
 				4CE9D8171B323B05006D43D8 /* Sentegrity_TrustFactor_Storage.m */,
 			);
@@ -545,14 +569,20 @@
 		4CE9D8211B323B05006D43D8 /* Rules */ = {
 			isa = PBXGroup;
 			children = (
+				966A410D1B8A31DE007DAFB7 /* TrustFactor_Dispatch_Application.h */,
+				966A410E1B8A31DE007DAFB7 /* TrustFactor_Dispatch_Application.m */,
+				966A41071B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.h */,
+				966A41081B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m */,
+				969896331B84BD7E004C5C7E /* TrustFactor_Dispatch_Power.h */,
+				969896341B84BD7E004C5C7E /* TrustFactor_Dispatch_Power.m */,
+				969896361B84C0DF004C5C7E /* TrustFactor_Dispatch_Configuration.h */,
+				969896371B84C0DF004C5C7E /* TrustFactor_Dispatch_Configuration.m */,
 				4CE9D8221B323B05006D43D8 /* TrustFactor_Dispatch_Activity.h */,
 				4CE9D8231B323B05006D43D8 /* TrustFactor_Dispatch_Activity.m */,
 				4CE9D8241B323B05006D43D8 /* TrustFactor_Dispatch_Bluetooth.h */,
 				4CE9D8251B323B05006D43D8 /* TrustFactor_Dispatch_Bluetooth.m */,
 				4CE9D8261B323B05006D43D8 /* TrustFactor_Dispatch_File.h */,
 				4CE9D8271B323B05006D43D8 /* TrustFactor_Dispatch_File.m */,
-				4CE9D8281B323B05006D43D8 /* TrustFactor_Dispatch_Http.h */,
-				4CE9D8291B323B05006D43D8 /* TrustFactor_Dispatch_Http.m */,
 				4CE9D82A1B323B05006D43D8 /* TrustFactor_Dispatch_Location.h */,
 				4CE9D82B1B323B05006D43D8 /* TrustFactor_Dispatch_Location.m */,
 				4CE9D82C1B323B05006D43D8 /* TrustFactor_Dispatch_Netstat.h */,
@@ -689,6 +719,15 @@
 			path = "Protect Mode";
 			sourceTree = "<group>";
 		};
+		966A41131B8A376B007DAFB7 /* private */ = {
+			isa = PBXGroup;
+			children = (
+				966A41141B8A376B007DAFB7 /* LSApplicationProxy.h */,
+				966A41151B8A376B007DAFB7 /* LSApplicationWorkspace.h */,
+			);
+			path = private;
+			sourceTree = "<group>";
+		};
 		9676DF7E1B7EA92900C508D6 /* LandingViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -728,6 +767,7 @@
 		96C0FEFC1B5BE7D5003F4213 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				966A41131B8A376B007DAFB7 /* private */,
 				96C0FEFD1B5BE7D5003F4213 /* kernel includes */,
 				96C0FF201B5BE7D5003F4213 /* otherConnectionHeaders.h */,
 			);
@@ -785,6 +825,10 @@
 		96C0FF211B5BE7E2003F4213 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				966A41101B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.h */,
+				966A41111B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m */,
+				966A410A1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.h */,
+				966A410B1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m */,
 				96C0FF221B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.h */,
 				96C0FF231B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.m */,
 				96C0FF241B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.h */,
@@ -862,6 +906,11 @@
 					04A248F81B266AC2007D9460 = {
 						CreatedOnToolsVersion = 6.3.2;
 						DevelopmentTeam = 86G3K7BVQY;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					04A249111B266AC2007D9460 = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -971,14 +1020,17 @@
 				96C0FF2A1B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */,
 				4CE9D86C1B323B05006D43D8 /* CoreDetection.m in Sources */,
 				4CE9D8881B323B05006D43D8 /* Sentegrity_TrustFactor.m in Sources */,
-				4CE9D8711B323B05006D43D8 /* TrustFactor_Dispatch_Http.m in Sources */,
 				4CE9D87C1B323B05006D43D8 /* TrustFactor_Dispatch_Wifi.m in Sources */,
+				966A410F1B8A31DE007DAFB7 /* TrustFactor_Dispatch_Application.m in Sources */,
 				969CD07C1B7E7DEC00254F45 /* SCLAlertViewStyleKit.m in Sources */,
 				4CE9D8801B323B05006D43D8 /* Sentegrity_Parser.m in Sources */,
+				966A410C1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m in Sources */,
 				969CD07B1B7E7DEC00254F45 /* SCLAlertViewResponder.m in Sources */,
 				969CD07D1B7E7DEC00254F45 /* SCLButton.m in Sources */,
 				969CD07A1B7E7DEC00254F45 /* SCLAlertView.m in Sources */,
 				0427EFFF1B79361E000658AB /* ComputationInfoViewController.m in Sources */,
+				966A41121B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m in Sources */,
+				969896351B84BD7E004C5C7E /* TrustFactor_Dispatch_Power.m in Sources */,
 				4CE9D8891B323B05006D43D8 /* Sentegrity_Classification+Computation.m in Sources */,
 				4CE9D87F1B323B05006D43D8 /* Sentegrity_History_Store.m in Sources */,
 				4CE9D8771B323B05006D43D8 /* TrustFactor_Dispatch_Sandbox.m in Sources */,
@@ -992,6 +1044,7 @@
 				4CE9D8871B323B05006D43D8 /* Sentegrity_Subclassification.m in Sources */,
 				04A249021B266AC2007D9460 /* AppDelegate.m in Sources */,
 				4CE9D86F1B323B05006D43D8 /* TrustFactor_Dispatch_Bluetooth.m in Sources */,
+				966A41061B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m in Sources */,
 				4CE9D88B1B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m in Sources */,
 				4CE9D8841B323B05006D43D8 /* Sentegrity_Classification.m in Sources */,
 				4CE9D86E1B323B05006D43D8 /* TrustFactor_Dispatch_Activity.m in Sources */,
@@ -1014,6 +1067,7 @@
 				9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */,
 				4CE9D8811B323B05006D43D8 /* ProtectMode.m in Sources */,
 				4CE9D8851B323B05006D43D8 /* Sentegrity_DNEModifiers.m in Sources */,
+				969896381B84C0DF004C5C7E /* TrustFactor_Dispatch_Configuration.m in Sources */,
 				4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */,
 				969CD06D1B7E673900254F45 /* LoginViewController.m in Sources */,
 				4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */,
@@ -1021,6 +1075,7 @@
 				967786281B6044D500715110 /* TrustFactor_Dispatch_Motion.m in Sources */,
 				4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */,
 				4CE9D8781B323B05006D43D8 /* TrustFactor_Dispatch_Scan.m in Sources */,
+				966A41091B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m in Sources */,
 				04A248FF1B266AC2007D9460 /* main.m in Sources */,
 				4CE9D88A1B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m in Sources */,
 				4CE9D86A1B323B05006D43D8 /* Sentegrity_TrustFactor_Storage.m in Sources */,
@@ -1155,9 +1210,11 @@
 			baseConfigurationReference = A861559935991A5C1535CE5A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sentegrity/Sentegrity.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1169,9 +1226,11 @@
 			baseConfigurationReference = 42EFD5DFE715E4FE18052085 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sentegrity/Sentegrity.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

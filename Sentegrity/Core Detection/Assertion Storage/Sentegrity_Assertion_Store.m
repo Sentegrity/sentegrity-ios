@@ -263,6 +263,8 @@
     [storedTrustFactorObject setFirstRun:[NSDate date]];
     [storedTrustFactorObject setRunCount:[NSNumber numberWithInt:0]]; // Beta2: Set the run count to 0 because we're incrementing on comparison
     
+        
+    
     // Return the assertion object
     return storedTrustFactorObject;
 }

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Sentegrity_Stored_Assertion.h"
+
 @interface Sentegrity_Stored_TrustFactor_Object : NSObject
 
 // Unique Identifier
@@ -22,7 +24,9 @@
 @property (nonatomic,retain) NSDate *firstRun;
 // Run count
 @property (nonatomic,retain) NSNumber *runCount;
-// Stored assertions
-@property (nonatomic,retain) NSDictionary *assertions;
+
+// Array of Sentegrity_Stored_Assertion objects
+@property (nonatomic,retain) NSArray *assertionObjects;
+
 
 @end

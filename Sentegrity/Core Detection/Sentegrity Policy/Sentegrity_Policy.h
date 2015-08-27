@@ -13,13 +13,13 @@
 
 @property (nonatomic,retain) NSNumber *policyID;
 @property (nonatomic,retain) NSString *appID;
-@property (nonatomic,retain) NSNumber *revision;
-@property (nonatomic,retain) NSNumber *runtime;
+@property (nonatomic,retain) NSNumber *revision;;
 @property (nonatomic,retain) NSNumber *userThreshold;
 @property (nonatomic,retain) NSNumber *systemThreshold;
 @property (nonatomic,retain) NSString *contactURL;
 @property (nonatomic,retain) NSString *contactPhone;
 @property (nonatomic,retain) NSString *contactEmail;
+@property (nonatomic,retain) NSNumber *allowPrivateAPIs;
 @property (nonatomic,retain) Sentegrity_DNEModifiers *DNEModifiers;
 @property (nonatomic,retain) NSArray *classifications;
 @property (nonatomic,retain) NSArray *subclassifications;

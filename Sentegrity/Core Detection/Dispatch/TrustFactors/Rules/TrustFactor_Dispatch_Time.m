@@ -18,8 +18,6 @@
 //    return 0;
 //}
 
-
-
 + (Sentegrity_TrustFactor_Output_Object *)unknownAccessTime:(NSArray *)payload {
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -45,9 +43,9 @@
     //day of week
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *comps = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate date]];
-    NSInteger dayOfWeek = [comps weekday];
-    
     NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:[NSDate date]];
+    
+    NSInteger dayOfWeek = [comps weekday];
     NSInteger hourOfDay = [components hour];
     NSInteger minutes = [components minute];
     
@@ -108,10 +106,8 @@
     
     //day of week
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *comps = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate date]];
-    NSInteger dayOfWeek = [comps weekday];
-    
     NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:[NSDate date]];
+    
     NSInteger hourOfDay = [components hour];
     NSInteger minutes = [components minute];
     
@@ -120,16 +116,24 @@
         hourOfDay = hourOfDay+1;
     }
     
+    // Calculate block of screen brightness
     
-    NSInteger blockOfDay=0;
+    //Screen level is given as a float 0.1-1
+    float screenLevel = [[UIScreen mainScreen] brightness];
     
-    NSInteger blocksize = [[[payload objectAtIndex:0] objectForKey:@"blocksize"] integerValue];
+    // With a blocksize of .25 or 4 we get block 0-.25,.25-.5,.5-.75,.75-1
+    // We add 1 to the blockOfBrightness after dividing to get a 1-4 block instead of 0-3
+
+    float blocksizeInt = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksize"] floatValue];
     
-    NSString *screenBrightness =  [NSString stringWithFormat:@"D%ld-H%ld-%.1f",(long)dayOfWeek,(long)blockOfDay,[[UIScreen mainScreen] brightness]];
+    //Convert blocksize int to float (e.g., 4 = .25)
+    float brightnessBlockSize = 1/blocksizeInt;
     
-    //part of day
-    if(blocksize>0){
-        blockOfDay = floor(hourOfDay / (24/blocksize))+1;
+    int blockOfBrightness=0;
+    
+    //block of brightness
+    if(brightnessBlockSize>0){
+        blockOfBrightness = floor(screenLevel / brightnessBlockSize)+1;
     }
     else{
         // No blocksize
@@ -140,8 +144,27 @@
         return trustFactorOutputObject;
     }
     
+   // Pair it with hour block of day
+    NSInteger blockOfDay=0;
+    
+    NSInteger hourBlockSize = [[[payload objectAtIndex:0] objectForKey:@"hourBlocksize"] integerValue];
+    //part of day
+    if(hourBlockSize>0){
+        blockOfDay = floor(hourOfDay / (24/hourBlockSize))+1;
+    }
+    else{
+        // No blocksize
+        // Set the DNE status code to error
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
+    }
+    
+    
     // Create assertion
-    [outputArray addObject: screenBrightness];
+    [outputArray addObject: [NSString stringWithFormat:@"H%ld-%d",(long)blockOfDay,blockOfBrightness]];
     
     
     // Set the trustfactor output to the output array (regardless if empty)

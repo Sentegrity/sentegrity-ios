@@ -9,6 +9,8 @@
 // Import Constants
 #import "Sentegrity_Constants.h"
 
+#import <CoreMotion/CoreMotion.h>
+
 // Import Assertions
 #import "Sentegrity_TrustFactor_Output_Object.h"
 
@@ -19,6 +21,8 @@
 // Headers
 #import <sys/sysctl.h>
 #import "Sentegrity_TrustFactor_Dataset_Routes.h"
+#import "Sentegrity_TrustFactor_Dataset_CPU.h"
+#import "Sentegrity_TrustFactor_Dataset_Application.h"
 #import "Sentegrity_TrustFactor_Dataset_Process.h"
 #import "Sentegrity_TrustFactor_Dataset_Netstat.h"
 #import "Sentegrity_TrustFactor_Dataset_Wifi.h"
@@ -32,8 +36,24 @@
 
 @interface Sentegrity_TrustFactor_Rule : NSObject
 
+
 // Validate the given payload
 + (BOOL)validatePayload:(NSArray *)payload;
+
+// ** CPU **
+// CPU usage
++ (float)CPUUsage;
+
+// ** BATTERY **
+// Battery state
++ (NSString *)batteryState;
+
+// ** TIME **
+// Time
++ (NSString *)timeDateString;
+
+// ** APPLICATIONS **
++ (NSArray *)userAppInfo;
 
 // ** PROCESS **
 // Proces data srouce
@@ -57,6 +77,7 @@
 // ** NETSTAT **
 // Connection Info
 + (NSArray *) netstatInfo;
++ (NSDictionary *)dataXferInfo;
 
 
 // ** LOCATION **
@@ -75,8 +96,12 @@
 
 // ** ACTIVITIES **
 // Activity Info
-+ (NSArray *)activityInfo;
-+ (void)setActivity:(NSArray *)location;
++ (NSArray *)previousActivitiesInfo;
++ (void)setPreviousActivities:(NSArray *)activities;
+
++ (CMMotionActivity *)currentActivityInfo;
++ (void)setCurrentActivity:(CMMotionActivity *)activity;
+
 + (void)setActivityDNEStatus:(int)dneStatus;
 + (int)activityDNEStatus;
 

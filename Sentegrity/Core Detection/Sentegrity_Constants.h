@@ -24,12 +24,12 @@
 #define kPolicyPath @"/Policies/"
 #define kResumePath @"/Resume/"
 #define kStoredTrustFactorObjectMapping @"storedTrustFactorObjects"
+#define kAssertionObjectMapping @"assertionObjects"
 
 #pragma mark - Policy Keys
 
 #define kPolicyID @"policyID"
 #define kRevision @"revision"
-#define kRuntime @"runtime"
 #define kUserThreshold @"userThreshold"
 #define kSystemThreshold @"systemThreshold"
 #define KContactPhone @"contactPhone"
@@ -87,65 +87,22 @@
 #define kTFName @"name"
 #define kTFPenalty @"penalty"
 #define kTFDNEPenalty @"dnepenalty"
+#define kTFRuleType @"ruleType"
 #define kTFLearnMode @"learnMode"
 #define kTFLearnTime @"learnTime"
 #define kTFLearnAssertionCount @"learnAssertionCount"
 #define kTFLearnRunCount @"learnRunCount"
 #define kTFThreshold @"threshold"
-#define kTFManaged @"managed"
-#define kTFLocal @"local"
 #define kTFHistory @"history"
-#define kTFProvision @"provision"
 #define kTFDispatch @"dispatch"
 #define kTFImplementation @"implementation"
-#define kTFInverse @"inverse"
 #define kTFWhitelistable @"whitelistable"
+#define kTFPrivateAPI @"privateAPI"
 #define kTFPayload @"payload"
 
 #pragma mark - Dispatch Routines
 
 #define kTrustFactorDispatch @"TrustFactor_Dispatch_%@"
-
-#define kRoutinebadFiles @"badFiles"
-#define kRoutinefileSizeChange @"fileSizeChange"
-#define kRoutinebadProcesses @"badProcesses"
-#define kRoutinenewRootProcess @"newRootProcess"
-#define kRoutinebadProcessPath @"badProcessPath"
-#define kRoutinehighRiskApp @"highRiskApp"
-#define kRoutinebadNetDst @"badNetDst"
-#define kRoutinepriviledgedNetServices @"priviledgedNetServices"
-#define kRoutinenewNetService @"newNetService"
-#define kRoutineunencryptedTraffic @"unencryptedTraffic"
-#define kRoutinesandboxVerification @"sandboxVerification"
-#define kRoutinebadURIHandlers @"badURIHandlers"
-#define kRoutinesubscribeTamper @"subscribeTamper"
-#define kRoutinevulnerableSubscriber @"vulnerableSubscriber"
-#define kRoutinepolicyTamper @"policyTamper"
-#define kRoutinesystemProtectMode @"systemProtectMode"
-#define kRoutineuserProtectMode @"userProtectMode"
-#define kRoutineselfTamper @"selfTamper"
-#define kRoutinesentegrityVersion @"sentegrityVersion"
-#define kRoutineapSoho @"apSoho"
-#define kRoutineapHotspotter @"apHotspotter"
-#define kRoutinewifiEncType @"wifiEncType"
-#define kRoutinessidAllowed @"ssidAllowed"
-#define kRoutinevulnerablePlatform @"vulnerablePlatform"
-#define kRoutineplatformVersionAllowed @"platformVersionAllowed"
-#define kRoutinepowerPercent @"powerPercent"
-#define kRoutineshortUptime @"shortUptime"
-#define kRoutinetimeAllowed @"timeAllowed"
-#define kRoutineaccessTime @"accessTime"
-#define kRoutinelocationAllowed @"locationAllowed"
-#define kRoutinelocation @"location"
-#define kRoutinedeviceMovement @"deviceMovement"
-#define kRoutinedevicePosition @"devicePosition"
-#define kRoutinebluetoothPaired @"bluetoothPaired"
-#define kRoutinebluetoothLEScan @"bluetoothLEScan"
-#define kRoutineupnpScan @"upnpScan"
-#define kRoutinebonjourScan @"bonjourScan"
-#define kRoutineactivity @"activity"
-#define kRoutinevpnUp @"vpnUp"
-#define kRoutinenoRoute @"noRoute"
 
 #pragma mark - Routine Outputs
 
@@ -261,7 +218,11 @@ enum {
     // Unable to deactivate protect mode due to error
     SAUnableToDeactivateProtectMode = 44,
     // Unable to deactivate protect mode due to error
-    SAUnableToWhitelistAssertions = 45
+    SAUnableToWhitelistAssertions = 45,
+    // Error when trying to decay a TFs stored assertions
+    SAErrorDuringDecay = 46,
+    // Error when trying to check TF learning and add candidate assertions in
+    SAErrorDuringLearningCheck= 47
 };
 
 #endif

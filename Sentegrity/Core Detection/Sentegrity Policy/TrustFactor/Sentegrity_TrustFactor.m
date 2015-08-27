@@ -87,20 +87,6 @@
     _threshold = threshold;
 }
 
-// Provision
-- (void)setProvision:(NSNumber *)provision{
-    _provision = provision;
-}
-
-// Managed
-- (void)setManaged:(NSNumber *)managed{
-    _managed = managed;
-}
-
-// Local
-- (void)setLocal:(NSNumber *)local{
-    _local = local;
-}
 
 // History
 - (void)setHistory:(NSNumber *)history{
@@ -118,13 +104,18 @@
 }
 
 // Inverse
-- (void)setInverse:(NSNumber *)inverse{
-    _inverse = inverse;
+- (void)setRuleType:(NSNumber *)ruleType{
+    _ruleType = ruleType;
 }
 
 // Whitelistable
 - (void)setWhitelistable:(NSNumber *)whitelistable{
     _whitelistable = whitelistable;
+}
+
+// PrivateAPI
+- (void)setPrivateAPI:(NSNumber *)privateAPI{
+    _privateAPI = privateAPI;
 }
 
 // Payload

@@ -26,6 +26,135 @@
     return YES;
 }
 
+// CPU usage
+static float cpuUsage;
++ (float)CPUUsage{
+    
+    if(!cpuUsage) //dataset not populated
+    {
+        cpuUsage = [CPU_Info getCPUUsage];
+        
+        return cpuUsage;
+        
+    }else
+    {
+        return cpuUsage;
+    }
+    
+    
+}
+
+// Battery state
+static NSString* batteryState;
++ (NSString *)batteryState{
+    
+    if(!batteryState || batteryState == nil) //dataset not populated
+    {
+        UIDevice *Device = [UIDevice currentDevice];
+        
+        Device.batteryMonitoringEnabled = YES;
+        
+        UIDeviceBatteryState battery = [Device batteryState];
+        NSString* state;
+        
+        switch (battery) {
+            case UIDeviceBatteryStateCharging:
+                state = @"pluggedCharging"; // plugged in, less than 100%
+                break;
+            case UIDeviceBatteryStateFull:
+                state = @"pluggedFull"; // plugged in, at 100%
+                break;
+            case UIDeviceBatteryStateUnplugged:
+                state = @"unplugged"; // on battery, discharging
+                break;
+            default:
+                state = @"unknown";
+                break;
+        }
+        
+        batteryState = state;
+        
+        return batteryState;
+        
+    }else
+    {
+        return batteryState;
+    }
+    
+}
+
+
+// Time of day
+static NSString* timeDateString;
++ (NSString *)timeDateString{
+    
+    if(!timeDateString || timeDateString==nil) //dataset not populated
+    {
+        //day of week
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSDateComponents *comps = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate date]];
+        NSInteger dayOfWeek = [comps weekday];
+        
+        NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:[NSDate date]];
+        NSInteger hourOfDay = [components hour];
+        NSInteger minutes = [components minute];
+        
+        
+        //round up if needed
+        if(minutes > 30){
+            hourOfDay = hourOfDay+1;
+        }
+        
+    
+        
+        // Hours partitioned across 24, adjust accordingly but it does impact multiple rules
+        NSInteger blocksize = 6;
+        
+        NSInteger blockOfDay = floor(hourOfDay / (24/blocksize))+1;
+        
+        NSString *string =  [NSString stringWithFormat:@"D%ld-H%ld",(long)dayOfWeek,(long)blockOfDay];
+
+        // set it
+        timeDateString = string;
+        
+        return timeDateString;
+
+    }else
+    {
+        return timeDateString;
+    }
+    
+}
+
+
+// Application dataset caching
+
+static NSArray* userAppInfo;
++ (NSArray *)userAppInfo {
+    
+    if(!userAppInfo || userAppInfo==nil) //dataset not populated
+    {
+        // Get the list of user apps
+        @try {
+            
+            userAppInfo = [App_Info getUserAppInfo];
+            return userAppInfo;
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+    }
+    else //already populated
+    {
+        return userAppInfo;
+    }
+}
+
+
+
 // Process dataset caching
 
 static NSArray* processData;
@@ -95,6 +224,31 @@ static NSArray* routeData;
 }
 
 
+// dataXfer count dataset caching
+
+static NSDictionary* dataXferInfo;
++ (NSDictionary *)dataXferInfo {
+    
+    if(!dataXferInfo || dataXferInfo==nil) //dataset not populated
+    {
+        
+        @try {
+            
+            dataXferInfo = [Netstat_Info getInterfaceBytes];
+            return dataXferInfo;
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+    }
+    else //already populated
+    {
+        return dataXferInfo;
+    }
+}
 
 // Netstat dataset caching
 
@@ -160,7 +314,7 @@ static int locationDNEStatus = 0;
             
             currentTime = CFAbsoluteTimeGetCurrent();
                                 // we've waited more than a second, exit
-            if ((currentTime-startTime) > 1.0){
+            if ((currentTime-startTime) > 0.5){
                 NSLog(@"Location timer expired");
                 exit=YES;
                 [self setLocationDNEStatus:DNEStatus_expired];
@@ -169,7 +323,7 @@ static int locationDNEStatus = 0;
             }
             
             
-            [NSThread sleepForTimeInterval:.1];
+            [NSThread sleepForTimeInterval:0.01];
             
         }
         
@@ -219,7 +373,7 @@ static int placemarkDNEStatus = 0;
             
             currentTime = CFAbsoluteTimeGetCurrent();
             // we've waited more than a second, exit
-            if ((currentTime-startTime) > 1.0){
+            if ((currentTime-startTime) > 0.5){
                 NSLog(@"Placemark timer expired");
                 exit=YES;
                 [self setPlacemarkDNEStatus:DNEStatus_expired];
@@ -228,7 +382,7 @@ static int placemarkDNEStatus = 0;
             }
             
             
-            [NSThread sleepForTimeInterval:0.1];
+            [NSThread sleepForTimeInterval:0.01];
             
         }
         
@@ -244,10 +398,56 @@ static int placemarkDNEStatus = 0;
 // Activity dataset caching
 // setters required due to async operation (main thread)
 
-static NSArray* activities = nil;
-+ (void)setActivity:(NSArray *)previousActivities {
-    activities = previousActivities;
+// Current Activity
+static CMMotionActivity *currentActivity = nil;
++ (void)setCurrentActivity:(CMMotionActivity *)activity {
+    currentActivity = activity;
 }
+
++ (CMMotionActivity *)currentActivityInfo {
+    
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    CFAbsoluteTime currentTime = 0.0;
+    
+    //Do we have any activities yet?
+    if(currentActivity == nil){
+        
+        //Nope, wait for activity data
+        bool exit=NO;
+        while (exit==NO){
+            
+            if(currentActivity != nil){
+                NSLog(@"Got current activity after waiting..");
+                exit=YES;
+                return currentActivity;
+                
+            }
+            
+            currentTime = CFAbsoluteTimeGetCurrent();
+            // we've waited more than a second, exit
+            if ((currentTime-startTime) > 0.5){
+                NSLog(@"Current activity timer expired");
+                exit=YES;
+                [self setActivityDNEStatus:DNEStatus_expired];
+                return currentActivity;
+                
+            }
+            
+            
+            [NSThread sleepForTimeInterval:0.01];
+            
+        }
+        
+        
+    }
+    //we've already got location data
+    NSLog(@"Got current activity without waiting...");
+    return currentActivity;
+    
+}
+
+
+// General Activity DNE
 
 static int activityDNEStatus = 0;
 + (void)setActivityDNEStatus:(int)dneStatus {
@@ -258,45 +458,52 @@ static int activityDNEStatus = 0;
     return activityDNEStatus;
 }
 
-+ (NSArray *)activityInfo {
+// Previous Activities
+
+static NSArray* previousActivities = nil;
++ (void)setPreviousActivities:(NSArray *)activities {
+    previousActivities = activities;
+}
+
++ (NSArray *)previousActivitiesInfo {
     
     CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
     CFAbsoluteTime currentTime = 0.0;
     
-    //Do we have a location yet?
-    if(activities == nil){
+    //Do we have any activities yet?
+    if(previousActivities == nil){
         
         //Nope, wait for activity data
         bool exit=NO;
         while (exit==NO){
             
-            if(activities != nil){
-                NSLog(@"Got activities after waiting..");
+            if(previousActivities != nil){
+                NSLog(@"Got previous activities after waiting..");
                 exit=YES;
-                return activities;
+                return previousActivities;
                 
             }
             
             currentTime = CFAbsoluteTimeGetCurrent();
             // we've waited more than a second, exit
-            if ((currentTime-startTime) > 1.0){
-                NSLog(@"Activity timer expired");
+            if ((currentTime-startTime) > 0.5){
+                NSLog(@"Previous activities timer expired");
                 exit=YES;
                 [self setActivityDNEStatus:DNEStatus_expired];
-                return activities;
+                return previousActivities;
                     
             }
             
             
-            [NSThread sleepForTimeInterval:0.1];
+            [NSThread sleepForTimeInterval:0.01];
             
         }
         
         
     }
     //we've already got location data
-    NSLog(@"Got activities without waiting...");
-    return activities;
+    NSLog(@"Got previous activities without waiting...");
+    return previousActivities;
     
 }
 
@@ -339,7 +546,7 @@ static int motionDNEStatus = 0;
            
             currentTime = CFAbsoluteTimeGetCurrent();
             // we've waited more than a second, exit
-            if ((currentTime-startTime) > 1.0){
+            if ((currentTime-startTime) > 0.5){
                 NSLog(@"Motion timer expired");
                 exit=YES;
                 [self setMotionDNEStatus:DNEStatus_expired];
@@ -348,7 +555,7 @@ static int motionDNEStatus = 0;
 
             }
             
-            [NSThread sleepForTimeInterval:0.1];
+            [NSThread sleepForTimeInterval:0.01];
             
         }
         
@@ -441,31 +648,34 @@ static int bluetoothDNEStatus = 0;
     CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
     CFAbsoluteTime currentTime = 0.0;
     
+    
     //Do we any devices yet?
-    if(bluetoothDevices == nil){
+    if(bluetoothDevices == nil || bluetoothDevices.count <= 1){
         
         //Nope, wait for devices
         bool exit=NO;
         while (exit==NO){
             
-            if(bluetoothDevices != nil){
+            // If its greater than 1 we return, otherwise keep scanning until timer
+            if(bluetoothDevices.count > 1){
                 NSLog(@"Got bluetooth devices after waiting..");
                 exit=YES;
                 return bluetoothDevices;
                 
             }
-
+            
+            //scanning until we hit the timer
             currentTime = CFAbsoluteTimeGetCurrent();
             // we've waited more than a second, exit
-            if ((currentTime-startTime) > 3.0){
+            if ((currentTime-startTime) > 0.5 ){
                 NSLog(@"Bluetooth timer expired");
                 exit=YES;
-                [self setBluetoothDNEStatus:DNEStatus_expired];
+                //[self setBluetoothDNEStatus:DNEStatus_expired];
                 return bluetoothDevices;
                     
             }
             
-            [NSThread sleepForTimeInterval:0.1];
+            [NSThread sleepForTimeInterval:0.01];
             
         }
         

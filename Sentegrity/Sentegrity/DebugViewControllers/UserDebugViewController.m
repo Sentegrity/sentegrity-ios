@@ -117,7 +117,19 @@
     NSString *userTrustFactorsTriggered = @"\nTrustFactors Triggered\n++++++++++++++++++++++++++++++\n";
     for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.userTrustFactorsTriggered){
         
-        userTrustFactorsTriggered = [userTrustFactorsTriggered stringByAppendingFormat:@"\nName: %@\nCurrent Assertion:%@\nStored Assertions:%@\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+        NSString *storedAssertions =@"";
+        NSString *currentAssertions =@"";
+        
+        for(Sentegrity_Stored_Assertion *stored in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
+            
+            storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.lastTime];
+        }
+        
+        for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.assertionObjects){
+            
+            currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.lastTime];
+        }
+        userTrustFactorsTriggered = [userTrustFactorsTriggered stringByAppendingFormat:@"--Name: %@\n\nCurrent Assertion:\n%@Stored Assertions:\n%@",trustFactorOutputObject.trustFactor.name, currentAssertions,storedAssertions];
         
     }
     complete = [complete stringByAppendingString:userTrustFactorsTriggered];
@@ -125,8 +137,19 @@
     NSString *userTrustFactorsNotLearned = @"\nTrustFactors Not Leared\n++++++++++++++++++++++++++++++\n";
     for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.userTrustFactorsNotLearned){
         
-        userTrustFactorsNotLearned = [userTrustFactorsNotLearned stringByAppendingFormat:@"\nName: %@\nCurrent Assertion:%@\nStored Assertions:%@\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+        NSString *storedAssertions =@"";
+        NSString *currentAssertions =@"";
         
+        for(Sentegrity_Stored_Assertion *stored in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
+            
+            storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.lastTime];
+        }
+        
+        for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.assertionObjects){
+            
+            currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.lastTime];
+        }
+        userTrustFactorsTriggered = [userTrustFactorsTriggered stringByAppendingFormat:@"--Name: %@\n\nCurrent Assertion:\n%@Stored Assertions:\n%@",trustFactorOutputObject.trustFactor.name, currentAssertions,storedAssertions];
     }
     complete = [complete stringByAppendingString:userTrustFactorsNotLearned];
     
@@ -143,8 +166,20 @@
     
     NSString *userTrustFactorsToWhitelist = @"\nTrustFactors To Whitelist\n++++++++++++++++++++++++++++++\n";
     for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.protectModeUserWhitelist){
+      
+        NSString *storedAssertions =@"";
+        NSString *currentAssertions =@"";
         
-        userTrustFactorsToWhitelist = [userTrustFactorsToWhitelist stringByAppendingFormat:@"\nName: %@\nCurrent Assertion:%@\nStored Assertions:%@\n",trustFactorOutputObject.trustFactor.name, trustFactorOutputObject.assertions,trustFactorOutputObject.storedTrustFactorObject.assertions];
+        for(Sentegrity_Stored_Assertion *stored in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
+            
+            storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.lastTime];
+        }
+        
+        for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.assertionObjects){
+            
+            currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.lastTime];
+        }
+        userTrustFactorsTriggered = [userTrustFactorsTriggered stringByAppendingFormat:@"--Name: %@\n\nCurrent Assertion:\n%@Stored Assertions:\n%@",trustFactorOutputObject.trustFactor.name, currentAssertions,storedAssertions];
         
     }
     complete = [complete stringByAppendingString:userTrustFactorsToWhitelist];

@@ -62,7 +62,6 @@
     Sentegrity_Policy *policy = [[Sentegrity_Policy alloc] init];
     [policy setPolicyID:[policyPlist valueForKey:kPolicyID]];
     [policy setRevision:[policyPlist valueForKey:kRevision]];
-    [policy setRuntime:[policyPlist valueForKey:kRuntime]];
     [policy setUserThreshold:[policyPlist valueForKey:kUserThreshold]];
     [policy setSystemThreshold:[policyPlist valueForKey:kSystemThreshold]];
     [policy setContactURL:[policyPlist valueForKey:KContactURL]];
@@ -159,18 +158,17 @@
             [trustFactorClasser setName:[trustFactorClassifier objectForKey:kTFName]];
             [trustFactorClasser setPenalty:[trustFactorClassifier objectForKey:kTFPenalty]];
             [trustFactorClasser setDnePenalty:[trustFactorClassifier objectForKey:kTFDNEPenalty]];
+            [trustFactorClasser setRuleType:[trustFactorClassifier objectForKey:kTFRuleType]];
             [trustFactorClasser setLearnMode:[trustFactorClassifier objectForKey:kTFLearnMode]];
             [trustFactorClasser setLearnTime:[trustFactorClassifier objectForKey:kTFLearnTime]];
             [trustFactorClasser setLearnAssertionCount:[trustFactorClassifier objectForKey:kTFLearnAssertionCount]];
             [trustFactorClasser setLearnRunCount:[trustFactorClassifier objectForKey:kTFLearnRunCount]];
             [trustFactorClasser setThreshold:[trustFactorClassifier objectForKey:kTFThreshold]];
-            [trustFactorClasser setThreshold:[trustFactorClassifier objectForKey:kTFProvision]];
-            [trustFactorClasser setManaged:[trustFactorClassifier objectForKey:kTFManaged]];
-            [trustFactorClasser setLocal:[trustFactorClassifier objectForKey:kTFLocal]];
             [trustFactorClasser setHistory:[trustFactorClassifier objectForKey:kTFHistory]];
             [trustFactorClasser setDispatch:[trustFactorClassifier objectForKey:kTFDispatch]];
             [trustFactorClasser setImplementation:[trustFactorClassifier objectForKey:kTFImplementation]];
-            [trustFactorClasser setInverse:[trustFactorClassifier objectForKey:kTFInverse]];
+            [trustFactorClasser setWhitelistable:[trustFactorClassifier objectForKey:kTFWhitelistable]];
+            [trustFactorClasser setPrivateAPI:[trustFactorClassifier objectForKey:kTFPrivateAPI]];
             [trustFactorClasser setPayload:[trustFactorClassifier objectForKey:kTFPayload]];
             
             // Add it to the array
@@ -327,10 +325,14 @@
     
     // Map Sentegrity Assertion Store Class
     DCArrayMapping *mapper = [DCArrayMapping mapperForClassElements:[Sentegrity_Stored_TrustFactor_Object class] forAttribute:kStoredTrustFactorObjectMapping onClass:[Sentegrity_Assertion_Store class]];
+    DCArrayMapping *mapper2 = [DCArrayMapping mapperForClassElements:[Sentegrity_Stored_Assertion class] forAttribute:kAssertionObjectMapping onClass:[Sentegrity_Stored_TrustFactor_Object class]];
     
+
     // Set up the parser configuration for json parsing
     DCParserConfiguration *config = [DCParserConfiguration configuration];
     [config addArrayMapper:mapper];
+    [config addArrayMapper:mapper2];
+
     
     // Set up the date parsing configuration
     config.datePattern = OMDateFormat;

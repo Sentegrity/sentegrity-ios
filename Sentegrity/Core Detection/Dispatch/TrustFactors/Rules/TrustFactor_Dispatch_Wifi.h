@@ -8,6 +8,9 @@
 
 #import "Sentegrity_TrustFactor_Rule.h"
 
+
+
+
 @interface TrustFactor_Dispatch_Wifi : Sentegrity_TrustFactor_Rule
 
 
@@ -22,6 +25,7 @@
 
 // 27 - Known BSSID - Get the current BSSID of the AP
 + (Sentegrity_TrustFactor_Output_Object *)knownBSSID:(NSArray *)payload;
+
 
 
 @end

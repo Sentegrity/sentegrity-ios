@@ -13,6 +13,8 @@
 @interface TrustFactor_Dispatch_Activity : Sentegrity_TrustFactor_Rule
 
 
-+ (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)previous:(NSArray *)payload;
+
++ (Sentegrity_TrustFactor_Output_Object *)current:(NSArray *)payload;
 
 @end

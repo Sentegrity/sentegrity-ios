@@ -65,6 +65,11 @@
 #import "Sentegrity_TrustFactor_Dataset_Netstat.h"
 #import "otherConnectionHeaders.h"
 
+// Interface byte count headers
+#include <net/if.h>
+#include <ifaddrs.h>
+#include <net/if_dl.h>
+
 @implementation Netstat_Info
 
 
@@ -389,6 +394,89 @@ char *inetname(struct in_addr *inp)
 
 
 
++(NSDictionary *)getInterfaceBytes{
+    
+    struct ifaddrs *addrs;
+    const struct ifaddrs *cursor;
+    
+    u_int32_t WiFiSentBytes = 0;
+    u_int32_t WiFiReceivedBytes = 0;
+    u_int32_t WWANSentBytes = 0;
+    u_int32_t WWANReceivedBytes = 0;
+    u_int32_t TUNSentBytes = 0;
+    u_int32_t TUNReceivedBytes = 0;
+    
+    if (getifaddrs(&addrs) == 0)
+    {
+        cursor = addrs;
+        while (cursor != NULL)
+        {
+            if (cursor->ifa_addr->sa_family == AF_LINK)
+            {
+#ifdef DEBUG
+                const struct if_data *ifa_data = (struct if_data *)cursor->ifa_data;
+                if(ifa_data != NULL)
+                {
+                    NSLog(@"Interface name %s: sent %tu received %tu",cursor->ifa_name,ifa_data->ifi_obytes,ifa_data->ifi_ibytes);
+                }
+#endif
+                
+                // name of interfaces:
+                // en0 is WiFi
+                // pdp_ip0 is WWAN
+                NSString *name = [NSString stringWithFormat:@"%s",cursor->ifa_name];
+                if ([name hasPrefix:@"en"])
+                {
+                    const struct if_data *ifa_data = (struct if_data *)cursor->ifa_data;
+                    if(ifa_data != NULL)
+                    {
+                        WiFiSentBytes += ifa_data->ifi_obytes;
+                        WiFiReceivedBytes += ifa_data->ifi_ibytes;
+                    }
+                }
+                
+                if ([name hasPrefix:@"pdp_ip"])
+                {
+                    const struct if_data *ifa_data = (struct if_data *)cursor->ifa_data;
+                    if(ifa_data != NULL)
+                    {
+                        WWANSentBytes += ifa_data->ifi_obytes;
+                        WWANReceivedBytes += ifa_data->ifi_ibytes;
+                    }
+                }
+                
+                if ([name containsString:@"tun"])
+                {
+                    const struct if_data *ifa_data = (struct if_data *)cursor->ifa_data;
+                    if(ifa_data != NULL)
+                    {
+                        TUNSentBytes += ifa_data->ifi_obytes;
+                        TUNReceivedBytes += ifa_data->ifi_ibytes;
+                    }
+                }
+            }
+            
+            cursor = cursor->ifa_next;
+        }
+        
+        freeifaddrs(addrs);
+    }
+    
+    // Convert to MB
+    u_int32_t WiFiSentMB = round(WiFiSentBytes/1000000);
+    u_int32_t WiFiReceivedMB = round(WiFiReceivedBytes/1000000);
+    u_int32_t WWANSentMB = round(WWANSentBytes/1000000);
+    u_int32_t WWANReceivedMB = round(WWANReceivedBytes/1000000);
+    u_int32_t TUNSentMB = round(TUNSentBytes/1000000);
+    u_int32_t TUNReceivedMB = round(TUNReceivedBytes/1000000);
+    
+   return @{@"WiFiSent":[NSNumber numberWithUnsignedInt:WiFiSentMB],
+             @"WiFiRec":[NSNumber numberWithUnsignedInt:WiFiReceivedMB],
+             @"WANSent":[NSNumber numberWithUnsignedInt:WWANSentMB],
+             @"WANRec":[NSNumber numberWithUnsignedInt:WWANReceivedMB],
+             @"TUNSent":[NSNumber numberWithUnsignedInt:TUNSentMB],
+             @"TUNRec":[NSNumber numberWithUnsignedInt:TUNReceivedMB]};
 
+}
 
 @end

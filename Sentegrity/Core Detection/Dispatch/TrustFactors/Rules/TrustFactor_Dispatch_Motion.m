@@ -58,13 +58,13 @@
         }
     }
     
-    // Rounding from policy
-    int roundingPlace = [[[payload objectAtIndex:0] objectForKey:@"rounding"] intValue];
+    // Blocksize to smooth dataset
+    float blockSize = [[[payload objectAtIndex:0] objectForKey:@"blockSize"] intValue];
     
-    // Average from policy ?
+    // Maximum motion sets to average
     int maxSampleSize = [[[payload objectAtIndex:0] objectForKey:@"maxSampleSize"] intValue];
     
-    if (maxSampleSize == 0 || roundingPlace == 0){
+    if (maxSampleSize == 0 || blockSize == 0){
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
@@ -87,7 +87,7 @@
     // Run through all the sample we got prior to stopping motion
     for (NSDictionary *sample in motion) {
         
-        // Get the current process name
+        // Get the accelerometer data
         NSNumber *x = [sample objectForKey:@"x"];
         NSNumber *y = [sample objectForKey:@"y"];
         NSNumber *z = [sample objectForKey:@"z"];
@@ -104,14 +104,23 @@
         
     }
     
-    // Calculate averages
-    xAverage = xTotal/counter;
-    yAverage = yTotal/counter;
-    zAverage = zTotal/counter;
+    // Calculate averages and take abs since we're adding the orientation anyhow (makes block sizes easier to calculate)
+    xAverage = fabs(xTotal/counter);
+    yAverage = fabs(yTotal/counter);
+    zAverage = fabs(zTotal/counter);
     
-    NSString *motionX = [NSString stringWithFormat:@"%.*f",roundingPlace,xAverage];
+    //Figure blocks
+    int xBlock = floor(xAverage / (1/blockSize))+1;
+    int yBlock = floor(yAverage / (1/blockSize))+1;
+    int zBlock = floor(zAverage / (1/blockSize))+1;
+
+    
+    //NSString *motionX = [NSString stringWithFormat:@"%.*f",roundingPlace,xAverage];
     //NSString *motionY = [NSString stringWithFormat:@"%.*f",roundingPlace,yAverage];
-    NSString *motionZ = [NSString stringWithFormat:@"%.*f",roundingPlace,zAverage];
+    //NSString *motionZ = [NSString stringWithFormat:@"%.*f",roundingPlace,zAverage];
+    
+    //Combine into tuple
+    NSString *motionTuple = [NSString stringWithFormat:@"x%d,y%d,z%d",xBlock,yBlock,zBlock];
     
     
     // Get orientation, depending on portrait vs. landscape use Z or X
@@ -120,22 +129,22 @@
     
     switch (orientation) {
         case UIDeviceOrientationPortrait:
-            [outputArray addObject:motionZ];
+            [outputArray addObject:[@"portrait_" stringByAppendingString:motionTuple]];
             break;
         case UIDeviceOrientationPortraitUpsideDown:
-            [outputArray addObject:motionZ];
+            [outputArray addObject:[@"portraitUpsideDown_" stringByAppendingString:motionTuple]];
             break;
         case UIDeviceOrientationLandscapeLeft:
-            [outputArray addObject:motionX];
+            [outputArray addObject:[@"landscapeLeft_" stringByAppendingString:motionTuple]];
             break;
         case UIDeviceOrientationLandscapeRight:
-            [outputArray addObject:motionX];
+            [outputArray addObject:[@"landscapeRight_" stringByAppendingString:motionTuple]];
             break;
         case UIDeviceOrientationFaceUp:
-            [outputArray addObject:motionZ];
+            [outputArray addObject:[@"faceUp_" stringByAppendingString:motionTuple]];
             break;
         case UIDeviceOrientationFaceDown:
-            [outputArray addObject:motionZ];
+            [outputArray addObject:[@"faceDown_" stringByAppendingString:motionTuple]];
             break;
         case UIDeviceOrientationUnknown:
             //Error

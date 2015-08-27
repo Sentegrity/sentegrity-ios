@@ -13,6 +13,6 @@
 
 + (NSArray *) getTCPConnections;
 + (NSArray *) getUDPConnections;
-
++ (NSDictionary *)getInterfaceBytes;
 
 @end

@@ -10,6 +10,7 @@
 #import "Sentegrity_TrustFactor_Dispatcher.h"
 #import "Sentegrity_TrustFactor.h"
 #import "Sentegrity_Constants.h"
+#import "CoreDetection.h"
 
 // Import the objc runtime to get class by name
 #import <objc/runtime.h>
@@ -20,6 +21,9 @@
 
 // Run an array of trustfactors and generate candidate assertions
 + (NSArray *)performTrustFactorAnalysis:(NSArray *)trustFactors withError:(NSError **)error {
+    
+    // Set allowPrivateAPI
+    int allowPrivateAPIs = 1;
     
     // Make an array to pass back
     NSMutableArray *processedTrustFactorArray = [NSMutableArray arrayWithCapacity:trustFactors.count];
@@ -35,6 +39,10 @@
     // Next, run through the array of trustFactors to be executed
     for (Sentegrity_TrustFactor *trustFactor in trustFactors) {
         
+        // Skip privateAPI TFs
+        if(allowPrivateAPIs == 0 && trustFactor.privateAPI.intValue == 1){
+            continue;
+        }
         // Run the TrustFactor and populate output object
         Sentegrity_TrustFactor_Output_Object *trustFactorOutputObjects = [self executeTrustFactor:trustFactor withError:error];
         
@@ -93,46 +101,33 @@
         return trustFactorOutputObject;
     }
 
+    // Create assertions
     
-   //if this is a normal rule, output array should ALWAYS contain something, add default output if it doesnt
-    if(trustFactor.inverse.intValue==0)
-    {
-        if(trustFactorOutputObject.output.count<1)
-        {
+    if(trustFactor.ruleType.intValue == 1){
+        
+        if(trustFactorOutputObject.output.count==0){
             //output has nothing, implementation must not have found what it was looking for (generally a good thing)
             
-            //set the default output
-            [trustFactorOutputObject generateDefaultAssertion];
+            //set the default assertion
+            [trustFactorOutputObject setAssertionObjectsToDefault];
             
-            //[trustFactorOutputObject.output insertObject:kDefaultTrustFactorOutput atIndex:0];
         }
         else{
             //generate assertions for each output
-            [trustFactorOutputObject generateAssertionsFromOutput];
+            [trustFactorOutputObject setAssertionObjectsFromOutput];
+            
+            //add the default so that it stays #1 hitCount and hit/day wise and won't ever get decayed
+            [trustFactorOutputObject.assertionObjects arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:[trustFactorOutputObject defaultAssertionObject],nil]];
+            
         }
-        
 
-    }
-    else //inverse rule, output DOES NOT have contain anything
+    }else //ruletype = 2, 3, or 4
     {
-        //only attempt to generate assertions if non-empty, otherwise leave empty and set status
-        if(trustFactorOutputObject.output.count>0)
-        {
-            // Generate based on actual output
-            [trustFactorOutputObject generateAssertionsFromOutput];
-        }
-        else{
-            // Else do nothing but set DNE if its currently set to OK still
-            // (don't generate default assertion, does not exist for inverse rules)
-            if([trustFactorOutputObject statusCode] == DNEStatus_ok){
-                
-                //Change DNEStatus_ok to DNEStatus_nodata, but leave all others as is
-                [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
-            }
-        }
+        [trustFactorOutputObject setAssertionObjectsFromOutput];
         
     }
-   
+    
+    
 
     // Return the output object
     return trustFactorOutputObject;
