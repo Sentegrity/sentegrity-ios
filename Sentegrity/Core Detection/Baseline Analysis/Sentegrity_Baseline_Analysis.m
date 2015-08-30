@@ -252,6 +252,24 @@ static NSTimeInterval nowEpochSeconds;
         return nil;
     }
     
+    
+    // Check if we should decay
+    // If the assertion store is greater than the TF's max history value
+    if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count >= [trustFactorOutputObject.trustFactor.history integerValue]){
+        
+        trustFactorOutputObject = [self performDecay:trustFactorOutputObject withError:error];
+        
+        if (!trustFactorOutputObject) {
+            // Failed, no trustFactorOutputObject found
+            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
+            [errorDetails setValue:@"Error during TrustFactor decay" forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:@"Sentegrity" code:SAErrorDuringDecay userInfo:errorDetails];
+            
+            // Don't return anything
+            return nil;
+        }
+        
+    }
 
     
     // Create assertions
@@ -333,24 +351,6 @@ static NSTimeInterval nowEpochSeconds;
         return nil;
     }
 
-    
-    // Check if we should decay
-    // If the assertion store is greater than the TF's max history value
-    if(updatedTrustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > [updatedTrustFactorOutputObject.trustFactor.history integerValue]){
-        
-          updatedTrustFactorOutputObject = [self performDecay:updatedTrustFactorOutputObject withError:error];
-        
-        if (!updatedTrustFactorOutputObject) {
-            // Failed, no trustFactorOutputObject found
-            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-            [errorDetails setValue:@"Error during TrustFactor decay" forKey:NSLocalizedDescriptionKey];
-            *error = [NSError errorWithDomain:@"Sentegrity" code:SAErrorDuringDecay userInfo:errorDetails];
-            
-            // Don't return anything
-            return nil;
-        }
-        
-    }
     
 
     return updatedTrustFactorOutputObject;
@@ -543,9 +543,13 @@ static NSTimeInterval nowEpochSeconds;
         }
         
         // Give new assertions a chance to catch up, hoursSinceCreation are new, hoursSinceLastHit prevent back-to-back user anomalies
-        if(hoursSinceCreation < 0.1 || hoursSinceLastHit < 0.1) {
+        if(hoursSinceLastHit < 0.1) {
             
-            [assertionObjectsRecentlyCreated addObject:storedAssertion];
+            // If history=0 (we want a clean slate after each run), then disregard lastHit time and dont add it
+            if(trustFactorOutputObject.trustFactor.history.intValue != 0){
+                    [assertionObjectsRecentlyCreated addObject:storedAssertion];
+            }
+
             
         }
 
