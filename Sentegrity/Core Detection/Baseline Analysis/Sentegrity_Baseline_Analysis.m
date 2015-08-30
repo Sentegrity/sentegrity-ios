@@ -543,7 +543,7 @@ static NSTimeInterval nowEpochSeconds;
         }
         
         // Give new assertions a chance to catch up, hoursSinceCreation are new, hoursSinceLastHit prevent back-to-back user anomalies
-        if(hoursSinceCreation < 24.0 || hoursSinceLastHit < 0.5) {
+        if(hoursSinceCreation < 0.5 || hoursSinceLastHit < 0.5) {
             
             [assertionObjectsRecentlyCreated addObject:storedAssertion];
             
@@ -575,7 +575,7 @@ static NSTimeInterval nowEpochSeconds;
     // Make sure we retain any newly created or just hit assertions
     for(Sentegrity_Stored_Assertion *recentAssertion in assertionObjectsRecentlyCreated){
 
-        // If its not already in the sorted array add it to it
+         //If its not already in the sorted array add it to it
         if(![assertionObjectsToKeep containsObject:recentAssertion]){
             [assertionObjectsToKeep addObject:recentAssertion];
         }

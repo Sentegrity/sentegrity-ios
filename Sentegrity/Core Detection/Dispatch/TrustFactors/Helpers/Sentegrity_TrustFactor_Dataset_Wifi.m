@@ -70,7 +70,7 @@
     
     
     // Set the router array variable with the routing information
-    NSArray *routeArray = [Sentegrity_TrustFactor_Rule routeInfo];
+    NSArray *routeArray = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getRouteInfo];
         
     // Return the first route which will be WiFi if it is connected
     gatewayIP = [[routeArray objectAtIndex:0] objectForKey:@"Gateway"];

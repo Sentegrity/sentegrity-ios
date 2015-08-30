@@ -6,11 +6,17 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_TrustFactor_Rule.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 
-@interface TrustFactor_Dispatch_Bluetooth : Sentegrity_TrustFactor_Rule
+@interface TrustFactor_Dispatch_Bluetooth : NSObject
 
-// 33
-+ (Sentegrity_TrustFactor_Output_Object *)knownBLEDevice:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)discoveredBLEDevice:(NSArray *)payload;
+
++ (Sentegrity_TrustFactor_Output_Object *)connectedClassicDevice:(NSArray *)payload;
+
++ (Sentegrity_TrustFactor_Output_Object *)discoveredClassicDevice:(NSArray *)payload;
+
+
 
 @end

@@ -6,14 +6,15 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_TrustFactor_Rule.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 
-@interface TrustFactor_Dispatch_Time : Sentegrity_TrustFactor_Rule
+@interface TrustFactor_Dispatch_Time : NSObject 
 
 // Not implemented in default policy
 //+ (Sentegrity_TrustFactor_Output_Object *)allowedAccessTime:(NSArray *)payload;
 
-+ (Sentegrity_TrustFactor_Output_Object *)unknownAccessTime:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)accessTime:(NSArray *)payload;
 
 @end
 

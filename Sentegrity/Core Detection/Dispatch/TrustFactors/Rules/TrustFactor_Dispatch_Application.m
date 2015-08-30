@@ -13,7 +13,7 @@
 // Implementations
 
 // USES PRIVATE API
-+ (Sentegrity_TrustFactor_Output_Object *)highRiskInstalledApp:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)installedApp:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -28,7 +28,7 @@
     NSString *appName;
     
     // Get the current list of user apps
-    NSArray *userApps = [self userAppInfo];
+    NSArray *userApps = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getInstalledAppInfo];
 
     // Check the array
     if (!userApps || userApps == nil || userApps.count < 1) {
@@ -71,7 +71,7 @@
 }
 
 // High Risk Applications
-+ (Sentegrity_TrustFactor_Output_Object *)highRiskRunningApp:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)runningApp:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -80,7 +80,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -97,7 +97,7 @@
     NSString *procName;
     
     // Get the current processes
-    NSArray *currentProcesses = [self processInfo];
+    NSArray *currentProcesses = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getProcessInfo];
     
     // Check the array
     if (!currentProcesses || currentProcesses == nil || currentProcesses.count < 1) {
@@ -140,7 +140,7 @@
 }
 
 // Check for bad url handlers
-+ (Sentegrity_TrustFactor_Output_Object *)maliciousApps:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)uriHandler:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -149,7 +149,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA

@@ -17,7 +17,7 @@
 @implementation TrustFactor_Dispatch_Power
 
 // 37
-+ (Sentegrity_TrustFactor_Output_Object *)unknownPowerLevel:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)powerLevel:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -26,7 +26,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -38,35 +38,6 @@
     
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
-    
-    // Get the time of day
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:[NSDate date]];
-    
-    NSInteger hourOfDay = [components hour];
-    NSInteger minutes = [components minute];
-    
-    //round up if needed
-    if(minutes > 30){
-        hourOfDay = hourOfDay+1;
-    }
-    
-    NSInteger blockOfDay = 0;
-    NSInteger hourBlocksize = [[[payload objectAtIndex:0] objectForKey:@"hourBlocksize"] integerValue];
-    
-    //part of day
-    if(hourBlocksize>0){
-        blockOfDay = floor(hourOfDay / (24/hourBlocksize))+1;
-    }
-    else{
-        // No blocksize
-        // Set the DNE status code to error
-        [trustFactorOutputObject setStatusCode:DNEStatus_error];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
-
     
     
     // Get the associated power level
@@ -93,24 +64,15 @@
         return trustFactorOutputObject;
     }
     
-    NSInteger blockOfPower = 0;
     
-    NSInteger powerBlocksize = [[[payload objectAtIndex:0] objectForKey:@"powerBlocksize"] integerValue];
+    NSInteger powerBlocksize = [[[payload objectAtIndex:0] objectForKey:@"powerInBlock"] integerValue];
+
+    int blockOfPower = ceilf(batteryLevel / (float)powerBlocksize);
     
-    //part of day
-    if(powerBlocksize>0){
-        blockOfPower = floor(batteryLevel / (100/powerBlocksize))+1;
-    }
-    else{
-        // No blocksize
-        // Set the DNE status code to error
-        [trustFactorOutputObject setStatusCode:DNEStatus_error];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
+    NSString *blockOfDay = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:NO];
+ 
     // Create assertion
-    [outputArray addObject: [NSString stringWithFormat:@"H%ld-B%ld",(long)blockOfDay,(long)blockOfPower]];
+    [outputArray addObject: [blockOfDay stringByAppendingString: [NSString stringWithFormat:@"-P%d",blockOfPower]]];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
@@ -131,7 +93,7 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    NSString *state= [self batteryState];
+    NSString *state= [[Sentegrity_TrustFactor_Datasets sharedDatasets] getBatteryState];
     
     if([state isEqualToString:@"pluggedFull"] || [state isEqualToString:@"pluggedCharging"]){
          [outputArray addObject:state];
@@ -144,7 +106,7 @@
     return trustFactorOutputObject;
 }
 
-+ (Sentegrity_TrustFactor_Output_Object *)unknownBatteryState:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)batteryState:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -155,7 +117,7 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
 
-    NSString *state= [self batteryState];
+    NSString *state= [[Sentegrity_TrustFactor_Datasets sharedDatasets] getBatteryState];
     
         // Create assertion
     [outputArray addObject: state];

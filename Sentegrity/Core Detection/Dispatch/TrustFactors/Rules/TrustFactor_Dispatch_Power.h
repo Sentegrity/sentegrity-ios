@@ -6,16 +6,19 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_TrustFactor_Rule.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
 
-@interface TrustFactor_Dispatch_Power: Sentegrity_TrustFactor_Rule
-
+@interface TrustFactor_Dispatch_Power
+ : NSObject 
 // 37
-+ (Sentegrity_TrustFactor_Output_Object *)unknownPowerLevel:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)powerLevel:(NSArray *)payload;
 
 // 38
 + (Sentegrity_TrustFactor_Output_Object *)pluggedIn:(NSArray *)payload;
 
+// 38
++ (Sentegrity_TrustFactor_Output_Object *)batteryState:(NSArray *)payload;
 
 
 @end

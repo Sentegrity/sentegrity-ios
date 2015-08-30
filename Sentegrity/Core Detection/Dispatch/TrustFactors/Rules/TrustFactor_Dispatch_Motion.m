@@ -11,7 +11,7 @@
 @implementation TrustFactor_Dispatch_Motion
 
 
-+ (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)grip:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -20,7 +20,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -34,23 +34,32 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     // Get motion dataset
-    NSArray *motion;
+    NSArray *pitchRoll;
     
     
     // Check if error was already determined when motion was started
-    if ([self motionDNEStatus] != 0 ){
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
         // Set the DNE status code to what was previously determined
-        [trustFactorOutputObject setStatusCode:[self motionDNEStatus]];
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
     } else { // No known errors occured previously, try to get dataset and check our object
         
         // Attempt to get motion data
-        motion = [self motionInfo];
+        pitchRoll = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroPitchInfo];
         
-        // Check motion dataset again
-        if (!motion || motion == nil || motion.count < 3) {
+        // Check if error from dataset
+        if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
+            // Set the DNE status code to what was previously determined
+            [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
+            
+            // Return with the blank output object
+            return trustFactorOutputObject;
+        }
+        
+        // Check motion dataset has something
+        if (!pitchRoll || pitchRoll == nil ) {
             
             [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
             // Return with the blank output object
@@ -58,105 +67,40 @@
         }
     }
     
-    // Blocksize to smooth dataset
-    float blockSize = [[[payload objectAtIndex:0] objectForKey:@"blockSize"] intValue];
     
-    // Maximum motion sets to average
-    int maxSampleSize = [[[payload objectAtIndex:0] objectForKey:@"maxSampleSize"] intValue];
-    
-    if (maxSampleSize == 0 || blockSize == 0){
-        // Set the DNE status code to what was previously determined
-        [trustFactorOutputObject setStatusCode:DNEStatus_error];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
-    
-    // Total of all samples based on x/y/z
-    float xTotal = 0.0;
-    float yTotal = 0.0;
-    float zTotal = 0.0;
-    
+    // Total of all samples based on pitch/roll
+    float pitchTotal = 0.0;
+    float rollTotal = 0.0;
+   
     // Averages calculated across all samples
-    float xAverage = 0.0;
-    float yAverage = 0.0;
-    float zAverage = 0.0;
+    float pitchAvg = 0.0;
+    float rollAvg = 0.0;
     
-    int counter = 1;
+    float counter = 1.0;
     
     // Run through all the sample we got prior to stopping motion
-    for (NSDictionary *sample in motion) {
+    for (NSDictionary *sample in pitchRoll) {
         
         // Get the accelerometer data
-        NSNumber *x = [sample objectForKey:@"x"];
-        NSNumber *y = [sample objectForKey:@"y"];
-        NSNumber *z = [sample objectForKey:@"z"];
+        float pitch = [[sample objectForKey:@"pitch"] floatValue];
+        float roll = [[sample objectForKey:@"roll"] floatValue];
         
-        xTotal = xTotal + [x floatValue];
-        yTotal = yTotal + [y floatValue];
-        zTotal = zTotal + [z floatValue];
+        pitchTotal = pitchTotal + pitch;
+        rollTotal = rollTotal + roll;
         
-        // We hit our max sample size
-        if(counter == maxSampleSize){
-            break;
-        }
-        counter = counter + 1;
+        counter++;
         
     }
     
     // Calculate averages and take abs since we're adding the orientation anyhow (makes block sizes easier to calculate)
-    xAverage = fabs(xTotal/counter);
-    yAverage = fabs(yTotal/counter);
-    zAverage = fabs(zTotal/counter);
-    
-    //Figure blocks
-    int xBlock = floor(xAverage / (1/blockSize))+1;
-    int yBlock = floor(yAverage / (1/blockSize))+1;
-    int zBlock = floor(zAverage / (1/blockSize))+1;
+    pitchAvg = pitchTotal/counter;
+    rollAvg = fabsf(rollTotal/counter);
 
+    // Rounding from policy
+    int decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"rounding"] intValue];
     
-    //NSString *motionX = [NSString stringWithFormat:@"%.*f",roundingPlace,xAverage];
-    //NSString *motionY = [NSString stringWithFormat:@"%.*f",roundingPlace,yAverage];
-    //NSString *motionZ = [NSString stringWithFormat:@"%.*f",roundingPlace,zAverage];
-    
-    //Combine into tuple
-    NSString *motionTuple = [NSString stringWithFormat:@"x%d,y%d,z%d",xBlock,yBlock,zBlock];
-    
-    
-    // Get orientation, depending on portrait vs. landscape use Z or X
-    UIDevice *device = [UIDevice currentDevice];
-    UIDeviceOrientation orientation = device.orientation;
-    
-    switch (orientation) {
-        case UIDeviceOrientationPortrait:
-            [outputArray addObject:[@"portrait_" stringByAppendingString:motionTuple]];
-            break;
-        case UIDeviceOrientationPortraitUpsideDown:
-            [outputArray addObject:[@"portraitUpsideDown_" stringByAppendingString:motionTuple]];
-            break;
-        case UIDeviceOrientationLandscapeLeft:
-            [outputArray addObject:[@"landscapeLeft_" stringByAppendingString:motionTuple]];
-            break;
-        case UIDeviceOrientationLandscapeRight:
-            [outputArray addObject:[@"landscapeRight_" stringByAppendingString:motionTuple]];
-            break;
-        case UIDeviceOrientationFaceUp:
-            [outputArray addObject:[@"faceUp_" stringByAppendingString:motionTuple]];
-            break;
-        case UIDeviceOrientationFaceDown:
-            [outputArray addObject:[@"faceDown_" stringByAppendingString:motionTuple]];
-            break;
-        case UIDeviceOrientationUnknown:
-            //Error
-            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-            return trustFactorOutputObject;
-            break;
-        default:
-            //Error
-            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-            return trustFactorOutputObject;
-            break;
-    }
+    // Rounded location
+    [outputArray addObject:[NSString stringWithFormat:@"pitch_%.*f,roll_%.*f",decimalPlaces,pitchAvg,decimalPlaces,rollAvg]];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
@@ -166,7 +110,112 @@
     
 }
 
++ (Sentegrity_TrustFactor_Output_Object *)moving:(NSArray *)payload {
+    
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Validate the payload
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
+    
+    // Get motion dataset
+    NSArray *gryoRads;
+    
+    
+    // Check if error was already determined when motion was started
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    } else { // No known errors occured previously, try to get dataset and check our object
+        
+        // Attempt to get motion data
+        gryoRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
+        
+        // Check if error from dataset
+        if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
+            // Set the DNE status code to what was previously determined
+            [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
+            
+            // Return with the blank output object
+            return trustFactorOutputObject;
+        }
+        
+        // Check motion dataset has something
+        if (!gryoRads || gryoRads == nil ) {
+            
+            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+            // Return with the blank output object
+            return trustFactorOutputObject;
+        }
+    }
+    
+    // Blocksize to smooth dataset
+    float xThreshold = [[[payload objectAtIndex:0] objectForKey:@"xThreshold"] floatValue];
+    float yThreshold = [[[payload objectAtIndex:0] objectForKey:@"yThreshold"] floatValue];
+    float zThreshold = [[[payload objectAtIndex:0] objectForKey:@"zThreshold"] floatValue];
+    
+    float xDiff = 0.0;
+    float yDiff = 0.0;
+    float zDiff = 0.0;
+    
 
+    float lastX = 0.0;
+    float lastY = 0.0;
+    float lastZ = 0.0;
+    
+    // Run through all the sample we got prior to stopping motion
+    for (NSDictionary *sample in gryoRads) {
+        
+        float x = [[sample objectForKey:@"x"] floatValue];
+        float y = [[sample objectForKey:@"y"] floatValue];
+        float z = [[sample objectForKey:@"z"] floatValue];
+        
+        // this is the first sample, just record last and go to next
+        if(lastX==0.0){
+            lastX = x;
+            lastY = y;
+            lastZ = z;
+            continue;
+        }
+        // Add up differences to detect motion, take absolute value to prevent
+        
+        xDiff = xDiff + fabsf((lastX - x));
+        yDiff = yDiff + fabsf((lastY - y));
+        zDiff = zDiff + fabsf((lastZ - z));
+        
+    }
+    
+    // Check against thesholds?
+    if(xDiff > xThreshold || yDiff > yThreshold || zDiff > zThreshold){
+        [outputArray addObject:@"motion"];
+        
+    }
+
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+    
+}
 
 + (Sentegrity_TrustFactor_Output_Object *)orientation:(NSArray *)payload {
     
@@ -179,45 +228,7 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    // Get orientation
-    UIDevice *device = [UIDevice currentDevice];
-    UIDeviceOrientation orientation = device.orientation;
-    
-    NSString *orientationString;
-    
-    switch (orientation) {
-        case UIDeviceOrientationPortrait:
-            orientationString =  @"Portrait";
-            break;
-        case UIDeviceOrientationPortraitUpsideDown:
-            orientationString =  @"Portrait_Upside_Down";
-            break;
-        case UIDeviceOrientationLandscapeLeft:
-            orientationString =  @"Landscape_Left";
-            break;
-        case UIDeviceOrientationLandscapeRight:
-            orientationString =  @"Landscape_Right";
-            break;
-        case UIDeviceOrientationFaceUp:
-            orientationString =  @"Face_Up";
-            break;
-        case UIDeviceOrientationFaceDown:
-            orientationString =  @"Face_Down";
-            break;
-        case UIDeviceOrientationUnknown:
-            //Error
-            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-            return trustFactorOutputObject;
-            break;
-        default:
-            //Error
-            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-            return trustFactorOutputObject;
-            break;
-    }
-    
-    
-    [outputArray addObject:orientationString];
+    [outputArray addObject:[[Sentegrity_TrustFactor_Datasets sharedDatasets] getDeviceOrientation]];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];

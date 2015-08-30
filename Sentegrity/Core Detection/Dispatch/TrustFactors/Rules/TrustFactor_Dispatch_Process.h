@@ -6,12 +6,13 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_TrustFactor_Rule.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 
-@interface TrustFactor_Dispatch_Process : Sentegrity_TrustFactor_Rule
+@interface TrustFactor_Dispatch_Process : NSObject 
 
 // 2 - Known Bad Processes
-+ (Sentegrity_TrustFactor_Output_Object *)knownBad:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)blacklisted:(NSArray *)payload;
 
 
 // 11 - New Root Processes (gets all root processes: launched by launchd)

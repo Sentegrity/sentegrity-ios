@@ -6,15 +6,13 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_TrustFactor_Rule.h"
-
+#import "Sentegrity_TrustFactor_Datasets.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 #import <CoreMotion/CoreMotion.h>
 
-@interface TrustFactor_Dispatch_Activity : Sentegrity_TrustFactor_Rule
-
+@interface TrustFactor_Dispatch_Activity : NSObject 
 
 + (Sentegrity_TrustFactor_Output_Object *)previous:(NSArray *)payload;
 
-+ (Sentegrity_TrustFactor_Output_Object *)current:(NSArray *)payload;
 
 @end

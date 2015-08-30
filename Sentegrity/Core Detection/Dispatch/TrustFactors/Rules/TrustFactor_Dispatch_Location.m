@@ -23,7 +23,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -40,13 +40,13 @@
     CLPlacemark *currentPlacemark;
     
     // Attempt to get the current placemark
-    currentPlacemark = [self placemarkInfo];
+    currentPlacemark = [[Sentegrity_TrustFactor_Datasets sharedDatasets]  placemark];
     
     // Check if error was already determined when placemark was started
-    if([self placemarkDNEStatus] != 0){
+    if([[Sentegrity_TrustFactor_Datasets sharedDatasets]  placemarkDNEStatus] != 0){
         
         // Set the DNE status code for the TF to what was previously determined by placemark
-        [trustFactorOutputObject setStatusCode:[self placemarkDNEStatus]];
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  placemarkDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -118,7 +118,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets]  validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -135,13 +135,13 @@
     CLLocation *currentLocation;
     
     // Attempt to get the current location
-    currentLocation = [self locationInfo];
+    currentLocation = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getLocationInfo];
     
      // Check if error was already determined when placemark was started
-    if([self locationDNEStatus] != 0){
+    if([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != 0){
         
         // Set the DNE status code for the TF to what was previously determined by location services
-        [trustFactorOutputObject setStatusCode:[self locationDNEStatus]];
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -160,17 +160,7 @@
     }
     
     // Rounding from policy
-    int decimalPlaces = -1;
-    decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"rounding"] intValue];
-    
-    // Validate the payload
-    if (decimalPlaces < 0) {
-        // Set the DNE status code to NODATA
-        [trustFactorOutputObject setStatusCode:DNEStatus_error];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
+    int decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"rounding"] intValue];
     
     // Rounded location
     NSString *roundedLocation = [NSString stringWithFormat:@"%.*f,%.*f",decimalPlaces,currentLocation.coordinate.longitude,decimalPlaces,currentLocation.coordinate.latitude];

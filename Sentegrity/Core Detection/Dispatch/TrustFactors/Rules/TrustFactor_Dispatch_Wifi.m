@@ -26,13 +26,13 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
     
-    NSDictionary *wifiInfo = [self wifiInfo];
+    NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
     
     // Check for a connection
     if (wifiInfo == nil){
         
         //No connection, check if WiFi is enabled
-        if(![self wifiEnabled]){
+        if(![[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo]){
             
             //Not enabled, set DNE and return (penalize)
             [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
@@ -77,7 +77,7 @@
     if(fileContents == nil) {
         
         //try payload
-        if (![self validatePayload:payload]) {
+        if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
             // Payload is EMPTY
             
             // Set the DNE status code to NODATA
@@ -149,10 +149,10 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
     // Check for a connection
-    if ([self wifiInfo] == nil){
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo] == nil){
         
         //No connection, check if WiFi is enabled
-        if(![self wifiEnabled]){
+        if(![[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo]){
             
             //Not enabled, set DNE and return (penalize)
             [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
@@ -204,7 +204,7 @@
    }
 
 // 19 - Unknown SSID Check - Get the current AP SSID
-+ (Sentegrity_TrustFactor_Output_Object *)unknownSSID:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)SSID:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -215,13 +215,13 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
-    NSDictionary *wifiInfo = [self wifiInfo];
+    NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
     
     // Check for a connection
     if (wifiInfo == nil){
         
         //No connection, check if WiFi is enabled
-        if(![self wifiEnabled]){
+        if(![[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo]){
             
             //Not enabled, set DNE and return (penalize)
             [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
@@ -266,7 +266,7 @@
 }
 
 // 27 - Known BSSID - Get the current BSSID of the AP
-+ (Sentegrity_TrustFactor_Output_Object *)knownBSSID:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)BSSID:(NSArray *)payload {
     
     
     // Create the trustfactor output object
@@ -278,13 +278,13 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    NSDictionary *wifiInfo = [self wifiInfo];
+    NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
     
     // Check for a connection
     if (wifiInfo == nil){
         
         //No connection, check if WiFi is enabled
-        if(![self wifiEnabled]){
+        if(![[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo]){
             
             //Not enabled, set DNE and return (penalize)
             [trustFactorOutputObject setStatusCode:DNEStatus_disabled];

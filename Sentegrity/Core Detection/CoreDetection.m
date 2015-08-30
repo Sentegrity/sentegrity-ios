@@ -7,7 +7,7 @@
 //
 
 #import "CoreDetection.h"
-#import "Sentegrity_TrustFactor_Rule.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
 
 
 

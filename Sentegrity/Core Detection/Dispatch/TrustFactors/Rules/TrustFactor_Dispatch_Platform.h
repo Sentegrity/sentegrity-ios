@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_TrustFactor_Rule.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 
-@interface TrustFactor_Dispatch_Platform : Sentegrity_TrustFactor_Rule
+@interface TrustFactor_Dispatch_Platform : NSObject 
 
 // 23
 + (Sentegrity_TrustFactor_Output_Object *)vulnerableVersion:(NSArray *)payload;

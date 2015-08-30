@@ -21,7 +21,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -35,7 +35,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     // Get the current netstat data
-    NSArray *connections = [self netstatInfo];
+    NSArray *connections = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getNetstatInfo];
     
     // Check the array
     if (!connections || connections == nil || connections.count < 1) {
@@ -100,7 +100,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -114,7 +114,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     // Get the current netstat data
-    NSArray *connections = [self netstatInfo];
+    NSArray *connections = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getNetstatInfo];
     
     // Check the array
     if (!connections || connections == nil || connections.count < 1) {
@@ -180,7 +180,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     // Get the current netstat data
-    NSArray *connections = [self netstatInfo];
+    NSArray *connections = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getNetstatInfo];
     
     // Check the array
     if (!connections || connections == nil || connections.count < 1) {
@@ -232,7 +232,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -246,7 +246,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     // Get the current netstat data
-    NSDictionary *dataXfer = [self dataXferInfo];
+    NSDictionary *dataXfer = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getDataXferInfo];
     
     // Check the dictionary
     if (!dataXfer || dataXfer == nil) {
@@ -378,7 +378,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -392,7 +392,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     // Get the current netstat data
-    NSArray *connections = [self netstatInfo];
+    NSArray *connections = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getNetstatInfo];
     
     // Check the array
     if (!connections || connections == nil || connections.count < 1) {

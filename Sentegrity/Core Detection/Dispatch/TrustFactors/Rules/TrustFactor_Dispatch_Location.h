@@ -6,9 +6,11 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_TrustFactor_Rule.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 
-@interface TrustFactor_Dispatch_Location : Sentegrity_TrustFactor_Rule
+
+@interface TrustFactor_Dispatch_Location : NSObject 
 
 
 // 26

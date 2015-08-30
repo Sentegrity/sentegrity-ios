@@ -12,7 +12,7 @@
 @implementation TrustFactor_Dispatch_File
 
 // 1 - knownBad files check
-+ (Sentegrity_TrustFactor_Output_Object *)knownBad:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)blacklisted:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -21,7 +21,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets]  validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -66,7 +66,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets]  validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA

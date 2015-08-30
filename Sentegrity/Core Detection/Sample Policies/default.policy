@@ -2,7 +2,7 @@
 "policyID": 1,
 "appID": "default",
 "revision": 1,
-"userThreshold": 80,
+"userThreshold": 70,
 "systemThreshold": 70,
 "contactPhone": "18005556666",
 "contactURL": "www.application.com",
@@ -10,7 +10,7 @@
 "DNEModifiers": {
 "unauthorized": 0.5,
 "unsupported": 0,
-"unavailable": 0.5,
+"unavailable": 0.1,
 "disabled": 0.5,
 "noData": 0,
 "expired": 0,
@@ -245,7 +245,7 @@
 "threshold": 0,
 "history": 50,
 "dispatch": "File",
-"implementation": "knownBad:",
+"implementation": "blacklisted:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [
@@ -310,7 +310,7 @@
 "threshold": 0,
 "history": 20,
 "dispatch": "Process",
-"implementation": "knownBad:",
+"implementation": "blacklisted:",
 "inverse": 0,
 "whitelistable": 1,
 "privateAPI": 0,
@@ -394,7 +394,7 @@
 "threshold": 0,
 "history": 10,
 "dispatch": "Application",
-"implementation": "maliciousApps:",
+"implementation": "uriHandler:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [
@@ -686,7 +686,7 @@
 "threshold": 0,
 "history": 20,
 "dispatch": "Wifi",
-"implementation": "unknownSSID:",
+"implementation": "SSID:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []
@@ -699,7 +699,7 @@
 "subClassID": 4,
 "priority": 2,
 "name": "wifi bssid",
-"penalty": -40,
+"penalty": -30,
 "ruleType": 4,
 "learnMode": 0,
 "learnTime": 0,
@@ -708,7 +708,7 @@
 "threshold": 5,
 "history": 10,
 "dispatch": "Wifi",
-"implementation": "knownBSSID:",
+"implementation": "BSSID:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []
@@ -752,7 +752,7 @@
 "threshold": 0,
 "history": 5,
 "dispatch": "Celluar",
-"implementation": "unknownCarrier:",
+"implementation": "carrier:",
 "whitelistable": 0,
 "privateAPI": 1,
 "payload": []
@@ -774,7 +774,7 @@
 "threshold": 0,
 "history": 5,
 "dispatch": "Application",
-"implementation": "highRiskRunningApp:",
+"implementation": "runningApp:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [
@@ -800,7 +800,7 @@
 "threshold": 0,
 "history": 10,
 "dispatch": "Application",
-"implementation": "highRiskInstalledApp:",
+"implementation": "installedApp:",
 "whitelistable": 1,
 "privateAPI": 1,
 "payload": [
@@ -933,11 +933,11 @@
 "threshold": 0,
 "history": 28,
 "dispatch": "Time",
-"implementation": "unknownAccessTime:",
+"implementation": "accessTime:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"blocksize" : 6
+"hoursInBlock" : 4
 }]
 }, {
 "id": 1028,
@@ -957,12 +957,12 @@
 "threshold": 0,
 "history": 21,
 "dispatch": "Time",
-"implementation": "unknownLight:",
+"implementation": "brightness:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
 "brightnessBlocksize" : 3,
-"hourBlocksize" : 6
+"hoursInBlock" : 4
 }]
 }, {
 "id": 1029,
@@ -1004,12 +1004,12 @@
 "threshold": 0,
 "history": 6,
 "dispatch": "Power",
-"implementation": "unknownPowerLevel:",
+"implementation": "powerLevel:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"hourBlocksize": 4,
-"powerBlocksize": 4
+"hoursInBlock": 4,
+"powerInBlock": 25
 }]
 }, {
 "id": 1031,
@@ -1029,7 +1029,7 @@
 "threshold": 0,
 "history": 2,
 "dispatch": "Power",
-"implementation": "unknownBatteryState:",
+"implementation": "batteryState:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []
@@ -1063,7 +1063,7 @@
 "classID": 5,
 "subClassID": 14,
 "priority": 1,
-"name": "previous user activity",
+"name": "unfamiliar user activity",
 "penalty": 20,
 "ruleType": 3,
 "learnMode": 0,
@@ -1076,18 +1076,16 @@
 "implementation": "previous:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": [{
-"hourBlockSize" : 6
-}]
+"payload": []
 }, {
 "id": 1034,
-"issueMessage": "Unfamiliar user activity",
-"suggestionMessage": "",
+"issueMessage": "Device is moving",
+"suggestionMessage": "Hold device steady",
 "revision": 1,
 "classID": 5,
 "subClassID": 14,
 "priority": 1,
-"name": "current user activity",
+"name": "device moving",
 "penalty": 20,
 "ruleType": 3,
 "learnMode": 0,
@@ -1095,12 +1093,16 @@
 "learnAssertionCount": 0,
 "learnRunCount": 0,
 "threshold": 0,
-"history": 2,
-"dispatch": "Activity",
-"implementation": "current:",
+"history": 1,
+"dispatch": "Motion",
+"implementation": "moving:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": []
+"payload": [{
+"xThreshold": 0.5,
+"yThreshold": 0.5,
+"zThreshold": 0.5
+}]
 }, {
 "id": 1035,
 "issueMessage": "Unfamiliar device grip",
@@ -1109,7 +1111,7 @@
 "classID": 5,
 "subClassID": 11,
 "priority": 3,
-"name": "device movement",
+"name": "device grip",
 "penalty": 30,
 "ruleType": 3,
 "learnMode": 0,
@@ -1119,12 +1121,11 @@
 "threshold": 0,
 "history": 4,
 "dispatch": "Motion",
-"implementation": "unknown:",
+"implementation": "grip:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"blockSize": 4,
-"maxSampleSize": 5
+"rounding": 1
 }]
 }, {
 "id": 1036,
@@ -1185,7 +1186,7 @@
 "classID": 5,
 "subClassID": 12,
 "priority": 1,
-"name": "bluetooth device",
+"name": "bluetooth low-entergy scanning",
 "penalty": -25,
 "ruleType": 4,
 "learnMode": 0,
@@ -1195,7 +1196,29 @@
 "threshold": 3,
 "history": 20,
 "dispatch": "Bluetooth",
-"implementation": "knownBLEDevice:",
+"implementation": "discoveredBLEDevice:",
+"whitelistable": 1,
+"privateAPI": 0,
+"payload": []
+}, {
+"id": 1039,
+"issueMessage": "",
+"suggestionMessage": "Employ bluetooth classic devices",
+"revision": 1,
+"classID": 5,
+"subClassID": 12,
+"priority": 1,
+"name": "bluetooth classic scanning",
+"penalty": -25,
+"ruleType": 4,
+"learnMode": 0,
+"learnTime": 0,
+"learnAssertionCount": 0,
+"learnRunCount": 0,
+"threshold": 3,
+"history": 20,
+"dispatch": "Bluetooth",
+"implementation": "discoveredClassicDevice:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []

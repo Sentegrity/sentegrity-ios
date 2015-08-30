@@ -94,7 +94,7 @@
         UIApplication *ourApplication = [UIApplication sharedApplication];
         NSURL *ourURL = [NSURL URLWithString:@"awemailclient://"];
         if ([ourApplication canOpenURL:ourURL]) {
-            [ourApplication openURL:ourURL];
+            //[ourApplication openURL:ourURL];
         }
         else {
             //Display error

@@ -45,7 +45,7 @@ struct encryption_info_command
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -145,7 +145,7 @@ struct encryption_info_command
     #define DBGCHK_P_TRACED 0x00000800
     
     // Current process name
-    int ourPID = [[self getOurPID] intValue];
+    int ourPID = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getOurPID] intValue];
  
     if (ourPID == 0){ //something is wrong, didn't find our PID
         return -1;

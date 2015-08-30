@@ -77,6 +77,7 @@
         [errorDetails setValue:[@"Error executing TrustFactor implementation for:" stringByAppendingString:trustFactor.name] forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectGenerated userInfo:errorDetails];
         
+        NSLog(@"%@",[@"Error executing TrustFactor implementation for:" stringByAppendingString:trustFactor.name]);
         return trustFactorOutputObject;
         
     }
@@ -97,6 +98,7 @@
         trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
+        NSLog(@"%@",[@"No trustFactorOutputObject generated for trustfactor:" stringByAppendingString:trustFactor.name]);
         // Return the assertion
         return trustFactorOutputObject;
     }
@@ -149,6 +151,7 @@
         // Set the DNE Status Code
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
+
         // Return the assertion
         return trustFactorOutputObject;
     }
@@ -188,6 +191,8 @@
         // Set the DNE Status Code
         [trustFactorOutput setStatusCode:DNEStatus_unsupported];
         
+        NSLog(@"%@",[@"No valid implementation selector found" stringByAppendingString:implementation]);
+        
         // Return the assertion
         return trustFactorOutput;
     }
@@ -204,7 +209,7 @@
     } else {
         // No check recognized, error out
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No valid TrustFactor found" forKey:NSLocalizedDescriptionKey];
+        [errorDetails setValue:[@"No valid TrustFactor found for:" stringByAppendingString:implementation] forKey:NSLocalizedDescriptionKey];
         *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidTrustFactorName userInfo:errorDetails];
         
         // Create an assertion with just the error in it

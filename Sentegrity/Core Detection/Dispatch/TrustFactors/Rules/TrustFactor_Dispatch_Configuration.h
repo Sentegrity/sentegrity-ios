@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_TrustFactor_Rule.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
+#import "Sentegrity_TrustFactor_Output_Object.h"
 
-@interface TrustFactor_Dispatch_Configuration : Sentegrity_TrustFactor_Rule
+@interface TrustFactor_Dispatch_Configuration : NSObject 
 
 // 38
 + (Sentegrity_TrustFactor_Output_Object *)backupEnabled:(NSArray *)payload;

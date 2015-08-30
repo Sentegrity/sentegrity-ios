@@ -25,7 +25,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -36,7 +36,7 @@
     }
     
     // Get routes
-    NSArray *routeArray = [self routeInfo];
+    NSArray *routeArray = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getRouteInfo];
 
     
     // Check for routes
@@ -108,7 +108,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
     // Get routes
-    NSArray *routeArray = [self routeInfo];
+    NSArray *routeArray = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getRouteInfo];
     bool defaultRoute = NO;
     
     // Check for routesy

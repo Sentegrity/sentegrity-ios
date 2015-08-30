@@ -7,12 +7,11 @@
 //
 
 #import "TrustFactor_Dispatch_Celluar.h"
-@import CoreTelephony;
 
 @implementation TrustFactor_Dispatch_Celluar
 
 // USES PRIVATE API
-+ (Sentegrity_TrustFactor_Output_Object *)unknownCarrier:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)carrier:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];

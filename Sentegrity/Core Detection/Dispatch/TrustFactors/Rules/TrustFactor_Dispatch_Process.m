@@ -13,7 +13,7 @@
 // Implementations
 
 // Known Bad Files
-+ (Sentegrity_TrustFactor_Output_Object *)knownBad:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)blacklisted:(NSArray *)payload {
     
     
     // Create the trustfactor output object
@@ -23,7 +23,7 @@
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
     // Validate the payload
-    if (![self validatePayload:payload]) {
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
@@ -40,7 +40,7 @@
     NSString *procName;
     
     // Get the current processes
-    NSArray *currentProcesses = [self processInfo];
+    NSArray *currentProcesses = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getProcessInfo];
     
     // Check the array
     if (!currentProcesses || currentProcesses == nil || currentProcesses.count < 1) {
@@ -123,7 +123,7 @@
     int UID;
     
     // Get the current processes
-    NSArray *currentProcesses = [self processInfo];
+    NSArray *currentProcesses = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getProcessInfo];
     
     // Check the array
     if (!currentProcesses || currentProcesses == nil || currentProcesses.count < 1) {

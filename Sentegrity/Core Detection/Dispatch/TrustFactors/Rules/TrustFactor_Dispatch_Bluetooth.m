@@ -10,11 +10,18 @@
 
 @implementation TrustFactor_Dispatch_Bluetooth
 
-
-
-// 33
-+ (Sentegrity_TrustFactor_Output_Object *)knownBLEDevice:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)connectedClassicDevice:(NSArray *)payload {
     
+    return 0;
+}
+
++ (Sentegrity_TrustFactor_Output_Object *)discoveredClassicDevice:(NSArray *)payload {
+    
+    return 0;
+}
+// 33
++ (Sentegrity_TrustFactor_Output_Object *)discoveredBLEDevice:(NSArray *)payload {
+
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -27,9 +34,9 @@
     
     
     // Check if error was determined by bluetooth scanner in app delegate
-    if ([self bluetoothDNEStatus] != 0 ){
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus] != 0 ){
         // Set the DNE status code to what was previously determined
-        [trustFactorOutputObject setStatusCode:[self bluetoothDNEStatus]];
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -37,13 +44,13 @@
 
     
     // Try to get current bluetooth devices
-    NSArray *bluetoothDevices = [self bluetoothInfo];
+    NSArray *bluetoothDevices = [[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLEDevices];
     
     
     // Check if error was determined after call to dataset helper (e.g., timer expired)
-    if ([self bluetoothDNEStatus] != 0 ){
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus] != 0 ){
         // Set the DNE status code to what was previously determined
-        [trustFactorOutputObject setStatusCode:[self bluetoothDNEStatus]];
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -71,12 +78,12 @@
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
+
+    
     // Return the trustfactor output object
     return trustFactorOutputObject;
     
 }
-
-
 
 
 
