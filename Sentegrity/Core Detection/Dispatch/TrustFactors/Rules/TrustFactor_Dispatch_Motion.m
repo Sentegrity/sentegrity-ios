@@ -71,7 +71,7 @@
     // Total of all samples based on pitch/roll
     float pitchTotal = 0.0;
     float rollTotal = 0.0;
-   
+    
     // Averages calculated across all samples
     float pitchAvg = 0.0;
     float rollAvg = 0.0;
@@ -93,14 +93,41 @@
     }
     
     // Calculate averages and take abs since we're adding the orientation anyhow (makes block sizes easier to calculate)
-    pitchAvg = pitchTotal/counter;
-    rollAvg = fabsf(rollTotal/counter);
-
-    // Rounding from policy
-    int decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"rounding"] intValue];
+    pitchAvg = fabs(pitchTotal/counter);
+    rollAvg = fabs(rollTotal/counter);
     
-    // Rounded location
-    [outputArray addObject:[NSString stringWithFormat:@"pitch_%.*f,roll_%.*f",decimalPlaces,pitchAvg,decimalPlaces,rollAvg]];
+    // Rounding from policy
+    float blockSize = [[[payload objectAtIndex:0] objectForKey:@"blockSize"] intValue];
+    
+    // Check motion dataset has something
+    if (blockSize == 0) {
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    // if(pitchAvg > 1.0){
+    //  pitchAvg = 0.99;
+    //}
+    
+    //if(rollAvg > 1.0){
+    //  rollAvg = 0.99;
+    //}
+    
+    
+    //Figure blocks
+    int pitchBlock = ceilf(pitchAvg / (1/blockSize));
+    int rollBlock = ceilf(rollAvg / (1/blockSize));
+    
+    
+    //[outputArray addObject:[NSString stringWithFormat:@"pitch_%.*f,roll_%.*f",decimalPlaces,pitchAvg,decimalPlaces,rollAvg]];
+    
+    //Combine into tuple
+    NSString *motionTuple = [NSString stringWithFormat:@"pitch_%d,roll_%d",pitchBlock,rollBlock];
+    
+    
+    [outputArray addObject:motionTuple];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
@@ -171,11 +198,18 @@
     float yThreshold = [[[payload objectAtIndex:0] objectForKey:@"yThreshold"] floatValue];
     float zThreshold = [[[payload objectAtIndex:0] objectForKey:@"zThreshold"] floatValue];
     
+    if (xThreshold == 0 || yThreshold == 0 || zThreshold == 0) {
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     float xDiff = 0.0;
     float yDiff = 0.0;
     float zDiff = 0.0;
     
-
+    
     float lastX = 0.0;
     float lastY = 0.0;
     float lastZ = 0.0;
@@ -207,7 +241,7 @@
         [outputArray addObject:@"motion"];
         
     }
-
+    
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];

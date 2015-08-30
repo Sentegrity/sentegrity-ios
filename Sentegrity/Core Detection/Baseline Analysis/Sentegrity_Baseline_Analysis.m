@@ -543,7 +543,7 @@ static NSTimeInterval nowEpochSeconds;
         }
         
         // Give new assertions a chance to catch up, hoursSinceCreation are new, hoursSinceLastHit prevent back-to-back user anomalies
-        if(hoursSinceCreation < 0.5 || hoursSinceLastHit < 0.5) {
+        if(hoursSinceCreation < 0.1 || hoursSinceLastHit < 0.1) {
             
             [assertionObjectsRecentlyCreated addObject:storedAssertion];
             

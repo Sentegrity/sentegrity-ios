@@ -1119,13 +1119,13 @@
 "learnAssertionCount": 0,
 "learnRunCount": 0,
 "threshold": 0,
-"history": 4,
+"history": 3,
 "dispatch": "Motion",
 "implementation": "grip:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"rounding": 1
+"blockSize": 6
 }]
 }, {
 "id": 1036,
