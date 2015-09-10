@@ -191,11 +191,11 @@ NSMutableArray* getActiveConnections(uint32_t proto, char *name, int af)
                     tp = (struct xtcpcb_n *)xgn;
                     break;
                 default:
-                    printf("unexpected kind %d\n", xgn->xgn_kind);
+                    printf("unexpected kind %d\n", (unsigned int)xgn->xgn_kind);
                     break;
             }
         } else {
-            printf("got %d twice\n", xgn->xgn_kind);
+            printf("got %d twice\n", (unsigned int)xgn->xgn_kind);
         }
         
         if ((istcp && which != ALL_XGN_KIND_TCP) || (!istcp && which != ALL_XGN_KIND_INP))
@@ -291,7 +291,7 @@ NSMutableArray* getActiveConnections(uint32_t proto, char *name, int af)
        
         if (istcp) {
             if (tp->t_state < 0 || tp->t_state >= TCP_NSTATES) {
-                [connection setObject:[NSString stringWithFormat:@"%d",tp->t_state] forKey:@"state"];
+                [connection setObject:[NSString stringWithFormat:@"%d",(int)tp->t_state] forKey:@"state"];
             }
             else {
                 [connection setObject:[NSString stringWithFormat:@"%s",tcpstates[tp->t_state]] forKey:@"state"];

@@ -130,133 +130,137 @@
 extern char *tcpstates[];
 
 #define ROUNDUP64(a) \
-((a) > 0 ? (1 + (((a) - 1) | (sizeof(uint64_t) - 1))) : sizeof(uint64_t))
+((a) > 0 ? (1 + (((a) - 1) | (sizeof(UInt64) - 1))) : sizeof(UInt64))
 #define ADVANCE64(x, n) (((char *)x) += ROUNDUP64(n))
 
-struct  xtcpcb_n {
-    u_int32_t                      xt_len;
-    u_int32_t                        xt_kind;                /* XSO_TCPCB */
+#ifdef __arm64__
+typedef SInt32   inp_gen_t;
+#else
+typedef u_quad_t inp_gen_t;
+#endif
+typedef u_quad_t so_gen_t;
+
+struct xtcpcb_n {
+    UInt32       xt_len;
+    UInt32       xt_kind;                    // XSO_TCPCB
     
-    u_int64_t t_segq;
-    int     t_dupacks;              /* consecutive dup acks recd */
+    UInt64       t_segq;
+    SInt32             t_dupacks;                  // Consecutive dup acks recd.
     
-    int t_timer[TCPT_NTIMERS_EXT];  /* tcp timers */
+#define TCPT_NTIMERS_EXT 4                  // <netinet/tcp_timer.h>
+    SInt32             t_timer[TCPT_NTIMERS_EXT];  // TCP timers.
+#undef TCPT_NTIMERS_EXT
     
-    int     t_state;                /* state of this connection */
-    u_int   t_flags;
+    SInt32             t_state;                    // State of this connection.
+    UInt32           t_flags;
     
-    int     t_force;                /* 1 if forcing out a byte */
+    SInt32             t_force;
     
-    tcp_seq snd_una;                /* send unacknowledged */
-    tcp_seq snd_max;                /* highest sequence number sent;
-                                     * used to recognize retransmits
-                                     */
-    tcp_seq snd_nxt;                /* send next */
-    tcp_seq snd_up;                 /* send urgent pointer */
+    tcp_seq         snd_una;                    // Send unacknowledged.
+    tcp_seq         snd_max;                    // Highest sequence number sent used to recognize retransmits.
     
-    tcp_seq snd_wl1;                /* window update seg seq number */
-    tcp_seq snd_wl2;                /* window update seg ack number */
-    tcp_seq iss;                    /* initial send sequence number */
-    tcp_seq irs;                    /* initial receive sequence number */
+    tcp_seq         snd_next;                   // Send next.
+    tcp_seq         snd_up;                     // Send urgent pointer.
     
-    tcp_seq rcv_nxt;                /* receive next */
-    tcp_seq rcv_adv;                /* advertised window */
-    u_int32_t rcv_wnd;              /* receive window */
-    tcp_seq rcv_up;                 /* receive urgent pointer */
+    tcp_seq         snd_wl1;                    // Window update seg seq number.
+    tcp_seq         snd_wl2;                    // Window update seg ack number.
+    tcp_seq         iss;                        // Initial send sequence number.
+    tcp_seq         irs;                        // Initial receive sequence number.
     
-    u_int32_t snd_wnd;              /* send window */
-    u_int32_t snd_cwnd;             /* congestion-controlled window */
-    u_int32_t snd_ssthresh;         /* snd_cwnd size threshold for
-                                     * for slow start exponential to
-                                     * linear switch
-                                     */
-    u_int   t_maxopd;               /* mss plus options */
+    tcp_seq         rcv_nxt;                    // Receive next.
+    tcp_seq         rcv_adv;                    // Advertised window.
+    UInt32       rcv_wnd;                    // Receive window.
+    tcp_seq         rcv_up;                     // Receive urgent pointer.
     
-    u_int32_t t_rcvtime;            /* time at which a packet was received */
-    u_int32_t t_starttime;          /* time connection was established */
-    int     t_rtttime;              /* round trip time */
-    tcp_seq t_rtseq;                /* sequence number being timed */
+    UInt32       snd_wnd;                    // Send window.
+    UInt32       snd_cwnd;                   // Congestion-controlled window.
+    UInt32       snd_ssthresh;               // snd_cwnd size threshold for slow start exponential to linear switch.
     
-    int     t_rxtcur;               /* current retransmit value (ticks) */
-    u_int   t_maxseg;               /* maximum segment size */
-    int     t_srtt;                 /* smoothed round-trip time */
-    int     t_rttvar;               /* variance in round-trip time */
+    UInt32           t_maxopd;                   // mss plus option.
     
-    int     t_rxtshift;             /* log(2) of rexmt exp. backoff */
-    u_int   t_rttmin;               /* minimum rtt allowed */
-    u_int32_t t_rttupdated;         /* number of times rtt sampled */
-    u_int32_t max_sndwnd;           /* largest window peer has offered */
+    UInt32       t_rcvtime;                  // Time at which a packet was received.
+    UInt32       t_starttime;                // Time connection was established.
+    SInt32             t_rtttime;                  // Round trip time.
+    tcp_seq         t_rtseq;                    // Sequence number being timed.
     
-    int     t_softerror;            /* possible error not yet reported */
-    /* out-of-band data */
-    char    t_oobflags;             /* have some */
-    char    t_iobc;                 /* input character */
-    /* RFC 1323 variables */
-    u_char  snd_scale;              /* window scaling for send window */
-    u_char  rcv_scale;              /* window scaling for recv window */
-    u_char  request_r_scale;        /* pending window scaling */
-    u_char  requested_s_scale;
-    u_int32_t ts_recent;            /* timestamp echo data */
+    SInt32             t_rxtcur;                   // Current retransmit value (ticks).
+    UInt32           t_maxseg;                   // Maximum segment size.
+    SInt32             t_srtt;                     // Smoothed round-trip time.
+    SInt32             t_rttvar;                   // Variance in round-trip time.
     
-    u_int32_t ts_recent_age;        /* when last updated */
-    tcp_seq last_ack_sent;
-    /* RFC 1644 variables */
-    tcp_cc  cc_send;                /* send connection count */
-    tcp_cc  cc_recv;                /* receive connection count */
-    tcp_seq snd_recover;            /* for use in fast recovery */
-    /* experimental */
-    u_int32_t snd_cwnd_prev;        /* cwnd prior to retransmit */
-    u_int32_t snd_ssthresh_prev;    /* ssthresh prior to retransmit */
-    u_int32_t t_badrxtwin;          /* window for retransmit recovery */
+    SInt32             t_rxtshift;                 // log(2) of rexmt exp. backoff.
+    UInt32           t_rttmin;                   // Minimum rtt allowed.
+    UInt32       t_rttupdated;               // Number of times rtt sampled.
+    UInt32       max_sndwnd;                 // Largest window peer has offered.
+    
+    SInt32             t_softerror;                // Possible error not yet reported.
+    // Out-of-band data
+    SInt8            t_oobflags;                 // Have some.
+    SInt8            t_iobc;                     // Input character.
+    UInt8          snd_scale;                  // Window scaling for send window.
+    UInt8          rcv_scale;                  // Window scaling for recv window.
+    UInt8          request_r_scale;            // Pending window scaling.
+    UInt8          requested_s_scale;
+    UInt32       ts_recent;                  // Timestamp echo data.
+    
+    UInt32       ts_recent_age;              // When last updated.
+    tcp_seq         last_ack_sent;
+    // RFC 1644 variables.
+    tcp_cc          cc_send;                    // Send connection count.
+    tcp_cc          cc_recv;                    // Receive connection count.
+    tcp_seq         snd_recover;                // For use in fast recovery.
+    // Experimental.
+    UInt32       snd_cwnd_prev;              // cwnd prior to retransmit.
+    UInt32       snd_ssthresh_prev;          // ssthresh prior to rentransmit.
+    UInt32       t_badrxtwin;                // Window for retransmit recovery.
 };
 
-
-struct  xinpcb_n {
-    u_int32_t               xi_len;         /* length of this structure */
-    u_int32_t               xi_kind;                /* XSO_INPCB */
-    u_int64_t               xi_inpp;
-    u_short                 inp_fport;      /* foreign port */
-    u_short                 inp_lport;      /* local port */
-    u_int64_t               inp_ppcb;       /* pointer to per-protocol pcb */
-    inp_gen_t               inp_gencnt;     /* generation count of this instance */
-    int                             inp_flags;      /* generic IP/datagram flags */
-    u_int32_t               inp_flow;
-    u_char                  inp_vflag;
-    u_char                  inp_ip_ttl;     /* time to live */
-    u_char                  inp_ip_p;       /* protocol */
-    union {                                 /* foreign host table entry */
+struct xinpcb_n {
+    UInt32   xi_len;     // Length of this structure.
+    UInt32   xi_kind;    // XSO_INPCB
+    UInt64   xi_inpp;
+    UInt16     inp_fport;  // Foreign port.
+    UInt16     inp_lport;  // Local port.
+    UInt64   inp_ppcb;   // Pointer to per-protocol PCB.
+    inp_gen_t   inp_gencnt; // Generation count of this instance.
+    SInt32         inp_flags;  // Generic IP/datagram flags.
+    UInt32   inp_flow;
+    UInt8      inp_vflag;
+    UInt8      inp_ip_ttl; // Time to live.
+    UInt8      inp_ip_p;   // Protocol.
+    union {
         struct  in_addr_4in6    inp46_foreign;
         struct  in6_addr        inp6_foreign;
-    }                               inp_dependfaddr;
-    union {                                 /* local host table entry */
+    } inp_dependfaddr;
+    union {
         struct  in_addr_4in6    inp46_local;
         struct  in6_addr        inp6_local;
-    }                               inp_dependladdr;
+    } inp_dependladdr;
     struct {
-        u_char          inp4_ip_tos;    /* type of service */
-    }                               inp_depend4;
+        UInt8  inp4_ip_tos; // Type of service.
+    } inp_depend4;
     struct {
-        u_int8_t        inp6_hlim;
-        int                     inp6_cksum;
-        u_short         inp6_ifindex;
-        short           inp6_hops;
-    }                               inp_depend6;
-    u_int32_t               inp_flowhash;
+        UInt8    inp6_hlim;
+        SInt32         inp6_cksum;
+        UInt16     inp6_ifindex;
+        SInt16       inp6_hops;
+    } inp_depend6;
+    UInt32   inp_flowhash;
 };
 
 
 #define SO_TC_STATS_MAX 4
 
 struct data_stats {
-    u_int64_t       rxpackets;
-    u_int64_t       rxbytes;
-    u_int64_t       txpackets;
-    u_int64_t       txbytes;
+    UInt64      rxpackets;
+    UInt64      rxbytes;
+    UInt64      txpackets;
+    UInt64      txbytes;
 };
 
 struct xgen_n {
-	u_int32_t	xgn_len;			/* length of this structure */
-	u_int32_t	xgn_kind;		/* number of PCBs at this time */
+    UInt32   xgn_len;    // Length of this structure.
+    UInt32   xgn_kind;   // Number of PCBs at this time.
 };
 
 #define XSO_SOCKET	0x001
@@ -266,43 +270,44 @@ struct xgen_n {
 #define XSO_INPCB	0x010
 #define XSO_TCPCB	0x020
 
-struct	xsocket_n {
-	u_int32_t		xso_len;		/* length of this structure */
-	u_int32_t		xso_kind;		/* XSO_SOCKET */
-	u_int64_t		xso_so;	/* makes a convenient handle */
-	short			so_type;
-	u_int32_t		so_options;
-	short			so_linger;
-	short			so_state;
-	u_int64_t		so_pcb;		/* another convenient handle */
-	int				xso_protocol;
-	int				xso_family;
-	short			so_qlen;
-	short			so_incqlen;
-	short			so_qlimit;
-	short			so_timeo;
-	u_short			so_error;
-	pid_t			so_pgid;
-	u_int32_t		so_oobmark;
-	uid_t			so_uid;		/* XXX */
+struct xsocket_n {
+    UInt32      xso_len;    // Length of this structure.
+    UInt32      xso_kind;   // XSO_SOCKET
+    UInt32      xso_so;     // Makes a convenient handle.
+    SInt16      so_type;
+    UInt32      so_options;
+    SInt16      so_linger;
+    SInt16      so_state;
+    UInt64      so_pcb;     // Another convenient handle.
+    SInt32      xso_protocol;
+    SInt32      xso_family;
+    SInt16      so_qlen;
+    SInt16      so_incqlen;
+    SInt16      so_qlimit;
+    SInt16      so_timeo;
+    UInt16      so_error;
+    pid_t       so_pgid;
+    UInt32      so_oobmark;
+    uid_t       so_uid;     // XXX
 };
 
 struct xsockbuf_n {
-	u_int32_t		xsb_len;		/* length of this structure */
-	u_int32_t		xsb_kind;		/* XSO_RCVBUF or XSO_SNDBUF */
-	u_int32_t		sb_cc;
-	u_int32_t		sb_hiwat;
-	u_int32_t		sb_mbcnt;
-	u_int32_t		sb_mbmax;
-	int32_t			sb_lowat;
-	short			sb_flags;
-	short			sb_timeo;
+    UInt32      xsb_len;    // Length of this structure.
+    UInt32      xsb_kind;   // XSO_RCVBUF or XSO_SNDBUF.
+    UInt32      sb_cc;
+    UInt32      sb_hiwat;
+    UInt32      sb_mbcnt;
+    UInt32      sb_mbmax;
+    SInt32      sb_lowat;
+    SInt16      sb_flags;
+    SInt16      sb_timeo;
 };
 
 struct xsockstat_n {
-	u_int32_t		xst_len;		/* length of this structure */
-	u_int32_t		xst_kind;		/* XSO_STATS */
-	struct data_stats	xst_tc_stats[SO_TC_STATS_MAX];
+    UInt32      xst_len;    // Length of this structure.
+    UInt32      xst_kind;   // XSO_STATS
+#define SO_TC_STATS_MAX 4
+    struct data_stats   xst_tc_stats[SO_TC_STATS_MAX];
 };
 
 #define ALL_XGN_KIND_INP (XSO_SOCKET | XSO_RCVBUF | XSO_SNDBUF | XSO_STATS | XSO_INPCB)
