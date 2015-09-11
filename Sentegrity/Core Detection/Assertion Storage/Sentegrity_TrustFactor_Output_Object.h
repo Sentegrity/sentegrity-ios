@@ -33,7 +33,7 @@
 // Default assertion string
 @property (nonatomic,retain) Sentegrity_Stored_Assertion *defaultAssertionObject;
 
-// dne modifier 
+// dne modifier
 @property (nonatomic) DNEStatusCode statusCode;
 
 // Trigger bool set during baseline analysis and checked during computation

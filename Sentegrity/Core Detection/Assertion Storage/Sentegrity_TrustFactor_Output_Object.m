@@ -40,6 +40,7 @@
     [new setLastTime:[NSNumber numberWithInteger:nowEpochSeconds]];
     [new setHitCount:[NSNumber numberWithInt:1]];
     [new setCreated:[NSNumber numberWithInteger:nowEpochSeconds]];
+    [new setDecayMetric:10.0];
     
     // Set property
     self.defaultAssertionObject = new;
@@ -72,14 +73,15 @@
         // Get EPOCH
         NSDate *now = [NSDate date];
         NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
-
+        
         
         // Set object properties
         [new setAssertionHash:hash];
         [new setLastTime:[NSNumber numberWithInteger:nowEpochSeconds]];
         [new setHitCount:[NSNumber numberWithInt:1]];
         [new setCreated:[NSNumber numberWithInteger:nowEpochSeconds]];
-       
+        [new setDecayMetric:10.0];
+        
         // Add object to the array
         [assertionObjects addObject:new];
         

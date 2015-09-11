@@ -25,21 +25,21 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
+    //No connection, check if WiFi is enabled
+    if([[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled]==NO){
+        
+        //Not enabled, set DNE and return (penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     
     NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
     
     // Check for a connection
     if (wifiInfo == nil){
-        
-        //No connection, check if WiFi is enabled
-        if(![[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo]){
-            
-            //Not enabled, set DNE and return (penalize)
-            [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
-            
-            // Return with the blank output object
-            return trustFactorOutputObject;
-        }
         
         //WiFi is enabled but there is no connection (don't penalize)
         [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
@@ -121,19 +121,19 @@
     // If no OUI match resort to IP
     if (!match){
         if([gatewayIP containsString:@"192.168.1.1"]){
-                [outputArray addObject:bssid];
+            [outputArray addObject:bssid];
         }
     }
     
     
-  
+    
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-
+    
 }
 
 // 18 - Captive Portal Unencrypted AP Check - Not available
@@ -148,18 +148,20 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
-    // Check for a connection
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo] == nil){
+    //No connection, check if WiFi is enabled
+    if([[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled]==NO){
         
-        //No connection, check if WiFi is enabled
-        if(![[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo]){
-            
-            //Not enabled, set DNE and return (penalize)
-            [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
-            
-            // Return with the blank output object
-            return trustFactorOutputObject;
-        }
+        //Not enabled, set DNE and return (penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
+    
+    // Check for a connection
+    if (wifiInfo == nil){
         
         //WiFi is enabled but there is no connection (don't penalize)
         [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
@@ -168,6 +170,10 @@
         return trustFactorOutputObject;
         
     }
+    
+    NSString *ssid = [wifiInfo objectForKey:@"ssid"];
+    
+    
     //Perform WISPR check
     NSString *url =@"http://www.apple.com/library/test/success.html";
     NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc]
@@ -181,7 +187,7 @@
     //Perform Blank page check
     url =@"http://www.google.com/blank.html";
     urlRequest = [[NSMutableURLRequest alloc]
-                                       initWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+                  initWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     
     data = [ NSURLConnection sendSynchronousRequest:urlRequest returningResponse: nil error: nil ];
     NSString *returnDataBlank = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
@@ -189,19 +195,19 @@
     // Check if WISPR return something other than "Success" HTML AND if the AP returns a login page instead of blank during google check
     if(![returnDataWispr containsString:@"Success"] || [returnDataBlank length] > 1)
     {
-        [outputArray addObject:returnDataBlank];
+        [outputArray addObject:ssid];
     }
-
     
-  
+    
+    
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-
+    
     return 0;
-   }
+}
 
 // 19 - Unknown SSID Check - Get the current AP SSID
 + (Sentegrity_TrustFactor_Output_Object *)SSID:(NSArray *)payload {
@@ -215,20 +221,20 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
+    //No connection, check if WiFi is enabled
+    if([[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled]==NO){
+        
+        //Not enabled, set DNE and return (penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
     
     // Check for a connection
     if (wifiInfo == nil){
-        
-        //No connection, check if WiFi is enabled
-        if(![[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo]){
-            
-            //Not enabled, set DNE and return (penalize)
-            [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
-            
-            // Return with the blank output object
-            return trustFactorOutputObject;
-        }
         
         //WiFi is enabled but there is no connection (don't penalize)
         [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
@@ -262,7 +268,7 @@
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-
+    
 }
 
 // 27 - Known BSSID - Get the current BSSID of the AP
@@ -278,20 +284,20 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
+    //No connection, check if WiFi is enabled
+    if([[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled]==NO){
+        
+        //Not enabled, set DNE and return (penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
     
     // Check for a connection
     if (wifiInfo == nil){
-        
-        //No connection, check if WiFi is enabled
-        if(![[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo]){
-            
-            //Not enabled, set DNE and return (penalize)
-            [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
-            
-            // Return with the blank output object
-            return trustFactorOutputObject;
-        }
         
         //WiFi is enabled but there is no connection (don't penalize)
         [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
@@ -303,14 +309,14 @@
     
     // Get the current Access Point BSSID
     NSString *bssid = nil;
-
+    
     // Get the current Access Point SSID
     NSString *ssid = nil;
     
     ssid = [wifiInfo objectForKey:@"ssid"];
     
     bssid = [wifiInfo objectForKey:@"bssid"];
-
+    
     // Validate the BSSID and SSID
     if ((bssid != nil && bssid.length > 0) && (ssid != nil && ssid.length > 0)) {
         

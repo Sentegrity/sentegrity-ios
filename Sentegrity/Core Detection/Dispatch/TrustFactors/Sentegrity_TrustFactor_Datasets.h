@@ -79,6 +79,7 @@
 // Time of day
 @property (atomic) NSInteger hourOfDay;
 @property (atomic) NSInteger dayOfWeek;
+@property (nonatomic) NSInteger runTimeEpoch;
 
 //App Info
 @property (atomic, retain) NSArray *installedApps;
@@ -126,6 +127,7 @@
 
 // ** WIFI **
 - (NSDictionary *)getWifiInfo;
+- (BOOL)isWifiEnabled;
 
 // ** NETWORKING **
 - (NSArray *) getNetstatInfo;

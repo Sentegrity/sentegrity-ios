@@ -699,13 +699,13 @@
 "subClassID": 4,
 "priority": 2,
 "name": "wifi bssid",
-"penalty": -30,
+"penalty": -20,
 "ruleType": 4,
 "learnMode": 0,
 "learnTime": 0,
 "learnAssertionCount": 0,
 "learnRunCount": 0,
-"threshold": 5,
+"threshold": 0,
 "history": 10,
 "dispatch": "Wifi",
 "implementation": "BSSID:",
@@ -728,7 +728,7 @@
 "learnAssertionCount": 0,
 "learnRunCount": 0,
 "threshold": 0,
-"history": 1,
+"history": 5,
 "dispatch": "Wifi",
 "implementation": "captivePortal:",
 "whitelistable": 0,
@@ -753,7 +753,7 @@
 "history": 5,
 "dispatch": "Celluar",
 "implementation": "carrier:",
-"whitelistable": 0,
+"whitelistable": 1,
 "privateAPI": 1,
 "payload": []
 }, {
@@ -917,13 +917,13 @@
 "payload": []
 }, {
 "id": 1027,
-"issueMessage": "Unfamiliar access time",
+"issueMessage": "Unfamiliar access day",
 "suggestionMessage": "",
 "revision": 1,
 "classID": 5,
 "subClassID": 7,
 "priority": 1,
-"name": "access time",
+"name": "access time day",
 "penalty": 30,
 "ruleType": 3,
 "learnMode": 0,
@@ -931,17 +931,39 @@
 "learnAssertionCount": 0,
 "learnRunCount": 0,
 "threshold": 0,
-"history": 28,
+"history": 0.14,
 "dispatch": "Time",
-"implementation": "accessTime:",
+"implementation": "timeDay:",
+"whitelistable": 1,
+"privateAPI": 0,
+"payload": []
+}, {
+"id": 1028,
+"issueMessage": "Unfamiliar access hour",
+"suggestionMessage": "",
+"revision": 1,
+"classID": 5,
+"subClassID": 7,
+"priority": 1,
+"name": "access time hour",
+"penalty": 30,
+"ruleType": 3,
+"learnMode": 0,
+"learnTime": 0,
+"learnAssertionCount": 0,
+"learnRunCount": 0,
+"threshold": 0,
+"history": 0.2,
+"dispatch": "Time",
+"implementation": "timeHour:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
 "hoursInBlock" : 4
 }]
 }, {
-"id": 1028,
-"issueMessage": "Unfamiliar light conditions",
+"id": 1029,
+"issueMessage": "Unfamiliar light",
 "suggestionMessage": "",
 "revision": 1,
 "classID": 5,
@@ -955,17 +977,17 @@
 "learnAssertionCount": 0,
 "learnRunCount": 0,
 "threshold": 0,
-"history": 21,
+"history": 0.3,
 "dispatch": "Time",
 "implementation": "brightness:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"brightnessBlocksize" : 3,
-"hoursInBlock" : 4
+"brightnessBlocksize" : 4,
+"hoursInBlock" : 6
 }]
 }, {
-"id": 1029,
+"id": 1030,
 "issueMessage": "Possible USB attack",
 "suggestionMessage": "Unplug device",
 "revision": 1,
@@ -987,7 +1009,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1030,
+"id": 1031,
 "issueMessage": "Unfamiliar power consumption",
 "suggestionMessage": "Charge device regularly",
 "revision": 1,
@@ -1002,17 +1024,17 @@
 "learnAssertionCount": 0,
 "learnRunCount": 0,
 "threshold": 0,
-"history": 6,
+"history": 8,
 "dispatch": "Power",
 "implementation": "powerLevel:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"hoursInBlock": 4,
+"hoursInBlock": 6,
 "powerInBlock": 25
 }]
 }, {
-"id": 1031,
+"id": 1032,
 "issueMessage": "Unfamiliar battery state",
 "suggestionMessage": "Charge device regularly",
 "revision": 1,
@@ -1027,14 +1049,14 @@
 "learnAssertionCount": 0,
 "learnRunCount": 0,
 "threshold": 0,
-"history": 2,
+"history": 0.14,
 "dispatch": "Power",
 "implementation": "batteryState:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1032,
+"id": 1033,
 "issueMessage": "Unfamiliar device orientation",
 "suggestionMessage": "",
 "revision": 1,
@@ -1056,7 +1078,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1033,
+"id": 1034,
 "issueMessage": "Unfamiliar user activity",
 "suggestionMessage": "",
 "revision": 1,
@@ -1076,35 +1098,37 @@
 "implementation": "previous:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": []
+"payload": [{
+"hoursInBlock": 4
+}]
 }, {
-"id": 1034,
-"issueMessage": "Device is moving",
+"id": 1035,
+"issueMessage": "Unreliable grip (moving)",
 "suggestionMessage": "Hold device steady",
 "revision": 1,
 "classID": 5,
 "subClassID": 14,
 "priority": 1,
 "name": "device moving",
-"penalty": 10,
+"penalty": 28,
 "ruleType": 3,
 "learnMode": 0,
 "learnTime": 0,
 "learnAssertionCount": 0,
 "learnRunCount": 0,
 "threshold": 0,
-"history": 0,
+"history": 1,
 "dispatch": "Motion",
 "implementation": "moving:",
-"whitelistable": 1,
+"whitelistable": 0,
 "privateAPI": 0,
 "payload": [{
-"xThreshold": 0.5,
-"yThreshold": 0.5,
-"zThreshold": 0.5
+"xThreshold": 0.8,
+"yThreshold": 0.8,
+"zThreshold": 0.8
 }]
 }, {
-"id": 1035,
+"id": 1036,
 "issueMessage": "Unfamiliar device grip",
 "suggestionMessage": "",
 "revision": 1,
@@ -1112,7 +1136,7 @@
 "subClassID": 11,
 "priority": 3,
 "name": "device grip",
-"penalty": 30,
+"penalty": 28,
 "ruleType": 3,
 "learnMode": 0,
 "learnTime": 0,
@@ -1128,7 +1152,7 @@
 "blockSize": 6
 }]
 }, {
-"id": 1036,
+"id": 1037,
 "issueMessage": "Unfamiliar device location",
 "suggestionMessage": "Access device in familiar areas",
 "revision": 1,
@@ -1136,7 +1160,7 @@
 "subClassID": 10,
 "priority": 1,
 "name": "device location",
-"penalty": 50,
+"penalty": 40,
 "ruleType": 3,
 "learnMode": 0,
 "learnTime": 0,
@@ -1154,7 +1178,7 @@
 "allowed": "41.88,-87.61"
 }]
 }, {
-"id": 1037,
+"id": 1038,
 "issueMessage": "Device location policy violation",
 "suggestionMessage": "Request a policy exception",
 "revision": 1,
@@ -1179,7 +1203,7 @@
 "CA"
 ]
 }, {
-"id": 1038,
+"id": 1039,
 "issueMessage": "",
 "suggestionMessage": "Employ bluetooth low-energy devices",
 "revision": 1,
@@ -1187,13 +1211,13 @@
 "subClassID": 12,
 "priority": 1,
 "name": "bluetooth low-entergy scanning",
-"penalty": -25,
+"penalty": -20,
 "ruleType": 4,
 "learnMode": 0,
 "learnTime": 0,
 "learnAssertionCount": 0,
 "learnRunCount": 0,
-"threshold": 3,
+"threshold": 0,
 "history": 20,
 "dispatch": "Bluetooth",
 "implementation": "discoveredBLEDevice:",
@@ -1201,7 +1225,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1039,
+"id": 1040,
 "issueMessage": "",
 "suggestionMessage": "Employ bluetooth classic devices",
 "revision": 1,
@@ -1215,7 +1239,7 @@
 "learnTime": 0,
 "learnAssertionCount": 0,
 "learnRunCount": 0,
-"threshold": 3,
+"threshold": 0,
 "history": 20,
 "dispatch": "Bluetooth",
 "implementation": "discoveredClassicDevice:",

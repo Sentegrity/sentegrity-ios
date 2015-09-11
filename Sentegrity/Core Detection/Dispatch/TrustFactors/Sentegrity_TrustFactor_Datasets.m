@@ -29,6 +29,8 @@
 // Init (Defaults)
 - (id)init {
     if (self = [super init]) {
+        //Set epoch (runtime) to be used all over the place but consistent for the same run
+        self.runTimeEpoch = [[NSDate date] timeIntervalSince1970];
     }
     return self;
 }
@@ -143,7 +145,7 @@
                 orientationString =  @"error";
                 break;
         }
-
+        
         
         self.deviceOrientation = orientationString;
         
@@ -199,7 +201,7 @@
             return [NSString stringWithFormat:@"H%ld",(long)hourBlock];
         }
         
-
+        
     }else
     {
         // Hours partitioned across 24, adjust accordingly but it does impact multiple rules
@@ -258,7 +260,7 @@
             // Error
             return nil;
         }
-
+        
     }
     else //already populated
     {
@@ -268,7 +270,7 @@
 
 
 - (NSNumber *)getOurPID {
-
+    
     if(!self.ourPID || self.ourPID ==nil) //dataset not populated
     {
         // Get the list of processes and all information about them
@@ -363,7 +365,7 @@
 
 
 - (CLLocation *)getLocationInfo {
-
+    
     CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
     CFAbsoluteTime currentTime = 0.0;
     
@@ -378,17 +380,17 @@
                 NSLog(@"Got a location after waiting..");
                 exit=YES;
                 return self.location;
-
+                
             }
             
             currentTime = CFAbsoluteTimeGetCurrent();
-                                // we've waited more than a second, exit
+            // we've waited more than a second, exit
             if ((currentTime-startTime) > 0.5){
                 NSLog(@"Location timer expired");
                 exit=YES;
                 [self setLocationDNEStatus:DNEStatus_expired];
                 return self.location;
-
+                
             }
             
             
@@ -430,7 +432,7 @@
                 exit=YES;
                 [self setPlacemarkDNEStatus:DNEStatus_expired];
                 return self.placemark ;
-                    
+                
             }
             
             
@@ -515,7 +517,7 @@
                 exit=YES;
                 [self setActivityDNEStatus:DNEStatus_expired];
                 return self.previousActivities;
-                    
+                
             }
             
             
@@ -558,7 +560,7 @@
                 exit=YES;
                 [self setGyroMotionDNEStatus:DNEStatus_expired];
                 return self.gyroRads;
-
+                
                 
                 
             }
@@ -572,7 +574,7 @@
     //we've already got location data
     NSLog(@"Got gyro rads without waiting...");
     return self.gyroRads;
-
+    
     
 }
 
@@ -662,7 +664,7 @@
     {
         return self.wifiEnabled;
     }
-
+    
 }
 
 - (NSArray *)getDiscoveredBLEInfo {
@@ -694,7 +696,7 @@
                 exit=YES;
                 [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
                 return self.discoveredBLEDevices;
-                    
+                
             }
             
             [NSThread sleepForTimeInterval:0.01];

@@ -21,7 +21,6 @@
     // Set the default status code to OK (default = DNEStatus_ok)
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
-
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
@@ -75,45 +74,45 @@
             else{
                 unknownCount = unknownCount + 1;
             }
-
+            
             
         }
         
         // Medium confidence
         //if(actItem.confidence == 1){
         
-           // if (actItem.stationary == 1){
-           //     stillCount = stillCount + 0.5;
-           // }else if (actItem.cycling == 1 || actItem.walking == 1 || actItem.running == 1){
-           //     movingCount = movingCount + 0.5;
-           // }else if (actItem.automotive == 1){
-           //     movingFastcount = movingFastcount + 0.5;
-           // }
-           // else{
-           //     unknownCount = unknownCount + 0.5;
-           // }
-            
-
-       // }
+        //  if (actItem.stationary == 1){
+        //      stillCount = stillCount + 0.5;
+        //  }else if (actItem.cycling == 1 || actItem.walking == 1 || actItem.running == 1){
+        //      movingCount = movingCount + 0.5;
+        //  }else if (actItem.automotive == 1){
+        //      movingFastcount = movingFastcount + 0.5;
+        //  }
+        //  else{
+        //      unknownCount = unknownCount + 0.5;
+        //  }
+        
+        
+        //}
         
         // Low confidence
         //if(actItem.confidence == 0){
-
-            //if (actItem.stationary == 1){
-            //    stillCount = stillCount + 0.5;
-           // }else if (actItem.cycling == 1 || actItem.walking == 1 || actItem.running == 1){
-            //    movingCount = movingCount + 0.5;
-           // }else if (actItem.automotive == 1){
-            //    movingFastcount = movingFastcount + 0.5;
-            //}
-           // else{
-           //     unknownCount = unknownCount + 0.5;
-           // }
-            
-            
+        
+        //if (actItem.stationary == 1){
+        //    stillCount = stillCount + 0.5;
+        // }else if (actItem.cycling == 1 || actItem.walking == 1 || actItem.running == 1){
+        //    movingCount = movingCount + 0.5;
+        // }else if (actItem.automotive == 1){
+        //    movingFastcount = movingFastcount + 0.5;
+        //}
+        // else{
+        //     unknownCount = unknownCount + 0.5;
+        // }
+        
+        
         //}
         
-       // NSLog(@"Got a PREVIOUS core motion update");
+        // NSLog(@"Got a PREVIOUS core motion update");
         //NSLog(@"Previous activity date is %f",actItem.timestamp);
         //NSLog(@"Previous activity confidence from a scale of 0 to 2 - 2 being best- is: %ld",actItem.confidence);
         //NSLog(@"Previous activity type is unknown: %i",actItem.unknown);
@@ -132,19 +131,24 @@
         lastActivity = @"movingFast";
     }else{
         lastActivity=@"unknown";
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
     }
     
     //NSLog(@"Previous activity result: %@", lastActivity);
     
     // Hours partitioned across 24, adjust accordingly but it does impact multiple rules
     // Hour block from policy
-
-    NSString *blockOfDay = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:NO];
     
-    NSString *activityString =  [blockOfDay stringByAppendingString:[NSString stringWithFormat:@"-%@",lastActivity]];
+    //NSString *blockOfDay = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:NO];
+    
+    //NSString *activityString =  [blockOfDay stringByAppendingString:[NSString stringWithFormat:@"-%@",lastActivity]];
     
     // Merge with activity and hour
-    [outputArray addObject:activityString];
+    [outputArray addObject:lastActivity];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];

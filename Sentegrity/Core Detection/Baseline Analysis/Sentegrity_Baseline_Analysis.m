@@ -12,6 +12,7 @@
 #import "Sentegrity_Assertion_Store.h"
 #import "Sentegrity_Policy.h"
 #import "Sentegrity_TrustFactor_Storage.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
 
 
 // Pod for hashing
@@ -20,8 +21,6 @@
 @implementation Sentegrity_Baseline_Analysis
 
 //@synthesize trustFactorOutputObjectsForProtectMode = _trustFactorOutputObjectsForProtectMode, trustFactorOutputObjectsForComputation = _trustFactorOutputObjectsForComputation;
-
-static NSTimeInterval nowEpochSeconds;
 
 // Retrieve stored assertions
 + (NSArray *)performBaselineAnalysisUsing:(NSArray *)trustFactorOutputObjects forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
@@ -55,8 +54,6 @@ static NSTimeInterval nowEpochSeconds;
     //Updated trustFactorOutputObject
     Sentegrity_TrustFactor_Output_Object *updatedTrustFactorOutputObject;
     
-    //Set lastTime for all assertions
-    nowEpochSeconds = [[NSDate date] timeIntervalSince1970];
     
     // Run through all the trustFactorOutput objects and determine if they're local or global TrustFactors and perform compare
     for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in trustFactorOutputObjects)
@@ -78,7 +75,7 @@ static NSTimeInterval nowEpochSeconds;
             continue;
         }
         
-            
+        
         // Find the matching stored assertion object for the trustfactor in the local store
         storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
         
@@ -177,7 +174,7 @@ static NSTimeInterval nowEpochSeconds;
                 
                 //update the trustFactorOutputObject with newly created storedTrustFactorObject
                 trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
-    
+                
                 //perform baseline analysis against storedTrustFactorObject
                 updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
                 
@@ -236,7 +233,7 @@ static NSTimeInterval nowEpochSeconds;
 
 + (Sentegrity_TrustFactor_Output_Object *)performBaselineAnalysisUsing:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
     
-
+    
     Sentegrity_TrustFactor_Output_Object *updatedTrustFactorOutputObject;
     
     trustFactorOutputObject.assertionObjectsToWhitelist = [[NSMutableArray alloc] init];
@@ -255,7 +252,7 @@ static NSTimeInterval nowEpochSeconds;
     
     // Check if we should decay
     // If the assertion store is greater than the TF's max history value
-    if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count >= [trustFactorOutputObject.trustFactor.history integerValue]){
+    if( (trustFactorOutputObject.trustFactor.history.floatValue < 1.0) || (trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > [trustFactorOutputObject.trustFactor.history integerValue])){
         
         trustFactorOutputObject = [self performDecay:trustFactorOutputObject withError:error];
         
@@ -270,7 +267,7 @@ static NSTimeInterval nowEpochSeconds;
         }
         
     }
-
+    
     
     // Create assertions
     switch (trustFactorOutputObject.trustFactor.ruleType.intValue) {
@@ -289,8 +286,8 @@ static NSTimeInterval nowEpochSeconds;
             
             // Run baseline analysis
             updatedTrustFactorOutputObject = [self checkBaselineForNoMatch:trustFactorOutputObject withError:error];
-          
-
+            
+            
             break;
         case 2: // Rule Type 2 employs various learning for system anomaly detection, no default assertion is used, these rules don't take effect right away
             
@@ -300,14 +297,14 @@ static NSTimeInterval nowEpochSeconds;
                 updatedTrustFactorOutputObject = [self checkBaselineForNoMatch:trustFactorOutputObject withError:error];
             }
             else{ // Not yet learned, just update learning and don't baseline
-              
+                
                 updatedTrustFactorOutputObject = [self updateLearningAndAddCandidateAssertions:trustFactorOutputObject withError:error];
-
+                
             }
             
             break;
         case 3: // Rule Type 3 builds a profile to identify known-good good user conditions one login at a time, good conditions are determined by login therefore no learning occurs, everything triggers on first run
-
+            
             // Must be the first time this has run
             if(trustFactorOutputObject.storedTrustFactorObject.learned==NO)
             {
@@ -334,7 +331,7 @@ static NSTimeInterval nowEpochSeconds;
             }
             
             updatedTrustFactorOutputObject = [self checkBaselineForAMatch:trustFactorOutputObject withError:error];
-
+            
             
             break;
         default:
@@ -350,9 +347,9 @@ static NSTimeInterval nowEpochSeconds;
         // Don't return anything
         return nil;
     }
-
     
-
+    
+    
     return updatedTrustFactorOutputObject;
     
     
@@ -389,7 +386,7 @@ static NSTimeInterval nowEpochSeconds;
                 origHitCount = [stored hitCount];
                 newHitCount = [NSNumber numberWithInt:[origHitCount intValue]+1];
                 [stored setHitCount:newHitCount];
-                [stored setLastTime:[NSNumber numberWithInteger:nowEpochSeconds]];
+                [stored setLastTime:[NSNumber numberWithInteger:[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch]]];
                 
                 //if this rules has frequency requirments then enforce them
                 if(trustFactorOutputObject.trustFactor.threshold.intValue != 0)
@@ -403,7 +400,7 @@ static NSTimeInterval nowEpochSeconds;
                     }
                     
                 }
-
+                
                 break;
             }
         }
@@ -464,7 +461,7 @@ static NSTimeInterval nowEpochSeconds;
                 origHitCount = [stored hitCount];
                 newHitCount = [NSNumber numberWithInt:[origHitCount intValue]+1];
                 [stored setHitCount:newHitCount];
-                [stored setLastTime:[NSNumber numberWithInteger:nowEpochSeconds]];
+                [stored setLastTime:[NSNumber numberWithInteger:[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch]]];
                 
                 //if this rules has frequency requirments then enforce them
                 if(trustFactorOutputObject.trustFactor.threshold.intValue != 0)
@@ -493,8 +490,8 @@ static NSTimeInterval nowEpochSeconds;
             
             
         }
-     
-
+        
+        
         
     } // End next candidate assertion
     
@@ -508,60 +505,59 @@ static NSTimeInterval nowEpochSeconds;
 
 + (Sentegrity_TrustFactor_Output_Object *)performDecay:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
     
-    // Rules:
-    // Sort all by hitsPerHour metric
-    // Keep anything less than 30 min since last hit
-   
+    double secondsInADay = 86400.0;
+    double daysSinceCreation=0.0;
+    double hitsPerDay=0.0;
     
-    float secondsInAnHour = 3600;
-    float hoursSinceCreation=0.0;
-    float hoursSinceLastHit=0.0;
-    float hitsPerHourMetric=0.0;
-
-    // Current EPOCH
-    NSDate *now = [NSDate date];
-    NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
+    BOOL useDecay=NO;
+    
+    if([trustFactorOutputObject.trustFactor.history floatValue]<1.0){
+        useDecay=YES;
+    }
+    
     
     // Array to hold assertions to retain
     NSMutableArray *assertionObjectsToKeep = [[NSMutableArray alloc]init];
     
-    // Array to hold assertions that were recenty created and should be kept to avoid destroying user experience
-    NSMutableArray *assertionObjectsRecentlyCreated = [[NSMutableArray alloc]init];
     
     // Iterate through stored assertions for each trustFactorOutputObject
     for(Sentegrity_Stored_Assertion *storedAssertion in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
         
-        // Calculate hours since the assertion was created
-        hoursSinceCreation = ((float)nowEpochSeconds - [storedAssertion.created floatValue]) / secondsInAnHour;
-    
-        // Check hours since last hit
-        hoursSinceLastHit = ((float)nowEpochSeconds - [storedAssertion.lastTime floatValue]) / secondsInAnHour;
+        // hours since the assertion was created
+        daysSinceCreation = ((double)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created doubleValue]) / secondsInADay;
+        //minutesSinceCreation = ((float)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created floatValue]) / 60;
         
-        // Must be a minimum of 1
-        if(hoursSinceCreation<1.0){
-            hoursSinceCreation=1.0;
-        }
+        //Only compute decay metric for assertions that are older than 1 day
+        //if(daysSinceCreation>1) {
+        // Calculate our core metric for sorting
+        hitsPerDay = [storedAssertion.hitCount doubleValue] / (daysSinceCreation);
         
-        // Give new assertions a chance to catch up, hoursSinceCreation are new, hoursSinceLastHit prevent back-to-back user anomalies
-        if(hoursSinceLastHit < 0.1) {
+        // Set the metric for sorting
+        [storedAssertion setDecayMetric:hitsPerDay];
+        
+        // }
+        
+        
+        // If we are purely using decay metric, only keep what makes the cut
+        if(useDecay==YES){
             
-            // If history=0 (we want a clean slate after each run), then disregard lastHit time and dont add it
-            if(trustFactorOutputObject.trustFactor.history.intValue != 0){
-                    [assertionObjectsRecentlyCreated addObject:storedAssertion];
+            if([storedAssertion decayMetric]  > trustFactorOutputObject.trustFactor.history.floatValue){
+                
+                [assertionObjectsToKeep addObject:storedAssertion];
+                
             }
-
+            
+        }else{ //we keep everything
+            
+            [assertionObjectsToKeep addObject:storedAssertion];
             
         }
-
-        // Calculate our core metric to normalize usage of an assertion regardless of its age
-        hitsPerHourMetric = [storedAssertion.hitCount floatValue] / (hoursSinceCreation);
         
-        // Set the metric
-        [storedAssertion setDecayMetric:hitsPerHourMetric];
         
-  
-
+        
     }
+    
+    
     
     // Sort all assertions by decay metric, highest at top (in theory, the most frequently used)
     NSSortDescriptor *sortDescriptor;
@@ -571,26 +567,24 @@ static NSTimeInterval nowEpochSeconds;
     
     NSArray *sortedArray;
     
-    sortedArray = [trustFactorOutputObject.storedTrustFactorObject.assertionObjects sortedArrayUsingDescriptors:sortDescriptors];
+    //Sort the array
+    sortedArray = [assertionObjectsToKeep sortedArrayUsingDescriptors:sortDescriptors];
     
-    //Trim NS to the history size
-    assertionObjectsToKeep = [[sortedArray subarrayWithRange:NSMakeRange(0,trustFactorOutputObject.trustFactor.history.intValue)] mutableCopy];
-    
-    // Make sure we retain any newly created or just hit assertions
-    for(Sentegrity_Stored_Assertion *recentAssertion in assertionObjectsRecentlyCreated){
-
-         //If its not already in the sorted array add it to it
-        if(![assertionObjectsToKeep containsObject:recentAssertion]){
-            [assertionObjectsToKeep addObject:recentAssertion];
-        }
-
-    }
     
     // Set stored assertions back
-    trustFactorOutputObject.storedTrustFactorObject.assertionObjects = assertionObjectsToKeep;
+    if(useDecay==YES){
+        
+        trustFactorOutputObject.storedTrustFactorObject.assertionObjects = sortedArray;
+        
+    }else{ // Trim first
+        
+        trustFactorOutputObject.storedTrustFactorObject.assertionObjects = [sortedArray subarrayWithRange:NSMakeRange(0,trustFactorOutputObject.trustFactor.history.intValue)];
+        
+    }
+    
     
     return trustFactorOutputObject;
- }
+}
 
 + (Sentegrity_TrustFactor_Output_Object *)updateLearningAndAddCandidateAssertions:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error
 {
@@ -603,7 +597,7 @@ static NSTimeInterval nowEpochSeconds;
     switch (trustFactorOutputObject.trustFactor.learnMode.integerValue) {
         case 0:
             // Learn Mode 0: Nothing is learned
-        
+            
             // Set learned to YES
             trustFactorOutputObject.storedTrustFactorObject.learned = YES;
             

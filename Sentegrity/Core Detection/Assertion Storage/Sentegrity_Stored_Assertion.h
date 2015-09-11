@@ -19,7 +19,7 @@
 // date and time first created
 @property (nonatomic,retain) NSNumber *created;
 // date and time first created
-@property (nonatomic) float decayMetric;
+@property (nonatomic) double decayMetric;
 
 
 

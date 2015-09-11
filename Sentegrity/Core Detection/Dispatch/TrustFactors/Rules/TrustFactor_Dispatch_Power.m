@@ -50,9 +50,9 @@
     float batteryCharge = [Device batteryLevel];
     
     // Can't get battery level on simulator so spoof it
-    #if TARGET_IPHONE_SIMULATOR
+#if TARGET_IPHONE_SIMULATOR
     batteryCharge = 0.5;
-    #endif
+#endif
     
     if (batteryCharge > 0.0f) {
         batteryLevel = batteryCharge * 100;
@@ -66,13 +66,15 @@
     
     
     NSInteger powerBlocksize = [[[payload objectAtIndex:0] objectForKey:@"powerInBlock"] integerValue];
-
+    
     int blockOfPower = ceilf(batteryLevel / (float)powerBlocksize);
     
     NSString *blockOfDay = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:NO];
- 
+    
     // Create assertion
     [outputArray addObject: [blockOfDay stringByAppendingString: [NSString stringWithFormat:@"-P%d",blockOfPower]]];
+    
+    //[outputArray addObject:[NSString stringWithFormat:@"P%d",blockOfPower]];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
@@ -96,9 +98,9 @@
     NSString *state= [[Sentegrity_TrustFactor_Datasets sharedDatasets] getBatteryState];
     
     if([state isEqualToString:@"pluggedFull"] || [state isEqualToString:@"pluggedCharging"]){
-         [outputArray addObject:state];
+        [outputArray addObject:state];
     }
-       
+    
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
@@ -116,10 +118,10 @@
     
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
-
+    
     NSString *state= [[Sentegrity_TrustFactor_Datasets sharedDatasets] getBatteryState];
     
-        // Create assertion
+    // Create assertion
     [outputArray addObject: state];
     
     // Set the trustfactor output to the output array (regardless if empty)

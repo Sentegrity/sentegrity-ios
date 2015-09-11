@@ -18,7 +18,35 @@
 //    return 0;
 //}
 
-+ (Sentegrity_TrustFactor_Output_Object *)accessTime:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)timeDay:(NSArray *)payload {
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
+    
+    //day of week
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *comps = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate date]];
+    NSInteger weekDay = [comps weekday];
+    
+    //NSString *timeString = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:YES];
+    
+    // Create assertion
+    [outputArray addObject: [NSString stringWithFormat:@"%ld",(long)weekDay]];
+    
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+}
+
++ (Sentegrity_TrustFactor_Output_Object *)timeHour:(NSArray *)payload {
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
@@ -40,10 +68,10 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
-    NSString *timeString = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:YES];
+    NSString *hourBlock = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:NO];
     
-       // Create assertion
-    [outputArray addObject: timeString];
+    // Create assertion
+    [outputArray addObject: hourBlock];
     
     
     // Set the trustfactor output to the output array (regardless if empty)
@@ -80,7 +108,7 @@
     
     // With a blocksize of .25 or 4 we get block 0-.25,.25-.5,.5-.75,.75-1
     // We add 1 to the blockOfBrightness after dividing to get a 1-4 block instead of 0-3
-
+    
     float blocksize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksize"] floatValue];
     
     // Prevents 0/.25 = 0
@@ -90,13 +118,16 @@
     
     int blockOfBrightness = ceilf(screenLevel / (1/blocksize));
     
-   // Pair it with hour block of day
+    // Pair it with hour block of day
     NSString *blockOfDay = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:NO];    // Calculate block of screen brightness
     
     // Create assertion
     [outputArray addObject: [blockOfDay stringByAppendingString: [NSString stringWithFormat:@"-B%d",blockOfBrightness]]];
     
-      // Set the trustfactor output to the output array (regardless if empty)
+    //[outputArray addObject: [NSString stringWithFormat:@"B%d",blockOfBrightness]];
+    
+    
+    // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
     // Return the trustfactor output object

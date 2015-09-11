@@ -33,6 +33,56 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
+    
+    
+    // Make sure device is steady enough to take a reading by manually calling the "moving" TF
+    
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObjectMoving = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    NSDictionary *dict = @{
+                           @"xThreshold": [NSNumber numberWithFloat:0.8],
+                           @"yThreshold": [NSNumber numberWithFloat:0.8],
+                           @"zThreshold": [NSNumber numberWithFloat:0.8]
+                           };
+    
+    
+    NSArray *params = @[dict];
+    
+    trustFactorOutputObjectMoving = [self moving:params];
+    
+    if([trustFactorOutputObjectMoving statusCode] == DNEStatus_ok){
+        //check if result is moving
+        if([trustFactorOutputObjectMoving output].count > 0){
+            
+            // don't try and return with no penalty
+            [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+            // Return with the blank output object
+            return trustFactorOutputObject;
+            
+        }
+    }else{
+        
+        //don't try and return with no penalty
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
+    }
+    
+    
+    NSString *orientation = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getDeviceOrientation];
+    
+    // check if its being held, if not stop
+    if( ![orientation containsString:@"Portrait"] && ![orientation containsString:@"Landscape"]){
+        
+        //don't try and return
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     // Get motion dataset
     NSArray *pitchRoll;
     
@@ -271,6 +321,8 @@
     return trustFactorOutputObject;
     
 }
+
+
 
 
 

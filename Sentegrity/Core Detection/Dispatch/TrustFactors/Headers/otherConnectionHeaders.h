@@ -134,7 +134,7 @@ extern char *tcpstates[];
 #define ADVANCE64(x, n) (((char *)x) += ROUNDUP64(n))
 
 #ifdef __arm64__
-typedef SInt32   inp_gen_t;
+//typedef SInt32   inp_gen_t;
 #else
 typedef u_quad_t inp_gen_t;
 #endif
