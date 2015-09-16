@@ -71,6 +71,7 @@
 		4CE9D8891B323B05006D43D8 /* Sentegrity_Classification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8631B323B05006D43D8 /* Sentegrity_Classification+Computation.m */; };
 		4CE9D88A1B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */; };
 		4CE9D88B1B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */; };
+		961565911BA9B09800345372 /* ActiveConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 961565891BA9B09800345372 /* ActiveConnection.m */; };
 		966A41061B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41051B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m */; };
 		966A41091B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41081B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m */; };
 		966A410C1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A410B1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m */; };
@@ -216,6 +217,9 @@
 		4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Subclassification+Computation.m"; sourceTree = "<group>"; };
 		4CE9D8661B323B05006D43D8 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
+		961565881BA9B09800345372 /* ActiveConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveConnection.h; sourceTree = "<group>"; };
+		961565891BA9B09800345372 /* ActiveConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveConnection.m; sourceTree = "<group>"; };
+		9615658A1BA9B09800345372 /* bsd_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bsd_var.h; path = ../Helpers/Network/bsd_var.h; sourceTree = "<group>"; };
 		966A41041B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Stored_Assertion.h; sourceTree = "<group>"; };
 		966A41051B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Stored_Assertion.m; sourceTree = "<group>"; };
 		966A41071B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Celluar.h; sourceTree = "<group>"; };
@@ -705,6 +709,16 @@
 			path = "Protect Mode";
 			sourceTree = "<group>";
 		};
+		961565871BA9B09800345372 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				961565881BA9B09800345372 /* ActiveConnection.h */,
+				961565891BA9B09800345372 /* ActiveConnection.m */,
+			);
+			name = Objects;
+			path = Network;
+			sourceTree = "<group>";
+		};
 		966A41131B8A376B007DAFB7 /* private */ = {
 			isa = PBXGroup;
 			children = (
@@ -756,6 +770,7 @@
 				966A41131B8A376B007DAFB7 /* private */,
 				96C0FEFD1B5BE7D5003F4213 /* kernel includes */,
 				96C0FF201B5BE7D5003F4213 /* otherConnectionHeaders.h */,
+				9615658A1BA9B09800345372 /* bsd_var.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -811,6 +826,7 @@
 		96C0FF211B5BE7E2003F4213 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				961565871BA9B09800345372 /* Objects */,
 				966A41101B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.h */,
 				966A41111B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m */,
 				966A410A1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.h */,
@@ -1043,6 +1059,7 @@
 				4CE9D8681B323B05006D43D8 /* Sentegrity_Assertion_Store.m in Sources */,
 				4CE9D87E1B323B05006D43D8 /* Sentegrity_TrustFactor_Datasets.m in Sources */,
 				96C0FF2C1B5BEC25003F4213 /* Sentegrity_TrustFactor_Dataset_Location.m in Sources */,
+				961565911BA9B09800345372 /* ActiveConnection.m in Sources */,
 				96C0FF291B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */,
 				4CE9D8731B323B05006D43D8 /* TrustFactor_Dispatch_Netstat.m in Sources */,
 				4CE9D8761B323B05006D43D8 /* TrustFactor_Dispatch_Route.m in Sources */,

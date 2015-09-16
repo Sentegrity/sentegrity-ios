@@ -7,6 +7,7 @@
 //
 
 #import "TrustFactor_Dispatch_Netstat.h"
+#import "ActiveConnection.h"
 
 @implementation TrustFactor_Dispatch_Netstat
 
@@ -48,31 +49,26 @@
         return trustFactorOutputObject;
     }
     
-    // Destination IP
-    NSString *dstIP;
     
     // Run through all the connection dictionaries
-    for (NSDictionary *connection in connections) {
+    for (ActiveConnection *connection in connections) {
         
         // Skip if this is a listening socket or local
-        if([[connection objectForKey:@"state"] isEqualToString:@"LISTEN"] || [[connection objectForKey:@"dst_ip"] isEqualToString:@"localhost"] )
+        if([connection.status isEqualToString:@"LISTEN"] || [connection.remoteHost isEqualToString:@"localhost"] )
             continue;
 
-        
-        // Get the current destination IP
-        dstIP = [connection objectForKey:@"dst_ip"];
         
         // Iterate through payload names and look for matching processes
         for (NSString *badDstIP in payload) {
             
             // Check if the domain of the connection equal one in payload
-            if([dstIP hasSuffix:badDstIP]) {
+            if([connection.remoteHost hasSuffix:badDstIP]) {
                 
-                // make sure we don't add more than one instance of the proc
-                if (![outputArray containsObject:dstIP]){
+                // make sure we don't add more than one instance of destination
+                if (![outputArray containsObject:connection.remoteHost]){
                     
-                    // Add the process to the output array
-                    [outputArray addObject:dstIP];
+                    // Add the destination to the output array
+                    [outputArray addObject:connection.remoteHost];
                 }
             }
         }
@@ -127,30 +123,26 @@
         return trustFactorOutputObject;
     }
     
-    // Source port
-    NSString *srcPort;
     
     // Run through all the connection dictionaries
-    for (NSDictionary *connection in connections) {
+    for (ActiveConnection *connection in connections) {
         
         // Skip if this is NOT a listening socket
-        if(![[connection objectForKey:@"state"] isEqualToString:@"LISTEN"])
+        if(![connection.status isEqualToString:@"LISTEN"])
             continue;
         
-        // Get the current src port
-        srcPort = [connection objectForKey:@"src_port"];
         
         // Iterate through source ports and look for matching ports
-        for (NSString *badSrcPort in payload) {
+        for (NSNumber *badSrcPort in payload) {
             
             // Check if the current port is equal to bad port
-            if([srcPort isEqualToString:badSrcPort]) {
+            if([connection.localPort intValue] == [badSrcPort intValue]) {
                 
                 // make sure we don't add more than one instance of the port
-                if (![outputArray containsObject:srcPort]){
+                if (![outputArray containsObject:connection.localPort ]){
                     
                     // Add the port to the output array
-                    [outputArray addObject:srcPort];
+                    [outputArray addObject:connection.localPort];
                 }
             }
         }
@@ -193,24 +185,21 @@
         return trustFactorOutputObject;
     }
     
-    // Source port
-    NSString *srcPort;
+
     
     // Run through all the connection dictionaries
-    for (NSDictionary *connection in connections) {
+    for (ActiveConnection *connection in connections) {
         
         // Skip if this is NOT a listening socket
-        if(![[connection objectForKey:@"state"] isEqualToString:@"LISTEN"])
+        if(![connection.status isEqualToString:@"LISTEN"])
             continue;
         
-        // Get the current src port
-        srcPort = [connection objectForKey:@"src_port"];
         
         // make sure we don't add more than one instance of the port
-        if (![outputArray containsObject:srcPort]){
+        if (![outputArray containsObject:connection.localPort]){
             
             // Add the port to the output array
-            [outputArray addObject:srcPort];
+            [outputArray addObject:connection.localPort];
         }
     }
     
@@ -347,29 +336,8 @@
     
 }
 
-// For demo only
-+ (Sentegrity_TrustFactor_Output_Object *)unencryptedTraffic:(NSArray *)payload {
-    
-    // Create the trustfactor output object
-    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
-    
-    // Set the default status code to OK (default = DNEStatus_ok)
-    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
-    
-    // Create the output array
-    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
-    
-    // Trigger it
-    [outputArray addObject:@"101.54.21.117"];
-    
-    // Set the trustfactor output to the output array (regardless if empty)
-    [trustFactorOutputObject setOutput:outputArray];
-    
-    // Return the trustfactor output object
-    return trustFactorOutputObject;
-}
 
-+ (Sentegrity_TrustFactor_Output_Object *)unencryptedTrafficOrig:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)unencryptedTraffic:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -405,38 +373,28 @@
         return trustFactorOutputObject;
     }
     
-    // Destination IP
-    NSString *dstIP;
-    NSString *dstPort;
     
     // Run through all the connection dictionaries
-    for (NSDictionary *connection in connections) {
+    for (ActiveConnection *connection in connections) {
         
         // Skip if this is not a current connection
-        if(!([[connection objectForKey:@"state"] isEqualToString:@"ESTABLISHED"] || [[connection objectForKey:@"state"] isEqualToString:@"CLOSE_WAIT"]) || [[connection objectForKey:@"dst_ip"] isEqualToString:@"localhost"])
+        if([connection.remoteHost isEqualToString:@"localhost"])
             continue;
         
-        
-        // Get the current destination IP
-        dstIP = [connection objectForKey:@"dst_ip"];
-        
-        // Get the current destination port
-        dstPort = [connection objectForKey:@"dst_port"];
-        
         // if its 443 don't even look
-        if([dstPort isEqualToString:@"443"])
+        if([connection.remotePort intValue] == 443)
             continue;
         
         // Iterate through payload names and look for matching processes
-        for (NSString *badDstPort in payload) {
+        for (NSNumber *badDstPort in payload) {
             
             // Check if the domain of the connection equal one in payload
-            if([dstPort isEqualToString:badDstPort]) {
-                // make sure we don't add more than one instance of the port
-                if (![outputArray containsObject:badDstPort]){
+            if([connection.remotePort intValue] == [badDstPort intValue]) {
+                // make sure we don't add more than one instance of the connection
+                if (![outputArray containsObject:connection.remoteHost]){
                     
                     // Add the process to the output array
-                    [outputArray addObject:dstIP];
+                    [outputArray addObject:connection.remoteHost];
                 }
             }
         }

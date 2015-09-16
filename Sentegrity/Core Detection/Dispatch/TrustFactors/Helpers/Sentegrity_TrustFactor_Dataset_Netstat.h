@@ -12,7 +12,6 @@
 @interface Netstat_Info : NSObject
 
 + (NSArray *) getTCPConnections;
-+ (NSArray *) getUDPConnections;
 + (NSDictionary *)getInterfaceBytes;
 
 @end

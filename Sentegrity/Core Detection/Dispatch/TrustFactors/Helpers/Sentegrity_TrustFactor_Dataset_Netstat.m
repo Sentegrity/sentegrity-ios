@@ -62,124 +62,127 @@
  * SUCH DAMAGE.
  */
 
+//
+//  ActiveConnection.h
+//  System Monitor
+//
+//  This Source Code Form is subject to the terms of the Mozilla Public
+//  License, v. 2.0. If a copy of the MPL was not distributed with this
+//  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+//
+//  Copyright (c) 2013 Arvydas Sidorenko
+//
+
 #import "Sentegrity_TrustFactor_Dataset_Netstat.h"
-#import "otherConnectionHeaders.h"
+
+// Connection object
+#import "ActiveConnection.h"
+
+// Netstat headers
+#import "bsd_var.h"
+#import <arpa/inet.h>
+#import <sys/sysctl.h>
+#import <netdb.h>
 
 // Interface byte count headers
 #include <net/if.h>
 #include <ifaddrs.h>
 #include <net/if_dl.h>
 
+typedef enum {
+    CONNECTION_TYPE_TCP4,
+    CONNECTION_TYPE_UDP4
+} ConnectionType_t;
+
 @implementation Netstat_Info
 
 
-
-int	aflag = 1;	/* show all sockets (including servers) */
-int	bflag = 0;	/* show i/f total bytes in/out */
-int	Lflag = 0;	/* show size of listen queues */
-int	Wflag = 1;	/* wide display */
-int	sflag = 0;	/* show protocol statistics */
-
 + (NSArray *) getTCPConnections {
-    return [NSArray arrayWithArray:getActiveConnections(IPPROTO_TCP,"tcp",AF_INET)];
+    return [self getActiveConnectionsOfType:CONNECTION_TYPE_TCP4];
 }
 
-+ (NSArray *) getUDPConnections {
-    return [NSArray arrayWithArray:getActiveConnections(IPPROTO_UDP,"udp",AF_INET)];
-  
-}
 
-NSMutableArray* getActiveConnections(uint32_t proto, char *name, int af)
++ (NSArray*)getActiveConnectionsOfType:(ConnectionType_t)connectionType
 {
-    NSMutableArray *connections = [[NSMutableArray alloc] init];
-
-    char *buf, *next;
-    const char *mibvar;
-    struct xinpgen *xig, *oxig;
-    struct xgen_n *xgn;
-    size_t len;
-    struct xtcpcb_n *tp = NULL;
-    struct xinpcb_n *inp = NULL;
-    struct xsocket_n *so = NULL;
-    struct xsockbuf_n *so_rcv = NULL;
-    struct xsockbuf_n *so_snd = NULL;
-    struct xsockstat_n *so_stat = NULL;
-    int which = 0;
-    int istcp = 0;
+    uint32_t            proto;
+    char                *mib;
+    char                *buf, *next;
+    struct xinpgen      *xig, *oxig;
+    struct xgen_n       *xgn;
+    size_t              len;
+    struct xtcpcb_n     *tp = NULL;
+    struct xinpcb_n     *inp = NULL;
+    struct xsocket_n    *so = NULL;
+    struct xsockstat_n  *so_stat = NULL;
+    int                 which = 0;
+    NSMutableArray      *result = [@[] mutableCopy];
     
-    switch (proto) {
-        case IPPROTO_TCP:
-#ifdef INET6
-            if (tcp_done != 0)
-                return;
-            else
-                tcp_done = 1;
-#endif
-            istcp = 1;
-            mibvar = "net.inet.tcp.pcblist_n";
+    switch (connectionType) {
+        case CONNECTION_TYPE_TCP4:
+            proto = IPPROTO_TCP;
+            mib = "net.inet.tcp.pcblist_n";
             break;
-        case IPPROTO_UDP:
-#ifdef INET6
-            if (udp_done != 0)
-                return;
-            else
-                udp_done = 1;
-#endif
-            mibvar = "net.inet.udp.pcblist_n";
-            break;
-        case IPPROTO_DIVERT:
-            mibvar = "net.inet.divert.pcblist_n";
+        case CONNECTION_TYPE_UDP4:
+            proto = IPPROTO_UDP;
+            mib = "net.inet.udp.pcblist_n";
             break;
         default:
-            mibvar = "net.inet.raw.pcblist_n";
-            break;
+            //AMLogWarn(@"unknown connection type: %d", connectionType);
+            return result;
     }
     
-    len = 0;
-    if (sysctlbyname(mibvar, 0, &len, 0, 0) < 0) {
-        if (errno != ENOENT)
-            warn("sysctl: %s", mibvar);
-        return 0;
-    }
-    if ((buf = malloc(len)) == 0) {
-        warn("malloc %lu bytes", (u_long)len);
-        return 0;
-    }
-    if (sysctlbyname(mibvar, buf, &len, 0, 0) < 0) {
-        warn("sysctl: %s", mibvar);
-        free(buf);
-        return 0;
+    if (sysctlbyname(mib, 0, &len, 0, 0) < 0)
+    {
+       // AMLogWarn(@"sysctlbyname() for len has failed with mib: %s.", mib);
+        return result;
     }
     
-    /*
-     * Bail-out to avoid logic error in the loop below when
-     * there is in fact no more control block to process
-     */
-    if (len <= sizeof(struct xinpgen)) {
-        free(buf);
-        return 0;
+    buf = malloc(len);
+    if (!buf)
+    {
+       // AMLogWarn(@"malloc() for buf has failed with mib: %s.", mib);
+        return result;
     }
+    
+    if (sysctlbyname(mib, buf, &len, 0, 0) < 0)
+    {
+       // AMLogWarn(@"sysctlbyname() for buf has failed with mib: %s.", mib);
+        free(buf);
+        return result;
+    }
+    
+    // Bail-out if there is no more control block to process.
+    if (len <= sizeof(struct xinpgen))
+    {
+        free(buf);
+        return result;
+    }
+    
+#define ROUNDUP64(a)    \
+((a) > 0 ? (1 + (((a) - 1) | (sizeof(UInt64) - 1))) : sizeof(UInt64))
     
     oxig = xig = (struct xinpgen *)buf;
-    for (next = buf + ROUNDUP64(xig->xig_len); next < buf + len; next += ROUNDUP64(xgn->xgn_len)) {
-        
-        NSMutableDictionary *connection = [NSMutableDictionary dictionary];
-        
-        xgn = (struct xgen_n*)next;
+    for (next = buf + ROUNDUP64(xig->xig_len); next < buf + len; next += ROUNDUP64(xgn->xgn_len))
+    {
+        xgn = (struct xgen_n *)next;
         if (xgn->xgn_len <= sizeof(struct xinpgen))
+        {
             break;
+        }
         
-        if ((which & xgn->xgn_kind) == 0) {
+        if ((which & xgn->xgn_kind) == 0)
+        {
             which |= xgn->xgn_kind;
+            
             switch (xgn->xgn_kind) {
                 case XSO_SOCKET:
                     so = (struct xsocket_n *)xgn;
                     break;
                 case XSO_RCVBUF:
-                    so_rcv = (struct xsockbuf_n *)xgn;
+                    // (struct xsockbuf_n *)xgn;
                     break;
                 case XSO_SNDBUF:
-                    so_snd = (struct xsockbuf_n *)xgn;
+                    // (struct xsockbuf_n *)xgn;
                     break;
                 case XSO_STATS:
                     so_stat = (struct xsockstat_n *)xgn;
@@ -191,160 +194,97 @@ NSMutableArray* getActiveConnections(uint32_t proto, char *name, int af)
                     tp = (struct xtcpcb_n *)xgn;
                     break;
                 default:
-                    printf("unexpected kind %d\n", (unsigned int)xgn->xgn_kind);
+                 //   AMLogWarn(@"unknown kind %ld", (long)xgn->xgn_kind);
                     break;
             }
-        } else {
-            printf("got %d twice\n", (unsigned int)xgn->xgn_kind);
+        }
+        else
+        {
+            //AMLogWarn(@"got %ld twice.", (long)xgn->xgn_kind);
         }
         
-        if ((istcp && which != ALL_XGN_KIND_TCP) || (!istcp && which != ALL_XGN_KIND_INP))
+        if ((connectionType == CONNECTION_TYPE_TCP4 && which != ALL_XGN_KIND_TCP) ||
+            (connectionType != CONNECTION_TYPE_TCP4 && which != ALL_XGN_KIND_INP))
+        {
             continue;
+        }
+        
         which = 0;
         
-        /* Ignore sockets for protocols other than the desired one. */
-       // if (so->xso_protocol != (int)proto)
-        //    continue;
         
-        /* Ignore PCBs which were freed during copyout. */
+        // Ignore sockets for protocols other than the desired one.
+        if (so->xso_protocol != (int)proto)
+        {
+            //    continue;
+        }
+        // Ignore PCBs which were freed during copyout.
         if (inp->inp_gencnt > oxig->xig_gen)
+        {
             continue;
+        }
         
-        if ((af == AF_INET && (inp->inp_vflag & INP_IPV4) == 0)
-#ifdef INET6
-            || (af == AF_INET6 && (inp->inp_vflag & INP_IPV6) == 0)
-#endif /* INET6 */
-            || (af == AF_UNSPEC && ((inp->inp_vflag & INP_IPV4) == 0
-#ifdef INET6
-                                    && (inp->inp_vflag &
-                                        INP_IPV6) == 0
-#endif /* INET6 */
-                                    ))
-            )
+        if ((inp->inp_vflag & INP_IPV4) == 0)
+        {
             continue;
+        }
+        
+        // Ignore when both local and remote IPs are LOOPBACK.
+        if (ntohl(inp->inp_laddr.s_addr) == INADDR_LOOPBACK &&
+            ntohl(inp->inp_faddr.s_addr) == INADDR_LOOPBACK)
+        {
+            continue;
+        }
         
         /*
-         * Local address is not an indication of listening socket or
-         * server socket but just rather the socket has been bound.
-         * That why many UDP sockets were not displayed in the original code.
+         * Local address is not an indication of listening socket or server socket,
+         * but just rather the socket has been bound.
+         * Thats why many UDP sockets were not displayed in the original code.
          */
-        if (!aflag && istcp && tp->t_state <= TCPS_LISTEN)
-            continue;
-        
-        if (Lflag && !so->so_qlimit)
-            continue;
-        
-        if (inp->inp_flags & INP_ANONPORT) {
-            if (inp->inp_vflag & INP_IPV4) {
-                //inetprint(&inp->inp_laddr, (int)inp->inp_lport, name, 1);
-                //inetprint(&inp->inp_faddr, (int)inp->inp_fport, name, 0);
-                [connection setObject:[NSString stringWithFormat:@"%s",inetname(&inp->inp_laddr)] forKey:@"src_ip"];
-                
-                //setPort(connection, (int)inp->inp_lport, name, @"src_port");
-                // Modified to not attempt to resolve port name
-                [connection setObject:[NSString stringWithFormat:@"%hu",ntohs((u_short)inp->inp_lport)] forKey:@"src_port"];
-                
-                [connection setObject:[NSString stringWithFormat:@"%s",inetname(&inp->inp_faddr)] forKey:@"dst_ip"];
-                
-                //setPort(connection, (int)inp->inp_fport, name, @"dst_port");
-                // Modified to not attempt to resolve port name
-                [connection setObject:[NSString stringWithFormat:@"%hu",ntohs((u_short)inp->inp_fport)] forKey:@"dst_port"];
-            }
-#ifdef INET6
-            else if (inp->inp_vflag & INP_IPV6) {
-                inet6print(&inp->in6p_laddr,
-                           (int)inp->inp_lport, name, 1);
-                if (!Lflag)
-                    inet6print(&inp->in6p_faddr,
-                               (int)inp->inp_fport, name, 0);
-            } /* else nothing printed now */
-#endif /* INET6 */
-        } else {
-            if (inp->inp_vflag & INP_IPV4) {
-                //inetprint(&inp->inp_laddr, (int)inp->inp_lport,name, 0);
-                //inetprint(&inp->inp_faddr,(int)inp->inp_fport, name,inp->inp_lport !=inp->inp_fport);
-                
-                [connection setObject:[NSString stringWithFormat:@"%s",inetname(&inp->inp_laddr)] forKey:@"src_ip"];
-                
-                //setPort(connection, (int)inp->inp_lport, name, @"src_port");
-                // Modified to not attempt to resolve port name
-                [connection setObject:[NSString stringWithFormat:@"%hu",ntohs((u_short)inp->inp_lport)] forKey:@"src_port"];
-                
-                [connection setObject:[NSString stringWithFormat:@"%s",inetname(&inp->inp_faddr)] forKey:@"dst_ip"];
-                
-                //setPort(connection, (int)inp->inp_fport, name, @"dst_port");
-                // Modified to not attempt to resolve port name
-                [connection setObject:[NSString stringWithFormat:@"%hu",ntohs((u_short)inp->inp_fport)] forKey:@"dst_port"];
-            }
-#ifdef INET6
-            else if (inp->inp_vflag & INP_IPV6) {
-                inet6print(&inp->in6p_laddr,
-                           (int)inp->inp_lport, name, 0);
-                if (!Lflag)
-                    inet6print(&inp->in6p_faddr,
-                               (int)inp->inp_fport, name,
-                               inp->inp_lport !=
-                               inp->inp_fport);
-            } /* else nothing printed now */
-#endif /* INET6 */
+
+        ActiveConnection *connection = [[ActiveConnection alloc] init];
+        connection.localIP = [self ipToString:&inp->inp_laddr];
+        connection.localPort = [NSNumber numberWithInt:ntohs((u_short)inp->inp_lport)];
+        connection.remoteHost = [NSString stringWithFormat:@"%s",inetname(&inp->inp_faddr)];
+        connection.remoteIP = [self ipToString:&inp->inp_faddr];
+        connection.remotePort = [NSNumber numberWithInt:ntohs((u_short)inp->inp_fport)];
+        if (connectionType == CONNECTION_TYPE_TCP4)
+        {
+            connection.status = [self stateToString:tp->t_state];
+            connection.status = [NSString stringWithFormat:@"%@%@", connection.status, [self stateStringPostfix:tp->t_flags]];
         }
-       
-        if (istcp) {
-            if (tp->t_state < 0 || tp->t_state >= TCP_NSTATES) {
-                [connection setObject:[NSString stringWithFormat:@"%d",(int)tp->t_state] forKey:@"state"];
-            }
-            else {
-                [connection setObject:[NSString stringWithFormat:@"%s",tcpstates[tp->t_state]] forKey:@"state"];
-#if defined(TF_NEEDSYN) && defined(TF_NEEDFIN)
-                /* Show T/TCP `hidden state' */
-                if (tp->t_flags & (TF_NEEDSYN|TF_NEEDFIN)) {
-                    [connection setObject:@"*" forKey:@"state"];
-                    //putchar('*');
-                }
-#endif /* defined(TF_NEEDSYN) && defined(TF_NEEDFIN) */
-            }
+        else
+        {
+            connection.status = @"";
+        }
+        //connection.status = [self connectionStatusFromState:connection.statusString];
+        
+        for (NSUInteger i = 0; i < SO_TC_STATS_MAX; ++i)
+        {
+            connection.totalRX += so_stat->xst_tc_stats[i].rxbytes;
+            connection.totalTX += so_stat->xst_tc_stats[i].txbytes;
         }
         
-        [connections addObject:connection];
+        [result addObject:connection];
     }
-    if (xig != oxig && xig->xig_gen != oxig->xig_gen) {
-        if (oxig->xig_count > xig->xig_count) {
-            printf("Some %s sockets may have been deleted.\n",
-                   name);
-        } else if (oxig->xig_count < xig->xig_count) {
-            printf("Some %s sockets may have been created.\n",
-                   name);
-        } else {
-            printf("Some %s sockets may have been created or deleted",
-                   name);
-        }
-    }
+    
     free(buf);
-    return connections;
+    return result;
 }
 
-void setPort(NSMutableDictionary *connection, int port, char *name, NSString *portName) {
-    
-    
-    struct servent *sp = 0;
-    if (port) {
-#ifdef _SERVICE_CACHE_
-        sp = _serv_cache_getservbyport(port, name);
-#else
-        sp = getservbyport((int)port, name);
-#endif
++ (NSString*)stateStringPostfix:(u_int)connectionFlags
+{
+    if (connectionFlags & (TF_NEEDSYN|TF_NEEDFIN))
+    {
+        return @"*";
     }
     
-    NSMutableString *result = [NSMutableString stringWithFormat:@"%hu",ntohs((u_short)port)];
-    
-    if (sp || port == 0) {
-        if (sp)
-            [result appendString:[NSString stringWithFormat:@" (%s)",sp->s_name]];
-        else
-            [result setString:@"*"];
-    }
-    
-    [connection setObject:result forKey:portName];
+    return @"";
+}
+
+
++ (NSString*)stateToString:(int)state
+{
+    return [NSString stringWithCString:tcpstates[state] encoding:NSASCIIStringEncoding];
 }
 
 /*
@@ -392,6 +332,30 @@ char *inetname(struct in_addr *inp)
     return (line);
 }
 
++ (NSString*)ipToString:(struct in_addr *)in
+{
+    if (!in)
+    {
+        //AMLogWarn(@"in == NULL");
+        return @"";
+    }
+    
+    if (in->s_addr == INADDR_ANY)
+    {
+        return @"*";
+    }
+    else
+    {
+        //return [NSString stringWithCString:inet_ntoa(*in) encoding:NSASCIIStringEncoding];
+        return [NSString stringWithCString:inet_ntoa(*in) encoding:NSASCIIStringEncoding];
+
+    }
+}
+
++ (NSString*)portToString:(int)port
+{
+    return (port == 0 ? @"*" : [NSString stringWithFormat:@"%d", port]);
+}
 
 
 +(NSDictionary *)getInterfaceBytes{

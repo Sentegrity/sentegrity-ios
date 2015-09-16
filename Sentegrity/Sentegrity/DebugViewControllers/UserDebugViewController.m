@@ -100,14 +100,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (void)setText {
     
@@ -122,12 +122,12 @@
         
         for(Sentegrity_Stored_Assertion *stored in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
             
-            storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.lastTime];
+            storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.decayMetric,stored.lastTime];
         }
         
         for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.assertionObjects){
             
-            currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.lastTime];
+            currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.decayMetric,current.lastTime];
         }
         userTrustFactorsTriggered = [userTrustFactorsTriggered stringByAppendingFormat:@"--Name: %@\n\nCurrent Assertion:\n%@Stored Assertions:\n%@",trustFactorOutputObject.trustFactor.name, currentAssertions,storedAssertions];
         
@@ -142,12 +142,12 @@
         
         for(Sentegrity_Stored_Assertion *stored in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
             
-            storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.lastTime];
+            storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.decayMetric,stored.lastTime];
         }
         
         for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.assertionObjects){
             
-            currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.lastTime];
+            currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.decayMetric,current.lastTime];
         }
         userTrustFactorsTriggered = [userTrustFactorsTriggered stringByAppendingFormat:@"--Name: %@\n\nCurrent Assertion:\n%@Stored Assertions:\n%@",trustFactorOutputObject.trustFactor.name, currentAssertions,storedAssertions];
     }
@@ -166,31 +166,31 @@
     
     NSString *userTrustFactorsToWhitelist = @"\nTrustFactors To Whitelist\n++++++++++++++++++++++++++++++\n";
     for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.protectModeUserWhitelist){
-      
+        
         NSString *storedAssertions =@"";
         NSString *currentAssertions =@"";
         
         for(Sentegrity_Stored_Assertion *stored in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
             
-            storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.lastTime];
+            storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.decayMetric,stored.lastTime];
         }
         
         for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.assertionObjects){
             
-            currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.lastTime];
+            currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.decayMetric,current.lastTime];
         }
         userTrustFactorsTriggered = [userTrustFactorsTriggered stringByAppendingFormat:@"--Name: %@\n\nCurrent Assertion:\n%@Stored Assertions:\n%@",trustFactorOutputObject.trustFactor.name, currentAssertions,storedAssertions];
         
     }
     complete = [complete stringByAppendingString:userTrustFactorsToWhitelist];
     
-
     
-
+    
+    
     [self.userDebugOutput setEditable:NO];
     self.userDebugOutput.text = complete;
     
-
+    
 }
 
 @end

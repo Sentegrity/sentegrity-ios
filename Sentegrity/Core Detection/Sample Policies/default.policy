@@ -578,7 +578,7 @@
 }, {
 "id": 1013,
 "issueMessage": "Unencrypted traffic detected",
-"suggestionMessage": "Use trusted network",
+"suggestionMessage": "Close other running apps",
 "revision": 1,
 "classID": 3,
 "subClassID": 3,
