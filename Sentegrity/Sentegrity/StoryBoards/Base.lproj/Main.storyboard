@@ -123,8 +123,8 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="TrustScore" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5B-Fj-azv">
-                                <rect key="frame" x="62" y="211" width="250" height="50"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TrustScore" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5B-Fj-azv">
+                                <rect key="frame" x="62" y="210" width="250" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="3gD-o1-6xj"/>
                                     <constraint firstAttribute="width" constant="127" id="5gm-Aj-Tek"/>
@@ -144,10 +144,10 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUh-7Z-2E7">
-                                <rect key="frame" x="56" y="572" width="264" height="80"/>
+                                <rect key="frame" x="56" y="562" width="264" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last update" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dA2-DQ-LSt">
-                                        <rect key="frame" x="68" y="20" width="176" height="20"/>
+                                        <rect key="frame" x="68" y="30" width="176" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="61" id="5b0-L2-xJ0"/>
                                             <constraint firstAttribute="height" constant="15" id="blA-R3-YvQ"/>
@@ -163,7 +163,7 @@
                                         </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U4M-4p-aFa">
-                                        <rect key="frame" x="20" y="20" width="40" height="40"/>
+                                        <rect key="frame" x="20" y="30" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="2qE-B9-Vod"/>
                                             <constraint firstAttribute="width" constant="60" id="Goy-0Z-rn6"/>
@@ -188,7 +188,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 hours 12 minutes ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63z-UG-ePO">
-                                        <rect key="frame" x="68" y="40" width="176" height="20"/>
+                                        <rect key="frame" x="68" y="50" width="176" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="ZyC-vz-xwh"/>
                                             <constraint firstAttribute="width" constant="125.5" id="d9A-Xs-L2S"/>
@@ -228,7 +228,7 @@
                                     <constraint firstAttribute="trailing" secondItem="63z-UG-ePO" secondAttribute="trailing" constant="70.5" id="UUg-ll-0FF"/>
                                     <constraint firstItem="63z-UG-ePO" firstAttribute="leading" secondItem="U4M-4p-aFa" secondAttribute="trailing" constant="8" id="WJ3-PD-wlN"/>
                                     <constraint firstItem="dA2-DQ-LSt" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="top" constant="30" id="akt-PF-zcK"/>
-                                    <constraint firstItem="U4M-4p-aFa" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="top" constant="20" id="cHw-Q7-bLW"/>
+                                    <constraint firstItem="U4M-4p-aFa" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="top" constant="30" id="cHw-Q7-bLW"/>
                                     <constraint firstItem="dA2-DQ-LSt" firstAttribute="top" secondItem="U4M-4p-aFa" secondAttribute="top" id="gS4-5r-P8O"/>
                                     <constraint firstItem="63z-UG-ePO" firstAttribute="top" secondItem="dA2-DQ-LSt" secondAttribute="bottom" id="iU0-2Y-d1D"/>
                                     <constraint firstAttribute="trailing" secondItem="63z-UG-ePO" secondAttribute="trailing" constant="20" id="lBv-GO-7n5"/>
@@ -411,12 +411,12 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <button opaque="NO" alpha="0.19999999999999968" contentMode="redraw" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziL-ad-E3R">
-                                <rect key="frame" x="26" y="25" width="51" height="51"/>
+                                <rect key="frame" x="26" y="25" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="27" id="NX4-be-0Yx"/>
-                                    <constraint firstAttribute="height" constant="51" id="XVe-7Q-Udu"/>
+                                    <constraint firstAttribute="height" constant="40" id="XVe-7Q-Udu"/>
                                     <constraint firstAttribute="height" constant="27" id="myA-C3-8mR"/>
-                                    <constraint firstAttribute="width" constant="51" id="oaS-tk-Ajs"/>
+                                    <constraint firstAttribute="width" constant="40" id="oaS-tk-Ajs"/>
                                 </constraints>
                                 <state key="normal" image="sentegrity_logo_black">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -428,7 +428,7 @@ Anomaly</string>
                                     </mask>
                                 </variation>
                             </button>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Myw-L9-ttt" customClass="JTHamburgerButton">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Myw-L9-ttt" customClass="JTHamburgerButton">
                                 <rect key="frame" x="309" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -642,7 +642,7 @@ Anomaly</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UXn-IR-7jR" customClass="JTHamburgerButton">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UXn-IR-7jR" customClass="JTHamburgerButton">
                                 <rect key="frame" x="309" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -670,7 +670,7 @@ Anomaly</string>
                                     </mask>
                                 </variation>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wzM-wR-gdZ" customClass="JTHamburgerButton">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wzM-wR-gdZ" customClass="JTHamburgerButton">
                                 <rect key="frame" x="26" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1081,10 +1081,11 @@ Anomaly</string>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1T7-V7-buy" customClass="JTHamburgerButton">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1T7-V7-buy" customClass="JTHamburgerButton">
                                 <rect key="frame" x="309" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="34W-7r-8z7"/>
                                     <constraint firstAttribute="width" constant="40" id="5NA-F0-x2G"/>
                                     <constraint firstAttribute="height" constant="33" id="9Bi-w3-HUI"/>
                                     <constraint firstAttribute="width" constant="50" id="DEh-LQ-lCI"/>
@@ -1093,17 +1094,20 @@ Anomaly</string>
                                     <constraint firstAttribute="height" constant="33" id="XJM-4w-Ifr"/>
                                     <constraint firstAttribute="width" constant="30" id="i1z-rZ-fq1"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="oCw-kN-G6o"/>
+                                    <constraint firstAttribute="width" constant="40" id="oxC-eo-5Xj"/>
                                     <constraint firstAttribute="width" constant="50" id="uZl-Jy-aKz"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="zF6-mb-duB"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="34W-7r-8z7"/>
                                         <exclude reference="5NA-F0-x2G"/>
                                         <exclude reference="9Bi-w3-HUI"/>
                                         <exclude reference="DEh-LQ-lCI"/>
                                         <exclude reference="SJg-Me-gh3"/>
                                         <exclude reference="SYx-mh-r83"/>
                                         <exclude reference="i1z-rZ-fq1"/>
+                                        <exclude reference="oCw-kN-G6o"/>
                                         <exclude reference="uZl-Jy-aKz"/>
                                         <exclude reference="zF6-mb-duB"/>
                                     </mask>
@@ -1125,8 +1129,16 @@ Anomaly</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="1T7-V7-buy" firstAttribute="top" secondItem="Feh-Lz-Fbo" secondAttribute="topMargin" constant="25" id="HsL-Ph-IRw"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="1T7-V7-buy" secondAttribute="trailing" constant="10" id="RJD-9s-VJc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1T7-V7-buy" secondAttribute="trailing" constant="10" id="kKx-9q-RhA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="1T7-V7-buy" secondAttribute="trailing" constant="10" id="qHz-sU-V1l"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="RJD-9s-VJc"/>
+                                <exclude reference="kKx-9q-RhA"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -1150,7 +1162,7 @@ Anomaly</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T2D-cu-zcA" customClass="JTHamburgerButton">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T2D-cu-zcA" customClass="JTHamburgerButton">
                                 <rect key="frame" x="309" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1178,7 +1190,7 @@ Anomaly</string>
                                     </mask>
                                 </variation>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBN-Eo-DFm" customClass="JTHamburgerButton">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bBN-Eo-DFm" customClass="JTHamburgerButton">
                                 <rect key="frame" x="26" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>

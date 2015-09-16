@@ -67,46 +67,37 @@ static MBProgressHUD *HUD;
 
 // View Loaded
 - (void)viewDidLoad {
-
-    
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    // Customize the view
+    [self customizeView];
 }
-
-
 
 // View did appear
 - (void)viewDidAppear:(BOOL)animated {
-    
+    [super viewDidAppear:animated];
     
     // Set last computation
     self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
     [self updateComputationResults:self];
     
-    [super viewDidAppear:animated];
-    
     // Set the side menu delegate
     [self.sideMenuViewController setDelegate:self];
     
-    // Customize the view
-    [self customizeView];
-    
-  
+    // Set the status bar color to white
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 // Set up the customizations for the view
 - (void)customizeView {
 
-    
     // Set the background color
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     // Set the background color Good
      //[self.view setBackgroundColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
-    
-    // Set the status bar color to white
-    [self setNeedsStatusBarAppearanceUpdate];
     
     // Set the TrustScore progress bar
     
@@ -162,11 +153,9 @@ static MBProgressHUD *HUD;
     UITapGestureRecognizer *userTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                 action:@selector(userInformationPressed:)];
     [self.userView addGestureRecognizer:userTap];
-    
+
     // Update the last update label
     [self updateLastUpdateLabel:self];
-    
-
 }
 
 // Update the last update label
