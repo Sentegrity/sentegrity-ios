@@ -7,6 +7,7 @@
 //
 
 #import "Sentegrity_TrustFactor_Dataset_Process.h"
+#import "ActiveProcess.h"
 
 @implementation Process_Info : NSObject 
 
@@ -76,24 +77,40 @@ static int ourPID=0;
                         
                         for (int i = nprocess - 1; i >= 0; i--) {
                             
-                            NSString *processID = [[NSString alloc] initWithFormat:@"%d", process[i].kp_proc.p_pid];
+                            // Get the user ID for the process
+                            struct kinfo_proc info;
+                            size_t length = sizeof(struct kinfo_proc);
+                            int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, (int)process[i].kp_proc.p_pid };
+                            
+                            if (sysCtl(mib, 4, &info, &length) < 0)
+                                // Unknown value
+                                continue;
+                            
+                            if (length == 0)
+                                // Unknown value
+                                continue;
+                            
+       
+                            /*// Set values
+                            NSNumber *processID = [NSNumber numberWithInt:(int)process[i].kp_proc.p_pid];
                             NSString *processName = [[NSString alloc] initWithFormat:@"%s", process[i].kp_proc.p_comm];
-                            NSString *processPriority = [[NSString alloc] initWithFormat:@"%d", process[i].kp_proc.p_priority];
-                            NSDate   *processStartDate = [NSDate dateWithTimeIntervalSince1970:process[i].kp_proc.p_un.__p_starttime.tv_sec];
-                            NSString       *processUID = [[NSString alloc] initWithFormat:@"%d", [self UserIDForProcess:(int)process[i].kp_proc.p_pid]];
-                            NSString       *processStatus = [[NSString alloc] initWithFormat:@"%d", (int)process[i].kp_proc.p_stat];
-                            NSString       *processFlags = [[NSString alloc] initWithFormat:@"%d", (int)process[i].kp_proc.p_flag];
+                            NSNumber *processUID = [NSNumber numberWithInt:info.kp_eproc.e_ucred.cr_uid];
+
+                            //NSString *processPriority = [[NSString alloc] initWithFormat:@"%d", process[i].kp_proc.p_priority];
+                            //NSDate   *processStartDate = [NSDate dateWithTimeIntervalSince1970:process[i].kp_proc.p_un.__p_starttime.tv_sec];
+                            //NSString       *processStatus = [[NSString alloc] initWithFormat:@"%d", (int)process[i].kp_proc.p_stat];
+                            //NSString       *processFlags = [[NSString alloc] initWithFormat:@"%d", (int)process[i].kp_proc.p_flag];
                             
                             // Check to make sure all values are valid (if not, make them)
-                            if (processID == nil || processID.length <= 0) {
+                            if (processID == nil) {
                                 // Invalid value
-                                processID = @"Unknown";
+                                processID = 0;
                             }
                             if (processName == nil || processName.length <= 0) {
                                 // Invalid value
                                 processName = @"Unknown";
                             }
-                            if (processPriority == nil || processPriority.length <= 0) {
+                         if (processPriority == nil || processPriority.length <= 0) {
                                 // Invalid value
                                 processPriority = @"Unknown";
                             }
@@ -101,34 +118,37 @@ static int ourPID=0;
                                 // Invalid value
                                 processStartDate = [NSDate date];
                             }
-                            if (processUID == nil || processUID.length <= 0) {
-                                // Invalid value
-                                processUID = @"Unknown";
-                            }
+                         
                             if (processStatus == nil || processStatus.length <= 0) {
-                                // Invalid value
-                                processStatus = @"Unknown";
+                            // Invalid value
+                            processStatus = @"Unknown";
                             }
                             if (processFlags == nil || processFlags.length <= 0) {
+                            // Invalid value
+                            processFlags = @"Unknown";
+                         }
+                         
+                        
+                            if (processUID == nil) {
                                 // Invalid value
-                                processFlags = @"Unknown";
+                                processUID = [NSNumber numberWithInt:(int)9999];
                             }
+                            */
                             
-                            // Create an array of the objects
-                            NSArray *ItemArray = [NSArray arrayWithObjects:processID, processName, processPriority, processStartDate, processUID, processStatus, processFlags, nil];
                             
-                            // Create an array of keys
-                            NSArray *KeyArray = [NSArray arrayWithObjects:@"PID", @"Name", @"Priority", @"StartDate", @"UID", @"Status", @"Flags", nil];
+                            ActiveProcess *newProcess = [[ActiveProcess alloc] init];
                             
-                            // Create the dictionary
-                            NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                            newProcess.id = [NSNumber numberWithInt:(int)process[i].kp_proc.p_pid];
+                            newProcess.name = [NSString stringWithFormat:@"%s", process[i].kp_proc.p_comm];
+                            newProcess.uid = [NSNumber numberWithInt:info.kp_eproc.e_ucred.cr_uid];
+                            
                             
                             // Add the objects to the array
-                            [array addObject:dict];
+                            [array addObject:newProcess];
                             
                             //check if this is our process and record PID
-                            if([ourName isEqualToString:processName]) {
-                                ourPID = process[i].kp_proc.p_pid;
+                            if([ourName isEqualToString:newProcess.name]) {
+                                ourPID = [newProcess.id intValue];
                             }
                         }
                         
@@ -158,40 +178,6 @@ static int ourPID=0;
    
 }
 
-// PROCESS: PID Info
-+ (int)UserIDForProcess:(int)pid {
-    // Get the parent ID for a certain process
-    @try {
-        // Set up the variables
-        struct kinfo_proc info;
-        size_t length = sizeof(struct kinfo_proc);
-        int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, pid };
-        
-        if (sysCtl(mib, 4, &info, &length) < 0)
-            // Unknown value
-            return -1;
-        
-        if (length == 0)
-            // Unknown value
-            return -1;
-        
-        // Make an int for the PPID
-        int UID = info.kp_eproc.e_ucred.cr_uid;
-        
-        // Check to make sure it's valid
-        if (UID <= 0) {
-            // No PPID found
-            return -1;
-        }
-        
-        // Successful
-        return UID;
-    }
-    @catch (NSException *exception) {
-        // Error
-        return -1;
-    }
-}
 
 
 @end

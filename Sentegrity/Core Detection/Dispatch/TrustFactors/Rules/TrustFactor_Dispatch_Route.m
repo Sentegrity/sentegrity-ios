@@ -8,6 +8,7 @@
 
 #import "TrustFactor_Dispatch_Route.h"
 #import "Sentegrity_TrustFactor_Dataset_Netstat.h"
+#import "ActiveRoute.h"
 
 @implementation TrustFactor_Dispatch_Route
 
@@ -54,23 +55,19 @@
     @try {
         
         // Run through each route
-        for (NSDictionary *route in routeArray) {
-            
-            // Get the current process name
-            NSString *interfaceName = [route objectForKey:@"Interface"];
+        for (ActiveRoute *route in routeArray) {
             
             // Iterate through VPN interfaces names and look for match
             for (NSString *vpnInterface in payload) {
                 
                 // Check if the interface is equal to a known VPN interface name
-                if([interfaceName isEqualToString:vpnInterface]) {
+                if([route.interface isEqualToString:vpnInterface]) {
                     
                     // make sure we don't add more than one instance of the VPN interface name
                     if (![outputArray containsObject:vpnInterface]){
-                        NSString *vpnSignature = [vpnInterface stringByAppendingString:[route objectForKey:@"Gateway"]];
                         
                         // Add the interface of VPN to the output array
-                        [outputArray addObject:vpnSignature];
+                        [outputArray addObject:[vpnInterface stringByAppendingString:route.gateway]];
                     }
                 }
             }
@@ -111,12 +108,12 @@
     NSArray *routeArray = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getRouteInfo];
     bool defaultRoute = NO;
     
-    // Check for routesy
+    // Check for routes
     if (!routeArray || routeArray == nil || routeArray.count < 1) {
         // Current route array is EMPTY
         
         // Set the DNE status code to UNAVAILABLE
-        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -126,12 +123,12 @@
     @try {
         
         // Run through each route
-        for (NSDictionary *route in routeArray) {
+        for (ActiveRoute *route in routeArray) {
             
-            // Get the current process name
-            NSNumber *isDefault = [route objectForKey:@"IsDefault"];
-            if([isDefault intValue] == 1){
+
+            if(route.isDefault == YES){
                 defaultRoute = YES;
+                break;
             }
             
         }

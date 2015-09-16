@@ -7,6 +7,7 @@
 //
 
 #import "Sentegrity_TrustFactor_Dataset_Routes.h"
+#import "ActiveRoute.h"
 
 
 @implementation Route_Info
@@ -78,26 +79,21 @@
             {
                 NSString *interface = [route getInterface];
                 NSString *gateway = [route getGateway];
-                int defaultRouteCheck = 0;
+                BOOL defaultRouteCheck = NO;
                 
                 if([[route getDestination] isEqualToString:@"default"]){
-                    defaultRouteCheck = 1;
+                    defaultRouteCheck = YES;
                 }
                 
-                NSNumber *defaultRoute = [[NSNumber alloc] initWithInt:defaultRouteCheck];
                 
-                // Create an array of the objects
-                NSArray *ItemArray = [NSArray arrayWithObjects:defaultRoute,gateway,interface, nil];
-                
-                // Create an array of keys
-                NSArray *KeyArray = [NSArray arrayWithObjects:@"IsDefault", @"Gateway", @"Interface", nil];
-                // Example: isDefault (0 or 1), Gateway = 127.0.0.1 (or link#4), Interface = en0
-                
-                // Create the dictionary
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                ActiveRoute *route = [[ActiveRoute alloc] init];
+                route.isDefault = defaultRouteCheck;
+                route.gateway = gateway;
+                route.interface = interface;
+
                 
                 // Add the objects to the array
-                [array addObject:dict];
+                [array addObject:route];
                 
             }
         }

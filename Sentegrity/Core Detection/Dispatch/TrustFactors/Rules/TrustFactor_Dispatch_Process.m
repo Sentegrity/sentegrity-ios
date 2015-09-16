@@ -7,6 +7,7 @@
 //
 
 #import "TrustFactor_Dispatch_Process.h"
+#import "ActiveProcess.h"
 
 @implementation TrustFactor_Dispatch_Process
 
@@ -54,10 +55,8 @@
     }
     
     // Run through all the process information
-    for (NSDictionary *processData in currentProcesses) {
+    for (ActiveProcess *processData in currentProcesses) {
         
-        // Get the current process name
-        procName = [processData objectForKey:@"Name"];
         
         // Iterate through payload names and look for matching processes
         for (NSString *badProcName in payload) {
@@ -70,26 +69,26 @@
                 NSString *trimmedString = [[badProcName componentsSeparatedByString:@"*"] objectAtIndex:0];
                 
                 // Has wildcard, only check for prefix
-                if([procName hasPrefix:trimmedString]) {
+                if([processData.name hasPrefix:trimmedString]) {
                     
                     // make sure we don't add more than one instance of the proc
-                    if (![outputArray containsObject:procName]){
+                    if (![outputArray containsObject:processData.name]){
                         
                         // Add the process to the output array
-                        [outputArray addObject:procName];
+                        [outputArray addObject:processData.name];
                     }
                 }
                 
             }
             else{ // Does not contain wildecard
                 
-                if([procName isEqualToString:badProcName]) {
+                if([processData.name isEqualToString:badProcName]) {
                     
                     // make sure we don't add more than one instance of the proc
-                    if (![outputArray containsObject:procName]){
+                    if (![outputArray containsObject:processData.name]){
                         
                         // Add the process to the output array
-                        [outputArray addObject:procName];
+                        [outputArray addObject:processData.name];
                     }
                 }
 
@@ -137,23 +136,19 @@
     }
     
     // Run through all the process information
-    for (NSDictionary *processData in currentProcesses) {
+    for (ActiveProcess *processData in currentProcesses) {
         
-        // Get the current process name
-        UID = [[processData objectForKey:@"UID"] intValue];
-        
+
         // Check if the process parent id is 1 or less
-        if (UID <= 0) {
+        if ([processData.uid intValue] <= 0) {
             // Root process
             
-            // Get the name of the process
-            NSString *procName = [processData objectForKey:@"Name"];
             
             // make sure we don't add more than one instance of the proc
-            if (![outputArray containsObject:procName]){
+            if (![outputArray containsObject:processData.name]){
                 
                 // Add the process to the output array
-                [outputArray addObject:procName];
+                [outputArray addObject:processData.name];
             }
             
         }

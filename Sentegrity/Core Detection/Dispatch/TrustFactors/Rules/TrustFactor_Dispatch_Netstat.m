@@ -26,7 +26,7 @@
         // Payload is EMPTY
         
         // Set the DNE status code to NODATA
-        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -248,7 +248,7 @@
         return trustFactorOutputObject;
     }
     
-    // Get uptime
+    // Get uptime in seconds
     long uptime=0;
     uptime = (long)[[NSProcessInfo processInfo] systemUptime];
     
@@ -295,8 +295,10 @@
     
     if (timeSlots < 1){
         //not been up long enough to be measured
-        // Set the DNE status code to error
-        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        
+
+        // Don't set an error let it generate default and not trigger
+        //[trustFactorOutputObject setStatusCode:DNEStatus_nodata];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -311,8 +313,10 @@
     // Check if we even occupy one timeslot
     if (dataSentPerTimeSlot < 1){
         //not been up long enough to be measured
-        // Set the DNE status code to error
-        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        
+        
+        // Don't set an error let it generate default and not trigger
+        //[trustFactorOutputObject setStatusCode:DNEStatus_nodata];
         
         // Return with the blank output object
         return trustFactorOutputObject;
