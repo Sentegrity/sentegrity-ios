@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+
 #import "Sentegrity_TrustFactor_Dataset_Wifi.h"
+#import "ActiveRoute.h"
 
 
 @implementation Wifi_Info
@@ -69,11 +71,11 @@
     }
     
     
-    // Set the router array variable with the routing information
+    // Set the route array variable with the routing information
     NSArray *routeArray = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getRouteInfo];
         
-    // Return the first route which will be WiFi if it is connected
-    gatewayIP = [[routeArray objectAtIndex:0] objectForKey:@"Gateway"];
+    // Return the first route object's gateway IP which will be WiFi if it is connected
+    gatewayIP = [[routeArray objectAtIndex:0] gateway];
 
     // Validate the gatewayIP
     if (gatewayIP == nil || gatewayIP.length == 0) {

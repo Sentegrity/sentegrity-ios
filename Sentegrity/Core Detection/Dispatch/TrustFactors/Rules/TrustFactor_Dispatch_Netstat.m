@@ -308,7 +308,7 @@
     int dataSent = [[dataXfer objectForKey:@"WiFiSent"] intValue] + [[dataXfer objectForKey:@"WANSent"] intValue] + [[dataXfer objectForKey:@"TUNSent"] intValue];
     
     // Calculate xfer per timeslot
-    int dataSentPerTimeSlot = round(dataSent/timeSlots);
+    int dataSentPerTimeSlot = ceil(dataSent/timeSlots);
     
     // Check if we even occupy one timeslot
     if (dataSentPerTimeSlot < 1){

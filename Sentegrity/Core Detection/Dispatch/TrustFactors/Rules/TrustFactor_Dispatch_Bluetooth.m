@@ -44,7 +44,7 @@
 
     
     // Try to get current bluetooth devices
-    NSArray *bluetoothDevices = [[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLEDevices];
+    NSArray *bluetoothDevices = [[Sentegrity_TrustFactor_Datasets sharedDatasets]  getDiscoveredBLEInfo];
     
     
     // Check if error was determined after call to dataset helper (e.g., timer expired)

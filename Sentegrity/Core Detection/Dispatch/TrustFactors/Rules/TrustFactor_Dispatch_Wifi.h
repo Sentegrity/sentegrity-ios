@@ -17,7 +17,7 @@
 + (Sentegrity_TrustFactor_Output_Object *)highRiskAP:(NSArray *)payload;
 
 // 19 - TODO: This ability is not available on iOS outside of private API's
-+ (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload;
+//+ (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload;
 
 // 19 - Unknown SSID Check - Get the current AP SSID
 + (Sentegrity_TrustFactor_Output_Object *)SSID:(NSArray *)payload;

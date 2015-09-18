@@ -164,7 +164,8 @@
             [trustFactorClasser setLearnAssertionCount:[trustFactorClassifier objectForKey:kTFLearnAssertionCount]];
             [trustFactorClasser setLearnRunCount:[trustFactorClassifier objectForKey:kTFLearnRunCount]];
             [trustFactorClasser setThreshold:[trustFactorClassifier objectForKey:kTFThreshold]];
-            [trustFactorClasser setHistory:[trustFactorClassifier objectForKey:kTFHistory]];
+            [trustFactorClasser setDecayMode:[trustFactorClassifier objectForKey:kTFDecayMode]];
+            [trustFactorClasser setDecayMetric:[trustFactorClassifier objectForKey:kTFDecayMetric]];
             [trustFactorClasser setDispatch:[trustFactorClassifier objectForKey:kTFDispatch]];
             [trustFactorClasser setImplementation:[trustFactorClassifier objectForKey:kTFImplementation]];
             [trustFactorClasser setWhitelistable:[trustFactorClassifier objectForKey:kTFWhitelistable]];

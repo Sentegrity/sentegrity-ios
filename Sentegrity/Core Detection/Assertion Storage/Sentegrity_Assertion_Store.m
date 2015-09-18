@@ -258,7 +258,7 @@
     Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [[Sentegrity_Stored_TrustFactor_Object alloc] init];
     [storedTrustFactorObject setFactorID:trustFactorOutputObject.trustFactor.identification];
     [storedTrustFactorObject setRevision:trustFactorOutputObject.trustFactor.revision];
-    [storedTrustFactorObject setHistory:trustFactorOutputObject.trustFactor.history];
+    [storedTrustFactorObject setDecayMetric:trustFactorOutputObject.trustFactor.decayMetric];
     [storedTrustFactorObject setLearned:NO]; // Beta2: don't set that it has learned
     [storedTrustFactorObject setFirstRun:[NSDate date]];
     [storedTrustFactorObject setRunCount:[NSNumber numberWithInt:0]]; // Beta2: Set the run count to 0 because we're incrementing on comparison

@@ -37,8 +37,6 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    // Current process name
-    NSString *procName;
     
     // Get the current processes
     NSArray *currentProcesses = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getProcessInfo];
@@ -118,8 +116,6 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    // Current process UID
-    int UID;
     
     // Get the current processes
     NSArray *currentProcesses = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getProcessInfo];

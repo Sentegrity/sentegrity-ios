@@ -18,25 +18,50 @@
 //    return 0;
 //}
 
-+ (Sentegrity_TrustFactor_Output_Object *)timeDay:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)accessTime:(NSArray *)payload {
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
     // Set the default status code to OK (default = DNEStatus_ok)
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
     
+    
+    // Validate the payload
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
-    //day of week
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *comps = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate date]];
-    NSInteger weekDay = [comps weekday];
     
     //NSString *timeString = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:YES];
+    NSString *time = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:YES];
+    
+    //Screen level is given as a float 0.1-1
+    float screenLevel = [[UIScreen mainScreen] brightness];
+    
+    // With a blocksize of .25 or 4 we get block 0-.25,.25-.5,.5-.75,.75-1
+    // We add 1 to the blockOfBrightness after dividing to get a 1-4 block instead of 0-3
+    
+    float blocksize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksize"] floatValue];
+    
+    // Prevents 0/.25 = 0
+    if(screenLevel < 0.1){
+        screenLevel = 0.1;
+    }
+    
+    int blockOfBrightness = ceilf(screenLevel / (1/blocksize));
+    
     
     // Create assertion
-    [outputArray addObject: [NSString stringWithFormat:@"%ld",(long)weekDay]];
+    [outputArray addObject:[time stringByAppendingFormat:@"_LIGHT_%d",blockOfBrightness]];
     
     
     // Set the trustfactor output to the output array (regardless if empty)
@@ -46,6 +71,11 @@
     return trustFactorOutputObject;
 }
 
+/*
+ 
+ OLD
+ 
+ 
 + (Sentegrity_TrustFactor_Output_Object *)timeHour:(NSArray *)payload {
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -135,8 +165,7 @@
 }
 
 
-
-
+*/
 
 
 @end

@@ -250,37 +250,51 @@
     }
     
     
-    // Check if we should decay
-    // If the assertion store is greater than the TF's max history value
-    if( (trustFactorOutputObject.trustFactor.history.floatValue < 1.0) || (trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > [trustFactorOutputObject.trustFactor.history integerValue])){
-        
-        trustFactorOutputObject = [self performDecay:trustFactorOutputObject withError:error];
-        
-        if (!trustFactorOutputObject) {
-            // Failed, no trustFactorOutputObject found
-            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-            [errorDetails setValue:@"Error during TrustFactor decay" forKey:NSLocalizedDescriptionKey];
-            *error = [NSError errorWithDomain:@"Sentegrity" code:SAErrorDuringDecay userInfo:errorDetails];
+    // Check if decay is enabled for this TF
+    
+    switch (trustFactorOutputObject.trustFactor.decayMode.intValue) {
+        case 0:
+            // Do not decay
+            break;
+        case 1:
             
-            // Don't return anything
-            return nil;
-        }
-        
+            // Only run decay if history exceeds
+            if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > [trustFactorOutputObject.trustFactor.decayMetric integerValue]){
+                
+                trustFactorOutputObject = [self performCountBasedDecay:trustFactorOutputObject withError:error];
+                
+            }
+            break;
+        case 2:
+            
+            // Only run decay if there is at leaste two stored assertion to be check
+            if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > 1){
+                
+                trustFactorOutputObject = [self performMetricBasedDecay:trustFactorOutputObject withError:error];
+                
+            }
+            
+            break;
+        default:
+            break;
     }
     
     
-    // Create assertions
+    
+    // Create and update assertions depending on type of rule
+    
     switch (trustFactorOutputObject.trustFactor.ruleType.intValue) {
         case 1: //Rule type 1 leverages a default assertion to look for blacklisted artifacts on the system or enforce user policies
             
             // Must be the first time this has run
             if(trustFactorOutputObject.storedTrustFactorObject.learned==NO)
             {
+                
                 // Set stored assertion to the default for proper comparison
                 trustFactorOutputObject.storedTrustFactorObject.assertionObjects = [NSArray arrayWithObjects:[trustFactorOutputObject defaultAssertionObject],nil];
                 
-                // Set to learned
-                trustFactorOutputObject.storedTrustFactorObject.learned=YES;
+                updatedTrustFactorOutputObject = [self updateLearningAndAddCandidateAssertions:trustFactorOutputObject withError:error];
+                
                 
             }
             
@@ -289,7 +303,7 @@
             
             
             break;
-        case 2: // Rule Type 2 employs various learning for system anomaly detection, no default assertion is used, these rules don't take effect right away
+        case 2: // Rule Type 2 employs learning for anomaly detection, no default assertion is used, these rules don't take effect right away
             
             // If TF is learned run baseline analysis
             if(trustFactorOutputObject.storedTrustFactorObject.learned==YES)
@@ -303,7 +317,7 @@
             }
             
             break;
-        case 3: // Rule Type 3 builds a profile to identify known-good good user conditions one login at a time, good conditions are determined by login therefore no learning occurs, everything triggers on first run
+        case 3: // Rule Type 3 uses no default assertion and no learning mode, triggers right away (e.g., builds a profile to identify known-good good user conditions one login at a time, good conditions are determined by login therefore no learning occurs, everything triggers on first run)
             
             // Must be the first time this has run
             if(trustFactorOutputObject.storedTrustFactorObject.learned==NO)
@@ -318,7 +332,7 @@
             updatedTrustFactorOutputObject = [self checkBaselineForNoMatch:trustFactorOutputObject withError:error];
             
             break;
-        case 4: // Rule Type 4 employs learned assertions to identify good conditions but flips when it triggers (does not penalize for no match)
+        case 4: // Rule Type 4 is designed for authenticator TFs (known wifi, known bluetooth, etc) the same as ruletype 3 but flips the learning, it triggers when there is match in order to apply a negative penalty, unlike all other rule types that trigger on no-match and apply a positive penalty, only a few USER rules u
             
             // Must be the first time this has run
             if(trustFactorOutputObject.storedTrustFactorObject.learned==NO)
@@ -503,22 +517,21 @@
 }
 
 
-+ (Sentegrity_TrustFactor_Output_Object *)performDecay:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
++ (Sentegrity_TrustFactor_Output_Object *)performMetricBasedDecay:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
     
-    double secondsInADay = 86400.0;
+    //double secondsInADay = 86400.0;
+    
+    //Accelerate for debug (10 min)
+    double secondsInADay = 600;
+    
     double daysSinceCreation=0.0;
     double hitsPerDay=0.0;
-    
-    BOOL useDecay=NO;
-    
-    if([trustFactorOutputObject.trustFactor.history floatValue]<1.0){
-        useDecay=YES;
-    }
-    
+ 
+    // Use the metric decay method (e.g., keep all assertions that meet the metric, removing only those that don't)
+    // This is ideal for TFs device orientation or access time
     
     // Array to hold assertions to retain
     NSMutableArray *assertionObjectsToKeep = [[NSMutableArray alloc]init];
-    
     
     // Iterate through stored assertions for each trustFactorOutputObject
     for(Sentegrity_Stored_Assertion *storedAssertion in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
@@ -526,37 +539,98 @@
         // hours since the assertion was created
         daysSinceCreation = ((double)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created doubleValue]) / secondsInADay;
         //minutesSinceCreation = ((float)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created floatValue]) / 60;
+
         
-        //Only compute decay metric for assertions that are older than 1 day
-        //if(daysSinceCreation>1) {
+        if(daysSinceCreation<1){
+            daysSinceCreation=1;
+        }
         // Calculate our core metric for sorting
         hitsPerDay = [storedAssertion.hitCount doubleValue] / (daysSinceCreation);
         
         // Set the metric for sorting
         [storedAssertion setDecayMetric:hitsPerDay];
         
-        // }
         
-        
-        // If we are purely using decay metric, only keep what makes the cut
-        if(useDecay==YES){
-            
-            if([storedAssertion decayMetric]  > trustFactorOutputObject.trustFactor.history.floatValue){
+        if([storedAssertion decayMetric] > trustFactorOutputObject.trustFactor.decayMetric.floatValue){
                 
-                [assertionObjectsToKeep addObject:storedAssertion];
-                
-            }
-            
-        }else{ //we keep everything
-            
             [assertionObjectsToKeep addObject:storedAssertion];
-            
         }
+    }
+    
+    // Keep at leaste the top metric if none where found above the set limit
+    if (assertionObjectsToKeep.count == 0){
         
+        // Sort the original array by decay
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"decayMetric"
+                                                     ascending:NO];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        
+        NSArray *sortedArray;
+        
+        //Sort the array
+        sortedArray = [trustFactorOutputObject.storedTrustFactorObject.assertionObjects sortedArrayUsingDescriptors:sortDescriptors];
+        
+        // add the first element (top) to the keep array
+        [assertionObjectsToKeep addObject:[sortedArray objectAtIndex:1]];
+        
+        trustFactorOutputObject.storedTrustFactorObject.assertionObjects = assertionObjectsToKeep;
         
         
     }
+    else{
+        
+        // Sort what we're keeping by decay metric, highest at top (in theory, the most frequently used)
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"decayMetric"
+                                                     ascending:NO];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        
+        NSArray *sortedArray;
+        
+        // Sort the array
+        sortedArray = [assertionObjectsToKeep sortedArrayUsingDescriptors:sortDescriptors];
+        
+        // Set the sorted version of what we're keeping
+        trustFactorOutputObject.storedTrustFactorObject.assertionObjects = sortedArray;
+        
+    }
     
+            
+
+    return trustFactorOutputObject;
+}
+
+
++ (Sentegrity_TrustFactor_Output_Object *)performCountBasedDecay:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
+    
+    //double secondsInADay = 86400.0;
+    
+    //Accelerate for debug (10 min)
+    double secondsInADay = 600;
+    double daysSinceCreation=0.0;
+    double hitsPerDay=0.0;
+    
+
+    // Iterate through stored assertions for each trustFactorOutputObject and update metric
+    for(Sentegrity_Stored_Assertion *storedAssertion in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
+        
+        // hours since the assertion was created
+        daysSinceCreation = ((double)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created doubleValue]) / secondsInADay;
+        //minutesSinceCreation = ((float)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created floatValue]) / 60;
+        
+        
+        if(daysSinceCreation<1){
+            daysSinceCreation=1;
+        }
+        // Calculate our core metric for sorting
+        hitsPerDay = [storedAssertion.hitCount doubleValue] / (daysSinceCreation);
+        
+        // Set the metric for sorting
+        [storedAssertion setDecayMetric:hitsPerDay];
+        
+        
+    }
     
     
     // Sort all assertions by decay metric, highest at top (in theory, the most frequently used)
@@ -568,23 +642,14 @@
     NSArray *sortedArray;
     
     //Sort the array
-    sortedArray = [assertionObjectsToKeep sortedArrayUsingDescriptors:sortDescriptors];
+    sortedArray = [trustFactorOutputObject.storedTrustFactorObject.assertionObjects sortedArrayUsingDescriptors:sortDescriptors];
     
-    
-    // Set stored assertions back
-    if(useDecay==YES){
-        
-        trustFactorOutputObject.storedTrustFactorObject.assertionObjects = sortedArray;
-        
-    }else{ // Trim first
-        
-        trustFactorOutputObject.storedTrustFactorObject.assertionObjects = [sortedArray subarrayWithRange:NSMakeRange(0,trustFactorOutputObject.trustFactor.history.intValue)];
-        
-    }
-    
+    // Trim to the set amount of keep (decayMetric > 0 when decayMode = 1)
+    trustFactorOutputObject.storedTrustFactorObject.assertionObjects = [sortedArray subarrayWithRange:NSMakeRange(0,trustFactorOutputObject.trustFactor.decayMetric.intValue)];
     
     return trustFactorOutputObject;
 }
+
 
 + (Sentegrity_TrustFactor_Output_Object *)updateLearningAndAddCandidateAssertions:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error
 {
@@ -593,17 +658,19 @@
     trustFactorOutputObject.storedTrustFactorObject.runCount = [NSNumber numberWithInt:(trustFactorOutputObject.storedTrustFactorObject.runCount.intValue + 1)];
     
     
-    // Determine which kind of learning mode the trustfactor has
+    // Determine which kind of learning mode the trustfactor has (i.e., in what conditions do we add the candidates to the stored assertion list)
     switch (trustFactorOutputObject.trustFactor.learnMode.integerValue) {
-        case 0:
-            // Learn Mode 0: Nothing is learned
             
+            
+        // No learning performed
+        case 0:
             // Set learned to YES
             trustFactorOutputObject.storedTrustFactorObject.learned = YES;
             
             break;
+
         case 1:
-            // Learn Mode 1: Only needs the TrustFactor to run once, generally to monitor values of something in the payload for a change
+            // Learn Mode 1: Only needs the TrustFactor to run once, generally to monitor values of something in the payload for a change or use baseline assertion
             
             // Add learned assertions to storedTrustFactorOutputObject
             [self addLearnedAssertions:trustFactorOutputObject];

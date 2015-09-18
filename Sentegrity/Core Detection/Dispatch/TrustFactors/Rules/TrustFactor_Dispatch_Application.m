@@ -7,6 +7,7 @@
 //
 
 #import "TrustFactor_Dispatch_Application.h"
+#import "ActiveProcess.h"
 
 @implementation TrustFactor_Dispatch_Application
 
@@ -93,9 +94,6 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    // Current process name
-    NSString *procName;
-    
     // Get the current processes
     NSArray *currentProcesses = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getProcessInfo];
     
@@ -111,22 +109,19 @@
     }
     
     // Run through all the process information
-    for (NSDictionary *processData in currentProcesses) {
+    for (ActiveProcess *process in currentProcesses) {
         
-        // Get the current process name
-        procName = [processData objectForKey:@"Name"];
-        
-        // Iterate through payload names and look for matching processes
+               // Iterate through payload names and look for matching processes
         for (NSString *badProcName in payload) {
             
             // Check if the process name is equal to the current process being viewed
-            if([badProcName isEqualToString:procName]) {
+            if([badProcName isEqualToString:process.name]) {
                 
                 // make sure we don't add more than one instance of the proc
-                if (![outputArray containsObject:procName]){
+                if (![outputArray containsObject:process.name]){
                     
                     // Add the process to the output array
-                    [outputArray addObject:procName];
+                    [outputArray addObject:process.name];
                 }
             }
         }

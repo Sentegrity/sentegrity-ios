@@ -19,17 +19,6 @@
     
     // Set the default status code to OK (default = DNEStatus_ok)
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
-    
-    // Validate the payload
-    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
-        // Payload is EMPTY
-        
-        // Set the DNE status code to NODATA
-        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
 
     
     // Create the output array

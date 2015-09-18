@@ -17,7 +17,7 @@
 // Revision Number
 @property (nonatomic,retain) NSNumber *revision;
 // History - How many to learn from
-@property (nonatomic,retain) NSNumber *history;
+@property (nonatomic,retain) NSNumber *decayMetric;
 // Learning mode allowed
 @property (nonatomic) BOOL learned;
 // First run date

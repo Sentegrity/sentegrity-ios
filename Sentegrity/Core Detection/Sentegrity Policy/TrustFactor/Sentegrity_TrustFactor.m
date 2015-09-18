@@ -88,9 +88,14 @@
 }
 
 
-// History
-- (void)setHistory:(NSNumber *)history{
-    _history = history;
+// Decay Mode
+- (void)setDecayMode:(NSNumber *)decayMode{
+    _decayMetric= decayMode;
+}
+
+// Decay Metric
+- (void)setDecayMetric:(NSNumber *)decayMetric{
+    _decayMetric = decayMetric;
 }
 
 // Dispatch

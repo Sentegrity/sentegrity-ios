@@ -80,7 +80,7 @@
         [new setLastTime:[NSNumber numberWithInteger:nowEpochSeconds]];
         [new setHitCount:[NSNumber numberWithInt:1]];
         [new setCreated:[NSNumber numberWithInteger:nowEpochSeconds]];
-        [new setDecayMetric:10.0];
+        [new setDecayMetric:1.0];
         
         // Add object to the array
         [assertionObjects addObject:new];

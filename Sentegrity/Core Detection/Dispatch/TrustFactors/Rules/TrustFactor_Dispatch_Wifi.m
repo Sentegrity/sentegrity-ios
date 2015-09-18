@@ -109,8 +109,8 @@
         if ([bssid rangeOfString:oui options:NSCaseInsensitiveSearch].location != NSNotFound ) {
             
             //|| [gatewayIP containsString:@"192.168.1.1"]
-            // Add the current bssid to the list
-            [outputArray addObject:bssid];
+            // Add the current ssid to the list (we add the SSID to avoid having the TF trigger again if the device roams to a new AP on the same network)
+            [outputArray addObject:[wifiInfo objectForKey:@"ssid"]];
             match=YES;
             
             // Break from the for loop
@@ -121,7 +121,7 @@
     // If no OUI match resort to IP
     if (!match){
         if([gatewayIP containsString:@"192.168.1.1"]){
-            [outputArray addObject:bssid];
+            [outputArray addObject:[wifiInfo objectForKey:@"ssid"]];
         }
     }
     
@@ -137,6 +137,7 @@
 }
 
 // 18 - Captive Portal Unencrypted AP Check - Not available
+/* DEPRECATED
 + (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -208,6 +209,8 @@
     
     return 0;
 }
+ 
+ */
 
 // 19 - Unknown SSID Check - Get the current AP SSID
 + (Sentegrity_TrustFactor_Output_Object *)SSID:(NSArray *)payload {

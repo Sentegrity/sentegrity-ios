@@ -194,11 +194,11 @@
         
         
         if(day==YES){
-            return [NSString stringWithFormat:@"D%ld-H%ld",(long)weekDay,(long)hourBlock];
+            return [NSString stringWithFormat:@"DAY_%ld_HOUR_%ld",(long)weekDay,(long)hourBlock];
             
         }
         else{
-            return [NSString stringWithFormat:@"H%ld",(long)hourBlock];
+            return [NSString stringWithFormat:@"HOUR_%ld",(long)hourBlock];
         }
         
         
@@ -673,7 +673,7 @@
     CFAbsoluteTime currentTime = 0.0;
     
     
-    //Do we any devices yet?
+    //Do we any devices yet? Hold out for a bit if we only have one thus far (gives more time to find additional)
     if(self.discoveredBLEDevices == nil || self.discoveredBLEDevices.count <= 1){
         
         //Nope, wait for devices
@@ -691,10 +691,16 @@
             //scanning until we hit the timer
             currentTime = CFAbsoluteTimeGetCurrent();
             // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5 ){
+            if ((currentTime-startTime) > 1.0 ){
                 NSLog(@"Discovered BLE devices timer expired");
                 exit=YES;
-                [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
+                
+                // Only set to expired if we truly found none, otherwise run with what we did find (1 or 2)
+                if(self.discoveredBLEDevices.count<1){
+                    [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
+
+                }
+
                 return self.discoveredBLEDevices;
                 
             }

@@ -284,7 +284,7 @@ static NSMutableArray *radsArray;
                                               // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
                                         
                                               // Keep updating until we stop
-                                            if (pitchRunCount > 2){
+                                            if (pitchRunCount > 3){
                                                 [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
                                                   [manager stopDeviceMotionUpdates];
                                             }
@@ -349,7 +349,11 @@ static NSMutableArray *connectedBLEDevices;
 static CFAbsoluteTime startTime=0.0;
 
 - (void) startBluetooth{
-    mgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], CBCentralManagerOptionShowPowerAlertKey, nil];
+    
+    
+    mgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:options];
     
 }
 
@@ -366,6 +370,11 @@ static CFAbsoluteTime startTime=0.0;
 // Callback for didDiscoverPeripherals
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     
+    // Add the device dictionary to the list
+    [discoveredBLEDevices addObject:[NSString stringWithFormat:@"%@",peripheral.identifier.UUIDString]];
+    
+    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLEDevices:discoveredBLEDevices];
+    
     // Update timer with current time
     CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
     
@@ -376,11 +385,7 @@ static CFAbsoluteTime startTime=0.0;
         
     }
     
-    // Add the device dictionary to the list
-    [discoveredBLEDevices addObject:[NSString stringWithFormat:@"%@",peripheral.identifier.UUIDString]];
-    
-    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLEDevices:discoveredBLEDevices];
-    
+
     
 }
 
@@ -438,6 +443,8 @@ static CFAbsoluteTime startTime=0.0;
             startTime = CFAbsoluteTimeGetCurrent();
             
             // Start scanning for any peripheral
+            
+            
             [mgr scanForPeripheralsWithServices:nil options:nil];
             
             // Retrieve list of paired
