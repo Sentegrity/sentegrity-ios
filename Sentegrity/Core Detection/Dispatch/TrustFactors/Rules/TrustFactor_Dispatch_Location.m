@@ -134,10 +134,36 @@
     // Location
     CLLocation *currentLocation;
     
+    // Check if error was determined by location callback in app delegate
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != 0 ){
+        
+        
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus]];
+        
+        if([[Sentegrity_TrustFactor_Datasets sharedDatasets] locationDNEStatus] == DNEStatus_unauthorized){
+            
+            // Manually call unknown geo first
+            
+            // then return
+            return trustFactorOutputObject;
+            
+            
+        }else{
+        
+        // Some other error happened
+        // Return with the blank output object
+        return trustFactorOutputObject;
+            
+        }
+
+    }
+    
+    
     // Attempt to get the current location
     currentLocation = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getLocationInfo];
     
-     // Check if error was already determined when placemark was started
+     // Check if error was determined after call to dataset helper
     if([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != 0){
         
         // Set the DNE status code for the TF to what was previously determined by location services

@@ -267,7 +267,7 @@
             break;
         case 2:
             
-            // Only run decay if there is at leaste two stored assertion to be check
+            // Only update decay if there is at leaste two stored assertion to be check, otherwise its a waste of time
             if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > 1){
                 
                 trustFactorOutputObject = [self performMetricBasedDecay:trustFactorOutputObject withError:error];
@@ -519,10 +519,10 @@
 
 + (Sentegrity_TrustFactor_Output_Object *)performMetricBasedDecay:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
     
-    //double secondsInADay = 86400.0;
+    double secondsInADay = 86400.0;
     
     //Accelerate for debug (10 min)
-    double secondsInADay = 600;
+    //double secondsInADay = 600;
     
     double daysSinceCreation=0.0;
     double hitsPerDay=0.0;

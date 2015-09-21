@@ -614,7 +614,7 @@
         
         
     }
-    //we've already got location data
+    //we've already got gyro data
     NSLog(@"Got gyro pitch without waiting...");
     return self.gyroRollPitch;
     
@@ -644,19 +644,19 @@
     }
 }
 
--(BOOL)isWifiEnabled {
+-(NSNumber *)isWifiEnabled {
     if(!self.wifiEnabled) //dataset not populated
     {
-        // Get the list of processes and all information about them
+
         @try {
             
-            self.wifiEnabled= [Wifi_Info isWiFiEnabled];
+            self.wifiEnabled = [Wifi_Info isWiFiEnabled];
             return self.wifiEnabled;
             
         }
         @catch (NSException * ex) {
             // Error
-            return NO;
+            return nil;
         }
         
     }
@@ -710,14 +710,14 @@
         }
         
     }
-    //we've already got location data
+    //we've already got BLE data
     NSLog(@"Got discovered BLE devices without waiting...");
     return self.discoveredBLEDevices;
     
 }
 
 // TO BE IMPLEMENTED
-- (NSArray *)getConnectedBLEInfo {
+- (NSArray *)getConnectedBTInfo {
     
     CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
     CFAbsoluteTime currentTime = 0.0;
@@ -754,7 +754,7 @@
         }
         
     }
-    //we've already got location data
+    //we've already got BLE data
     NSLog(@"Got connected BLE devices without waiting...");
     return self.discoveredBLEDevices;
     
@@ -762,6 +762,106 @@
 
 
 
+- (NSNumber *)getWifiSignal {
+    
+    
+    if(!self.wifiSignal || self.wifiSignal==nil) //dataset not populated
+    {
+        // Get the list of processes and all information about them
+        @try {
+            
+            self.wifiSignal = [Wifi_Info getSignal];
+            return self.wifiSignal;
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+    }
+    else //already populated
+    {
+        return self.wifiSignal;
+    }
+    
+}
+
+
+- (NSNumber *)getCelluarSignal {
+    
+    if(!self.celluarSignal || self.celluarSignal==nil) //dataset not populated
+    {
+        // Get the list of processes and all information about them
+        @try {
+            
+            self.celluarSignal = [Cell_Info getSignal];
+            return self.celluarSignal;
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+    }
+    else //already populated
+    {
+        return self.celluarSignal;
+    }
+    
+    
+}
+
+
+- (NSString *)getCarrierConnectionInfo {
+    
+    
+    if(!self.carrierConnectionInfo || self.carrierConnectionInfo==nil) //dataset not populated
+    {
+        // Get the list of processes and all information about them
+        @try {
+            
+            self.carrierConnectionInfo = [Cell_Info getCarrierInfo];
+            return self.carrierConnectionInfo;
+            
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+    }
+    else //already populated
+    {
+        return self.carrierConnectionInfo;
+    }
+    
+}
+
+-(NSNumber *)isAirplaneMode {
+    if(!self.airplaneMode) //dataset not populated
+    {
+        // Get the list of processes and all information about them
+        @try {
+            
+            self.airplaneMode = [Cell_Info isAirplane];
+            return self.airplaneMode;
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+    }
+    else //already populated
+    {
+        return self.airplaneMode;
+    }
+    
+}
 
 @end
 

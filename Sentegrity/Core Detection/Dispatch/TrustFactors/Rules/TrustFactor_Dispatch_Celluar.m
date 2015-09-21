@@ -8,10 +8,14 @@
 
 #import "TrustFactor_Dispatch_Celluar.h"
 
+
 @implementation TrustFactor_Dispatch_Celluar
 
+
+
 // USES PRIVATE API
-+ (Sentegrity_TrustFactor_Output_Object *)carrier:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)cellConnectionChange:(NSArray *)payload {
+    
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -22,71 +26,22 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
+   
+    // Get the current list of user apps
+    NSString *carrierConnectionInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionInfo];
     
-    // Get the carrier speed
-    
-    NSString *carrierSpeed;
-    CTTelephonyNetworkInfo *telephonyInfo = [CTTelephonyNetworkInfo new];
-    carrierSpeed = telephonyInfo.currentRadioAccessTechnology;
-    
-    
-    // Get the carrier name
-    
-    NSString *carrierName;
-    
-    //Public API method that only returns SIM (home) carrier name
-    //[info.subscriberCellularProvider.carrierName capitalizedString]
-    
-    //Private API to scrap the status bar and get real carrier
-    NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
-    UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
-    
-    UIView* statusBarForegroundView = nil;
-    
-    for (UIView* view in statusBar.subviews)
-    {
-        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarForegroundView")])
-        {
-            statusBarForegroundView = view;
-            break;
-        }
-    }
-    
-    UIView* statusBarServiceItem = nil;
-    
-    for (UIView* view in statusBarForegroundView.subviews)
-    {
-        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarServiceItemView")])
-        {
-            statusBarServiceItem = view;
-            break;
-        }
-    }
-    
-    if (statusBarServiceItem)
-    {
-        id value = [statusBarServiceItem valueForKey:@"_serviceString"];
+    // Check the array
+    if (!carrierConnectionInfo || carrierConnectionInfo == nil || carrierConnectionInfo.length < 1) {
         
-        if ([value isKindOfClass:[NSString class]])
-        {
-            carrierName = (NSString *)value;
-        }
-    }
-
-    
-    // Check for a connection
-    if (carrierName == nil){
-        
-        //WiFi is enabled but there is no connection (don't penalize)
-        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
         // Return with the blank output object
         return trustFactorOutputObject;
-        
     }
-    
+
    
-    [outputArray addObject:carrierName];
+    [outputArray addObject:carrierConnectionInfo];
 
     
     // Set the trustfactor output to the output array (regardless if empty)
@@ -98,6 +53,47 @@
 }
 
 
+
+// USES PRIVATE API
++ (Sentegrity_TrustFactor_Output_Object *)airplaneMode:(NSArray *)payload {
+    
+    
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] init];
+    
+    // Get the status Bar
+    NSNumber *enabled = [[Sentegrity_TrustFactor_Datasets sharedDatasets] isAirplaneMode];
+    
+    // Check the array
+    if (!enabled || enabled == nil) {
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    // Is airplane enabled?
+    
+    if(enabled.intValue==1){
+        [outputArray addObject:@"airplane"];
+    }
+    
+
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+    
+}
 
 
 

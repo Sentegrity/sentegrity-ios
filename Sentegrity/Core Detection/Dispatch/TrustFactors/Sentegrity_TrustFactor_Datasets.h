@@ -26,6 +26,7 @@
 #import "Sentegrity_TrustFactor_Dataset_Process.h"
 #import "Sentegrity_TrustFactor_Dataset_Netstat.h"
 #import "Sentegrity_TrustFactor_Dataset_Wifi.h"
+#import "Sentegrity_TrustFactor_Dataset_Cell.h"
 
 
 @interface Sentegrity_TrustFactor_Datasets : NSObject
@@ -66,9 +67,15 @@
 @property (atomic) int connectedBLEDNEStatus;
 
 // WiFi
-@property (atomic) BOOL wifiEnabled;
+@property (atomic, retain) NSNumber *wifiEnabled;
 @property (atomic, retain) NSDictionary *wifiData;
 @property (atomic) int wifiConnected;
+@property (atomic, retain) NSNumber *wifiSignal;
+
+//Celluar
+@property (atomic, retain) NSNumber *celluarSignal;
+@property (atomic, retain) NSString *carrierConnectionInfo;
+@property (atomic, retain) NSNumber *airplaneMode;
 
 // CPU
 @property (atomic) float cpuUsage;
@@ -127,7 +134,13 @@
 
 // ** WIFI **
 - (NSDictionary *)getWifiInfo;
-- (BOOL)isWifiEnabled;
+- (NSNumber *)isWifiEnabled;
+- (NSNumber *) getWifiSignal;
+
+// ** CELLUAR **
+- (NSNumber *) getCelluarSignal;
+- (NSString *) getCarrierConnectionInfo;
+- (NSNumber *) isAirplaneMode;
 
 // ** NETWORKING **
 - (NSArray *) getNetstatInfo;
@@ -148,7 +161,7 @@
 
 // ** BLUETOOTH **
 - (NSArray *)getDiscoveredBLEInfo;
-- (NSArray *)getConnectedBLEInfo;
+- (NSArray *)getConnectedBTInfo;
 
 
 @end

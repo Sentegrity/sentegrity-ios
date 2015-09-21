@@ -18,6 +18,7 @@
 // Animated Progress Alerts
 #import "MBProgressHUD.h"
 
+
 @interface AppDelegate () <CBCentralManagerDelegate>
 
 @end
@@ -39,6 +40,7 @@ static MBProgressHUD *HUD;
     [self startMotion];
     
     [self startBluetooth];
+    
     
     
     // Override point for customization after application launch.
@@ -204,7 +206,7 @@ static MBProgressHUD *HUD;
         
         CMMotionActivityManager *manager = [CMMotionActivityManager new];
         
-               [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*10)]
+               [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*5)]
                                         toDate:[NSDate date]
                                        toQueue:[NSOperationQueue new]
                                    withHandler:^(NSArray *activities, NSError *error) {
@@ -457,4 +459,7 @@ static CFAbsoluteTime startTime=0.0;
     }
     
 }
+
+
+
 @end

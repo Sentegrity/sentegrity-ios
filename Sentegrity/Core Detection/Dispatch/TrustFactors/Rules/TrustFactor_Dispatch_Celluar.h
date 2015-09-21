@@ -8,13 +8,16 @@
 
 #import "Sentegrity_TrustFactor_Datasets.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
-@import CoreTelephony;
+
 
 
 @interface TrustFactor_Dispatch_Celluar : NSObject 
 
 // USES PRIVATE API
-+ (Sentegrity_TrustFactor_Output_Object *)carrier:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)cellConnectionChange:(NSArray *)payload;
+
+// USES PRIVATE API
++ (Sentegrity_TrustFactor_Output_Object *)airplaneMode:(NSArray *)payload;
 
 
 

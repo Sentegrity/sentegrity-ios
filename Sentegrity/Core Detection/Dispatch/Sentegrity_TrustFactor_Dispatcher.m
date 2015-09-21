@@ -156,6 +156,7 @@
         return trustFactorOutputObject;
     }
     
+    
     // Get the class dynamically
     NSString *className = [NSString stringWithFormat:kTrustFactorDispatch, dispatch];
     Class dispatchClass = NSClassFromString(className);

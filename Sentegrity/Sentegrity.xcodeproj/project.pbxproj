@@ -71,6 +71,7 @@
 		4CE9D8891B323B05006D43D8 /* Sentegrity_Classification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8631B323B05006D43D8 /* Sentegrity_Classification+Computation.m */; };
 		4CE9D88A1B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */; };
 		4CE9D88B1B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */; };
+		96067D7B1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96067D7A1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m */; };
 		966A41061B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41051B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m */; };
 		966A41091B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41081B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m */; };
 		966A410C1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A410B1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m */; };
@@ -219,6 +220,8 @@
 		4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Subclassification+Computation.m"; sourceTree = "<group>"; };
 		4CE9D8661B323B05006D43D8 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
+		96067D791BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Cell.h; sourceTree = "<group>"; };
+		96067D7A1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Cell.m; sourceTree = "<group>"; };
 		966A41041B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Stored_Assertion.h; sourceTree = "<group>"; };
 		966A41051B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Stored_Assertion.m; sourceTree = "<group>"; };
 		966A41071B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Celluar.h; sourceTree = "<group>"; };
@@ -838,6 +841,8 @@
 				968263951BA9F20300671D56 /* Objects */,
 				966A41101B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.h */,
 				966A41111B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m */,
+				96067D791BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.h */,
+				96067D7A1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m */,
 				966A410A1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.h */,
 				966A410B1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m */,
 				96C0FF221B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Netstat.h */,
@@ -1044,6 +1049,7 @@
 				4CE9D87F1B323B05006D43D8 /* Sentegrity_History_Store.m in Sources */,
 				4CE9D8771B323B05006D43D8 /* TrustFactor_Dispatch_Sandbox.m in Sources */,
 				4CE9D87B1B323B05006D43D8 /* TrustFactor_Dispatch_Time.m in Sources */,
+				96067D7B1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m in Sources */,
 				4CE9D8741B323B05006D43D8 /* TrustFactor_Dispatch_Platform.m in Sources */,
 				969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */,
 				4CE9D8691B323B05006D43D8 /* Sentegrity_Stored_TrustFactor_Object.m in Sources */,
@@ -1219,7 +1225,6 @@
 			baseConfigurationReference = A861559935991A5C1535CE5A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Sentegrity/Supporting Files/Sentegrity.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
@@ -1235,7 +1240,6 @@
 			baseConfigurationReference = 42EFD5DFE715E4FE18052085 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Sentegrity/Supporting Files/Sentegrity.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";

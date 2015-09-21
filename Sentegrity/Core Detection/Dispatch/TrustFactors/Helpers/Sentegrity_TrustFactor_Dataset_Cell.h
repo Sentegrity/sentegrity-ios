@@ -13,23 +13,17 @@
 #import "Sentegrity_Constants.h"
 
 // Headers
-#import <arpa/inet.h>
-#import "Sentegrity_TrustFactor_Datasets.h"
-#import <Foundation/Foundation.h>
-#import <SystemConfiguration/CaptiveNetwork.h>
-#import <ifaddrs.h>
-#import <net/if.h>
 
 
 
-@interface Wifi_Info : NSObject
+@interface Cell_Info : NSObject
 
 
-+ (NSDictionary*)getWifi;
++ (NSString *) getCarrierInfo;
 
 + (NSNumber *) getSignal;
 
-+ (NSNumber *)isWiFiEnabled;
++ (NSNumber *) isAirplane;
 
 
 @end

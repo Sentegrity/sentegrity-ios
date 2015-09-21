@@ -20,6 +20,8 @@
 // 23
 + (Sentegrity_TrustFactor_Output_Object *)vulnerableVersion:(NSArray *)payload {
     
+    //Good resorce for currently signed apple releases  http://api.ineal.me/tss/all
+    
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     

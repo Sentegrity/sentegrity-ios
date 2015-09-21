@@ -26,7 +26,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
     //No connection, check if WiFi is enabled
-    if([[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled]==NO){
+    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
         
         //Not enabled, set DNE and return (penalize)
         [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
@@ -225,7 +225,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
     //No connection, check if WiFi is enabled
-    if([[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled]==NO){
+    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
         
         //Not enabled, set DNE and return (penalize)
         [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
@@ -288,7 +288,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     //No connection, check if WiFi is enabled
-    if([[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled]==NO){
+    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
         
         //Not enabled, set DNE and return (penalize)
         [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
@@ -296,6 +296,7 @@
         // Return with the blank output object
         return trustFactorOutputObject;
     }
+    
     
     NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
     

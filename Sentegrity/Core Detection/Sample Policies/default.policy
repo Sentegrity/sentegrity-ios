@@ -614,7 +614,7 @@
 "subClassID": 3,
 "priority": 3,
 "name": "Network connectivity",
-"penalty": 2,
+"penalty": 20,
 "ruleType": 1,
 "learnMode": 0,
 "learnTime": 0,
@@ -630,6 +630,29 @@
 "payload": []
 }, {
 "id": 1015,
+"issueMessage": "Device is in airplane mode",
+"suggestionMessage": "Disable airplane mode",
+"revision": 1,
+"classID": 3,
+"subClassID": 17,
+"priority": 3,
+"name": "Airplane mode",
+"penalty": 20,
+"ruleType": 1,
+"learnMode": 0,
+"learnTime": 0,
+"learnAssertionCount": 0,
+"learnRunCount": 0,
+"threshold": 0,
+"decayMode": 0,
+"decayMetric": 0,
+"dispatch": "Celluar",
+"implementation": "airplaneMode:",
+"whitelistable": 0,
+"privateAPI": 0,
+"payload": []
+}, {
+"id": 1016,
 "issueMessage": "VPN connection in use",
 "suggestionMessage": "Disable VPN (per policy)",
 "revision": 1,
@@ -654,7 +677,7 @@
 "ppp0"
 ]
 }, {
-"id": 1016,
+"id": 1017,
 "issueMessage": "High risk WiFi router",
 "suggestionMessage": "",
 "revision": 1,
@@ -677,7 +700,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1017,
+"id": 1018,
 "issueMessage": "Unfamiliar WiFi connection",
 "suggestionMessage": "Use familiar WiFi APs",
 "revision": 1,
@@ -700,7 +723,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1018,
+"id": 1019,
 "issueMessage": "",
 "suggestionMessage": "Employ trusted WiFi AP",
 "revision": 1,
@@ -723,37 +746,14 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1019,
-"issueMessage": "Unencrypted WiFi_DEPRECATED",
-"suggestionMessage": "",
+"id": 1021,
+"issueMessage": "Carrier changed",
+"suggestionMessage": "Stop celluar roaming",
 "revision": 1,
 "classID": 3,
 "subClassID": 4,
 "priority": 1,
-"name": "wifi captive portal",
-"penalty": 30,
-"ruleType": 1,
-"learnMode": 0,
-"learnTime": 0,
-"learnAssertionCount": 0,
-"learnRunCount": 0,
-"threshold": 0,
-"decayMode": 0,
-"decayMetric": 0,
-"dispatch": "Wifi",
-"implementation": "captivePortalREMOVED:",
-"whitelistable": 0,
-"privateAPI": 0,
-"payload": []
-}, {
-"id": 1020,
-"issueMessage": "Carrier change",
-"suggestionMessage": "",
-"revision": 1,
-"classID": 3,
-"subClassID": 4,
-"priority": 1,
-"name": "Carrier",
+"name": "cell connection change",
 "penalty": 20,
 "ruleType": 2,
 "learnMode": 2,
@@ -764,12 +764,12 @@
 "decayMode": 0,
 "decayMetric": 0,
 "dispatch": "Celluar",
-"implementation": "carrier:",
+"implementation": "cellConnectionChange:",
 "whitelistable": 1,
 "privateAPI": 1,
 "payload": []
 }, {
-"id": 1021,
+"id": 1022,
 "issueMessage": "High risk running apps",
 "suggestionMessage": "Close all running apps",
 "revision": 1,
@@ -796,7 +796,7 @@
 "blescanner"
 ]
 }, {
-"id": 1022,
+"id": 1023,
 "issueMessage": "High risk installed apps",
 "suggestionMessage": "Uninstall high risk apps",
 "revision": 1,
@@ -822,7 +822,7 @@
 "net.technet.systat"
 ]
 }, {
-"id": 1023,
+"id": 1024,
 "issueMessage": "Vulnerable operating system",
 "suggestionMessage": "Upgrade operating system",
 "revision": 1,
@@ -861,7 +861,7 @@
 "8.0-8.4"
 ]
 }, {
-"id": 1024,
+"id": 1025,
 "issueMessage": "Short uptime",
 "suggestionMessage": "Do not reboot the device",
 "revision": 1,
@@ -886,7 +886,7 @@
 "minimumHoursUp" : 6
 }]
 }, {
-"id": 1025,
+"id": 1026,
 "issueMessage": "Data replication detected",
 "suggestionMessage": "Disable backup services",
 "revision": 1,
@@ -911,7 +911,7 @@
 "backupd"
 ]
 }, {
-"id": 1026,
+"id": 1027,
 "issueMessage": "No device passcode set",
 "suggestionMessage": "Set a passcode on the device",
 "revision": 1,
@@ -934,7 +934,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1027,
+"id": 1028,
 "issueMessage": "Unfamiliar access conditions",
 "suggestionMessage": "Access in familiar time",
 "revision": 1,
@@ -960,7 +960,7 @@
 "brightnessBlocksize" : 3
 }]
 }, {
-"id": 1028,
+"id": 1029,
 "issueMessage": "USB connected",
 "suggestionMessage": "Unplug device",
 "revision": 1,
@@ -983,7 +983,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1029,
+"id": 1030,
 "issueMessage": "Unfamiliar power consumption",
 "suggestionMessage": "Charge device regularly",
 "revision": 1,
@@ -1009,7 +1009,7 @@
 "powerInBlock": 25
 }]
 }, {
-"id": 1030,
+"id": 1031,
 "issueMessage": "Unfamiliar battery state",
 "suggestionMessage": "Charge device regularly",
 "revision": 1,
@@ -1032,7 +1032,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1031,
+"id": 1032,
 "issueMessage": "Unfamiliar device orientation",
 "suggestionMessage": "",
 "revision": 1,
@@ -1055,7 +1055,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1032,
+"id": 1033,
 "issueMessage": "Unfamiliar user activity",
 "suggestionMessage": "",
 "revision": 1,
@@ -1071,7 +1071,7 @@
 "learnRunCount": 0,
 "threshold": 0,
 "decayMode": 2,
-"decayMetric": 0.14,
+"decayMetric": 0.3,
 "dispatch": "Activity",
 "implementation": "previous:",
 "whitelistable": 1,
@@ -1080,7 +1080,7 @@
 "hoursInBlock": 4
 }]
 }, {
-"id": 1033,
+"id": 1034,
 "issueMessage": "Unreliable grip (moving)",
 "suggestionMessage": "Hold device steady",
 "revision": 1,
@@ -1107,7 +1107,7 @@
 "zThreshold": 0.8
 }]
 }, {
-"id": 1034,
+"id": 1035,
 "issueMessage": "Unfamiliar device grip",
 "suggestionMessage": "",
 "revision": 1,
@@ -1132,7 +1132,7 @@
 "blockSize": 4
 }]
 }, {
-"id": 1035,
+"id": 1036,
 "issueMessage": "Unfamiliar device location",
 "suggestionMessage": "Access device in familiar areas",
 "revision": 1,
@@ -1159,7 +1159,7 @@
 "allowed": "41.88,-87.61"
 }]
 }, {
-"id": 1036,
+"id": 1037,
 "issueMessage": "Device location policy violation",
 "suggestionMessage": "Request a policy exception",
 "revision": 1,
@@ -1185,7 +1185,7 @@
 "CA"
 ]
 }, {
-"id": 1037,
+"id": 1038,
 "issueMessage": "",
 "suggestionMessage": "Employ bluetooth low-energy devices",
 "revision": 1,
@@ -1208,7 +1208,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1038,
+"id": 1039,
 "issueMessage": "",
 "suggestionMessage": "Employ bluetooth classic devices",
 "revision": 1,

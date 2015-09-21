@@ -339,7 +339,7 @@
 }
 
 
-+ (BOOL) isWiFiEnabled {
++ (NSNumber *) isWiFiEnabled {
     
     NSCountedSet * cset = [NSCountedSet new];
     
@@ -353,9 +353,48 @@
         }
     }
     
-    return [cset countForObject:@"awdl0"] > 1 ? YES : NO;
+    return [cset countForObject:@"awdl0"] > 1 ? [NSNumber numberWithInt:1] : [NSNumber numberWithInt:0];
 }
 
++ (NSNumber *) getSignal{
+    
+    // Get the status Bar
+    NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
+    UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
+    
+    UIView* statusBarForegroundView = nil;
+    
+    for (UIView* view in statusBar.subviews)
+    {
+        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarForegroundView")])
+        {
+            statusBarForegroundView = view;
+            break;
+        }
+    }
+    
+    
+    // Get WiFi strength
+    
+    NSNumber *wifiBars;
+    
+    
+    for (UIView* view in statusBarForegroundView.subviews)
+    {
+        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarDataNetworkItemView")])
+        {
+            
+            if (view)
+            {
+                wifiBars = [NSNumber numberWithInt:[[view valueForKey:@"_wifiStrengthBars"] intValue]];
+                
+            }
+            break;
+        }
+    }
+
+    return wifiBars;
+}
 
 // Connected to WiFi?
 + (BOOL)isWiFiConnected {
