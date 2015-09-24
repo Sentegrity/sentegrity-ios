@@ -73,7 +73,8 @@
 @property (atomic, retain) NSNumber *wifiSignal;
 
 //Celluar
-@property (atomic, retain) NSNumber *celluarSignal;
+@property (atomic, retain) NSNumber *celluarSignalBars;
+@property (atomic, retain) NSNumber *celluarSignalRaw;
 @property (atomic, retain) NSString *carrierConnectionInfo;
 @property (atomic, retain) NSNumber *airplaneMode;
 
@@ -138,7 +139,8 @@
 - (NSNumber *) getWifiSignal;
 
 // ** CELLUAR **
-- (NSNumber *) getCelluarSignal;
+- (NSNumber *) getCelluarSignalBars;
+- (NSNumber *) getCelluarSignalRaw;
 - (NSString *) getCarrierConnectionInfo;
 - (NSNumber *) isAirplaneMode;
 

@@ -645,7 +645,7 @@
 }
 
 -(NSNumber *)isWifiEnabled {
-    if(!self.wifiEnabled) //dataset not populated
+    if(self.wifiEnabled == nil) //dataset not populated
     {
 
         @try {
@@ -691,7 +691,7 @@
             //scanning until we hit the timer
             currentTime = CFAbsoluteTimeGetCurrent();
             // we've waited more than a second, exit
-            if ((currentTime-startTime) > 1.0 ){
+            if ((currentTime-startTime) > 0.5 ){
                 NSLog(@"Discovered BLE devices timer expired");
                 exit=YES;
                 
@@ -788,15 +788,15 @@
 }
 
 
-- (NSNumber *)getCelluarSignal {
+- (NSNumber *)getCelluarSignalBars {
     
-    if(!self.celluarSignal || self.celluarSignal==nil) //dataset not populated
+    if(!self.celluarSignalBars || self.celluarSignalBars==nil) //dataset not populated
     {
         // Get the list of processes and all information about them
         @try {
             
-            self.celluarSignal = [Cell_Info getSignal];
-            return self.celluarSignal;
+            self.celluarSignalBars = [Cell_Info getSignalBars];
+            return self.celluarSignalBars;
             
         }
         @catch (NSException * ex) {
@@ -807,11 +807,38 @@
     }
     else //already populated
     {
-        return self.celluarSignal;
+        return self.celluarSignalBars;
     }
     
     
 }
+
+
+- (NSNumber *)getCelluarSignalRaw {
+    
+    if(!self.celluarSignalRaw || self.celluarSignalRaw==nil) //dataset not populated
+    {
+        // Get the list of processes and all information about them
+        @try {
+            
+            self.celluarSignalRaw = [Cell_Info getSignalRaw];
+            return self.celluarSignalRaw;
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+    }
+    else //already populated
+    {
+        return self.celluarSignalRaw;
+    }
+    
+    
+}
+
 
 
 - (NSString *)getCarrierConnectionInfo {

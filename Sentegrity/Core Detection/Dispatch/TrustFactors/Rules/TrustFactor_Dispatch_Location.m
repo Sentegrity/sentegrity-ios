@@ -40,7 +40,7 @@
     CLPlacemark *currentPlacemark;
     
     // Attempt to get the current placemark
-    currentPlacemark = [[Sentegrity_TrustFactor_Datasets sharedDatasets]  placemark];
+    currentPlacemark = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getPlacemarkInfo];
     
     // Check if error was already determined when placemark was started
     if([[Sentegrity_TrustFactor_Datasets sharedDatasets]  placemarkDNEStatus] != 0){
@@ -189,10 +189,13 @@
     int decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"rounding"] intValue];
     
     // Rounded location
-    NSString *roundedLocation = [NSString stringWithFormat:@"%.*f,%.*f",decimalPlaces,currentLocation.coordinate.longitude,decimalPlaces,currentLocation.coordinate.latitude];
+    NSString *roundedLocation = [NSString stringWithFormat:@"LONG_%.*f_LAT_%.*f",decimalPlaces,currentLocation.coordinate.longitude,decimalPlaces,currentLocation.coordinate.latitude];
+    
+    // Add cell signal strength
+    NSString *locationTuple = [roundedLocation stringByAppendingFormat:@"_SIGNAL_%@",[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCelluarSignalBars]];
   
 
-    [outputArray addObject:roundedLocation];
+    [outputArray addObject:locationTuple];
     
     
     // Set the trustfactor output to the output array (regardless if empty)

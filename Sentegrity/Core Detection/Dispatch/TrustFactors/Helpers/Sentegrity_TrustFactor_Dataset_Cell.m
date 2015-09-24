@@ -18,7 +18,7 @@
 
 static UIView* statusBarForegroundView;
 
-+(NSNumber*)getSignal{
++(NSNumber*)getSignalBars{
 
     // Lets not do this every time
     if(!statusBarForegroundView){
@@ -52,7 +52,7 @@ static UIView* statusBarForegroundView;
             if (view)
             {
                 celluarBars = [NSNumber numberWithInt:[[view valueForKey:@"_signalStrengthBars"] intValue]];
-                //celluarRaw = [[view valueForKey:@"_signalStrengthRaw"] intValue];
+            
                 
             }
             break;
@@ -63,6 +63,53 @@ static UIView* statusBarForegroundView;
     return celluarBars;
     
 }
+
++(NSNumber*)getSignalRaw{
+    
+    // Lets not do this every time
+    if(!statusBarForegroundView){
+        
+        NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
+        UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
+        
+        for (UIView* view in statusBar.subviews)
+        {
+            if ([view isKindOfClass:NSClassFromString(@"UIStatusBarForegroundView")])
+            {
+                statusBarForegroundView = view;
+                break;
+            }
+        }
+        
+        
+    }
+    
+    
+    
+    // Get cell strength
+    NSNumber *celluarRaw;
+    //int celluarRaw=0;
+    
+    for (UIView* view in statusBarForegroundView.subviews)
+    {
+        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarSignalStrengthItemView")])
+        {
+            
+            if (view)
+            {
+                celluarRaw = [NSNumber numberWithInt:[[view valueForKey:@"_signalStrengthRaw"] intValue]];
+                
+                
+            }
+            break;
+        }
+    }
+    
+    
+    return celluarRaw;
+    
+}
+
 
 
 // Get WiFi IP Address
@@ -100,6 +147,22 @@ static UIView* statusBarForegroundView;
             
             break;
         }
+    }
+    
+    
+    BOOL isBackingUp=NO;
+    for (UIView* view in statusBarForegroundView.subviews)
+    {
+        //iOS 9?
+        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarActivityItemView")]){
+            
+            if((BOOL)[view valueForKey:@"_syncActivity"]==TRUE){
+                
+                isBackingUp=YES;
+            }
+           // break;
+        }
+    
     }
     
     

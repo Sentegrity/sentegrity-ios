@@ -344,6 +344,46 @@
 }
 
 
+// 19 - Unknown SSID Check - Get the current AP SSID
++ (Sentegrity_TrustFactor_Output_Object *)hotspotEnabled:(NSArray *)payload {
+    
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
+    
+    //No connection, check if WiFi is enabled
+    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
+        
+        //Not enabled, set DNE and return (penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
+    UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
+    
+    NSString *text = [statusBar valueForKey:@"_currentDoubleHeightText"];
+    if([text containsString:@"Hotspot"]){
+        
+        [outputArray addObject:@"hotspotOn"];
+        
+    }
+    
+      // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+    
+}
+
 
 
 @end

@@ -59,7 +59,7 @@
 }],
 "subclassifications": [{
 "id": 1,
-"name": "Filesystem",
+"name": "Filesystem integrity",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -69,7 +69,7 @@
 "weight": 0
 }, {
 "id": 2,
-"name": "Process",
+"name": "Running process",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -78,7 +78,7 @@
 "weight": 0
 }, {
 "id": 3,
-"name": "Network",
+"name": "Network connection",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "Network data unavailable",
@@ -88,7 +88,7 @@
 "weight": 0
 }, {
 "id": 4,
-"name": "Wifi",
+"name": "Wifi security",
 "dneUnauthorized": "Authorize WiFi access",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -98,7 +98,7 @@
 "weight": 0
 }, {
 "id": 5,
-"name": "Application",
+"name": "Malicious app",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -118,7 +118,7 @@
 "weight": 2
 }, {
 "id": 7,
-"name": "Access Time",
+"name": "Access time",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -128,7 +128,7 @@
 "weight": 0
 }, {
 "id": 8,
-"name": "Platform Integrity",
+"name": "Platform integrity",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -158,7 +158,7 @@
 "weight": 0
 }, {
 "id": 11,
-"name": "Position",
+"name": "User grip",
 "dneUnauthorized": "Authorize motion services",
 "dneUnsupported": "Device does not support motion",
 "dneUnavailable": "",
@@ -168,7 +168,7 @@
 "weight": 0
 }, {
 "id": 12,
-"name": "Bluetooth",
+"name": "Bluetooth scan",
 "dneUnauthorized": "Authorize Bluetooth access.",
 "dneUnsupported": "Device does not support Bluetooth",
 "dneUnavailable": "",
@@ -178,7 +178,7 @@
 "weight": 0
 }, {
 "id": 13,
-"name": "Power",
+"name": "Device power",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -188,7 +188,7 @@
 "weight": 0
 }, {
 "id": 14,
-"name": "Activity",
+"name": "User activity",
 "dneUnauthorized": "Authorize activity data",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -198,7 +198,7 @@
 "weight": 0
 }, {
 "id": 15,
-"name": "Configuration",
+"name": "Device configuration",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -208,7 +208,7 @@
 "weight": 0
 }, {
 "id": 16,
-"name": "State",
+"name": "Device state",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -218,7 +218,7 @@
 "weight": 0
 }, {
 "id": 17,
-"name": "Celluar",
+"name": "Celluar security",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -226,6 +226,26 @@
 "dneNoData": "",
 "dneExpired": "",
 "weight": 0
+}, {
+"id": 18,
+"name": "OS policy",
+"dneUnauthorized": "",
+"dneUnsupported": "",
+"dneUnavailable": "",
+"dneDisabled": "",
+"dneNoData": "",
+"dneExpired": "",
+"weight": 2
+}, {
+"id": 19,
+"name": "Location policy",
+"dneUnauthorized": "",
+"dneUnsupported": "",
+"dneUnavailable": "",
+"dneDisabled": "",
+"dneNoData": "",
+"dneExpired": "",
+"weight": 2
 }],
 "trustFactors": [{
 "id": 1001,
@@ -458,12 +478,12 @@
 }, {
 "id": 1008,
 "issueMessage": "OS version policy violation",
-"suggestionMessage": "Use an approved OS",
+"suggestionMessage": "Request policy exception",
 "revision": 1,
 "classID": 2,
-"subClassID": 6,
+"subClassID": 18,
 "priority": 1,
-"name": "Platform version policy",
+"name": "Policy (version)",
 "penalty": 100,
 "ruleType": 1,
 "learnMode": 0,
@@ -648,8 +668,8 @@
 "decayMetric": 0,
 "dispatch": "Celluar",
 "implementation": "airplaneMode:",
-"whitelistable": 0,
-"privateAPI": 0,
+"whitelistable": 1,
+"privateAPI": 1,
 "payload": []
 }, {
 "id": 1016,
@@ -744,6 +764,29 @@
 "implementation": "BSSID:",
 "whitelistable": 1,
 "privateAPI": 0,
+"payload": []
+}, {
+"id": 1020,
+"issueMessage": "Hotspot tethering in use",
+"suggestionMessage": "Disconnect tether sharing",
+"revision": 1,
+"classID": 3,
+"subClassID": 4,
+"priority": 1,
+"name": "hotspot enabled",
+"penalty": 30,
+"ruleType": 1,
+"learnMode": 0,
+"learnTime": 0,
+"learnAssertionCount": 0,
+"learnRunCount": 0,
+"threshold": 0,
+"decayMode": 0,
+"decayMetric": 0,
+"dispatch": "Wifi",
+"implementation": "hotspotEnabled:",
+"whitelistable": 1,
+"privateAPI": 1,
 "payload": []
 }, {
 "id": 1021,
@@ -1154,19 +1197,20 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"rounding": 2,
+"rounding": 1,
+"signalInBlock": 10,
 "allowed": "41.78,-88.23",
 "allowed": "41.88,-87.61"
 }]
 }, {
 "id": 1037,
 "issueMessage": "Device location policy violation",
-"suggestionMessage": "Request a policy exception",
+"suggestionMessage": "Request policy exception",
 "revision": 1,
 "classID": 4,
-"subClassID": 10,
+"subClassID": 19,
 "priority": 1,
-"name": "Device location policy",
+"name": "Policy (device location)",
 "penalty": 100,
 "ruleType": 1,
 "learnMode": 0,

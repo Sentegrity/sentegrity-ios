@@ -21,7 +21,9 @@
 
 + (NSString *) getCarrierInfo;
 
-+ (NSNumber *) getSignal;
++ (NSNumber *) getSignalBars;
+
++ (NSNumber *) getSignalRaw;
 
 + (NSNumber *) isAirplane;
 
