@@ -716,36 +716,37 @@
     
 }
 
-// TO BE IMPLEMENTED
-- (NSArray *)getConnectedBTInfo {
+
+- (NSArray *)getClassicBTInfo {
+    
     
     CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
     CFAbsoluteTime currentTime = 0.0;
     
     
-    //Do we any devices yet?
-    if(self.connectedBLEDevices == nil || self.connectedBLEDevices.count <= 1){
+    //Do we any devices? We don't really need to wait for this one as there may never be a connected device, just check for null
+    if(self.connectedClassicBTDevices == nil){
         
         //Nope, wait for devices
         bool exit=NO;
         while (exit==NO){
             
             // If its greater than 1 we return, otherwise keep scanning until timer
-            if(self.connectedBLEDevices.count > 1){
-                NSLog(@"Got connected BLE devices after waiting..");
+            if(self.connectedClassicBTDevices.count > 0){
+                NSLog(@"Got connected classic BT devices after waiting..");
                 exit=YES;
-                return self.connectedBLEDevices;
+                return self.connectedClassicBTDevices;
                 
             }
             
             //scanning until we hit the timer
             currentTime = CFAbsoluteTimeGetCurrent();
             // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5 ){
-                NSLog(@"Connected BLE devices timer expired");
+            if ((currentTime-startTime) > 0.3 ){
+                NSLog(@"Connected classic BT devices timer expired");
                 exit=YES;
-                [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
-                return self.discoveredBLEDevices;
+                [self setConnectedClassicDNEStatus:DNEStatus_expired];
+                return self.connectedClassicBTDevices;
                 
             }
             
@@ -755,8 +756,8 @@
         
     }
     //we've already got BLE data
-    NSLog(@"Got connected BLE devices without waiting...");
-    return self.discoveredBLEDevices;
+    NSLog(@"Got connected classic BT devices without waiting...");
+    return self.connectedClassicBTDevices;
     
 }
 

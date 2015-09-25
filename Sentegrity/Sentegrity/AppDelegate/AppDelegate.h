@@ -7,11 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+
+// Location
 @import CoreLocation;
+
+// Motion
 #import <CoreMotion/CoreMotion.h>
+
+// BLE Bluetotoh
 #import <CoreBluetooth/CoreBluetooth.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate>
+// Classic BT Private APIs
+#import "BluetoothManager.h"
+#import "BluetoothDevice.h"
+#import "MDBluetoothManager.h"
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate, MDBluetoothObserverProtocol>
 
 @property (strong, nonatomic) UIWindow *window;
 

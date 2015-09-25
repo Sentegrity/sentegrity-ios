@@ -72,6 +72,9 @@
 		4CE9D88A1B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8651B323B05006D43D8 /* Sentegrity_Subclassification+Computation.m */; };
 		4CE9D88B1B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */; };
 		96067D7B1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96067D7A1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m */; };
+		96067D831BB4EA20001FB5D7 /* BluetoothManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96067D821BB4EA20001FB5D7 /* BluetoothManager.framework */; };
+		96067D8A1BB59773001FB5D7 /* MDBluetoothDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 96067D861BB59773001FB5D7 /* MDBluetoothDevice.m */; };
+		96067D8B1BB59773001FB5D7 /* MDBluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96067D881BB59773001FB5D7 /* MDBluetoothManager.m */; };
 		966A41061B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41051B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m */; };
 		966A41091B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41081B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m */; };
 		966A410C1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A410B1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m */; };
@@ -222,6 +225,15 @@
 		4CE9D8671B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
 		96067D791BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Cell.h; sourceTree = "<group>"; };
 		96067D7A1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Cell.m; sourceTree = "<group>"; };
+		96067D7D1BB4D72F001FB5D7 /* BluetoothDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothDevice.h; sourceTree = "<group>"; };
+		96067D7E1BB4D72F001FB5D7 /* BluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothManager.h; sourceTree = "<group>"; };
+		96067D7F1BB4D72F001FB5D7 /* RemoteDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteDeviceManager.h; sourceTree = "<group>"; };
+		96067D821BB4EA20001FB5D7 /* BluetoothManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BluetoothManager.framework; sourceTree = "<group>"; };
+		96067D851BB59773001FB5D7 /* MDBluetoothDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDBluetoothDevice.h; sourceTree = "<group>"; };
+		96067D861BB59773001FB5D7 /* MDBluetoothDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDBluetoothDevice.m; sourceTree = "<group>"; };
+		96067D871BB59773001FB5D7 /* MDBluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDBluetoothManager.h; sourceTree = "<group>"; };
+		96067D881BB59773001FB5D7 /* MDBluetoothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDBluetoothManager.m; sourceTree = "<group>"; };
+		96067D891BB59773001FB5D7 /* MDBluetoothObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDBluetoothObserver.h; sourceTree = "<group>"; };
 		966A41041B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Stored_Assertion.h; sourceTree = "<group>"; };
 		966A41051B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Stored_Assertion.m; sourceTree = "<group>"; };
 		966A41071B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrustFactor_Dispatch_Celluar.h; sourceTree = "<group>"; };
@@ -320,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AAF480942FD8A13AE2789F8 /* libPods.a in Frameworks */,
+				96067D831BB4EA20001FB5D7 /* BluetoothManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +431,7 @@
 		4A3429CBBD5FF34D6202962E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				96067D821BB4EA20001FB5D7 /* BluetoothManager.framework */,
 				F48570A0D36F3F3E38C7B515 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -718,6 +732,28 @@
 			path = "Protect Mode";
 			sourceTree = "<group>";
 		};
+		96067D7C1BB4D72F001FB5D7 /* bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				96067D7D1BB4D72F001FB5D7 /* BluetoothDevice.h */,
+				96067D7E1BB4D72F001FB5D7 /* BluetoothManager.h */,
+				96067D7F1BB4D72F001FB5D7 /* RemoteDeviceManager.h */,
+			);
+			path = bluetooth;
+			sourceTree = "<group>";
+		};
+		96067D841BB59773001FB5D7 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				96067D851BB59773001FB5D7 /* MDBluetoothDevice.h */,
+				96067D861BB59773001FB5D7 /* MDBluetoothDevice.m */,
+				96067D871BB59773001FB5D7 /* MDBluetoothManager.h */,
+				96067D881BB59773001FB5D7 /* MDBluetoothManager.m */,
+				96067D891BB59773001FB5D7 /* MDBluetoothObserver.h */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
 		966A41131B8A376B007DAFB7 /* private */ = {
 			isa = PBXGroup;
 			children = (
@@ -779,6 +815,7 @@
 		96C0FEFC1B5BE7D5003F4213 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				96067D7C1BB4D72F001FB5D7 /* bluetooth */,
 				9682639F1BA9F21700671D56 /* bsd_var.h */,
 				966A41131B8A376B007DAFB7 /* private */,
 				96C0FEFD1B5BE7D5003F4213 /* kernel includes */,
@@ -838,6 +875,7 @@
 		96C0FF211B5BE7E2003F4213 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				96067D841BB59773001FB5D7 /* Bluetooth */,
 				968263951BA9F20300671D56 /* Objects */,
 				966A41101B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.h */,
 				966A41111B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m */,
@@ -1042,6 +1080,7 @@
 				969CD07B1B7E7DEC00254F45 /* SCLAlertViewResponder.m in Sources */,
 				969CD07D1B7E7DEC00254F45 /* SCLButton.m in Sources */,
 				969CD07A1B7E7DEC00254F45 /* SCLAlertView.m in Sources */,
+				96067D8B1BB59773001FB5D7 /* MDBluetoothManager.m in Sources */,
 				0427EFFF1B79361E000658AB /* ComputationInfoViewController.m in Sources */,
 				966A41121B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m in Sources */,
 				969896351B84BD7E004C5C7E /* TrustFactor_Dispatch_Power.m in Sources */,
@@ -1076,6 +1115,7 @@
 				4CE9D87E1B323B05006D43D8 /* Sentegrity_TrustFactor_Datasets.m in Sources */,
 				96C0FF2C1B5BEC25003F4213 /* Sentegrity_TrustFactor_Dataset_Location.m in Sources */,
 				9682639C1BA9F20300671D56 /* ActiveConnection.m in Sources */,
+				96067D8A1BB59773001FB5D7 /* MDBluetoothDevice.m in Sources */,
 				96C0FF291B5BE7E2003F4213 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */,
 				4CE9D8731B323B05006D43D8 /* TrustFactor_Dispatch_Netstat.m in Sources */,
 				4CE9D8761B323B05006D43D8 /* TrustFactor_Dispatch_Route.m in Sources */,
@@ -1224,12 +1264,38 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A861559935991A5C1535CE5A /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
+				GCC_NO_COMMON_BLOCKS = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/ChameleonFramework\"",
+					"\"${PODS_ROOT}/Headers/Public/CircleProgressBar\"",
+					"\"${PODS_ROOT}/Headers/Public/DCKeyValueObjectMapping\"",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"\"${PODS_ROOT}/Headers/Public/Facade\"",
+					"\"${PODS_ROOT}/Headers/Public/IIDelayedAction\"",
+					"\"${PODS_ROOT}/Headers/Public/JTHamburgerButton\"",
+					"\"${PODS_ROOT}/Headers/Public/LGBluetooth\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/NSObject-ObjectMap\"",
+					"\"${PODS_ROOT}/Headers/Public/NSString-Hashes\"",
+					"\"${PODS_ROOT}/Headers/Public/RESideMenu\"",
+				);
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1239,12 +1305,39 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 42EFD5DFE715E4FE18052085 /* Pods.release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
+				GCC_NO_COMMON_BLOCKS = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/ChameleonFramework\"",
+					"\"${PODS_ROOT}/Headers/Public/CircleProgressBar\"",
+					"\"${PODS_ROOT}/Headers/Public/DCKeyValueObjectMapping\"",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"\"${PODS_ROOT}/Headers/Public/Facade\"",
+					"\"${PODS_ROOT}/Headers/Public/IIDelayedAction\"",
+					"\"${PODS_ROOT}/Headers/Public/JTHamburgerButton\"",
+					"\"${PODS_ROOT}/Headers/Public/LGBluetooth\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/NSObject-ObjectMap\"",
+					"\"${PODS_ROOT}/Headers/Public/NSString-Hashes\"",
+					"\"${PODS_ROOT}/Headers/Public/RESideMenu\"",
+				);
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

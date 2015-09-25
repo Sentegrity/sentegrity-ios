@@ -17,6 +17,9 @@
 + (Sentegrity_TrustFactor_Output_Object *)allowed:(NSArray *)payload;
 
 // 31
-+ (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)unknownGPS:(NSArray *)payload;
+
+// 31
++ (Sentegrity_TrustFactor_Output_Object *)anomaly:(NSArray *)payload;
 
 @end

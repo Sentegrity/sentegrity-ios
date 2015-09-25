@@ -109,7 +109,7 @@
 
 
 // 31
-+ (Sentegrity_TrustFactor_Output_Object *)unknown:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)unknownGPS:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -189,13 +189,14 @@
     int decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"rounding"] intValue];
     
     // Rounded location
-    NSString *roundedLocation = [NSString stringWithFormat:@"LONG_%.*f_LAT_%.*f",decimalPlaces,currentLocation.coordinate.longitude,decimalPlaces,currentLocation.coordinate.latitude];
+    NSString *roundedLocation = [NSString stringWithFormat:@"LO_%.*f_LT_%.*f",decimalPlaces,currentLocation.coordinate.longitude,decimalPlaces,currentLocation.coordinate.latitude];
     
     // Add cell signal strength
-    NSString *locationTuple = [roundedLocation stringByAppendingFormat:@"_SIGNAL_%@",[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCelluarSignalBars]];
+    
+    //NSString *locationTuple = [roundedLocation stringByAppendingFormat:@"_SIGNAL_%@",[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCelluarSignalBars]];
   
 
-    [outputArray addObject:locationTuple];
+    [outputArray addObject:roundedLocation];
     
     
     // Set the trustfactor output to the output array (regardless if empty)
@@ -206,6 +207,116 @@
 }
 
 
++ (Sentegrity_TrustFactor_Output_Object *)anomaly:(NSArray *)payload {
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Validate the payload
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
+    
+    //Screen level is given as a float 0.1-1
+    float screenLevel = [[UIScreen mainScreen] brightness];
+    
+    // With a blocksize of .25 or 4 we get block 0-.25,.25-.5,.5-.75,.75-1
+    // We add 1 to the blockOfBrightness after dividing to get a 1-4 block instead of 0-3
+    
+    float blocksize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksize"] floatValue];
+    
+    // Prevents 0/.25 = 0
+    if(screenLevel < 0.1){
+        screenLevel = 0.1;
+    }
+    
+    int blockOfBrightness = ceilf(screenLevel / (1/blocksize));
+    
+    // Pair it with hour block of day
+    NSString *blockOfDay = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:NO];    // Calculate block of screen brightness
+    
+    NSString *blockOfDayAndSignal = [blockOfDay stringByAppendingFormat:@"_S%@",[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCelluarSignalBars]];
+    
+    
+    NSString *blockOfDayAndSignalAndBrightness = [blockOfDayAndSignal stringByAppendingFormat:@"_L%d", blockOfBrightness];
+    
+    // Create assertion
+    [outputArray addObject: blockOfDayAndSignalAndBrightness];
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+}
+
+
+/*
++ (Sentegrity_TrustFactor_Output_Object *)brightness:(NSArray *)payload {
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Validate the payload
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
+    
+    //Screen level is given as a float 0.1-1
+    float screenLevel = [[UIScreen mainScreen] brightness];
+    
+    // With a blocksize of .25 or 4 we get block 0-.25,.25-.5,.5-.75,.75-1
+    // We add 1 to the blockOfBrightness after dividing to get a 1-4 block instead of 0-3
+    
+    float blocksize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksize"] floatValue];
+    
+    // Prevents 0/.25 = 0
+    if(screenLevel < 0.1){
+        screenLevel = 0.1;
+    }
+    
+    int blockOfBrightness = ceilf(screenLevel / (1/blocksize));
+    
+    // Pair it with hour block of day
+    NSString *blockOfDay = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getTimeDateStringWithHourBlockSize:[[[payload objectAtIndex:0] objectForKey:@"hoursInBlock"] integerValue] withDayOfWeek:NO];    // Calculate block of screen brightness
+    
+    // Create assertion
+    [outputArray addObject: [blockOfDay stringByAppendingString: [NSString stringWithFormat:@"-B%d",blockOfBrightness]]];
+    
+    //[outputArray addObject: [NSString stringWithFormat:@"B%d",blockOfBrightness]];
+    
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+}
+*/
 
 
 @end

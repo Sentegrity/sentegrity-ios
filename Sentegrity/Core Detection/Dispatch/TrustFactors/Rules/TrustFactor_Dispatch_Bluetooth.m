@@ -8,16 +8,96 @@
 
 #import "TrustFactor_Dispatch_Bluetooth.h"
 
+// Private APIs
+#import "BluetoothManager.h"
+#import "BluetoothDevice.h"
+
+
+
+
+
 @implementation TrustFactor_Dispatch_Bluetooth
+
 
 + (Sentegrity_TrustFactor_Output_Object *)connectedClassicDevice:(NSArray *)payload {
     
-    return 0;
-}
-
-+ (Sentegrity_TrustFactor_Output_Object *)discoveredClassicDevice:(NSArray *)payload {
     
-    return 0;
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
+    
+    // Check if enabled
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus]==DNEStatus_disabled){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    
+    // Check if error was determined by bluetooth scanner in app delegate
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus] != 0 ){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    
+    // Try to get current bluetooth devices
+    NSArray *bluetoothDevices = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getClassicBTInfo];
+    
+    
+    // Check if error was determined after call to dataset helper (e.g., timer expired)
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus] != 0 ){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    
+    
+    // Check the array
+    if (!bluetoothDevices || bluetoothDevices == nil || bluetoothDevices.count < 1) {
+        // Current Processes array is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    // Run through all found devices information
+    for (NSString *mac in bluetoothDevices) {
+        
+        [outputArray addObject:mac];
+    }
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+
+    
+
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+    
+   
 }
 // 33
 + (Sentegrity_TrustFactor_Output_Object *)discoveredBLEDevice:(NSArray *)payload {

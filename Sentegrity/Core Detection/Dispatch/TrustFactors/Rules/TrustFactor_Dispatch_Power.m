@@ -17,7 +17,7 @@
 @implementation TrustFactor_Dispatch_Power
 
 // 37
-+ (Sentegrity_TrustFactor_Output_Object *)powerLevel:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)powerLevelTime:(NSArray *)payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -97,8 +97,24 @@
     
     NSString *state= [[Sentegrity_TrustFactor_Datasets sharedDatasets] getBatteryState];
     
-    if([state isEqualToString:@"pluggedFull"] || [state isEqualToString:@"pluggedCharging"]){
+    if([state isEqualToString:@"pluggedFull"]){
         [outputArray addObject:state];
+        
+    }else if([state isEqualToString:@"pluggedCharging"]){
+        
+        //Only trigger if its plugged in and charging but has a high battery level
+        UIDevice *Device = [UIDevice currentDevice];
+        
+        Device.batteryMonitoringEnabled = YES;
+        
+        // Can't get battery level on simulator so spoof it
+        #if TARGET_IPHONE_SIMULATOR
+        batteryCharge = 0.8;
+        #endif
+        
+        if ([Device batteryLevel] > 0.5f) {
+            [outputArray addObject:state];
+        }
     }
     
     // Set the trustfactor output to the output array (regardless if empty)
@@ -120,6 +136,10 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     NSString *state= [[Sentegrity_TrustFactor_Datasets sharedDatasets] getBatteryState];
+    
+    if([state isEqualToString:@"pluggedCharging"]){
+        [outputArray addObject:state];
+    }
     
     // Create assertion
     [outputArray addObject: state];

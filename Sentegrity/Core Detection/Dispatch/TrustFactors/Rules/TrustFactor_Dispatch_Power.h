@@ -12,7 +12,7 @@
 @interface TrustFactor_Dispatch_Power
  : NSObject 
 // 37
-+ (Sentegrity_TrustFactor_Output_Object *)powerLevel:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)powerLevelTime:(NSArray *)payload;
 
 // 38
 + (Sentegrity_TrustFactor_Output_Object *)pluggedIn:(NSArray *)payload;

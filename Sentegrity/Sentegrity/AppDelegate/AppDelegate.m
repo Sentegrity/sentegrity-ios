@@ -19,6 +19,7 @@
 #import "MBProgressHUD.h"
 
 
+
 @interface AppDelegate () <CBCentralManagerDelegate>
 
 @end
@@ -39,7 +40,9 @@ static MBProgressHUD *HUD;
     
     [self startMotion];
     
-    [self startBluetooth];
+    [self startBluetoothBLE];
+    
+    [self startBluetoothClassic];
     
     
     
@@ -94,7 +97,9 @@ static MBProgressHUD *HUD;
     
     [self startMotion];
     
-    [self startBluetooth];
+    [self startBluetoothBLE];
+    
+    [self startBluetoothClassic];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -347,10 +352,9 @@ static NSMutableArray *radsArray;
 
 static CBCentralManager *mgr;
 static NSMutableArray *discoveredBLEDevices;
-static NSMutableArray *connectedBLEDevices;
 static CFAbsoluteTime startTime=0.0;
 
-- (void) startBluetooth{
+- (void) startBluetoothBLE{
     
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], CBCentralManagerOptionShowPowerAlertKey, nil];
     
@@ -364,7 +368,7 @@ static CFAbsoluteTime startTime=0.0;
 - (void)centralManager:(CBCentralManager *)central didRetrieveConnectedPeripherals:(NSArray *)peripherals{
     
 
-    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDevices:peripherals];
+    //[[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDevices:peripherals];
     
     
 }
@@ -415,7 +419,7 @@ static CFAbsoluteTime startTime=0.0;
             //messtoshow=[NSString stringWithFormat:@"The platform doesn't support Bluetooth Low Energy"];
             
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_unsupported];
-            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_unsupported];
+           // [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_unsupported];
             
             break;
         }
@@ -424,7 +428,7 @@ static CFAbsoluteTime startTime=0.0;
             //messtoshow=[NSString stringWithFormat:@"The app is not authorized to use Bluetooth Low Energy"];
             
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_unauthorized];
-            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_unauthorized];
+           // [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_unauthorized];
             break;
         }
         case CBCentralManagerStatePoweredOff:
@@ -432,7 +436,7 @@ static CFAbsoluteTime startTime=0.0;
             //messtoshow=[NSString stringWithFormat:@"Bluetooth is currently powered off."];
             
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_disabled];
-            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_disabled];
+            //[[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_disabled];
             break;
         }
         case CBCentralManagerStatePoweredOn:
@@ -461,5 +465,41 @@ static CFAbsoluteTime startTime=0.0;
 }
 
 
+static NSMutableArray *connectedClassicBTDevices;
+
+-(void)startBluetoothClassic{
+    // Start
+    [[MDBluetoothManager sharedInstance] registerObserver:self];
+    
+}
+
+- (void)receivedBluetoothNotification:
+(MDBluetoothNotification)bluetoothNotification
+{
+    
+    if([[MDBluetoothManager sharedInstance] bluetoothIsPowered]){
+        
+        
+        NSArray *connectedDevices = [[BluetoothManager sharedInstance] connectedDevices];
+        
+        connectedClassicBTDevices = [[NSMutableArray alloc]init];
+        
+        // Run through all found devices information
+        for (BluetoothDevice *device in connectedDevices) {
+            
+            // Add the device  to the list
+            [connectedClassicBTDevices addObject:[NSString stringWithFormat:@"%@",[device address]]];
+            
+            
+        }
+        
+         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:connectedClassicBTDevices];
+        
+    }else{
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_disabled];
+        
+    }
+    
+}
 
 @end

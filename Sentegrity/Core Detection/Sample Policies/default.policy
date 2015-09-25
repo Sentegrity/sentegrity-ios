@@ -148,7 +148,7 @@
 "weight": 0
 }, {
 "id": 10,
-"name": "Location",
+"name": "GPS Location",
 "dneUnauthorized": "Authorize location services",
 "dneUnsupported": "Location service unsupported",
 "dneUnavailable": "",
@@ -173,8 +173,8 @@
 "dneUnsupported": "Device does not support Bluetooth",
 "dneUnavailable": "",
 "dneDisabled": "Enable Bluetooth",
-"dneNoData": "Employ a bluetooth device",
-"dneExpired": "Employ a bluetooth device",
+"dneNoData": "Employ a Bluetooth device",
+"dneExpired": "Employ a Bluetooth device",
 "weight": 0
 }, {
 "id": 13,
@@ -246,6 +246,17 @@
 "dneNoData": "",
 "dneExpired": "",
 "weight": 2
+}, {
+"id": 20,
+"name": "Location estimate",
+"dneUnauthorized": "",
+"dneUnsupported": "Location estimate unsupported",
+"dneUnavailable": "",
+"dneDisabled": "Enable celluar access",
+"dneNoData": "",
+"dneExpired": "",
+"weight": 0
+}, {
 }],
 "trustFactors": [{
 "id": 1001,
@@ -785,7 +796,7 @@
 "decayMetric": 0,
 "dispatch": "Wifi",
 "implementation": "hotspotEnabled:",
-"whitelistable": 1,
+"whitelistable": 0,
 "privateAPI": 1,
 "payload": []
 }, {
@@ -912,7 +923,7 @@
 "subClassID": 13,
 "priority": 1,
 "name": "device uptime",
-"penalty": 40,
+"penalty": 20,
 "ruleType": 1,
 "learnMode": 0,
 "learnTime": 0,
@@ -923,7 +934,7 @@
 "decayMetric": 0,
 "dispatch": "Platform",
 "implementation": "shortUptime:",
-"whitelistable": 1,
+"whitelistable": 0,
 "privateAPI": 0,
 "payload": [{
 "minimumHoursUp" : 6
@@ -978,13 +989,13 @@
 "payload": []
 }, {
 "id": 1028,
-"issueMessage": "Unfamiliar access conditions",
-"suggestionMessage": "Access in familiar time",
+"issueMessage": "Unfamiliar access time",
+"suggestionMessage": "Access device regularly",
 "revision": 1,
 "classID": 5,
 "subClassID": 7,
 "priority": 1,
-"name": "access time day",
+"name": "access time hour day",
 "penalty": 30,
 "ruleType": 3,
 "learnMode": 0,
@@ -1000,10 +1011,37 @@
 "privateAPI": 0,
 "payload": [{
 "hoursInBlock" : 4,
-"brightnessBlocksize" : 3
 }]
 }, {
 "id": 1029,
+"issueMessage": "Device location anomaly",
+"suggestionMessage": "Access device in familiar areas",
+"revision": 1,
+"classID": 5,
+"subClassID": 20,
+"priority": 1,
+"name": "device location anomaly",
+"penalty": 20,
+"ruleType": 3,
+"learnMode": 0,
+"learnTime": 0,
+"learnAssertionCount": 0,
+"learnRunCount": 0,
+"threshold": 0,
+"decayMode": 2,
+"decayMetric": 0.14,
+"dispatch": "Location",
+"implementation": "anomaly:",
+"whitelistable": 1,
+"privateAPI": 0,
+"payload": [{
+"rounding": 1,
+"signalInBlock": 10,
+"brightnessBlocksize" : 3,
+"hoursInBlock" : 4
+}]
+}, {
+"id": 1030,
 "issueMessage": "USB connected",
 "suggestionMessage": "Unplug device",
 "revision": 1,
@@ -1026,7 +1064,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1030,
+"id": 1031,
 "issueMessage": "Unfamiliar power consumption",
 "suggestionMessage": "Charge device regularly",
 "revision": 1,
@@ -1044,7 +1082,7 @@
 "decayMode": 2,
 "decayMetric": 0.14,
 "dispatch": "Power",
-"implementation": "powerLevel:",
+"implementation": "powerLevelTime:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
@@ -1052,7 +1090,7 @@
 "powerInBlock": 25
 }]
 }, {
-"id": 1031,
+"id": 1032,
 "issueMessage": "Unfamiliar battery state",
 "suggestionMessage": "Charge device regularly",
 "revision": 1,
@@ -1075,7 +1113,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1032,
+"id": 1033,
 "issueMessage": "Unfamiliar device orientation",
 "suggestionMessage": "",
 "revision": 1,
@@ -1098,7 +1136,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1033,
+"id": 1034,
 "issueMessage": "Unfamiliar user activity",
 "suggestionMessage": "",
 "revision": 1,
@@ -1123,7 +1161,7 @@
 "hoursInBlock": 4
 }]
 }, {
-"id": 1034,
+"id": 1035,
 "issueMessage": "Unreliable grip (moving)",
 "suggestionMessage": "Hold device steady",
 "revision": 1,
@@ -1150,7 +1188,7 @@
 "zThreshold": 0.8
 }]
 }, {
-"id": 1035,
+"id": 1036,
 "issueMessage": "Unfamiliar device grip",
 "suggestionMessage": "",
 "revision": 1,
@@ -1175,8 +1213,8 @@
 "blockSize": 4
 }]
 }, {
-"id": 1036,
-"issueMessage": "Unfamiliar device location",
+"id": 1037,
+"issueMessage": "Unfamiliar device location (GPS)",
 "suggestionMessage": "Access device in familiar areas",
 "revision": 1,
 "classID": 5,
@@ -1193,17 +1231,14 @@
 "decayMode": 2,
 "decayMetric": 0.14,
 "dispatch": "Location",
-"implementation": "unknown:",
+"implementation": "unknownGPS:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"rounding": 1,
-"signalInBlock": 10,
-"allowed": "41.78,-88.23",
-"allowed": "41.88,-87.61"
+"rounding": 1
 }]
 }, {
-"id": 1037,
+"id": 1038,
 "issueMessage": "Device location policy violation",
 "suggestionMessage": "Request policy exception",
 "revision": 1,
@@ -1229,9 +1264,9 @@
 "CA"
 ]
 }, {
-"id": 1038,
+"id": 1039,
 "issueMessage": "",
-"suggestionMessage": "Employ bluetooth low-energy devices",
+"suggestionMessage": "Employ Bluetooth low-energy devices",
 "revision": 1,
 "classID": 5,
 "subClassID": 12,
@@ -1252,14 +1287,14 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1039,
+"id": 1040,
 "issueMessage": "",
-"suggestionMessage": "Employ bluetooth classic devices",
+"suggestionMessage": "Pair a Bluetooth device",
 "revision": 1,
 "classID": 5,
 "subClassID": 12,
 "priority": 1,
-"name": "bluetooth classic scanning",
+"name": "bluetooth classic paired",
 "penalty": -25,
 "ruleType": 4,
 "learnMode": 0,
@@ -1270,7 +1305,7 @@
 "decayMode": 2,
 "decayMetric": 0.07,
 "dispatch": "Bluetooth",
-"implementation": "discoveredClassicDevice:",
+"implementation": "connectedClassicDevice:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []

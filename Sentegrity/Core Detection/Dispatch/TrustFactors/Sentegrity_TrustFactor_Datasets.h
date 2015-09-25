@@ -60,11 +60,13 @@
 @property (atomic) int gyroMotionDNEStatus;
 @property (atomic,retain) NSString *deviceOrientation;
 
-// Bluetooth
+// Bluetooth BLE
 @property (atomic, retain) NSArray *discoveredBLEDevices;
-@property (atomic, retain) NSArray *connectedBLEDevices;
 @property (atomic) int discoveredBLESDNEStatus;
-@property (atomic) int connectedBLEDNEStatus;
+
+// Bluetooth Classic
+@property (atomic, retain) NSArray *connectedClassicBTDevices;
+@property (atomic) int connectedClassicDNEStatus;
 
 // WiFi
 @property (atomic, retain) NSNumber *wifiEnabled;
@@ -163,7 +165,7 @@
 
 // ** BLUETOOTH **
 - (NSArray *)getDiscoveredBLEInfo;
-- (NSArray *)getConnectedBTInfo;
+- (NSArray *)getClassicBTInfo;
 
 
 @end

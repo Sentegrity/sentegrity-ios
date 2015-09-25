@@ -15,8 +15,4 @@
 
 + (Sentegrity_TrustFactor_Output_Object *)connectedClassicDevice:(NSArray *)payload;
 
-+ (Sentegrity_TrustFactor_Output_Object *)discoveredClassicDevice:(NSArray *)payload;
-
-
-
 @end
