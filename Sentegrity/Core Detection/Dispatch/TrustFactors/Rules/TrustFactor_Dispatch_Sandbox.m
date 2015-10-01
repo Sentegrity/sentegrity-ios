@@ -9,6 +9,9 @@
 #import "TrustFactor_Dispatch_Sandbox.h"
 #import <sys/stat.h>
 
+// Define if system version is less than
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+
 @implementation TrustFactor_Dispatch_Sandbox
 
 // 8 - Sandbox API Verification and Kernel Configurations - Basically Jailbreak Checks
@@ -44,9 +47,11 @@
 
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-    // Check for shell
-    if (system(0)) { //returned 1 therefore device is JB'ed
-        [outputArray addObject:@"systemCmdWorks"];
+    // Check for shell - if less than iOS 9
+    if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+        if (system(0)) { //returned 1 therefore device is JB'ed
+            [outputArray addObject:@"systemCmdWorks"];
+        }
     }
     #pragma GCC diagnostic pop
     

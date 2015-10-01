@@ -34,6 +34,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ISHPermissionKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>JTHamburgerButton.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -72,67 +77,72 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>06C35C0B01714919384DED8FF02753C2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>169466DE699046074BC30601416983AF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>1D424B0B0F76606C4C2AF1CAD152D4EC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>258A24FE6F5EEBAEC5F8DB27AA61FEEC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>2965E38DCEBC6E89D5362BA6561D3FBD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>32A0E91BD74F9C270199725190769723</key>
+		<key>3FF519682EA8ED08DF89E23FA638AB50</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6932C6D2FA3BF8D1286669AAF60F29D6</key>
+		<key>46D08FCFD508DFD854427F4C0E4FBF09</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>93C4A3E4A441E4E97DAFA956E9748820</key>
+		<key>4CC1C46E4AFA8ACF6C685136C867490A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B79AF0201104036A58FEE329F162AAD6</key>
+		<key>4F6A76D2499F34BB1B78FFBBC6DCB3F8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C126F0880E914BAC0BD02786C0B2C3FE</key>
+		<key>6C985A252A43B863BE101DCCD2BCBCAF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F048FABBBA5A2209BE0C6281C1D03158</key>
+		<key>6EC3CA4864D6D239D866802D156BD1E7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F3E6382071493280053D407530688258</key>
+		<key>74B7F04429186197E9F86A1DBCF91AB4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FCFFD1D42B92C40F7F3DFF22FADFFE0E</key>
+		<key>8D3DB0CCEA9581C7FB12AABF07DCBC0E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A7304D4B6E213FBC7D6A27704DED43C7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A7969BB3086C92D2C53FB12EB686FC5E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B78B316AEB0B23CB92E4544740F5B581</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C5EB85E121395D26F79BC49C8567991D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D2F35638C3999162D22D13DFCFBEC4E9</key>
 		<dict>
 			<key>primary</key>
 			<true/>

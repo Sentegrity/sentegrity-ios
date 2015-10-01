@@ -28,6 +28,8 @@
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
+// Kick off Core Detection
+- (void)runCoreDetectionActivities;
 
 @end
 

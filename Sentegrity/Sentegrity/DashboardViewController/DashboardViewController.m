@@ -9,6 +9,9 @@
 // Main View Controller
 #import "DashboardViewController.h"
 
+// App Delegate
+#import "AppDelegate.h"
+
 // Device Information Controller
 #import "SystemInformationViewController.h"
 
@@ -404,6 +407,7 @@ static MBProgressHUD *HUD;
             
             // Perform Core Detection
             //[self performCoreDetection:self];
+            [(AppDelegate *)[[UIApplication sharedApplication] delegate] runCoreDetectionActivities];
             
         });
     }

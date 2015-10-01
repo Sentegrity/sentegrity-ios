@@ -170,10 +170,13 @@ static UIView* statusBarForegroundView;
     CTTelephonyNetworkInfo *telephonyInfo = [CTTelephonyNetworkInfo new];
     carrierSpeed = telephonyInfo.currentRadioAccessTechnology;
     
+    // Check if the carrier speed is nil
+    if (carrierSpeed != nil || carrierSpeed.length > 0) {
+        return [name stringByAppendingString:carrierSpeed];
+    }
 
-    return [name stringByAppendingString:carrierSpeed];
-
-
+    // Just return the name
+    return name;
 }
 
 

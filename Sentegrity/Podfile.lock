@@ -7,6 +7,7 @@ PODS:
   - DCKeyValueObjectMapping (1.5)
   - Facade (0.2.4)
   - IIDelayedAction (1.0.1)
+  - ISHPermissionKit (0.8.0)
   - JTHamburgerButton (1.0.5)
   - LGBluetooth (1.1.5)
   - MBProgressHUD (0.9.1)
@@ -21,6 +22,7 @@ DEPENDENCIES:
   - DCKeyValueObjectMapping (~> 1.4)
   - Facade (~> 0.2)
   - IIDelayedAction (~> 1.0)
+  - ISHPermissionKit (~> 0.8)
   - JTHamburgerButton (~> 1.0)
   - LGBluetooth (~> 1.1.5)
   - MBProgressHUD (~> 0.9.1)
@@ -35,6 +37,7 @@ SPEC CHECKSUMS:
   DCKeyValueObjectMapping: c2eb5a6529da100b2e49ef6a599663578051f077
   Facade: 136fc8e5783a6b1f4fb1df1a391c44bbccd4d2f8
   IIDelayedAction: bc1193338973d9fbe99c38da71f6d777a12a5a6e
+  ISHPermissionKit: adcdac6b69d0f045c33dadbdbe3ac70da7cd128a
   JTHamburgerButton: 9a41c7d051c72590a9d2c18416d84d1b912f12e3
   LGBluetooth: 8407d2de27bcbd4a9e11243290b928293ffa8881
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad

@@ -109,7 +109,7 @@
         
         // Can't get battery level on simulator so spoof it
         #if TARGET_IPHONE_SIMULATOR
-        batteryCharge = 0.8;
+        //batteryCharge = 0.8;
         #endif
         
         if ([Device batteryLevel] > 0.5f) {

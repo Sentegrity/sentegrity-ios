@@ -9,8 +9,12 @@
 // Main View Controller
 #import "LoginViewController.h"
 
+// Permissions
+#import "ISHPermissionKit.h"
+#import "LocationPermissionViewController.h"
+#import "ActivityPermissionViewController.h"
 
-@interface LoginViewController ()
+@interface LoginViewController () <ISHPermissionsViewControllerDataSource>
 
 /* Properties */
 
@@ -24,17 +28,28 @@
 
 static MBProgressHUD *HUD;
 
--(NSUInteger)supportedInterfaceOrientations
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }
 
 // View Loaded
 - (void)viewDidLoad {
-    
- 
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    
+    // Prompt for user to allow motion and location activity gathering
+    NSArray *permissions = @[@(ISHPermissionCategoryLocationWhenInUse), @(ISHPermissionCategoryActivity)];
+    
+    ISHPermissionsViewController *vc = [ISHPermissionsViewController permissionsViewControllerWithCategories:permissions dataSource:self];
+    
+    // Check the permission view controller
+    if (vc) {
+        [self presentViewController:vc
+                           animated:YES
+                         completion:nil];
+    }
     
 }
 
@@ -246,6 +261,36 @@ static MBProgressHUD *HUD;
     [super viewDidLayoutSubviews];
     
  }
+
+#pragma mark - ISHPermissionKit
+
+// Set the datasource method
+- (ISHPermissionRequestViewController *)permissionsViewController:(ISHPermissionsViewController *)vc requestViewControllerForCategory:(ISHPermissionCategory)category {
+    
+    // Check which category
+    if (category == ISHPermissionCategoryLocationWhenInUse) {
+        // Get the storyboard
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        // Create the location permission view controller
+        LocationPermissionViewController *locationPermission = [mainStoryboard instantiateViewControllerWithIdentifier:@"LocationPermissionViewController"];
+        
+        // Return Location Permission View Controller
+        return locationPermission;
+    } else if (category == ISHPermissionCategoryActivity) {
+        // Get the storyboard
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        // Create the activity permission view controller
+        ActivityPermissionViewController *activityPermission = [mainStoryboard instantiateViewControllerWithIdentifier:@"ActivityPermissionViewController"];
+        
+        // Return Activity Permission View Controller
+        return activityPermission;
+    }
+    
+    // Don't know
+    return nil;
+}
 
 
 @end

@@ -31,6 +31,8 @@
 		04E403291B307A1500A1705E /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E4031B1B307A1500A1705E /* OpenSans-Semibold.ttf */; };
 		04E4032A1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E4031C1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf */; };
 		4AAF480942FD8A13AE2789F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F48570A0D36F3F3E38C7B515 /* libPods.a */; };
+		4C1DEC2B1BBCA38B00B0A312 /* LocationPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DEC2A1BBCA38B00B0A312 /* LocationPermissionViewController.m */; settings = {ASSET_TAGS = (); }; };
+		4C1DEC2E1BBCA39F00B0A312 /* ActivityPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DEC2D1BBCA39F00B0A312 /* ActivityPermissionViewController.m */; settings = {ASSET_TAGS = (); }; };
 		4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */; };
 		4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */; };
 		4C5393851B2F965D00EA4484 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393841B2F965D00EA4484 /* loading.gif */; };
@@ -147,6 +149,10 @@
 		04E4031B1B307A1500A1705E /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		04E4031C1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		42EFD5DFE715E4FE18052085 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		4C1DEC291BBCA38B00B0A312 /* LocationPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationPermissionViewController.h; sourceTree = "<group>"; };
+		4C1DEC2A1BBCA38B00B0A312 /* LocationPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationPermissionViewController.m; sourceTree = "<group>"; };
+		4C1DEC2C1BBCA39F00B0A312 /* ActivityPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityPermissionViewController.h; sourceTree = "<group>"; };
+		4C1DEC2D1BBCA39F00B0A312 /* ActivityPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityPermissionViewController.m; sourceTree = "<group>"; };
 		4C22BFFD1B7B985A00EFFD7D /* SystemInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemInformationViewController.h; sourceTree = "<group>"; };
 		4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemInformationViewController.m; sourceTree = "<group>"; };
 		4C22C0001B7B986800EFFD7D /* UserInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInformationViewController.h; sourceTree = "<group>"; };
@@ -383,6 +389,7 @@
 		04A248FB1B266AC2007D9460 /* Sentegrity */ = {
 			isa = PBXGroup;
 			children = (
+				4C1DEC281BBCA33600B0A312 /* Permissions View Controllers */,
 				969CD06E1B7E7DEC00254F45 /* SCLAlertView */,
 				9676DF7E1B7EA92900C508D6 /* LandingViewController */,
 				969CD06A1B7E673900254F45 /* LoginViewController */,
@@ -435,6 +442,17 @@
 				F48570A0D36F3F3E38C7B515 /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4C1DEC281BBCA33600B0A312 /* Permissions View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4C1DEC291BBCA38B00B0A312 /* LocationPermissionViewController.h */,
+				4C1DEC2A1BBCA38B00B0A312 /* LocationPermissionViewController.m */,
+				4C1DEC2C1BBCA39F00B0A312 /* ActivityPermissionViewController.h */,
+				4C1DEC2D1BBCA39F00B0A312 /* ActivityPermissionViewController.m */,
+			);
+			name = "Permissions View Controllers";
 			sourceTree = "<group>";
 		};
 		4C22BFFC1B7B983400EFFD7D /* InformationViewControllers */ = {
@@ -1085,6 +1103,7 @@
 				966A41121B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m in Sources */,
 				969896351B84BD7E004C5C7E /* TrustFactor_Dispatch_Power.m in Sources */,
 				4CE9D8891B323B05006D43D8 /* Sentegrity_Classification+Computation.m in Sources */,
+				4C1DEC2B1BBCA38B00B0A312 /* LocationPermissionViewController.m in Sources */,
 				4CE9D87F1B323B05006D43D8 /* Sentegrity_History_Store.m in Sources */,
 				4CE9D8771B323B05006D43D8 /* TrustFactor_Dispatch_Sandbox.m in Sources */,
 				4CE9D87B1B323B05006D43D8 /* TrustFactor_Dispatch_Time.m in Sources */,
@@ -1098,6 +1117,7 @@
 				4CE9D8871B323B05006D43D8 /* Sentegrity_Subclassification.m in Sources */,
 				9682639E1BA9F20300671D56 /* ActiveRoute.m in Sources */,
 				04A249021B266AC2007D9460 /* AppDelegate.m in Sources */,
+				4C1DEC2E1BBCA39F00B0A312 /* ActivityPermissionViewController.m in Sources */,
 				4CE9D86F1B323B05006D43D8 /* TrustFactor_Dispatch_Bluetooth.m in Sources */,
 				966A41061B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m in Sources */,
 				4CE9D88B1B323B05006D43D8 /* Sentegrity_TrustScore_Computation.m in Sources */,
@@ -1214,7 +1234,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1252,7 +1272,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1294,7 +1314,7 @@
 					"\"${PODS_ROOT}/Headers/Public/RESideMenu\"",
 				);
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1335,7 +1355,7 @@
 					"\"${PODS_ROOT}/Headers/Public/RESideMenu\"",
 				);
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
