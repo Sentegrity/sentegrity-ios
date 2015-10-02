@@ -10,16 +10,16 @@
 #import "Sentegrity_TrustFactor_Output_Object.h"
 
 
-@interface TrustFactor_Dispatch_Location : NSObject 
+@interface TrustFactor_Dispatch_Location : NSObject
 
 
 // 26
-+ (Sentegrity_TrustFactor_Output_Object *)allowed:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)countryAllowed:(NSArray *)payload;
 
 // 31
-+ (Sentegrity_TrustFactor_Output_Object *)unknownGPS:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)locationGPS:(NSArray *)payload;
 
 // 31
-+ (Sentegrity_TrustFactor_Output_Object *)anomaly:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)locationAnomaly:(NSArray *)payload;
 
 @end

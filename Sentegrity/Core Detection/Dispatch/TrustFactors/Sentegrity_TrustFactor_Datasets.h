@@ -27,6 +27,7 @@
 #import "Sentegrity_TrustFactor_Dataset_Netstat.h"
 #import "Sentegrity_TrustFactor_Dataset_Wifi.h"
 #import "Sentegrity_TrustFactor_Dataset_Cell.h"
+#import "Sentegrity_TrustFactor_Dataset_Motion.h"
 
 
 @interface Sentegrity_TrustFactor_Datasets : NSObject
@@ -37,6 +38,8 @@
 // Singleton instance
 + (id)sharedDatasets;
 
+// Singleton self-destruct (for demo)
++ (void)selfDestruct;
 
 #pragma mark - Properties
 
@@ -58,7 +61,11 @@
 @property (atomic, retain) NSArray *gyroRollPitch;
 @property (atomic, retain) NSArray *gyroRads;
 @property (atomic) int gyroMotionDNEStatus;
+
+@property (atomic, retain) NSArray *accelRads;
+@property (atomic) int accelMotionDNEStatus;
 @property (atomic,retain) NSString *deviceOrientation;
+@property (atomic, retain) NSNumber *moving;
 
 // Bluetooth BLE
 @property (atomic, retain) NSArray *discoveredBLEDevices;
@@ -160,8 +167,10 @@
 
 // ** MOTION **
 - (NSArray *)getGyroRadsInfo;
+- (NSArray *)getAccelRadsInfo;
 - (NSArray *)getGyroPitchInfo;
 - (NSString *)getDeviceOrientation;
+- (NSNumber *)isMoving;
 
 // ** BLUETOOTH **
 - (NSArray *)getDiscoveredBLEInfo;

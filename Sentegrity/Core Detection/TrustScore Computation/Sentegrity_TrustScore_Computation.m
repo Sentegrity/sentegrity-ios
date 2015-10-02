@@ -26,7 +26,7 @@
 // Compute the systemScore and the UserScore from the policy
 + (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error {
     
-
+    
     
     // Make sure we got a policy
     if (!policy || policy == nil || policy.policyID < 0) {
@@ -93,7 +93,7 @@
     
     // Determining errors
     NSMutableArray *subClassDNECodes;
-
+    
     
     //For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
@@ -365,7 +365,7 @@
     NSMutableSet *systemIssues = [[NSMutableSet alloc] init];
     NSMutableSet *systemSuggestions = [[NSMutableSet alloc] init];
     NSMutableSet *systemSubClassStatuses = [[NSMutableSet alloc] init];
-
+    
     
     NSMutableSet *userIssues = [[NSMutableSet alloc] init];
     NSMutableSet *userSuggestions = [[NSMutableSet alloc] init];
@@ -396,7 +396,10 @@
     
     int userClassCount=0;
     int userScoreSum=0;
-
+    
+    BOOL systemPolicyViolation=NO;
+    BOOL userPolicyViolation=NO;
+    
     // Iterate through all classifications populated in prior function
     for (Sentegrity_Classification *class in self.policy.classifications) {
         
@@ -405,26 +408,34 @@
             
             int currentScore = MIN(100,MAX(0,100-(int)[class weightedPenalty]));
             
-            systemScoreSum = systemScoreSum +  currentScore;
-            
-            systemClassCount++;
             
             switch ([[class identification] intValue]) {
                 case 1:
                     systemBreachClass = class;
                     self.systemBreachScore = currentScore;
+                    systemScoreSum = systemScoreSum + currentScore;
+                    systemClassCount++;
                     break;
                 case 2:
                     systemPolicyClass = class;
                     self.systemPolicyScore = currentScore;
+                    
+                    // Don't add policy scores to overall as it just inflates it
+                    if(currentScore < 100){
+                        systemPolicyViolation=YES;
+                    }
                     break;
                 case 3:
                     systemSecurityClass = class;
                     self.systemSecurityScore = currentScore;
+                    systemScoreSum = systemScoreSum + currentScore;
+                    systemClassCount++;
                     break;
                 default:
                     break;
             }
+            
+            
             
             // Tally system GUI elements
             [systemIssues addObjectsFromArray:[class issues]];
@@ -445,22 +456,27 @@
             
             int currentScore = MIN(100,MAX(0,100-(int)[class weightedPenalty]));
             
-            userScoreSum = userScoreSum +  currentScore;
-            
-            userClassCount++;
-            
             switch ([[class identification] intValue]) {
                 case 4:
                     userPolicyClass = class;
                     self.userPolicyScore = currentScore;
+                    
+                    // Don't add policy scores to overall as it just inflates it
+                    if(currentScore < 100){
+                        userPolicyViolation=YES;
+                    }
                     break;
                 case 5:
                     userAnomalyClass = class;
                     self.userAnomalyScore = currentScore;
+                    userScoreSum = userScoreSum +  currentScore;
+                    userClassCount++;
                     break;
                 default:
                     break;
             }
+            
+            
             
             // Tally system GUI elements
             [userIssues addObjectsFromArray:[class issues]];
@@ -510,8 +526,20 @@
     
     
     // Set comprehensive scores
-    self.systemScore = systemScoreSum / systemClassCount;
-    self.userScore = userScoreSum / userClassCount;
+    if(systemPolicyViolation==YES){
+        self.systemScore=0;
+    }
+    else{
+        self.systemScore = systemScoreSum / systemClassCount;
+    }
+    
+    if(userPolicyViolation==YES){
+        self.userScore=0;
+    }else{
+        
+        self.userScore = userScoreSum / userClassCount;
+    }
+    
     self.deviceScore = (self.systemScore + self.userScore)/2;
     
     //Defaults
@@ -585,7 +613,7 @@
     
     if(!self.userTrusted){
         
-
+        
         //see which classification inside user attributed the most and set protect mode
         if(self.userPolicyScore <= self.userAnomalyScore) //USER_POLICY is attributing
         {
@@ -637,7 +665,7 @@
         self.userGUIIconID = 0;
         self.userGUIIconText = @"User Trusted";
         
-
+        
         
     }
     
@@ -710,7 +738,7 @@
         case DNEStatus_error:
             // Error
             penaltyMod = [policy.DNEModifiers.error doubleValue];
-
+            
             break;
         case DNEStatus_unauthorized:
             // Unauthorized
@@ -779,7 +807,7 @@
             penaltyMod = [policy.DNEModifiers.expired doubleValue];
             
             // Check if subclass contains custom suggestion for the current error code
-
+            
             if(subClass.dneExpired.length!= 0)
             {   //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneExpired]){

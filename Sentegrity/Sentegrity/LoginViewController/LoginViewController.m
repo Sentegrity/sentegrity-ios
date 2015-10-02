@@ -40,7 +40,7 @@ static MBProgressHUD *HUD;
     
     
     // Prompt for user to allow motion and location activity gathering
-    NSArray *permissions = @[@(ISHPermissionCategoryLocationWhenInUse), @(ISHPermissionCategoryActivity)];
+  /*  NSArray *permissions = @[@(ISHPermissionCategoryLocationWhenInUse), @(ISHPermissionCategoryActivity)];
     
     ISHPermissionsViewController *vc = [ISHPermissionsViewController permissionsViewControllerWithCategories:permissions dataSource:self];
     
@@ -50,6 +50,8 @@ static MBProgressHUD *HUD;
                            animated:YES
                          completion:nil];
     }
+   
+   */
     
 }
 
@@ -60,10 +62,10 @@ static MBProgressHUD *HUD;
     HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    HUD.labelText = @"Authenticating";
+    HUD.labelText = @"Analyzing";
     HUD.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
     
-    HUD.detailsLabelText = @"Assessing security posture";
+    HUD.detailsLabelText = @"Mobile Security Posture";
     HUD.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
     
     @autoreleasepool {
@@ -163,7 +165,7 @@ static MBProgressHUD *HUD;
                 userPIN.showAnimationType = SlideInFromBottom;
                 [userPIN removeTopCircle];
                 
-                UITextField *userText = [userPIN addTextField:@"Enter Password \"user\""];
+                UITextField *userText = [userPIN addTextField:@"Demo password is \"user\""];
                 
                 // Show deactivation textbox
                 
@@ -195,7 +197,7 @@ static MBProgressHUD *HUD;
                 }];
                 
                 
-                [userPIN showCustom:self image:nil color:[UIColor grayColor] title:@"User Anomaly" subTitle:@"A user password is required." closeButtonTitle:nil duration:0.0f];
+                [userPIN showCustom:self image:nil color:[UIColor grayColor] title:@"User Anomaly" subTitle:@"User Password Required" closeButtonTitle:nil duration:0.0f];
                 
                 
             }
@@ -212,7 +214,7 @@ static MBProgressHUD *HUD;
                 [policyPIN removeTopCircle];
 
                 
-                UITextField *policyText = [policyPIN addTextField:@"Enter PIN \"admin\""];
+                UITextField *policyText = [policyPIN addTextField:@"Demo password is \"admin\""];
                 
                 // Show deactivation textbox
                 [policyPIN addButton:@"Unlock" actionBlock:^(void) {
@@ -243,7 +245,7 @@ static MBProgressHUD *HUD;
                     [self.navigationController pushViewController:mainViewController animated:NO];
                 }];
                 
-                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Policy Violation" subTitle:@"A high risk device was detected. Administrator approval required." closeButtonTitle:nil duration:0.0f];
+                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"Administrator Approval Required" closeButtonTitle:nil duration:0.0f];
             
                 
             }

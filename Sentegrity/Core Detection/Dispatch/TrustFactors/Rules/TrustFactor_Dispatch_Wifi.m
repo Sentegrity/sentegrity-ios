@@ -138,77 +138,77 @@
 
 // 18 - Captive Portal Unencrypted AP Check - Not available
 /* DEPRECATED
-+ (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload {
-    
-    // Create the trustfactor output object
-    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
-    
-    // Set the default status code to OK (default = DNEStatus_ok)
-    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
-    
-    // Create the output array
-    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
-    
-    //No connection, check if WiFi is enabled
-    if([[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled]==NO){
-        
-        //Not enabled, set DNE and return (penalize)
-        [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
-    
-    NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
-    
-    // Check for a connection
-    if (wifiInfo == nil){
-        
-        //WiFi is enabled but there is no connection (don't penalize)
-        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-        
-    }
-    
-    NSString *ssid = [wifiInfo objectForKey:@"ssid"];
-    
-    
-    //Perform WISPR check
-    NSString *url =@"http://www.apple.com/library/test/success.html";
-    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc]
-                                       initWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    
-    [urlRequest setValue:@"CaptiveNetworkSupport/1.0 wispr" forHTTPHeaderField:@"User-Agent"];
-    
-    NSData *data = [ NSURLConnection sendSynchronousRequest:urlRequest returningResponse: nil error: nil ];
-    NSString *returnDataWispr = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
-    
-    //Perform Blank page check
-    url =@"http://www.google.com/blank.html";
-    urlRequest = [[NSMutableURLRequest alloc]
-                  initWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    
-    data = [ NSURLConnection sendSynchronousRequest:urlRequest returningResponse: nil error: nil ];
-    NSString *returnDataBlank = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
-    
-    // Check if WISPR return something other than "Success" HTML AND if the AP returns a login page instead of blank during google check
-    if(![returnDataWispr containsString:@"Success"] || [returnDataBlank length] > 1)
-    {
-        [outputArray addObject:ssid];
-    }
-    
-    
-    
-    // Set the trustfactor output to the output array (regardless if empty)
-    [trustFactorOutputObject setOutput:outputArray];
-    
-    // Return the trustfactor output object
-    return trustFactorOutputObject;
-    
-    return 0;
-}
+ + (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload {
+ 
+ // Create the trustfactor output object
+ Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+ 
+ // Set the default status code to OK (default = DNEStatus_ok)
+ [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+ 
+ // Create the output array
+ NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
+ 
+ //No connection, check if WiFi is enabled
+ if([[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled]==NO){
+ 
+ //Not enabled, set DNE and return (penalize)
+ [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
+ 
+ // Return with the blank output object
+ return trustFactorOutputObject;
+ }
+ 
+ NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
+ 
+ // Check for a connection
+ if (wifiInfo == nil){
+ 
+ //WiFi is enabled but there is no connection (don't penalize)
+ [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+ 
+ // Return with the blank output object
+ return trustFactorOutputObject;
+ 
+ }
+ 
+ NSString *ssid = [wifiInfo objectForKey:@"ssid"];
+ 
+ 
+ //Perform WISPR check
+ NSString *url =@"http://www.apple.com/library/test/success.html";
+ NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc]
+ initWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+ 
+ [urlRequest setValue:@"CaptiveNetworkSupport/1.0 wispr" forHTTPHeaderField:@"User-Agent"];
+ 
+ NSData *data = [ NSURLConnection sendSynchronousRequest:urlRequest returningResponse: nil error: nil ];
+ NSString *returnDataWispr = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
+ 
+ //Perform Blank page check
+ url =@"http://www.google.com/blank.html";
+ urlRequest = [[NSMutableURLRequest alloc]
+ initWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+ 
+ data = [ NSURLConnection sendSynchronousRequest:urlRequest returningResponse: nil error: nil ];
+ NSString *returnDataBlank = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
+ 
+ // Check if WISPR return something other than "Success" HTML AND if the AP returns a login page instead of blank during google check
+ if(![returnDataWispr containsString:@"Success"] || [returnDataBlank length] > 1)
+ {
+ [outputArray addObject:ssid];
+ }
+ 
+ 
+ 
+ // Set the trustfactor output to the output array (regardless if empty)
+ [trustFactorOutputObject setOutput:outputArray];
+ 
+ // Return the trustfactor output object
+ return trustFactorOutputObject;
+ 
+ return 0;
+ }
  
  */
 
@@ -356,11 +356,8 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
-    //No connection, check if WiFi is enabled
-    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
-        
-        //Not enabled, set DNE and return (penalize)
-        [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
+    //If WiFi is enabled then tethering is not in use (it disasbled it otherwise)
+    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==1){
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -376,7 +373,7 @@
         
     }
     
-      // Set the trustfactor output to the output array (regardless if empty)
+    // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
     // Return the trustfactor output object

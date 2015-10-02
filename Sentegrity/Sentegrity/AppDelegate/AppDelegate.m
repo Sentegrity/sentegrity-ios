@@ -18,12 +18,17 @@
 // Animated Progress Alerts
 #import "MBProgressHUD.h"
 
+
+
 // Private Interface Declaration
 @interface AppDelegate () <CBCentralManagerDelegate>
 @end
 
 
 @implementation AppDelegate
+
+#pragma mark - ISHPermissionKit
+
 
 static MBProgressHUD *HUD;
 
@@ -125,6 +130,7 @@ static MBProgressHUD *HUD;
         
         if(code == kCLAuthorizationStatusNotDetermined && [_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]){
             
+            
             [self.locationManager  requestWhenInUseAuthorization];
             
         }
@@ -191,7 +197,7 @@ static MBProgressHUD *HUD;
              [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemark:myPlacemark];
              
          }
-        
+         
      }];
     
 }
@@ -206,7 +212,7 @@ static MBProgressHUD *HUD;
         
         CMMotionActivityManager *manager = [CMMotionActivityManager new];
         
-               [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*5)]
+        [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*5)]
                                         toDate:[NSDate date]
                                        toQueue:[NSOperationQueue new]
                                    withHandler:^(NSArray *activities, NSError *error) {
@@ -217,6 +223,8 @@ static MBProgressHUD *HUD;
                                        if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
                                            // The app isn't authorized to use motion activity support.
                                            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unauthorized];
+                                           
+                                           
                                        }
                                        else{
                                            
@@ -235,18 +243,19 @@ static MBProgressHUD *HUD;
     
 }
 
-static int pitchRunCount = 0;
-static int radsRunCount = 0;
+
 static NSMutableArray *pitchRollArray;
-static NSMutableArray *radsArray;
+static NSMutableArray *gyroRadsArray;
+static NSMutableArray *accelRadsArray;
 -(void)startMotion{
     
     
     CMMotionManager *manager = [[CMMotionManager alloc] init];
     pitchRollArray = [[NSMutableArray alloc]init];
-    radsArray = [[NSMutableArray alloc]init];
+    accelRadsArray= [[NSMutableArray alloc]init];
+    gyroRadsArray = [[NSMutableArray alloc]init];
     
-    // Accelerometer
+    // Gyroscope
     
     if(![manager isGyroAvailable] || manager == nil){
         
@@ -257,43 +266,41 @@ static NSMutableArray *radsArray;
         // User Grip
         manager.deviceMotionUpdateInterval = .001;
         [manager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
-                                      withHandler:^(CMDeviceMotion  *motion, NSError *error) {
-                                          
-                                          
-                                          if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
-                                              // The app isn't authorized to use motion activity support.
-                                              [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unauthorized];
-                                          }
-                                          else{
-                                              
-                                              // Create an array of motion samples
-                                              NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.attitude.pitch], [NSNumber numberWithFloat:motion.attitude.roll], nil];
-                                              
-                                              // Create an array of keys
-                                              NSArray *KeyArray = [NSArray arrayWithObjects:@"pitch", @"roll", nil];
-                                              
-                                              // Create the dictionary
-                                              NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
-                                              
-                                              // Add sample to array
-                                              [pitchRollArray addObject:dict];
-                                              
-                                              // Increment run count
-                                              pitchRunCount = pitchRunCount + 1;
-                                              
-                                              // We want a minimum of 3 samples before we average them inside the TF
-                                              // its possible we will get more as this handler gets called additional times prior to
-                                              // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
-                                        
-                                              // Keep updating until we stop
-                                            if (pitchRunCount > 3){
-                                                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
-                                                  [manager stopDeviceMotionUpdates];
-                                            }
-                                              
-                                          }
-                                          
-                                      }];
+                                     withHandler:^(CMDeviceMotion  *motion, NSError *error) {
+                                         
+                                         
+                                         if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
+                                             // The app isn't authorized to use motion activity support.
+                                             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unauthorized];
+                                         }
+                                         else{
+                                             
+                                             // Create an array of motion samples
+                                             NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.attitude.pitch], [NSNumber numberWithFloat:motion.attitude.roll], nil];
+                                             
+                                             // Create an array of keys
+                                             NSArray *KeyArray = [NSArray arrayWithObjects:@"pitch", @"roll", nil];
+                                             
+                                             // Create the dictionary
+                                             NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                                             
+                                             // Add sample to array
+                                             [pitchRollArray addObject:dict];
+                                             
+                                             
+                                             // We want a minimum of 3 samples before we average them inside the TF
+                                             // its possible we will get more as this handler gets called additional times prior to
+                                             // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
+                                             
+                                             // Keep updating until we stop
+                                             if (pitchRollArray.count > 3){
+                                                 [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
+                                                 [manager stopDeviceMotionUpdates];
+                                             }
+                                             
+                                         }
+                                         
+                                     }];
         
         // Attempt to detect large movements
         manager.gyroUpdateInterval = .001;
@@ -317,10 +324,8 @@ static NSMutableArray *radsArray;
                                      NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
                                      
                                      // Add sample to array
-                                     [radsArray addObject:dict];
+                                     [gyroRadsArray addObject:dict];
                                      
-                                     // Increment run count
-                                     radsRunCount = radsRunCount + 1;
                                      
                                      // We want a minimum of 3 samples before we average them inside the TF
                                      // its possible we will get more as this handler gets called additional times prior to
@@ -328,20 +333,76 @@ static NSMutableArray *radsArray;
                                      
                                      // Keep updating until we stop
                                      
-                                     if (radsRunCount > 3){
-                                         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRads:radsArray];
+                                     if (gyroRadsArray.count > 3){
+                                         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRads:gyroRadsArray];
                                          [manager stopGyroUpdates];
                                      }
                                      
                                  }
                                  
                              }];
-
+        
         
         
     }
     
-
+    
+    // Accelerometer
+    
+    if(![manager isAccelerometerAvailable] || manager == nil){
+        
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setAccelMotionDNEStatus:DNEStatus_unsupported];
+        
+    }else{
+        
+        
+        
+        // Used to detect orientation
+        manager.accelerometerUpdateInterval = .001;
+        [manager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue]
+                                      withHandler:^(CMAccelerometerData  *accelData, NSError *error) {
+                                          
+                                          
+                                          if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
+                                              // The app isn't authorized to use motion activity support.
+                                              [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unauthorized];
+                                          }
+                                          else{
+                                              
+                                              
+                                              // Create an array of gyro samples
+                                              NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:accelData.acceleration.x], [NSNumber numberWithFloat:accelData.acceleration.y], [NSNumber numberWithFloat:accelData.acceleration.z], nil];
+                                              
+                                              // Create an array of keys
+                                              NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+                                              
+                                              // Create the dictionary
+                                              NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                                              
+                                              // Add sample to array
+                                              [accelRadsArray addObject:dict];
+                                              
+                                              // We want a minimum of 3 samples before we average them inside the TF
+                                              // its possible we will get more as this handler gets called additional times prior to
+                                              // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
+                                              
+                                              // Keep updating until we stop
+                                              
+                                              if (accelRadsArray.count > 3){
+                                                  [[Sentegrity_TrustFactor_Datasets sharedDatasets] setAccelRads:accelRadsArray];
+                                                  [manager stopAccelerometerUpdates];
+                                              }
+                                              
+                                          }
+                                          
+                                      }];
+        
+        
+        
+    }
+    
+    
+    
 }
 
 
@@ -362,7 +423,7 @@ static CFAbsoluteTime startTime=0.0;
 // Callback for currentlyConnected
 - (void)centralManager:(CBCentralManager *)central didRetrieveConnectedPeripherals:(NSArray *)peripherals{
     
-
+    
     //[[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDevices:peripherals];
     
     
@@ -386,7 +447,7 @@ static CFAbsoluteTime startTime=0.0;
         
     }
     
-
+    
     
 }
 
@@ -414,7 +475,7 @@ static CFAbsoluteTime startTime=0.0;
             //messtoshow=[NSString stringWithFormat:@"The platform doesn't support Bluetooth Low Energy"];
             
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_unsupported];
-           // [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_unsupported];
+            // [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_unsupported];
             
             break;
         }
@@ -423,7 +484,7 @@ static CFAbsoluteTime startTime=0.0;
             //messtoshow=[NSString stringWithFormat:@"The app is not authorized to use Bluetooth Low Energy"];
             
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_unauthorized];
-           // [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_unauthorized];
+            // [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_unauthorized];
             break;
         }
         case CBCentralManagerStatePoweredOff:
@@ -488,7 +549,7 @@ static NSMutableArray *connectedClassicBTDevices;
             
         }
         
-         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:connectedClassicBTDevices];
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:connectedClassicBTDevices];
         
     }else{
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_disabled];
@@ -496,5 +557,55 @@ static NSMutableArray *connectedClassicBTDevices;
     }
     
 }
+
+
+-(void)httpRequests{
+    // Get latest version
+    NSString *deviceType;
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    deviceType = [NSString stringWithCString:systemInfo.machine
+                                    encoding:NSUTF8StringEncoding];
+    
+    
+    
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://api.ineal.me/tss/all"]];
+    
+    
+    __block NSDictionary *json;
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                               json = [NSJSONSerialization JSONObjectWithData:data
+                                                                      options:0
+                                                                        error:nil];
+                               
+                               for(id typeKey in json){
+                                   if([deviceType isEqualToString:[NSString stringWithString:typeKey]]){
+                                       
+                                       for(id subKeys in [json objectForKey:typeKey]){
+                                           
+                                           if([subKeys isEqualToString:@"firmwares"]){
+                                               
+                                               for(id firmwareDicts in [subKeys objectForKey:@"firmwares"]){
+                                                   
+                                                   if([@"version" isEqualToString:[NSString stringWithString:firmwareDicts]]){
+                                                       
+                                                       
+                                                   }
+                                               }
+                                               
+                                           }
+                                           
+                                       }
+                                       break;
+                                   }
+                               }
+                               NSLog(@"Async JSON: %@", json);
+                           }];
+    
+    
+}
+
 
 @end

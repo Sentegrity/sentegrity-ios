@@ -14,7 +14,7 @@
 
 + (Sentegrity_TrustFactor_Output_Object *)grip:(NSArray *)payload;
 
-+ (Sentegrity_TrustFactor_Output_Object *)moving:(NSArray *)payload;
+//+ (Sentegrity_TrustFactor_Output_Object *)moving:(NSArray *)payload;
 
 + (Sentegrity_TrustFactor_Output_Object *)orientation:(NSArray *)payload;
 

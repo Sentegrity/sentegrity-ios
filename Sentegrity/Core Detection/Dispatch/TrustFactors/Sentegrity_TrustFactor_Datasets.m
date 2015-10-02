@@ -17,9 +17,11 @@
 #pragma mark Singleton Methods
 
 // Singleton shared instance
+static Sentegrity_TrustFactor_Datasets *sharedTrustFactorDatasets = nil;
+static dispatch_once_t onceToken;
+
 + (id)sharedDatasets {
-    static Sentegrity_TrustFactor_Datasets *sharedTrustFactorDatasets = nil;
-    static dispatch_once_t onceToken;
+
     dispatch_once(&onceToken, ^{
         sharedTrustFactorDatasets = [[self alloc] init];
     });
@@ -33,6 +35,11 @@
         self.runTimeEpoch = [[NSDate date] timeIntervalSince1970];
     }
     return self;
+}
+
+// Only used for demo re-run of core detection, otherwise the cached datasets are used
++ (void) selfDestruct {
+    onceToken = 0;
 }
 
 
@@ -112,48 +119,31 @@
     
     if(!self.deviceOrientation || self.deviceOrientation == nil) //dataset not populated
     {
-        UIDevice *device = [UIDevice currentDevice];
-        UIDeviceOrientation orientation = device.orientation;
         
-        NSString* orientationString;
-        
-        switch (orientation) {
-            case UIDeviceOrientationPortrait:
-                orientationString =  @"Portrait";
-                break;
-            case UIDeviceOrientationLandscapeRight:
-                orientationString =  @"Landscape_Right";
-                break;
-            case UIDeviceOrientationPortraitUpsideDown:
-                orientationString =  @"Portrait_Upside_Down";
-                break;
-            case UIDeviceOrientationLandscapeLeft:
-                orientationString =  @"Landscape_Left";
-                break;
-            case UIDeviceOrientationFaceUp:
-                orientationString =  @"Face_Up";
-                break;
-            case UIDeviceOrientationFaceDown:
-                orientationString =  @"Face_Down";
-                break;
-            case UIDeviceOrientationUnknown:
-                //Error
-                orientationString =  @"unknown";
-                break;
-            default:
-                //Error
-                orientationString =  @"error";
-                break;
-        }
-        
-        
-        self.deviceOrientation = orientationString;
+        self.deviceOrientation = [Motion_Info orientation];
         
         return self.deviceOrientation;
         
     }else
     {
         return self.deviceOrientation;
+    }
+    
+}
+
+// Device orientation
+- (NSNumber *)isMoving{
+    
+    if(!self.moving || self.moving == nil) //dataset not populated
+    {
+        
+        self.moving = [Motion_Info isMoving];
+        
+        return self.moving;
+        
+    }else
+    {
+        return self.moving;
     }
     
 }
@@ -620,6 +610,51 @@
     
 }
 
+- (NSArray *)getAccelRadsInfo {
+    
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    CFAbsoluteTime currentTime = 0.0;
+    
+    //Do we have a location yet?
+    if(!self.accelRads || self.accelRads == nil){
+        
+        //Nope, wait for activity data
+        bool exit=NO;
+        while (exit==NO){
+            
+            if(self.accelRads != nil){
+                NSLog(@"Got accel rads after waiting..");
+                exit=YES;
+                return self.accelRads;
+                
+            }
+            
+            currentTime = CFAbsoluteTimeGetCurrent();
+            // we've waited more than a second, exit
+            if ((currentTime-startTime) > 0.5){
+                NSLog(@"Accel rads timer expired");
+                exit=YES;
+                [self setAccelMotionDNEStatus:DNEStatus_expired];
+                return self.accelRads;
+                
+                
+                
+            }
+            
+            [NSThread sleepForTimeInterval:0.01];
+            
+        }
+        
+        
+    }
+    //we've already got location data
+    NSLog(@"Got accel rads without waiting...");
+    return self.accelRads;
+    
+    
+}
+
+
 
 - (NSDictionary *)getWifiInfo {
     
@@ -647,7 +682,7 @@
 -(NSNumber *)isWifiEnabled {
     if(self.wifiEnabled == nil) //dataset not populated
     {
-
+        
         @try {
             
             self.wifiEnabled = [Wifi_Info isWiFiEnabled];
@@ -691,16 +726,16 @@
             //scanning until we hit the timer
             currentTime = CFAbsoluteTimeGetCurrent();
             // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5 ){
+            if ((currentTime-startTime) > 0.1 ){
                 NSLog(@"Discovered BLE devices timer expired");
                 exit=YES;
                 
                 // Only set to expired if we truly found none, otherwise run with what we did find (1 or 2)
                 if(self.discoveredBLEDevices.count<1){
                     [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
-
+                    
                 }
-
+                
                 return self.discoveredBLEDevices;
                 
             }
@@ -892,4 +927,3 @@
 }
 
 @end
-

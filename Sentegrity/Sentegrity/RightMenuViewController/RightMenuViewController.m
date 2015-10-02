@@ -179,7 +179,7 @@
             }];
             
             // Show the alert
-            [alert showCustom:self image:nil color:[UIColor grayColor] title:@"Reset Stores" subTitle:@"Are you sure you want to reset the Assertion Stores?" closeButtonTitle:@"Cancel" duration:0.0f];
+            [alert showCustom:self image:nil color:[UIColor grayColor] title:@"Wipe Profile" subTitle:@"Are you sure you want to wipe the device profile? The demo will wipe all learned data." closeButtonTitle:@"Cancel" duration:0.0f];
 
     
             break;
@@ -222,7 +222,8 @@
     }
     
     // Titles of our rows
-    NSArray *titles = @[@"User Debug", @"System Debug", @"Computation Info", @"Reset Stores"];
+    
+    NSArray *titles = @[@"User Debug", @"System Debug", @"Score Debug", @"Wipe Profile"];
     cell.textLabel.text = titles[indexPath.row];
     cell.textLabel.textAlignment = NSTextAlignmentRight;
     

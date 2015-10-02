@@ -34,57 +34,10 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     
-    
-    // Make sure device is steady enough to take a reading by manually calling the "moving" TF
-    
-    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObjectMoving = [[Sentegrity_TrustFactor_Output_Object alloc] init];
-    
-    NSDictionary *dict = @{
-                           @"xThreshold": [NSNumber numberWithFloat:0.8],
-                           @"yThreshold": [NSNumber numberWithFloat:0.8],
-                           @"zThreshold": [NSNumber numberWithFloat:0.8]
-                           };
-    
-    
-    NSArray *params = @[dict];
-    
-    trustFactorOutputObjectMoving = [self moving:params];
-    
-    if([trustFactorOutputObjectMoving statusCode] == DNEStatus_ok){
-        //check if result is moving
-        if([trustFactorOutputObjectMoving output].count > 0){
-            
-            // don't try and return with no penalty
-            [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
-            // Return with the blank output object
-            return trustFactorOutputObject;
-            
-        }
-    }else{
-        
-        //don't try and return with no penalty
-        
-        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
-        // Return with the blank output object
-        return trustFactorOutputObject;
-        
-    }
-    
-    
-    NSString *orientation = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getDeviceOrientation];
-    
-    // check if its being held, if not stop
-    if( ![orientation containsString:@"Portrait"] && ![orientation containsString:@"Landscape"]){
-        
-        //don't try and return
-        
-        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
+    // Make sure device is steady enough to take a reading
     
     // Get motion dataset
-    NSArray *pitchRoll;
+    NSArray *gryoRads;
     
     
     // Check if error was already determined when motion was started
@@ -97,9 +50,9 @@
     } else { // No known errors occured previously, try to get dataset and check our object
         
         // Attempt to get motion data
-        pitchRoll = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroPitchInfo];
+        gryoRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
         
-        // Check if error from dataset
+        // Check if error from dataset (expired)
         if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
             // Set the DNE status code to what was previously determined
             [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
@@ -109,12 +62,37 @@
         }
         
         // Check motion dataset has something
-        if (!pitchRoll || pitchRoll == nil ) {
+        if (!gryoRads || gryoRads == nil ) {
             
             [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
             // Return with the blank output object
             return trustFactorOutputObject;
         }
+    }
+    
+    
+    // Detect if its moving
+    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isMoving] intValue] == 1){
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
+    }
+    
+    
+    // Get motion dataset
+    NSArray *pitchRoll;
+    
+    // Attempt to get motion data
+    pitchRoll = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroPitchInfo];
+    
+    // Check motion dataset has something
+    if (!pitchRoll || pitchRoll == nil ) {
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        // Return with the blank output object
+        return trustFactorOutputObject;
     }
     
     
@@ -187,119 +165,123 @@
     
 }
 
-+ (Sentegrity_TrustFactor_Output_Object *)moving:(NSArray *)payload {
-    
-    // Create the trustfactor output object
-    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
-    
-    // Set the default status code to OK (default = DNEStatus_ok)
-    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
-    
-    // Validate the payload
-    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
-        // Payload is EMPTY
-        
-        // Set the DNE status code to NODATA
-        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
-    
-    // Create the output array
-    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
-    
-    // Get motion dataset
-    NSArray *gryoRads;
-    
-    
-    // Check if error was already determined when motion was started
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
-        // Set the DNE status code to what was previously determined
-        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    } else { // No known errors occured previously, try to get dataset and check our object
-        
-        // Attempt to get motion data
-        gryoRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
-        
-        // Check if error from dataset
-        if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
-            // Set the DNE status code to what was previously determined
-            [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
-            
-            // Return with the blank output object
-            return trustFactorOutputObject;
-        }
-        
-        // Check motion dataset has something
-        if (!gryoRads || gryoRads == nil ) {
-            
-            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-            // Return with the blank output object
-            return trustFactorOutputObject;
-        }
-    }
-    
-    // Blocksize to smooth dataset
-    float xThreshold = [[[payload objectAtIndex:0] objectForKey:@"xThreshold"] floatValue];
-    float yThreshold = [[[payload objectAtIndex:0] objectForKey:@"yThreshold"] floatValue];
-    float zThreshold = [[[payload objectAtIndex:0] objectForKey:@"zThreshold"] floatValue];
-    
-    if (xThreshold == 0 || yThreshold == 0 || zThreshold == 0) {
-        
-        [trustFactorOutputObject setStatusCode:DNEStatus_error];
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
-    
-    float xDiff = 0.0;
-    float yDiff = 0.0;
-    float zDiff = 0.0;
-    
-    
-    float lastX = 0.0;
-    float lastY = 0.0;
-    float lastZ = 0.0;
-    
-    // Run through all the sample we got prior to stopping motion
-    for (NSDictionary *sample in gryoRads) {
-        
-        float x = [[sample objectForKey:@"x"] floatValue];
-        float y = [[sample objectForKey:@"y"] floatValue];
-        float z = [[sample objectForKey:@"z"] floatValue];
-        
-        // this is the first sample, just record last and go to next
-        if(lastX==0.0){
-            lastX = x;
-            lastY = y;
-            lastZ = z;
-            continue;
-        }
-        // Add up differences to detect motion, take absolute value to prevent
-        
-        xDiff = xDiff + fabsf((lastX - x));
-        yDiff = yDiff + fabsf((lastY - y));
-        zDiff = zDiff + fabsf((lastZ - z));
-        
-    }
-    
-    // Check against thesholds?
-    if(xDiff > xThreshold || yDiff > yThreshold || zDiff > zThreshold){
-        [outputArray addObject:@"motion"];
-        
-    }
-    
-    
-    // Set the trustfactor output to the output array (regardless if empty)
-    [trustFactorOutputObject setOutput:outputArray];
-    
-    // Return the trustfactor output object
-    return trustFactorOutputObject;
-    
-}
+/* removed, motion check is now only inside the grip rule, means we can't relay a suggestion but thats OK
+ 
+ + (Sentegrity_TrustFactor_Output_Object *)moving:(NSArray *)payload {
+ 
+ // Create the trustfactor output object
+ Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+ 
+ // Set the default status code to OK (default = DNEStatus_ok)
+ [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+ 
+ // Validate the payload
+ if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
+ // Payload is EMPTY
+ 
+ // Set the DNE status code to NODATA
+ [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+ 
+ // Return with the blank output object
+ return trustFactorOutputObject;
+ }
+ 
+ // Create the output array
+ NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
+ 
+ // Get motion dataset
+ NSArray *gryoRads;
+ 
+ 
+ // Check if error was already determined when motion was started
+ if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
+ // Set the DNE status code to what was previously determined
+ [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
+ 
+ // Return with the blank output object
+ return trustFactorOutputObject;
+ } else { // No known errors occured previously, try to get dataset and check our object
+ 
+ // Attempt to get motion data
+ gryoRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
+ 
+ // Check if error from dataset
+ if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
+ // Set the DNE status code to what was previously determined
+ [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
+ 
+ // Return with the blank output object
+ return trustFactorOutputObject;
+ }
+ 
+ // Check motion dataset has something
+ if (!gryoRads || gryoRads == nil ) {
+ 
+ [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+ // Return with the blank output object
+ return trustFactorOutputObject;
+ }
+ }
+ 
+ // Blocksize to smooth dataset
+ float xThreshold = [[[payload objectAtIndex:0] objectForKey:@"xThreshold"] floatValue];
+ float yThreshold = [[[payload objectAtIndex:0] objectForKey:@"yThreshold"] floatValue];
+ float zThreshold = [[[payload objectAtIndex:0] objectForKey:@"zThreshold"] floatValue];
+ 
+ if (xThreshold == 0 || yThreshold == 0 || zThreshold == 0) {
+ 
+ [trustFactorOutputObject setStatusCode:DNEStatus_error];
+ // Return with the blank output object
+ return trustFactorOutputObject;
+ }
+ 
+ float xDiff = 0.0;
+ float yDiff = 0.0;
+ float zDiff = 0.0;
+ 
+ 
+ float lastX = 0.0;
+ float lastY = 0.0;
+ float lastZ = 0.0;
+ 
+ // Run through all the sample we got prior to stopping motion
+ for (NSDictionary *sample in gryoRads) {
+ 
+ float x = [[sample objectForKey:@"x"] floatValue];
+ float y = [[sample objectForKey:@"y"] floatValue];
+ float z = [[sample objectForKey:@"z"] floatValue];
+ 
+ // this is the first sample, just record last and go to next
+ if(lastX==0.0){
+ lastX = x;
+ lastY = y;
+ lastZ = z;
+ continue;
+ }
+ // Add up differences to detect motion, take absolute value to prevent
+ 
+ xDiff = xDiff + fabsf((lastX - x));
+ yDiff = yDiff + fabsf((lastY - y));
+ zDiff = zDiff + fabsf((lastZ - z));
+ 
+ }
+ 
+ // Check against thesholds?
+ if(xDiff > xThreshold || yDiff > yThreshold || zDiff > zThreshold){
+ [outputArray addObject:@"motion"];
+ 
+ }
+ 
+ 
+ // Set the trustfactor output to the output array (regardless if empty)
+ [trustFactorOutputObject setOutput:outputArray];
+ 
+ // Return the trustfactor output object
+ return trustFactorOutputObject;
+ 
+ }
+ 
+ */
 
 + (Sentegrity_TrustFactor_Output_Object *)orientation:(NSArray *)payload {
     

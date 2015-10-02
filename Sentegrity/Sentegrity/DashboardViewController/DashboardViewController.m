@@ -9,6 +9,9 @@
 // Main View Controller
 #import "DashboardViewController.h"
 
+// Login view Controller
+#import "LoginViewController.h"
+
 // App Delegate
 #import "AppDelegate.h"
 
@@ -17,6 +20,9 @@
 
 // User Information Controller
 #import "UserInformationViewController.h"
+
+// TrustFactor Datasets
+#import "Sentegrity_TrustFactor_Datasets.h"
 
 // Sentegrity
 #import "Sentegrity.h"
@@ -284,33 +290,6 @@ static MBProgressHUD *HUD;
     
 }
 
-- (void)close{
-    // Give user info
-    SCLAlertView *untrusted = [[SCLAlertView alloc] init];
-    untrusted.showAnimationType = SlideInFromRight;
-    untrusted.backgroundType = Shadow;
-    //unlocked.backgroundViewColor = [UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f];
-    [untrusted removeTopCircle];
-    
-    [untrusted addButton:@"Exit now" actionBlock:^(void) {
-        exit(0);
-    }];
-    
-    if(self.computationResults.deviceTrusted==YES){
-            [untrusted showCustom:self image:nil color:[UIColor grayColor] title:@"Refresh" subTitle:@"The current TrustScore was computed during launch. The app must be re-launched to reflect an updated score due to any environment or behavioral changes." closeButtonTitle:@"Let me explore" duration:0.0f];
-        
-    }
-    else if(self.computationResults.systemTrusted==NO){ //was a system issue
-            [untrusted showCustom:self image:nil color:[UIColor grayColor] title:@"Refresh" subTitle:@"The current TrustScore was computed prior to the last policy exception. Sentegrity learns from administrator approval of high risk condition(s). The app must be re-launched to reflect an updated score." closeButtonTitle:@"Let me explore" duration:0.0f];
-        
-    }
-    else{ //must have been a user issue
-            [untrusted showCustom:self image:nil color:[UIColor grayColor] title:@"Refresh" subTitle:@"The current TrustScore was computed prior to this last user authentication. Sentegrity learns from user behavior during interactive logins. The app must be re-launched to reflect an updated score." closeButtonTitle:@"Let me explore" duration:0.0f];
-    }
-
-
-}
-
 // Set the status bar to white
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
@@ -389,8 +368,8 @@ static MBProgressHUD *HUD;
 }
 
 - (IBAction)reload:(id)sender {
+    
     // Animate the reload button
-    [self close];
     CABasicAnimation *rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
@@ -399,19 +378,33 @@ static MBProgressHUD *HUD;
     rotationAnimation.repeatCount = 1.0f;
     [self.reloadButton.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     
-    @autoreleasepool {
+    // Show popup
+    SCLAlertView *untrusted = [[SCLAlertView alloc] init];
+    untrusted.showAnimationType = SlideInFromRight;
+    untrusted.backgroundType = Shadow;
+    //unlocked.backgroundViewColor = [UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f];
+    [untrusted removeTopCircle];
+    
+    [untrusted addButton:@"Yes" actionBlock:^(void) {
         
-        dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
+        // Clea up datasets
+        [Sentegrity_TrustFactor_Datasets selfDestruct];
+        // Perform Core Detection
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] runCoreDetectionActivities];
         
-        dispatch_async(myQueue, ^{
-            
-            // Perform Core Detection
-            //[self performCoreDetection:self];
-            [(AppDelegate *)[[UIApplication sharedApplication] delegate] runCoreDetectionActivities];
-            
-        });
-    }
+        // Show landing page
+        
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        // Create the main view controller
+        LoginViewController *loginViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"];
+        [self.navigationController pushViewController:loginViewController animated:NO];
+    }];
+    
+
+    [untrusted showCustom:self image:nil color:[UIColor grayColor] title:@"Refresh" subTitle:@"Do you want to run detection again and update the score?" closeButtonTitle:@"Cancel" duration:0.0f];
+
 
 }
+
 
 @end

@@ -88,7 +88,7 @@
         
             [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Success!" subTitle:@"You've been transparently authenticated. You and your device are TRUSTED." closeButtonTitle:nil duration:0.0f];
         
-//try to open inbox (airwatch)
+/*try to open inbox (airwatch)
         
         // Opens the Receiver app if installed, otherwise displays an error
         UIApplication *ourApplication = [UIApplication sharedApplication];
@@ -101,12 +101,13 @@
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Receiver Not Found" message:@"The Receiver App is not installed. It must be installed to send text." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alertView show];
         }
+ */
         
     }else if((computation.userTrusted==NO) && (computation.systemTrusted==YES)){ // User anomaly
-            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"What happened?" subTitle:@"Transparent authentication FAILED due to user anomalies that require explicit authentication." closeButtonTitle:nil duration:0.0f];
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"What happened?" subTitle:@"Your user password was required due to abnormal behavior (transparent authentication failed)." closeButtonTitle:nil duration:0.0f];
     }else{ // Policy violation
         
-            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"What happened?" subTitle:@"A policy exception (administrator PIN) was required due to HIGH RISK device conditions." closeButtonTitle:nil duration:0.0f];
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"What happened?" subTitle:@"An administrator password was required due to high risk device conditions." closeButtonTitle:nil duration:0.0f];
     }
 
     
