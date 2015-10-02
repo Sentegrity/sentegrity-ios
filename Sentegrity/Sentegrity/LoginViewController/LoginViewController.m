@@ -9,6 +9,9 @@
 // Main View Controller
 #import "LoginViewController.h"
 
+// App Delegate
+#import "AppDelegate.h"
+
 // Permissions
 #import "ISHPermissionKit.h"
 #import "LocationPermissionViewController.h"
@@ -36,53 +39,73 @@ static MBProgressHUD *HUD;
 // View Loaded
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    
-    
-    // Prompt for user to allow motion and location activity gathering
-  /*  NSArray *permissions = @[@(ISHPermissionCategoryLocationWhenInUse), @(ISHPermissionCategoryActivity)];
-    
-    ISHPermissionsViewController *vc = [ISHPermissionsViewController permissionsViewControllerWithCategories:permissions dataSource:self];
-    
-    // Check the permission view controller
-    if (vc) {
-        [self presentViewController:vc
-                           animated:YES
-                         completion:nil];
-    }
-   
-   */
+    // Do any additional setup after loading the view, typically from a nib
     
 }
+
 
 // View did appear
 - (void)viewDidAppear:(BOOL)animated {
     
-    // Show Animation
-    HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    HUD.labelText = @"Analyzing";
-    HUD.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
-    
-    HUD.detailsLabelText = @"Mobile Security Posture";
-    HUD.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
-    
-    @autoreleasepool {
+    // If this is the first run
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]==NO)
+    {
         
-        dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         
-        dispatch_async(myQueue, ^{
-            
-            // Perform Core Detection
-            [self performCoreDetection:self];
-            
-        });
+        // Prompt for user to allow motion and location activity gathering
+        NSArray *permissions = @[@(ISHPermissionCategoryLocationWhenInUse), @(ISHPermissionCategoryActivity)];
+        
+        ISHPermissionsViewController *vc = [ISHPermissionsViewController  permissionsViewControllerWithCategories:permissions  dataSource:self];
+        
+        // Check the permission view controller
+        if (vc) {
+            [self presentViewController:vc
+                               animated:YES
+                             completion:^(void) {
+                                 
+       
+                                     // this completion gets called way early, lame
+                                     //[(AppDelegate *)[[UIApplication sharedApplication] delegate] runCoreDetectionActivities];
+                                 
+                             
+                             }];
+        }
+        
     }
+  
+        
+        // Show Animation
+        HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        HUD.labelText = @"Analyzing";
+        HUD.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
+        
+        HUD.detailsLabelText = @"Mobile Security Posture";
+        HUD.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
+        
+        @autoreleasepool {
+            
+            dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
+            
+            dispatch_async(myQueue, ^{
+                
+                // Perform Core Detection
+                [self performCoreDetection:self];
+                
+            });
+        }
+        
+        
+        [super viewDidAppear:animated];
+
+        
+
     
-    
-    [super viewDidAppear:animated];
-    
+
+ 
 }
 
 // Perform Core Detection

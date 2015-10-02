@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.sentegrity.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -27,7 +27,7 @@
 	<key>NSLocationUsageDescription</key>
 	<string>Gimme location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Sentegrity can use anonymous location data to enable transparent authenticaiton.</string>
+	<string>Sentegrity uses location data to boost your Trust Score, no data is removed from the device.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DINPro-Bold.otf</string>

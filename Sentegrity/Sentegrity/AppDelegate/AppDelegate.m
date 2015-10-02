@@ -35,19 +35,35 @@ static MBProgressHUD *HUD;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
-    //Call async data functions such as location/core
-    [self runCoreDetectionActivities];
     
     // Get the storyboard
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UINavigationController *controller;
+
     
-    // Set up the navigation controller
-    //UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"mainviewcontroller"]];
-    // Set up the navigation controller
-    UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"]];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
+    {
+        
+        //Do something on first launch
+        
+        controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"]];
+        
+        
+    }
+    else{
+        
+        //Call async data functions such as location/core
+        [self runCoreDetectionActivities];
+        
+        // Set up the navigation controller
+        //UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"mainviewcontroller"]];
+        // Set up the navigation controller
+        controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"]];
+        
+    }
     
-    
+
+
     // Hide the navigation bar
     [controller setNavigationBarHidden:YES];
     
@@ -81,14 +97,14 @@ static MBProgressHUD *HUD;
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     
     //Call async data functions such as location/core
-    [self runCoreDetectionActivities];
+    //[self runCoreDetectionActivities];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     //Call async data functions such as location/core
-    [self runCoreDetectionActivities];
+    //[self runCoreDetectionActivities];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -99,6 +115,7 @@ static MBProgressHUD *HUD;
 
 - (void)runCoreDetectionActivities {
     // Run the Core Detection Activites
+   
     [self startLocation];
     
     [self startActivity];
@@ -203,22 +220,21 @@ static MBProgressHUD *HUD;
 }
 
 -(void)startActivity{
-    
+   
     
     if(![CMMotionActivityManager isActivityAvailable]){
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unsupported];
         
     }else{
         
-        CMMotionActivityManager *manager = [CMMotionActivityManager new];
+        CMMotionActivityManager *manager = [[CMMotionActivityManager alloc] init];
         
         [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*5)]
                                         toDate:[NSDate date]
                                        toQueue:[NSOperationQueue new]
                                    withHandler:^(NSArray *activities, NSError *error) {
                                        
-                                       // Stop future updates as this only gets called once
-                                       [manager stopActivityUpdates];
+
                                        
                                        if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
                                            // The app isn't authorized to use motion activity support.
@@ -234,14 +250,21 @@ static MBProgressHUD *HUD;
                                            
                                        }
                                        
+                                       // Stop future updates as this only gets called once
+                                       [manager stopActivityUpdates];
+                                       
                                    }];
         
         
         
     }
     
+
+    
     
 }
+
+
 
 
 static NSMutableArray *pitchRollArray;

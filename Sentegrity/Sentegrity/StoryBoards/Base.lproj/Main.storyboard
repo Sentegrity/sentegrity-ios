@@ -1479,7 +1479,10 @@ Anomaly</string>
                                     <constraint firstAttribute="height" constant="67" id="afa-cv-aSz"/>
                                     <constraint firstAttribute="width" constant="150" id="tRP-h3-g1g"/>
                                 </constraints>
-                                <state key="normal" title="Accept"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <state key="normal" title="Accept">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
                                 <connections>
                                     <action selector="accept:" destination="F7p-HE-OAn" eventType="touchUpInside" id="LlY-FQ-v0w"/>
                                 </connections>
@@ -1491,7 +1494,10 @@ Anomaly</string>
                                     <constraint firstAttribute="width" constant="150" id="7H9-F5-CCf"/>
                                     <constraint firstAttribute="height" constant="67" id="Pau-is-sUb"/>
                                 </constraints>
-                                <state key="normal" title="Decline"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <state key="normal" title="Decline">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
                                 <connections>
                                     <action selector="decline:" destination="F7p-HE-OAn" eventType="touchUpInside" id="AFP-RK-12Y"/>
                                 </connections>
@@ -1503,9 +1509,10 @@ Anomaly</string>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Here are the reasons why you should accept our location services" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="v0Y-vh-CO1">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="v0Y-vh-CO1">
                                 <rect key="frame" x="20" y="77" width="335" height="495"/>
                                 <animations/>
+                                <mutableString key="text">Sentegrity uses location data to aid profiling and increase confidence. For example, Sentegrity can identify if you reside in a familiar (trusted) location. No raw data is stored and all values are tokenized for 100% local use.  If you choose to disallow location services the TrustScore will be negatively impacted, resulting in increased interactive login (password use).</mutableString>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -1550,9 +1557,12 @@ Anomaly</string>
                                     <constraint firstAttribute="width" constant="150" id="f7m-L2-QLH"/>
                                     <constraint firstAttribute="height" constant="67" id="pgG-CQ-vAL"/>
                                 </constraints>
-                                <state key="normal" title="Accept"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <state key="normal" title="Accept">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
                                 <connections>
-                                    <action selector="accept:" destination="F7p-HE-OAn" eventType="touchUpInside" id="xiI-87-uM8"/>
+                                    <action selector="accept:" destination="sTd-XT-0E0" eventType="touchUpInside" id="Jrf-Z4-BNr"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UjP-6y-Vzh">
@@ -1562,9 +1572,12 @@ Anomaly</string>
                                     <constraint firstAttribute="height" constant="67" id="4HF-Rl-78U"/>
                                     <constraint firstAttribute="width" constant="150" id="GVo-G5-RU7"/>
                                 </constraints>
-                                <state key="normal" title="Decline"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <state key="normal" title="Decline">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
                                 <connections>
-                                    <action selector="decline:" destination="F7p-HE-OAn" eventType="touchUpInside" id="sDM-zX-PAj"/>
+                                    <action selector="decline:" destination="sTd-XT-0E0" eventType="touchUpInside" id="vLj-4K-a60"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Motion Services" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmY-KG-IUI">
@@ -1574,9 +1587,10 @@ Anomaly</string>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Here are the reasons why you should accept our motion services" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XZP-HW-ivq">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XZP-HW-ivq">
                                 <rect key="frame" x="20" y="77" width="335" height="495"/>
                                 <animations/>
+                                <mutableString key="text">Sentegrity uses activity data collected by your device to aid profiling and increase confidence.  For example, Sentegrity can identify if you are still, walking, or running prior to BYOD access. No raw data is stored and all values are tokenized for 100% local use.   If you choose to disallow motion services the TrustScore will be negatively impacted, resulting in increased interactive login (password use).</mutableString>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>

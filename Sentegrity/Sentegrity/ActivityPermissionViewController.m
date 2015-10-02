@@ -34,4 +34,12 @@
 }
 */
 
+- (IBAction)accept:(id)sender {
+    [self requestPermissionFromSender:sender];
+}
+
+- (IBAction)decline:(id)sender {
+    [self changePermissionStateToDontAskFromSender:sender];
+}
+
 @end

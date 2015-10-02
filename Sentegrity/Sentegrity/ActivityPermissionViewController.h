@@ -12,5 +12,10 @@
 #import <UIKit/UIKit.h>
 
 @interface ActivityPermissionViewController : ISHPermissionRequestViewController
+// Accept
+- (IBAction)accept:(id)sender;
+
+// Decline
+- (IBAction)decline:(id)sender;
 
 @end
