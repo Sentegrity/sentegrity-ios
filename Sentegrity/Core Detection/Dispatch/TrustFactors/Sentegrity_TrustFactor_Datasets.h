@@ -54,7 +54,6 @@
 
 // Activity
 @property (atomic, retain) NSArray *previousActivities;
-@property (atomic, retain) CMMotionActivity *currentActivity;
 @property (atomic) int activityDNEStatus;
 
 // Motion
@@ -163,7 +162,6 @@
 
 // ** ACTIVITIES **
 - (NSArray *)getPreviousActivityInfo;
-- (CMMotionActivity *)getCurrentActivityInfo;
 
 // ** MOTION **
 - (NSArray *)getGyroRadsInfo;

@@ -30,16 +30,7 @@
     
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
-    
-    // Check if enabled
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus]==DNEStatus_disabled){
-        // Set the DNE status code to what was previously determined
-        [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
-    
+
     
     // Check if error was determined by bluetooth scanner in app delegate
     if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus] != 0 ){
@@ -56,7 +47,7 @@
     
     
     // Check if error was determined after call to dataset helper (e.g., timer expired)
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus] != 0 ){
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus] != 0 ){
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus]];
         
@@ -82,11 +73,6 @@
         
         [outputArray addObject:mac];
     }
-    
-    // Set the trustfactor output to the output array (regardless if empty)
-    [trustFactorOutputObject setOutput:outputArray];
-
-    
 
     
     // Set the trustfactor output to the output array (regardless if empty)

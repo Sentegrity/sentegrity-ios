@@ -356,298 +356,244 @@ static dispatch_once_t onceToken;
 
 - (CLLocation *)getLocationInfo {
     
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    CFAbsoluteTime currentTime = 0.0;
-    
-    //Do we have a location yet?
-    if(!self.location || self.location == nil){
+    //Do we any data yet?
+    if(self.location == nil){
         
-        //Nope, wait for location data
-        bool exit=NO;
-        while (exit==NO){
+        //Nope, wait for data
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.25;
+        
+        while ((currentTime-startTime) < waitTime){
             
+            // If its greater than 0 return
             if(self.location != nil){
-                NSLog(@"Got a location after waiting..");
-                exit=YES;
+                NSLog(@"Got location GPS after waiting..");
                 return self.location;
                 
             }
-            
-            currentTime = CFAbsoluteTimeGetCurrent();
-            // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5){
-                NSLog(@"Location timer expired");
-                exit=YES;
-                [self setLocationDNEStatus:DNEStatus_expired];
-                return self.location;
-                
-            }
-            
             
             [NSThread sleepForTimeInterval:0.01];
             
+            //update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
+            
         }
+        
+        // timer expired
+        NSLog(@"Location GPS timer expired");
+        [self setLocationDNEStatus:DNEStatus_expired];
+        return self.location;
         
         
     }
-    //we've already got location data
-    NSLog(@"Got a location without waiting...");
+    //we've already got data
+    NSLog(@"Got location GPS without waiting...");
     return self.location;
+
     
 }
 
 - (CLPlacemark *)getPlacemarkInfo {
     
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    CFAbsoluteTime currentTime = 0.0;
-    
-    //Do we have a placemark yet?
-    if(!self.placemark || self.placemark == nil){
+    //Do we any data yet?
+    if(self.placemark == nil){
         
-        //Nope, wait for placemark data
-        bool exit=NO;
-        while (exit==NO){
+        //Nope, wait for data
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.25;
+        
+        while ((currentTime-startTime) < waitTime){
             
-            if(self.placemark  != nil){
-                NSLog(@"Got a placemark after waiting..");
-                exit=YES;
-                return self.placemark ;
+            // If its greater than 0 return
+            if(self.placemark != nil){
+                NSLog(@"Got location placemark after waiting..");
+                return self.placemark;
                 
             }
-            
-            currentTime = CFAbsoluteTimeGetCurrent();
-            // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5){
-                NSLog(@"Placemark timer expired");
-                exit=YES;
-                [self setPlacemarkDNEStatus:DNEStatus_expired];
-                return self.placemark ;
-                
-            }
-            
             
             [NSThread sleepForTimeInterval:0.01];
             
-        }
-        
-        
-    }
-    //we've already got placemark data
-    NSLog(@"Got a placemark without waiting...");
-    return self.placemark ;
-    
-}
-
-
-- (CMMotionActivity *)getCurrentActivityInfo {
-    
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    CFAbsoluteTime currentTime = 0.0;
-    
-    //Do we have any activities yet?
-    if(!self.currentActivity || self.currentActivity == nil){
-        
-        //Nope, wait for activity data
-        bool exit=NO;
-        while (exit==NO){
-            
-            if(self.currentActivity != nil){
-                NSLog(@"Got current activity after waiting..");
-                exit=YES;
-                return self.currentActivity;
-                
-            }
-            
+            //update timer
             currentTime = CFAbsoluteTimeGetCurrent();
-            // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5){
-                NSLog(@"Current activity timer expired");
-                exit=YES;
-                [self setActivityDNEStatus:DNEStatus_expired];
-                return self.currentActivity;
-                
-            }
-            
-            
-            [NSThread sleepForTimeInterval:0.01];
             
         }
         
+        // timer expired
+        NSLog(@"Location placemark timer expired");
+        [self setPlacemarkDNEStatus:DNEStatus_expired];
+        return self.placemark;
+        
         
     }
-    //we've already got location data
-    NSLog(@"Got current activity without waiting...");
-    return self.currentActivity;
+    //we've already got data
+    NSLog(@"Got location placemark without waiting...");
+    return self.placemark;
+    
+    
+
     
 }
 
 - (NSArray *)getPreviousActivityInfo {
     
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    CFAbsoluteTime currentTime = 0.0;
-    
-    //Do we have any activities yet?
-    if(!self.previousActivities || self.previousActivities == nil){
+    //Do we any data yet?
+    if(self.previousActivities == nil || self.previousActivities.count < 1){
         
-        //Nope, wait for activity data
-        bool exit=NO;
-        while (exit==NO){
+        //Nope, wait for data
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.1;
+        
+        while ((currentTime-startTime) < waitTime){
             
-            if(self.previousActivities != nil){
-                NSLog(@"Got previous activities after waiting..");
-                exit=YES;
+            // If its greater than 0 return
+            if(self.previousActivities.count > 0){
+                NSLog(@"Got Activity after waiting..");
                 return self.previousActivities;
                 
             }
-            
-            currentTime = CFAbsoluteTimeGetCurrent();
-            // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5){
-                NSLog(@"Previous activities timer expired");
-                exit=YES;
-                [self setActivityDNEStatus:DNEStatus_expired];
-                return self.previousActivities;
-                
-            }
-            
             
             [NSThread sleepForTimeInterval:0.01];
             
+            //update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
+            
         }
+        
+        // timer expired
+        NSLog(@"Activity timer expired");
+        [self setActivityDNEStatus:DNEStatus_expired];
+        return self.previousActivities;
         
         
     }
-    //we've already got location data
-    NSLog(@"Got previous activities without waiting...");
+    //we've already got data
+    NSLog(@"Got Activity without waiting...");
     return self.previousActivities;
+    
+
     
 }
 
 
 - (NSArray *)getGyroRadsInfo {
     
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    CFAbsoluteTime currentTime = 0.0;
-    
-    //Do we have a location yet?
-    if(!self.gyroRads || self.gyroRads == nil){
+    //Do we any data yet?
+    if(self.gyroRads == nil || self.gyroRads.count < 1){
         
-        //Nope, wait for activity data
-        bool exit=NO;
-        while (exit==NO){
+        //Nope, wait for data
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.1;
+        
+        while ((currentTime-startTime) < waitTime){
             
-            if(self.gyroRads != nil){
-                NSLog(@"Got gyro rads after waiting..");
-                exit=YES;
+            // If its greater than 0 return
+            if(self.gyroRads.count > 0){
+                NSLog(@"Got Gyro rads after waiting..");
                 return self.gyroRads;
-                
-            }
-            
-            currentTime = CFAbsoluteTimeGetCurrent();
-            // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5){
-                NSLog(@"Gyro rads timer expired");
-                exit=YES;
-                [self setGyroMotionDNEStatus:DNEStatus_expired];
-                return self.gyroRads;
-                
-                
                 
             }
             
             [NSThread sleepForTimeInterval:0.01];
             
+            //update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
+            
         }
+        
+        // timer expired
+        NSLog(@"Gyro rads timer expired");
+        [self setGyroMotionDNEStatus:DNEStatus_expired];
+        return self.gyroRads;
         
         
     }
-    //we've already got location data
-    NSLog(@"Got gyro rads without waiting...");
+    //we've already got data
+    NSLog(@"Got Gyro rads without waiting...");
     return self.gyroRads;
-    
     
 }
 
 - (NSArray *)getGyroPitchInfo {
     
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    CFAbsoluteTime currentTime = 0.0;
-    
-    //Do we have a location yet?
-    if(!self.gyroRollPitch || self.gyroRollPitch ==nil){
+
+    //Do we any pitch info yet?
+    if(self.gyroRollPitch == nil || self.gyroRollPitch.count < 1){
         
-        //Nope, wait for activity data
-        bool exit=NO;
-        while (exit==NO){
+        //Nope, wait for data
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.25;
+        
+        
+        while ((currentTime-startTime) < waitTime){
             
-            if(self.gyroRollPitch != nil){
-                NSLog(@"Got gyro pitch after waiting..");
-                exit=YES;
+            // If its greater than 0 return
+            if(self.gyroRollPitch.count > 0){
+                NSLog(@"Got Gyro roll pitch  after waiting..");
                 return self.gyroRollPitch;
-                
-            }
-            
-            currentTime = CFAbsoluteTimeGetCurrent();
-            // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5){
-                NSLog(@"Gyro pitch timer expired");
-                exit=YES;
-                [self setGyroMotionDNEStatus:DNEStatus_expired];
-                return self.gyroRollPitch;
-                
                 
             }
             
             [NSThread sleepForTimeInterval:0.01];
             
+            //update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
+            
         }
+        
+        // timer expired
+        NSLog(@"Gyro roll pitch timer expired");
+        [self setGyroMotionDNEStatus:DNEStatus_expired];
+        return self.gyroRollPitch;
         
         
     }
-    //we've already got gyro data
-    NSLog(@"Got gyro pitch without waiting...");
+    //we've already got data
+    NSLog(@"Got Gyro roll pitch without waiting...");
     return self.gyroRollPitch;
+    
     
 }
 
 - (NSArray *)getAccelRadsInfo {
     
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    CFAbsoluteTime currentTime = 0.0;
     
-    //Do we have a location yet?
-    if(!self.accelRads || self.accelRads == nil){
+    //Do we any rads yet?
+    if(self.accelRads == nil || self.accelRads.count < 1){
         
-        //Nope, wait for activity data
-        bool exit=NO;
-        while (exit==NO){
+        //Nope, wait for rads
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.1;
+        
+        while ((currentTime-startTime) < waitTime){
             
-            if(self.accelRads != nil){
+            // If its greater than 0 return
+            if(self.accelRads.count > 0){
                 NSLog(@"Got accel rads after waiting..");
-                exit=YES;
                 return self.accelRads;
-                
-            }
-            
-            currentTime = CFAbsoluteTimeGetCurrent();
-            // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.5){
-                NSLog(@"Accel rads timer expired");
-                exit=YES;
-                [self setAccelMotionDNEStatus:DNEStatus_expired];
-                return self.accelRads;
-                
-                
                 
             }
             
             [NSThread sleepForTimeInterval:0.01];
             
+            //update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
+            
         }
+        
+        // timer expired
+        NSLog(@"Accel rads timer expired");
+        [self setAccelMotionDNEStatus:DNEStatus_expired];
+        return self.accelRads;
         
         
     }
-    //we've already got location data
+    //we've already got BLE data
     NSLog(@"Got accel rads without waiting...");
     return self.accelRads;
     
@@ -703,46 +649,37 @@ static dispatch_once_t onceToken;
 }
 
 - (NSArray *)getDiscoveredBLEInfo {
+
     
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    CFAbsoluteTime currentTime = 0.0;
-    
-    
-    //Do we any devices yet? Hold out for a bit if we only have one thus far (gives more time to find additional)
-    if(self.discoveredBLEDevices == nil || self.discoveredBLEDevices.count <= 1){
+    //Do we any devices yet?
+    if(self.discoveredBLEDevices == nil || self.discoveredBLEDevices.count < 1){
         
         //Nope, wait for devices
-        bool exit=NO;
-        while (exit==NO){
-            
-            // If its greater than 1 we return, otherwise keep scanning until timer
-            if(self.discoveredBLEDevices.count > 1){
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.25;
+
+        while ((currentTime-startTime) < waitTime){
+   
+            // If its greater than 0 return
+            if(self.discoveredBLEDevices.count > 0){
                 NSLog(@"Got discovered BLE devices after waiting..");
-                exit=YES;
-                return self.discoveredBLEDevices;
-                
-            }
-            
-            //scanning until we hit the timer
-            currentTime = CFAbsoluteTimeGetCurrent();
-            // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.1 ){
-                NSLog(@"Discovered BLE devices timer expired");
-                exit=YES;
-                
-                // Only set to expired if we truly found none, otherwise run with what we did find (1 or 2)
-                if(self.discoveredBLEDevices.count<1){
-                    [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
-                    
-                }
-                
                 return self.discoveredBLEDevices;
                 
             }
             
             [NSThread sleepForTimeInterval:0.01];
             
+            //update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
+            
         }
+        
+        // timer expired
+        NSLog(@"Discovered BLE devices timer expired");
+        [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
+        return self.discoveredBLEDevices;
+            
         
     }
     //we've already got BLE data
@@ -754,45 +691,43 @@ static dispatch_once_t onceToken;
 
 - (NSArray *)getClassicBTInfo {
     
-    
-    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-    CFAbsoluteTime currentTime = 0.0;
-    
-    
-    //Do we any devices? We don't really need to wait for this one as there may never be a connected device, just check for null
-    if(self.connectedClassicBTDevices == nil){
+
+    //Do we any devices yet?
+    if(self.connectedClassicBTDevices == nil || self.connectedClassicBTDevices.count < 1){
         
         //Nope, wait for devices
-        bool exit=NO;
-        while (exit==NO){
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.05;
+        
+        while ((currentTime-startTime) < waitTime){
             
-            // If its greater than 1 we return, otherwise keep scanning until timer
+            // If its greater than 0 return
             if(self.connectedClassicBTDevices.count > 0){
-                NSLog(@"Got connected classic BT devices after waiting..");
-                exit=YES;
-                return self.connectedClassicBTDevices;
-                
-            }
-            
-            //scanning until we hit the timer
-            currentTime = CFAbsoluteTimeGetCurrent();
-            // we've waited more than a second, exit
-            if ((currentTime-startTime) > 0.3 ){
-                NSLog(@"Connected classic BT devices timer expired");
-                exit=YES;
-                [self setConnectedClassicDNEStatus:DNEStatus_expired];
+                NSLog(@"Got discovered BLE devices after waiting..");
                 return self.connectedClassicBTDevices;
                 
             }
             
             [NSThread sleepForTimeInterval:0.01];
             
+            //update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
+            
         }
+        
+        // timer expired
+        NSLog(@"Connected classic BT device timer expired");
+        [self setConnectedClassicDNEStatus:DNEStatus_expired];
+        return self.connectedClassicBTDevices;
+        
         
     }
     //we've already got BLE data
     NSLog(@"Got connected classic BT devices without waiting...");
     return self.connectedClassicBTDevices;
+    
+
     
 }
 

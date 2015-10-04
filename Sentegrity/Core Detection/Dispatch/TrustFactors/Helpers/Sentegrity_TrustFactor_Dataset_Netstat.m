@@ -381,7 +381,7 @@ char *inetname(struct in_addr *inp)
                 const struct if_data *ifa_data = (struct if_data *)cursor->ifa_data;
                 if(ifa_data != NULL)
                 {
-                    NSLog(@"Interface name %s: sent %tu received %tu",cursor->ifa_name,ifa_data->ifi_obytes,ifa_data->ifi_ibytes);
+                    //NSLog(@"Interface name %s: sent %tu received %tu",cursor->ifa_name,ifa_data->ifi_obytes,ifa_data->ifi_ibytes);
                 }
 #endif
                 

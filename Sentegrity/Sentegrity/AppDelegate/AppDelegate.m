@@ -116,13 +116,13 @@ static MBProgressHUD *HUD;
 - (void)runCoreDetectionActivities {
     // Run the Core Detection Activites
    
+    [self startBluetoothBLE];
+    
     [self startLocation];
     
     [self startActivity];
     
     [self startMotion];
-    
-    [self startBluetoothBLE];
     
     [self startBluetoothClassic];
 }
@@ -188,9 +188,6 @@ static MBProgressHUD *HUD;
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     
-    // stop all future updates (we only needed one)
-    [manager stopUpdatingLocation];
-    
     // Set the long/lat location
     [[Sentegrity_TrustFactor_Datasets sharedDatasets] setLocation:newLocation];
     
@@ -216,6 +213,10 @@ static MBProgressHUD *HUD;
          }
          
      }];
+    
+    
+    // stop all future updates (we only needed one)
+    [manager stopUpdatingLocation];
     
 }
 
@@ -310,6 +311,8 @@ static NSMutableArray *accelRadsArray;
                                              // Add sample to array
                                              [pitchRollArray addObject:dict];
                                              
+                                            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
+                                             
                                              
                                              // We want a minimum of 3 samples before we average them inside the TF
                                              // its possible we will get more as this handler gets called additional times prior to
@@ -317,7 +320,6 @@ static NSMutableArray *accelRadsArray;
                                              
                                              // Keep updating until we stop
                                              if (pitchRollArray.count > 3){
-                                                 [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
                                                  [manager stopDeviceMotionUpdates];
                                              }
                                              
@@ -349,6 +351,8 @@ static NSMutableArray *accelRadsArray;
                                      // Add sample to array
                                      [gyroRadsArray addObject:dict];
                                      
+                                    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRads:gyroRadsArray];
+                                     
                                      
                                      // We want a minimum of 3 samples before we average them inside the TF
                                      // its possible we will get more as this handler gets called additional times prior to
@@ -357,7 +361,6 @@ static NSMutableArray *accelRadsArray;
                                      // Keep updating until we stop
                                      
                                      if (gyroRadsArray.count > 3){
-                                         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRads:gyroRadsArray];
                                          [manager stopGyroUpdates];
                                      }
                                      
@@ -405,6 +408,9 @@ static NSMutableArray *accelRadsArray;
                                               // Add sample to array
                                               [accelRadsArray addObject:dict];
                                               
+                                              // Update dataset
+                                              [[Sentegrity_TrustFactor_Datasets sharedDatasets] setAccelRads:accelRadsArray];
+                                              
                                               // We want a minimum of 3 samples before we average them inside the TF
                                               // its possible we will get more as this handler gets called additional times prior to
                                               // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
@@ -412,7 +418,6 @@ static NSMutableArray *accelRadsArray;
                                               // Keep updating until we stop
                                               
                                               if (accelRadsArray.count > 3){
-                                                  [[Sentegrity_TrustFactor_Datasets sharedDatasets] setAccelRads:accelRadsArray];
                                                   [manager stopAccelerometerUpdates];
                                               }
                                               
@@ -435,6 +440,7 @@ static CFAbsoluteTime startTime=0.0;
 
 - (void) startBluetoothBLE{
     
+    startTime = CFAbsoluteTimeGetCurrent();
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], CBCentralManagerOptionShowPowerAlertKey, nil];
     
     
@@ -463,8 +469,8 @@ static CFAbsoluteTime startTime=0.0;
     // Update timer with current time
     CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
     
-    // we've waited more than 1 seconds OR exceeded max devices so stop scan
-    if ((currentTime-startTime) > 1.0 || discoveredBLEDevices.count >= 3){
+    // stop scanning after 2 seconds (this has no bearing on CD execution time)
+    if ((currentTime-startTime) > 2.0){
         NSLog(@"Bluetooth scanning stopped");
         [mgr stopScan];
         
@@ -544,7 +550,7 @@ static CFAbsoluteTime startTime=0.0;
 }
 
 
-static NSMutableArray *connectedClassicBTDevices;
+static NSMutableArray *connectedBTDevices;
 
 -(void)startBluetoothClassic{
     // Start
@@ -556,23 +562,23 @@ static NSMutableArray *connectedClassicBTDevices;
 (MDBluetoothNotification)bluetoothNotification
 {
     
-    if([[MDBluetoothManager sharedInstance] bluetoothIsPowered]){
+    if([[MDBluetoothManager sharedInstance] bluetoothIsPowered] && ([[Sentegrity_TrustFactor_Datasets sharedDatasets] discoveredBLESDNEStatus] != DNEStatus_disabled)){
         
         
         NSArray *connectedDevices = [[BluetoothManager sharedInstance] connectedDevices];
         
-        connectedClassicBTDevices = [[NSMutableArray alloc]init];
+        connectedBTDevices = [[NSMutableArray alloc]init];
         
         // Run through all found devices information
         for (BluetoothDevice *device in connectedDevices) {
             
             // Add the device  to the list
-            [connectedClassicBTDevices addObject:[NSString stringWithFormat:@"%@",[device address]]];
+            [connectedBTDevices addObject:[NSString stringWithFormat:@"%@",[device address]]];
             
             
         }
         
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:connectedClassicBTDevices];
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:connectedBTDevices];
         
     }else{
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_disabled];
