@@ -13,6 +13,8 @@
 
 // Implementations
 
+/* Removed due to iOS 9
+ 
 // Known Bad Files
 + (Sentegrity_TrustFactor_Output_Object *)blacklisted:(NSArray *)payload {
     
@@ -157,5 +159,7 @@
     // Return the trustfactor output object
     return trustFactorOutputObject;
 }
+ 
+ */
 
 @end

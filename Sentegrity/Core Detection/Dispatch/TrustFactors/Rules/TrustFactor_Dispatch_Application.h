@@ -14,9 +14,14 @@
 // USES PRIVATE API
 + (Sentegrity_TrustFactor_Output_Object *)installedApp:(NSArray *)payload;
 
+
+/* Removed due to iOS 9
+ 
 // 4 - Bad URL Handler Checks (cydia://, snoopi-it://, etc)
 + (Sentegrity_TrustFactor_Output_Object *)uriHandler:(NSArray *)payload;
 
 + (Sentegrity_TrustFactor_Output_Object *)runningApp:(NSArray *)payload;
+
+ */
 
 @end

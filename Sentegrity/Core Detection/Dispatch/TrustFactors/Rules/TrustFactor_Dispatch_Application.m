@@ -71,6 +71,8 @@
     return trustFactorOutputObject;
 }
 
+/* Removed due to iOS 9
+ 
 // High Risk Applications
 + (Sentegrity_TrustFactor_Output_Object *)runningApp:(NSArray *)payload {
     
@@ -79,6 +81,7 @@
     
     // Set the default status code to OK (default = DNEStatus_ok)
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+ 
     
     // Validate the payload
     if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
@@ -134,6 +137,7 @@
     return trustFactorOutputObject;
 }
 
+
 // Check for bad url handlers
 + (Sentegrity_TrustFactor_Output_Object *)uriHandler:(NSArray *)payload {
     
@@ -183,6 +187,8 @@
     
 }
 
+ 
+ */
 
 
 @end

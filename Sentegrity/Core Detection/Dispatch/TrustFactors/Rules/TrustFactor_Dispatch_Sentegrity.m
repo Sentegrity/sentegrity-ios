@@ -55,6 +55,7 @@ struct encryption_info_command
         return trustFactorOutputObject;
     }
     
+    /* Removed due to iOS 9
     
     // debugger check
     int debugCheck = [self debuggerCheck];
@@ -67,6 +68,7 @@ struct encryption_info_command
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
         return trustFactorOutputObject;
     }
+    */
     
     // binary check
     //NSString *checksum = [self binaryChecksum];
@@ -139,6 +141,8 @@ struct encryption_info_command
 }
 
 
+/* Removed due to iOS 9
+ 
 // Check for debugger
 + (int)debuggerCheck{
     
@@ -185,6 +189,8 @@ struct encryption_info_command
     }
 
 }
+ 
+ */
 
 // Deny debug attach
 typedef int (*ptrace_ptr_t)(int _request, pid_t _pid, caddr_t _addr, int _data);

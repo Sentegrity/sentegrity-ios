@@ -402,7 +402,7 @@ static dispatch_once_t onceToken;
         //Nope, wait for data
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         CFAbsoluteTime currentTime = startTime;
-        float waitTime = 0.25;
+        float waitTime = 0.50;
         
         while ((currentTime-startTime) < waitTime){
             
