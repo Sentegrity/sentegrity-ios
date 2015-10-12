@@ -164,12 +164,10 @@ static MBProgressHUD *HUD;
         [self.navigationController pushViewController:landingViewController animated:NO];
 
         
-    }
-    else{
+    } else {
         
-        [[ProtectMode sharedProtectMode] setPolicy:policy];
-        
-        [[ProtectMode sharedProtectMode] setTrustFactorsToWhitelist:computationResults.protectModeWhitelist];
+        // Create the protect mode object
+        ProtectMode *currentProtectMode = [[ProtectMode alloc] initWithPolicy:policy andTrustFactorsToWhitelist:computationResults.protectModeWhitelist];
         
         //check protect mode action
         switch (computationResults.protectModeAction) {
@@ -177,10 +175,11 @@ static MBProgressHUD *HUD;
                 break;
             case 1:
                 break;
-            case 2: { //USER PROTECT MODE
+            case 2: {
+                //USER PROTECT MODE
                 
                 // Active protect mode
-                [[ProtectMode sharedProtectMode] activateProtectModeUser];
+                [currentProtectMode activateProtectModeUser];
                 
                 // Setup login box
                 SCLAlertView *userPIN = [[SCLAlertView alloc] init];
@@ -194,8 +193,11 @@ static MBProgressHUD *HUD;
                 
                 [userPIN addButton:@"Login" actionBlock:^(void) {
                     
+                    // Create an error
+                    NSError *error = nil;
+                    
                     // If pw was correct
-                    if([[ProtectMode sharedProtectMode] deactivateProtectModeUserWithPIN:userText.text]==YES){
+                    if ([currentProtectMode deactivateProtectModeUserWithPIN:userText.text andError:&error] == YES){
     
                         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                         // Create the main view controller
@@ -229,7 +231,7 @@ static MBProgressHUD *HUD;
             case 3: { // POLICY PROTECT MODE
                 
                 // Active protect mode
-                [[ProtectMode sharedProtectMode] activateProtectModePolicy];
+                [currentProtectMode activateProtectModePolicy];
                 
                 // Setup login box
                 SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
@@ -242,16 +244,18 @@ static MBProgressHUD *HUD;
                 // Show deactivation textbox
                 [policyPIN addButton:@"Unlock" actionBlock:^(void) {
                     
+                    // Create an error
+                    NSError *error = nil;
+                    
                     // If pw is correct
-                    if([[ProtectMode sharedProtectMode] deactivateProtectModePolicyWithPIN:policyText.text]==YES){
+                    if ([currentProtectMode deactivateProtectModePolicyWithPIN:policyText.text andError:&error] == YES) {
                         
                         // Show demo landing page
                         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                         // Create the main view controller
                         LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
                         [self.navigationController pushViewController:landingViewController animated:NO];
-                    }
-                    else{
+                    } else {
                         
                         // Prompt them again
                         [self analyzeResults:computationResults withPolicy:policy];

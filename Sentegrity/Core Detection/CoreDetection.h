@@ -10,16 +10,12 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "Sentegrity_Constants.h"
-#import "Sentegrity_Parser.h"
-#import "Sentegrity_TrustFactor.h"
+
+// Policy
+#import "Sentegrity_Policy.h"
+
+// TrustScore Computation
 #import "Sentegrity_TrustScore_Computation.h"
-#import "Sentegrity_Subclassification.h"
-#import "Sentegrity_TrustFactor_Dispatcher.h"
-#import "Sentegrity_TrustFactor_Storage.h"
-#import "Sentegrity_Classification+Computation.h"
-#import "Sentegrity_Subclassification+Computation.h"
-#import "Sentegrity_Baseline_Analysis.h"
 
 @interface CoreDetection : NSObject
 

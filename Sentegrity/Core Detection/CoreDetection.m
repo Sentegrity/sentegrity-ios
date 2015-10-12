@@ -6,7 +6,21 @@
 //
 
 #import "CoreDetection.h"
+
+// TrustFactor Datasets
 #import "Sentegrity_TrustFactor_Datasets.h"
+
+// Constants
+#import "Sentegrity_Constants.h"
+
+// Parser
+#import "Sentegrity_Parser.h"
+
+// TrustFactor Dispatcher
+#import "Sentegrity_TrustFactor_Dispatcher.h"
+
+// Baseline Analysis
+#import "Sentegrity_Baseline_Analysis.h"
 
 @interface CoreDetection(Private)
 
@@ -37,13 +51,6 @@
 void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error);
 
 #pragma mark - Protect Mode Analysis
-
-// Get the last computation results
-- (Sentegrity_TrustScore_Computation *)getLastComputationResults {
-    
-    // Get the last computation result from the instance variable
-    return _computationResults;
-}
 
 // Start Core Detection
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback {
@@ -224,7 +231,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     }
 }
 
-#pragma mark Singleton Methods
+#pragma mark Singleton and init methods
 
 // Singleton shared instance
 + (id)sharedDetection {
@@ -296,6 +303,13 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     
     // Return the policy
     return policy;
+}
+
+// Get the last computation results
+- (Sentegrity_TrustScore_Computation *)getLastComputationResults {
+    
+    // Get the last computation result from the instance variable
+    return _computationResults;
 }
 
 @end

@@ -1,61 +1,45 @@
 //
 //  ProtectMode.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Jason Sinchak on 5/23/15.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "ProtectMode.h"
-#import "CoreDetection.h"
-#import <UIKit/UIKit.h>
-#import "SCLAlertView.h"
 
+// Assertion Store
+#import "Sentegrity_Assertion_Store.h"
+
+// TrustFactor Storage
+#import "Sentegrity_TrustFactor_Storage.h"
 
 @implementation ProtectMode
 
-static Sentegrity_Policy *policy;
-
-static NSArray *trustFactorsToWhitelist;
-
-// Singleton shared instance
-+ (id)sharedProtectMode {
-    static ProtectMode *sharedProtectMode = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedProtectMode = [[self alloc] init];
-    });
-    return sharedProtectMode;
+// Init
+- (id)init {
+    // Initialize with our custom init
+    return [self initWithPolicy:nil andTrustFactorsToWhitelist:nil];
 }
 
-// Init (Defaults)
-- (id)init {
+// Init with our properties
+- (id)initWithPolicy:(Sentegrity_Policy *)policy andTrustFactorsToWhitelist:(NSArray *)trustFactorsToWhitelist {
     if (self = [super init]) {
-        // Set defaults here if need be
-        [self setPolicy:nil];
-        [self setTrustFactorsToWhitelist:nil];
-        trustFactorsToWhitelist = [[NSMutableArray alloc]init];
+        _policy = policy;
+        _trustFactorsToWhitelist = trustFactorsToWhitelist;
     }
     return self;
 }
 
+#pragma mark - Activations
 
-- (void)setTrustFactorsToWhitelist:(NSArray *)trustFactorsToWhitelist1{
-    
-    trustFactorsToWhitelist = trustFactorsToWhitelist1;
-}
-
-- (void)setPolicy:(Sentegrity_Policy *)policy1{
-    
-    policy = policy1;
-}
-
+// Activate Protect Mode Policy
 - (void)activateProtectModePolicy{
     
     NSLog(@"Protect Mode: Policy Executed");
     
 }
 
+// Activate Protect Mode User
 - (void)activateProtectModeUser{
     
     
@@ -67,6 +51,7 @@ static NSArray *trustFactorsToWhitelist;
     
 }
 
+// Activate Protect Mode Wipe
 - (void)activateProtectModeWipe{
     
     NSLog(@"Protect Mode: Wipe Executed");
@@ -77,154 +62,242 @@ static NSArray *trustFactorsToWhitelist;
     
 }
 
+#pragma mark - Deactivations
 
-- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN {
+// Deactivate Protect Mode Policy with policy pin
+- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN andError:(NSError **)error {
     
-    NSError *error;
-    
-    //check error
-    if(!policyPIN || policyPIN==nil){
-        // Error
+    // Validate the policy pin
+    if (!policyPIN || policyPIN == nil || policyPIN.length < 1) {
+        
+        // Invalid Policy PIN
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Deactivate Protect Mode Policy with PIN Failed", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Invalid PolicyPIN provided", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid policy PIN", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:sentegrityDomain code:SAInvalidPolicyPinProvided userInfo:errorDetails];
+        
+        // Return NO
         return NO;
     }
     
-    if([[policyPIN lowercaseString] isEqualToString:@"admin"])
-    {
+    // TODO: Remove this sometime in the future
+    // Check if the policy pin is equal to admin
+    if ([[policyPIN lowercaseString] isEqualToString:@"admin"]) {
+        
+        // Log it
         NSLog(@"Deactivating Protect Mode: Admin");
         
-        if(trustFactorsToWhitelist.count>0){
+        // Check if the whitelistcount is more than 0
+        if (self.trustFactorsToWhitelist.count > 0) {
             
-            //whitelist
-            if([self whitelistAttributingTrustFactorOutputObjects]==NO){
-                NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Error during assertion whitelisting" forKey:NSLocalizedDescriptionKey];
-                error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+            // Whitelist them and check for an error
+            if ([self whitelistAttributingTrustFactorOutputObjectsWithError:error] == NO) {
                 
+                // Unable to whitelist attributing TrustFactor Output Objects
+                
+                // Set the error if it's not set
+                if (!*error) {
+                    NSDictionary *errorDetails = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Deactivate Protect Mode Policy with PIN Failed", nil),
+                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error during assertion whitelisting", nil),
+                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure assertions are provided to ProtectMode", nil)
+                                                   };
+                    
+                    // Set the error
+                    *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+                }
+                
+                // Return NO
                 return NO;
             }
             
         }
         
-        
+        // Return YES - no errors
         return YES;
         
     }
-    else{
-        return NO;
-    }
     
-    
+    // Return NO - no errors
+    return NO;
 }
 
-- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN {
+// Deactivate Protect Mode User with user pin
+- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN andError:(NSError **)error {
     
-    NSError *error;
-    
-    //check error
-    if(!userPIN || userPIN==nil){
-        // Error
+    // Validate the user pin
+    if (!userPIN || userPIN == nil || userPIN.length < 1) {
+        
+        // Invalid User PIN
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Deactivate Protect Mode User with PIN Failed", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Invalid UserPIN provided", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid user PIN", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:sentegrityDomain code:SAInvalidUserPinProvided userInfo:errorDetails];
+        
+        // Return NO
         return NO;
     }
     
-    if([[userPIN lowercaseString] isEqualToString:@"user"])
-    {
+    // TODO: Remove this sometime in the future
+    // Check if the user pin is equal to user
+    if ([[userPIN lowercaseString] isEqualToString:@"user"]) {
+        
+        // Log it
         NSLog(@"Deactivating Protect Mode: User");
         
-        if(trustFactorsToWhitelist.count>0){
+        // Check the whitelist count
+        if (self.trustFactorsToWhitelist.count > 0) {
             
-            //whitelist
-            if([self whitelistAttributingTrustFactorOutputObjects]==NO){
-                NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Error during assertion whitelisting" forKey:NSLocalizedDescriptionKey];
-                error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+            // Whitelist them and check for an error
+            if ([self whitelistAttributingTrustFactorOutputObjectsWithError:error] == NO) {
                 
+                // Unable to whitelist attributing TrustFactor Output Objects
+                
+                // Set the error if it's not set
+                if (!*error) {
+                    NSDictionary *errorDetails = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Deactivate Protect Mode User with PIN Failed", nil),
+                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error during assertion whitelisting", nil),
+                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure assertions are provided to ProtectMode", nil)
+                                                   };
+                    
+                    // Set the error
+                    *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+                }
+                
+                // Return NO
                 return NO;
+                
             }
             
         }
         
-        
+        // Return YES - no errors
         return YES;
         
     }
-    else{
-        return NO;
-    }
+    
+    // Return NO - no errors
+    return NO;
     
 }
 
+#pragma mark - Whitelisting
 
-
-- (BOOL)whitelistAttributingTrustFactorOutputObjects{
+// Whitelist the Attributing TrustFactor Output Objects
+- (BOOL)whitelistAttributingTrustFactorOutputObjectsWithError:(NSError **)error {
     
-    NSError *error;
+    // Create a variable to check if the localstore exists
+    BOOL exists = NO;
     
-    BOOL exists=NO;
+    // Get the shared store
+    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:self.policy.appID withError:error];
     
-    //get shared stores
-    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:policy.appID withError:&error];
-    
-    //check for errors
-    if(!localStore || localStore==nil || !exists){
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Error writing local assertion store" forKey:NSLocalizedDescriptionKey];
-        error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
+    // Check for errors
+    if (!localStore || localStore == nil || !exists) {
+        
+        // Unable to get the local store
+        // Set the error if it's not set
+        if (!*error) {
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Whitelist Attributing TrustFactor Output Objects Failed", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error getting the local store", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure assertions are provided to whitelist", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+        }
+        
+        // Return NO
         return NO;
     }
     
-    
+    // Create variables to hold the existing assertion objects and the merged assertion objects
     NSArray *existingStoredAssertionObjects = [NSArray array];
     NSArray *mergedStoredAssertionObjects = [NSArray array];
     
-    
-    for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in trustFactorsToWhitelist)
-    {
-        // Make sure assertionObjects is not empty or we cant merge
-        if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects==nil){
+    // Run through all the Assertions in the whitelist
+    for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.trustFactorsToWhitelist) {
+        
+        // Make sure the assertionObjects is not empty or we cant merge
+        if (trustFactorOutputObject.storedTrustFactorObject.assertionObjects == nil || trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count < 1) {
             
+            // Set the assertion objects
+            
+            // Set the assertion objects to the whitelist objects
             trustFactorOutputObject.storedTrustFactorObject.assertionObjects = trustFactorOutputObject.assertionObjectsToWhitelist;
             
-        }else{ // merge
+        } else {
             
+            // Merge the assertion objects
+            
+            // Get the existing objects
             existingStoredAssertionObjects = trustFactorOutputObject.storedTrustFactorObject.assertionObjects;
+            
+            // Get the merged objects
             mergedStoredAssertionObjects = [existingStoredAssertionObjects arrayByAddingObjectsFromArray:trustFactorOutputObject.assertionObjectsToWhitelist];
             
-            //Set the merged list back to storedTrustFactorObject
-            trustFactorOutputObject.storedTrustFactorObject.assertionObjects = mergedStoredAssertionObjects;
+            // Set the merged list back to storedTrustFactorObject
+            [trustFactorOutputObject.storedTrustFactorObject setAssertionObjects:mergedStoredAssertionObjects];
         }
         
         
-        //Check for matching stored assertion object in the local store
-        Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:&error];
+        // Check for matching stored assertion object in the local store
+        Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
         
-        //If could not find in the local store then skip
-        if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) { continue;}
-        
-        //Try to set the storedTrustFactorObject back in the store, skip if fail
-        if (![localStore replaceSingleObjectInStore:trustFactorOutputObject.storedTrustFactorObject withError:&error]) {
+        // If we can't find in the local store then skip
+        if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists == NO) {
+            // Continue
             continue;
         }
         
+        // Try to set the storedTrustFactorObject back in the store, skip if fail
+        if (![localStore replaceSingleObjectInStore:trustFactorOutputObject.storedTrustFactorObject withError:error]) {
+            // Continue
+            continue;
+        }
         
     }
     
-    //update stores
-    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:policy.appID withError:&error];
+    // Update the stores
+    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:self.policy.appID withError:error];
     
-    if (!localStoreOutput || localStoreOutput == nil ) {
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Error writing local assertion store" forKey:NSLocalizedDescriptionKey];
-        error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
+    // Validate it was set
+    if (!localStoreOutput || localStoreOutput == nil) {
         
+        // Unable to set the local store
+        // Set the error if it's not set
+        if (!*error) {
+            
+            // Unable to set stroe
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Whitelist Attributing TrustFactor Output Objects Failed", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error setting the local store", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure assertions are provided to whitelist", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+        }
+        
+        // Return NO
         return NO;
         
     }
     
+    // Return YES
     return YES;
     
-    
 }
-
 
 @end
 

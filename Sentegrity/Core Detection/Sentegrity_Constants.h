@@ -196,6 +196,21 @@ SAErrorDuringComputation                        = 6,
 SAInvalidPolicyPath                             = 7
 };
 
+
+/*!
+ Protect Mode Error Codes
+ */
+enum {
+    // Invalid Policy PIN provided
+SAInvalidPolicyPinProvided                      = 8,
+
+    // Unable to deactivate protect mode due to error
+SAUnableToWhitelistAssertions                   = 9,
+
+    // Invalid User PIN provided
+SAInvalidUserPinProvided                        = 10,
+};
+
 //TODO: This is bloated, cut it into multiple domains
 /*! NSError codes in NSCocoaErrorDomain. Note that other frameworks (such as AppKit and CoreData) also provide additional NSCocoaErrorDomain error codes.
  */
@@ -258,8 +273,6 @@ SAUnableToWriteStore                            = 42,
 SACannotPerformAnalysis                         = 43,
     // Unable to deactivate protect mode due to error
 SAUnableToDeactivateProtectMode                 = 44,
-    // Unable to deactivate protect mode due to error
-SAUnableToWhitelistAssertions                   = 45,
     // Error when trying to decay a TFs stored assertions
 SAErrorDuringDecay                              = 46,
     // Error when trying to check TF learning and add candidate assertions in

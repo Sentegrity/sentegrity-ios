@@ -5,8 +5,8 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
-// Take in a file path and parse it - Done
-// Process trustfactor rules and generate output (candidate assertions) - Done
+// Take in a file path and parse it
+// Process trustfactor rules and generate output (candidate assertions)
 // Compare the output to the stored previous outputs (baseline assertions) and learn from output
 // Compute the penalty associated with which rules triggered and summarize the results
 // Summarize penalties by subclass and classifications, applying appropriate weights
