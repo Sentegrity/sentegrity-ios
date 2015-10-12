@@ -1,9 +1,8 @@
 //
 //  Sentegrity_Assertion_Store.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Kramer on 2/25/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -13,12 +12,13 @@
 @interface Sentegrity_Assertion_Store : NSObject
 
 // App ID
-@property (nonatomic,strong) NSString *appID;
+@property (atomic,strong) NSString *appID;
 
 // Assertion Objects
-@property (nonatomic,strong) NSArray *storedTrustFactorObjects; // BETA2 - Nick's Additions = Changed this back to NSArray
+@property (atomic,strong) NSArray *storedTrustFactorObjects; // BETA2 - Nick's Additions = Changed this back to NSArray
 
 #pragma mark - Add
+
 // Add an array of new storedTrustFactorObjects to the store
 - (BOOL)addMultipleObjectsToStore:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
 

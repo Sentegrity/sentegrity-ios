@@ -10,14 +10,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-// TrustScore Computation
-#import "Sentegrity_TrustScore_Computation.h"
-
-// Baseline Analysis
-#import "Sentegrity_Baseline_Analysis.h"
-
+// Sentegrity Policy
 #import "Sentegrity_Policy.h"
 
 @interface ProtectMode : NSObject

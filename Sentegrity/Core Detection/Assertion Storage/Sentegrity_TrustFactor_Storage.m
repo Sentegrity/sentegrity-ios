@@ -1,9 +1,8 @@
 //
 //  Sentegrity_Assertion_Storage.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Kramer on 2/25/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 //TODO: Find a good way to save and retrieve the global store security token

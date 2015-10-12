@@ -24,12 +24,9 @@
 
 // Retrieve stored assertions
 + (NSArray *)performBaselineAnalysisUsing:(NSArray *)trustFactorOutputObjects forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
-    
-    
-    
+
     // Create a bool to check if local store exists
     BOOL exists = NO;
-    
     
     // Attempt to get our local assertion store
     Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:policy.appID withError:error];

@@ -22,8 +22,6 @@
 #import "BluetoothDevice.h"
 #import "MDBluetoothManager.h"
 
-
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate, MDBluetoothObserverProtocol>
 
 @property (strong, nonatomic) UIWindow *window;

@@ -1,9 +1,8 @@
 //
 //  Sentegrity_Assertion_Store.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Kramer on 2/25/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "Sentegrity_Assertion_Store.h"
@@ -15,7 +14,8 @@
 - (id)init {
     self = [super init];
     if (self) {
-        [self setStoredTrustFactorObjects:[NSArray array]];
+        // Set the stored TrustFactor Objects to nil
+        _storedTrustFactorObjects = nil;
     }
     return self;
 }
@@ -243,6 +243,7 @@
 
 // Create an assertion object from an assertion
 - (Sentegrity_Stored_TrustFactor_Object *)createStoredTrustFactorObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
+    
     // Check that the passed trustFactorOutputObject is valid
     if (!trustFactorOutputObject || trustFactorOutputObject == nil) {
         // Error out, no trustfactors set
@@ -262,8 +263,6 @@
     [storedTrustFactorObject setLearned:NO]; // Beta2: don't set that it has learned
     [storedTrustFactorObject setFirstRun:[NSDate date]];
     [storedTrustFactorObject setRunCount:[NSNumber numberWithInt:0]]; // Beta2: Set the run count to 0 because we're incrementing on comparison
-    
-        
     
     // Return the assertion object
     return storedTrustFactorObject;

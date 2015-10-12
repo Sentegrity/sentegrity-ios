@@ -1,9 +1,8 @@
 //
 //  Sentegrity_Assertion_Store_Assertion_Object.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Kramer on 3/1/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "Sentegrity_Stored_TrustFactor_Object.h"
