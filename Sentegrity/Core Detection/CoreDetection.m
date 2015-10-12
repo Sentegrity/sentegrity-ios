@@ -1,109 +1,195 @@
 //
 //  CoreDetection.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Nick Kramer on 1/31/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved. 
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "CoreDetection.h"
 #import "Sentegrity_TrustFactor_Datasets.h"
 
-
-
 @interface CoreDetection(Private)
 
-// Parse policy
+/*!
+ *  Parse the policy
+ *
+ *  @param policyPath Policy Path URL to be parsed
+ *  @param error      Error information
+ *
+ *  @return Policy Object
+ */
 - (Sentegrity_Policy *)parsePolicy:(NSURL *)policyPath withError:(NSError **)error;
 
-// Protect Mode Analysis Callback
+/**
+ *  Protect Mode Analysis callback
+ *
+ *  See: CoreDetectionBlock
+ */
 - (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults andError:(NSError **)error;
 
 @end
 
 @implementation CoreDetection
 
-#pragma mark - Protect Mode Analysis
-
-// Callback block definition
+/*!
+ *  Callback block definition
+ */
 void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error);
 
-- (Sentegrity_TrustScore_Computation *)getLastComputationResults{
+#pragma mark - Protect Mode Analysis
+
+// Get the last computation results
+- (Sentegrity_TrustScore_Computation *)getLastComputationResults {
     
+    // Get the last computation result from the instance variable
     return _computationResults;
 }
 
 // Start Core Detection
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback {
     
-
+    // Create the error to use
+    NSError *error = nil;
     
-    //set the policy to the current
+    // Validate the policy
+    if (!policy || policy == nil) {
+        
+        // No valid policy provided
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Perform Core Detection Unsuccessful", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"An invalid policy was provided", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid policy", nil)
+                                       };
+        
+        // Set the error
+        error = [NSError errorWithDomain:sentegrityDomain code:SANoPolicyProvided userInfo:errorDetails];
+        
+        // Don't return anything except the error
+        [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
+        
+        // Return
+        return;
+    }
+    
+    // Set the policy to the current
     [self setCurrentPolicy:policy];
+    
+    // Validate the callback
+    if (!callback || callback == nil) {
+        
+        // No valid callback provided
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Perform Core Detection Unsuccessful", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"An invalid callback block was provided", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid callback block", nil)
+                                       };
+        
+        // Set the error
+        error = [NSError errorWithDomain:sentegrityDomain code:SANoCallbackBlockProvided userInfo:errorDetails];
+        
+        // Don't return anything except the error
+        [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
+        
+        // Return
+        return;
+    }
     
     // Set the callback block to be the block definition
     coreDetectionBlockCallBack = callback;
     
-    // Create the error to use
-    NSError *error = nil;
-    
-    
-    // Make sure policy.trustFactors are set
+    // Validate the policy.trustFactors
     if (!policy || policy.trustFactors.count < 1 || !policy.trustFactors) {
-        // Error out, no trustfactors set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No TrustFactors found to analyze" forKey:NSLocalizedDescriptionKey];
-        error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
         
-        // Don't return anything
+        // No valid trustfactors found to analyze
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Perform Core Detection Unsuccessful", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No TrustFactors found to analyze", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Please provide a policy with valid TrustFactors to analyze", nil)
+                                       };
+        
+        // Set the error
+        error = [NSError errorWithDomain:sentegrityDomain code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
+        
+        // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
+        
+        // Return
         return;
     }
 
     
-    // Start Dispatcher (executes trustfactors and populates output objects)
- 
+    /* Start the TrustFactor Dispatcher */
+    
+    // Executes the TrustFactors and gets the output objects
     NSArray *trustFactorOutputObjects = [Sentegrity_TrustFactor_Dispatcher performTrustFactorAnalysis:policy.trustFactors withError:&error];
     
     // Check for valid trustFactorOutputObjects
     if (!trustFactorOutputObjects || trustFactorOutputObjects == nil || trustFactorOutputObjects.count < 1) {
-        // Error out, no trustfactors output
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No TrustFactorOutputObjects returned from dispatch" forKey:NSLocalizedDescriptionKey];
-        error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
         
-        // Don't return anything
+        // Invalid TrustFactor Output Objects
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Perform Core Detection Unsuccessful", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No TrustFactorOutputObjects returned from dispatch", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Double check provided TrustFactors to analyze", nil)
+                                       };
+        
+        // Set the error
+        error = [NSError errorWithDomain:sentegrityDomain code:SANoTrustFactorOutputObjectsFromDispatcher userInfo:errorDetails];
+        
+        // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
+        
+        // Return
         return;
     }
 
-    // Perform Baseline Analysis (get stored trustfactor objects, perform learning, and compare)
+    /* Perform Baseline Analysis (get stored trustfactor objects, perform learning, and compare) */
     
     // Retrieve storedTrustFactorObjects & attach to trustFactorOutputObjects
     NSArray *updatedTrustFactorOutputObjects = [Sentegrity_Baseline_Analysis performBaselineAnalysisUsing:trustFactorOutputObjects forPolicy:policy withError:&error];
     
     // Check that we have objects for computation
     if (!updatedTrustFactorOutputObjects || updatedTrustFactorOutputObjects == nil) {
-        // Error out, no trustfactors for computation
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No trustFactorOutputObjects available for computation" forKey:NSLocalizedDescriptionKey];
-        error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsForComputation userInfo:errorDetails];
-
+        
+        // Invalid TrustFactor output objects after baseline analysis
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Perform Core Detection Unsuccessful", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No trustFactorOutputObjects available for computation", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Double check provided TrustFactors to analyze", nil)
+                                       };
+        
+        // Set the error
+        error = [NSError errorWithDomain:sentegrityDomain code:SANoTrustFactorOutputObjectsForComputation userInfo:errorDetails];
+        
+        // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
+        
+        // Return
         return;
     }
     
-    // Perform TrustScore Computation (generates scores)
+    /* Perform TrustScore Computation (generates scores) */
+    
+    // Get the computation results
     Sentegrity_TrustScore_Computation *computationResults = [Sentegrity_TrustScore_Computation performTrustFactorComputationWithPolicy:policy withTrustFactorOutputObjects:updatedTrustFactorOutputObjects withError:&error];
     
-    // Validate the computation
+    // Validate the computation results
     if (!computationResults || computationResults == nil) {
-        // Error out, no computation object
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No computation object returned, error during computation" forKey:NSLocalizedDescriptionKey];
-        error = [NSError errorWithDomain:@"Sentegrity" code:SAErrorDuringComputation userInfo:errorDetails];
         
+        // Invalid analysis, bad computation results
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Perform Core Detection Unsuccessful", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No computation object returned, error during computation", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Check error logs for details", nil)
+                                       };
+        
+        // Set the error
+        error = [NSError errorWithDomain:sentegrityDomain code:SAErrorDuringComputation userInfo:errorDetails];
+        
+        // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
+        
+        // Return
         return;
     }
     
@@ -117,14 +203,24 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 
 // Callback function for core detection
 - (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults andError:(NSError **)error {
+    
     // Block callback
     if (coreDetectionBlockCallBack) {
+        // Call the Core Detection Block Callabck
         coreDetectionBlockCallBack(success, computationResults, error);
+        
     } else {
+        
         // Block callback is nil (something is really wrong)
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Unable to provide Core Detection Response, block callback is nil" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUknownError userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Core Detection Response Failed", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"An invalid callback block was provided", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid callback block", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:sentegrityDomain code:SANoCallbackBlockProvided userInfo:errorDetails];
+        
     }
 }
 
@@ -143,8 +239,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 // Init (Defaults)
 - (id)init {
     if (self = [super init]) {
-        // Set defaults here if need be
-        [self setCurrentPolicy:nil];
+        // Default values get set here
+        _currentPolicy = nil;
+        _computationResults = nil;
     }
     return self;
 }
@@ -153,22 +250,45 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 
 // Parse policy
 - (Sentegrity_Policy *)parsePolicy:(NSURL *)policyPath withError:(NSError **)error {
+    
+    // Validate the policy path provided
+    if (!policyPath || policyPath == nil || ![[NSFileManager defaultManager] fileExistsAtPath:[policyPath path]]) {
+        // Invalid policy path provided
+        
+        // Block callback is nil (something is really wrong)
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Parse Policy Failed", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"An invalid policy path was provided", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid policy path", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:sentegrityDomain code:SAInvalidPolicyPath userInfo:errorDetails];
+    }
+    
     // Start by creating the parser
     Sentegrity_Parser *parser = [[Sentegrity_Parser alloc] init];
     
     // Get the policy
-    Sentegrity_Policy *policy;
-    policy = [parser parsePolicyJSONWithPath:policyPath withError:error];
+    Sentegrity_Policy *policy = [parser parsePolicyJSONWithPath:policyPath withError:error];
     
-    // Error check the policy
-    if (!policy && *error != nil) {
-        // Error!
+    // Validate the policy
+    if ((!policy || policy == nil) && *error != nil) {
+        
+        // Unable to parse the policy, but passing the error up
         return policy;
-    } else if (!policy && *error == nil) {
-        // Unknown Error (something is really wrong)
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Unable to parse policy, unknown error" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUknownError userInfo:errorDetails];
+        
+    } else if ((!policy || policy == nil) && *error == nil) {
+        
+        // Policy came back empty, and so did the error
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Parse Policy Failed", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to parse policy, unknown error", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid policy path and valid policy", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:sentegrityDomain code:SAUnKnownError userInfo:errorDetails];
         
         // Don't return anything
         return nil;

@@ -39,7 +39,7 @@ static MBProgressHUD *HUD;
     // Get the storyboard
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UINavigationController *controller;
-
+    
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
     {
@@ -62,8 +62,8 @@ static MBProgressHUD *HUD;
         
     }
     
-
-
+    
+    
     // Hide the navigation bar
     [controller setNavigationBarHidden:YES];
     
@@ -115,7 +115,7 @@ static MBProgressHUD *HUD;
 
 - (void)runCoreDetectionActivities {
     // Run the Core Detection Activites
-   
+    
     [self startBluetoothBLE];
     
     [self startLocation];
@@ -221,7 +221,7 @@ static MBProgressHUD *HUD;
 }
 
 -(void)startActivity{
-   
+    
     
     if(![CMMotionActivityManager isActivityAvailable]){
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unsupported];
@@ -235,7 +235,7 @@ static MBProgressHUD *HUD;
                                        toQueue:[NSOperationQueue new]
                                    withHandler:^(NSArray *activities, NSError *error) {
                                        
-
+                                       
                                        
                                        if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
                                            // The app isn't authorized to use motion activity support.
@@ -260,7 +260,7 @@ static MBProgressHUD *HUD;
         
     }
     
-
+    
     
     
 }
@@ -311,7 +311,7 @@ static NSMutableArray *accelRadsArray;
                                              // Add sample to array
                                              [pitchRollArray addObject:dict];
                                              
-                                            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
+                                             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
                                              
                                              
                                              // We want a minimum of 3 samples before we average them inside the TF
@@ -351,7 +351,7 @@ static NSMutableArray *accelRadsArray;
                                      // Add sample to array
                                      [gyroRadsArray addObject:dict];
                                      
-                                    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRads:gyroRadsArray];
+                                     [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRads:gyroRadsArray];
                                      
                                      
                                      // We want a minimum of 3 samples before we average them inside the TF
