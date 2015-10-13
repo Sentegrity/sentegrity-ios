@@ -8,7 +8,7 @@
 #import "ProtectMode.h"
 
 // Assertion Store
-#import "Sentegrity_Assertion_Store.h"
+#import "Sentegrity_Assertion_Store+Helper.h"
 
 // TrustFactor Storage
 #import "Sentegrity_TrustFactor_Storage.h"
@@ -249,7 +249,6 @@
             // Set the merged list back to storedTrustFactorObject
             [trustFactorOutputObject.storedTrustFactorObject setAssertionObjects:mergedStoredAssertionObjects];
         }
-        
         
         // Check for matching stored assertion object in the local store
         Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];

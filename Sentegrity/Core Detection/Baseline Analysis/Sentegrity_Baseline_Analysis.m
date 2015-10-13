@@ -10,6 +10,7 @@
 #import "Sentegrity_Baseline_Analysis.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
 #import "Sentegrity_Assertion_Store.h"
+#import "Sentegrity_Assertion_Store+Helper.h"
 #import "Sentegrity_Policy.h"
 #import "Sentegrity_TrustFactor_Storage.h"
 #import "Sentegrity_TrustFactor_Datasets.h"

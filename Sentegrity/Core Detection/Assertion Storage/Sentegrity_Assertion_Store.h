@@ -5,49 +5,90 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+/*!
+ *  Assertion Store Class is all the output from the TrustFactors and a reference to the TrustFactors that ran
+ */
+
 #import <Foundation/Foundation.h>
 #import "Sentegrity_Stored_TrustFactor_Object.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
 
 @interface Sentegrity_Assertion_Store : NSObject
 
-// App ID
+/*!
+ *  Application Identifier
+ */
 @property (atomic,strong) NSString *appID;
 
-// Assertion Objects
+/**
+ *  Assertion Objects
+ */
 @property (atomic,strong) NSArray *storedTrustFactorObjects; // BETA2 - Nick's Additions = Changed this back to NSArray
 
 #pragma mark - Add
 
-// Add an array of new storedTrustFactorObjects to the store
+/**
+ *  Add an array of new storedTrustFactorObjects to the store
+ *
+ *  @param storedTrustFactorObjects TrustFactors to add
+ *  @param error                    Error
+ *
+ *  @return Whether it added them or not
+ */
 - (BOOL)addMultipleObjectsToStore:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
 
-// add a single storedTrustFactorObject into the store
+/**
+ *  Add a single storedTrustFactorObject into the store
+ *
+ *  @param newStoredTrustFactorObject TrustFactor to add
+ *  @param error                      Error
+ *
+ *  @return Whether it added them or not
+ */
 - (BOOL)addSingleObjectToStore:(Sentegrity_Stored_TrustFactor_Object *)newStoredTrustFactorObject withError:(NSError **)error;
 
 #pragma mark - Replace
 
-// Replace an array of storedTrustFactorObjects  in the store
+/**
+ *  Replace an array of storedTrustFactorObjects in the store
+ *
+ *  @param existingStoredTrustFactorObjects TrustFactors to replace with existing ones
+ *  @param error                            Error
+ *
+ *  @return Whether it replaced them or not
+ */
 - (BOOL)replaceMultipleObjectsInStore:(NSArray *)existingStoredTrustFactorObjects withError:(NSError **)error;
 
-// Replace a single storedTrustFactorObject in the store
+/**
+ *  Replace a single storedTrustFactorObject in the store
+ *
+ *  @param storedTrustFactorObject TrustFactor to replace with existing one
+ *  @param error                   Error
+ *
+ *  @return Whether it replaced it or not
+ */
 - (BOOL)replaceSingleObjectInStore:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
 
 #pragma mark - Remove
 
-// Remove provided storedTrustFactorObject  from the store - returns whether it passed or failed
-- (BOOL)removeSingleObjectFromStore:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
-
-// Remove array of storedTrustFactorObjects  from the store - returns whether it passed or failed
+/**
+ *  Remove array of storedTrustFactorObjects from the store
+ *
+ *  @param storedTrustFactorObjects Provide the TrustFactor Objects to be removed
+ *  @param error                    Error
+ *
+ *  @return Whether they were removed or not
+ */
 - (BOOL)removeMultipleObjectsFromStore:(NSArray *)storedTrustFactorObjects withError:(NSError **)error;
 
-#pragma mark - Helper Methods
-
-// Create a new storedTrustFactorObject from TrustFactorOutputObject
-- (Sentegrity_Stored_TrustFactor_Object *)createStoredTrustFactorObjectFromTrustFactorOutput:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error;
-
-// Get an storedTrustFactorObject by a factorID
-- (Sentegrity_Stored_TrustFactor_Object *)getStoredTrustFactorObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error;
-
+/**
+ *  Remove provided storedTrustFactorObject from the store
+ *
+ *  @param storedTrustFactorObject Provide the TrustFactor Object to be removed
+ *  @param error                   Error
+ *
+ *  @return Whether it was removed or not
+ */
+- (BOOL)removeSingleObjectFromStore:(Sentegrity_Stored_TrustFactor_Object *)storedTrustFactorObject withError:(NSError **)error;
 
 @end

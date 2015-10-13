@@ -35,6 +35,8 @@
 		4C1DEC2E1BBCA39F00B0A312 /* ActivityPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DEC2D1BBCA39F00B0A312 /* ActivityPermissionViewController.m */; settings = {ASSET_TAGS = (); }; };
 		4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */; };
 		4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */; };
+		4C3282991BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3282981BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m */; settings = {ASSET_TAGS = (); }; };
+		4C32829A1BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3282981BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m */; settings = {ASSET_TAGS = (); }; };
 		4C5393851B2F965D00EA4484 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393841B2F965D00EA4484 /* loading.gif */; };
 		4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393861B2F966700EA4484 /* loadingWhite.gif */; };
 		4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */; };
@@ -158,6 +160,8 @@
 		4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemInformationViewController.m; sourceTree = "<group>"; };
 		4C22C0001B7B986800EFFD7D /* UserInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInformationViewController.h; sourceTree = "<group>"; };
 		4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInformationViewController.m; sourceTree = "<group>"; };
+		4C3282971BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Sentegrity_Assertion_Store+Helper.h"; sourceTree = "<group>"; };
+		4C3282981BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Assertion_Store+Helper.m"; sourceTree = "<group>"; };
 		4C5393841B2F965D00EA4484 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		4C5393861B2F966700EA4484 /* loadingWhite.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loadingWhite.gif; sourceTree = "<group>"; };
 		4C9EBE191B2B5B58003ED356 /* RightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightMenuViewController.h; sourceTree = "<group>"; };
@@ -469,6 +473,17 @@
 			path = InformationViewControllers;
 			sourceTree = "<group>";
 		};
+		4C32829B1BCC7435006F0CD8 /* Assertion Store */ = {
+			isa = PBXGroup;
+			children = (
+				4CE9D8121B323B05006D43D8 /* Sentegrity_Assertion_Store.h */,
+				4CE9D8131B323B05006D43D8 /* Sentegrity_Assertion_Store.m */,
+				4C3282971BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.h */,
+				4C3282981BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m */,
+			);
+			name = "Assertion Store";
+			sourceTree = "<group>";
+		};
 		4C5393831B2F965200EA4484 /* Gifs */ = {
 			isa = PBXGroup;
 			children = (
@@ -559,8 +574,7 @@
 		4CE9D8111B323B05006D43D8 /* Assertion Storage */ = {
 			isa = PBXGroup;
 			children = (
-				4CE9D8121B323B05006D43D8 /* Sentegrity_Assertion_Store.h */,
-				4CE9D8131B323B05006D43D8 /* Sentegrity_Assertion_Store.m */,
+				4C32829B1BCC7435006F0CD8 /* Assertion Store */,
 				4CE9D8401B323B05006D43D8 /* Sentegrity_TrustFactor_Output_Object.h */,
 				4CE9D8411B323B05006D43D8 /* Sentegrity_TrustFactor_Output_Object.m */,
 				4CE9D8141B323B05006D43D8 /* Sentegrity_Stored_TrustFactor_Object.h */,
@@ -1146,6 +1160,7 @@
 				4CE9D8731B323B05006D43D8 /* TrustFactor_Dispatch_Netstat.m in Sources */,
 				4CE9D8761B323B05006D43D8 /* TrustFactor_Dispatch_Route.m in Sources */,
 				4CE9D86B1B323B05006D43D8 /* Sentegrity_Baseline_Analysis.m in Sources */,
+				4C3282991BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m in Sources */,
 				9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */,
 				4CE9D8811B323B05006D43D8 /* ProtectMode.m in Sources */,
 				4CE9D8851B323B05006D43D8 /* Sentegrity_DNEModifiers.m in Sources */,
@@ -1168,6 +1183,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C32829A1BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m in Sources */,
 				04A249191B266AC2007D9460 /* SentegrityTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

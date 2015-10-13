@@ -6,22 +6,45 @@
 //
 
 #import "Sentegrity_TrustFactor_Output_Object.h"
-#import "Sentegrity_Constants.h"
+
+// Stored Assertion
+#import "Sentegrity_Stored_Assertion.h"
 
 // Pod for hashing
 #import "NSString+Hashes.h"
 
-
 @implementation Sentegrity_TrustFactor_Output_Object
 
+#pragma mark - Init
 
--(BOOL)generatedAssertionObjectsContainsDefault{
-    for (Sentegrity_Stored_Assertion *candidateAssertionObject in self.assertionObjects){
-        if([[candidateAssertionObject assertionHash] isEqualToString:[[self defaultAssertionObject] assertionHash]]){
+// Custom init
+- (id)init {
+    if (self = [super init]) {
+        
+        // Set the DNE to OK
+        _statusCode = DNEStatus_ok;
+        
+        // Generate the default assertion objects
+        [self generateDefaultAssertionObject];
+        
+    }
+    return self;
+}
+
+#pragma mark - Helpers
+
+// Check if the generated Assertion Object contains the default
+- (BOOL)generatedAssertionObjectsContainsDefault {
+    // Run through all the assertion objects
+    for (Sentegrity_Stored_Assertion *candidateAssertionObject in self.assertionObjects) {
+        // Check if the candidate hash contains the default assertion hash
+        if ([[candidateAssertionObject assertionHash] isEqualToString:[[self defaultAssertionObject] assertionHash]]) {
+            // Matches
             return YES;
         }
     }
     
+    // Return NO
     return NO;
 }
 
@@ -89,18 +112,6 @@
     // Set property
     self.assertionObjects= assertionObjects;
     
-}
-
-- (id) init {
-    if (self = [super init]) {
-        
-        // Set the DNE to OK
-        [self setStatusCode:DNEStatus_ok];
-        
-        [self generateDefaultAssertionObject];
-        
-    }
-    return self;
 }
 
 @end

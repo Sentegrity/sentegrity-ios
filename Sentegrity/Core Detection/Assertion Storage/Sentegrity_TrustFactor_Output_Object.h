@@ -5,52 +5,92 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "Sentegrity_Stored_TrustFactor_Object.h"
-#import "Sentegrity_TrustFactor.h"
-#import "Sentegrity_Constants.h"
-#import "Sentegrity_Stored_Assertion.h"
+/**
+ *  TrustFactor Output Object - output from the TrustFactors stored here
+ */
 
+#import <Foundation/Foundation.h>
+
+// TrustFactor
+#import "Sentegrity_TrustFactor.h"
+
+// Store TrustFactor
+#import "Sentegrity_Stored_TrustFactor_Object.h"
+
+// Constants (DNE_STATUSCODE)
+#import "Sentegrity_Constants.h"
 
 @interface Sentegrity_TrustFactor_Output_Object : NSObject
 
-// attach the policy trustfactor data
-@property (nonatomic,retain) Sentegrity_TrustFactor *trustFactor;
+#pragma mark - Properties
 
-// attach the parsed storedTrustFactorObject data
-@property (nonatomic,retain) Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject;
+/**
+ *  Policy TrustFactor
+ */
+@property (atomic,retain) Sentegrity_TrustFactor *trustFactor;
 
-// Plaintext output from TrustFactor
-@property (nonatomic,retain) NSArray *output;
+/**
+ *  Parsed Stored TrustFactor Object data
+ */
+@property (atomic,retain) Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject;
 
-// Sentegrity_Stored_Assertion objects to whitelist if protect mode is deactivated
-@property (nonatomic,retain) NSArray *assertionObjectsToWhitelist;
+/**
+ *  Plaintext output from TrustFactor
+ */
+@property (atomic,retain) NSArray *output;
 
-// Sentegrity_Store_Assertion objects created from output
-@property (nonatomic,retain) NSArray *assertionObjects;
+/**
+ *  Sentegrity_Stored_Assertion objects to whitelist if protect mode is deactivated
+ */
+@property (atomic,retain) NSArray *assertionObjectsToWhitelist;
 
-// Default assertion string
-@property (nonatomic,retain) Sentegrity_Stored_Assertion *defaultAssertionObject;
+/**
+ *  Sentegrity_Store_Assertion objects created from output
+ */
+@property (atomic,retain) NSArray *assertionObjects;
 
-// dne modifier
-@property (nonatomic) DNEStatusCode statusCode;
+/**
+ *  Default assertion object
+ */
+@property (atomic,retain) Sentegrity_Stored_Assertion *defaultAssertionObject;
 
-// Trigger bool set during baseline analysis and checked during computation
-@property (nonatomic) BOOL triggered;
+/**
+ *  DNEStatusCode
+ */
+@property (atomic) DNEStatusCode statusCode;
 
-// Trigger bool set during baseline analysis and checked during computation
-@property (nonatomic) BOOL whitelist;
+/**
+ *  Set during baseline analysis and checked during computation
+ */
+@property (atomic) BOOL triggered;
 
--(void)generateDefaultAssertionObject;
+/**
+ *  Set during baseline analysis and checked during computation
+ */
+@property (atomic) BOOL whitelist;
 
--(void)setAssertionObjectsFromOutput;
+#pragma mark - Methods
 
--(void)setAssertionObjectsToDefault;
+/**
+ *  Generate the default assertion object
+ */
+- (void)generateDefaultAssertionObject;
 
--(BOOL)generatedAssertionObjectsContainsDefault;
+/**
+ *  Set the assertion Objects from the output
+ */
+- (void)setAssertionObjectsFromOutput;
 
-//custom init to set DNE=OK and defaultAssertionString
-- (id) init;
+/**
+ *  Set the assertion objects to default
+ */
+- (void)setAssertionObjectsToDefault;
 
+/**
+ *   Check if the generated assertion object is the default
+ *
+ *  @return Returns YES if assertion object contains default
+ */
+- (BOOL)generatedAssertionObjectsContainsDefault;
 
 @end

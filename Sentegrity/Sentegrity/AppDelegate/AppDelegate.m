@@ -18,8 +18,6 @@
 // Animated Progress Alerts
 #import "MBProgressHUD.h"
 
-
-
 // Private Interface Declaration
 @interface AppDelegate () <CBCentralManagerDelegate>
 @end
@@ -28,7 +26,6 @@
 @implementation AppDelegate
 
 #pragma mark - ISHPermissionKit
-
 
 static MBProgressHUD *HUD;
 
