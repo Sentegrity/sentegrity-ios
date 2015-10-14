@@ -268,6 +268,7 @@ static MBProgressHUD *HUD;
 static NSMutableArray *pitchRollArray;
 static NSMutableArray *gyroRadsArray;
 static NSMutableArray *accelRadsArray;
+static NSMutableArray *headingsArray;
 -(void)startMotion{
     
     
@@ -275,6 +276,7 @@ static NSMutableArray *accelRadsArray;
     pitchRollArray = [[NSMutableArray alloc]init];
     accelRadsArray= [[NSMutableArray alloc]init];
     gyroRadsArray = [[NSMutableArray alloc]init];
+    headingsArray = [[NSMutableArray alloc]init];
     
     // Gyroscope
     
@@ -284,10 +286,13 @@ static NSMutableArray *accelRadsArray;
         
     }else{
         
-        // User Grip
+        // User Grip & Calibrated Magnetics
         manager.deviceMotionUpdateInterval = .001;
-        [manager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
-                                     withHandler:^(CMDeviceMotion  *motion, NSError *error) {
+        
+        
+        [manager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXMagneticNorthZVertical
+                                                     toQueue:[NSOperationQueue currentQueue]
+                                                 withHandler:^(CMDeviceMotion  *motion, NSError *error) {
                                          
                                          
                                          if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
@@ -295,6 +300,11 @@ static NSMutableArray *accelRadsArray;
                                              [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unauthorized];
                                          }
                                          else{
+                                             
+                                             
+                                             
+                                             // Pitch/Roll
+
                                              
                                              // Create an array of motion samples
                                              NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.attitude.pitch], [NSNumber numberWithFloat:motion.attitude.roll], nil];
@@ -310,19 +320,80 @@ static NSMutableArray *accelRadsArray;
                                              
                                              [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
                                              
+
                                              
+                                             if(manager.deviceMotion.magneticField.field.z != 0){
+                                                 
+         
+                                                 // Create an array of headings samples
+                                                 NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.x], [NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.y],[NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.z], nil];
+                                                 
+                                                 // Create an array of keys
+                                                 NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+                                                 
+                                                 // Create the dictionary
+                                                 NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                                                 
+                                                 // Add sample to array
+                                                 [headingsArray addObject:dict];
+                                                 
+                                                 [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadings:headingsArray];
+                                                 
+                                             }
+                                             
+                                             // Keep updating until we stop
                                              // We want a minimum of 3 samples before we average them inside the TF
                                              // its possible we will get more as this handler gets called additional times prior to
                                              // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
                                              
-                                             // Keep updating until we stop
-                                             if (pitchRollArray.count > 3){
+                                             if (pitchRollArray.count > 3 && headingsArray.count > 3){
                                                  [manager stopDeviceMotionUpdates];
                                              }
                                              
                                          }
                                          
                                      }];
+        
+
+
+
+        /*
+        // magnetomer readings, this does not work well as its not calibrated (raw data very unpredictable)
+        manager.magnetometerUpdateInterval = .001;
+        [manager startMagnetometerUpdatesToQueue:[NSOperationQueue currentQueue]  withHandler:^(CMMagnetometerData  *magnetometer, NSError *error) {
+            
+                                        [manager stopMagnetometerUpdates];
+                                         
+                                         if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
+                                             // The app isn't authorized to use motion activity support.
+                                             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadingsMotionDNEStatus:DNEStatus_unauthorized];
+                                         }
+                                         else{
+                                             
+                                           
+                                             // Create an array of headings samples
+                                             NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:magnetometer.magneticField.x], [NSNumber numberWithDouble:magnetometer.magneticField.y],[NSNumber numberWithDouble:magnetometer.magneticField.z], nil];
+                                             
+                                             // Create an array of keys
+                                             NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+                                             
+                                             // Create the dictionary
+                                             NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                                             
+                                             // Add sample to array
+                                             [headingsArray addObject:dict];
+                                             
+                                             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadings:headingsArray];
+                                             
+                                             
+
+
+
+                                         }
+                                         
+                                     }];
+
+        */
         
         // Attempt to detect large movements
         manager.gyroUpdateInterval = .001;

@@ -600,6 +600,48 @@ static dispatch_once_t onceToken;
     
 }
 
+- (NSArray *)getHeadingsInfo {
+    
+    
+    //Do we any headings yet?
+    if(self.headings == nil || self.headings.count < 1){
+        
+        //Nope, wait for rads
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.5;
+        
+        while ((currentTime-startTime) < waitTime){
+            
+            // If its greater than 0 return
+            if(self.headings.count > 0){
+                NSLog(@"Got headings after waiting..");
+                return self.headings;
+                
+            }
+            
+            [NSThread sleepForTimeInterval:0.01];
+            
+            //update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
+            
+        }
+        
+        // timer expired
+        NSLog(@"Headings timer expired");
+        [self setHeadingsMotionDNEStatus:DNEStatus_expired];
+        return self.headings;
+        
+        
+    }
+    //we've already got BLE dat
+    NSLog(@"Got headings without waiting...");
+    return self.headings;
+    
+    
+}
+
+
 
 
 - (NSDictionary *)getWifiInfo {

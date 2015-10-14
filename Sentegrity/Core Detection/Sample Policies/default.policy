@@ -691,7 +691,7 @@
 "subClassID": 4,
 "priority": 2,
 "name": "wifi bssid",
-"penalty": -40,
+"penalty": -20,
 "ruleType": 4,
 "learnMode": 0,
 "learnTime": 0,
@@ -1043,7 +1043,7 @@
 "subClassID": 11,
 "priority": 3,
 "name": "device grip",
-"penalty": 25,
+"penalty": 30,
 "ruleType": 3,
 "learnMode": 0,
 "learnTime": 0,
@@ -1060,15 +1060,15 @@
 "blockSize": 6
 }]
 }, {
-"id": 1029,
+"id": 1059,
 "issueMessage": "Device location anomaly",
-"suggestionMessage": "Access device in familiar areas",
+"suggestionMessage": "Access device in familiar rooms",
 "revision": 1,
 "classID": 5,
 "subClassID": 20,
 "priority": 1,
 "name": "device location anomaly",
-"penalty": 20,
+"penalty": 25,
 "ruleType": 3,
 "learnMode": 0,
 "learnTime": 0,
@@ -1082,15 +1082,15 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"rounding": 1,
-"signalInBlock": 10,
 "brightnessBlocksize" : 3,
-"locationRounding" : 1
+"locationRounding" : 1,
+"magneticBlockSizeNoLocation" : 5,
+"magneticBlockSizeWithLocation" : 10
 }]
 }, {
 "id": 1037,
 "issueMessage": "Unfamiliar device location (GPS)",
-"suggestionMessage": "Access device in familiar areas",
+"suggestionMessage": "Access device in familiar locations",
 "revision": 1,
 "classID": 5,
 "subClassID": 10,
@@ -1170,7 +1170,7 @@
 "subClassID": 21,
 "priority": 1,
 "name": "bluetooth classic paired",
-"penalty": -120,
+"penalty": -200,
 "ruleType": 4,
 "learnMode": 0,
 "learnTime": 0,
