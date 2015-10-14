@@ -227,6 +227,11 @@
     }
     
     
+    // This string gets built by various factors that are available
+    NSString *anomalyString = @"";
+    
+    // ** LOCATION **
+    
     // Try to get location
     CLLocation *currentLocation;
     BOOL locationAvailable=YES;
@@ -241,29 +246,110 @@
         // Attempt to get the current location
         currentLocation = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getLocationInfo];
         
+        
         // Check if error was determined after call to dataset helper
-        if([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != 0){
+        if([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] == 0){
             
-            locationAvailable=NO;
-            
-        } else {
-            // No known errors occured previously, check our object
-            
-            // Check the location, if its empty  set DNE
-            if (!currentLocation || currentLocation == nil) {
+            if(currentLocation != nil){
                 
-                locationAvailable=NO;
+                // Rounding from policy
+                int decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"locationRounding"] intValue];
+                
+                // Rounded location
+                NSString *roundedLocation = [NSString stringWithFormat:@"LO_%.*f_LT_%.*f",decimalPlaces,currentLocation.coordinate.longitude,decimalPlaces,currentLocation.coordinate.latitude];
+                
+                anomalyString = [anomalyString stringByAppendingString:roundedLocation];
+
             }
             
+        } else
+        {
+                locationAvailable=NO;
         }
         
         
     }
     
+
+    // ** MAGNETIC FIELD **
     
+    int magneticBlockSize=0;
     
-    // Create the output array
-    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
+    // If no location data use sensitive
+    if(locationAvailable==NO){
+        
+       magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeNoLocation"] intValue];
+    
+    } //else use liberal
+    else{
+        
+        magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeWithLocation"] intValue];
+    }
+    
+    if(magneticBlockSize != 0){
+        
+        NSArray *headings;
+        
+        // Check if error was determined when magnetic was started, if so don't use magnetic
+        if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] headingsMotionDNEStatus] == 0 ){
+            
+            // Attempt to get motion data
+            headings = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getHeadingsInfo];
+            
+            // Check motion dataset has something
+            if (headings != nil ) {
+                
+                float x = 0.0;
+                float y = 0.0;
+                float z = 0.0;
+                
+                float magnitudeAverage = 0.0;
+                float magnitudeTotal = 0.0;
+                float magnitude = 0.0;
+                
+                float counter = 0.0;
+                
+                // Run through all the sample we got prior to stopping motion
+                for (NSDictionary *sample in headings) {
+                    
+                    // Get the calibrated magnetometer data
+                    x = [[sample objectForKey:@"x"] floatValue];
+                    y = [[sample objectForKey:@"y"] floatValue];
+                    z = [[sample objectForKey:@"z"] floatValue];
+                    
+                    // Calculate totl magnetic field regardless of position for each measurement
+                    magnitude = sqrt (pow(x,2)+
+                                              pow(y,2)+
+                                              pow(z,2));
+                    
+                    magnitudeTotal = magnitudeTotal + magnitude;
+                    
+                    counter++;
+
+                    
+                }
+                
+                // compute average across all samples taken
+                magnitudeAverage = magnitudeTotal/counter;
+            
+                int blockOfMagnetic = ceilf(fabsf(magnitudeAverage)/magneticBlockSize);
+                // round to the nearest n:  x_rounded = ((x + n/2)/n)*n;
+                // round to nearest X
+                //int rounded = floor((magnitudeAverage+(roundingSensitivity/2))/roundingSensitivity)*roundingSensitivity;
+
+                NSString *magnitudeString = [NSString stringWithFormat:@"_M%d",blockOfMagnetic];
+                
+                anomalyString = [anomalyString stringByAppendingString:magnitudeString];
+
+                
+            }
+
+        }
+        
+    }
+
+    
+    // ** SCREEN BRIGHTNESS **
     
     //Screen level is given as a float 0.1-1
     float screenLevel = [[UIScreen mainScreen] brightness];
@@ -280,36 +366,28 @@
     
     int blockOfBrightness = ceilf(screenLevel / (1/blocksize));
     
+    anomalyString = [anomalyString stringByAppendingString:[NSString stringWithFormat:@"_L%d", blockOfBrightness]];
+    
+    
+    // ** CELLUAR SIGNAL STRENGTH **
     
     NSString *celluar = [NSString stringWithFormat:@"_S%@",[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCelluarSignalBars]];
     
-    
-    NSString *brightness = [NSString stringWithFormat:@"_L%d", blockOfBrightness];
-    
-    NSString *output;
-    
-    // Add the location if we have it, this makes the rule more percise
-    if(locationAvailable==YES){
+    // Probably in airplane mode or no signal
+    if(celluar.length < 1){
         
-        // Rounding from policy
-        int decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"locationRounding"] intValue];
-        
-        // Rounded location
-        NSString *roundedLocation = [NSString stringWithFormat:@"LO_%.*f_LT_%.*f",decimalPlaces,currentLocation.coordinate.longitude,decimalPlaces,currentLocation.coordinate.latitude];
-        
-        output = [[roundedLocation stringByAppendingString:celluar] stringByAppendingString:brightness];
-        
+        celluar = @"NO_SIGNAL";
         
     }
-    else{
-        // just use celluar and brighntness
-        
-        output = [celluar stringByAppendingString:brightness];
-        
-    }
+    
+    anomalyString = [anomalyString stringByAppendingString:celluar];
+    
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
     // Create assertion
-    [outputArray addObject: output];
+    [outputArray addObject: anomalyString];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];

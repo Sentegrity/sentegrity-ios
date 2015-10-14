@@ -61,6 +61,9 @@
 @property (atomic, retain) NSArray *gyroRads;
 @property (atomic) int gyroMotionDNEStatus;
 
+@property (atomic, retain) NSArray *headings;
+@property (atomic) int headingsMotionDNEStatus;
+
 @property (atomic, retain) NSArray *accelRads;
 @property (atomic) int accelMotionDNEStatus;
 @property (atomic,retain) NSString *deviceOrientation;
@@ -167,6 +170,7 @@
 - (NSArray *)getGyroRadsInfo;
 - (NSArray *)getAccelRadsInfo;
 - (NSArray *)getGyroPitchInfo;
+- (NSArray *)getHeadingsInfo;
 - (NSString *)getDeviceOrientation;
 - (NSNumber *)isMoving;
 
