@@ -1170,7 +1170,7 @@
 "subClassID": 21,
 "priority": 1,
 "name": "bluetooth classic paired",
-"penalty": -150,
+"penalty": -200,
 "ruleType": 4,
 "learnMode": 0,
 "learnTime": 0,
