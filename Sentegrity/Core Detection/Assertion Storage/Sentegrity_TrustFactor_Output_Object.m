@@ -31,7 +31,7 @@
 #pragma mark - Helpers
 
 // Generate a default (read; Empty) Assertion Object
-- (Sentegrity_Stored_Assertion *)generateDefaultAssertionObject {
+- (Sentegrity_Stored_Assertion *)defaultAssertionObject {
     
     // Create a new stored assertion object
     Sentegrity_Stored_Assertion *newStoredAssertion = [[Sentegrity_Stored_Assertion alloc] init];

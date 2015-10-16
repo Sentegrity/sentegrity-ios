@@ -104,32 +104,29 @@
     }
 
     // Create assertions
-    
-    if(trustFactor.ruleType.intValue == 1){
+    if (trustFactor.ruleType.intValue == 1) {
         
-        if(trustFactorOutputObject.output.count==0){
+        // Check if the count is 0
+        if (trustFactorOutputObject.output.count == 0) {
+            
             // Output has nothing, implementation must not have found what it was looking for (generally a good thing)
             
             // Set the default assertion
-            [trustFactorOutputObject generateDefaultAssertionObject];
-            //[trustFactorOutputObject setAssertionObjectsToDefault];
+            [trustFactorOutputObject setAssertionObjectsFromOutput:@[[trustFactorOutputObject defaultAssertionObject]]];
             
         } else {
-            // Generate assertions for each output
-            [trustFactorOutputObject generateDefaultAssertionObject];
             
             // Add the default so that it stays #1 hitCount and hit/day wise and won't ever get decayed
-            [trustFactorOutputObject.assertionObjects arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:[trustFactorOutputObject generateDefaultAssertionObject],nil]];
+            [trustFactorOutputObject.assertionObjects arrayByAddingObjectsFromArray:@[[trustFactorOutputObject defaultAssertionObject]]];
             
         }
 
     } else {
+        
         //ruletype = 2, 3, or 4
         
         // Set the assertions object from the output
         [trustFactorOutputObject setAssertionObjectsFromOutput:trustFactorOutputObject.output];
-        
-        //[trustFactorOutputObject setAssertionObjectsFromOutput];
         
     }
     

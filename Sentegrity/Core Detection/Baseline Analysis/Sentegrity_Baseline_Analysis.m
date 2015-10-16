@@ -284,8 +284,9 @@
             {
                 
                 // Set stored assertion to the default for proper comparison
-                trustFactorOutputObject.storedTrustFactorObject.assertionObjects = [NSArray arrayWithObjects:[trustFactorOutputObject generateDefaultAssertionObject],nil];
+                trustFactorOutputObject.storedTrustFactorObject.assertionObjects = @[[trustFactorOutputObject defaultAssertionObject]];
                 
+                // Updated assertion object
                 updatedTrustFactorOutputObject = [self updateLearningAndAddCandidateAssertions:trustFactorOutputObject withError:error];
                 
                 

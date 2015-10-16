@@ -71,7 +71,7 @@
  *
  * @return The default Stored Assertion
  */
-- (Sentegrity_Stored_Assertion *)generateDefaultAssertionObject;
+- (Sentegrity_Stored_Assertion *)defaultAssertionObject;
 
 /**
  *  Set the assertion objects from the output
@@ -81,12 +81,5 @@
  *  @return BOOL value that lets you know if it was set
  */
 - (BOOL)setAssertionObjectsFromOutput:(NSArray *)output;
-
-/*!
- *   Check if the generated assertion object is the default
- *
- *  @return Returns YES if assertion object contains default
- */
-- (BOOL)generatedAssertionObjectsContainsDefault;
 
 @end

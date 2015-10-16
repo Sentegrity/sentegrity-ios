@@ -77,13 +77,27 @@
     // BETA2 - Nick's Additions = Added this back
     // Add the new StoredTrustFactorObject into the array
     //[[self storedTrustFactorObjects] addObject:newStoredTrustFactorObject];
-    NSMutableArray *StoredTrustFactorObjectsArray = [self.storedTrustFactorObjects mutableCopy];
+    NSMutableArray *storedTrustFactorObjectsArray = [self.storedTrustFactorObjects mutableCopy];
     
-    // Add the StoredTrustFactorObject into the array
-    [StoredTrustFactorObjectsArray addObject:newStoredTrustFactorObject];
+    // Check if the stored array is valid
+    if (!storedTrustFactorObjectsArray || storedTrustFactorObjectsArray == nil) {
+        
+        // Array is empty
+        
+        // Set the array
+        storedTrustFactorObjectsArray = [NSMutableArray arrayWithObject:newStoredTrustFactorObject];
+        
+    } else {
+        
+        // Array has values in it already
+        
+        // Add the StoredTrustFactorObject into the array
+        [storedTrustFactorObjectsArray addObject:newStoredTrustFactorObject];
+        
+    }
     
     // Set the StoredTrustFactorObjects
-    [self setStoredTrustFactorObjects:[StoredTrustFactorObjectsArray copy]];
+    [self setStoredTrustFactorObjects:[storedTrustFactorObjectsArray copy]];
     
     // Return YES
     return YES;
