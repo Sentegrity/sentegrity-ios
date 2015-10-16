@@ -5,6 +5,10 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+/**
+ *  Constant definitions for Core Detection
+ */
+
 #ifndef Sentegrity_Constants_h
 #define Sentegrity_Constants_h
 
@@ -131,7 +135,7 @@
 #pragma mark - DNE Status Cases for TrustFactor output
 
 /*!
- TrustFactor DidNotExecute Status Code
+ * TrustFactor DidNotExecute Status Code
  */
 typedef enum {
 DNEStatus_ok                                    = 0,
@@ -145,7 +149,7 @@ DNEStatus_nodata                                = 7
 } DNEStatusCode;
 
 /*!
- Class ID of TrustFactor
+ * Class ID of TrustFactor
  */
 typedef enum {
 systemBreach                                    = 0,
@@ -158,16 +162,16 @@ userAnomaly                                     = 4
 #pragma mark - Error Cases
 
 /*!
- Error Domain
+ * Error Domain
  */
-static NSString *sentegrityDomain               = @"Sentegrity";
+static NSString * const sentegrityDomain        = @"Sentegrity";
 
 /**
  *  Unknown Error Code
  */
 enum {
     // Unkown Error
-SAUnKnownError                                  = 0
+SAUnknownError                                  = 0
 };
 
 /*!

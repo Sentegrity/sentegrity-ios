@@ -27,7 +27,7 @@
 // Set the local store
 - (Sentegrity_Assertion_Store *)setLocalStore:(Sentegrity_Assertion_Store *)store withAppID:(NSString *)appID withError:(NSError **)error;
 
-//Store Path
-@property (nonatomic,strong) NSString *storePath;
+// Store Path
+@property (atomic,strong) NSString *storePath;
 
 @end

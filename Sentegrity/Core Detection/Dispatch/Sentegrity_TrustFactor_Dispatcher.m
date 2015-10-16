@@ -108,24 +108,28 @@
     if(trustFactor.ruleType.intValue == 1){
         
         if(trustFactorOutputObject.output.count==0){
-            //output has nothing, implementation must not have found what it was looking for (generally a good thing)
+            // Output has nothing, implementation must not have found what it was looking for (generally a good thing)
             
-            //set the default assertion
-            [trustFactorOutputObject setAssertionObjectsToDefault];
+            // Set the default assertion
+            [trustFactorOutputObject generateDefaultAssertionObject];
+            //[trustFactorOutputObject setAssertionObjectsToDefault];
             
-        }
-        else{
-            //generate assertions for each output
-            [trustFactorOutputObject setAssertionObjectsFromOutput];
+        } else {
+            // Generate assertions for each output
+            [trustFactorOutputObject generateDefaultAssertionObject];
             
-            //add the default so that it stays #1 hitCount and hit/day wise and won't ever get decayed
-            [trustFactorOutputObject.assertionObjects arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:[trustFactorOutputObject defaultAssertionObject],nil]];
+            // Add the default so that it stays #1 hitCount and hit/day wise and won't ever get decayed
+            [trustFactorOutputObject.assertionObjects arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:[trustFactorOutputObject generateDefaultAssertionObject],nil]];
             
         }
 
-    }else //ruletype = 2, 3, or 4
-    {
-        [trustFactorOutputObject setAssertionObjectsFromOutput];
+    } else {
+        //ruletype = 2, 3, or 4
+        
+        // Set the assertions object from the output
+        [trustFactorOutputObject setAssertionObjectsFromOutput:trustFactorOutputObject.output];
+        
+        //[trustFactorOutputObject setAssertionObjectsFromOutput];
         
     }
     

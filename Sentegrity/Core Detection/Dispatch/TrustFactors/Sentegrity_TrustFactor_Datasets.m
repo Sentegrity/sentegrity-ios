@@ -32,7 +32,7 @@ static dispatch_once_t onceToken;
 - (id)init {
     if (self = [super init]) {
         //Set epoch (runtime) to be used all over the place but consistent for the same run
-        self.runTimeEpoch = [[NSDate date] timeIntervalSince1970];
+        _runTimeEpoch = [[NSDate date] timeIntervalSince1970];
     }
     return self;
 }

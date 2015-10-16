@@ -9,15 +9,19 @@
 
 @interface Sentegrity_Stored_Assertion : NSObject
 
-// Hash
-@property (nonatomic,retain) NSString *assertionHash;
-// Hit counter
-@property (nonatomic,retain) NSNumber *hitCount;
-// date and time of last hit
-@property (nonatomic,retain) NSNumber *lastTime;
-// date and time first created
-@property (nonatomic,retain) NSNumber *created;
-// date and time first created
-@property (nonatomic) double decayMetric;
+// Hash the Assertion
+@property (atomic,retain) NSString *assertionHash;
+
+// Hit Counter
+@property (atomic,retain) NSNumber *hitCount;
+
+// Date and Time of last hit
+@property (atomic,retain) NSNumber *lastTime;
+
+// Date and Time first created
+@property (atomic,retain) NSNumber *created;
+
+// How many time to learn from
+@property (atomic) double decayMetric;
 
 @end

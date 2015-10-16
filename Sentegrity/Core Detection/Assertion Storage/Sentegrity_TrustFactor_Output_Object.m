@@ -24,62 +24,53 @@
         // Set the DNE to OK
         _statusCode = DNEStatus_ok;
         
-        // Generate the default assertion objects
-        [self generateDefaultAssertionObject];
-        
     }
     return self;
 }
 
 #pragma mark - Helpers
 
-// Check if the generated Assertion Object contains the default
-- (BOOL)generatedAssertionObjectsContainsDefault {
-    // Run through all the assertion objects
-    for (Sentegrity_Stored_Assertion *candidateAssertionObject in self.assertionObjects) {
-        // Check if the candidate hash contains the default assertion hash
-        if ([[candidateAssertionObject assertionHash] isEqualToString:[[self defaultAssertionObject] assertionHash]]) {
-            // Matches
-            return YES;
-        }
-    }
+// Generate a default (read; Empty) Assertion Object
+- (Sentegrity_Stored_Assertion *)generateDefaultAssertionObject {
     
-    // Return NO
-    return NO;
-}
-
--(void)generateDefaultAssertionObject
-{
+    // Create a new stored assertion object
+    Sentegrity_Stored_Assertion *newStoredAssertion = [[Sentegrity_Stored_Assertion alloc] init];
     
-    Sentegrity_Stored_Assertion *new = [[Sentegrity_Stored_Assertion alloc]init];
-    
-    NSString *defaultAssertionString = [[[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID, kDefaultTrustFactorOutput] sha1]stringByAppendingString:[NSString stringWithFormat:@"-%@",kDefaultTrustFactorOutput]];
-    
+    // Create default assertion string
+    NSString *defaultAssertionString = [[[NSString stringWithFormat:@"%@%@%@",
+                                        [self.trustFactor.identification stringValue],
+                                        kUniqueDeviceID,
+                                        kDefaultTrustFactorOutput]
+                                        sha1]
+                                        stringByAppendingString:[NSString stringWithFormat:@"-%@",
+                                                                      kDefaultTrustFactorOutput]];
+    // Current Date
     NSDate *now = [NSDate date];
+    
+    // Current epoch date in seconds
     NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
     
-    [new setAssertionHash:defaultAssertionString];
-    [new setLastTime:[NSNumber numberWithInteger:nowEpochSeconds]];
-    [new setHitCount:[NSNumber numberWithInt:1]];
-    [new setCreated:[NSNumber numberWithInteger:nowEpochSeconds]];
-    [new setDecayMetric:10.0];
+    // Set the values of the assertion object
+    [newStoredAssertion setAssertionHash:defaultAssertionString];
+    [newStoredAssertion setLastTime:[NSNumber numberWithInteger:nowEpochSeconds]];
+    [newStoredAssertion setHitCount:[NSNumber numberWithInt:1]];
+    [newStoredAssertion setCreated:[NSNumber numberWithInteger:nowEpochSeconds]];
+    [newStoredAssertion setDecayMetric:10.0];
     
     // Set property
-    self.defaultAssertionObject = new;
+    return newStoredAssertion;
     
 }
 
--(void)setAssertionObjectsToDefault
-{
-    // Generate and set the default assertion object
+// Set the assertion objects from
+- (BOOL)setAssertionObjectsFromOutput:(NSArray *)output {
     
-    // Set assertion objects array to just the default object
-    self.assertionObjects = [[NSArray alloc] initWithObjects:[self defaultAssertionObject],nil];
+    // Validate the output
+    if (!output || output == nil || output.count < 1) {
+        // Invalid output array - Return No
+        return NO;
+    }
     
-}
-
--(void)setAssertionObjectsFromOutput
-{
     // Temporary mutable array to hold Sentegrity_Stored_Assertion objects
     NSMutableArray *assertionObjects = [[NSMutableArray alloc]init];
     
@@ -87,10 +78,15 @@
     for (NSString *trustFactorOutput in self.output) {
         
         // Create new object
-        Sentegrity_Stored_Assertion *new = [[Sentegrity_Stored_Assertion alloc]init];
+        Sentegrity_Stored_Assertion *new = [[Sentegrity_Stored_Assertion alloc] init];
         
         // Create the hash
-        NSString *hash = [[[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID, trustFactorOutput] sha1]stringByAppendingString:[NSString stringWithFormat:@"-%@",trustFactorOutput]];
+        NSString *hash = [[[NSString stringWithFormat:@"%@%@%@",
+                            [self.trustFactor.identification stringValue],
+                            kUniqueDeviceID,
+                            trustFactorOutput]
+                           sha1]
+                          stringByAppendingString:[NSString stringWithFormat:@"-%@",trustFactorOutput]];
         
         // Get EPOCH
         NSDate *now = [NSDate date];
@@ -110,7 +106,10 @@
     }
     
     // Set property
-    self.assertionObjects= assertionObjects;
+    self.assertionObjects = assertionObjects;
+    
+    // Return value
+    return YES;
     
 }
 

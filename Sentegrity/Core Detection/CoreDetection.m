@@ -295,7 +295,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        *error = [NSError errorWithDomain:sentegrityDomain code:SAUnKnownError userInfo:errorDetails];
+        *error = [NSError errorWithDomain:sentegrityDomain code:SAUnknownError userInfo:errorDetails];
         
         // Don't return anything
         return nil;
