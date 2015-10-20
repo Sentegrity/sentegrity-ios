@@ -353,8 +353,43 @@
         }
     }
     
-    return [cset countForObject:@"awdl0"] > 1 ? [NSNumber numberWithInt:1] : [NSNumber numberWithInt:0];
+    //If we got more than 1 instance of awdl0 from this API its a trick to tell that WiFi is enabled
+    if([cset countForObject:@"awdl0"] > 1){
+        return [NSNumber numberWithInt:1];
+    }else{
+        
+        // Check if we're tethering
+        if([[self isTethering] intValue] == 1){
+            
+            return [NSNumber numberWithInt:1];
+            
+        }
+        else{ //return that its disabled for realz
+            
+            return [NSNumber numberWithInt:0];
+        }
+    }
+    
 }
+
++ (NSNumber *) isTethering {
+    
+    NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
+    UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
+    
+    NSString *text = [statusBar valueForKey:@"_currentDoubleHeightText"];
+    if([text containsString:@"Hotspot"]){
+        
+        return [NSNumber numberWithInt:1];
+    }
+    else{
+        
+        return [NSNumber numberWithInt:0];
+    }
+
+}
+
+
 
 + (NSNumber *) getSignal{
     

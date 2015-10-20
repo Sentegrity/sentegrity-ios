@@ -25,7 +25,8 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
-    //No connection, check if WiFi is enabled
+    
+    //Ceck if WiFi is disabled
     if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
         
         //Not enabled, set DNE and return (penalize)
@@ -33,6 +34,16 @@
         
         // Return with the blank output object
         return trustFactorOutputObject;
+        
+    }    //If we're enabled, still check if we're tethering and set as unavaialble if we are
+    else if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
+        
+        //Not enabled, set DNE and return (penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
     }
     
     
@@ -224,7 +235,7 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
-    //No connection, check if WiFi is enabled
+    //Ceck if WiFi is disabled
     if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
         
         //Not enabled, set DNE and return (penalize)
@@ -232,6 +243,16 @@
         
         // Return with the blank output object
         return trustFactorOutputObject;
+        
+    }    //If we're enabled, still check if we're tethering and set as unavaialble if we are
+    else if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
+        
+        //Not enabled, set DNE and return (penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
     }
     
     NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
@@ -287,7 +308,7 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    //No connection, check if WiFi is enabled
+    //Ceck if WiFi is disabled
     if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
         
         //Not enabled, set DNE and return (penalize)
@@ -295,6 +316,16 @@
         
         // Return with the blank output object
         return trustFactorOutputObject;
+        
+    }    //If we're enabled, still check if we're tethering and set as unavaialble if we are
+    else if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
+        
+        //Not enabled, set DNE and return (penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
     }
     
     
@@ -356,18 +387,7 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
-    //If WiFi is enabled then tethering is not in use (it disasbled it otherwise)
-    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==1){
-        
-        // Return with the blank output object
-        return trustFactorOutputObject;
-    }
-    
-    NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
-    UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
-    
-    NSString *text = [statusBar valueForKey:@"_currentDoubleHeightText"];
-    if([text containsString:@"Hotspot"]){
+   if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
         
         [outputArray addObject:@"hotspotOn"];
         

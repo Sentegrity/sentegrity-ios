@@ -88,6 +88,7 @@
 @property (atomic, retain) NSNumber *celluarSignalRaw;
 @property (atomic, retain) NSString *carrierConnectionInfo;
 @property (atomic, retain) NSNumber *airplaneMode;
+@property (atomic, retain) NSNumber *tethering;
 
 // CPU
 @property (atomic) float cpuUsage;
@@ -148,6 +149,7 @@
 - (NSDictionary *)getWifiInfo;
 - (NSNumber *)isWifiEnabled;
 - (NSNumber *) getWifiSignal;
+- (NSNumber *)isTethering;
 
 // ** CELLUAR **
 - (NSNumber *) getCelluarSignalBars;

@@ -31,6 +31,8 @@
 
 + (NSNumber *)isWiFiEnabled;
 
++ (NSNumber *)isTethering;
+
 
 @end
 

@@ -903,4 +903,28 @@ static dispatch_once_t onceToken;
     
 }
 
+-(NSNumber *)isTethering {
+    if(!self.tethering) //dataset not populated
+    {
+        // Get the list of processes and all information about them
+        @try {
+            
+            self.tethering = [Wifi_Info isTethering];
+            return self.tethering;
+            
+        }
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+    }
+    else //already populated
+    {
+        return self.tethering;
+    }
+    
+}
+
+
 @end
