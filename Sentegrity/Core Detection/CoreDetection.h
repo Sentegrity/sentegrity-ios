@@ -55,11 +55,11 @@ typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computati
  *  @param policy   Sentegrity Policy Object that contains information about the policy
  *  @param timeOut  Timeout specifies the amount of time the computation will run before quitting
  *  @param callback CoreDetectionBlock
+ *  @warning TODO: Change the way errors are passed
  */
-// TODO: Change the way errors are passed
 - (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback;
 
-/**
+/*!
  *  Get the last computation results
  *
  *  @return TrustScoreComputation object
@@ -68,12 +68,12 @@ typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computati
 
 #pragma mark - Properties
 
-/**
+/*!
  *  Get/set the current policy being parsed
  */
 @property (atomic, retain) Sentegrity_Policy *currentPolicy;
 
-/**
+/*!
  *  Get/set the current computation results
  */
 @property (atomic, retain) Sentegrity_TrustScore_Computation *computationResults;

@@ -1,10 +1,13 @@
 //
 //  Sentegrity_TrustFactor_Dispatcher.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Nick Kramer on 2/7/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
+
+/*!
+ *  The TrustFactor Dispatcher calls the appropriate function and implementation routine for a provided rule.
+ */
 
 #import <Foundation/Foundation.h>
 

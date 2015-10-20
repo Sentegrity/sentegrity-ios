@@ -5,7 +5,7 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
-/**
+/*!
  *  TrustFactor Output Object - output from the TrustFactors stored here
  */
 
@@ -24,73 +24,62 @@
 
 #pragma mark - Properties
 
-/**
+/*!
  *  Policy TrustFactor
  */
 @property (atomic,retain) Sentegrity_TrustFactor *trustFactor;
 
-/**
+/*!
  *  Parsed Stored TrustFactor Object data
  */
 @property (atomic,retain) Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject;
 
-/**
- *  Plaintext output from TrustFactor
- */
-@property (atomic,retain) NSArray *output;
-
-/**
+/*!
  *  Sentegrity_Stored_Assertion objects to whitelist if protect mode is deactivated
  */
 @property (atomic,retain) NSArray *assertionObjectsToWhitelist;
 
-/**
+/*!
+ *  Output Array
+ */
+@property (atomic,retain) NSArray *output;
+
+/*!
  *  Sentegrity_Store_Assertion objects created from output
  */
 @property (atomic,retain) NSArray *assertionObjects;
 
-/**
- *  Default assertion object
- */
-@property (atomic,retain) Sentegrity_Stored_Assertion *defaultAssertionObject;
-
-/**
+/*!
  *  DNEStatusCode
  */
 @property (atomic) DNEStatusCode statusCode;
 
-/**
+/*!
  *  Set during baseline analysis and checked during computation
  */
 @property (atomic) BOOL triggered;
 
-/**
+/*!
  *  Set during baseline analysis and checked during computation
  */
 @property (atomic) BOOL whitelist;
 
 #pragma mark - Methods
 
-/**
+/*!
  *  Generate the default assertion object
- */
-- (void)generateDefaultAssertionObject;
-
-/**
- *  Set the assertion Objects from the output
- */
-- (void)setAssertionObjectsFromOutput;
-
-/**
- *  Set the assertion objects to default
- */
-- (void)setAssertionObjectsToDefault;
-
-/**
- *   Check if the generated assertion object is the default
  *
- *  @return Returns YES if assertion object contains default
+ * @return The default Stored Assertion
  */
-- (BOOL)generatedAssertionObjectsContainsDefault;
+- (Sentegrity_Stored_Assertion *)defaultAssertionObject;
+
+/**
+ *  Set the assertion objects from the output
+ *
+ *  @param Assertion output
+ *
+ *  @return BOOL value that lets you know if it was set
+ */
+- (BOOL)setAssertionObjectsFromOutput:(NSArray *)output;
 
 @end

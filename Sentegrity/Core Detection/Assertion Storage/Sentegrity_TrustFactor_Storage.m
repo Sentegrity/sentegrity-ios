@@ -15,26 +15,30 @@
 @implementation Sentegrity_TrustFactor_Storage
 
 // Singleton method
-+ (id)sharedStorage
-{
++ (id)sharedStorage {
     static Sentegrity_TrustFactor_Storage *sharedStorage = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedStorage = [[self alloc] init];
-        
-
     });
     return sharedStorage;
 }
 
 // Init (Defaults)
 - (id)init {
+    
+    // Check if self exists
     if (self = [super init]) {
+        
         // Set defaults here if need be
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-        [self setStorePath:basePath];
+        
+        // Set the store path directly to the instance variable
+        _storePath = basePath;
     }
+    
+    // Return
     return self;
 }
 
@@ -61,8 +65,10 @@
 
 // Get a store by app ID
 - (Sentegrity_Assertion_Store *)getStoreWithAppID:(NSString *)appID doesExist:(BOOL *)exists withError:(NSError **)error {
+    
     // Check the app ID first
     if (!appID || appID.length < 1) {
+        
         // No app ID provided
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No app ID provided" forKey:NSLocalizedDescriptionKey];
@@ -80,18 +86,19 @@
     NSString *storePath = [_storePath stringByAppendingPathComponent:storeName];
     NSURL *storeURLPath = [NSURL URLWithString:storePath];
     
-    // TODO: Remove this NSLog
-    //NSLog(@"Store Path From Assertion Storage: %@", storePath);
-    
-    // Check if it exits
+    // Check if it exists
     if ([[NSFileManager defaultManager] fileExistsAtPath:storePath]) {
+        
         // Turn the path into an object
         Sentegrity_Assertion_Store *store = [parser parseAssertionStoreWithPath:storeURLPath withError:error];
         
         // Check if the store's appID matches the policies appID
         if (store && [store.appID isEqualToString:appID]) {
+            
             // Found the store
             *exists = YES;
+            
+            // Return Store
             return store;
         }
 
@@ -103,10 +110,11 @@
 }
 
 // Set a local store by app id
-- (Sentegrity_Assertion_Store *)setStore:(Sentegrity_Assertion_Store *)store forAppID:(NSString *)appID withError:(NSError **)error
-{
+- (Sentegrity_Assertion_Store *)setStore:(Sentegrity_Assertion_Store *)store forAppID:(NSString *)appID withError:(NSError **)error {
+    
     // Check the app id first
     if (!appID || appID.length < 1) {
+        
         // No app id provided
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No app id provided" forKey:NSLocalizedDescriptionKey];
@@ -118,6 +126,7 @@
     
     // Check if the store contains a valid id
     if (!store.appID || store.appID.length < 1) {
+        
         // Set the app id to the store
         [store setAppID:appID];
     }
@@ -136,6 +145,7 @@
     
     // BETA2: Nick's added write out validation
     if (!outFileWrite ) {
+        
         // Unable to write out local store!!!
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"Unable to write store" forKey:NSLocalizedDescriptionKey];
