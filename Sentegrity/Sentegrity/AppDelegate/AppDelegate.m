@@ -113,7 +113,7 @@ static MBProgressHUD *HUD;
 - (void)runCoreDetectionActivities {
     // Run the Core Detection Activites
     
-    [self startBluetoothBLE];
+    [self startBluetoothBLE]; // Also starts classic
     
     [self startLocation];
     
@@ -121,7 +121,6 @@ static MBProgressHUD *HUD;
     
     [self startMotion];
     
-    [self startBluetoothClassic];
 }
 
 #pragma mark - Core Detection Activities
@@ -569,10 +568,11 @@ static CFAbsoluteTime startTime=0.0;
         }
         case CBCentralManagerStateUnsupported:
         {
-            //messtoshow=[NSString stringWithFormat:@"The platform doesn't support Bluetooth Low Energy"];
             
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_unsupported];
-            // [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_unsupported];
+            
+            //We also set classic here since it uses private API this is more reliable
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_unsupported];
             
             break;
         }
@@ -581,7 +581,8 @@ static CFAbsoluteTime startTime=0.0;
             //messtoshow=[NSString stringWithFormat:@"The app is not authorized to use Bluetooth Low Energy"];
             
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_unauthorized];
-            // [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_unauthorized];
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_unauthorized];
+            
             break;
         }
         case CBCentralManagerStatePoweredOff:
@@ -589,7 +590,7 @@ static CFAbsoluteTime startTime=0.0;
             //messtoshow=[NSString stringWithFormat:@"Bluetooth is currently powered off."];
             
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_disabled];
-            //[[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDNEStatus:DNEStatus_disabled];
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_disabled];
             break;
         }
         case CBCentralManagerStatePoweredOn:
@@ -605,9 +606,9 @@ static CFAbsoluteTime startTime=0.0;
             
             
             [mgr scanForPeripheralsWithServices:nil options:nil];
-            
-            // Retrieve list of paired
-            //[mgr retrieveConnectedPeripheralsWithServices:nil];
+
+            // Also start classic BT
+            [self startBluetoothClassic];
             
             
             break;
@@ -630,9 +631,8 @@ static NSMutableArray *connectedBTDevices;
 (MDBluetoothNotification)bluetoothNotification
 {
     
-    if([[MDBluetoothManager sharedInstance] bluetoothIsPowered] && ([[Sentegrity_TrustFactor_Datasets sharedDatasets] discoveredBLESDNEStatus] != DNEStatus_disabled)){
-        
-        
+        [[MDBluetoothManager sharedInstance] unregisterObserver:self];
+    
         NSArray *connectedDevices = [[BluetoothManager sharedInstance] connectedDevices];
         
         connectedBTDevices = [[NSMutableArray alloc]init];
@@ -648,10 +648,7 @@ static NSMutableArray *connectedBTDevices;
         
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:connectedBTDevices];
         
-    }else{
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_disabled];
-        
-    }
+ 
     
 }
 
