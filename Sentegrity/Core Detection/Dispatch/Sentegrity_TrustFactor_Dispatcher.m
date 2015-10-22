@@ -1,5 +1,5 @@
 //
-//  Sentegrity_Baseline_Analysis.h
+//  Sentegrity_TrustFactor_Dispatcher.m
 //  Sentegrity
 //
 //  Copyright (c) 2015 Sentegrity. All rights reserved.

@@ -1,10 +1,14 @@
 //
-//  Sentegrity_TrustFactor_Rule.h
-//  SenTest
+//  Sentegrity_TrustFactor_Datasets.h
+//  Sentegrity
 //
-//  Created by Nick Kramer on 2/7/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
+
+/*!
+ *  TrustFactor Datasets is designed to cache the results between the TrustFactor Dispatch Rule and
+ *  Sentegrity TrustFactor Dataset Category.
+ */
 
 // Constants
 #import "Sentegrity_Constants.h"
@@ -29,9 +33,7 @@
 #import "Sentegrity_TrustFactor_Dataset_Cell.h"
 #import "Sentegrity_TrustFactor_Dataset_Motion.h"
 
-
 @interface Sentegrity_TrustFactor_Datasets : NSObject
-
 
 #pragma mark - Singleton
 
@@ -101,25 +103,21 @@
 @property (atomic) NSInteger dayOfWeek;
 @property (nonatomic) NSInteger runTimeEpoch;
 
-//App Info
+// App Info
 @property (atomic, retain) NSArray *installedApps;
 
-//Process Info
+// Process Info
 @property (atomic, retain) NSArray *runningProcesses;
 @property (atomic, retain) NSNumber *ourPID;
 
-//Routing Info
+// Routing Info
 @property (atomic, retain) NSArray *networkRoutes;
 
-//Interface Info
+// Interface Info
 @property (atomic, retain) NSDictionary *interfaceBytes;
 
 // Netstat Info
 @property (atomic, retain) NSArray *netstatData;
-
-
-
-
 
 #pragma mark - Dataset methods
 
@@ -179,6 +177,5 @@
 // ** BLUETOOTH **
 - (NSArray *)getDiscoveredBLEInfo;
 - (NSArray *)getClassicBTInfo;
-
 
 @end
