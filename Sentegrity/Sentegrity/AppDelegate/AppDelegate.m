@@ -292,107 +292,107 @@ static NSMutableArray *headingsArray;
         [manager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXMagneticNorthZVertical
                                                      toQueue:[NSOperationQueue currentQueue]
                                                  withHandler:^(CMDeviceMotion  *motion, NSError *error) {
-                                         
-                                         
-                                         if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
-                                             // The app isn't authorized to use motion activity support.
-                                             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unauthorized];
-                                         }
-                                         else{
-                                             
-                                             
-                                             
-                                             // Pitch/Roll
-
-                                             
-                                             // Create an array of motion samples
-                                             NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.attitude.pitch], [NSNumber numberWithFloat:motion.attitude.roll], nil];
-                                             
-                                             // Create an array of keys
-                                             NSArray *KeyArray = [NSArray arrayWithObjects:@"pitch", @"roll", nil];
-                                             
-                                             // Create the dictionary
-                                             NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
-                                             
-                                             // Add sample to array
-                                             [pitchRollArray addObject:dict];
-                                             
-                                             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
-                                             
-
-                                             
-                                             if(manager.deviceMotion.magneticField.field.z != 0){
-                                                 
-         
-                                                 // Create an array of headings samples
-                                                 NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.x], [NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.y],[NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.z], nil];
-                                                 
-                                                 // Create an array of keys
-                                                 NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
-                                                 
-                                                 // Create the dictionary
-                                                 NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
-                                                 
-                                                 // Add sample to array
-                                                 [headingsArray addObject:dict];
-                                                 
-                                                 [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadings:headingsArray];
-                                                 
-                                             }
-                                             
-                                             // Keep updating until we stop
-                                             // We want a minimum of 3 samples before we average them inside the TF
-                                             // its possible we will get more as this handler gets called additional times prior to
-                                             // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
-                                             
-                                             if (pitchRollArray.count > 3 && headingsArray.count > 3){
-                                                 [manager stopDeviceMotionUpdates];
-                                             }
-                                             
-                                         }
-                                         
-                                     }];
+                                                     
+                                                     
+                                                     if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
+                                                         // The app isn't authorized to use motion activity support.
+                                                         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unauthorized];
+                                                     }
+                                                     else{
+                                                         
+                                                         
+                                                         
+                                                         // Pitch/Roll
+                                                         
+                                                         
+                                                         // Create an array of motion samples
+                                                         NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.attitude.pitch], [NSNumber numberWithFloat:motion.attitude.roll], nil];
+                                                         
+                                                         // Create an array of keys
+                                                         NSArray *KeyArray = [NSArray arrayWithObjects:@"pitch", @"roll", nil];
+                                                         
+                                                         // Create the dictionary
+                                                         NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                                                         
+                                                         // Add sample to array
+                                                         [pitchRollArray addObject:dict];
+                                                         
+                                                         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
+                                                         
+                                                         
+                                                         
+                                                         if(manager.deviceMotion.magneticField.field.z != 0){
+                                                             
+                                                             
+                                                             // Create an array of headings samples
+                                                             NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.x], [NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.y],[NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.z], nil];
+                                                             
+                                                             // Create an array of keys
+                                                             NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+                                                             
+                                                             // Create the dictionary
+                                                             NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                                                             
+                                                             // Add sample to array
+                                                             [headingsArray addObject:dict];
+                                                             
+                                                             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadings:headingsArray];
+                                                             
+                                                         }
+                                                         
+                                                         // Keep updating until we stop
+                                                         // We want a minimum of 3 samples before we average them inside the TF
+                                                         // its possible we will get more as this handler gets called additional times prior to
+                                                         // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
+                                                         
+                                                         if (pitchRollArray.count > 3 && headingsArray.count > 3){
+                                                             [manager stopDeviceMotionUpdates];
+                                                         }
+                                                         
+                                                     }
+                                                     
+                                                 }];
         
-
-
-
+        
+        
+        
         /*
-        // magnetomer readings, this does not work well as its not calibrated (raw data very unpredictable)
-        manager.magnetometerUpdateInterval = .001;
-        [manager startMagnetometerUpdatesToQueue:[NSOperationQueue currentQueue]  withHandler:^(CMMagnetometerData  *magnetometer, NSError *error) {
-            
-                                        [manager stopMagnetometerUpdates];
-                                         
-                                         if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
-                                             // The app isn't authorized to use motion activity support.
-                                             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadingsMotionDNEStatus:DNEStatus_unauthorized];
-                                         }
-                                         else{
-                                             
-                                           
-                                             // Create an array of headings samples
-                                             NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:magnetometer.magneticField.x], [NSNumber numberWithDouble:magnetometer.magneticField.y],[NSNumber numberWithDouble:magnetometer.magneticField.z], nil];
-                                             
-                                             // Create an array of keys
-                                             NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
-                                             
-                                             // Create the dictionary
-                                             NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
-                                             
-                                             // Add sample to array
-                                             [headingsArray addObject:dict];
-                                             
-                                             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadings:headingsArray];
-                                             
-                                             
-
-
-
-                                         }
-                                         
-                                     }];
-
-        */
+         // magnetomer readings, this does not work well as its not calibrated (raw data very unpredictable)
+         manager.magnetometerUpdateInterval = .001;
+         [manager startMagnetometerUpdatesToQueue:[NSOperationQueue currentQueue]  withHandler:^(CMMagnetometerData  *magnetometer, NSError *error) {
+         
+         [manager stopMagnetometerUpdates];
+         
+         if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
+         // The app isn't authorized to use motion activity support.
+         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadingsMotionDNEStatus:DNEStatus_unauthorized];
+         }
+         else{
+         
+         
+         // Create an array of headings samples
+         NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:magnetometer.magneticField.x], [NSNumber numberWithDouble:magnetometer.magneticField.y],[NSNumber numberWithDouble:magnetometer.magneticField.z], nil];
+         
+         // Create an array of keys
+         NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+         
+         // Create the dictionary
+         NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+         
+         // Add sample to array
+         [headingsArray addObject:dict];
+         
+         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadings:headingsArray];
+         
+         
+         
+         
+         
+         }
+         
+         }];
+         
+         */
         
         // Attempt to detect large movements
         manager.gyroUpdateInterval = .001;
@@ -606,7 +606,7 @@ static CFAbsoluteTime startTime=0.0;
             
             
             [mgr scanForPeripheralsWithServices:nil options:nil];
-
+            
             // Also start classic BT
             [self startBluetoothClassic];
             
@@ -631,24 +631,24 @@ static NSMutableArray *connectedBTDevices;
 (MDBluetoothNotification)bluetoothNotification
 {
     
-        [[MDBluetoothManager sharedInstance] unregisterObserver:self];
+    [[MDBluetoothManager sharedInstance] unregisterObserver:self];
     
-        NSArray *connectedDevices = [[BluetoothManager sharedInstance] connectedDevices];
+    NSArray *connectedDevices = [[BluetoothManager sharedInstance] connectedDevices];
+    
+    connectedBTDevices = [[NSMutableArray alloc]init];
+    
+    // Run through all found devices information
+    for (BluetoothDevice *device in connectedDevices) {
         
-        connectedBTDevices = [[NSMutableArray alloc]init];
+        // Add the device  to the list
+        [connectedBTDevices addObject:[NSString stringWithFormat:@"%@",[device address]]];
         
-        // Run through all found devices information
-        for (BluetoothDevice *device in connectedDevices) {
-            
-            // Add the device  to the list
-            [connectedBTDevices addObject:[NSString stringWithFormat:@"%@",[device address]]];
-            
-            
-        }
         
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:connectedBTDevices];
-        
- 
+    }
+    
+    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:connectedBTDevices];
+    
+    
     
 }
 

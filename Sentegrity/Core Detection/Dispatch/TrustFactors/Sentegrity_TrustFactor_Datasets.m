@@ -16,7 +16,6 @@ static Sentegrity_TrustFactor_Datasets *sharedTrustFactorDatasets = nil;
 static dispatch_once_t onceToken;
 
 + (id)sharedDatasets {
-
     dispatch_once(&onceToken, ^{
         sharedTrustFactorDatasets = [[self alloc] init];
     });
@@ -33,7 +32,11 @@ static dispatch_once_t onceToken;
 }
 
 // Only used for demo re-run of core detection, otherwise the cached datasets are used
-+ (void) selfDestruct {
++ (void)selfDestruct {
+    // TODO: Get rid of this crappy code (sorry Jason)
+    
+    // Don't just destroy the token, destroy the entire object
+    sharedTrustFactorDatasets = nil;
     onceToken = 0;
 }
 

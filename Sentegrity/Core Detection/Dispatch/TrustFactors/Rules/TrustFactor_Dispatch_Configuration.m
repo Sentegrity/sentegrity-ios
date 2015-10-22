@@ -40,13 +40,13 @@
     
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
-
+    
     
     //is iCloud enabled
     if([[NSFileManager defaultManager] ubiquityIdentityToken] != nil){
-         [outputArray addObject:@"backupEnabled"];
+        [outputArray addObject:@"backupEnabled"];
     }
-
+    
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
@@ -69,54 +69,52 @@
     
     //only supported on iOS 8
     if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")){
- 
-       static NSData *password = nil;
-       static dispatch_once_t onceToken;
-       dispatch_once(&onceToken, ^{
-           password = [NSKeyedArchiver archivedDataWithRootObject:NSStringFromSelector(_cmd)];
-       });
-       
-       NSDictionary *query = @{
-                               (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
-                               (__bridge id)kSecAttrService: @"UIDevice-PasscodeStatus_KeychainService",
-                               (__bridge id)kSecAttrAccount: @"UIDevice-PasscodeStatus_KeychainAccount",
-                               (__bridge id)kSecReturnData: @YES,
-                               };
-       
-       CFErrorRef sacError = NULL;
-       SecAccessControlRef sacObject;
-       sacObject = SecAccessControlCreateWithFlags(kCFAllocatorDefault, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, kNilOptions, &sacError);
-       
-       // unable to create the access control item.
-       if (sacObject == NULL || sacError != NULL) {
-           [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
-           
-           // Set the trustfactor output to the output array (regardless if empty)
-           [trustFactorOutputObject setOutput:outputArray];
-           
-           // Return the trustfactor output object
-           return trustFactorOutputObject;
-       }
-       
-       
-       NSMutableDictionary *setQuery = [query mutableCopy];
-       [setQuery setObject:password forKey:(__bridge id)kSecValueData];
-       [setQuery setObject:(__bridge id)sacObject forKey:(__bridge id)kSecAttrAccessControl];
-       
-       OSStatus status;
-       status = SecItemAdd((__bridge CFDictionaryRef)setQuery, NULL);
-
-       
-       status = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
-       
-       // it managed to retrieve data successfully
-       if (status != errSecSuccess) {
-           //passcode enabled
-           [outputArray addObject:@"passcodeNotSet"];
-       }
- 
-       
-
+        
+        static NSData *password = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            password = [NSKeyedArchiver archivedDataWithRootObject:NSStringFromSelector(_cmd)];
+        });
+        
+        NSDictionary *query = @{
+                                (__bridge id <NSCopying>)kSecClass: (__bridge id)kSecClassGenericPassword,
+                                (__bridge id)kSecAttrService: @"UIDevice-PasscodeStatus_KeychainService",
+                                (__bridge id)kSecAttrAccount: @"UIDevice-PasscodeStatus_KeychainAccount",
+                                (__bridge id)kSecReturnData: @YES,
+                                };
+        
+        CFErrorRef sacError = NULL;
+        SecAccessControlRef sacObject = SecAccessControlCreateWithFlags(kCFAllocatorDefault, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, kNilOptions, &sacError);
+        
+        // unable to create the access control item.
+        if (sacObject == NULL || sacError != NULL) {
+            
+            [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+            
+            // Set the trustfactor output to the output array (regardless if empty)
+            [trustFactorOutputObject setOutput:outputArray];
+            
+            // Return the trustfactor output object
+            return trustFactorOutputObject;
+        }
+        
+        NSMutableDictionary *setQuery = [query mutableCopy];
+        [setQuery setObject:password forKey:(__bridge_transfer id)kSecValueData];
+        [setQuery setObject:(__bridge_transfer id)sacObject forKey:(__bridge_transfer id)kSecAttrAccessControl];
+        
+        OSStatus status;
+        status = SecItemAdd((__bridge CFDictionaryRef)setQuery, NULL);
+        
+        status = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
+        
+        // it managed to retrieve data successfully
+        if (status != errSecSuccess) {
+            //passcode enabled
+            [outputArray addObject:@"passcodeNotSet"];
+        }
+        
+        
+        
     }
     else{
         [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
@@ -133,7 +131,7 @@
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-
+    
 }
 
 @end

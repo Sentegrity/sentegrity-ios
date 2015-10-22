@@ -353,6 +353,9 @@
         }
     }
     
+    // FREEDOM
+    freeifaddrs(interfaces);
+    
     //If we got more than 1 instance of awdl0 from this API its a trick to tell that WiFi is enabled
     if([cset countForObject:@"awdl0"] > 1){
         return [NSNumber numberWithInt:1];

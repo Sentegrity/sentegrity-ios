@@ -358,7 +358,7 @@ char *inetname(struct in_addr *inp)
 }
 
 
-+(NSDictionary *)getInterfaceBytes{
++ (NSDictionary *)getInterfaceBytes{
     
     struct ifaddrs *addrs;
     const struct ifaddrs *cursor;
