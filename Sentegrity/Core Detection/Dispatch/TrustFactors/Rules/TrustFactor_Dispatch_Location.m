@@ -354,10 +354,23 @@
     //Screen level is given as a float 0.1-1
     float screenLevel = [[UIScreen mainScreen] brightness];
     
+    float blocksize=0;
+    
+    
+    // If no location data use sensitive
+    if(locationAvailable==NO){
+        
+        blocksize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksizeNoLocation"] floatValue];
+        
+    } //else use liberal
+    else{
+        
+        blocksize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksizeWithLocation"] floatValue];
+    }
+    
     // With a blocksize of .25 or 4 we get block 0-.25,.25-.5,.5-.75,.75-1
     // We add 1 to the blockOfBrightness after dividing to get a 1-4 block instead of 0-3
     
-    float blocksize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksize"] floatValue];
     
     // Prevents 0/.25 = 0
     if(screenLevel < 0.1){

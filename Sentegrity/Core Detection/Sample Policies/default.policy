@@ -2,7 +2,7 @@
 "policyID": 1,
 "appID": "default",
 "revision": 1,
-"userThreshold": 70,
+"userThreshold": 75,
 "systemThreshold": 70,
 "contactPhone": "18005556666",
 "contactURL": "www.application.com",
@@ -898,7 +898,7 @@
 "subClassID": 7,
 "priority": 1,
 "name": "access time hour day",
-"penalty": 20,
+"penalty": 30,
 "ruleType": 3,
 "learnMode": 0,
 "learnTime": 0,
@@ -912,7 +912,7 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"hoursInBlock" : 4,
+"hoursInBlock" : 3,
 }]
 }, {
 "id": 1030,
@@ -1035,7 +1035,7 @@
 "hoursInBlock": 4
 }]
 }, {
-"id": 1036,
+"id": 1050,
 "issueMessage": "Unfamiliar device grip",
 "suggestionMessage": "Hold device steady",
 "revision": 1,
@@ -1043,13 +1043,13 @@
 "subClassID": 11,
 "priority": 3,
 "name": "device grip",
-"penalty": 30,
+"penalty": 50,
 "ruleType": 3,
 "learnMode": 0,
 "learnTime": 0,
 "learnAssertionCount": 0,
 "learnRunCount": 0,
-"threshold": 0,
+"threshold": 2,
 "decayMode": 2,
 "decayMetric": 0.5,
 "dispatch": "Motion",
@@ -1057,17 +1057,17 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"blockSize": 6
+"blockSize": 8
 }]
 }, {
 "id": 1059,
-"issueMessage": "Device location anomaly",
-"suggestionMessage": "Access device in familiar rooms",
+"issueMessage": "Approximate location anomaly",
+"suggestionMessage": "Access device in familiar areas",
 "revision": 1,
 "classID": 5,
 "subClassID": 20,
 "priority": 1,
-"name": "device location anomaly",
+"name": "approximate location anomaly",
 "penalty": 25,
 "ruleType": 3,
 "learnMode": 0,
@@ -1082,21 +1082,22 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"brightnessBlocksize" : 3,
-"locationRounding" : 1,
-"magneticBlockSizeNoLocation" : 5,
-"magneticBlockSizeWithLocation" : 10
+"brightnessBlocksizeWithLocation" : 4,
+"brightnessBlocksizeNoLocation" : 6,
+"locationRounding" : 2,
+"magneticBlockSizeNoLocation" : 3,
+"magneticBlockSizeWithLocation" : 8
 }]
 }, {
 "id": 1037,
-"issueMessage": "Unfamiliar device location (GPS)",
+"issueMessage": "GPS location anomaly",
 "suggestionMessage": "Access device in familiar locations",
 "revision": 1,
 "classID": 5,
 "subClassID": 10,
 "priority": 1,
 "name": "device location",
-"penalty": 30,
+"penalty": 40,
 "ruleType": 3,
 "learnMode": 0,
 "learnTime": 0,
@@ -1110,7 +1111,7 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"rounding": 1
+"rounding": 2
 }]
 }, {
 "id": 1038,
