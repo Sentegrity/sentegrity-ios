@@ -1,0 +1,19 @@
+PODS:
+  - DCKeyValueObjectMapping (1.5)
+  - LGBluetooth (1.1.5)
+  - NSObject-ObjectMap (2.3.1)
+  - NSString-Hashes (1.2.2)
+
+DEPENDENCIES:
+  - DCKeyValueObjectMapping (~> 1.4)
+  - LGBluetooth (~> 1.1.5)
+  - NSObject-ObjectMap (~> 2.0)
+  - NSString-Hashes (~> 1.2)
+
+SPEC CHECKSUMS:
+  DCKeyValueObjectMapping: c2eb5a6529da100b2e49ef6a599663578051f077
+  LGBluetooth: 8407d2de27bcbd4a9e11243290b928293ffa8881
+  NSObject-ObjectMap: 3223c0c994a8e3de44ccb74ddf3e63c86821c015
+  NSString-Hashes: c3848d809e92650e4fb17db5d8cc4bd2aa1eaddd
+
+COCOAPODS: 0.39.0
