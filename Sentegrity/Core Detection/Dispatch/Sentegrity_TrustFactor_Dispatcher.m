@@ -118,7 +118,7 @@
         } else {
             
             // Add the default so that it stays #1 hitCount and hit/day wise and won't ever get decayed
-            [trustFactorOutputObject.assertionObjects arrayByAddingObjectsFromArray:@[[trustFactorOutputObject defaultAssertionObject]]];
+            [trustFactorOutputObject setAssertionObjects:[trustFactorOutputObject.assertionObjects arrayByAddingObject:[trustFactorOutputObject defaultAssertionObject]]];
         }
     } else {
         

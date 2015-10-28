@@ -24,6 +24,10 @@
         // Set the DNE to OK
         _statusCode = DNEStatus_ok;
         
+        // Set the default assertion object array
+        _assertionObjects = [NSArray array];
+        
+        
     }
     return self;
 }
@@ -72,7 +76,7 @@
     }
     
     // Temporary mutable array to hold Sentegrity_Stored_Assertion objects
-    NSMutableArray *assertionObjects = [[NSMutableArray alloc]init];
+    NSMutableArray *assertionObjects = [[NSMutableArray alloc] init];
     
     // Create the assertions by iterating through trustfactor output
     for (NSString *trustFactorOutput in self.output) {
