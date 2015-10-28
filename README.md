@@ -1,5 +1,16 @@
-# Sentegrity
-Sentegrity iOS Application
+<br>
+
+<p align="center"><img src="https://sentegrity.com/wp-content/uploads/2015/02/sentegrity-solution.gif"/></p>
+<hr>
+<br>
+
+<p align="center">![Main Dashboard](Demo Images/Dashboard.png "Main Dashboard") ![User Info](Demo Images/UserInfo.png "User Info") ![Device Info](Demo Images/DeviceInfo.png "Device Info")
+
+The single risk management solution for mobile applications.
+
+# Core Detection
+
+Powers Sentegrity by providing a Trust Score of the user and device
 
 ## Usage
 

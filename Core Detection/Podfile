@@ -1,0 +1,7 @@
+# Core Detection
+pod 'DCKeyValueObjectMapping', '~> 1.4'
+pod 'NSObject-ObjectMap', '~> 2.0'
+pod 'NSString-Hashes', '~> 1.2'
+
+# Bluetooth
+pod "LGBluetooth", "~> 1.1.5"
