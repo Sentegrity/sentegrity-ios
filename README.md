@@ -1,8 +1,4 @@
-<br>
-
-<p align="center"><img src="https://sentegrity.com/wp-content/uploads/2015/02/sentegrity-solution.gif"/></p>
-
-<br>
+# Sentegrity
 
 <p align="center">![Main Dashboard](Demo Images/Dashboard.png "Main Dashboard")
 
