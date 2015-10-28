@@ -4,7 +4,7 @@
 <hr>
 <br>
 
-<p align="center">![Main Dashboard](Demo Images/Dashboard.png "Main Dashboard")
+<p align="center">![Main Dashboard](Demo Images/Dashboard.png "Main Dashboard") ![User Info](Demo Images/UserInfo.png "User Info") ![Device Info](Demo Images/DeviceInfo.png "Device Info")
 
 The single risk management solution for mobile applications.
 
