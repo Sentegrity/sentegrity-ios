@@ -31,12 +31,12 @@
 		04E403291B307A1500A1705E /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E4031B1B307A1500A1705E /* OpenSans-Semibold.ttf */; };
 		04E4032A1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E4031C1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf */; };
 		4AAF480942FD8A13AE2789F8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F48570A0D36F3F3E38C7B515 /* libPods.a */; };
-		4C1DEC2B1BBCA38B00B0A312 /* LocationPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DEC2A1BBCA38B00B0A312 /* LocationPermissionViewController.m */; settings = {ASSET_TAGS = (); }; };
-		4C1DEC2E1BBCA39F00B0A312 /* ActivityPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DEC2D1BBCA39F00B0A312 /* ActivityPermissionViewController.m */; settings = {ASSET_TAGS = (); }; };
+		4C1DEC2B1BBCA38B00B0A312 /* LocationPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DEC2A1BBCA38B00B0A312 /* LocationPermissionViewController.m */; };
+		4C1DEC2E1BBCA39F00B0A312 /* ActivityPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DEC2D1BBCA39F00B0A312 /* ActivityPermissionViewController.m */; };
 		4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */; };
 		4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */; };
-		4C3282991BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3282981BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m */; settings = {ASSET_TAGS = (); }; };
-		4C32829A1BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3282981BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m */; settings = {ASSET_TAGS = (); }; };
+		4C3282991BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3282981BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m */; };
+		4C32829A1BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3282981BCC73BE006F0CD8 /* Sentegrity_Assertion_Store+Helper.m */; };
 		4C5393851B2F965D00EA4484 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393841B2F965D00EA4484 /* loading.gif */; };
 		4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393861B2F966700EA4484 /* loadingWhite.gif */; };
 		4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */; };
@@ -78,8 +78,8 @@
 		96067D7B1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96067D7A1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m */; };
 		96067D8A1BB59773001FB5D7 /* MDBluetoothDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 96067D861BB59773001FB5D7 /* MDBluetoothDevice.m */; };
 		96067D8B1BB59773001FB5D7 /* MDBluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 96067D881BB59773001FB5D7 /* MDBluetoothManager.m */; };
-		9607733D1BBDDE43001F4D5E /* BluetoothManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9607733C1BBDDE43001F4D5E /* BluetoothManager.framework */; settings = {ASSET_TAGS = (); }; };
-		960773401BBDE2C8001F4D5E /* Sentegrity_TrustFactor_Dataset_Motion.m in Sources */ = {isa = PBXBuildFile; fileRef = 9607733F1BBDE2C8001F4D5E /* Sentegrity_TrustFactor_Dataset_Motion.m */; settings = {ASSET_TAGS = (); }; };
+		9607733D1BBDDE43001F4D5E /* BluetoothManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9607733C1BBDDE43001F4D5E /* BluetoothManager.framework */; };
+		960773401BBDE2C8001F4D5E /* Sentegrity_TrustFactor_Dataset_Motion.m in Sources */ = {isa = PBXBuildFile; fileRef = 9607733F1BBDE2C8001F4D5E /* Sentegrity_TrustFactor_Dataset_Motion.m */; };
 		966A41061B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41051B87FACA007DAFB7 /* Sentegrity_Stored_Assertion.m */; };
 		966A41091B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A41081B8A17D9007DAFB7 /* TrustFactor_Dispatch_Celluar.m */; };
 		966A410C1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A410B1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.m */; };
@@ -913,9 +913,9 @@
 				96067D841BB59773001FB5D7 /* Bluetooth */,
 				968263951BA9F20300671D56 /* Objects */,
 				966A41101B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.h */,
+				966A41111B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m */,
 				9607733E1BBDE2C8001F4D5E /* Sentegrity_TrustFactor_Dataset_Motion.h */,
 				9607733F1BBDE2C8001F4D5E /* Sentegrity_TrustFactor_Dataset_Motion.m */,
-				966A41111B8A35D8007DAFB7 /* Sentegrity_TrustFactor_Dataset_Application.m */,
 				96067D791BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.h */,
 				96067D7A1BB0A50E001FB5D7 /* Sentegrity_TrustFactor_Dataset_Cell.m */,
 				966A410A1B8A2AC7007DAFB7 /* Sentegrity_TrustFactor_Dataset_CPU.h */,

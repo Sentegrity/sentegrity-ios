@@ -1,9 +1,8 @@
 //
-//  Sentegrity_TrustFactor_Rule.h
-//  SenTest
+//  Sentegrity_TrustFactor_Dataset_Application.h
+//  Sentegrity
 //
-//  Created by Nick Kramer on 2/7/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 // Import Constants
@@ -17,6 +16,5 @@
 
 // USES PRIVATE API
 + (NSArray *)getUserAppInfo;
-
 
 @end
