@@ -1,8 +1,7 @@
 //
-//  Sentegrity_TrustFactor_Dataset_Process.m
+//  Sentegrity_TrustFactor_Dataset_CPU.m
 //  Sentegrity
 //
-//  Created by Jason Sinchak on 7/17/15.
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
@@ -32,8 +31,8 @@
             size_t _sizeOfNumCPUs = sizeof(_numCPUs);
             int _status = sysctl(_mib, 2U, &_numCPUs, &_sizeOfNumCPUs, NULL, 0U);
             
-            if (_status)
-            {
+            if (_status) {
+                
                 _numCPUs = 1;
             }
             
@@ -45,25 +44,23 @@
             Float32 inUse = 0.0;
             Float32 total = 0.0;
             
-            if (err == KERN_SUCCESS)
-            {
+            if (err == KERN_SUCCESS) {
+                
                 [_cpuUsageLock lock];
                 
-                for (unsigned i = 0U; i < _numCPUs; i++)
-                {
+                for (unsigned i = 0U; i < _numCPUs; i++) {
+                    
                     Float32 _inUse, _total;
                     
-                    if (_prevCPUInfo)
-                    {
+                    if (_prevCPUInfo) {
+                        
                         _inUse = (
                                   (_cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_USER]   - _prevCPUInfo[(CPU_STATE_MAX * i) + CPU_STATE_USER])
                                   + (_cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_SYSTEM] - _prevCPUInfo[(CPU_STATE_MAX * i) + CPU_STATE_SYSTEM])
                                   + (_cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_NICE]   - _prevCPUInfo[(CPU_STATE_MAX * i) + CPU_STATE_NICE])
                                   );
                         _total = _inUse + (_cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_IDLE] - _prevCPUInfo[(CPU_STATE_MAX * i) + CPU_STATE_IDLE]);
-                    }
-                    else
-                    {
+                    } else {
                         _inUse = _cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_USER] + _cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_SYSTEM] + _cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_NICE];
                         _total = _inUse + _cpuInfo[(CPU_STATE_MAX * i) + CPU_STATE_IDLE];
                     }
@@ -76,8 +73,8 @@
                 
                 [_cpuUsageLock unlock];
                 
-                if (_prevCPUInfo)
-                {
+                if (_prevCPUInfo) {
+                    
                     size_t prevCpuInfoSize = sizeof(integer_t) * _numPrevCPUInfo;
                     vm_deallocate(mach_task_self(), (vm_address_t)_prevCPUInfo, prevCpuInfoSize);
                 }
@@ -90,14 +87,12 @@
             }
             
             return total > 0.0 ? (inUse / total) : 0.0;
-            
         }
+    
         @catch (NSException * ex) {
             // Error
             return 0.0;
         }
-   
 }
-
 
 @end

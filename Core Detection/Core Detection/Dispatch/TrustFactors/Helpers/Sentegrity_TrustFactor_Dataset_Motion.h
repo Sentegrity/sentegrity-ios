@@ -1,8 +1,7 @@
 //
-//  Sentegrity_TrustFactor_Dataset_Location.h
+//  Sentegrity_TrustFactor_Dataset_Motion.h
 //  Sentegrity
 //
-//  Created by Jason Sinchak on 7/19/15.
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
@@ -15,16 +14,14 @@
 // Headers
 #import "Sentegrity_TrustFactor_Datasets.h"
 
-
-
-
+// Location Info
 @interface Motion_Info : NSObject
 
-
+// Moving function
 + (NSNumber *) isMoving;
 
+// Orientation function
 + (NSString *) orientation;
-
 
 @end
 

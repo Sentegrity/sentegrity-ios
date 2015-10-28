@@ -17,13 +17,13 @@
 
 int readSys(int *, u_int, void *, size_t *);
 
-//Return ourPID for TFs like debug
+// Return ourPID for TFs like debug
 
 static int ourPID=0;
 
 + (NSNumber *)getOurPID{
     
-    //check if we're populated, otherwise processInformation has not run yet (this would only happen if a TF seeking PID happens to run before any other regular process TFs)
+    // Check if we're populated, otherwise processInformation has not run yet (this would only happen if a TF seeking PID happens to run before any other regular process TFs)
     if(ourPID==0){
         [self getProcessInfo];
     }
@@ -34,7 +34,7 @@ static int ourPID=0;
 
 + (NSArray *)getProcessInfo {
     
-        //Get bundle name and set
+        // Get bundle name and set
         NSString* ourName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
         
         // Get the list of processes and all information about them

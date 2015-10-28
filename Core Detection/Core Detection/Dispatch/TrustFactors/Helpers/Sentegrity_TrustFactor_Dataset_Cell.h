@@ -1,8 +1,7 @@
 //
-//  Sentegrity_TrustFactor_Dataset_Location.h
+//  Sentegrity_TrustFactor_Dataset_Cell.h
 //  Sentegrity
 //
-//  Created by Jason Sinchak on 7/19/15.
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
@@ -14,17 +13,18 @@
 
 // Headers
 
-
-
 @interface Cell_Info : NSObject
 
-
+// Check which carrier we have
 + (NSString *) getCarrierInfo;
 
+// Check how strong the signal is
 + (NSNumber *) getSignalBars;
 
+// Check the strength of the signal
 + (NSNumber *) getSignalRaw;
 
+// Check if we are in airplane mode
 + (NSNumber *) isAirplane;
 
 
