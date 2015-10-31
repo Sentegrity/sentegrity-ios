@@ -1,11 +1,11 @@
 //
 //  Sentegrity_Parser.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Nick Kramer on 1/31/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+// Import files
 #import "Sentegrity_Parser.h"
 #import "Sentegrity_Policy.h"
 #import "Sentegrity_DNEModifiers.h"
@@ -22,12 +22,15 @@
 #import "NSObject+ObjectMap.h"
 
 @interface Sentegrity_Parser()
+
 // Check if a file exists
 - (BOOL)fileExists:(NSURL *)filePathURL;
+
 @end
 
 @implementation Sentegrity_Parser
 
+// Parse a policy plist with a valid path
 - (id)parsePolicyPlistWithPath:(NSURL *)filePathURL withError:(NSError **)error {
     // First, check if the file exists
     if (![self fileExists:filePathURL]) {
@@ -84,7 +87,7 @@
     
     // Set the DNEModifiers
     [policy setDNEModifiers:dne];
-
+    
     // Classifications
     NSArray *classifications = [[NSArray alloc] initWithArray:[policyPlist valueForKey:kClassifications]];
     NSMutableArray *classificationsArray = [[NSMutableArray alloc] initWithCapacity:classifications.count];
@@ -101,7 +104,6 @@
             [classer setDesc:[classifiers objectForKey:kDesc]];
             [classer setProtectModeAction:[classifiers objectForKey:kProtectModeAction]];
             [classer setProtectModeMessage: [classifiers objectForKey:kProtectModeMessage]];
-
             
             // Add it to the array
             [classificationsArray addObject:classer];
@@ -114,10 +116,10 @@
     // Subclassifications
     NSArray *subclassifications = [[NSArray alloc] initWithArray:[policyPlist valueForKey:kSubClassifications]];
     NSMutableArray *subclassificationsArray = [[NSMutableArray alloc] initWithCapacity:subclassifications.count];
-
     
     // Validation
     if (subclassifications && subclassifications.count > 0) {
+        
         // Run through all the subclassifications
         for (NSDictionary *subclassifiers in subclassifications){
             Sentegrity_Subclassification *subclasser = [[Sentegrity_Subclassification alloc] init];
@@ -142,7 +144,6 @@
     // TrustFactors
     NSArray *trustFactors = [[NSArray alloc] initWithArray:[policyPlist valueForKey:kTrustFactors]];
     NSMutableArray *trustFactorsArray = [[NSMutableArray alloc] initWithCapacity:trustFactors.count];
-    
     
     // Validation
     if (trustFactors && trustFactors.count > 0) {
@@ -180,63 +181,62 @@
         [policy setTrustFactors:trustFactorsArray];
     }
     
-//    // Classifications Output
-//    for (Sentegrity_Classifications *classObject in classificationsArray) {
-//        NSLog(@"Classification ID: %@", classObject.identification);
-//        NSLog(@"Classification Name: %@", classObject.name);
-//        NSLog(@"Classification Weight: %@", classObject.weight);
-//        NSLog(@"Classification ProtectMode: %@", classObject.protectMode);
-//        NSLog(@"Classification ProtectViolationName: %@", classObject.protectViolationName);
-//        NSLog(@"Classification ProtectInfo: %@", classObject.protectInfo);
-//        NSLog(@"Classification ContactPhone: %@", classObject.contactPhone);
-//        NSLog(@"Classification ContactURL: %@", classObject.contactURL);
-//        NSLog(@"Classification ContactEmail: %@", classObject.contactEmail);
-//        NSLog(@" ");
-//    
-//    }
-//    
-//    
-//    // Subclassifications Output
-//    for(Sentegrity_Subclassifications *classObject in subclassificationsArray){
-//        NSLog(@"Subclassification ID: %@", classObject.identification);
-//        NSLog(@"Subclassification ClassID: %@", classObject.classID);
-//        NSLog(@"Subclassification Name: %@", classObject.name);
-//        NSLog(@"Subclassification DNEMessage: %@", classObject.dneMessage);
-//        NSLog(@"Subclassification Weight: %@", classObject.weight);
-//        NSLog(@" ");
-//    }
-//    
-//    //TrustFactors Output
-//    for(Sentegrity_TrustFactors *classObject in trustFactorsArray){
-//        NSLog(@"TrustFactors ID: %@", classObject.identification);
-//        NSLog(@"TrustFactors Desc: %@", classObject.desc);
-//        NSLog(@"TrustFactors ClassID: %@", classObject.classID);
-//        NSLog(@"TrustFactors SubclassID: %@", classObject.subClassID);
-//        NSLog(@"TrustFactors Priority: %@", classObject.priority);
-//        NSLog(@"TrustFactors Name: %@", classObject.name);
-//        NSLog(@"TrustFactors Penalty: %@", classObject.penalty);
-//        NSLog(@"TrustFactors DNEPenalty: %@", classObject.dnePenalty);
-//        NSLog(@"TrustFactors LearnMode: %@", classObject.learnMode);
-//        NSLog(@"TrustFactors LearnTime: %@", classObject.learnTime);
-//        NSLog(@"TrustFactors LearnAssertionCount: %@", classObject.learnAssertionCount);
-//        NSLog(@"TrustFactors LearnRunCount: %@", classObject.learnRunCount);
-//        NSLog(@"TrustFactors Managed: %@", classObject.managed);
-//        NSLog(@"TrustFactors Local: %@", classObject.local);
-//        NSLog(@"TrustFactors History: %@", classObject.history);
-//        NSLog(@"TrustFactors Dispatch: %@", classObject.dispatch);
-//        NSLog(@"TrustFactors Implementation: %@", classObject.implementation);
-//        NSLog(@"TrustFactors Baseline: %@", classObject.baseline);
-//        NSLog(@"TrustFactors Payload: %@", classObject.payload);
-//        NSLog(@" ");
-//    }
-
+    //    // Classifications Output
+    //    for (Sentegrity_Classifications *classObject in classificationsArray) {
+    //        NSLog(@"Classification ID: %@", classObject.identification);
+    //        NSLog(@"Classification Name: %@", classObject.name);
+    //        NSLog(@"Classification Weight: %@", classObject.weight);
+    //        NSLog(@"Classification ProtectMode: %@", classObject.protectMode);
+    //        NSLog(@"Classification ProtectViolationName: %@", classObject.protectViolationName);
+    //        NSLog(@"Classification ProtectInfo: %@", classObject.protectInfo);
+    //        NSLog(@"Classification ContactPhone: %@", classObject.contactPhone);
+    //        NSLog(@"Classification ContactURL: %@", classObject.contactURL);
+    //        NSLog(@"Classification ContactEmail: %@", classObject.contactEmail);
+    //        NSLog(@" ");
+    //
+    //    }
+    //
+    //
+    //    // Subclassifications Output
+    //    for(Sentegrity_Subclassifications *classObject in subclassificationsArray){
+    //        NSLog(@"Subclassification ID: %@", classObject.identification);
+    //        NSLog(@"Subclassification ClassID: %@", classObject.classID);
+    //        NSLog(@"Subclassification Name: %@", classObject.name);
+    //        NSLog(@"Subclassification DNEMessage: %@", classObject.dneMessage);
+    //        NSLog(@"Subclassification Weight: %@", classObject.weight);
+    //        NSLog(@" ");
+    //    }
+    //
+    //    //TrustFactors Output
+    //    for(Sentegrity_TrustFactors *classObject in trustFactorsArray){
+    //        NSLog(@"TrustFactors ID: %@", classObject.identification);
+    //        NSLog(@"TrustFactors Desc: %@", classObject.desc);
+    //        NSLog(@"TrustFactors ClassID: %@", classObject.classID);
+    //        NSLog(@"TrustFactors SubclassID: %@", classObject.subClassID);
+    //        NSLog(@"TrustFactors Priority: %@", classObject.priority);
+    //        NSLog(@"TrustFactors Name: %@", classObject.name);
+    //        NSLog(@"TrustFactors Penalty: %@", classObject.penalty);
+    //        NSLog(@"TrustFactors DNEPenalty: %@", classObject.dnePenalty);
+    //        NSLog(@"TrustFactors LearnMode: %@", classObject.learnMode);
+    //        NSLog(@"TrustFactors LearnTime: %@", classObject.learnTime);
+    //        NSLog(@"TrustFactors LearnAssertionCount: %@", classObject.learnAssertionCount);
+    //        NSLog(@"TrustFactors LearnRunCount: %@", classObject.learnRunCount);
+    //        NSLog(@"TrustFactors Managed: %@", classObject.managed);
+    //        NSLog(@"TrustFactors Local: %@", classObject.local);
+    //        NSLog(@"TrustFactors History: %@", classObject.history);
+    //        NSLog(@"TrustFactors Dispatch: %@", classObject.dispatch);
+    //        NSLog(@"TrustFactors Implementation: %@", classObject.implementation);
+    //        NSLog(@"TrustFactors Baseline: %@", classObject.baseline);
+    //        NSLog(@"TrustFactors Payload: %@", classObject.payload);
+    //        NSLog(@" ");
+    //    }
+    
     // Return the policy class
     return policy;
 }
 
 // Parse a policy json with a valid path
 - (id)parsePolicyJSONWithPath:(NSURL *)filePathURL withError:(NSError **)error {
-    
     
     // Load the json
     NSError *error2;
@@ -245,6 +245,7 @@
     
     // Check the policy plist
     if (jsonParsed.count < 1 || jsonParsed == nil) {
+        
         // Check if the error is set
         if (error2) {
             // No such file
@@ -252,11 +253,11 @@
                                          code:NSFileReadCorruptFileError
                                      userInfo:@{@"More Information": @"JSON may not be formatted correctly"}];
         }
+        
         // Fail
         NSLog(@"JSON format problem");
         return nil;
     }
-  
     
     // Map DNEModifiers
     DCArrayMapping *mapper = [DCArrayMapping mapperForClassElements:[Sentegrity_DNEModifiers class] forAttribute:kDNEModifiers onClass:[Sentegrity_Policy class]];
@@ -296,8 +297,8 @@
 }
 
 // Parse the assertion store with the store path
-- (Sentegrity_Assertion_Store *)parseAssertionStoreWithPath:(NSURL *)assertionStorePathURL withError:(NSError **)error
-{
+- (Sentegrity_Assertion_Store *)parseAssertionStoreWithPath:(NSURL *)assertionStorePathURL withError:(NSError **)error {
+    
     // First, check if the file exists
     if (![self fileExists:assertionStorePathURL]) {
         // Check if the error is set
@@ -315,7 +316,7 @@
     // BETA2: Nick's addtion = Store is assumed to be JSON
     NSDictionary *jsonParsed = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:assertionStorePathURL.path]
                                                                options:NSJSONReadingMutableContainers error:error];
-
+    
     // Check the parsed store
     if (jsonParsed.count < 1 || jsonParsed == nil) {
         // Fail
@@ -328,12 +329,10 @@
     DCArrayMapping *mapper = [DCArrayMapping mapperForClassElements:[Sentegrity_Stored_TrustFactor_Object class] forAttribute:kStoredTrustFactorObjectMapping onClass:[Sentegrity_Assertion_Store class]];
     DCArrayMapping *mapper2 = [DCArrayMapping mapperForClassElements:[Sentegrity_Stored_Assertion class] forAttribute:kAssertionObjectMapping onClass:[Sentegrity_Stored_TrustFactor_Object class]];
     
-
     // Set up the parser configuration for json parsing
     DCParserConfiguration *config = [DCParserConfiguration configuration];
     [config addArrayMapper:mapper];
     [config addArrayMapper:mapper2];
-
     
     // Set up the date parsing configuration
     config.datePattern = OMDateFormat;
@@ -352,6 +351,7 @@
 
 // Check if a file exists at a given path
 - (BOOL)fileExists:(NSURL *)filePathURL {
+    
     // Check if the file exists
     return [[NSFileManager defaultManager] fileExistsAtPath:filePathURL.path];
 }

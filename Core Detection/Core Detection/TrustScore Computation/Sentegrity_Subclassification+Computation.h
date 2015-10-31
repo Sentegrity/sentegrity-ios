@@ -1,9 +1,8 @@
 //
 //  Sentegrity_Subclassification+Computation.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Kramer on 4/15/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "Sentegrity_Subclassification.h"

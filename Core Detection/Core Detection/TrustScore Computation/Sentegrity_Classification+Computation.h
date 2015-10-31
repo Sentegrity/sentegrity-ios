@@ -1,32 +1,31 @@
 //
 //  Sentegrity_Classification+Computation.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Kramer on 4/15/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "Sentegrity_Classification.h"
 
 @interface Sentegrity_Classification (Computation)
 
-//links
+// Links
 @property (nonatomic,retain) NSArray *subClassifications;
 @property (nonatomic,retain) NSArray *trustFactors;
 
-//protect mode
+// Protect Mode
 @property (nonatomic,retain) NSArray *trustFactorsToWhitelist;
 
-//debug info
+// Debug Information
 @property (nonatomic,retain) NSArray *trustFactorsNotLearned;
 @property (nonatomic,retain) NSArray *trustFactorsTriggered;
 @property (nonatomic,retain) NSArray *trustFactorsWithErrors;
 
-//penalty
+// Penalty
 @property (nonatomic) NSInteger basePenalty;
 @property (nonatomic) NSInteger weightedPenalty;
 
-//messages
+// Messages
 @property (nonatomic,retain) NSArray *issues;
 @property (nonatomic,retain) NSArray *suggestions;
 @property (nonatomic,retain) NSArray *status;

@@ -138,25 +138,25 @@
  * TrustFactor DidNotExecute Status Code
  */
 typedef enum {
-DNEStatus_ok                                    = 0,
-DNEStatus_unauthorized                          = 1,
-DNEStatus_unsupported                           = 2,
-DNEStatus_unavailable                           = 3,
-DNEStatus_disabled                              = 4,
-DNEStatus_expired                               = 5,
-DNEStatus_error                                 = 6,
-DNEStatus_nodata                                = 7
+    DNEStatus_ok                                    = 0,
+    DNEStatus_unauthorized                          = 1,
+    DNEStatus_unsupported                           = 2,
+    DNEStatus_unavailable                           = 3,
+    DNEStatus_disabled                              = 4,
+    DNEStatus_expired                               = 5,
+    DNEStatus_error                                 = 6,
+    DNEStatus_nodata                                = 7
 } DNEStatusCode;
 
 /*!
  * Class ID of TrustFactor
  */
 typedef enum {
-systemBreach                                    = 0,
-systemPolicy                                    = 1,
-systemSecurity                                  = 2,
-userPolicy                                      = 3,
-userAnomaly                                     = 4
+    systemBreach                                    = 0,
+    systemPolicy                                    = 1,
+    systemSecurity                                  = 2,
+    userPolicy                                      = 3,
+    userAnomaly                                     = 4
 } attributingClassID;
 
 #pragma mark - Error Cases
@@ -171,7 +171,7 @@ static NSString * const sentegrityDomain        = @"Sentegrity";
  */
 enum {
     // Unkown Error
-SAUnknownError                                  = 0
+    SAUnknownError                                  = 0
 };
 
 /*!
@@ -179,25 +179,25 @@ SAUnknownError                                  = 0
  */
 enum {
     // No Policy Provided
-SANoPolicyProvided                              = 1,
-
+    SANoPolicyProvided                              = 1,
+    
     // No Callback Block Provided
-SANoCallbackBlockProvided                       = 2,
-
+    SANoCallbackBlockProvided                       = 2,
+    
     // No TrustFactors set to analyze
-SANoTrustFactorsSetToAnalyze                    = 3,
-
+    SANoTrustFactorsSetToAnalyze                    = 3,
+    
     // No TrustFactor output objects provided from dispatcher
-SANoTrustFactorOutputObjectsFromDispatcher      = 4,
-
+    SANoTrustFactorOutputObjectsFromDispatcher      = 4,
+    
     // Unable to perform computation as no trustfactor objects provided
-SANoTrustFactorOutputObjectsForComputation      = 5,
-
+    SANoTrustFactorOutputObjectsForComputation      = 5,
+    
     // Unable to perform computation as no trustfactor objects provided
-SAErrorDuringComputation                        = 6,
-
+    SAErrorDuringComputation                        = 6,
+    
     // Unable to get the policy from the provided path
-SAInvalidPolicyPath                             = 7
+    SAInvalidPolicyPath                             = 7
 };
 
 
@@ -206,13 +206,13 @@ SAInvalidPolicyPath                             = 7
  */
 enum {
     // Invalid Policy PIN provided
-SAInvalidPolicyPinProvided                      = 8,
-
+    SAInvalidPolicyPinProvided                      = 8,
+    
     // Unable to deactivate protect mode due to error
-SAUnableToWhitelistAssertions                   = 9,
-
+    SAUnableToWhitelistAssertions                   = 9,
+    
     // Invalid User PIN provided
-SAInvalidUserPinProvided                        = 10,
+    SAInvalidUserPinProvided                        = 10,
 };
 
 /*!
@@ -220,7 +220,7 @@ SAInvalidUserPinProvided                        = 10,
  */
 enum {
     // Unable to set assertion objects from output
-SAUnableToSetAssertionObjectsFromOutput         = 50
+    SAUnableToSetAssertionObjectsFromOutput         = 50
 };
 
 //TODO: This is bloated, cut it into multiple domains
@@ -228,67 +228,97 @@ SAUnableToSetAssertionObjectsFromOutput         = 50
  */
 enum {
     // No TrustFactors received when dispatching TrustFactors to generate candidate assertions
-SANoTrustFactorsReceived                        = 12,
+    SANoTrustFactorsReceived                        = 12,
+    
     // Attempt to do a file system operation on a non-existent file
-SANoTrustFactorOutputObjectGenerated            = 13,
+    SANoTrustFactorOutputObjectGenerated            = 13,
+    
     // Invalid TrustFactor Name
-SAInvalidTrustFactorName                        = 14,
+    SAInvalidTrustFactorName                        = 14,
+    
     // No security token provided
-SANoAppIDProvided                               = 17,
+    SANoAppIDProvided                               = 17,
+    
     // No assertions received
-SANoTrustFactorOutputObjectsReceived            = 18,
+    SANoTrustFactorOutputObjectsReceived            = 18,
+    
     // No assertions added to store
-SANoAssertionsAddedToStore                      = 19,
+    SANoAssertionsAddedToStore                      = 19,
+    
     // No FactorID received
-SANoFactorIDReceived                            = 20,
+    SANoFactorIDReceived                            = 20,
+    
     // Unable to add assertion object into the assertion store
-SAUnableToAddStoreTrustFactorObjectsIntoStore   = 21,
+    SAUnableToAddStoreTrustFactorObjectsIntoStore   = 21,
+    
     // Unable to compare the assertion object
-SAUnableToCompareAssertion                      = 22,
+    SAUnableToCompareAssertion                      = 22,
+    
     // Unable to find assertion object to compare
-SAUnableToFindAssertionToCompare                = 23,
+    SAUnableToFindAssertionToCompare                = 23,
+    
     // Unable to add assertion into store, already exists
-SAUnableToAddAssertionIntoStoreAlreadyExists    = 24,
+    SAUnableToAddAssertionIntoStoreAlreadyExists    = 24,
+    
     // Assertion does not exist
-SANoMatchingAssertionsFound                     = 25,
+    SANoMatchingAssertionsFound                     = 25,
+    
     // Unable to remove assertion
-SAUnableToRemoveAssertion                       = 26,
+    SAUnableToRemoveAssertion                       = 26,
+    
     // Invalid assertion objects provided
-SAInvalidStoredTrustFactorObjectsProvided       = 27,
+    SAInvalidStoredTrustFactorObjectsProvided       = 27,
+    
     // Unable to set assertion to the store
-SAUnableToSetAssertionToStore                   = 28,
+    SAUnableToSetAssertionToStore                   = 28,
+    
     // No computation received
-SANoComputationReceived                         = 29,
+    SANoComputationReceived                         = 29,
+    
     // No dispatch or implementations received
-SANoImplementationOrDispatchReceived            = 30,
+    SANoImplementationOrDispatchReceived            = 30,
+    
     // No dispatch class found
-SANoDispatchClassFound                          = 31,
+    SANoDispatchClassFound                          = 31,
+    
     // No implementation selector found
-SANoImplementationSelectorFound                 = 32,
+    SANoImplementationSelectorFound                 = 32,
+    
     // No classifications found
-SANoClassificationsFound                        = 33,
+    SANoClassificationsFound                        = 33,
+    
     // No subclassifications found
-SANoSubClassificationsFound                     = 34,
+    SANoSubClassificationsFound                     = 34,
+    
     // Cannot overwrite existing store
-SACannotOverwriteExistingStore                  = 35,
+    SACannotOverwriteExistingStore                  = 35,
+    
     // Cannot create new assertion for existing trustfactor
-SAUnableToCreateNewStoredAssertion              = 36,
+    SAUnableToCreateNewStoredAssertion              = 36,
+    
     // Invalie due to no candidate assertions generated
-SAInvalidDueToNoCandidateAssertions             = 37,
+    SAInvalidDueToNoCandidateAssertions             = 37,
+    
     // Invalid due to no candidate assertions generated
-SAUnableToPerformBaselineAnalysisForTrustFactor = 38,
+    SAUnableToPerformBaselineAnalysisForTrustFactor = 38,
+    
     // Unable to find a stored assertion during whitelisting
-SAErrorDuringWhitelisting                       = 41,
+    SAErrorDuringWhitelisting                       = 41,
+    
     // Unable to write the assertion store
-SAUnableToWriteStore                            = 42,
+    SAUnableToWriteStore                            = 42,
+    
     // Error performing core detection result analysis
-SACannotPerformAnalysis                         = 43,
+    SACannotPerformAnalysis                         = 43,
+    
     // Unable to deactivate protect mode due to error
-SAUnableToDeactivateProtectMode                 = 44,
+    SAUnableToDeactivateProtectMode                 = 44,
+    
     // Error when trying to decay a TFs stored assertions
-SAErrorDuringDecay                              = 46,
+    SAErrorDuringDecay                              = 46,
+    
     // Error when trying to check TF learning and add candidate assertions in
-SAErrorDuringLearningCheck                      = 47
+    SAErrorDuringLearningCheck                      = 47
 };
 
 #endif

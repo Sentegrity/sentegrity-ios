@@ -1,5 +1,5 @@
 //
-//  ProtectMode.m
+//  ProtectMode.h
 //  Sentegrity
 //
 //  Copyright (c) 2015 Sentegrity. All rights reserved.

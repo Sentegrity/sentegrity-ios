@@ -1,9 +1,8 @@
 //
 //  Sentegrity_TrustScore_Computation.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Kramer on 4/8/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "Sentegrity_TrustScore_Computation.h"
@@ -17,19 +16,16 @@
 #import "Sentegrity_Classification+Computation.h"
 #import "Sentegrity_Subclassification+Computation.h"
 
-
 @implementation Sentegrity_TrustScore_Computation
 
 @synthesize systemScore = _systemScore, userScore = _userScore, deviceScore = _deviceScore;
 
-
 // Compute the systemScore and the UserScore from the policy
 + (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error {
     
-    
-    
     // Make sure we got a policy
     if (!policy || policy == nil || policy.policyID < 0) {
+        
         // Error out, no trustfactors set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No policy provided" forKey:NSLocalizedDescriptionKey];
@@ -39,9 +35,9 @@
         return nil;
     }
     
-    
     // Validate trustFactorOutputObjects
     if (!trustFactorOutputObjects || trustFactorOutputObjects == nil || trustFactorOutputObjects.count < 1) {
+        
         // Error out, no assertion objects set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No TrustFactorOutputObjects found to compute" forKey:NSLocalizedDescriptionKey];
@@ -53,6 +49,7 @@
     
     // Validate the classifications
     if (!policy.classifications || policy.classifications.count < 1) {
+        
         // Failed, no classifications found
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No classifications found" forKey:NSLocalizedDescriptionKey];
@@ -64,6 +61,7 @@
     
     // Validate the subclassifications
     if (!policy.subclassifications || policy.subclassifications.count < 1) {
+        
         // Failed, no classifications found
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No subclassifications found" forKey:NSLocalizedDescriptionKey];
@@ -189,14 +187,13 @@
                                         [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.suggestionMessage];
                                     }
                                 }
-                                
                             }
                             
-                        }
-                        else{ // RULE DID NOT TRIGGER
+                        // Rule did not trigger
+                        } else {
                             
                             // Check if TF is inverse (not triggering inverse rule does not boost score)
-                            if(trustFactorOutputObject.trustFactor.ruleType.intValue==4){
+                            if(trustFactorOutputObject.trustFactor.ruleType.intValue == 4){
                                 
                                 // Check if the inverse TF contains a custom issue message (this is rare, don't think any inverse rules have one)
                                 if(trustFactorOutputObject.trustFactor.issueMessage.length != 0)
@@ -210,8 +207,8 @@
                                 }
                                 
                                 // Check if the inverse TF contains a suggestion message (this is common as it gives the user ways to boost score)
-                                if(trustFactorOutputObject.trustFactor.suggestionMessage.length != 0)
-                                {
+                                if(trustFactorOutputObject.trustFactor.suggestionMessage.length != 0) {
+                                    
                                     // Check if we already have the suggestion in our list
                                     if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.suggestionMessage]){
                                         
@@ -220,11 +217,10 @@
                                     }
                                 }
                             }
-                            
                         }
                         
-                        
-                    }else { // TF did not run successfully (DNE)
+                    // TrustFactor did not run successfully -> Did Not Execute
+                    } else {
                         
                         // FOR DEBUG OUTPUT
                         [trustFactorsWithErrorsInClass addObject:trustFactorOutputObject];
@@ -240,33 +236,33 @@
                         if (trustFactorOutputObject.trustFactor.ruleType.intValue==4){
                             
                             [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
-                            
-                        }
-                        else //not an inverse rule therefore record messages AND apply modified DNE penalty
-                        {
+                        // Not an inverse rule therefore record messages AND apply modified DNE penalty
+                        } else {
                             
                             [self addSuggestionsAndCalcPenaltyForClass:class withSubClass:subClass withPolicy:policy withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
                         }
-                        
                     }
                     
-                    //add TF to classification
+                    // Add TrustFactor to classification
                     [trustFactorsInClass addObject:trustFactorOutputObject.trustFactor];
-                    //add TF to subclass
+                    
+                    // Add TrustFactor to subclass
                     [trustFactorsInSubClass addObject:trustFactorOutputObject.trustFactor];
                     
                 }
-                
-            }// End trustfactors loop
+            // End trustfactors loop
+            }
             
             // Create Analysis category list for output
-            if(subClassContainsTrustFactors){ // If any trustFactors existed within this subClass
+            // If any trustFactors existed within this subClass
+            if(subClassContainsTrustFactors) {
                 
                 // No errors, update analysis message with subclass complete
                 if(!subClassAnalysisIncomplete) {
                     [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check complete"]];
-                }
-                else{ // Subclass contains TFs with issues, identify which, if there are multiple the first (higher priority one is used)
+                    
+                // Subclass contains TFs with issues, identify which, if there are multiple the first (higher priority one is used)
+                } else {
                     
                     if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_disabled]]){
                         
@@ -304,7 +300,6 @@
                     }
                     
                 }
-                
                 
                 // Set the penalty weight for the subclass
                 subClass.weightedPenalty = (subClass.basePenalty * (1-(0.1 * subClass.weight.integerValue)) );

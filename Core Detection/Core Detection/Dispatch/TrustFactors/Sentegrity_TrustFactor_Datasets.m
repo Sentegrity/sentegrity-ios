@@ -92,23 +92,23 @@ static dispatch_once_t onceToken;
         NSString* state;
         
         switch (battery) {
-            
-            // Plugged in, less than 100%
+                
+                // Plugged in, less than 100%
             case UIDeviceBatteryStateCharging:
                 state = @"pluggedCharging";
                 break;
                 
-             // Plugged in, at 100%
+                // Plugged in, at 100%
             case UIDeviceBatteryStateFull:
                 state = @"pluggedFull";
                 break;
                 
-            // On battery, discharging
+                // On battery, discharging
             case UIDeviceBatteryStateUnplugged:
                 state = @"unplugged";
                 break;
                 
-            // Unknown state
+                // Unknown state
             default:
                 state = @"unknown";
                 break;
@@ -218,7 +218,7 @@ static dispatch_once_t onceToken;
             // Return just time
             return [NSString stringWithFormat:@"HOUR_%ld",(long)hourBlock];
         }
-    
+        
     } else {
         
         // Hours partitioned across 24, adjust accordingly but it does impact multiple rules
@@ -260,7 +260,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If already populated
+        // If already populated
     } else {
         
         // Return installed apps
@@ -289,7 +289,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If already populated
+        // If already populated
     } else {
         
         // Return running processes
@@ -317,8 +317,8 @@ static dispatch_once_t onceToken;
             // Error
             return nil;
         }
-    
-    // If it is already populated
+        
+        // If it is already populated
     } else {
         
         // Return our PID
@@ -347,7 +347,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If it is already populated
+        // If it is already populated
     } else {
         
         // Return network routes
@@ -376,7 +376,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If dataset is already populated
+        // If dataset is already populated
     } else {
         
         // Return interface bytes
@@ -406,7 +406,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If dataset is already populated
+        // If dataset is already populated
     } else {
         
         // Return net stat data
@@ -628,7 +628,7 @@ static dispatch_once_t onceToken;
 
 // Acceleration info
 - (NSArray *)getAccelRadsInfo {
-
+    
     // Do we any rads yet?
     if(self.accelRads == nil || self.accelRads.count < 1) {
         
@@ -733,7 +733,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If it is already populated
+        // If it is already populated
     } else {
         
         // Return wifi data
@@ -762,7 +762,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If the dataset is already populated
+        // If the dataset is already populated
     } else {
         
         // Return information about whether wifi is enabled
@@ -772,7 +772,7 @@ static dispatch_once_t onceToken;
 
 // BLE information
 - (NSArray *)getDiscoveredBLEInfo {
-
+    
     //Do we any devices yet?
     if(self.discoveredBLEDevices == nil || self.discoveredBLEDevices.count < 1) {
         
@@ -780,9 +780,9 @@ static dispatch_once_t onceToken;
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         CFAbsoluteTime currentTime = startTime;
         float waitTime = 0.25;
-
+        
         while ((currentTime-startTime) < waitTime) {
-   
+            
             // If its greater than 0 return
             if(self.discoveredBLEDevices.count > 0){
                 NSLog(@"Got discovered BLE devices after waiting..");
@@ -796,7 +796,7 @@ static dispatch_once_t onceToken;
             // Update timer
             currentTime = CFAbsoluteTimeGetCurrent();
         }
-    
+        
         // Timer expires
         NSLog(@"Discovered BLE devices timer expired");
         [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
@@ -874,8 +874,8 @@ static dispatch_once_t onceToken;
             // Error
             return nil;
         }
-    
-    // If it is already populated
+        
+        // If it is already populated
     } else {
         
         // Return wifi signal
@@ -904,7 +904,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If it is already populated
+        // If it is already populated
     } else {
         
         // Return cell signal
@@ -932,8 +932,8 @@ static dispatch_once_t onceToken;
             // Error
             return nil;
         }
-    
-    // If it is already populated
+        
+        // If it is already populated
     } else {
         
         // Return raw signal
@@ -962,7 +962,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If dataset is already populated
+        // If dataset is already populated
     } else {
         
         // Return carrier connection information
@@ -991,7 +991,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If dataset is already populated
+        // If dataset is already populated
     } else {
         
         // Return AirplaneMode information
@@ -1020,7 +1020,7 @@ static dispatch_once_t onceToken;
             return nil;
         }
         
-    // If dataset is already populated
+        // If dataset is already populated
     } else {
         
         // Return tethering information

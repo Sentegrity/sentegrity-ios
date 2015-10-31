@@ -1,9 +1,8 @@
 //
 //  Sentegrity_Subclassification+Computation.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Kramer on 4/15/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "Sentegrity_Subclassification+Computation.h"
@@ -17,8 +16,6 @@ NSString const *basePenaltyKey = @"Sentegrity.basePenalty";
 NSString const *weightedPenaltyKey = @"Sentegrity.weightedPenalty";
 NSString const *subClassificationsKey = @"Sentegrity.subClassifications";
 NSString const *trustFactorsKey = @"Sentegrity.trustFactors";
-
-
 
 // Base Penalty
 
@@ -44,7 +41,7 @@ NSString const *trustFactorsKey = @"Sentegrity.trustFactors";
     return [weightedPenaltyNumber integerValue];
 }
 
-// trustFactors
+// TrustFactors
 
 - (void)setTrustFactors:(NSArray *)trustFactors {
     objc_setAssociatedObject(self, &trustFactorsKey, trustFactors, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -53,6 +50,5 @@ NSString const *trustFactorsKey = @"Sentegrity.trustFactors";
 - (NSArray *)trustFactors {
     return objc_getAssociatedObject(self, &trustFactorsKey);
 }
-
 
 @end

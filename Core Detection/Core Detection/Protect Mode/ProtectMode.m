@@ -264,7 +264,6 @@
             // Continue
             continue;
         }
-        
     }
     
     // Update the stores
@@ -290,12 +289,10 @@
         
         // Return NO
         return NO;
-        
     }
     
     // Return YES
     return YES;
-    
 }
 
 @end

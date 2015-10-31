@@ -1,9 +1,6 @@
 //
 //  CoreDetection.h
-//  Sentegrity
-//
-//  Copyright (c) 2015 Sentegrity. All rights reserved.
-//
+
 
 /*!
  *  Core Detection is the main class of Sentegrity (accessed by singleton) that combines all information about gathered by the checks, including: parsing the policy, running the policy, computing the output, and providing output about the checks.

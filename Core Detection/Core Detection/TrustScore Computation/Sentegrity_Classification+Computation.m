@@ -1,9 +1,8 @@
 //
 //  Sentegrity_Classification+Computation.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Kramer on 4/15/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "Sentegrity_Classification+Computation.h"
@@ -65,7 +64,7 @@ NSString const *statusKey = @"Sentegrity.status";
     return objc_getAssociatedObject(self, &subClassificationsKeyClass);
 }
 
-// trustFactors
+// TrustFactors
 
 - (void)setTrustFactors:(NSArray *)trustFactors {
     objc_setAssociatedObject(self, &trustFactorsKeyClass, trustFactors, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -75,7 +74,7 @@ NSString const *statusKey = @"Sentegrity.status";
     return objc_getAssociatedObject(self, &trustFactorsKeyClass);
 }
 
-// trustFactors to whitelist during protect mode deactivation
+// TrustFactors to whitelist during protect mode deactivation
 
 - (void)setTrustFactorsToWhitelist:(NSArray *)trustFactorsToWhitelist{
     objc_setAssociatedObject(self, &trustFactorsToWhitelistKey, trustFactorsToWhitelist, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -85,6 +84,7 @@ NSString const *statusKey = @"Sentegrity.status";
     return objc_getAssociatedObject(self, &trustFactorsToWhitelistKey);
 }
 
+// TrustFactors that are triggered during tests
 - (void)setTrustFactorsTriggered:(NSArray *)trustFactorsTriggered{
     objc_setAssociatedObject(self, &trustFactorsTriggeredKey, trustFactorsTriggered, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -93,6 +93,7 @@ NSString const *statusKey = @"Sentegrity.status";
     return objc_getAssociatedObject(self, &trustFactorsTriggeredKey);
 }
 
+// TrustFactors that have not been learned yet by assertion
 - (void)setTrustFactorsNotLearned:(NSArray *)trustFactorsNotLearned{
     objc_setAssociatedObject(self, &trustFactorsNotLearnedKey, trustFactorsNotLearned, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -101,6 +102,7 @@ NSString const *statusKey = @"Sentegrity.status";
     return objc_getAssociatedObject(self, &trustFactorsNotLearnedKey);
 }
 
+// TrustFactors with error checking
 - (void)setTrustFactorsWithErrors:(NSArray *)trustFactorsWithErrors{
     objc_setAssociatedObject(self, &trustFactorsWithErrorsKey, trustFactorsWithErrors, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -109,7 +111,7 @@ NSString const *statusKey = @"Sentegrity.status";
     return objc_getAssociatedObject(self, &trustFactorsWithErrorsKey);
 }
 
-
+// Issues
 - (void)setIssues:(NSArray *)issues{
     objc_setAssociatedObject(self, &issuesKey, issues, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -118,7 +120,7 @@ NSString const *statusKey = @"Sentegrity.status";
     return objc_getAssociatedObject(self, &issuesKey);
 }
 
-
+// Suggestion
 - (void)setSuggestions:(NSArray *)suggestions{
     objc_setAssociatedObject(self, &suggestionsKey, suggestions, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -127,7 +129,7 @@ NSString const *statusKey = @"Sentegrity.status";
     return objc_getAssociatedObject(self, &suggestionsKey);
 }
 
-
+// Status
 - (void)setStatus:(NSArray *)status{
     objc_setAssociatedObject(self, &statusKey, status, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

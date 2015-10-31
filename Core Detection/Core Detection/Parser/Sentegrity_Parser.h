@@ -1,10 +1,14 @@
 //
 //  Sentegrity_Parser.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Nick Kramer on 1/31/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
+
+/*!
+ *  Sentegrity parser analyzes the plist given and puts it into our policy.
+ *
+ */
 
 #import <Foundation/Foundation.h>
 #import "Sentegrity_Policy.h"
