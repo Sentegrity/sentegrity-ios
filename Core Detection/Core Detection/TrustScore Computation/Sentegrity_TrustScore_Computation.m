@@ -231,11 +231,12 @@
                         // Mark subclass as incomplete since not all TFs ran
                         subClassAnalysisIncomplete=YES;
                         
-                        // If TF is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
-                        // If TF is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
+                        // If TrustFactor is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
+                        // If TrustFactor is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
                         if (trustFactorOutputObject.trustFactor.ruleType.intValue==4){
                             
                             [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
+                            
                         // Not an inverse rule therefore record messages AND apply modified DNE penalty
                         } else {
                             
@@ -314,16 +315,16 @@
                 [subClassesInClass addObject:subClass];
             }
             
-            
-        }// End subclassifications loop
+        // End subclassifications loop
+        }
         
-        //Link subclassification list to classification
+        // Link subclassification list to classification
         [class setSubClassifications:subClassesInClass];
         
-        //Link trustfactors to the classification
+        // Link trustfactors to the classification
         [class setTrustFactors:trustFactorsInClass];
         
-        //Add the trustfactors for protect mode to the classification
+        // Add the trustfactors for protect mode to the classification
         [class setTrustFactorsToWhitelist:trustFactorsToWhitelistInClass];
         
         // Set the penalty weight for the classification
@@ -356,23 +357,24 @@
 - (Sentegrity_TrustScore_Computation *)analyzeResultsWithError:(NSError **)error {
     
     
-    // GUI Messages
+    // GUI Messages - System
     NSMutableSet *systemIssues = [[NSMutableSet alloc] init];
     NSMutableSet *systemSuggestions = [[NSMutableSet alloc] init];
     NSMutableSet *systemSubClassStatuses = [[NSMutableSet alloc] init];
     
-    
+    // GUI Messages - User
     NSMutableSet *userIssues = [[NSMutableSet alloc] init];
     NSMutableSet *userSuggestions = [[NSMutableSet alloc] init];
     NSMutableSet *userSubClassStatuses = [[NSMutableSet alloc] init];
     
-    // TrustFactor sorting
+    // TrustFactor Sorting - System
     NSMutableArray *systemTrustFactorsTriggered = [[NSMutableArray alloc] init];
     NSMutableArray *systemTrustFactorsNotLearned = [[NSMutableArray alloc] init];
     NSMutableArray *systemTrustFactorsWithErrors = [[NSMutableArray alloc] init];
     NSMutableArray *systemAllTrustFactorOutputObjects = [[NSMutableArray alloc] init];
     NSMutableArray *systemTrustFactorsToWhitelist = [[NSMutableArray alloc] init];
     
+    // TrustFactor Sorting - User
     NSMutableArray *userTrustFactorsTriggered = [[NSMutableArray alloc] init];
     NSMutableArray *userTrustFactorsNotLearned = [[NSMutableArray alloc] init];
     NSMutableArray *userTrustFactorsWithErrors = [[NSMutableArray alloc] init];
@@ -386,11 +388,11 @@
     Sentegrity_Classification *userAnomalyClass;
     Sentegrity_Classification *userPolicyClass;
     
-    int systemClassCount=0;
-    int systemScoreSum=0;
+    int systemClassCount = 0;
+    int systemScoreSum = 0;
     
-    int userClassCount=0;
-    int userScoreSum=0;
+    int userClassCount = 0;
+    int userScoreSum = 0;
     
     BOOL systemPolicyViolation=NO;
     BOOL userPolicyViolation=NO;
@@ -403,14 +405,15 @@
             
             int currentScore = MIN(100,MAX(0,100-(int)[class weightedPenalty]));
             
-            
             switch ([[class identification] intValue]) {
+                    
                 case 1:
                     systemBreachClass = class;
                     self.systemBreachScore = currentScore;
                     systemScoreSum = systemScoreSum + currentScore;
                     systemClassCount++;
                     break;
+                    
                 case 2:
                     systemPolicyClass = class;
                     self.systemPolicyScore = currentScore;
@@ -420,6 +423,7 @@
                         systemPolicyViolation=YES;
                     }
                     break;
+                    
                 case 3:
                     systemSecurityClass = class;
                     self.systemSecurityScore = currentScore;
@@ -429,8 +433,6 @@
                 default:
                     break;
             }
-            
-            
             
             // Tally system GUI elements
             [systemIssues addObjectsFromArray:[class issues]];
@@ -446,12 +448,13 @@
             // Add whitelists together
             [systemTrustFactorsToWhitelist addObjectsFromArray:[class trustFactorsToWhitelist]];
             
-        }
-        else{ //Is a user class
+        // When it's a user class
+        } else {
             
             int currentScore = MIN(100,MAX(0,100-(int)[class weightedPenalty]));
             
             switch ([[class identification] intValue]) {
+                    
                 case 4:
                     userPolicyClass = class;
                     self.userPolicyScore = currentScore;
@@ -461,6 +464,7 @@
                         userPolicyViolation=YES;
                     }
                     break;
+                    
                 case 5:
                     userAnomalyClass = class;
                     self.userAnomalyScore = currentScore;
@@ -470,8 +474,6 @@
                 default:
                     break;
             }
-            
-            
             
             // Tally system GUI elements
             [userIssues addObjectsFromArray:[class issues]];
@@ -486,7 +488,6 @@
             
             // Add whitelists together
             [userTrustFactorsToWhitelist addObjectsFromArray:[class trustFactorsToWhitelist]];
-            
         }
     }
     
@@ -521,17 +522,21 @@
     
     
     // Set comprehensive scores
-    if(systemPolicyViolation==YES){
-        self.systemScore=0;
-    }
-    else{
+    if(systemPolicyViolation == YES) {
+        
+        self.systemScore = 0;
+        
+    } else {
+        
         self.systemScore = systemScoreSum / systemClassCount;
     }
     
-    if(userPolicyViolation==YES){
-        self.userScore=0;
-    }else{
+    if (userPolicyViolation == YES) {
         
+        self.userScore = 0;
+        
+    } else {
+    
         self.userScore = userScoreSum / userClassCount;
     }
     
@@ -573,9 +578,10 @@
             // Set dashboard and detailed system view info
             self.systemGUIIconID = [systemBreachClass.identification intValue];
             self.systemGUIIconText = systemBreachClass.desc;
-        }
-        else if(self.systemPolicyScore <= self.systemSecurityScore) // SYSTEM_POLICY is attributing
-        {
+            
+        // SYSTEM_POLICY is attributing
+        } else if(self.systemPolicyScore <= self.systemSecurityScore) {
+            
             self.protectModeClassID = [systemPolicyClass.identification integerValue] ;
             self.protectModeAction = [systemPolicyClass.protectModeAction integerValue];
             self.protectModeMessage = systemPolicyClass.protectModeMessage;
@@ -583,9 +589,10 @@
             // Set dashboard and detailed system view info
             self.systemGUIIconID = [systemPolicyClass.identification intValue];
             self.systemGUIIconText = systemPolicyClass.desc;
-        }
-        else //SYSTEM_SECURITY is attributing
-        {
+            
+        //SYSTEM_SECURITY is attributing
+        } else {
+            
             self.protectModeClassID = [systemSecurityClass.identification integerValue] ;
             self.protectModeAction = [systemSecurityClass.protectModeAction integerValue];
             self.protectModeMessage = systemSecurityClass.protectModeMessage;
@@ -595,45 +602,43 @@
             self.systemGUIIconText = systemSecurityClass.desc;
         }
         
-        
-        
-    }
-    else{
+    } else {
         
         // Set dashboard and detailed system view info
         self.systemGUIIconID = 0;
         self.systemGUIIconText = @"Device Trusted";
-        
     }
     
     if(!self.userTrusted){
         
-        
-        //see which classification inside user attributed the most and set protect mode
-        if(self.userPolicyScore <= self.userAnomalyScore) //USER_POLICY is attributing
-        {
+        // See which classification inside user attributed the most and set protect mode
+        // USER_POLICY is attributing
+        if(self.userPolicyScore <= self.userAnomalyScore) {
             
-            if(self.systemTrusted){
+            if(self.systemTrusted) {
                 
+                // Get value of Class ID
                 self.protectModeClassID = [userPolicyClass.identification integerValue];
+                
+                // Get value of protect mode
                 self.protectModeAction = [userPolicyClass.protectModeAction integerValue];
+                
+                // Get protect mode message from policy class and set it to self
                 self.protectModeMessage = userPolicyClass.protectModeMessage;
                 
+                // Initialize protect mode white list
                 self.protectModeWhitelist = [[NSArray alloc] init];
                 
                 // Add entire user domain to whitelist
                 self.protectModeWhitelist = [self.protectModeWhitelist arrayByAddingObjectsFromArray:self.protectModeUserWhitelist] ;
-                
             }
             
             // Set dashboard and detailed user view info
             self.userGUIIconID = [userPolicyClass.identification intValue];
             self.userGUIIconText = userPolicyClass.desc;
             
-            
-        }
-        else //USER_ANOMALY is attributing
-        {
+        //USER_ANOMALY is attributing
+        } else {
             
             // Set protect mode action to the class specified action ONLY if system did not already
             if(self.systemTrusted){
@@ -650,25 +655,17 @@
             // Set dashboard and detailed user view info
             self.userGUIIconID = [userAnomalyClass.identification intValue];
             self.userGUIIconText = userAnomalyClass.desc;
-            
         }
         
-    }
-    else{
+    } else {
         
         // Set dashboard and detailed system view info
         self.userGUIIconID = 0;
         self.userGUIIconText = @"User Trusted";
-        
-        
-        
     }
     
     return self;
-    
 }
-
-
 
 + (void)addSuggestionsForClass:(Sentegrity_Classification *)class withSubClass:(Sentegrity_Subclassification *)subClass withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
     
@@ -724,6 +721,7 @@
     
 }
 
+// Calculates penalty and adds suggestions
 + (void)addSuggestionsAndCalcPenaltyForClass:(Sentegrity_Classification *)class withSubClass:(Sentegrity_Subclassification *)subClass withPolicy:(Sentegrity_Policy *)policy withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
     
     // Create an int to hold the dnePenalty multiplied by the modifier
@@ -735,44 +733,54 @@
             penaltyMod = [policy.DNEModifiers.error doubleValue];
             
             break;
+            
         case DNEStatus_unauthorized:
+            
             // Unauthorized
             penaltyMod = [policy.DNEModifiers.unauthorized doubleValue];
             
             // Check if subclass contains custom suggestion for the current error code
-            if(subClass.dneUnauthorized.length!= 0)
-            {   //Does suggestion already exist?
+            if(subClass.dneUnauthorized.length!= 0) {
+                //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
                     [suggestionsInClass addObject:subClass.dneUnauthorized];
                 }
             }
             
             break;
+            
         case DNEStatus_unsupported:
+            
             // Unsupported
             penaltyMod = [policy.DNEModifiers.unsupported doubleValue];
             
             // Check if subclass contains custom suggestion for the current error code
-            if(subClass.dneUnsupported.length!= 0)
-            {   //Does suggestion already exist?
+            if(subClass.dneUnsupported.length!= 0) {
+                
+                //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneUnsupported]){
                     [suggestionsInClass addObject:subClass.dneUnsupported];
                 }
             }
             break;
+            
         case DNEStatus_unavailable:
+            
             // Unavailable
             penaltyMod = [policy.DNEModifiers.unavailable doubleValue];
-            
+        
             // Check if subclass contains custom suggestion for the current error code
-            if(subClass.dneUnavailable.length!= 0)
-            {   //Does suggestion already exist?
+            if(subClass.dneUnavailable.length!= 0) {
+                
+                // Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneUnavailable]){
                     [suggestionsInClass addObject:subClass.dneUnavailable];
                 }
             }
             break;
+            
         case DNEStatus_disabled:
+            
             // Unavailable
             penaltyMod = [policy.DNEModifiers.disabled doubleValue];
             
@@ -784,7 +792,9 @@
                 }
             }
             break;
+            
         case DNEStatus_nodata:
+            
             // Unavailable
             penaltyMod = [policy.DNEModifiers.noData doubleValue];
             
@@ -797,14 +807,16 @@
             }
             
             break;
+            
         case DNEStatus_expired:
+            
             // Expired
             penaltyMod = [policy.DNEModifiers.expired doubleValue];
             
             // Check if subclass contains custom suggestion for the current error code
-            
-            if(subClass.dneExpired.length!= 0)
-            {   //Does suggestion already exist?
+            if(subClass.dneExpired.length!= 0) {
+                
+                //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneExpired]){
                     [suggestionsInClass addObject:subClass.dneExpired];
                 }
@@ -812,18 +824,15 @@
             
             break;
         default:
-            // apply error by default
+            
+            // Apply error by default
             penaltyMod = [policy.DNEModifiers.error doubleValue];
             break;
     }
-    
     
     // Apply DNE percent to the TFs normal penalty to reduce it (penaltyMode of 0 negates the rule completely)
     subClass.basePenalty = subClass.basePenalty + (trustFactorOutputObject.trustFactor.penalty.integerValue * penaltyMod);
     
 }
-
-
-
 
 @end
