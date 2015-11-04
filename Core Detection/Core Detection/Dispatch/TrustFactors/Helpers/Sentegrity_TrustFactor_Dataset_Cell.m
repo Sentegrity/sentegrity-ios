@@ -36,8 +36,9 @@ static UIView* statusBarForegroundView;
         }
     }
 
-    // Get cell strength
-    NSNumber *celluarBars;
+    //Get cell strength
+    int signalStrength;
+    int blockSize=15;
     //int celluarRaw=0;
     
     for (UIView* view in statusBarForegroundView.subviews) {
@@ -45,14 +46,19 @@ static UIView* statusBarForegroundView;
         if ([view isKindOfClass:NSClassFromString(@"UIStatusBarSignalStrengthItemView")]) {
             
             if (view) {
-                
-                celluarBars = [NSNumber numberWithInt:[[view valueForKey:@"_signalStrengthBars"] intValue]];
+                signalStrength = abs([[view valueForKey:@"_signalStrengthRaw"] intValue]);
             }
             break;
         }
     }
 
-    return celluarBars;
+    // Prevents values less than 15
+    if(signalStrength < blockSize){
+        signalStrength = blockSize;
+    }
+    
+    int blockOfSignal = ceilf(signalStrength / blockSize);
+    return [NSNumber numberWithInt:blockOfSignal];
 }
 
 // Check for signal strength

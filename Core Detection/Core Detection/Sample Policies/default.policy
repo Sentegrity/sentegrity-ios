@@ -537,7 +537,7 @@
 "privateAPI": 0,
 "payload": [{
 "secondsInterval" : 3600,
-"maxSentMB" : 2
+"maxSentMB" : 20
 }]
 }, {
 "id": 1013,
@@ -760,7 +760,7 @@
 "subClassID": 5,
 "priority": 2,
 "name": "high risk installed apps",
-"penalty": 30,
+"penalty": 35,
 "ruleType": 1,
 "learnMode": 0,
 "learnTime": 0,
@@ -1037,7 +1037,7 @@
 }, {
 "id": 1050,
 "issueMessage": "Unfamiliar device grip",
-"suggestionMessage": "Hold device steady",
+"suggestionMessage": "Hold device regularly",
 "revision": 1,
 "classID": 5,
 "subClassID": 11,
@@ -1049,7 +1049,7 @@
 "learnTime": 0,
 "learnAssertionCount": 0,
 "learnRunCount": 0,
-"threshold": 2,
+"threshold": 0,
 "decayMode": 2,
 "decayMetric": 0.5,
 "dispatch": "Motion",
@@ -1082,10 +1082,10 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"brightnessBlocksizeWithLocation" : 4,
-"brightnessBlocksizeNoLocation" : 6,
+"brightnessBlocksizeWithLocation" : 3,
+"brightnessBlocksizeNoLocation" : 4,
 "locationRounding" : 2,
-"magneticBlockSizeNoLocation" : 3,
+"magneticBlockSizeNoLocation" : 4,
 "magneticBlockSizeWithLocation" : 8
 }]
 }, {

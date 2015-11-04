@@ -275,18 +275,10 @@
     
     int magneticBlockSize=0;
     
-    // If no location data use sensitive
+    // If no location data use magnetometer, if we have location we don't use it
     if(locationAvailable==NO){
         
        magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeNoLocation"] intValue];
-    
-    } //else use liberal
-    else{
-        
-        magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeWithLocation"] intValue];
-    }
-    
-    if(magneticBlockSize != 0){
         
         NSArray *headings;
         
@@ -319,35 +311,35 @@
                     
                     // Calculate totl magnetic field regardless of position for each measurement
                     magnitude = sqrt (pow(x,2)+
-                                              pow(y,2)+
-                                              pow(z,2));
+                                      pow(y,2)+
+                                      pow(z,2));
                     
                     magnitudeTotal = magnitudeTotal + magnitude;
                     
                     counter++;
-
+                    
                     
                 }
                 
                 // compute average across all samples taken
                 magnitudeAverage = magnitudeTotal/counter;
-            
+                
                 int blockOfMagnetic = ceilf(fabsf(magnitudeAverage)/magneticBlockSize);
                 // round to the nearest n:  x_rounded = ((x + n/2)/n)*n;
                 // round to nearest X
                 //int rounded = floor((magnitudeAverage+(roundingSensitivity/2))/roundingSensitivity)*roundingSensitivity;
-
+                
                 NSString *magnitudeString = [NSString stringWithFormat:@"_M%d",blockOfMagnetic];
                 
                 anomalyString = [anomalyString stringByAppendingString:magnitudeString];
-
+                
                 
             }
-
+            
         }
-        
-    }
 
+    
+    }
     
     // ** SCREEN BRIGHTNESS **
     
