@@ -88,6 +88,7 @@
     NSMutableArray *statusInClass;
     NSMutableArray *issuesInClass;
     NSMutableArray *suggestionsInClass;
+    NSMutableArray *authenticatorsInClass; // for user classes only
     
     // Determining errors
     NSMutableArray *subClassDNECodes;
@@ -112,6 +113,7 @@
         statusInClass = [NSMutableArray array];
         issuesInClass = [NSMutableArray array];
         suggestionsInClass = [NSMutableArray array];
+        authenticatorsInClass = [NSMutableArray array];
         
         // Run through all the subclassifications that are in the policy
         for (Sentegrity_Subclassification *subClass in policy.subclassifications) {
@@ -163,7 +165,7 @@
                             // Apply TF's penalty to subclass base penalty score
                             subClass.basePenalty = (subClass.basePenalty + trustFactorOutputObject.trustFactor.penalty.integerValue);
                             
-                            // IF the TF operates as a normal rule (triger on no match), update issues and suggestion messages  (triggering a normal rule is bad)
+                            // IF the TF triggers on no match (not type 4), update issues and suggestion messages  (triggering a non type 4 rule is bad)
                             if(trustFactorOutputObject.trustFactor.ruleType.intValue != 4){
                                 
                                 // Check if the TF contains a custom issue message
@@ -187,12 +189,25 @@
                                         [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.suggestionMessage];
                                     }
                                 }
+                            }else{ // Rule triggered is of Type4 (inverse), such as WiFI BSSID or Bluetooth, this is good
+                                
+                                    // Generate authentictor name based on dispatch (could add a policy attribute if we wanted more custom)
+                                    NSString *name = [trustFactorOutputObject.trustFactor.dispatch stringByAppendingString:@" authenticator found"];
+                                
+                                    // Check if the we already have the authenticator in our list
+                                
+                                    if(![authenticatorsInClass containsObject:name]){
+                                        
+                                        // Add it
+                                        [authenticatorsInClass addObject:name];
+                                    }
+                                
                             }
                             
                         // Rule did not trigger
                         } else {
                             
-                            // Check if TF is inverse (not triggering inverse rule does not boost score)
+                            // Check if TF is inverse (not triggering a type 4 rule should not boost score, i.e., don't do anything score wise)
                             if(trustFactorOutputObject.trustFactor.ruleType.intValue == 4){
                                 
                                 // Check if the inverse TF contains a custom issue message (this is rare, don't think any inverse rules have one)
@@ -334,6 +349,7 @@
         [class setStatus: statusInClass];
         [class setIssues: issuesInClass];
         [class setSuggestions: suggestionsInClass];
+        [class setAuthenticators:authenticatorsInClass];
         
         // Set debug elements
         [class setTrustFactorsNotLearned:trustFactorsNotLearnedInClass];
@@ -365,6 +381,7 @@
     // GUI Messages - User
     NSMutableSet *userIssues = [[NSMutableSet alloc] init];
     NSMutableSet *userSuggestions = [[NSMutableSet alloc] init];
+    NSMutableSet *userAuthenticators = [[NSMutableSet alloc] init];
     NSMutableSet *userSubClassStatuses = [[NSMutableSet alloc] init];
     
     // TrustFactor Sorting - System
@@ -475,12 +492,13 @@
                     break;
             }
             
-            // Tally system GUI elements
+            // Tally user GUI elements
             [userIssues addObjectsFromArray:[class issues]];
             [userSuggestions addObjectsFromArray:[class suggestions]];
             [userSubClassStatuses addObjectsFromArray:[class status]];
+            [userAuthenticators addObjectsFromArray:[class authenticators]];
             
-            // Tally system debug data
+            // Tally user debug data
             [userTrustFactorsTriggered addObjectsFromArray:[class trustFactorsTriggered]];
             [userTrustFactorsNotLearned addObjectsFromArray:[class trustFactorsNotLearned]];
             [userTrustFactorsWithErrors addObjectsFromArray:[class trustFactorsWithErrors]];
@@ -491,14 +509,16 @@
         }
     }
     
-    // Set GUI messages
+    // Set GUI messages (system)
     self.systemGUIIssues = [systemIssues allObjects];
     self.systemGUISuggestions = [systemSuggestions allObjects];
     self.systemGUIAnalysis = [systemSubClassStatuses allObjects];
     
+    // Set GUI messages (user)
     self.userGUIIssues = [userIssues allObjects];
     self.userGUISuggestions = [userSuggestions allObjects];
     self.userGUIAnalysis = [userSubClassStatuses allObjects];
+    self.userGUIAuthenticators = [userAuthenticators allObjects];
     
     // DEBUG: Set whitelists for system/user domains
     self.protectModeUserWhitelist = userTrustFactorsToWhitelist;

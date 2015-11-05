@@ -91,6 +91,9 @@
 // User detailed view: Suggesstion Messages
 @property (nonatomic) NSArray *userGUISuggestions;
 
+// User detailed view: Authenticator Messages (we don't do this in the system space)
+@property (nonatomic) NSArray *userGUIAuthenticators;
+
 // User detailed view: Analysis Messages
 @property (nonatomic) NSArray *userGUIAnalysis;
 

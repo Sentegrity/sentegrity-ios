@@ -29,6 +29,7 @@ NSString const *trustFactorsWithErrorsKey = @"Sentegrity.trustFactorsWithErrors"
 NSString const *issuesKey = @"Sentegrity.issues";
 NSString const *suggestionsKey = @"Sentegrity.suggestions";
 NSString const *statusKey = @"Sentegrity.status";
+NSString const *authenticatorsKey = @"Sentegrity.authenticators";
 
 
 // Base Penalty
@@ -136,6 +137,15 @@ NSString const *statusKey = @"Sentegrity.status";
 
 - (NSArray *)status {
     return objc_getAssociatedObject(self, &statusKey);
+}
+
+// Authenticators
+- (void)setAuthenticators:(NSArray *)authenticators{
+    objc_setAssociatedObject(self, &authenticatorsKey, authenticators, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)authenticators {
+    return objc_getAssociatedObject(self, &authenticatorsKey);
 }
 
 @end

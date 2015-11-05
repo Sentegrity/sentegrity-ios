@@ -29,5 +29,6 @@
 @property (nonatomic,retain) NSArray *issues;
 @property (nonatomic,retain) NSArray *suggestions;
 @property (nonatomic,retain) NSArray *status;
+@property (nonatomic,retain) NSArray *authenticators;
 
 @end

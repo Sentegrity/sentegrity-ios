@@ -103,6 +103,41 @@
         
         // Create an attributed string dictionary for content
         NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.userStatusLabel.font.fontName size:16.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
+      
+        // Check if there are any GUI authenticators in use
+        if (self.computationResults.userGUIAuthenticators.count > 0 && self.computationResults.userGUIAuthenticators != nil) {
+            
+            // Set the issues section
+            NSAttributedString *authenticatorSection = [[NSAttributedString alloc] initWithString:@"Dynamic Two Factor\n" attributes:sectionStringDict];
+            
+            // Append the section
+            [userAttributedString appendAttributedString:authenticatorSection];
+            
+            // Run through all the user GUI authenticators
+            for (NSString *string in self.computationResults.userGUIAuthenticators) {
+                
+                // Create the checkmark image in the string
+                NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+                textAttachment.image = [UIImage imageNamed:@"CheckMark"];
+                textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+                
+                NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+                
+                // Append the string
+                [userAttributedString appendAttributedString:attrStringWithImage];
+                
+                // Create the authenticator string
+                NSAttributedString *authenticator = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", string] attributes:contentStringDict];
+                
+                // Append the string
+                [userAttributedString appendAttributedString:authenticator];
+            }
+            
+            // Append a newline
+            [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+        }
+        
+
         
         // Check if there are any GUI issues
         if (self.computationResults.userGUIIssues.count > 0 && self.computationResults.userGUIIssues != nil) {
@@ -132,10 +167,12 @@
                 // Append the string
                 [userAttributedString appendAttributedString:issue];
             }
+            
+            // Append a newline
+            [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         }
         
-        // Append a newline
-        [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+
         
         // Check if there are any GUI suggestions
         if (self.computationResults.userGUISuggestions.count > 0 && self.computationResults.userGUISuggestions != nil) {
@@ -165,10 +202,12 @@
                 // Append the string
                 [userAttributedString appendAttributedString:issue];
             }
+            
+            // Append a newline
+            [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         }
         
-        // Append a newline
-        [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+
         
         // Check if there are any GUI analysis
         if (self.computationResults.userGUIAnalysis.count > 0 && self.computationResults.userGUIAnalysis != nil) {
