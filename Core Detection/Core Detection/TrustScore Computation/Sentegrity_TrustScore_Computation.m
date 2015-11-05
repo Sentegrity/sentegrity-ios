@@ -189,22 +189,33 @@
                                         [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.suggestionMessage];
                                     }
                                 }
-                            }else{ // Rule triggered is of Type4 (inverse), such as WiFI BSSID or Bluetooth, this is good
+                            } else {
+                                // Rule triggered is of Type4 (inverse), such as WiFI BSSID or Bluetooth, this is good
                                 
-                                    // Generate authentictor name based on dispatch (could add a policy attribute if we wanted more custom)
-                                    NSString *name = [trustFactorOutputObject.trustFactor.dispatch stringByAppendingString:@" authenticator found"];
+                                // Generate authentictor name based on dispatch (could add a policy attribute if we wanted more custom)
+                                NSString *name = [trustFactorOutputObject.trustFactor.dispatch stringByAppendingString:@" authenticator found"];
                                 
-                                    // Check if the we already have the authenticator in our list
+                                // Check if the we already have the authenticator in our list
                                 
-                                    if(![authenticatorsInClass containsObject:name]){
+                                if (![authenticatorsInClass containsObject:name]) {
+                                    
+                                    // Make sure the array is not nil!
+                                    if (!authenticatorsInClass || authenticatorsInClass.count < 1) {
                                         
-                                        // Add it
+                                        // Add it to the array and instantiate the array
+                                        authenticatorsInClass = [NSMutableArray arrayWithObject:name];
+                                        
+                                    } else {
+                                        
+                                        // Add it to the array
                                         [authenticatorsInClass addObject:name];
                                     }
+                                    
+                                }
                                 
                             }
                             
-                        // Rule did not trigger
+                            // Rule did not trigger
                         } else {
                             
                             // Check if TF is inverse (not triggering a type 4 rule should not boost score, i.e., don't do anything score wise)
@@ -234,7 +245,7 @@
                             }
                         }
                         
-                    // TrustFactor did not run successfully -> Did Not Execute
+                        // TrustFactor did not run successfully -> Did Not Execute
                     } else {
                         
                         // FOR DEBUG OUTPUT
@@ -252,7 +263,7 @@
                             
                             [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
                             
-                        // Not an inverse rule therefore record messages AND apply modified DNE penalty
+                            // Not an inverse rule therefore record messages AND apply modified DNE penalty
                         } else {
                             
                             [self addSuggestionsAndCalcPenaltyForClass:class withSubClass:subClass withPolicy:policy withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
@@ -266,7 +277,7 @@
                     [trustFactorsInSubClass addObject:trustFactorOutputObject.trustFactor];
                     
                 }
-            // End trustfactors loop
+                // End trustfactors loop
             }
             
             // Create Analysis category list for output
@@ -277,7 +288,7 @@
                 if(!subClassAnalysisIncomplete) {
                     [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check complete"]];
                     
-                // Subclass contains TFs with issues, identify which, if there are multiple the first (higher priority one is used)
+                    // Subclass contains TFs with issues, identify which, if there are multiple the first (higher priority one is used)
                 } else {
                     
                     if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_disabled]]){
@@ -330,7 +341,7 @@
                 [subClassesInClass addObject:subClass];
             }
             
-        // End subclassifications loop
+            // End subclassifications loop
         }
         
         // Link subclassification list to classification
@@ -465,7 +476,7 @@
             // Add whitelists together
             [systemTrustFactorsToWhitelist addObjectsFromArray:[class trustFactorsToWhitelist]];
             
-        // When it's a user class
+            // When it's a user class
         } else {
             
             int currentScore = MIN(100,MAX(0,100-(int)[class weightedPenalty]));
@@ -556,7 +567,7 @@
         self.userScore = 0;
         
     } else {
-    
+        
         self.userScore = userScoreSum / userClassCount;
     }
     
@@ -599,7 +610,7 @@
             self.systemGUIIconID = [systemBreachClass.identification intValue];
             self.systemGUIIconText = systemBreachClass.desc;
             
-        // SYSTEM_POLICY is attributing
+            // SYSTEM_POLICY is attributing
         } else if(self.systemPolicyScore <= self.systemSecurityScore) {
             
             self.protectModeClassID = [systemPolicyClass.identification integerValue] ;
@@ -610,7 +621,7 @@
             self.systemGUIIconID = [systemPolicyClass.identification intValue];
             self.systemGUIIconText = systemPolicyClass.desc;
             
-        //SYSTEM_SECURITY is attributing
+            //SYSTEM_SECURITY is attributing
         } else {
             
             self.protectModeClassID = [systemSecurityClass.identification integerValue] ;
@@ -657,7 +668,7 @@
             self.userGUIIconID = [userPolicyClass.identification intValue];
             self.userGUIIconText = userPolicyClass.desc;
             
-        //USER_ANOMALY is attributing
+            //USER_ANOMALY is attributing
         } else {
             
             // Set protect mode action to the class specified action ONLY if system did not already
@@ -788,7 +799,7 @@
             
             // Unavailable
             penaltyMod = [policy.DNEModifiers.unavailable doubleValue];
-        
+            
             // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneUnavailable.length!= 0) {
                 

@@ -49,6 +49,12 @@
                             <constraint firstAttribute="centerY" secondItem="5G9-2T-1Sl" secondAttribute="centerY" id="sef-Ex-VOy"/>
                             <constraint firstAttribute="trailing" secondItem="5G9-2T-1Sl" secondAttribute="trailing" id="wqx-hA-sOE"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="TD9-Xs-dyd"/>
+                                <exclude reference="sef-Ex-VOy"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -77,13 +83,23 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="5KX-OY-BiT" firstAttribute="top" secondItem="m0y-AV-ZdV" secondAttribute="topMargin" id="PE2-ql-qVD"/>
                             <constraint firstItem="5KX-OY-BiT" firstAttribute="centerX" secondItem="m0y-AV-ZdV" secondAttribute="centerX" id="SCv-h7-HbS"/>
                             <constraint firstItem="5KX-OY-BiT" firstAttribute="top" secondItem="m0y-AV-ZdV" secondAttribute="topMargin" id="pmF-WY-537"/>
                             <constraint firstItem="3FF-Wh-tZ0" firstAttribute="top" secondItem="5KX-OY-BiT" secondAttribute="bottom" id="reb-k5-8qv"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5KX-OY-BiT" secondAttribute="trailing" constant="-20" id="w0k-Ks-neS"/>
+                            <constraint firstItem="5KX-OY-BiT" firstAttribute="leading" secondItem="m0y-AV-ZdV" secondAttribute="leadingMargin" constant="-20" id="w7G-Sc-3Kn"/>
                             <constraint firstItem="5KX-OY-BiT" firstAttribute="centerY" secondItem="m0y-AV-ZdV" secondAttribute="centerY" id="yOs-6v-VyL"/>
                             <constraint firstItem="5KX-OY-BiT" firstAttribute="leading" secondItem="m0y-AV-ZdV" secondAttribute="leadingMargin" constant="-20" id="zjK-xB-BFX"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="SCv-h7-HbS"/>
+                                <exclude reference="pmF-WY-537"/>
+                                <exclude reference="yOs-6v-VyL"/>
+                                <exclude reference="zjK-xB-BFX"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>

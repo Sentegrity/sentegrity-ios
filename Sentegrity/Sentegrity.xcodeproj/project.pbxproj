@@ -398,16 +398,16 @@
 		04A248FB1B266AC2007D9460 /* Sentegrity */ = {
 			isa = PBXGroup;
 			children = (
-				4C1DEC281BBCA33600B0A312 /* Permissions View Controllers */,
-				969CD06E1B7E7DEC00254F45 /* SCLAlertView */,
-				9676DF7E1B7EA92900C508D6 /* LandingViewController */,
+				4CE9D80A1B3233D2006D43D8 /* AppDelegate */,
 				969CD06A1B7E673900254F45 /* LoginViewController */,
 				4CE9D8081B3233B2006D43D8 /* DashboardViewController */,
 				4C22BFFC1B7B983400EFFD7D /* InformationViewControllers */,
-				4CE9D80A1B3233D2006D43D8 /* AppDelegate */,
+				4C1DEC281BBCA33600B0A312 /* Permissions View Controllers */,
 				4CE9D8091B3233C1006D43D8 /* RightMenuViewController */,
+				9676DF7E1B7EA92900C508D6 /* LandingViewController */,
 				0427EFF41B7908CC000658AB /* DebugViewControllers */,
 				4CE9D80B1B3233DC006D43D8 /* StoryBoards */,
+				969CD06E1B7E7DEC00254F45 /* SCLAlertView */,
 				04A248FC1B266AC2007D9460 /* Supporting Files */,
 			);
 			path = Sentegrity;
@@ -487,18 +487,18 @@
 		4C97D2DC1BE15A35009F3779 /* Core Detection */ = {
 			isa = PBXGroup;
 			children = (
-				4C97D2DD1BE15A35009F3779 /* Assertion Storage */,
-				4C97D2EA1BE15A35009F3779 /* Baseline Analysis */,
+				4C97D3831BE15A35009F3779 /* Sentegrity.h */,
+				4C97D3841BE15A35009F3779 /* Sentegrity_Constants.h */,
 				4C97D2ED1BE15A35009F3779 /* CoreDetection.h */,
 				4C97D2EE1BE15A35009F3779 /* CoreDetection.m */,
+				4C97D2DD1BE15A35009F3779 /* Assertion Storage */,
+				4C97D2EA1BE15A35009F3779 /* Baseline Analysis */,
 				4C97D2EF1BE15A35009F3779 /* Dispatch */,
 				4C97D3651BE15A35009F3779 /* History */,
 				4C97D3681BE15A35009F3779 /* Parser */,
 				4C97D36B1BE15A35009F3779 /* Protect Mode */,
 				4C97D36E1BE15A35009F3779 /* Sample Policies */,
 				4C97D3741BE15A35009F3779 /* Sentegrity Policy */,
-				4C97D3831BE15A35009F3779 /* Sentegrity.h */,
-				4C97D3841BE15A35009F3779 /* Sentegrity_Constants.h */,
 				4C97D3851BE15A35009F3779 /* TrustScore Computation */,
 			);
 			name = "Core Detection";
