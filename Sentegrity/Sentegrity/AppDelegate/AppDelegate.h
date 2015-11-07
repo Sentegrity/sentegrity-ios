@@ -8,28 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-// Location
-@import CoreLocation;
+// Activity Dispatcher
+#import "Sentegrity_Activity_Dispatcher.h"
 
-// Motion
-#import <CoreMotion/CoreMotion.h>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-// BLE Bluetotoh
-#import <CoreBluetooth/CoreBluetooth.h>
-
-// Classic BT Private APIs
-#import "BluetoothManager.h"
-#import "BluetoothDevice.h"
-#import "MDBluetoothManager.h"
-
-@interface AppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate, MDBluetoothObserverProtocol>
-
+// Window
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) CLLocationManager *locationManager;
-
-// Kick off Core Detection
-- (void)runCoreDetectionActivities;
+// Activity Dispatcher
+@property (strong, atomic) Sentegrity_Activity_Dispatcher *activityDispatcher;
 
 @end
 

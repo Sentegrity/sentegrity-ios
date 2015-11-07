@@ -48,8 +48,7 @@ static MBProgressHUD *HUD;
 - (void)viewDidAppear:(BOOL)animated {
     
     // If this is the first run
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]==NO)
-    {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"] == NO) {
         
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
         [[NSUserDefaults standardUserDefaults] synchronize];

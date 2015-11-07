@@ -16,7 +16,6 @@
 		4C35E40A1BE153B800A603AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C35E3FD1BE153B800A603AF /* LaunchScreen.storyboard */; };
 		4C35E40B1BE153B800A603AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C35E3FF1BE153B800A603AF /* Main.storyboard */; };
 		4C35E40C1BE153B800A603AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C35E3FF1BE153B800A603AF /* Main.storyboard */; };
-		4C35E40D1BE153B800A603AF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C35E4011BE153B800A603AF /* Info.plist */; };
 		4C35E40E1BE153B800A603AF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C35E4011BE153B800A603AF /* Info.plist */; };
 		4C35E40F1BE153B800A603AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E4021BE153B800A603AF /* main.m */; };
 		4C35E4101BE153B800A603AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E4021BE153B800A603AF /* main.m */; };
@@ -134,6 +133,7 @@
 		4C35E5301BE153C600A603AF /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E4C01BE153C600A603AF /* Sentegrity_Subclassification+Computation.m */; };
 		4C35E5311BE153C600A603AF /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E4C21BE153C600A603AF /* Sentegrity_TrustScore_Computation.m */; };
 		4C35E5321BE153C600A603AF /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E4C21BE153C600A603AF /* Sentegrity_TrustScore_Computation.m */; };
+		4C81CC0B1BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C81CC0A1BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.m */; };
 		4C97D2DA1BE159A2009F3779 /* BluetoothManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D2D91BE159A2009F3779 /* BluetoothManager.framework */; };
 		4C97D2DB1BE159A2009F3779 /* BluetoothManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D2D91BE159A2009F3779 /* BluetoothManager.framework */; };
 		7A232A0B3582EFBBD2EA0C74 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD4CA745EE9C90A8421F9D43 /* libPods.a */; };
@@ -315,6 +315,8 @@
 		4C35E4C01BE153C600A603AF /* Sentegrity_Subclassification+Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Subclassification+Computation.m"; sourceTree = "<group>"; };
 		4C35E4C11BE153C600A603AF /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4C35E4C21BE153C600A603AF /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
+		4C81CC091BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Activity_Dispatcher.h; sourceTree = "<group>"; };
+		4C81CC0A1BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Activity_Dispatcher.m; sourceTree = "<group>"; };
 		4C97D2CD1BE1550F009F3779 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		4C97D2D91BE159A2009F3779 /* BluetoothManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BluetoothManager.framework; sourceTree = "<group>"; };
 		A12EFBCFFAFED486333FFE1A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -356,10 +358,10 @@
 			isa = PBXGroup;
 			children = (
 				4C35E4131BE153C600A603AF /* Core Detection */,
-				4C35E3F91BE153B800A603AF /* Example Core Detection */,
 				4C35E3D31BE1532300A603AF /* Core DetectionTests */,
-				C0919C20A2CD212A4EA5C388 /* Pods */,
+				4C35E3F91BE153B800A603AF /* Example Core Detection */,
 				1651CDDD91C2C8346E6EFE6A /* Frameworks */,
+				C0919C20A2CD212A4EA5C388 /* Pods */,
 				4C35E3B81BE1532300A603AF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -388,12 +390,12 @@
 				4C35E3FA1BE153B800A603AF /* AppDelegate.h */,
 				4C35E3FB1BE153B800A603AF /* AppDelegate.m */,
 				4C35E3FC1BE153B800A603AF /* Assets.xcassets */,
+				4C35E4011BE153B800A603AF /* Info.plist */,
 				4C35E3FD1BE153B800A603AF /* LaunchScreen.storyboard */,
 				4C35E3FF1BE153B800A603AF /* Main.storyboard */,
-				4C35E4011BE153B800A603AF /* Info.plist */,
-				4C35E4021BE153B800A603AF /* main.m */,
 				4C35E4031BE153B800A603AF /* ViewController.h */,
 				4C35E4041BE153B800A603AF /* ViewController.m */,
+				4C35E4021BE153B800A603AF /* main.m */,
 			);
 			path = "Example Core Detection";
 			sourceTree = "<group>";
@@ -403,17 +405,17 @@
 			children = (
 				4C35E4141BE153C600A603AF /* Assertion Storage */,
 				4C35E4211BE153C600A603AF /* Baseline Analysis */,
-				4C35E4241BE153C600A603AF /* CoreDetection.h */,
-				4C35E4251BE153C600A603AF /* CoreDetection.m */,
 				4C35E4261BE153C600A603AF /* Dispatch */,
 				4C35E49C1BE153C600A603AF /* History */,
 				4C35E49F1BE153C600A603AF /* Parser */,
 				4C35E4A21BE153C600A603AF /* Protect Mode */,
 				4C35E4A51BE153C600A603AF /* Sample Policies */,
 				4C35E4AB1BE153C600A603AF /* Sentegrity Policy */,
+				4C35E4BC1BE153C600A603AF /* TrustScore Computation */,
+				4C35E4241BE153C600A603AF /* CoreDetection.h */,
+				4C35E4251BE153C600A603AF /* CoreDetection.m */,
 				4C35E4BA1BE153C600A603AF /* Sentegrity.h */,
 				4C35E4BB1BE153C600A603AF /* Sentegrity_Constants.h */,
-				4C35E4BC1BE153C600A603AF /* TrustScore Computation */,
 			);
 			path = "Core Detection";
 			sourceTree = "<group>";
@@ -449,9 +451,9 @@
 		4C35E4261BE153C600A603AF /* Dispatch */ = {
 			isa = PBXGroup;
 			children = (
+				4C35E4291BE153C600A603AF /* TrustFactors */,
 				4C35E4271BE153C600A603AF /* Sentegrity_TrustFactor_Dispatcher.h */,
 				4C35E4281BE153C600A603AF /* Sentegrity_TrustFactor_Dispatcher.m */,
-				4C35E4291BE153C600A603AF /* TrustFactors */,
 			);
 			path = Dispatch;
 			sourceTree = "<group>";
@@ -459,6 +461,7 @@
 		4C35E4291BE153C600A603AF /* TrustFactors */ = {
 			isa = PBXGroup;
 			children = (
+				4C81CC0C1BEE852A0033441B /* Activity Dispatcher */,
 				4C35E42A1BE153C600A603AF /* Headers */,
 				4C35E4571BE153C600A603AF /* Helpers */,
 				4C35E4771BE153C600A603AF /* Rules */,
@@ -472,10 +475,10 @@
 			isa = PBXGroup;
 			children = (
 				4C35E42B1BE153C600A603AF /* bluetooth */,
-				4C35E42F1BE153C600A603AF /* bsd_var.h */,
 				4C35E4301BE153C600A603AF /* kernel includes */,
-				4C35E4531BE153C600A603AF /* otherConnectionHeaders.h */,
 				4C35E4541BE153C600A603AF /* private */,
+				4C35E42F1BE153C600A603AF /* bsd_var.h */,
+				4C35E4531BE153C600A603AF /* otherConnectionHeaders.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -493,11 +496,11 @@
 		4C35E4301BE153C600A603AF /* kernel includes */ = {
 			isa = PBXGroup;
 			children = (
+				4C35E4351BE153C600A603AF /* netinet */,
 				4C35E4311BE153C600A603AF /* clock.h */,
 				4C35E4321BE153C600A603AF /* ev.h */,
 				4C35E4331BE153C600A603AF /* kern_types.h */,
 				4C35E4341BE153C600A603AF /* kext_net.h */,
-				4C35E4351BE153C600A603AF /* netinet */,
 				4C35E44F1BE153C600A603AF /* netstat.h */,
 				4C35E4501BE153C600A603AF /* route.h */,
 				4C35E4511BE153C600A603AF /* socketvar.h */,
@@ -554,10 +557,10 @@
 				4C35E45E1BE153C600A603AF /* Objects */,
 				4C35E4651BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Application.h */,
 				4C35E4661BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Application.m */,
-				4C35E4671BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Cell.h */,
-				4C35E4681BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Cell.m */,
 				4C35E4691BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_CPU.h */,
 				4C35E46A1BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_CPU.m */,
+				4C35E4671BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Cell.h */,
+				4C35E4681BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Cell.m */,
 				4C35E46B1BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Location.h */,
 				4C35E46C1BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Location.m */,
 				4C35E46D1BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Motion.h */,
@@ -670,8 +673,8 @@
 		4C35E4A51BE153C600A603AF /* Sample Policies */ = {
 			isa = PBXGroup;
 			children = (
-				4C35E4A61BE153C600A603AF /* default.policy */,
 				4C35E4A71BE153C600A603AF /* Old */,
+				4C35E4A61BE153C600A603AF /* default.policy */,
 				4C35E4A91BE153C600A603AF /* oui.list */,
 				4C35E4AA1BE153C600A603AF /* oui_all.list */,
 			);
@@ -691,10 +694,10 @@
 			children = (
 				4C35E4AC1BE153C600A603AF /* Classification */,
 				4C35E4AF1BE153C600A603AF /* DNE Modifiers */,
-				4C35E4B21BE153C600A603AF /* Sentegrity_Policy.h */,
-				4C35E4B31BE153C600A603AF /* Sentegrity_Policy.m */,
 				4C35E4B41BE153C600A603AF /* Subclassification */,
 				4C35E4B71BE153C600A603AF /* TrustFactor */,
+				4C35E4B21BE153C600A603AF /* Sentegrity_Policy.h */,
+				4C35E4B31BE153C600A603AF /* Sentegrity_Policy.m */,
 			);
 			path = "Sentegrity Policy";
 			sourceTree = "<group>";
@@ -746,6 +749,15 @@
 				4C35E4C21BE153C600A603AF /* Sentegrity_TrustScore_Computation.m */,
 			);
 			path = "TrustScore Computation";
+			sourceTree = "<group>";
+		};
+		4C81CC0C1BEE852A0033441B /* Activity Dispatcher */ = {
+			isa = PBXGroup;
+			children = (
+				4C81CC091BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.h */,
+				4C81CC0A1BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.m */,
+			);
+			path = "Activity Dispatcher";
 			sourceTree = "<group>";
 		};
 		C0919C20A2CD212A4EA5C388 /* Pods */ = {
@@ -842,7 +854,6 @@
 			files = (
 				4C35E51F1BE153C600A603AF /* oui.list in Resources */,
 				4C35E51D1BE153C600A603AF /* Default_Policy.plist in Resources */,
-				4C35E40D1BE153B800A603AF /* Info.plist in Resources */,
 				4C35E5211BE153C600A603AF /* oui_all.list in Resources */,
 				4C35E40B1BE153B800A603AF /* Main.storyboard in Resources */,
 				4C35E51B1BE153C600A603AF /* default.policy in Resources */,
@@ -975,6 +986,7 @@
 				4C35E4E91BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */,
 				4C35E5031BE153C600A603AF /* TrustFactor_Dispatch_Platform.m in Sources */,
 				4C35E5171BE153C600A603AF /* Sentegrity_Parser.m in Sources */,
+				4C81CC0B1BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.m in Sources */,
 				4C35E4F51BE153C600A603AF /* TrustFactor_Dispatch_Bluetooth.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1059,6 +1071,7 @@
 				4C35E3FE1BE153B800A603AF /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		4C35E3FF1BE153B800A603AF /* Main.storyboard */ = {
@@ -1067,6 +1080,7 @@
 				4C35E4001BE153B800A603AF /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

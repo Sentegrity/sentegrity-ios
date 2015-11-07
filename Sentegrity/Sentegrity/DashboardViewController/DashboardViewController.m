@@ -382,27 +382,28 @@ static MBProgressHUD *HUD;
     SCLAlertView *untrusted = [[SCLAlertView alloc] init];
     untrusted.showAnimationType = SlideInFromRight;
     untrusted.backgroundType = Shadow;
-    //unlocked.backgroundViewColor = [UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f];
     [untrusted removeTopCircle];
     
     [untrusted addButton:@"Yes" actionBlock:^(void) {
         
         // Clea up datasets
         [Sentegrity_TrustFactor_Datasets selfDestruct];
-        // Perform Core Detection
-        [(AppDelegate *)[[UIApplication sharedApplication] delegate] runCoreDetectionActivities];
         
-        // Show landing page
+        // Run the Core Detection Activities
+        [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] runCoreDetectionActivities];
         
+        // Show the landing page
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        // Create the main view controller
+        
+        // Create the login view controller
         LoginViewController *loginViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"];
+        
+        // Push the login view controller
         [self.navigationController pushViewController:loginViewController animated:NO];
     }];
     
 
     [untrusted showCustom:self image:nil color:[UIColor grayColor] title:@"Refresh" subTitle:@"Do you want to run detection again and update the score?" closeButtonTitle:@"Cancel" duration:0.0f];
-
 
 }
 

@@ -60,4 +60,7 @@
 // Baseline Analysis - Information about the output
 #import "Sentegrity_Baseline_Analysis.h"
 
+// Activity Dispatcher
+#import "Sentegrity_Activity_Dispatcher.h"
+
 #endif

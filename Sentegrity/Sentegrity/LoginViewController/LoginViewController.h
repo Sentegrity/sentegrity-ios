@@ -29,6 +29,5 @@
 /* Perform Core Detection */
 - (void)performCoreDetection:(id)sender;
 
-
 @end
 

@@ -36,6 +36,7 @@
 		4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */; };
 		4C5393851B2F965D00EA4484 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393841B2F965D00EA4484 /* loading.gif */; };
 		4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393861B2F966700EA4484 /* loadingWhite.gif */; };
+		4C9606A61BEE8772005E6B97 /* Sentegrity_Activity_Dispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9606A51BEE8772005E6B97 /* Sentegrity_Activity_Dispatcher.m */; };
 		4C97D38C1BE15A35009F3779 /* Sentegrity_Assertion_Store+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D2DF1BE15A35009F3779 /* Sentegrity_Assertion_Store+Helper.m */; };
 		4C97D38E1BE15A35009F3779 /* Sentegrity_Assertion_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D2E11BE15A35009F3779 /* Sentegrity_Assertion_Store.m */; };
 		4C97D3901BE15A35009F3779 /* Sentegrity_Stored_Assertion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D2E31BE15A35009F3779 /* Sentegrity_Stored_Assertion.m */; };
@@ -164,6 +165,8 @@
 		4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInformationViewController.m; sourceTree = "<group>"; };
 		4C5393841B2F965D00EA4484 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		4C5393861B2F966700EA4484 /* loadingWhite.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loadingWhite.gif; sourceTree = "<group>"; };
+		4C9606A41BEE8772005E6B97 /* Sentegrity_Activity_Dispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Activity_Dispatcher.h; sourceTree = "<group>"; };
+		4C9606A51BEE8772005E6B97 /* Sentegrity_Activity_Dispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Activity_Dispatcher.m; sourceTree = "<group>"; };
 		4C97D2DE1BE15A35009F3779 /* Sentegrity_Assertion_Store+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Sentegrity_Assertion_Store+Helper.h"; sourceTree = "<group>"; };
 		4C97D2DF1BE15A35009F3779 /* Sentegrity_Assertion_Store+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Assertion_Store+Helper.m"; sourceTree = "<group>"; };
 		4C97D2E01BE15A35009F3779 /* Sentegrity_Assertion_Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Assertion_Store.h; sourceTree = "<group>"; };
@@ -484,6 +487,15 @@
 			path = Gifs;
 			sourceTree = "<group>";
 		};
+		4C9606A31BEE8772005E6B97 /* Activity Dispatcher */ = {
+			isa = PBXGroup;
+			children = (
+				4C9606A41BEE8772005E6B97 /* Sentegrity_Activity_Dispatcher.h */,
+				4C9606A51BEE8772005E6B97 /* Sentegrity_Activity_Dispatcher.m */,
+			);
+			path = "Activity Dispatcher";
+			sourceTree = "<group>";
+		};
 		4C97D2DC1BE15A35009F3779 /* Core Detection */ = {
 			isa = PBXGroup;
 			children = (
@@ -546,6 +558,7 @@
 		4C97D2F21BE15A35009F3779 /* TrustFactors */ = {
 			isa = PBXGroup;
 			children = (
+				4C9606A31BEE8772005E6B97 /* Activity Dispatcher */,
 				4C97D2F31BE15A35009F3779 /* Headers */,
 				4C97D3201BE15A35009F3779 /* Helpers */,
 				4C97D3401BE15A35009F3779 /* Rules */,
@@ -1141,6 +1154,7 @@
 				4C97D38C1BE15A35009F3779 /* Sentegrity_Assertion_Store+Helper.m in Sources */,
 				4C97D3D81BE15A35009F3779 /* TrustFactor_Dispatch_Time.m in Sources */,
 				0427EFFB1B792037000658AB /* SystemDebugViewController.m in Sources */,
+				4C9606A61BEE8772005E6B97 /* Sentegrity_Activity_Dispatcher.m in Sources */,
 				4C97D3B61BE15A35009F3779 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */,
 				4C97D3CA1BE15A35009F3779 /* TrustFactor_Dispatch_Netstat.m in Sources */,
 				4C97D3961BE15A35009F3779 /* Sentegrity_TrustFactor_Storage.m in Sources */,
