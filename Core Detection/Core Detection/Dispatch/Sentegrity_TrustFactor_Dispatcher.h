@@ -16,8 +16,6 @@
 
 @interface Sentegrity_TrustFactor_Dispatcher : NSObject
 
-// TODO: BETA2 Set a time limit and execute DNE's
-
 /**
  *  Run an array of trustfactors
  *

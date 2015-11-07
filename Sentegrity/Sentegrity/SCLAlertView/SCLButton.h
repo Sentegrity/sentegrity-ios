@@ -35,7 +35,6 @@ typedef NS_ENUM(NSInteger, SCLActionType)
 
 /** Set action button block.
  *
- * TODO
  */
 @property (nonatomic, copy) SCLActionBlock actionBlock;
 
