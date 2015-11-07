@@ -18,8 +18,16 @@
 
 // TODO: BETA2 Set a time limit and execute DNE's
 
-// Run an array of trustfactors
-+ (NSArray *)performTrustFactorAnalysis:(NSArray *)trustFactors withError:(NSError **)error;
+/**
+ *  Run an array of trustfactors
+ *
+ *  @param trustFactors TrustFactors to run
+ *  @param timeout      Timeout period (how long it has to run)
+ *  @param error        Error
+ *
+ *  @return Returns an array of trustfactor assertions (output)
+ */
++ (NSArray *)performTrustFactorAnalysis:(NSArray *)trustFactors withTimeout:(NSTimeInterval)timeout andError:(NSError **)error;
 
 // Generate the output from a single TrustFactor
 + (Sentegrity_TrustFactor_Output_Object *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error;

@@ -53,7 +53,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 #pragma mark - Protect Mode Analysis
 
 // Start Core Detection
-- (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(int)timeOut withCallback:(coreDetectionBlock)callback {
+- (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(NSTimeInterval)timeOut withCallback:(coreDetectionBlock)callback {
     
     // Create the error to use
     NSError *error = nil;
@@ -69,7 +69,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        error = [NSError errorWithDomain:sentegrityDomain code:SANoPolicyProvided userInfo:errorDetails];
+        error = [NSError errorWithDomain:coreDetectionDomain code:SANoPolicyProvided userInfo:errorDetails];
         
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
@@ -92,7 +92,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        error = [NSError errorWithDomain:sentegrityDomain code:SANoCallbackBlockProvided userInfo:errorDetails];
+        error = [NSError errorWithDomain:coreDetectionDomain code:SANoCallbackBlockProvided userInfo:errorDetails];
         
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
@@ -115,7 +115,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        error = [NSError errorWithDomain:sentegrityDomain code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
+        error = [NSError errorWithDomain:coreDetectionDomain code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
         
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
@@ -128,7 +128,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     /* Start the TrustFactor Dispatcher */
     
     // Executes the TrustFactors and gets the output objects
-    NSArray *trustFactorOutputObjects = [Sentegrity_TrustFactor_Dispatcher performTrustFactorAnalysis:policy.trustFactors withError:&error];
+    NSArray *trustFactorOutputObjects = [Sentegrity_TrustFactor_Dispatcher performTrustFactorAnalysis:policy.trustFactors withTimeout:timeOut andError:&error];
     
     // Check for valid trustFactorOutputObjects
     if (!trustFactorOutputObjects || trustFactorOutputObjects == nil || trustFactorOutputObjects.count < 1) {
@@ -141,7 +141,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        error = [NSError errorWithDomain:sentegrityDomain code:SANoTrustFactorOutputObjectsFromDispatcher userInfo:errorDetails];
+        error = [NSError errorWithDomain:coreDetectionDomain code:SANoTrustFactorOutputObjectsFromDispatcher userInfo:errorDetails];
         
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
@@ -166,7 +166,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        error = [NSError errorWithDomain:sentegrityDomain code:SANoTrustFactorOutputObjectsForComputation userInfo:errorDetails];
+        error = [NSError errorWithDomain:coreDetectionDomain code:SANoTrustFactorOutputObjectsForComputation userInfo:errorDetails];
         
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
@@ -191,7 +191,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        error = [NSError errorWithDomain:sentegrityDomain code:SAErrorDuringComputation userInfo:errorDetails];
+        error = [NSError errorWithDomain:coreDetectionDomain code:SAErrorDuringComputation userInfo:errorDetails];
         
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
@@ -226,7 +226,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        *error = [NSError errorWithDomain:sentegrityDomain code:SANoCallbackBlockProvided userInfo:errorDetails];
+        *error = [NSError errorWithDomain:coreDetectionDomain code:SANoCallbackBlockProvided userInfo:errorDetails];
         
     }
 }
@@ -270,7 +270,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        *error = [NSError errorWithDomain:sentegrityDomain code:SAInvalidPolicyPath userInfo:errorDetails];
+        *error = [NSError errorWithDomain:coreDetectionDomain code:SAInvalidPolicyPath userInfo:errorDetails];
     }
     
     // Start by creating the parser
@@ -295,7 +295,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        *error = [NSError errorWithDomain:sentegrityDomain code:SAUnknownError userInfo:errorDetails];
+        *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnknownError userInfo:errorDetails];
         
         // Don't return anything
         return nil;

@@ -20,10 +20,16 @@
 @implementation Sentegrity_TrustFactor_Dispatcher
 
 // Run an array of trustfactors and generate candidate assertions
-+ (NSArray *)performTrustFactorAnalysis:(NSArray *)trustFactors withError:(NSError **)error {
++ (NSArray *)performTrustFactorAnalysis:(NSArray *)trustFactors withTimeout:(NSTimeInterval)timeout andError:(NSError **)error {
+    
+    // Get the current date
+    NSDate *startTime = [NSDate date];
+    
+    // Create a bool for the timeout
+    BOOL timeoutHit = NO;
     
     // Set allowPrivateAPI
-    int allowPrivateAPIs = 1;
+    int allowPrivateAPIs = kAllowsPrivateAPIs;
     
     // Make an array to pass back
     NSMutableArray *processedTrustFactorArray = [NSMutableArray arrayWithCapacity:trustFactors.count];
@@ -31,17 +37,84 @@
     // First, check if the array is valid
     if (trustFactors.count < 1 || !trustFactors) {
         
-        // Error out, no trustfactors received
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No TrustFactors received for dispatch" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorsReceived userInfo:errorDetails];
+        // Error, no trustfactors received
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Perform TrustFactor Analysis Unsuccessful", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No TrustFactors received for dispatch", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing in TrustFactors to analyze", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoTrustFactorsReceived userInfo:errorDetails];
     }
     
     // Next, run through the array of trustFactors to be executed
     for (Sentegrity_TrustFactor *trustFactor in trustFactors) {
         
-        // Skip privateAPI TFs
-        if(allowPrivateAPIs == 0 && trustFactor.privateAPI.intValue == 1){
+        // Check if timeout is hit
+        if (timeoutHit) {
+            
+            // Timeout already hit
+            
+            // Create an trustFactorOutputObject with just the error in it
+            Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+            
+            // Set the DNE Status Code to expired
+            [trustFactorOutputObject setStatusCode:DNEStatus_expired];
+            
+            // Add trustfactor to trustFactorOutput object
+            trustFactorOutputObject.trustFactor = trustFactor;
+            
+            // Add the trustFactorOutput object to the output array
+            [processedTrustFactorArray addObject:trustFactorOutputObject];
+            
+            // Continue
+            continue;
+        }
+        
+        // Deep check for timeout hit
+        
+        // Get the current time and the start time for the timeout
+        NSTimeInterval timeStarted = [startTime timeIntervalSince1970];
+        NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
+        
+        // Get the difference (in seconds)
+        NSTimeInterval timeDifference = (currentTime - timeStarted);
+        
+        // Check if the difference is greater than or equal to the timeout
+        if (timeDifference >= timeout) {
+            
+            // Set timeout hit
+            timeoutHit = YES;
+            
+            // Error, timeout hit
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Perform TrustFactor Analysis Unsuccessful", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Timeout hit", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Please allow more time to run Core Detection", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoTrustFactorsReceived userInfo:errorDetails];
+            
+            // Create an trustFactorOutputObject with just the error in it
+            Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+            
+            // Set the DNE Status Code to expired
+            [trustFactorOutputObject setStatusCode:DNEStatus_expired];
+            
+            // Add trustfactor to trustFactorOutput object
+            trustFactorOutputObject.trustFactor = trustFactor;
+            
+            // Add the trustFactorOutput object to the output array
+            [processedTrustFactorArray addObject:trustFactorOutputObject];
+            
+            // Continue
+            continue;
+        }
+        
+        // Skip privateAPI TFs - if privateAPI is off
+        if (allowPrivateAPIs == 0 && trustFactor.privateAPI.intValue == 1) {
             continue;
         }
         
@@ -59,6 +132,7 @@
 // Executes the TrustFactor with given rule
 + (Sentegrity_TrustFactor_Output_Object *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error {
     
+    // Create an output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject;
     
     // Try to run implementation
@@ -67,7 +141,6 @@
         // Run the trustfactor implementation and get trustFactorOutputObject
         trustFactorOutputObject = [self runTrustFactorWithDispatch:trustFactor.dispatch andImplementation:trustFactor.implementation withPayload:trustFactor.payload andError:error];
     }
-    
     @catch (NSException *exception) {
         
         // Something happened inside the implementation
@@ -75,12 +148,20 @@
         trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
-        // Error when a specified TrustFactor can't be executed
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:[@"Error executing TrustFactor implementation for:" stringByAppendingString:trustFactor.name] forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectGenerated userInfo:errorDetails];
+        // Error when a specified TrustFactor caused an exception
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Executing TrustFactor: %@ Caused Exception", trustFactor.name],
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"An exception occured when executing the TrustFactor", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Ensure that the TrustFactor exists, has valid input, and that the implementation is valid", nil)
+                                       };
         
-        NSLog(@"%@",[@"Error executing TrustFactor implementation for:" stringByAppendingString:trustFactor.name]);
+        // Set the error
+        *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoTrustFactorOutputObjectGenerated userInfo:errorDetails];
+        
+        // Log it
+        NSLog(@"%@", [@"Error executing TrustFactor implementation for:" stringByAppendingString:trustFactor.name]);
+        
+        // Return the object
         return trustFactorOutputObject;
     }
     
@@ -91,42 +172,52 @@
     if (!trustFactorOutputObject || trustFactorOutputObject == nil) {
         
         // Error out, no trustFactorOutputObject generated
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:[@"No trustFactorOutputObject generated for trustfactor" stringByAppendingString:trustFactor.name] forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectGenerated userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: [NSString stringWithFormat:@"No Output Generated for TrustFactor: %@", trustFactor.name],
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No output was generated for the TrustFactor", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Ensure that the TrustFactor exists", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoTrustFactorOutputObjectGenerated userInfo:errorDetails];
         
         // Create an trustFactorOutputObject with just the error
         trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
-        NSLog(@"%@",[@"No trustFactorOutputObject generated for trustfactor:" stringByAppendingString:trustFactor.name]);
+        // Log it
+        NSLog(@"%@", [@"No trustFactorOutputObject generated for trustfactor:" stringByAppendingString:trustFactor.name]);
         
         // Return the assertion
         return trustFactorOutputObject;
     }
 
     // Create assertions
-    
-    if(trustFactor.ruleType.intValue == 1){
+    if (trustFactor.ruleType.intValue == 1) {
         
-        if(trustFactorOutputObject.output.count==0){
-            //output has nothing, implementation must not have found what it was looking for (generally a good thing)
+        // Check if the output is empty
+        if (trustFactorOutputObject.output.count==0) {
             
-            //set the default assertion
+            // Output has nothing, implementation must not have found what it was looking for (generally a good thing)
+            
+            // Set the default assertion
             [trustFactorOutputObject setAssertionObjectsToDefault];
             
-        }
-        else{
-            //generate assertions for each output
+        } else {
+            
+            // Generate assertions for each output
             [trustFactorOutputObject setAssertionObjectsFromOutput];
             
-            //add the default so that it stays #1 hitCount and hit/day wise and won't ever get decayed
+            // Add the default so that it stays #1 hitCount and hit/day wise and won't ever get decayed
             [trustFactorOutputObject setAssertionObjects:[trustFactorOutputObject.assertionObjects arrayByAddingObject:[trustFactorOutputObject defaultAssertionObject]]];
             
         }
         
-    }else //ruletype = 2, 3, or 4
-    {
+    } else {
+        
+        //ruletype = 2, 3, or 4
+        
+        // Set assertion objects from output
         [trustFactorOutputObject setAssertionObjectsFromOutput];
         
     }
@@ -142,9 +233,14 @@
     if (!dispatch || dispatch.length < 1 || dispatch == nil || !implementation || implementation.length < 1 || implementation == nil) {
         
         // No dispatch or implementation name received, error out
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No dispatch or implementation names received" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoImplementationOrDispatchReceived userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"No Dispatch or Implementation Name Received", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No dispatch or implementation name received to call", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Please ensure that dispatch and implementation names are set correctly in the policy", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoImplementationOrDispatchReceived userInfo:errorDetails];
         
         // Create an trustFactorOutputObject with just the error in it
         Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -164,9 +260,14 @@
     if (!dispatchClass || dispatchClass == nil) {
         
         // No dispatch class found, error out
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No valid dispatch class found" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoDispatchClassFound userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: [NSString stringWithFormat:@"No Dispatch Class Found for Class: %@", className],
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No valid dispatch class found", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Ensure that the dispatch class exists and is set correctly in the policy - ensure case sensitivity", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoDispatchClassFound userInfo:errorDetails];
         
         // Create an assertion with just the error in it
         Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -185,9 +286,14 @@
     if (!implementationSelector || implementationSelector == nil) {
         
         // No implementation selector found, error out
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No valid implementation selector found" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoImplementationSelectorFound userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: [NSString stringWithFormat:@"No Implementation Selector Found for Selector: %@", implementation],
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No valid implementation selector found", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Ensure that the implmentation selector exists and is set correctly in the policy - ensure case sensitivity", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoImplementationSelectorFound userInfo:errorDetails];
         
         // Create an assertion with just the error in it
         Sentegrity_TrustFactor_Output_Object *trustFactorOutput = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -195,7 +301,8 @@
         // Set the DNE Status Code
         [trustFactorOutput setStatusCode:DNEStatus_unsupported];
         
-        NSLog(@"%@",[@"No valid implementation selector found" stringByAppendingString:implementation]);
+        // Log it
+        NSLog(@"%@", [@"No valid implementation selector found" stringByAppendingString:implementation]);
         
         // Return the assertion
         return trustFactorOutput;
@@ -213,9 +320,14 @@
     } else {
         
         // No check recognized, error out
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:[@"No valid TrustFactor found for:" stringByAppendingString:implementation] forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidTrustFactorName userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Dispatch Class Does Not Respond to Selector: %@", implementation],
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No valid TrustFactor function found", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Ensure that the dispatch class responds to the implementation and is set correctly in the policy - ensure case sensitivity", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SAInvalidTrustFactorName userInfo:errorDetails];
         
         // Create an assertion with just the error in it
         Sentegrity_TrustFactor_Output_Object *trustFactorOutput = [[Sentegrity_TrustFactor_Output_Object alloc] init];

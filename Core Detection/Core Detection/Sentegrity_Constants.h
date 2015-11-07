@@ -19,6 +19,9 @@
 // TODO: Beta only
 #define kUniqueDeviceID                 @"1234567890"
 
+// Allows Private API's?
+#define kAllowsPrivateAPIs              1
+
 #pragma mark - Defaults
 
 #define kDefaultAppID                   @"default"
@@ -162,9 +165,11 @@ typedef enum {
 #pragma mark - Error Cases
 
 /*!
- * Error Domain
+ * Error Domains
  */
-static NSString * const sentegrityDomain        = @"Sentegrity";
+static NSString * const coreDetectionDomain             = @"Core Detection";
+static NSString * const trustFactorDispatcherDomain     = @"TrustFactor Dispatcher";
+static NSString * const sentegrityDomain                = @"Sentegrity";
 
 /**
  *  Unknown Error Code

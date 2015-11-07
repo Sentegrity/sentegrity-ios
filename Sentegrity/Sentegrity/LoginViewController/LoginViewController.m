@@ -123,7 +123,7 @@ static MBProgressHUD *HUD;
     Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyPath withError:&error];
     
     // Run Core Detection
-    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:30 withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
+    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:5.0f withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
         
         // Check if core detection completed successfully
         if (success) {
