@@ -20,6 +20,6 @@
 + (Sentegrity_TrustFactor_Output_Object *)locationGPS:(NSArray *)payload;
 
 // 31
-+ (Sentegrity_TrustFactor_Output_Object *)locationAnomaly:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)locationApprox:(NSArray *)payload;
 
 @end

@@ -208,7 +208,15 @@
 }
 
 
-+ (Sentegrity_TrustFactor_Output_Object *)locationAnomaly:(NSArray *)payload {
++ (Sentegrity_TrustFactor_Output_Object *)locationApprox:(NSArray *)payload {
+    
+    // This TrustFactor is designed to detect changes in a users environment within a generic GPS location. We round GPS locations and rely
+    // on this TrustFactor to determine if they are in a new environment within the broader GPS location.
+    // There are a couple of way this function works, if the user has not authorized location services than we increase the sensitivity
+    // in order to collect more datapoint. If they did authorize location then we decrease the sensitivity.
+    // Location approximation takes into consideration 3 different values, the brightness of the screen (indicating light in room), the strength of the cell tower signal, and magnetomter readings that attempt to calculate the magnetic field of a room.
+    
+    // The following is  generaly TrustFactor stuff that is not too specific to this function
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
@@ -239,10 +247,11 @@
     // Check if error was determined by location callback in app delegate
     if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != 0 ){
         
+        // Location services was not authorized or we didn't get any data, this is later used to increase sensitivity
         locationAvailable=NO;
     }
     else{
-        
+        // We do have authorization/data
         // Attempt to get the current location
         currentLocation = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getLocationInfo];
         
@@ -255,15 +264,17 @@
                 // Rounding from policy
                 int decimalPlaces = [[[payload objectAtIndex:0] objectForKey:@"locationRounding"] intValue];
                 
-                // Rounded location
+                // Round the GPS location to two decimals
                 NSString *roundedLocation = [NSString stringWithFormat:@"LO_%.*f_LT_%.*f",decimalPlaces,currentLocation.coordinate.longitude,decimalPlaces,currentLocation.coordinate.latitude];
                 
+                // Build the first part of our anomaly string by appending the location GPS
                 anomalyString = [anomalyString stringByAppendingString:roundedLocation];
 
             }
             
         } else
         {
+                // Problem occured so don't use location
                 locationAvailable=NO;
         }
         
@@ -272,23 +283,28 @@
     
 
     // ** MAGNETIC FIELD **
+    // The magnetomter reading is used in an attempt to calculate a unique field for the user's current location
     
     int magneticBlockSize=0;
     
-    // If no location data use magnetometer, if we have location we don't use it
     if(locationAvailable==NO){
         
        magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeNoLocation"] intValue];
+    }
+    else{
         
+        magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeWithLocation"] intValue];
+    }
+    
         NSArray *headings;
         
         // Check if error was determined when magnetic was started, if so don't use magnetic
         if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] headingsMotionDNEStatus] == 0 ){
             
-            // Attempt to get motion data
+            // Attempt to get magnetomter headings data
             headings = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getHeadingsInfo];
             
-            // Check motion dataset has something
+            // Check headings dataset has something
             if (headings != nil ) {
                 
                 float x = 0.0;
@@ -301,7 +317,7 @@
                 
                 float counter = 0.0;
                 
-                // Run through all the sample we got prior to stopping motion
+                // Run through all the sample we got prior to stopping the measurement and average them
                 for (NSDictionary *sample in headings) {
                     
                     // Get the calibrated magnetometer data
@@ -309,7 +325,8 @@
                     y = [[sample objectForKey:@"y"] floatValue];
                     z = [[sample objectForKey:@"z"] floatValue];
                     
-                    // Calculate totl magnetic field regardless of position for each measurement
+                    // Calculate total magnetic field regardless of position for each measurement, it should not matter what direction or position the device is in, we need a way to account for this
+                    
                     magnitude = sqrt (pow(x,2)+
                                       pow(y,2)+
                                       pow(z,2));
@@ -324,13 +341,13 @@
                 // compute average across all samples taken
                 magnitudeAverage = magnitudeTotal/counter;
                 
+                // instead of using the raw value we "smooth" it by dividing by a block size to create "buckets" of ranges for a magnetic field
+                
                 int blockOfMagnetic = ceilf(fabsf(magnitudeAverage)/magneticBlockSize);
-                // round to the nearest n:  x_rounded = ((x + n/2)/n)*n;
-                // round to nearest X
-                //int rounded = floor((magnitudeAverage+(roundingSensitivity/2))/roundingSensitivity)*roundingSensitivity;
                 
                 NSString *magnitudeString = [NSString stringWithFormat:@"_M%d",blockOfMagnetic];
                 
+                // Add to the anomaly string
                 anomalyString = [anomalyString stringByAppendingString:magnitudeString];
                 
                 
@@ -339,7 +356,7 @@
         }
 
     
-    }
+ 
     
     // ** SCREEN BRIGHTNESS **
     

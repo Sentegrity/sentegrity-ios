@@ -1078,7 +1078,7 @@
 "decayMode": 2,
 "decayMetric": 0.14,
 "dispatch": "Location",
-"implementation": "locationAnomaly:",
+"implementation": "locationApprox:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
