@@ -86,6 +86,9 @@
         // Portrait
         [self.view setFrame:CGRectMake(0, 0 + [UIApplication sharedApplication].statusBarFrame.size.height, screenRect.size.width, screenRect.size.height - [UIApplication sharedApplication].statusBarFrame.size.height)];
     }
+    
+    // Scroll to top
+    [self.systemDebugOutput setContentOffset:CGPointZero animated:NO];
 }
 
 // Set the status bar to white
@@ -134,7 +137,7 @@
     }
     complete = [complete stringByAppendingString:systemTrustFactorsTriggered];
     
-    NSString *systemTrustFactorsNotLearned = @"\nTrustFactors Not Leared\n++++++++++++++++++++++++++++++\n";
+    NSString *systemTrustFactorsNotLearned = @"\nTrustFactors Not Learned\n++++++++++++++++++++++++++++++\n";
     for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.systemTrustFactorsNotLearned){
         NSString *storedAssertions =@"";
         NSString *currentAssertions =@"";

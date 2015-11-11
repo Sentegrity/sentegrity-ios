@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DPq-fc-8bf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DPq-fc-8bf">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -335,7 +335,7 @@ Anomaly</string>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="Cci-sx-jte">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="Cci-sx-jte">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -413,7 +413,7 @@ Anomaly</string>
                                             </mask>
                                         </variation>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-nt-m1r">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-nt-m1r">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -853,7 +853,7 @@ Anomaly</string>
                                             </mask>
                                         </variation>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="BHa-vS-aqU">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="BHa-vS-aqU">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1019,15 +1019,15 @@ Anomaly</string>
                                     </mask>
                                 </variation>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="No debug output to display" translatesAutoresizingMaskIntoConstraints="NO" id="sgp-Ia-B0e">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="No debug output to display" translatesAutoresizingMaskIntoConstraints="NO" id="sgp-Ia-B0e">
                                 <rect key="frame" x="16" y="106" width="343" height="561"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Debug " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Nc-7y-YQg">
-                                <rect key="frame" x="138" y="67" width="98" height="31"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Debug " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Nc-7y-YQg">
+                                <rect key="frame" x="137" y="67" width="101" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1037,8 +1037,15 @@ Anomaly</string>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="3Nc-7y-YQg" firstAttribute="top" secondItem="yQR-dD-YuP" secondAttribute="bottom" constant="47" id="1YY-5r-Rn6"/>
+                            <constraint firstItem="3Nc-7y-YQg" firstAttribute="centerX" secondItem="MZu-H3-qj8" secondAttribute="centerX" id="7dr-2y-GC6"/>
                             <constraint firstItem="mqI-iN-ezn" firstAttribute="top" secondItem="MZu-H3-qj8" secondAttribute="topMargin" constant="25" id="Hmp-4J-xm3"/>
+                            <constraint firstItem="sgp-Ia-B0e" firstAttribute="centerX" secondItem="MZu-H3-qj8" secondAttribute="centerX" id="I5o-55-dYe"/>
+                            <constraint firstItem="3xc-Tc-Ubo" firstAttribute="top" secondItem="sgp-Ia-B0e" secondAttribute="bottom" id="Wpi-N7-17b"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sgp-Ia-B0e" secondAttribute="trailing" id="bIV-2B-3YV"/>
+                            <constraint firstItem="sgp-Ia-B0e" firstAttribute="leading" secondItem="MZu-H3-qj8" secondAttribute="leadingMargin" id="eDX-6n-OdN"/>
                             <constraint firstAttribute="trailingMargin" secondItem="mqI-iN-ezn" secondAttribute="trailing" constant="10" id="kOn-wr-4Xd"/>
+                            <constraint firstItem="sgp-Ia-B0e" firstAttribute="top" secondItem="3Nc-7y-YQg" secondAttribute="bottom" constant="18" id="zmY-id-guc"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -1099,15 +1106,15 @@ Anomaly</string>
                                     </mask>
                                 </variation>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="No debug output to display" translatesAutoresizingMaskIntoConstraints="NO" id="v8w-Ch-Q5a">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="No debug output to display" translatesAutoresizingMaskIntoConstraints="NO" id="v8w-Ch-Q5a">
                                 <rect key="frame" x="16" y="106" width="343" height="561"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="System Debug" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9sW-YR-1Di">
-                                <rect key="frame" x="128" y="67" width="119" height="31"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="System Debug" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9sW-YR-1Di">
+                                <rect key="frame" x="128" y="67" width="120" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1117,8 +1124,15 @@ Anomaly</string>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="YNV-cY-VHG" firstAttribute="top" secondItem="v8w-Ch-Q5a" secondAttribute="bottom" id="0MZ-7F-hdr"/>
+                            <constraint firstItem="v8w-Ch-Q5a" firstAttribute="leading" secondItem="cEl-xe-uC2" secondAttribute="leadingMargin" id="C9a-oh-9sa"/>
                             <constraint firstItem="eMw-2a-uLB" firstAttribute="top" secondItem="cEl-xe-uC2" secondAttribute="topMargin" constant="25" id="E0F-ue-Htr"/>
+                            <constraint firstItem="9sW-YR-1Di" firstAttribute="centerX" secondItem="cEl-xe-uC2" secondAttribute="centerX" id="J5s-nV-Dpv"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="v8w-Ch-Q5a" secondAttribute="trailing" id="Wyv-Tu-Lp7"/>
+                            <constraint firstItem="9sW-YR-1Di" firstAttribute="top" secondItem="hKH-ym-8p1" secondAttribute="bottom" constant="47" id="b7i-w6-6QG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="eMw-2a-uLB" secondAttribute="trailing" constant="10" id="cRe-mF-ADv"/>
+                            <constraint firstItem="v8w-Ch-Q5a" firstAttribute="centerX" secondItem="cEl-xe-uC2" secondAttribute="centerX" id="gP9-wt-gdH"/>
+                            <constraint firstItem="v8w-Ch-Q5a" firstAttribute="top" secondItem="9sW-YR-1Di" secondAttribute="bottom" constant="18" id="vmV-kW-y1h"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -1183,15 +1197,15 @@ Anomaly</string>
                                     </mask>
                                 </variation>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="No debug output to display" translatesAutoresizingMaskIntoConstraints="NO" id="gwm-DI-F7l">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="No debug output to display" translatesAutoresizingMaskIntoConstraints="NO" id="gwm-DI-F7l">
                                 <rect key="frame" x="16" y="106" width="343" height="561"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Computation Debug" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RmU-V5-izL">
-                                <rect key="frame" x="105" y="67" width="165" height="31"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Computation Debug" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RmU-V5-izL">
+                                <rect key="frame" x="105" y="67" width="165" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1201,10 +1215,17 @@ Anomaly</string>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="gwm-DI-F7l" secondAttribute="trailing" id="01t-Nz-TqA"/>
+                            <constraint firstItem="gwm-DI-F7l" firstAttribute="centerX" secondItem="Feh-Lz-Fbo" secondAttribute="centerX" id="4pa-Dg-FDo"/>
+                            <constraint firstItem="RmU-V5-izL" firstAttribute="centerX" secondItem="Feh-Lz-Fbo" secondAttribute="centerX" id="9c7-2H-Ub6"/>
+                            <constraint firstItem="gwm-DI-F7l" firstAttribute="top" secondItem="RmU-V5-izL" secondAttribute="bottom" constant="18" id="Dvc-Mz-RuX"/>
                             <constraint firstItem="1T7-V7-buy" firstAttribute="top" secondItem="Feh-Lz-Fbo" secondAttribute="topMargin" constant="25" id="HsL-Ph-IRw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1T7-V7-buy" secondAttribute="trailing" constant="10" id="RJD-9s-VJc"/>
+                            <constraint firstItem="gwm-DI-F7l" firstAttribute="leading" secondItem="Feh-Lz-Fbo" secondAttribute="leadingMargin" id="kDb-Tv-UuQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1T7-V7-buy" secondAttribute="trailing" constant="10" id="kKx-9q-RhA"/>
+                            <constraint firstItem="c1T-13-81C" firstAttribute="top" secondItem="gwm-DI-F7l" secondAttribute="bottom" id="mWb-PX-mLA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1T7-V7-buy" secondAttribute="trailing" constant="10" id="qHz-sU-V1l"/>
+                            <constraint firstItem="RmU-V5-izL" firstAttribute="top" secondItem="MYh-B9-fut" secondAttribute="bottom" constant="47" id="uCR-ZR-lTE"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -1403,7 +1424,7 @@ Anomaly</string>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-nU-Jl9">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-nU-Jl9">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1526,15 +1547,15 @@ Anomaly</string>
                                     <action selector="decline:" destination="F7p-HE-OAn" eventType="touchUpInside" id="AFP-RK-12Y"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Location Services" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BwH-G9-Qf2">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location Services" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BwH-G9-Qf2">
                                 <rect key="frame" x="86" y="40" width="204" height="29"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v0Y-vh-CO1">
-                                <rect key="frame" x="20" y="77" width="335" height="495"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v0Y-vh-CO1">
+                                <rect key="frame" x="16" y="77" width="343" height="495"/>
                                 <animations/>
                                 <string key="text">Sentegrity uses location data to aid profiling and increase confidence. For example, Sentegrity can identify if you reside in a familiar (trusted) location. No raw data is stored and all values are tokenized for 100% local use.  If you choose to disallow location services the TrustScore will be negatively impacted, resulting in increased interactive login (password use).</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1611,8 +1632,8 @@ Anomaly</string>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XZP-HW-ivq">
-                                <rect key="frame" x="20" y="77" width="335" height="495"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XZP-HW-ivq">
+                                <rect key="frame" x="16" y="77" width="343" height="495"/>
                                 <animations/>
                                 <string key="text">Sentegrity uses activity data collected by your device to aid profiling and increase confidence.  For example, Sentegrity can identify if you are still, walking, or running prior to BYOD access. No raw data is stored and all values are tokenized for 100% local use.   If you choose to disallow motion services the TrustScore will be negatively impacted, resulting in increased interactive login (password use).</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1650,11 +1671,11 @@ Anomaly</string>
         </scene>
     </scenes>
     <resources>
+        <image name="Error_yellow" width="144" height="144"/>
         <image name="Mobile_Grey" width="64" height="64"/>
         <image name="Refresh" width="48" height="48"/>
         <image name="SplashScreen" width="640" height="960"/>
         <image name="User_Grey" width="128" height="128"/>
-        <image name="error_yellow" width="144" height="144"/>
         <image name="sentegrity_logo_black" width="155" height="164"/>
     </resources>
 </document>

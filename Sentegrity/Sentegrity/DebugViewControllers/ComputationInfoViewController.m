@@ -86,6 +86,9 @@
         // Portrait
         [self.view setFrame:CGRectMake(0, 0 + [UIApplication sharedApplication].statusBarFrame.size.height, screenRect.size.width, screenRect.size.height - [UIApplication sharedApplication].statusBarFrame.size.height)];
     }
+    
+    // Scroll to top
+    [self.computationDebugOutput setContentOffset:CGPointZero animated:NO];
 }
 
 // Set the status bar to white
