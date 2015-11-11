@@ -1,18 +1,19 @@
 //
 //  TrustFactor_Dispatch_Sentegrity.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+/*!
+ *  TrustFactor Dispatch Sentegrity is a tamper check rule.
+ */
 #import "Sentegrity_TrustFactor_Datasets.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
 
-
 @interface TrustFactor_Dispatch_Sentegrity : NSObject 
 
-// 6
+// Tamper check
 + (Sentegrity_TrustFactor_Output_Object *)tamper:(NSArray *)payload;
 
 @end

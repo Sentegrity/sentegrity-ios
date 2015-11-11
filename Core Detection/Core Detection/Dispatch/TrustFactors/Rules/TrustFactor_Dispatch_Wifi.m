@@ -1,9 +1,8 @@
 //
 //  TrustFactor_Dispatch_Wifi.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Wifi.h"
@@ -13,7 +12,7 @@
 
 @implementation TrustFactor_Dispatch_Wifi
 
-// 17 - Determine if the connected access point is a SOHO (Small Office/Home Offic) network
+// Determine if the connected access point is a SOHO (Small Office/Home Offic) network
 + (Sentegrity_TrustFactor_Output_Object *)highRiskAP:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -26,7 +25,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
     
-    //Ceck if WiFi is disabled
+    // Check if WiFi is disabled
     if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
         
         //Not enabled, set DNE and return (penalize)
@@ -35,7 +34,7 @@
         // Return with the blank output object
         return trustFactorOutputObject;
         
-    }    //If we're enabled, still check if we're tethering and set as unavaialble if we are
+    }    // If we're enabled, still check if we're tethering and set as unavaialble if we are
     else if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
         
         //Not enabled, set DNE and return (penalize)
@@ -46,13 +45,12 @@
         
     }
     
-    
     NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
     
     // Check for a connection
     if (wifiInfo == nil){
         
-        //WiFi is enabled but there is no connection (don't penalize)
+        // WiFi is enabled but there is no connection (don't penalize)
         [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
         
         // Return with the blank output object
@@ -67,6 +65,7 @@
     
     // Validate the gateway IP and BSSID
     if ((gatewayIP == nil && gatewayIP.length == 0) || (bssid == nil && bssid.length == 0)) {
+        
         // Set the DNE status code to NODATA
         [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
         
@@ -87,7 +86,7 @@
     // If we didn't find our OUI list, fallback on payload list
     if(fileContents == nil) {
         
-        //try payload
+        // Try payload
         if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
             // Payload is EMPTY
             
@@ -96,24 +95,21 @@
             
             // Return with the blank output object
             return trustFactorOutputObject;
-        }
-        else{
+            
+        } else {
             
             //Use the payload list
             ouiList = payload;
         }
         
-        
-    }
-    else{
+    } else {
         
         ouiList =
         [fileContents componentsSeparatedByCharactersInSet:
          [NSCharacterSet newlineCharacterSet]];
     }
     
-    
-    bool match=NO;
+    bool match = NO;
     // Run through the payload and compare to the BSSID
     for (NSString *oui in ouiList) {
         // Check if the bssid matches one of the OUI's in the payload or IP is 192.168.1.1
@@ -136,9 +132,6 @@
         }
     }
     
-    
-    
-    
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
@@ -147,7 +140,7 @@
     
 }
 
-// 18 - Captive Portal Unencrypted AP Check - Not available
+// Captive Portal Unencrypted AP Check - Not available
 /* DEPRECATED
  + (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload {
  
@@ -223,7 +216,7 @@
  
  */
 
-// 19 - Unknown SSID Check - Get the current AP SSID
+// Unknown SSID Check - Get the current AP SSID
 + (Sentegrity_TrustFactor_Output_Object *)SSID:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -265,7 +258,6 @@
         
         // Return with the blank output object
         return trustFactorOutputObject;
-        
     }
     
     // Get the current Access Point SSID
@@ -278,8 +270,9 @@
         
         // Add the ssid to the output
         [outputArray addObject:ssid];
-    }
-    else{
+        
+    } else {
+        
         //WiFi is enabled but there is no connection (don't penalize)
         [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
         
@@ -292,10 +285,9 @@
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-    
 }
 
-// 27 - Known BSSID - Get the current BSSID of the AP
+// Known BSSID - Get the current BSSID of the AP
 + (Sentegrity_TrustFactor_Output_Object *)BSSID:(NSArray *)payload {
     
     
@@ -327,7 +319,6 @@
         return trustFactorOutputObject;
         
     }
-    
     
     NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
     
@@ -371,11 +362,9 @@
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-    
 }
 
-
-// 19 - Unknown SSID Check - Get the current AP SSID
+// Unknown SSID Check - Get the current AP SSID
 + (Sentegrity_TrustFactor_Output_Object *)hotspotEnabled:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -387,7 +376,7 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
-   if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
+    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
         
         [outputArray addObject:@"hotspotOn"];
         
@@ -398,9 +387,6 @@
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-    
 }
-
-
 
 @end

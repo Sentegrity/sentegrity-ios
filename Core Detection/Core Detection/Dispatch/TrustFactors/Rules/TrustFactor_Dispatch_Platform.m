@@ -1,8 +1,7 @@
 //  TrustFactor_Dispatch_Platform.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Platform.h"
@@ -16,11 +15,10 @@
 
 @implementation TrustFactor_Dispatch_Platform
 
-
-// 23
+// Vulnerable/bad version
 + (Sentegrity_TrustFactor_Output_Object *)vulnerableVersion:(NSArray *)payload {
     
-    //Good resorce for currently signed apple releases  http://api.ineal.me/tss/all
+    // Good resorce for currently signed apple releases  http://api.ineal.me/tss/all
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -55,7 +53,7 @@
     
     // Check blacklist
     for (NSString *badVersions in payload) {
-        if([badVersions containsString:@"-"]){ //range of version numbers
+        if([badVersions containsString:@"-"]){ // Range of version numbers
             NSArray* range = [badVersions componentsSeparatedByString:@"-"];
             
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO([range objectAtIndex:0]) && SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO([range objectAtIndex:1])) {
@@ -63,7 +61,7 @@
                 break;
             }
         }
-        else if([badVersions containsString:@"*"]){ //wild card version number
+        else if([badVersions containsString:@"*"]){ // Wild card version number
             NSArray* startRange = [badVersions componentsSeparatedByString:@"*"];
             NSArray* endRange = [[startRange objectAtIndex:0] componentsSeparatedByString:@"."];
             
@@ -75,8 +73,9 @@
                 [outputArray addObject:currentVersion];
                 break;
             }
-        }
-        else{ //specific version
+        
+        // Specific version
+        } else {
             if (SYSTEM_VERSION_EQUAL_TO(badVersions)) {
                 [outputArray addObject:currentVersion];
                 break;
@@ -91,9 +90,7 @@
     return trustFactorOutputObject;
 }
 
-
-
-// 28
+// Allowed versions
 + (Sentegrity_TrustFactor_Output_Object *)versionAllowed:(NSArray *)payload {
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -127,7 +124,7 @@
     }
     
     //Check whitelist
-    BOOL allowed=NO;
+    BOOL allowed = NO;
     for (NSString *allowedVersions in payload) {
         if([allowedVersions containsString:@"-"]){ //range of version numbers
             NSArray* range = [allowedVersions componentsSeparatedByString:@"-"];
@@ -158,20 +155,19 @@
         }
     }
     
-    if(!allowed){ //version not allowed
+    // Version not allowed
+    if(!allowed){
         [outputArray addObject:currentVersion];
     }
-    
-    
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-    
 }
-// 38
+
+// Short up time
 + (Sentegrity_TrustFactor_Output_Object *)shortUptime:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -195,7 +191,6 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     NSTimeInterval uptime = [[NSProcessInfo processInfo] systemUptime];
-    
     
     if (!uptime) {
         

@@ -1,9 +1,8 @@
 //
-//  TrustFactor_Dispatch_Process.m
-//  SenTest
+//  TrustFactor_Dispatch_Aplication.m
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Application.h"
@@ -41,7 +40,6 @@
         return trustFactorOutputObject;
     }
     
-    
     // Run through all the process information
     for (NSDictionary *app in userApps) {
         
@@ -54,7 +52,7 @@
             // Check if the process name is equal to the current process being viewed
             if([badAppName isEqualToString:appName]) {
                 
-                // make sure we don't add more than one instance of the proc
+                // Make sure we don't add more than one instance of the proc
                 if (![outputArray containsObject:badAppName]){
                     
                     // Add the process to the output array
@@ -186,9 +184,8 @@
     return trustFactorOutputObject;
     
 }
-
  
- */
+*/
 
 
 @end

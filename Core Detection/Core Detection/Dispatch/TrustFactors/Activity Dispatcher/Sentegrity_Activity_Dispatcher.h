@@ -1,9 +1,8 @@
 //
 //  Sentegrity_Activity_Dispatcher.h
-//  Core Detection
+//  Sentegrity
 //
-//  Created by Kramer on 11/7/15.
-//  Copyright © 2015 Sentegrity. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

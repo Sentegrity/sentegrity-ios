@@ -1,18 +1,15 @@
 //
 //  TrustFactor_Dispatch_Activity.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Activity.h"
 
 @implementation TrustFactor_Dispatch_Activity
 
-
-
-// 39
+// Get user's previous activity
 + (Sentegrity_TrustFactor_Output_Object *)previous:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -35,6 +32,7 @@
         
         // Return with the blank output object
         return trustFactorOutputObject;
+        
     } else {
         // No known errors occured previously, try to get dataset and check our object
         
@@ -43,6 +41,7 @@
         // Check activity dataset again
         if (!previousActivities || previousActivities == nil || previousActivities.count < 1) {
             
+            // No data for status
             [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
             
             // Return with the blank output object
@@ -50,7 +49,7 @@
         }
     }
     
-    
+    // Set default variables
     float stillCount = 0;
     float movingCount = 0;
     float movingFastcount = 0;
@@ -64,18 +63,22 @@
         // High confidence
         if(actItem.confidence == 2){
             
+            // Stationary
             if (actItem.stationary == 1){
                 stillCount = stillCount + 1;
-            }else if (actItem.cycling == 1 || actItem.walking == 1 || actItem.running == 1){
+                
+            // Moving
+            } else if (actItem.cycling == 1 || actItem.walking == 1 || actItem.running == 1){
                 movingCount = movingCount + 1;
-            }else if (actItem.automotive == 1){
+            
+            // Moving in a vehicle
+            } else if (actItem.automotive == 1){
                 movingFastcount = movingFastcount + 1;
-            }
-            else{
+            
+            // Unknown
+            } else {
                 unknownCount = unknownCount + 1;
             }
-            
-            
         }
         
         // Medium confidence
@@ -123,15 +126,23 @@
         //NSLog(@"Previous activity type is automotive: %i",actItem.automotive);
     }
     
+    // Stationary
     if(stillCount >= movingCount && stillCount >= movingFastcount && stillCount >= unknownCount){
         lastActivity = @"still";
-    }else if(movingCount > stillCount && movingCount > movingFastcount && movingCount > unknownCount) {
+        
+    // Moving
+    } else if(movingCount > stillCount && movingCount > movingFastcount && movingCount > unknownCount) {
         lastActivity = @"moving";
-    }else if(movingFastcount > stillCount && movingFastcount > movingCount && movingFastcount > unknownCount){
+        
+    // Moving in a vehicle
+    } else if(movingFastcount > stillCount && movingFastcount > movingCount && movingFastcount > unknownCount){
         lastActivity = @"movingFast";
-    }else{
+    
+    // Unknown
+    } else {
         lastActivity=@"unknown";
         
+        // Moving status unavailable
         [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
         
         // Return with the blank output object
@@ -155,9 +166,6 @@
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-    
 }
-
-
 
 @end

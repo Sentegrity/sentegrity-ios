@@ -1,19 +1,17 @@
 //
 //  TrustFactor_Dispatch_Location.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
+
 
 #import "TrustFactor_Dispatch_Location.h"
 @import CoreLocation;
 
 @implementation TrustFactor_Dispatch_Location
 
-
-
-// 26
+// Determine if the device is in a location of an allowed country
 + (Sentegrity_TrustFactor_Output_Object *)countryAllowed:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -121,9 +119,7 @@
     
 }
 
-
-
-// 31
+// Determine location of device
 + (Sentegrity_TrustFactor_Output_Object *)locationGPS:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -157,9 +153,7 @@
         
         return trustFactorOutputObject;
         
-        
     }
-    
     
     // Attempt to get the current location
     currentLocation = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getLocationInfo];
@@ -196,9 +190,7 @@
     
     //NSString *locationTuple = [roundedLocation stringByAppendingFormat:@"_SIGNAL_%@",[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCelluarSignalBars]];
     
-    
     [outputArray addObject:roundedLocation];
-    
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
@@ -207,7 +199,7 @@
     return trustFactorOutputObject;
 }
 
-
+// Location approximation using brightness of screen, strength of cell tower, and magnetometer readings
 + (Sentegrity_TrustFactor_Output_Object *)locationApprox:(NSArray *)payload {
     
     // This TrustFactor is designed to detect changes in a users environment within a generic GPS location. We round GPS locations and rely
@@ -272,8 +264,7 @@
 
             }
             
-        } else
-        {
+        } else {
                 // Problem occured so don't use location
                 locationAvailable=NO;
         }
@@ -285,13 +276,13 @@
     // ** MAGNETIC FIELD **
     // The magnetomter reading is used in an attempt to calculate a unique field for the user's current location
     
-    int magneticBlockSize=0;
+    int magneticBlockSize = 0;
     
-    if(locationAvailable==NO){
+    if(locationAvailable == NO){
         
        magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeNoLocation"] intValue];
-    }
-    else{
+        
+    } else {
         
         magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeWithLocation"] intValue];
     }
@@ -335,13 +326,12 @@
                     
                     counter++;
                     
-                    
                 }
                 
-                // compute average across all samples taken
+                // Compute average across all samples taken
                 magnitudeAverage = magnitudeTotal/counter;
                 
-                // instead of using the raw value we "smooth" it by dividing by a block size to create "buckets" of ranges for a magnetic field
+                // Instead of using the raw value we "smooth" it by dividing by a block size to create "buckets" of ranges for a magnetic field
                 
                 int blockOfMagnetic = ceilf(fabsf(magnitudeAverage)/magneticBlockSize);
                 
@@ -349,15 +339,10 @@
                 
                 // Add to the anomaly string
                 anomalyString = [anomalyString stringByAppendingString:magnitudeString];
-                
-                
             }
             
         }
 
-    
- 
-    
     // ** SCREEN BRIGHTNESS **
     
     //Screen level is given as a float 0.1-1

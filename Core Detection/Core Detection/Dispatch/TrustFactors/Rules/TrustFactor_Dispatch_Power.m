@@ -1,8 +1,7 @@
 //  TrustFactor_Dispatch_Platform.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Power.h"
@@ -16,7 +15,7 @@
 
 @implementation TrustFactor_Dispatch_Power
 
-// 37
+// Check power level of device
 + (Sentegrity_TrustFactor_Output_Object *)powerLevelTime:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -38,7 +37,6 @@
     
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
-    
     
     // Get the associated power level
     UIDevice *Device = [UIDevice currentDevice];
@@ -64,7 +62,6 @@
         return trustFactorOutputObject;
     }
     
-    
     NSInteger powerBlocksize = [[[payload objectAtIndex:0] objectForKey:@"powerInBlock"] integerValue];
     
     int blockOfPower = ceilf(batteryLevel / (float)powerBlocksize);
@@ -83,7 +80,7 @@
     return trustFactorOutputObject;
 }
 
-// 38
+// Check if device is plugged in and charging
 + (Sentegrity_TrustFactor_Output_Object *)pluggedIn:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -102,7 +99,7 @@
         
     }else if([state isEqualToString:@"pluggedCharging"]){
         
-        //Only trigger if its plugged in and charging but has a high battery level
+        // Only trigger if its plugged in and charging but has a high battery level
         UIDevice *Device = [UIDevice currentDevice];
         
         Device.batteryMonitoringEnabled = YES;
@@ -124,6 +121,7 @@
     return trustFactorOutputObject;
 }
 
+// Get the state of the battery
 + (Sentegrity_TrustFactor_Output_Object *)batteryState:(NSArray *)payload {
     
     // Create the trustfactor output object

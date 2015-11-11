@@ -1,9 +1,8 @@
 //
 //  Sentegrity_Assertion.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Kramer on 2/24/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,10 +14,10 @@
 
 @interface Sentegrity_TrustFactor_Output_Object : NSObject
 
-// attach the policy trustfactor data
+// Attach the policy trustfactor data
 @property (nonatomic,retain) Sentegrity_TrustFactor *trustFactor;
 
-// attach the parsed storedTrustFactorObject data
+// Attach the parsed storedTrustFactorObject data
 @property (nonatomic,retain) Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject;
 
 // Plaintext output from TrustFactor
@@ -33,7 +32,7 @@
 // Default assertion string
 @property (nonatomic,retain) Sentegrity_Stored_Assertion *defaultAssertionObject;
 
-// dne modifier
+// DNE modifier
 @property (nonatomic) DNEStatusCode statusCode;
 
 // Trigger bool set during baseline analysis and checked during computation
@@ -48,7 +47,7 @@
 
 - (void)setAssertionObjectsToDefault;
 
-//custom init to set DNE=OK and defaultAssertionString
+// Custom init to set DNE = OK and defaultAssertionString
 - (id) init;
 
 

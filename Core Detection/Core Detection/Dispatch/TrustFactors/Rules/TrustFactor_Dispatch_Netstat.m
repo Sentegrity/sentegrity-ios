@@ -1,9 +1,8 @@
 //
 //  TrustFactor_Dispatch_NetStat.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Netstat.h"
@@ -11,8 +10,7 @@
 
 @implementation TrustFactor_Dispatch_Netstat
 
-
-// 3
+// Bad destination
 + (Sentegrity_TrustFactor_Output_Object *)badDst:(NSArray *)payload {
 
     // Create the trustfactor output object
@@ -49,7 +47,6 @@
         return trustFactorOutputObject;
     }
     
-    
     // Run through all the connection dictionaries
     for (ActiveConnection *connection in connections) {
         
@@ -57,14 +54,13 @@
         if([connection.status isEqualToString:@"LISTEN"] || [connection.remoteHost isEqualToString:@"localhost"] )
             continue;
 
-        
         // Iterate through payload names and look for matching processes
         for (NSString *badDstIP in payload) {
             
             // Check if the domain of the connection equal one in payload
             if([connection.remoteHost hasSuffix:badDstIP]) {
                 
-                // make sure we don't add more than one instance of destination
+                // Make sure we don't add more than one instance of destination
                 if (![outputArray containsObject:connection.remoteHost]){
                     
                     // Add the destination to the output array
@@ -74,7 +70,6 @@
         }
     }
 
-    
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
@@ -83,10 +78,7 @@
 
 }
 
-
-
-
-// 9
+// Priviledged port
 + (Sentegrity_TrustFactor_Output_Object *)priviledgedPort:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -157,9 +149,7 @@
     
 }
 
-
-
-// 13
+// New service
 + (Sentegrity_TrustFactor_Output_Object *)newService:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -212,6 +202,7 @@
     
 }
 
+// Data Exfiltration
 + (Sentegrity_TrustFactor_Output_Object *)dataExfiltration:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -249,10 +240,10 @@
     }
     
     // Get uptime in seconds
-    long uptime=0;
+    long uptime = 0;
     uptime = (long)[[NSProcessInfo processInfo] systemUptime];
     
-    if (uptime==0) {
+    if (uptime == 0) {
         
         // Set the DNE status code to error
         [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
@@ -261,14 +252,14 @@
         return trustFactorOutputObject;
     }
     
-    
     // second, 3600 = hour, 86400 = day
     int timeInterval=0;
     timeInterval = [[[payload objectAtIndex:0] objectForKey:@"secondsInterval"] intValue];
     
     // Check payload item prior to division
-    if(timeInterval==0){
-        //not been up long enough to be measured
+    if(timeInterval == 0){
+        
+        // Not been up long enough to be measured
         // Set the DNE status code to error
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
         
@@ -276,7 +267,7 @@
         return trustFactorOutputObject;
     }
     
-    // per interval data transfer max in MB
+    // Per interval data transfer max in MB
     int dataMax=0;
     dataMax = [[[payload objectAtIndex:0] objectForKey:@"maxSentMB"] intValue];
     
@@ -340,7 +331,7 @@
     
 }
 
-
+// Unencrypted traffic
 + (Sentegrity_TrustFactor_Output_Object *)unencryptedTraffic:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -385,7 +376,7 @@
         if([connection.remoteHost isEqualToString:@"localhost"])
             continue;
         
-        // if its 443 don't even look
+        // If its 443 don't even look
         if([connection.remotePort intValue] == 443)
             continue;
         
@@ -404,18 +395,11 @@
         }
     }
     
-    
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-    
 }
-
-
-
-
-
 
 @end

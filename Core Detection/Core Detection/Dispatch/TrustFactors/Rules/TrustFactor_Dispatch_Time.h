@@ -1,9 +1,8 @@
 //
 //  TrustFactor_Dispatch_Time.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "Sentegrity_TrustFactor_Datasets.h"

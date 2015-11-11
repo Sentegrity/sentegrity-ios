@@ -94,7 +94,7 @@
     NSMutableArray *subClassDNECodes;
     
     
-    //For each classification in the policy
+    // For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
         
         // Reset mutable temp vars fro each class

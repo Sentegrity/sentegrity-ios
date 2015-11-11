@@ -1,10 +1,10 @@
 //
 //  Sentegrity_Activity_Dispatcher.m
-//  Core Detection
+//  Sentegrity
 //
-//  Created by Kramer on 11/7/15.
-//  Copyright © 2015 Sentegrity. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
+
 
 #import "Sentegrity_Activity_Dispatcher.h"
 
@@ -53,7 +53,7 @@
 
 #pragma mark - Core Detection Activities
 
-// Locatino services
+// Location services
 - (void)startLocation {
     
     // Create the location manager
@@ -320,7 +320,6 @@
         }];
         
     }
-    
     
     // Accelerometer
     

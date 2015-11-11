@@ -1,10 +1,14 @@
 //
-//  TrustFactor_Dispatch_Process.h
-//  SenTest
+//  TrustFactor_Dispatch_Application.h
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
+
+/*!
+ *  TrustFactor Dispatch Application is a rule that that looks for installed apps on the user's device to
+ *  determine which ones are trusted as opposed to ones that are high risk.
+ */
 
 #import "Sentegrity_TrustFactor_Datasets.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
@@ -13,7 +17,6 @@
 
 // USES PRIVATE API
 + (Sentegrity_TrustFactor_Output_Object *)installedApp:(NSArray *)payload;
-
 
 /* Removed due to iOS 9
  

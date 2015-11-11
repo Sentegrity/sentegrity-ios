@@ -1,23 +1,26 @@
 //
 //  TrustFactor_Dispatch_Platform.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+/*!
+ *  TrustFactor Dispatch Platform is rule that checks for bad/allowed versions as well as up time for
+ *  TrustFactor calculations.
+ */
 #import "Sentegrity_TrustFactor_Datasets.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
 
 @interface TrustFactor_Dispatch_Platform : NSObject 
 
-// 23
+// Vunerable/bad version
 + (Sentegrity_TrustFactor_Output_Object *)vulnerableVersion:(NSArray *)payload;
 
-// 28
+// Allowed versions
 + (Sentegrity_TrustFactor_Output_Object *)versionAllowed:(NSArray *)payload;
 
-// 38
+// Short up time
 + (Sentegrity_TrustFactor_Output_Object *)shortUptime:(NSArray *)payload;
 
 

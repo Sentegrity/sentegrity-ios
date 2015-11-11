@@ -60,7 +60,6 @@
 #define kExpired                        @"expired"
 #define kError                          @"error"
 
-
 #pragma mark - Classification Keys
 
 #define kIdentification                 @"id"
@@ -71,9 +70,7 @@
 #define kProtectModeAction              @"protectModeAction"
 #define kProtectModeMessage             @"protectModeMessage"
 
-
 #pragma mark - Subclassification Keys
-
 
 #define kSCIdentification               @"id"
 #define kSCName                         @"name"
@@ -180,7 +177,7 @@ enum {
 };
 
 /*!
- Core Detection Error Codes
+ * Core Detection Error Codes
  */
 enum {
     // No Policy Provided

@@ -1,21 +1,16 @@
 //
-//  TrustFactor_Dispatch_Wifi.m
-//  SenTest
+//  TrustFactor_Dispatch_Cellular.m
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Celluar.h"
 
-
 @implementation TrustFactor_Dispatch_Celluar
-
-
 
 // USES PRIVATE API
 + (Sentegrity_TrustFactor_Output_Object *)cellConnectionChange:(NSArray *)payload {
-    
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -26,7 +21,6 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
-   
     // Get the current list of user apps
     NSString *carrierConnectionInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionInfo];
     
@@ -40,23 +34,18 @@
         return trustFactorOutputObject;
     }
 
-   
+    // Add carrier connection info to the output array
     [outputArray addObject:carrierConnectionInfo];
 
-    
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-
 }
-
-
 
 // USES PRIVATE API
 + (Sentegrity_TrustFactor_Output_Object *)airplaneMode:(NSArray *)payload {
-    
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -81,21 +70,15 @@
     }
     
     // Is airplane enabled?
-    
-    if(enabled.intValue==1){
+    if(enabled.intValue == 1){
         [outputArray addObject:@"airplane"];
     }
     
-
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
     // Return the trustfactor output object
     return trustFactorOutputObject;
-    
 }
-
-
-
 
 @end

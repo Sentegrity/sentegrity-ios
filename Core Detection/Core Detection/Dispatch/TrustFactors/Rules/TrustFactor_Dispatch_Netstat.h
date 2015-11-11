@@ -1,33 +1,31 @@
 //
 //  TrustFactor_Dispatch_NetStat.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+/*!
+ *  Trust Factor Dispatch Netstat is a rule that uses Netstat information for TrustScore calculation.
+ */
 #import "Sentegrity_TrustFactor_Datasets.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
 
 @interface TrustFactor_Dispatch_Netstat : NSObject 
 
-// 3
+// Bad destination
 + (Sentegrity_TrustFactor_Output_Object *)badDst:(NSArray *)payload;
 
-
-// 9
+// Priviledged port
 + (Sentegrity_TrustFactor_Output_Object *)priviledgedPort:(NSArray *)payload;
 
-
-// 13
+// New service
 + (Sentegrity_TrustFactor_Output_Object *)newService:(NSArray *)payload;
 
-// 13
+// Data exfiltration
 + (Sentegrity_TrustFactor_Output_Object *)dataExfiltration:(NSArray *)payload;
 
-// 13
+// Unencrypted traffic
 + (Sentegrity_TrustFactor_Output_Object *)unencryptedTraffic:(NSArray *)payload;
-
-
 
 @end

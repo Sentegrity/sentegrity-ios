@@ -1,9 +1,8 @@
 //
 //  TrustFactor_Dispatch_Sandbox.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "Sentegrity_TrustFactor_Datasets.h"
@@ -11,7 +10,7 @@
 
 @interface TrustFactor_Dispatch_Sandbox : NSObject 
 
-// 8 - Sandbox Verification
+// Sandbox Verification
 + (Sentegrity_TrustFactor_Output_Object *)integrity:(NSArray *)payload;
 
 @end

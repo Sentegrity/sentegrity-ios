@@ -7,9 +7,6 @@
 
 #import "Sentegrity_Stored_Assertion.h"
 
-
 @implementation Sentegrity_Stored_Assertion
-
-
 
 @end

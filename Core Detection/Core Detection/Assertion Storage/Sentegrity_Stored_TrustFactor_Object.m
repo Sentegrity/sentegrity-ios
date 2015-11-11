@@ -7,8 +7,6 @@
 
 #import "Sentegrity_Stored_TrustFactor_Object.h"
 
-
 @implementation Sentegrity_Stored_TrustFactor_Object
-
 
 @end

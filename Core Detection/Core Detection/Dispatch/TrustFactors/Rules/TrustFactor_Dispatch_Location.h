@@ -1,25 +1,27 @@
 //
 //  TrustFactor_Dispatch_Location.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
+
+/*!
+ *  TrustFactor Dispatch Location is a rule that uses the location of the device and the changes of the
+ *  device to assess the trust score of the user and the device.
+ */
 
 #import "Sentegrity_TrustFactor_Datasets.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
 
-
 @interface TrustFactor_Dispatch_Location : NSObject
 
-
-// 26
+// Determine if device is in a location of an allowed country
 + (Sentegrity_TrustFactor_Output_Object *)countryAllowed:(NSArray *)payload;
 
-// 31
+// Determine location of device
 + (Sentegrity_TrustFactor_Output_Object *)locationGPS:(NSArray *)payload;
 
-// 31
+// Location approximation using brightness of screen, strength of cell tower, and magnetometer readings
 + (Sentegrity_TrustFactor_Output_Object *)locationApprox:(NSArray *)payload;
 
 @end

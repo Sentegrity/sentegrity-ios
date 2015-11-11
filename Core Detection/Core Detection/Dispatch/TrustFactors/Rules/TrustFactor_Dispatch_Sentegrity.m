@@ -1,10 +1,10 @@
 //
 //  TrustFactor_Dispatch_Sentegrity.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
+
 #import "TrustFactor_Dispatch_Sentegrity.h"
 #import <sys/sysctl.h>
 #import <dlfcn.h>
@@ -33,14 +33,14 @@ struct encryption_info_command
 #endif
 
 
-// Provisoning (returns nothing if not found)
+// Provisioning (returns nothing if not found)
 + (Sentegrity_TrustFactor_Output_Object *)tamper:(NSArray *)payload {
     
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
     // Set the default status code to OK (default = DNEStatus_ok)
     [trustFactorOutputObject setStatusCode:DNEStatus_ok];
-
+    
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
@@ -56,19 +56,19 @@ struct encryption_info_command
     }
     
     /* Removed due to iOS 9
-    
-    // debugger check
-    int debugCheck = [self debuggerCheck];
-    
-    // Check the result
-    if(debugCheck>1){
-        [outputArray addObject:@"debuggerFound"];
-    }else if(debugCheck==-1){ //Error
-
-        [trustFactorOutputObject setStatusCode:DNEStatus_error];
-        return trustFactorOutputObject;
-    }
-    */
+     
+     // debugger check
+     int debugCheck = [self debuggerCheck];
+     
+     // Check the result
+     if(debugCheck>1){
+     [outputArray addObject:@"debuggerFound"];
+     }else if(debugCheck==-1){ //Error
+     
+     [trustFactorOutputObject setStatusCode:DNEStatus_error];
+     return trustFactorOutputObject;
+     }
+     */
     
     // binary check
     //NSString *checksum = [self binaryChecksum];
@@ -81,7 +81,7 @@ struct encryption_info_command
     if(hookResult>1) {
         
         //Method imp changed
-         [outputArray addObject:@"hook detected"];
+        [outputArray addObject:@"hook detected"];
         
     }else if(hookResult==-1){ //Error
         [trustFactorOutputObject setStatusCode:DNEStatus_error];
@@ -110,14 +110,14 @@ struct encryption_info_command
                     // Add the module to the output array
                     [outputArray addObject:[@"dyldFound_" stringByAppendingString:badModule]];
                 }
-
+                
             }
         }
     }
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
-
+    
     return trustFactorOutputObject;
 }
 
@@ -143,52 +143,52 @@ struct encryption_info_command
 
 /* Removed due to iOS 9
  
-// Check for debugger
-+ (int)debuggerCheck{
-    
-    #define DBGCHK_P_TRACED 0x00000800
-    
-    // Current process name
-    int ourPID = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getOurPID] intValue];
+ // Check for debugger
+ + (int)debuggerCheck{
  
-    if (ourPID == 0){ //something is wrong, didn't find our PID
-        return -1;
-    }
-    
-    //this is for testing, may use later
-    //[self denyAttach];
-    
-    //check for P_TRACE
-    
-    size_t sz = sizeof(struct kinfo_proc);
-
-    struct kinfo_proc info;
-    
-    memset(&info, 0, sz);
-    
-    int    name[4];
-    
-    name [0] = CTL_KERN;
-    name [1] = KERN_PROC;
-    name [2] = KERN_PROC_PID;
-    name [3] = ourPID;
-    
-    if (sysCtl(name,4,&info,&sz) != 0){
-        return -1; //something is wrong
-    }
-    
-    
-    if (info.kp_proc.p_flag & DBGCHK_P_TRACED) {
-
-        //NSLog(@"being debuged");
-        return DBGCHK_P_TRACED;
-        
-    }
-    else{
-        return 0;
-    }
-
-}
+ #define DBGCHK_P_TRACED 0x00000800
+ 
+ // Current process name
+ int ourPID = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getOurPID] intValue];
+ 
+ if (ourPID == 0){ //something is wrong, didn't find our PID
+ return -1;
+ }
+ 
+ //this is for testing, may use later
+ //[self denyAttach];
+ 
+ //check for P_TRACE
+ 
+ size_t sz = sizeof(struct kinfo_proc);
+ 
+ struct kinfo_proc info;
+ 
+ memset(&info, 0, sz);
+ 
+ int    name[4];
+ 
+ name [0] = CTL_KERN;
+ name [1] = KERN_PROC;
+ name [2] = KERN_PROC_PID;
+ name [3] = ourPID;
+ 
+ if (sysCtl(name,4,&info,&sz) != 0){
+ return -1; //something is wrong
+ }
+ 
+ 
+ if (info.kp_proc.p_flag & DBGCHK_P_TRACED) {
+ 
+ //NSLog(@"being debuged");
+ return DBGCHK_P_TRACED;
+ 
+ }
+ else{
+ return 0;
+ }
+ 
+ }
  
  */
 
@@ -237,10 +237,12 @@ typedef int (*ptrace_ptr_t)(int _request, pid_t _pid, caddr_t _addr, int _data);
             }
         }
         
-            //try to compute checksum
+        // Try to compute checksum
         if (cmd->cmd == LC_SEGMENT) {
+            
             // __TEXT load command is a LC_SEGMENT load command
             struct segment_command * segment = (struct segment_command *)cmd;
+            
             if (!strcmp(segment->segname, "__TEXT")) {
                 // Stop on __TEXT segment load command and go through sections
                 // to find __text section
@@ -250,6 +252,7 @@ typedef int (*ptrace_ptr_t)(int _request, pid_t _pid, caddr_t _addr, int _data);
                         break; //Stop on __text section load command
                     section = (struct section *)(section + 1);
                 }
+                
                 // Get here the __text section address, the __text section size
                 // and the virtual memory address so we can calculate
                 // a pointer on the __text section
@@ -257,6 +260,7 @@ typedef int (*ptrace_ptr_t)(int _request, pid_t _pid, caddr_t _addr, int _data);
                 int textSectionSize = (int)section->size;
                 int vmaddr = (int)segment->vmaddr;
                 char * textSectionPtr = (char *)(uintptr_t)((int)header + (int)textSectionAddr - (int)vmaddr);
+                
                 // Calculate the signature of the data,
                 // store the result in a string
                 // and compare to the original one
@@ -266,19 +270,20 @@ typedef int (*ptrace_ptr_t)(int _request, pid_t _pid, caddr_t _addr, int _data);
                 for (int i = 0; i < sizeof(digest); i++)             // fill signature
                     sprintf(signature + (2 * i), "%02x", digest[i]);
                 
-                if(strcmp(originalSignature, signature) != 0){ //they do not match
+                // They do not match
+                if(strcmp(originalSignature, signature) != 0){
                     return [NSString stringWithUTF8String:signature];
-                }
-                else{
+                    
+                } else {
                     return nil;
                 }
-
             }
         }
+        
         cmd = (struct load_command *)((uint8_t *)cmd + cmd->cmdsize);
     }
+    
     return nil;
 }
-
 
 @end

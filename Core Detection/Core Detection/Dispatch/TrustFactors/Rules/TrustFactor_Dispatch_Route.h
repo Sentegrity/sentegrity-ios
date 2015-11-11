@@ -1,21 +1,23 @@
 //
 //  TrustFactor_Dispatch_Route.h
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
+
+/*!
+ *  TrustFactor Dispatch Route is a rule that checks for a VPN and routes.
+ */
 
 #import "Sentegrity_TrustFactor_Datasets.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
 
 @interface TrustFactor_Dispatch_Route : NSObject 
 
-
-// 15
+// Check if using a VPN
 + (Sentegrity_TrustFactor_Output_Object *)vpnUp:(NSArray *)payload;
 
-// 16
+// No route
 + (Sentegrity_TrustFactor_Output_Object *)noRoute:(NSArray *)payload;
 
 @end

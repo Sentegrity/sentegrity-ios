@@ -1,8 +1,7 @@
-//  TrustFactor_Dispatch_Platform.m
-//  SenTest
+//  TrustFactor_Dispatch_Configuration.m
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Configuration.h"
@@ -17,7 +16,7 @@
 @implementation TrustFactor_Dispatch_Configuration
 
 
-// 38
+// Is iCloud enabled?
 + (Sentegrity_TrustFactor_Output_Object *)backupEnabled:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -37,12 +36,11 @@
         return trustFactorOutputObject;
     }
     
-    
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
     
     
-    //is iCloud enabled
+    // Is iCloud enabled
     if([[NSFileManager defaultManager] ubiquityIdentityToken] != nil){
         [outputArray addObject:@"backupEnabled"];
     }
@@ -54,7 +52,7 @@
     return trustFactorOutputObject;
 }
 
-
+// Does the user use a passcode?
 + (Sentegrity_TrustFactor_Output_Object *)passcodeSet:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -65,7 +63,6 @@
     
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:1];
-    
     
     //only supported on iOS 8
     if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")){
@@ -86,9 +83,10 @@
         CFErrorRef sacError = NULL;
         SecAccessControlRef sacObject = SecAccessControlCreateWithFlags(kCFAllocatorDefault, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, kNilOptions, &sacError);
         
-        // unable to create the access control item.
+        // Unable to create the access control item.
         if (sacObject == NULL || sacError != NULL) {
             
+            // Set status code to unavailable
             [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
             
             // Set the trustfactor output to the output array (regardless if empty)
@@ -107,16 +105,16 @@
         
         status = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
         
-        // it managed to retrieve data successfully
+        // It managed to retrieve data successfully
         if (status != errSecSuccess) {
-            //passcode enabled
+            
+            // Passcode enabled
             [outputArray addObject:@"passcodeNotSet"];
         }
         
+    } else {
         
-        
-    }
-    else{
+        // Set status code to unavailable
         [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
         
         // Set the trustfactor output to the output array (regardless if empty)

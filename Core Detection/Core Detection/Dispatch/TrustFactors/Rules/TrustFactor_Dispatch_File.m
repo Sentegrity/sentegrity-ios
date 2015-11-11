@@ -1,9 +1,8 @@
 //
 //  TrustFactor_Dispatch_File.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_File.h"
@@ -11,7 +10,7 @@
 
 @implementation TrustFactor_Dispatch_File
 
-// 1 - knownBad files check
+// Check for bad files
 + (Sentegrity_TrustFactor_Output_Object *)blacklisted:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -56,7 +55,7 @@
     return trustFactorOutputObject;
 }
 
-// 10 - fileSize check
+// File size change check
 + (Sentegrity_TrustFactor_Output_Object *)sizeChange:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -109,8 +108,10 @@
         // if(stat(, &buffer) == 0){
         
         // }
+        
         // Check if they exist
         if ([fileMan fileExistsAtPath:path]) {
+            
             // Found the file
             
             // Create an error object
@@ -129,6 +130,7 @@
                 
                 // Set the output status code to bad
                 [trustFactorOutputObject setStatusCode:DNEStatus_error];
+                
             } else {
                 // No error
                 
@@ -146,7 +148,7 @@
     return trustFactorOutputObject;
 }
 
-//for future use
+// For future use
 + (BOOL)doFstabSize {
     struct stat sb;
     stat("/etc/fstab", &sb);

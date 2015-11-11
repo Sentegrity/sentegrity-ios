@@ -45,7 +45,6 @@
         }
     }
     
-    
     // Create the mutable array to hold the storedTrustFactoObjects for each trustFactorOutputObject
     Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject;
     
@@ -268,9 +267,8 @@
             if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > 1){
                 
                 trustFactorOutputObject = [self performMetricBasedDecay:trustFactorOutputObject withError:error];
-                
             }
-            
+
             break;
             
         // Default case
@@ -508,6 +506,7 @@
                 trustFactorOutputObject.whitelist=YES;
             }
         }
+        
     // End next candidate assertion
     }
     

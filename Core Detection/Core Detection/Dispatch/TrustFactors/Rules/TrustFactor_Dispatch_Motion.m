@@ -1,16 +1,15 @@
 //
 //  TrustFactor_Dispatch_Activity.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Motion.h"
 
 @implementation TrustFactor_Dispatch_Motion
 
-
+// Get motion using gyroscope
 + (Sentegrity_TrustFactor_Output_Object *)grip:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -33,12 +32,10 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    
     // Make sure device is steady enough to take a reading
     
     // Get motion dataset
-    NSArray *gryoRads;
-    
+    NSArray *gyroRads;
     
     // Check if error was already determined when motion was started
     if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
@@ -47,10 +44,11 @@
         
         // Return with the blank output object
         return trustFactorOutputObject;
+        
     } else { // No known errors occured previously, try to get dataset and check our object
         
         // Attempt to get motion data
-        gryoRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
+        gyroRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
         
         // Check if error from dataset (expired)
         if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
@@ -62,14 +60,13 @@
         }
         
         // Check motion dataset has something
-        if (!gryoRads || gryoRads == nil ) {
+        if (!gyroRads || gyroRads == nil ) {
             
             [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
             // Return with the blank output object
             return trustFactorOutputObject;
         }
     }
-    
     
     // Detect if its moving
     if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isMoving] intValue] == 1){
@@ -79,7 +76,6 @@
         return trustFactorOutputObject;
         
     }
-    
     
     // Get motion dataset
     NSArray *pitchRoll;
@@ -94,7 +90,6 @@
         // Return with the blank output object
         return trustFactorOutputObject;
     }
-    
     
     // Total of all samples based on pitch/roll
     float pitchTotal = 0.0;
@@ -283,6 +278,7 @@
  
  */
 
+// Get's the device's orientation
 + (Sentegrity_TrustFactor_Output_Object *)orientation:(NSArray *)payload {
     
     // Create the trustfactor output object

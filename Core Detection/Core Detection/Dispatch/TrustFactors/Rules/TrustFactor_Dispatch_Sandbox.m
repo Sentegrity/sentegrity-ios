@@ -1,9 +1,8 @@
 //
 //  TrustFactor_Dispatch_Sandbox.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Sandbox.h"
@@ -14,7 +13,7 @@
 
 @implementation TrustFactor_Dispatch_Sandbox
 
-// 8 - Sandbox API Verification and Kernel Configurations - Basically Jailbreak Checks
+// Sandbox API Verification and Kernel Configurations - Basically Jailbreak Checks
 + (Sentegrity_TrustFactor_Output_Object *)integrity:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -93,11 +92,6 @@
     return trustFactorOutputObject;
 }
 
-//helper functions
-
-
-
-
-
+// Helper functions
 
 @end

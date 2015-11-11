@@ -1,9 +1,8 @@
 //
-//  Sentegrity_Assertion_Store+Helper.m
+//  Sentegrity_Assertion_Store+Helper.h
 //  Sentegrity
 //
-//  Created by Kramer on 10/12/15.
-//  Copyright © 2015 Sentegrity. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "Sentegrity_Assertion_Store+Helper.h"

@@ -1,9 +1,8 @@
 //
 //  TrustFactor_Dispatch_Route.m
-//  SenTest
+//  Sentegrity
 //
-//  Created by Walid Javed on 1/28/15.
-//  Copyright (c) 2015 Walid Javed. All rights reserved.
+//  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 #import "TrustFactor_Dispatch_Route.h"
@@ -12,8 +11,7 @@
 
 @implementation TrustFactor_Dispatch_Route
 
-
-// 15
+// Check if using a VPN
 + (Sentegrity_TrustFactor_Output_Object *)vpnUp:(NSArray *)payload {
     
     // Create the trustfactor output object
@@ -41,7 +39,6 @@
     
     NSLog(@"%@",routeArray);
 
-    
     // Check for routes
     if (!routeArray || routeArray == nil || routeArray.count < 1) {
         // Current route array is EMPTY
@@ -73,10 +70,7 @@
                     }
                 }
             }
-            
-            
         }
-        
     }
     @catch (NSException *exception) {
         // Error
@@ -90,13 +84,9 @@
     return trustFactorOutputObject;
 }
 
-
-
-
-// 16
+// No route
 + (Sentegrity_TrustFactor_Output_Object *)noRoute:(NSArray *)payload {
     
-   
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
@@ -127,20 +117,18 @@
         // Run through each route
         for (ActiveRoute *route in routeArray) {
             
-
             if(route.isDefault == YES){
                 defaultRoute = YES;
                 break;
             }
-            
         }
         
         // Did not find a default route
-        if (defaultRoute==NO){
+        if (defaultRoute == NO){
             [outputArray addObject:@"noRoute"];
         }
-        
     }
+    
     @catch (NSException *exception) {
         // Error
         return nil;
@@ -152,7 +140,5 @@
     // Return the trustfactor output object
     return trustFactorOutputObject;
 }
-
-
 
 @end
