@@ -69,7 +69,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        error = [NSError errorWithDomain:coreDetectionDomain code:SANoPolicyProvided userInfo:errorDetails];
+        error = [NSError errorWithDomain:coreDetectionDomain code:SACoreDetectionNoPolicyProvided userInfo:errorDetails];
         
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];

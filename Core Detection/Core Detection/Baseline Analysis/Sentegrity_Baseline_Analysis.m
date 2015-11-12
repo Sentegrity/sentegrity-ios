@@ -237,7 +237,7 @@
         // Failed, no trustFactorOutputObject found
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No trustFactorOutputObject received or candidate assertions for compare" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAAssertionStoreNoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return nil;

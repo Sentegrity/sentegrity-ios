@@ -33,7 +33,7 @@
         // Error out, no StoredTrustFactorObjects received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No StoredTrustFactorObjects provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAAssertionStoreNoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return NO;
@@ -68,7 +68,7 @@
         // Error out, no trustfactors set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No storedTrustFactorObject provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAAssertionStoreNoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return NO;
@@ -150,7 +150,7 @@
         // Error out, no storedTrustFactorObjects received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"Missing provided storedTrustFactorObject object during replacement" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAAssertionStoreNoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return NO;
@@ -199,7 +199,7 @@
         // Error out, no assertion object provided
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No storedTrustFactorObjects provided for removal" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAAssertionStoreNoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Return NO
         return NO;
@@ -242,7 +242,7 @@
         // Error out, no assertions received
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No storedTrustFactorObjects provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAAssertionStoreNoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return NO;

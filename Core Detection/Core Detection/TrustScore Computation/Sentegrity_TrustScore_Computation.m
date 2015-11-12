@@ -29,7 +29,7 @@
         // Error out, no trustfactors set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No policy provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoPolicyProvided userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SACoreDetectionNoPolicyProvided userInfo:errorDetails];
         
         // Don't return anything
         return nil;
@@ -41,7 +41,7 @@
         // Error out, no assertion objects set
         NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
         [errorDetails setValue:@"No TrustFactorOutputObjects found to compute" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAAssertionStoreNoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
         // Don't return anything
         return nil;
