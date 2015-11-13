@@ -18,7 +18,7 @@
 @interface Motion_Info : NSObject
 
 // Moving function
-+ (NSNumber *) isMoving;
++ (NSNumber *) movement;
 
 // Orientation function
 + (NSString *) orientation;

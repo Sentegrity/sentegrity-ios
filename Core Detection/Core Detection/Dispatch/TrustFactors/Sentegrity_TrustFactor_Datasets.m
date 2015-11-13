@@ -147,21 +147,21 @@ static dispatch_once_t onceToken;
 }
 
 // Device orientation
-- (NSNumber *)isMoving {
+- (NSNumber *)getMovement {
     
     // If dataset is not populated
-    if(!self.moving || self.moving == nil) {
+    if(!self.movement || self.movement == nil) {
         
         // Get device moving info
-        self.moving = [Motion_Info isMoving];
+        self.movement = [Motion_Info movement];
         
         // Return moving info
-        return self.moving;
+        return self.movement;
         
     } else {
         
         // Return moving info
-        return self.moving;
+        return self.movement;
     }
 }
 
@@ -551,7 +551,7 @@ static dispatch_once_t onceToken;
         //Nope, wait for data
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         CFAbsoluteTime currentTime = startTime;
-        float waitTime = 0.1;
+        float waitTime = 0.2;
         
         while ((currentTime-startTime) < waitTime){
             
