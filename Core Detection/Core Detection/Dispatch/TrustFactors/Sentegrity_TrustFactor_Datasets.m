@@ -669,6 +669,55 @@ static dispatch_once_t onceToken;
     return self.accelRads;
 }
 
+
+
+// Magnetic Headings information
+- (NSArray *)getMagneticHeadingsInfo {
+    
+    //Do we any headings yet?
+    if(self.magneticHeading == nil || self.magneticHeading.count < 1) {
+        
+        //Nope, wait for rads
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.5;
+        
+        while ((currentTime-startTime) < waitTime){
+            
+            // If its greater than 0 return
+            if(self.magneticHeading.count > 0) {
+                
+                NSLog(@"Got magnetic headings after waiting..");
+                
+                // Return headings
+                return self.magneticHeading;
+            }
+            
+            [NSThread sleepForTimeInterval:0.01];
+            
+            // Update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
+        }
+        
+        // Timer Expires
+        NSLog(@"Headings timer expired");
+        [self setMagneticHeadingDNEStatus:DNEStatus_expired];
+        
+        // Return headings
+        return self.magneticHeading;
+    }
+    
+    // We alreaady have the data
+    NSLog(@"Got magnetic headings without waiting...");
+    
+    // Return headings
+    return self.magneticHeading;
+}
+
+
+
+
+
 // Headings information
 - (NSArray *)getHeadingsInfo {
     

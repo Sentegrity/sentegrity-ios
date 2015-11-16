@@ -1087,8 +1087,8 @@
 "brightnessBlocksizeWithLocation" : 3,
 "brightnessBlocksizeNoLocation" : 4,
 "locationRounding" : 2,
-"magneticBlockSizeNoLocation" : 4,
-"magneticBlockSizeWithLocation" : 8
+"magneticBlockSizeNoLocation" : 5,
+"magneticBlockSizeWithLocation" : 9
 }]
 }, {
 "id": 1037,

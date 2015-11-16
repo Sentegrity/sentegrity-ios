@@ -59,6 +59,22 @@
     // Create the location manager
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
+    
+    
+    // check if the hardware has a magnetometer
+    if ([CLLocationManager headingAvailable] == NO) {
+        // Set magnetic disabled
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setMagneticHeadingDNEStatus:DNEStatus_disabled];
+    }
+    else {
+        self.locationManager.headingFilter = kCLHeadingFilterNone;
+        magneticHeadingArray = [[NSMutableArray alloc] init];
+        [self.locationManager startUpdatingHeading];
+    }
+
+    
+    
+    
     NSUInteger code = [CLLocationManager authorizationStatus];
     
     // Check if it's enabled
@@ -571,5 +587,49 @@
     [manager stopUpdatingLocation];
     
 }
+
+
+
+#pragma mark - Magnetometer heading
+
+
+// This delegate method is invoked when the location manager has heading data.
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)heading {
+    // Update the labels with the raw x, y, and z values.
+    
+    
+    // Create an array of headings samples
+    NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:heading.x], [NSNumber numberWithDouble:heading.y],[NSNumber numberWithDouble:heading.z], nil];
+    
+    // Create an array of keys
+    NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+    
+    // Create the dictionary
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+    
+    // Add sample to array
+    [magneticHeadingArray addObject:dict];
+    
+    
+    if (magneticHeadingArray.count > 5) {
+        
+        [manager stopUpdatingHeading];
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setMagneticHeading: magneticHeadingArray];
+    }
+    
+}
+
+
+// This delegate method is invoked when the location managed encounters an error condition.
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    if ([error code] == kCLErrorDenied) {
+        // This error indicates that the user has denied the application's request to use location services.
+        [manager stopUpdatingHeading];
+    } else if ([error code] == kCLErrorHeadingFailure) {
+        // This error indicates that the heading could not be determined, most likely because of strong magnetic interference.
+    }
+}
+
+
 
 @end
