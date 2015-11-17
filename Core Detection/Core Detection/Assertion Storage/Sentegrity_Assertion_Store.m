@@ -196,7 +196,6 @@
         // Log Error
         NSLog(@"Replacement of storedTrustFactorObject Object Failed: %@", errorDetails);
         
-        
         // Don't return anything
         return NO;
     }

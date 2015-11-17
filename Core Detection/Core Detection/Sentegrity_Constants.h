@@ -182,7 +182,7 @@ enum {
  */
 enum {
     // No Policy Provided
-    SACoreDetectionNoPolicyProvided                              = 1,
+    SACoreDetectionNoPolicyProvided                 = 1,
     
     // No Callback Block Provided
     SANoCallbackBlockProvided                       = 2,
@@ -234,7 +234,18 @@ enum {
     SANoTrustFactorOutputObjectsReceived            = 18,
 };
 
-// TODO: This is bloated, cut it into multiple domains
+/*! TODO: This is bloated, cut it into multiple domains
+ * Assertion Store Error Codes
+ */
+enum {
+    // No assertions received
+    SAAssertionStoreNoTrustFactorOutputObjectsReceived            = 18,
+    
+    // No FactorID received
+    SAAssertionStoreNoFactorIDReceived                            = 20
+};
+
+//TODO: This is bloated, cut it into multiple domains
 /*! NSError codes in NSCocoaErrorDomain. Note that other frameworks (such as AppKit and CoreData) also provide additional NSCocoaErrorDomain error codes.
  */
 enum {
@@ -252,9 +263,6 @@ enum {
     
     // No assertions added to store
     SANoAssertionsAddedToStore                      = 19,
-    
-    // No FactorID received
-    SANoFactorIDReceived                            = 20,
     
     // Unable to add assertion object into the assertion store
     SAUnableToAddStoreTrustFactorObjectsIntoStore   = 21,

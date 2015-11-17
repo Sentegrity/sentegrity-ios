@@ -69,7 +69,7 @@
 @property (atomic, retain) NSArray *accelRads;
 @property (atomic) int accelMotionDNEStatus;
 @property (atomic,retain) NSString *deviceOrientation;
-@property (atomic, retain) NSNumber *moving;
+@property (atomic, retain) NSNumber *movement;
 
 // Bluetooth BLE
 @property (atomic, retain) NSArray *discoveredBLEDevices;
@@ -172,7 +172,7 @@
 - (NSArray *)getGyroPitchInfo;
 - (NSArray *)getHeadingsInfo;
 - (NSString *)getDeviceOrientation;
-- (NSNumber *)isMoving;
+- (NSNumber *)getMovement;
 
 // ** BLUETOOTH **
 - (NSArray *)getDiscoveredBLEInfo;

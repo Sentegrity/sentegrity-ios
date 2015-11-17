@@ -143,10 +143,10 @@
         lastActivity=@"unknown";
         
         // Moving status unavailable
-        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        //[trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
         
         // Return with the blank output object
-        return trustFactorOutputObject;
+        //return trustFactorOutputObject;
     }
     
     //NSLog(@"Previous activity result: %@", lastActivity);

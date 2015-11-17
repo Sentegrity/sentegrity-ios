@@ -11,15 +11,15 @@
 @implementation Motion_Info
 
 // Checking if device is moving
-+(NSNumber*)isMoving{
++(NSNumber*)movement{
     
     //Determine if device is moving during grip check
     
-     NSArray *gryoRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
+     NSArray *gyroRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
      
-     float xThreshold = 0.8;
-     float yThreshold = 0.8;
-     float zThreshold = 0.8;
+     float xThreshold = 0.5;
+     float yThreshold = 0.5;
+     float zThreshold = 0.3;
 
      float xDiff = 0.0;
      float yDiff = 0.0;
@@ -28,15 +28,18 @@
      float lastX = 0.0;
      float lastY = 0.0;
      float lastZ = 0.0;
+    
+    float dist = 0.0;
+    int measurementCount = 0;
      
      // Run through all the samples we collected prior to stopping motion
-     for (NSDictionary *sample in gryoRads) {
+     for (NSDictionary *sample in gyroRads) {
          
          float x = [[sample objectForKey:@"x"] floatValue];
          float y = [[sample objectForKey:@"y"] floatValue];
          float z = [[sample objectForKey:@"z"] floatValue];
          
-         // This is the first sample, just record last and go to next
+         // This is the first sample, just record last and go to nexy
          if(lastX == 0.0) {
              lastX = x;
              lastY = y;
@@ -44,19 +47,32 @@
              continue;
          }
          
+         float dx = (x - lastX);
+         float dy = (y - lastY);
+         float dz = (z - lastZ);
+         dist = dist + sqrt(dx*dx + dy*dy + dx*dx);
+         measurementCount++;
+         
          // Add up differences to detect motion, take absolute value to prevent
-         xDiff = xDiff + fabsf((lastX - x));
-         yDiff = yDiff + fabsf((lastY - y));
-         zDiff = zDiff + fabsf((lastZ - z));
+         //xDiff = xDiff + (fabsf(lastX) - fabsf(x));
+         //yDiff = yDiff + (fabsf(lastY) - fabsf(y));
+         //zDiff = zDiff + (fabsf(lastZ) - fabsf(z));
      }
+    // calculate average distance, subtract 1 from count as we can't measure the first
+    float averageDist = dist / (float) measurementCount;
      
      // Check against thresholds?
+    /*
      if(xDiff > xThreshold || yDiff > yThreshold || zDiff > zThreshold){
          return [NSNumber numberWithInt:1];
          
      } else {
          return [NSNumber numberWithInt:0];
      }
+    */
+   
+    return [NSNumber numberWithFloat:averageDist];
+
 }
 
 

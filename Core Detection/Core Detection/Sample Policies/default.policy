@@ -161,7 +161,7 @@
 "name": "User grip",
 "dneUnauthorized": "Authorize motion services",
 "dneUnsupported": "Device does not support motion",
-"dneUnavailable": "Device moving, hold steady",
+"dneUnavailable": "Motion data unavailable",
 "dneDisabled": "Enable motion services",
 "dneNoData": "",
 "dneExpired": "",
@@ -1057,7 +1057,9 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"blockSize": 8
+"pitchBlockSize": 0.1,
+"rollBlockSize": 0.03,
+"movementBlockSize": 0.1
 }]
 }, {
 "id": 1059,
