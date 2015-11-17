@@ -46,6 +46,9 @@
         
         // Set the error
         *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoTrustFactorsReceived userInfo:errorDetails];
+        
+        // Log it
+        NSLog(@"Perform TrustFactor Analysis Unsuccessful: %@", errorDetails);
     }
     
     // Next, run through the array of trustFactors to be executed
@@ -96,6 +99,9 @@
             
             // Set the error
             *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoTrustFactorsReceived userInfo:errorDetails];
+            
+            // Log it
+            NSLog(@"Perform TrustFactor Analysis unsuccessful: %@", errorDetails);
             
             // Create an trustFactorOutputObject with just the error in it
             Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -242,6 +248,9 @@
         // Set the error
         *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoImplementationOrDispatchReceived userInfo:errorDetails];
         
+        // Log it
+        NSLog(@"No Dispatch or Implementation Name Received: %@", errorDetails);
+        
         // Create an trustFactorOutputObject with just the error in it
         Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
         
@@ -268,6 +277,9 @@
         
         // Set the error
         *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SANoDispatchClassFound userInfo:errorDetails];
+        
+        // Log it
+        NSLog(@"No Dispatch Class Found for Class: %@ for error: %@", className, errorDetails);
         
         // Create an assertion with just the error in it
         Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -328,6 +340,9 @@
         
         // Set the error
         *error = [NSError errorWithDomain:trustFactorDispatcherDomain code:SAInvalidTrustFactorName userInfo:errorDetails];
+        
+        // Log it
+        NSLog(@"Dispatch Class Does Not Respond to Selector: %@ Error: %@", implementation, errorDetails);
         
         // Create an assertion with just the error in it
         Sentegrity_TrustFactor_Output_Object *trustFactorOutput = [[Sentegrity_TrustFactor_Output_Object alloc] init];

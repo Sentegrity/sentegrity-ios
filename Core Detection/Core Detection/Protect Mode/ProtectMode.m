@@ -80,6 +80,9 @@
         // Set the error
         *error = [NSError errorWithDomain:sentegrityDomain code:SAInvalidPolicyPinProvided userInfo:errorDetails];
         
+        // Log it
+        NSLog(@"Deactivate Protect Mode Policy with PIN Failed: %@", errorDetails);
+        
         // Return NO
         return NO;
     }
@@ -109,6 +112,9 @@
                     
                     // Set the error
                     *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+                    
+                    // Log it
+                    NSLog(@"Deactivate Protect Mode Policy with PIN Failed: %@", errorDetails);
                 }
                 
                 // Return NO
@@ -142,6 +148,9 @@
         // Set the error
         *error = [NSError errorWithDomain:sentegrityDomain code:SAInvalidUserPinProvided userInfo:errorDetails];
         
+        // Log it
+        NSLog(@"Deactivate Protect Mode Policy with PIN Failed: %@", errorDetails);
+        
         // Return NO
         return NO;
     }
@@ -171,6 +180,9 @@
                     
                     // Set the error
                     *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+                    
+                    // Log it
+                    NSLog(@"Deactivate Protect Mode Policy with PIN Failed: %@", errorDetails);
                 }
                 
                 // Return NO
@@ -215,6 +227,9 @@
             
             // Set the error
             *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+            
+            // Log it
+            NSLog(@"Whitelist Attributing TrustFactor Output Objects Failed: %@", errorDetails);
         }
         
         // Return NO
@@ -285,6 +300,9 @@
             
             // Set the error
             *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToWhitelistAssertions userInfo:errorDetails];
+            
+            // Log it
+            NSLog(@"Whitelist Attributing TrustFactor Output Objects Failed: %@", errorDetails);
         }
         
         // Return NO

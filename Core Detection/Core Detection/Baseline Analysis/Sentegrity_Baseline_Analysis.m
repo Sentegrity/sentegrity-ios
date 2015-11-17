@@ -56,10 +56,19 @@
         
         // Check if the TrustFactor is valid to start with
         if (!trustFactorOutputObject || trustFactorOutputObject == nil) {
+            
             // Error out, no trustFactorOutputObject were able to be added
-            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-            [errorDetails setValue:@"Invalid trustFactorOutputObject passed" forKey:NSLocalizedDescriptionKey];
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Add trustFactorOutputObject.", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Invalid trustFactorOutputObject passed.", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid trustFactorOutputObject.", nil)
+                                           };
+            
+            // Set the error
             *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStoredTrustFactorObjectsProvided userInfo:errorDetails];
+            
+            // Log Error
+            NSLog(@"Failed to Add trustFactorOutputObject: %@", errorDetails);
             
             // Don't return anything
             return nil;
@@ -87,9 +96,17 @@
             if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
                 
                 // Error out, no trustFactorOutputObject were able to be added
-                NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Unable to create new storedTrustFactorObject for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                NSDictionary *errorDetails = @{
+                                               NSLocalizedDescriptionKey: NSLocalizedString(@"No trustFactorOutputObject were able to be added.", nil),
+                                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to create a new storedTrustFactorObject.", nil),
+                                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid trustFactorOutputObject.", nil)
+                                               };
+                
+                // Set the error
                 *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToCreateNewStoredAssertion userInfo:errorDetails];
+                
+                // Log Error
+                NSLog(@"No trustFactorOutputObject were able to be added: %@", errorDetails);
                 
                 // Don't return anything
                 return nil;
@@ -105,9 +122,17 @@
             if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
                 
                 // Error out, something went wrong in compare
-                NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                NSDictionary *errorDetails = @{
+                                               NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Compare.", nil),
+                                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to perform baseline analysis for trustFactorOutputObject.", nil),
+                                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try updating trustFactorOutputObjects.", nil)
+                                               };
+                
+                // Set the error
                 *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
+                
+                // Log Error
+                NSLog(@"Failed to Compare: %@", errorDetails);
                 
                 // Don't return anything
                 return nil;
@@ -117,9 +142,17 @@
             if (![localStore addSingleObjectToStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                 
                 // Error out, no storedTrustFactorObjects were able to be added
-                NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"No storedTrustFactorObjects addeded to local store" forKey:NSLocalizedDescriptionKey];
+                NSDictionary *errorDetails = @{
+                                               NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Add storedTrustFactorObjects.", nil),
+                                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to add storedTrustFactorObjects to the runtime local store.", nil),
+                                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try providing a valid object to store.", nil)
+                                               };
+                
+                // Set the error
                 *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAssertionsAddedToStore userInfo:errorDetails];
+                
+                // Log Error
+                NSLog(@"Failed to Add storedTrustFactorObjects: %@", errorDetails);
                 
                 // Don't return anything
                 return nil;
@@ -144,9 +177,17 @@
                 if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
                     
                     // Error out, something went wrong in compare
-                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                    [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                    NSDictionary *errorDetails = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Compare.", nil),
+                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to perform baseline analysis for trustFactorOutputObject.", nil),
+                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try updating trustFactorOutputObjects.", nil)
+                                                   };
+                    
+                    // Set the error
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
+                    
+                    // Log Error
+                    NSLog(@"Failed to Perform: %@", errorDetails);
                     
                     // Don't return anything
                     return nil;
@@ -156,10 +197,18 @@
                 if (![localStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                     
                     // Error out, no storedTrustFactorOutputObjects were able to be added
-                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                    [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
+                    NSDictionary *errorDetails = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"No trustFactorOutputObject were able to be added.", nil),
+                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to replace stored assertion.", nil),
+                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid trustFactorOutputObject.", nil)
+                                                   };
+                    
+                    // Set the error
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
                     
+                    // Log Error
+                    NSLog(@"No trustFactorOutputObject were able to be added: %@", errorDetails);
+            
                     // Don't return anything
                     return nil;
                 }
@@ -178,9 +227,17 @@
                 if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
                     
                     // Error out, something went wrong in compare
-                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                    [errorDetails setValue:@"Unable to perform baseline analysis for trustFactorOutputObject" forKey:NSLocalizedDescriptionKey];
+                    NSDictionary *errorDetails = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Compare.", nil),
+                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to perform baseline analysis for trustFactorOutputObject.", nil),
+                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try updating trustFactorOutputObjects.", nil)
+                                                   };
+                    
+                    // Set the error
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToPerformBaselineAnalysisForTrustFactor userInfo:errorDetails];
+                    
+                    // Log Error
+                    NSLog(@"Failed to Perform: %@", errorDetails);
                     
                     // Don't return anything
                     return nil;
@@ -190,9 +247,17 @@
                 if (![localStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                     
                     // Error out, no storedTrustFactorOutputObjects were able to be added
-                    NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                    [errorDetails setValue:@"Unable to replace stored assertion" forKey:NSLocalizedDescriptionKey];
+                    NSDictionary *errorDetails = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"No trustFactorOutputObject were able to be added.", nil),
+                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to replace stored assertion.", nil),
+                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid trustFactorOutputObject.", nil)
+                                                   };
+                    
+                    // Set the error
                     *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToSetAssertionToStore userInfo:errorDetails];
+                    
+                    // Log Error
+                    NSLog(@"No trustFactorOutputObject were able to be added: %@", errorDetails);
                     
                     // Don't return anything
                     return nil;
@@ -211,9 +276,17 @@
     if (!localStoreOutput || localStoreOutput == nil) {
         
         // Create error explaining what went wrong
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Error writing assertion stores after baseline analysis" forKey:NSLocalizedDescriptionKey];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Write Assertion Stores", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error writing assertion stores after baseline analysis.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid store to write.", nil)
+                                       };
+        
+        // Set the error
         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Failed to Write Assertion Stores: %@", errorDetails);
         
         // Don't return anything
         return nil;
@@ -234,11 +307,20 @@
     
     // First check if we recieved the trustFactorOutputObject
     if (!trustFactorOutputObject) {
+        
         // Failed, no trustFactorOutputObject found
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No trustFactorOutputObject received or candidate assertions for compare" forKey:NSLocalizedDescriptionKey];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed, no trustFactorOutputObjects found.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No trustFactorOutputObject received or candidate assertions for compare.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a trustFactorOutputObject.", nil)
+                                       };
+        
+        // Set the error
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
         
+        // Log Error
+        NSLog(@"Failed, no trustFactorOutputObjects found: %@", errorDetails);
+    
         // Don't return anything
         return nil;
     }
@@ -352,12 +434,20 @@
     
     // Check if trustFactorOutputObject was found
     if (!updatedTrustFactorOutputObject) {
-        
+    
         // Failed, no trustFactorOutputObject found
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Error during TrustFactor learning check" forKey:NSLocalizedDescriptionKey];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed, no trustFactorOutputObjects found.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error during learning check.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing or updating trustFactorOutputObjects.", nil)
+                                       };
+        
+        // Set the error
         *error = [NSError errorWithDomain:@"Sentegrity" code:SAErrorDuringLearningCheck userInfo:errorDetails];
         
+        // Log Error
+        NSLog(@"Failed, no trustFactorOutputObjects found: %@", errorDetails);
+    
         // Don't return anything
         return nil;
     }

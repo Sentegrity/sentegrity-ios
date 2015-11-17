@@ -30,10 +30,18 @@
     // Check if we received StoredTrustFactorObjects
     if (!storedTrustFactorObjects || storedTrustFactorObjects.count < 1) {
         
-        // Error out, no StoredTrustFactorObjects received
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No StoredTrustFactorObjects provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        // Error out, no trustfactors set
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Recieve storedTrustFactorObjects.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No Stored Trust Factor Object Provided.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try Passing A Valid Stored TrustFactor Output Object", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:assertionStoreDomain code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Failed to Recieve storedTrustFactorObjects: %@", errorDetails);
         
         // Don't return anything
         return NO;
@@ -45,10 +53,18 @@
         // Add the new StoredTrustFactorObject into the array
         if (![self addSingleObjectToStore:newStoredTrustFactorObject withError:error]) {
             
-            // Error out, unable to add the StoredTrustFactorObject into the store
-            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-            [errorDetails setValue:@"Unable to add StoredTrustFactorObject" forKey:NSLocalizedDescriptionKey];
-            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
+            // Error out, no trustfactors set
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Add the New storedTrustFactorObject.", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to add storedTrustFactorObject into the array.", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try Passing A Valid Stored TrustFactor Output Object.", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:assertionStoreDomain code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
+            
+            // Log Error
+            NSLog(@"Failed to Add the New storedTrustFactorObject: %@", errorDetails);
             
             // Return NO
             return NO;
@@ -66,9 +82,17 @@
     if (!newStoredTrustFactorObject || newStoredTrustFactorObject == nil) {
         
         // Error out, no trustfactors set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No storedTrustFactorObject provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"No Stored Trust Factor Object Provided.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to retrieve Trust Factor Object.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a Trust Factor Object.", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:assertionStoreDomain code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"No Stored Trust Factor Object Provided: %@", errorDetails);
         
         // Don't return anything
         return NO;
@@ -110,9 +134,17 @@
     if (!existingStoredTrustFactorObjects || existingStoredTrustFactorObjects.count < 1) {
         
         // Error out, no assertions received
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Invalid storedTrustFactorObjects objects provided for replacement" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStoredTrustFactorObjectsProvided userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Replace StoredTrustFactorObjects Failed.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Invalid StoredTrustFactorObjects objects provided for replacement.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try Passing A Valid Stored TrustFactor Object", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:assertionStoreDomain code:SAInvalidStoredTrustFactorObjectsProvided userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Replace StoredTrustFactorObjects Failed: %@", errorDetails);
         
         // Don't return anything
         return NO;
@@ -125,13 +157,17 @@
         if (![self replaceSingleObjectInStore:existingStoredTrustFactorObject withError:error]) {
             
             // Error out, unable to add storedTrustFactorObject into the store
-            if (!*error || *error == nil) {
-                
-                // Create the error
-                NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Unable to replace storedTrustFactorObject in the store" forKey:NSLocalizedDescriptionKey];
-                *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
-            }
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Replace storedTrustFactorObject Failed in the Store.", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to replace storedTrustFactorObject in the store.", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try Passing A Valid Stored TrustFactor Object", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:assertionStoreDomain code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
+            
+            // Log Error
+            NSLog(@"Replace storedTrustFactorObjects Failed in the Store: %@", errorDetails);
             
             // Return NO
             return NO;
@@ -148,9 +184,18 @@
     if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
         
         // Error out, no storedTrustFactorObjects received
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Missing provided storedTrustFactorObject object during replacement" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Replacement of storedTrustFactorObject Object Failed.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Missing provided storedTrustFactorObject object during replacement.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a storedTrustFactorObject object to replace.", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:assertionStoreDomain code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Replacement of storedTrustFactorObject Object Failed: %@", errorDetails);
+        
         
         // Don't return anything
         return NO;
@@ -165,9 +210,17 @@
         if (![self removeSingleObjectFromStore:existing withError:error]) {
             
             // Error out, unable to remove StoredTrustFactorObject
-            NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-            [errorDetails setValue:@"Unable to remove StoredTrustFactorObject" forKey:NSLocalizedDescriptionKey];
-            *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToRemoveAssertion userInfo:errorDetails];
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Removal of storedTrustFactorObject Failed.", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to remove storedTrustFactorObject.", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try removing storedTrustFactorObject.", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:assertionStoreDomain code:SAUnableToRemoveAssertion userInfo:errorDetails];
+            
+            // Log Error
+            NSLog(@"Removal of storedTrustFactorObject Failed: %@", errorDetails);
             
             // Return NO
             return NO;
@@ -178,9 +231,17 @@
     if (![self addSingleObjectToStore:storedTrustFactorObject withError:error]) {
         
         // Error out, unable to add the StoredTrustFactorObject into the store
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Unable to add StoredTrustFactorObject" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Addition of storedTrustFactorObject Failed.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to add storedTrustFactorObject.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try adding storedTrustFactorObject.", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:assertionStoreDomain code:SAUnableToAddStoreTrustFactorObjectsIntoStore userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Addition of storedTrustFactorObject Failed: %@", errorDetails);
         
         // Return NO
         return NO;
@@ -197,9 +258,17 @@
     if (!storedTrustFactorObject || storedTrustFactorObject == nil) {
         
         // Error out, no assertion object provided
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No storedTrustFactorObjects provided for removal" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Assertons object not provided.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No storedTrustFactorObjects provided for removal.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Provide an assertion object for removal.", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:assertionStoreDomain code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Assertions object not provided: %@", errorDetails);
         
         // Return NO
         return NO;
@@ -222,9 +291,17 @@
         
     } else {
         // Error out, no matching storedTrustFactorObjects  found
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No matching storedTrustFactorObjects object found for removal" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoMatchingAssertionsFound userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Matching storedTrustFactorObjects not found.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No matching storedTrustFactorObjects object found for removal.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Provide a matching storedTrustFactorObjects assertion.", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:assertionStoreDomain code:SANoMatchingAssertionsFound userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Matching storedTrustFactorObjects not found: %@", errorDetails);
         
         // Return NO
         return NO;
@@ -239,10 +316,19 @@
 - (BOOL)removeMultipleObjectsFromStore:(NSArray *)storedTrustFactorObjects withError:(NSError **)error {
     // Check if we received assertions
     if (!storedTrustFactorObjects || storedTrustFactorObjects.count < 1) {
+        
         // Error out, no assertions received
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No storedTrustFactorObjects provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed getting storedTrustFactorObjects object.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No storedTrustFactorObjects provided.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Provide a storedTrustFactorObjects object.", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:assertionStoreDomain code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Failed getting storedTrustFactorObjects object: %@", errorDetails);
         
         // Don't return anything
         return NO;
@@ -255,12 +341,17 @@
         if (![self removeSingleObjectFromStore:storedTrustFactorObject withError:error]) {
             
             // Error out, unable to add storedTrustFactorObject into the store
-            if (!*error || *error == nil) {
-                // Create the error
-                NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-                [errorDetails setValue:@"Unable to remove storedTrustFactorObject from the store" forKey:NSLocalizedDescriptionKey];
-                *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToRemoveAssertion userInfo:errorDetails];
-            }
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Remove storedTrustFactorObject.", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to remove storedTrustFactorObject from the store.", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try locating a valid object in storedTrustFactorObjects to remove.", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:assertionStoreDomain code:SAUnableToRemoveAssertion userInfo:errorDetails];
+            
+            // Log Error
+            NSLog(@"Failed to Remove storedTrustFactorObject: %@", errorDetails);
             
             // Return NO
             return NO;

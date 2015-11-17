@@ -69,7 +69,10 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
                                        };
         
         // Set the error
-        error = [NSError errorWithDomain:coreDetectionDomain code:SANoPolicyProvided userInfo:errorDetails];
+        error = [NSError errorWithDomain:coreDetectionDomain code:SACoreDetectionNoPolicyProvided userInfo:errorDetails];
+        
+        // Log it
+        NSLog(@"Perform Core Detection Unsuccessful: %@", errorDetails);
         
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
@@ -94,6 +97,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         // Set the error
         error = [NSError errorWithDomain:coreDetectionDomain code:SANoCallbackBlockProvided userInfo:errorDetails];
         
+        // Log it
+        NSLog(@"Perform Core Detection Unsuccessful: %@", errorDetails);
+        
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
         
@@ -116,6 +122,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         
         // Set the error
         error = [NSError errorWithDomain:coreDetectionDomain code:SANoTrustFactorsSetToAnalyze userInfo:errorDetails];
+        
+        // Log it
+        NSLog(@"Perform Core Detection Unsuccessful: %@", errorDetails);
         
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
@@ -143,6 +152,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         // Set the error
         error = [NSError errorWithDomain:coreDetectionDomain code:SANoTrustFactorOutputObjectsFromDispatcher userInfo:errorDetails];
         
+        // Log it
+        NSLog(@"Perform Core Detection Unsuccessful: %@", errorDetails);
+        
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
         
@@ -168,6 +180,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         // Set the error
         error = [NSError errorWithDomain:coreDetectionDomain code:SANoTrustFactorOutputObjectsForComputation userInfo:errorDetails];
         
+        // Log it
+        NSLog(@"Perform Core Detection Unsuccessful: %@", errorDetails);
+        
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
         
@@ -192,6 +207,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         
         // Set the error
         error = [NSError errorWithDomain:coreDetectionDomain code:SAErrorDuringComputation userInfo:errorDetails];
+        
+        // Log it
+        NSLog(@"Perform Core Detection Unsuccessful: %@", errorDetails);
         
         // Don't return anything except the error
         [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
@@ -227,6 +245,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         
         // Set the error
         *error = [NSError errorWithDomain:coreDetectionDomain code:SANoCallbackBlockProvided userInfo:errorDetails];
+        
+        // Log it
+        NSLog(@"Core Detection Response Failed: %@", errorDetails);
         
     }
 }
@@ -271,6 +292,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         
         // Set the error
         *error = [NSError errorWithDomain:coreDetectionDomain code:SAInvalidPolicyPath userInfo:errorDetails];
+        
+        // Log it
+        NSLog(@"Parse Policy Failed: %@", errorDetails);
     }
     
     // Start by creating the parser
@@ -296,6 +320,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         
         // Set the error
         *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnknownError userInfo:errorDetails];
+        
+        // Log it
+        NSLog(@"Parse Poilicy Failed: %@", errorDetails);
         
         // Don't return anything
         return nil;

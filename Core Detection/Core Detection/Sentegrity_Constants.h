@@ -165,6 +165,7 @@ typedef enum {
  * Error Domains
  */
 static NSString * const coreDetectionDomain             = @"Core Detection";
+static NSString * const assertionStoreDomain            = @"Assertion Store";
 static NSString * const trustFactorDispatcherDomain     = @"TrustFactor Dispatcher";
 static NSString * const sentegrityDomain                = @"Sentegrity";
 
@@ -181,7 +182,7 @@ enum {
  */
 enum {
     // No Policy Provided
-    SANoPolicyProvided                              = 1,
+    SACoreDetectionNoPolicyProvided                              = 1,
     
     // No Callback Block Provided
     SANoCallbackBlockProvided                       = 2,
@@ -225,7 +226,15 @@ enum {
     SAUnableToSetAssertionObjectsFromOutput         = 50
 };
 
-//TODO: This is bloated, cut it into multiple domains
+/*!
+ * Assertion Store Error Codes
+ */
+enum {
+    // No assertions received
+    SANoTrustFactorOutputObjectsReceived            = 18,
+};
+
+// TODO: This is bloated, cut it into multiple domains
 /*! NSError codes in NSCocoaErrorDomain. Note that other frameworks (such as AppKit and CoreData) also provide additional NSCocoaErrorDomain error codes.
  */
 enum {
@@ -240,9 +249,6 @@ enum {
     
     // No security token provided
     SANoAppIDProvided                               = 17,
-    
-    // No assertions received
-    SANoTrustFactorOutputObjectsReceived            = 18,
     
     // No assertions added to store
     SANoAssertionsAddedToStore                      = 19,

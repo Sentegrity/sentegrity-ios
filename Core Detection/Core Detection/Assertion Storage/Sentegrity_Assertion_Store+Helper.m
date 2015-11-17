@@ -16,10 +16,19 @@
     
     // Check that the passed trustFactorOutputObject is valid
     if (!trustFactorOutputObject || trustFactorOutputObject == nil) {
+        
         // Error out, no trustfactors set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No trustFactorOutputObject provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Create Stored TrustFactor Object from TrustFactor Output Failed.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No Trust Factor Output Object Provided", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try Passing A Valid TrustFactor Output Object", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:assertionStoreDomain code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Create Stored TrustFactor Object from TrustFactor Output Failed: %@", errorDetails);
         
         // Don't return anything
         return nil;
@@ -40,12 +49,21 @@
 
 // Get the stored trust factor object by its factorID
 - (Sentegrity_Stored_TrustFactor_Object *)getStoredTrustFactorObjectWithFactorID:(NSNumber *)factorID doesExist:(BOOL *)exists withError:(NSError **)error {
+    
     // Check the factor id passed is valid
     if (!factorID || factorID == nil) {
-        // Error out, no factorID set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No factorID provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoFactorIDReceived userInfo:errorDetails];
+        
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Create Stored TrustFactor Object from TrustFactor Output Failed.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No Trust Factor Output Object Provided", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try Passing A Valid TrustFactor Output Object", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:assertionStoreDomain code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Create Stored TrustFactor Object from TrustFactor Output Failed: %@", errorDetails);
         
         // Don't return anything
         return nil;

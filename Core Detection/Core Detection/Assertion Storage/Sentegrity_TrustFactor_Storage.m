@@ -70,9 +70,17 @@
     if (!appID || appID.length < 1) {
         
         // No app ID provided
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No app ID provided" forKey:NSLocalizedDescriptionKey];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Receive appID.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No appID provided.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try providing an appID.", nil)
+                                       };
+        
+        // Set the error
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAppIDProvided userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Failed to Receive appID: %@", errorDetails);
         
         // Return nil
         return nil;
@@ -115,11 +123,19 @@
     // Check the app id first
     if (!appID || appID.length < 1) {
         
-        // No app id provided
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No app id provided" forKey:NSLocalizedDescriptionKey];
+        // No app ID provided
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Receive appID.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No appID provided.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try providing an appID.", nil)
+                                       };
+        
+        // Set the error
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAppIDProvided userInfo:errorDetails];
         
+        // Log Error
+        NSLog(@"Failed to Receive appID: %@", errorDetails);
+    
         // Return nil
         return nil;
     }
@@ -147,9 +163,17 @@
     if (!outFileWrite ) {
         
         // Unable to write out local store!!!
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"Unable to write store" forKey:NSLocalizedDescriptionKey];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Write Store.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to write out local store.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try providing correct store to write out.", nil)
+                                       };
+        
+        // Set the error
         *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Failed to Write Store: %@", errorDetails);
         
         // Return nil
         return nil;

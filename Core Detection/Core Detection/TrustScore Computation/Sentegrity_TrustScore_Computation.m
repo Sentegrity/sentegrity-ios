@@ -27,9 +27,17 @@
     if (!policy || policy == nil || policy.policyID < 0) {
         
         // Error out, no trustfactors set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No policy provided" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoPolicyProvided userInfo:errorDetails];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"No Policy Provided.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to set TrustFactors.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try providing a policy to set TrustFactors.", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SACoreDetectionNoPolicyProvided userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"No Policy Provided: %@", errorDetails);
         
         // Don't return anything
         return nil;
@@ -39,9 +47,17 @@
     if (!trustFactorOutputObjects || trustFactorOutputObjects == nil || trustFactorOutputObjects.count < 1) {
         
         // Error out, no assertion objects set
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No TrustFactorOutputObjects found to compute" forKey:NSLocalizedDescriptionKey];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"No TrustFactorOutputObjects found to compute.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to set assertion objects.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try providing trustFactorOutputObjects.", nil)
+                                       };
+        
+        // Set the error
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoTrustFactorOutputObjectsReceived userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"No TrustFactorOutputObjects found to compute: %@", errorDetails);
         
         // Don't return anything
         return nil;
@@ -51,10 +67,18 @@
     if (!policy.classifications || policy.classifications.count < 1) {
         
         // Failed, no classifications found
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No classifications found" forKey:NSLocalizedDescriptionKey];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"No Classifications Found.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to find classifications in the policy.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try checking if the policy has valid classifications.", nil)
+                                       };
+        
+        // Set the error
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoClassificationsFound userInfo:errorDetails];
-        NSLog(@"You suck, no classifications found");
+        
+        // Log Error
+        NSLog(@"No Classifications Found: %@", errorDetails);
+        
         // Don't return anything
         return nil;
     }
@@ -63,9 +87,17 @@
     if (!policy.subclassifications || policy.subclassifications.count < 1) {
         
         // Failed, no classifications found
-        NSMutableDictionary *errorDetails = [NSMutableDictionary dictionary];
-        [errorDetails setValue:@"No subclassifications found" forKey:NSLocalizedDescriptionKey];
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"No Subclassifications found.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to find subclassifications in the policy.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try checking if the policy has valid subclassifications.", nil)
+                                       };
+        
+        // Set the error
         *error = [NSError errorWithDomain:@"Sentegrity" code:SANoSubClassificationsFound userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"No Subclassifications Found: %@", errorDetails);
         
         // Don't return anything
         return nil;
