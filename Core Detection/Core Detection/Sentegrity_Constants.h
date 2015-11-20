@@ -205,7 +205,7 @@ enum {
 
 
 /*!
- Protect Mode Error Codes
+ * Protect Mode Error Codes
  */
 enum {
     // Invalid Policy PIN provided
@@ -219,7 +219,7 @@ enum {
 };
 
 /*!
- Dispatcher Error Codes
+ * Dispatcher Error Codes
  */
 enum {
     // Unable to set assertion objects from output
@@ -232,21 +232,59 @@ enum {
 enum {
     // No assertions received
     SANoTrustFactorOutputObjectsReceived            = 18,
-};
-
-/*! TODO: This is bloated, cut it into multiple domains
- * Assertion Store Error Codes
- */
-enum {
-    // No assertions received
-    SAAssertionStoreNoTrustFactorOutputObjectsReceived            = 18,
+    
+    // Unable to add assertion object into the assertion store
+    SAUnableToAddStoreTrustFactorObjectsIntoStore   = 21,
+    
+    // Invalid assertion objects provided
+    SAInvalidStoredTrustFactorObjectsProvided       = 27,
+    
+    // Unable to remove assertion
+    SAUnableToRemoveAssertion                       = 26,
+    
+    // Assertion does not exist
+    SANoMatchingAssertionsFound                     = 25,
     
     // No FactorID received
     SAAssertionStoreNoFactorIDReceived                            = 20
 };
 
-//TODO: This is bloated, cut it into multiple domains
-/*! NSError codes in NSCocoaErrorDomain. Note that other frameworks (such as AppKit and CoreData) also provide additional NSCocoaErrorDomain error codes.
+/*!
+ * TrustFactor Storage Error Codes
+ */
+enum {
+    // No security token provided
+    SANoAppIDProvided                               = 17,
+    
+    // Unable to write the assertion store
+    SAUnableToWriteStore                            = 42,
+    
+    
+};
+
+/**
+ * Baseline Analysis Error Codes
+ */
+enum {
+    // No assertions added to store
+    SANoAssertionsAddedToStore                      = 19,
+    
+    // Unable to set assertion to the store
+    SAUnableToSetAssertionToStore                   = 28,
+    
+    // Cannot create new assertion for existing trustfactor
+    SAUnableToCreateNewStoredAssertion              = 36,
+    
+    // Invalid due to no candidate assertions generated
+    SAUnableToPerformBaselineAnalysisForTrustFactor = 38,
+    
+    // Error when trying to check TF learning and add candidate assertions in
+    SAErrorDuringLearningCheck                      = 47
+    
+};
+
+/*!
+ * TrustFactor Dispatcher Error Codes
  */
 enum {
     // No TrustFactors received when dispatching TrustFactors to generate candidate assertions
@@ -258,14 +296,32 @@ enum {
     // Invalid TrustFactor Name
     SAInvalidTrustFactorName                        = 14,
     
-    // No security token provided
-    SANoAppIDProvided                               = 17,
+    // No dispatch or implementations received
+    SANoImplementationOrDispatchReceived            = 30,
     
-    // No assertions added to store
-    SANoAssertionsAddedToStore                      = 19,
+    // No dispatch class found
+    SANoDispatchClassFound                          = 31,
     
-    // Unable to add assertion object into the assertion store
-    SAUnableToAddStoreTrustFactorObjectsIntoStore   = 21,
+    // No implementation selector found
+    SANoImplementationSelectorFound                 = 32,
+};
+
+/*!
+ * Sentegrity TrustScore Somputation Error Codes
+ */
+enum {
+    // No classifications found
+    SANoClassificationsFound                        = 33,
+    
+    // No subclassifications found
+    SANoSubClassificationsFound                     = 34,
+    
+};
+
+//TODO: This is bloated, cut it into multiple domains
+/*! NSError codes in NSCocoaErrorDomain. Note that other frameworks (such as AppKit and CoreData) also provide additional NSCocoaErrorDomain error codes.
+ */
+enum {
     
     // Unable to compare the assertion object
     SAUnableToCompareAssertion                      = 22,
@@ -276,53 +332,17 @@ enum {
     // Unable to add assertion into store, already exists
     SAUnableToAddAssertionIntoStoreAlreadyExists    = 24,
     
-    // Assertion does not exist
-    SANoMatchingAssertionsFound                     = 25,
-    
-    // Unable to remove assertion
-    SAUnableToRemoveAssertion                       = 26,
-    
-    // Invalid assertion objects provided
-    SAInvalidStoredTrustFactorObjectsProvided       = 27,
-    
-    // Unable to set assertion to the store
-    SAUnableToSetAssertionToStore                   = 28,
-    
     // No computation received
     SANoComputationReceived                         = 29,
-    
-    // No dispatch or implementations received
-    SANoImplementationOrDispatchReceived            = 30,
-    
-    // No dispatch class found
-    SANoDispatchClassFound                          = 31,
-    
-    // No implementation selector found
-    SANoImplementationSelectorFound                 = 32,
-    
-    // No classifications found
-    SANoClassificationsFound                        = 33,
-    
-    // No subclassifications found
-    SANoSubClassificationsFound                     = 34,
     
     // Cannot overwrite existing store
     SACannotOverwriteExistingStore                  = 35,
     
-    // Cannot create new assertion for existing trustfactor
-    SAUnableToCreateNewStoredAssertion              = 36,
-    
     // Invalie due to no candidate assertions generated
     SAInvalidDueToNoCandidateAssertions             = 37,
     
-    // Invalid due to no candidate assertions generated
-    SAUnableToPerformBaselineAnalysisForTrustFactor = 38,
-    
     // Unable to find a stored assertion during whitelisting
     SAErrorDuringWhitelisting                       = 41,
-    
-    // Unable to write the assertion store
-    SAUnableToWriteStore                            = 42,
     
     // Error performing core detection result analysis
     SACannotPerformAnalysis                         = 43,
@@ -333,8 +353,6 @@ enum {
     // Error when trying to decay a TFs stored assertions
     SAErrorDuringDecay                              = 46,
     
-    // Error when trying to check TF learning and add candidate assertions in
-    SAErrorDuringLearningCheck                      = 47
 };
 
 #endif
