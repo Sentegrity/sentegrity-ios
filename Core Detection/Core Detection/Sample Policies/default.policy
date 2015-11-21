@@ -675,8 +675,8 @@
 "learnAssertionCount": 0,
 "learnRunCount": 0,
 "threshold": 0,
-"decayMode": 1,
-"decayMetric": 10,
+"decayMode": 2,
+"decayMetric": 0.3,
 "dispatch": "Wifi",
 "implementation": "SSID:",
 "whitelistable": 1,
@@ -698,8 +698,8 @@
 "learnAssertionCount": 0,
 "learnRunCount": 0,
 "threshold": 0,
-"decayMode": 1,
-"decayMetric": 10,
+"decayMode": 2,
+"decayMetric": 0.3,
 "dispatch": "Wifi",
 "implementation": "BSSID:",
 "whitelistable": 1,
@@ -1051,15 +1051,15 @@
 "learnRunCount": 0,
 "threshold": 0,
 "decayMode": 2,
-"decayMetric": 0.5,
+"decayMetric": 0.7,
 "dispatch": "Motion",
 "implementation": "grip:",
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"pitchBlockSize": 0.1,
+"pitchBlockSize": 0.2,
 "rollBlockSize": 0.03,
-"movementBlockSize": 0.1
+"movementBlockSize": 0.2
 }]
 }, {
 "id": 1059,
@@ -1088,7 +1088,7 @@
 "brightnessBlocksizeNoLocation" : 4,
 "locationRounding" : 2,
 "magneticBlockSizeNoLocation" : 5,
-"magneticBlockSizeWithLocation" : 9
+"magneticBlockSizeWithLocation" : 15
 }]
 }, {
 "id": 1037,
@@ -1113,7 +1113,7 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"rounding": 2
+"rounding": 1
 }]
 }, {
 "id": 1038,

@@ -175,19 +175,11 @@
     CMMotionManager *manager = [[CMMotionManager alloc] init];
     
     // Allocate all the gyro arrays
-    if (!pitchRollArray || pitchRollArray == nil) {
-        pitchRollArray = [[NSMutableArray alloc] init];
-    }
-    if (!accelRadsArray || accelRadsArray == nil) {
-        accelRadsArray = [[NSMutableArray alloc] init];
-    }
-    if (!gyroRadsArray || gyroRadsArray == nil) {
-        gyroRadsArray = [[NSMutableArray alloc] init];
-    }
-    if (!headingsArray || headingsArray == nil) {
-        headingsArray = [[NSMutableArray alloc] init];
-    }
-    
+    pitchRollArray = [[NSMutableArray alloc] init];
+    accelRadsArray = [[NSMutableArray alloc] init];
+    gyroRadsArray = [[NSMutableArray alloc] init];
+    headingsArray = [[NSMutableArray alloc] init];
+
     // Check if the gryo is available
     if (![manager isGyroAvailable] || manager == nil) {
         
@@ -492,10 +484,8 @@
         {
             
             // Create the bluetooth array
-            if (!discoveredBLEDevices || discoveredBLEDevices == nil) {
-                // Allocate the discoveredBLEDevices array
-                discoveredBLEDevices = [[NSMutableArray alloc] init];
-            }
+            discoveredBLEDevices = [[NSMutableArray alloc] init];
+            
             
             // Set timer to eventually stop scanning (otherwise if we don't find any it will keep trying during app use and kill battery)
             startTime = CFAbsoluteTimeGetCurrent();
@@ -526,12 +516,8 @@
     NSArray *connectedDevices = [[BluetoothManager sharedInstance] connectedDevices];
     
     // Create the mutablearray if needed
-    if (!connectedBTDevices || connectedBTDevices == nil) {
-        
-        // Allocate the connectedBTDevices array
-        connectedBTDevices = [[NSMutableArray alloc] init];
-        
-    }
+    // Allocate the connectedBTDevices array
+    connectedBTDevices = [[NSMutableArray alloc] init];
     
     // Run through all found devices information
     for (BluetoothDevice *device in connectedDevices) {
