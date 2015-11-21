@@ -274,8 +274,73 @@
     
 
     // ** MAGNETIC FIELD **
-    // The magnetomter reading is used in an attempt to calculate a unique field for the user's current location
     
+    // ** MAGNETIC FIELD **
+    int magneticBlockSize=0;
+    if(locationAvailable==NO)
+        magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeNoLocation"] intValue];
+    else
+        magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeWithLocation"] intValue];
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] magneticHeadingDNEStatus] == 0 ){
+        
+        NSArray *headings;
+        headings = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getMagneticHeadingsInfo];
+        
+        // Check motion dataset has something
+        if (headings != nil ) {
+            
+            float x = 0.0;
+            float y = 0.0;
+            float z = 0.0;
+            
+            float magnitudeAverage = 0.0;
+            float magnitudeTotal = 0.0;
+            float magnitude = 0.0;
+            
+            float counter = 0.0;
+            
+            // Run through all the sample we got prior to stopping motion
+            for (NSDictionary *sample in headings) {
+                
+                // Get the calibrated magnetometer data
+                x = [[sample objectForKey:@"x"] floatValue];
+                y = [[sample objectForKey:@"y"] floatValue];
+                z = [[sample objectForKey:@"z"] floatValue];
+                
+                // Calculate totl magnetic field regardless of position for each measurement
+                magnitude = sqrt (pow(x,2)+
+                                  pow(y,2)+
+                                  pow(z,2));
+                
+                magnitudeTotal = magnitudeTotal + magnitude;
+                
+                counter++;
+                
+                
+            }
+            
+            // compute average across all samples taken
+            magnitudeAverage = magnitudeTotal/counter;
+            
+            int blockOfMagnetic = ceilf(fabsf(magnitudeAverage)/magneticBlockSize);
+            // round to the nearest n:  x_rounded = ((x + n/2)/n)*n;
+            // round to nearest X
+            //int rounded = floor((magnitudeAverage+(roundingSensitivity/2))/roundingSensitivity)*roundingSensitivity;
+            
+            NSString *magnitudeString = [NSString stringWithFormat:@"_M%d",blockOfMagnetic];
+            
+            anomalyString = [anomalyString stringByAppendingString:magnitudeString];
+            
+        }
+    }
+
+    
+    
+    
+    
+    // The magnetomter reading is used in an attempt to calculate a unique field for the user's current location
+    /*
     int magneticBlockSize = 0;
     
     if(locationAvailable == NO){
@@ -342,7 +407,9 @@
             }
             
         }
-
+*/
+     
+     
     // ** SCREEN BRIGHTNESS **
     
     //Screen level is given as a float 0.1-1

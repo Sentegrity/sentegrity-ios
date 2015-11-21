@@ -29,6 +29,10 @@
     NSMutableArray *accelRadsArray;
     NSMutableArray *headingsArray;
     
+    // Magnetometer
+    NSMutableArray *magneticHeadingArray;
+
+    
     // Bluetooth Manager
     CBCentralManager *mgr;
     NSMutableArray *discoveredBLEDevices;

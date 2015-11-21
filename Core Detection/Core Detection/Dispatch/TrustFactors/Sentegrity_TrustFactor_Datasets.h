@@ -54,6 +54,10 @@
 @property (atomic, retain) CLPlacemark *placemark;
 @property (atomic) int placemarkDNEStatus;
 
+@property (atomic, strong) NSArray *magneticHeading;
+@property (atomic) int magneticHeadingDNEStatus;
+
+
 // Activity
 @property (atomic, retain) NSArray *previousActivities;
 @property (atomic) int activityDNEStatus;
@@ -162,6 +166,7 @@
 // ** LOCATION **
 - (CLLocation *)getLocationInfo;
 - (CLPlacemark *)getPlacemarkInfo;
+- (NSArray *)getMagneticHeadingsInfo;
 
 // ** ACTIVITIES **
 - (NSArray *)getPreviousActivityInfo;
