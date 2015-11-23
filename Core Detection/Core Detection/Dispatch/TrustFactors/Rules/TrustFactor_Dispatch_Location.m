@@ -445,13 +445,30 @@
     
     // ** CELLUAR SIGNAL STRENGTH **
     
-    NSString *celluar = [NSString stringWithFormat:@"_S%@",[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCelluarSignalBars]];
+    // If no location data use sensitive
+    if(locationAvailable==NO){
+        
+        blocksize = [[[payload objectAtIndex:0] objectForKey:@"signalBlocksizeNoLocation"] floatValue];
+        
+    } //else use liberal
+    else{
+        
+        blocksize = [[[payload objectAtIndex:0] objectForKey:@"signalBlocksizeWithLocation"] floatValue];
+    }
+    
+    NSNumber *signal = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getCelluarSignalRaw];
+    NSString *celluar;
     
     // Probably in airplane mode or no signal
-    if(celluar.length < 1){
+    if(signal==nil || !signal){
         
         celluar = @"NO_SIGNAL";
         
+    }
+    else{
+        
+        int blockOfSignal = ceil(abs([signal intValue]) / blocksize);
+        celluar = [NSString stringWithFormat:@"_S%d",blockOfSignal];
     }
     
     anomalyString = [anomalyString stringByAppendingString:celluar];

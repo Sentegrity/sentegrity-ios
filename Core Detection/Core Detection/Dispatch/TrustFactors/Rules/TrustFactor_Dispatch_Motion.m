@@ -151,8 +151,6 @@
     
     [outputArray addObject:motionTuple];
     
-    
-    
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     

@@ -1058,7 +1058,7 @@
 "privateAPI": 0,
 "payload": [{
 "pitchBlockSize": 0.2,
-"rollBlockSize": 0.03,
+"rollBlockSize": 0.06,
 "movementBlockSize": 0.2
 }]
 }, {
@@ -1086,9 +1086,11 @@
 "payload": [{
 "brightnessBlocksizeWithLocation" : 3,
 "brightnessBlocksizeNoLocation" : 4,
-"locationRounding" : 2,
+"locationRounding" : 1,
 "magneticBlockSizeNoLocation" : 5,
-"magneticBlockSizeWithLocation" : 15
+"magneticBlockSizeWithLocation" : 14,
+"signalBlocksizeNoLocation" : 3,
+"signalBlocksizeWithLocation" : 4
 }]
 }, {
 "id": 1037,
