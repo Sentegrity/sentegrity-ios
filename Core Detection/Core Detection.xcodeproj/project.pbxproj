@@ -134,7 +134,6 @@
 		4C35E5311BE153C600A603AF /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E4C21BE153C600A603AF /* Sentegrity_TrustScore_Computation.m */; };
 		4C35E5321BE153C600A603AF /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E4C21BE153C600A603AF /* Sentegrity_TrustScore_Computation.m */; };
 		4C81CC0B1BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C81CC0A1BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.m */; };
-		4C97D2DA1BE159A2009F3779 /* BluetoothManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D2D91BE159A2009F3779 /* BluetoothManager.framework */; };
 		4C97D2DB1BE159A2009F3779 /* BluetoothManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D2D91BE159A2009F3779 /* BluetoothManager.framework */; };
 		7A232A0B3582EFBBD2EA0C74 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD4CA745EE9C90A8421F9D43 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -182,9 +181,6 @@
 		4C35E4251BE153C600A603AF /* CoreDetection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDetection.m; sourceTree = "<group>"; };
 		4C35E4271BE153C600A603AF /* Sentegrity_TrustFactor_Dispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dispatcher.h; sourceTree = "<group>"; };
 		4C35E4281BE153C600A603AF /* Sentegrity_TrustFactor_Dispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dispatcher.m; sourceTree = "<group>"; };
-		4C35E42C1BE153C600A603AF /* BluetoothDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothDevice.h; sourceTree = "<group>"; };
-		4C35E42D1BE153C600A603AF /* BluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothManager.h; sourceTree = "<group>"; };
-		4C35E42E1BE153C600A603AF /* RemoteDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteDeviceManager.h; sourceTree = "<group>"; };
 		4C35E42F1BE153C600A603AF /* bsd_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bsd_var.h; sourceTree = "<group>"; };
 		4C35E4311BE153C600A603AF /* clock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clock.h; sourceTree = "<group>"; };
 		4C35E4321BE153C600A603AF /* ev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ev.h; sourceTree = "<group>"; };
@@ -329,7 +325,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A232A0B3582EFBBD2EA0C74 /* libPods.a in Frameworks */,
-				4C97D2DA1BE159A2009F3779 /* BluetoothManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,23 +469,12 @@
 		4C35E42A1BE153C600A603AF /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				4C35E42B1BE153C600A603AF /* bluetooth */,
 				4C35E4301BE153C600A603AF /* kernel includes */,
 				4C35E4541BE153C600A603AF /* private */,
 				4C35E42F1BE153C600A603AF /* bsd_var.h */,
 				4C35E4531BE153C600A603AF /* otherConnectionHeaders.h */,
 			);
 			path = Headers;
-			sourceTree = "<group>";
-		};
-		4C35E42B1BE153C600A603AF /* bluetooth */ = {
-			isa = PBXGroup;
-			children = (
-				4C35E42C1BE153C600A603AF /* BluetoothDevice.h */,
-				4C35E42D1BE153C600A603AF /* BluetoothManager.h */,
-				4C35E42E1BE153C600A603AF /* RemoteDeviceManager.h */,
-			);
-			path = bluetooth;
 			sourceTree = "<group>";
 		};
 		4C35E4301BE153C600A603AF /* kernel includes */ = {

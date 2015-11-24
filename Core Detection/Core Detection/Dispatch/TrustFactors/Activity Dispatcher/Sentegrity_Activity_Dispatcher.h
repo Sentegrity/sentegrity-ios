@@ -17,8 +17,6 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 
 // Classic BT Private APIs
-#import "BluetoothManager.h"
-#import "BluetoothDevice.h"
 #import "MDBluetoothManager.h"
 
 @interface Sentegrity_Activity_Dispatcher : NSObject <CLLocationManagerDelegate, MDBluetoothObserverProtocol, CBCentralManagerDelegate> {

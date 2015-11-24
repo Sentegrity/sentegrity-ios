@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "MDBluetoothDevice.h"
-#import "BluetoothDevice.h"
 
 @interface MDBluetoothDevice : NSObject
 
@@ -24,6 +23,6 @@
 - (BOOL)isEqual:(id)object;
 - (NSUInteger)hash;
 
-- (instancetype)initWithBluetoothDevice:(BluetoothDevice*)bluetoothDevice;
+- (instancetype)initWithBluetoothDevice:(id)bluetoothDevice;
 
 @end

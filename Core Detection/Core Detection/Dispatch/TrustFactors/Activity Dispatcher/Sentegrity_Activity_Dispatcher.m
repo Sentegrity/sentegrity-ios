@@ -14,6 +14,9 @@
 // Import the datasets
 #import "Sentegrity_TrustFactor_Datasets.h"
 
+// DLFCN - Dynamic Loading
+#import <dlfcn.h>
+
 @interface Sentegrity_Activity_Dispatcher(private)
 
 // Start Bluetooth
@@ -512,16 +515,63 @@
     // Unregister bluetooth
     [[MDBluetoothManager sharedInstance] unregisterObserver:self];
     
+    // Get the bluetoothManager class from a string
+    Class bluetoothManagerClass = NSClassFromString(@"BluetoothManager");
+    
+    // Check if the class exists
+    if (bluetoothManagerClass == nil) {
+        
+        // Open the BluetoothManager private framework with dlopen
+        void *handle = dlopen("System/Library/PrivateFrameworks/BluetoothManager.framework/BluetoothManager", RTLD_NOW);
+        
+        // Check if it was able to open
+        if (handle) {
+            
+            // Get the class again
+            bluetoothManagerClass = NSClassFromString(@"BluetoothManager");
+            
+            // Make sure it's valid
+            assert(bluetoothManagerClass);
+        }
+    }
+    
     // Get the connected devices
-    NSArray *connectedDevices = [[BluetoothManager sharedInstance] connectedDevices];
+    NSArray * __unsafe_unretained tempConnectedDevices;
+    NSArray *connectedDevices;
+    
+    // Get the selector
+    SEL selector = NSSelectorFromString(@"connectedDevices");
+    
+    // Check if the class responds
+    if ([[bluetoothManagerClass sharedInstance] respondsToSelector:selector]) {
+        
+        // Create the invocation
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+                                    [[[bluetoothManagerClass sharedInstance] class] instanceMethodSignatureForSelector:selector]];
+        
+        // Set the selector
+        [invocation setSelector:selector];
+        
+        // Set the target
+        [invocation setTarget:[bluetoothManagerClass sharedInstance]];
+        
+        // Call the method
+        [invocation invoke];
+        
+        // Get the return value
+        [invocation getReturnValue:&tempConnectedDevices];
+        
+        // Set the Connected Devices
+        connectedDevices = tempConnectedDevices;
+    }
     
     // Create the mutablearray if needed
     // Allocate the connectedBTDevices array
     connectedBTDevices = [[NSMutableArray alloc] init];
     
     // Run through all found devices information
-    for (BluetoothDevice *device in connectedDevices) {
-        
+    for (id device in connectedDevices) {
+        NSLog(@"Connected Device: %@", device);
         // Add the device to the list
         [connectedBTDevices addObject:[NSString stringWithFormat:@"%@", [device address]]];
         

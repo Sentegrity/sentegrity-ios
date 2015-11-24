@@ -19,21 +19,160 @@
 @property (assign, nonatomic, readwrite) BOOL supportsBatteryLebel;
 @property (strong, nonatomic, readwrite) NSDate* detectingDate;
 
-- (instancetype)initWithBluetoothDevice:(BluetoothDevice*)bluetoothDevice;
+- (instancetype)initWithBluetoothDevice:(id)bluetoothDevice;
 
 @end
 
 @implementation MDBluetoothDevice
 
-- (instancetype)initWithBluetoothDevice:(BluetoothDevice*)bluetoothDevice
+- (instancetype)initWithBluetoothDevice:(id)bluetoothDevice
 {
     self = [super init];
-    _name = bluetoothDevice.name;
-    _address = bluetoothDevice.address;
-    _majorClass = bluetoothDevice.majorClass;
-    _minorClass = bluetoothDevice.minorClass;
-    _type = bluetoothDevice.type;
-    _supportsBatteryLevel = bluetoothDevice.supportsBatteryLevel;
+    
+    // Get the selector
+    SEL selector = NSSelectorFromString(@"name");
+    
+    // Check if the class responds
+    if ([bluetoothDevice respondsToSelector:selector]) {
+        
+        // Create the invocation
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+                                    [[bluetoothDevice class] instanceMethodSignatureForSelector:selector]];
+        
+        // Set the selector
+        [invocation setSelector:selector];
+        
+        // Set the target
+        [invocation setTarget:bluetoothDevice];
+        
+        // Get the return value
+        [invocation getReturnValue:&_name];
+        
+        // Call the method
+        [invocation invoke];
+        
+    }
+    
+    // Get the selector
+    selector = NSSelectorFromString(@"address");
+    
+    // Check if the class responds
+    if ([bluetoothDevice respondsToSelector:selector]) {
+        
+        // Create the invocation
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+                                    [[bluetoothDevice class] instanceMethodSignatureForSelector:selector]];
+        
+        // Set the selector
+        [invocation setSelector:selector];
+        
+        // Set the target
+        [invocation setTarget:bluetoothDevice];
+        
+        // Get the return value
+        [invocation getReturnValue:&_address];
+        
+        // Call the method
+        [invocation invoke];
+        
+    }
+    
+    // Get the selector
+    selector = NSSelectorFromString(@"majorClass");
+    
+    // Check if the class responds
+    if ([bluetoothDevice respondsToSelector:selector]) {
+        
+        // Create the invocation
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+                                    [[bluetoothDevice class] instanceMethodSignatureForSelector:selector]];
+        
+        // Set the selector
+        [invocation setSelector:selector];
+        
+        // Set the target
+        [invocation setTarget:bluetoothDevice];
+        
+        // Get the return value
+        [invocation getReturnValue:&_majorClass];
+        
+        // Call the method
+        [invocation invoke];
+        
+    }
+    
+    // Get the selector
+    selector = NSSelectorFromString(@"minorClass");
+    
+    // Check if the class responds
+    if ([bluetoothDevice respondsToSelector:selector]) {
+        
+        // Create the invocation
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+                                    [[bluetoothDevice class] instanceMethodSignatureForSelector:selector]];
+        
+        // Set the selector
+        [invocation setSelector:selector];
+        
+        // Set the target
+        [invocation setTarget:bluetoothDevice];
+        
+        // Get the return value
+        [invocation getReturnValue:&_minorClass];
+        
+        // Call the method
+        [invocation invoke];
+        
+    }
+    
+    // Get the selector
+    selector = NSSelectorFromString(@"type");
+    
+    // Check if the class responds
+    if ([bluetoothDevice respondsToSelector:selector]) {
+        
+        // Create the invocation
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+                                    [[bluetoothDevice class] instanceMethodSignatureForSelector:selector]];
+        
+        // Set the selector
+        [invocation setSelector:selector];
+        
+        // Set the target
+        [invocation setTarget:bluetoothDevice];
+        
+        // Get the return value
+        [invocation getReturnValue:&_type];
+        
+        // Call the method
+        [invocation invoke];
+        
+    }
+    
+    // Get the selector
+    selector = NSSelectorFromString(@"supportsBatteryLevel");
+    
+    // Check if the class responds
+    if ([bluetoothDevice respondsToSelector:selector]) {
+        
+        // Create the invocation
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+                                    [[bluetoothDevice class] instanceMethodSignatureForSelector:selector]];
+        
+        // Set the selector
+        [invocation setSelector:selector];
+        
+        // Set the target
+        [invocation setTarget:bluetoothDevice];
+        
+        // Get the return value
+        [invocation getReturnValue:&_supportsBatteryLevel];
+        
+        // Call the method
+        [invocation invoke];
+        
+    }
+    
     _detectingDate = [[NSDate alloc] init];
 
     return self;

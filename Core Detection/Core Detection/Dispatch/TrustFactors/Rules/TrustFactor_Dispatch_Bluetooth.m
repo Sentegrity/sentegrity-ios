@@ -8,8 +8,8 @@
 #import "TrustFactor_Dispatch_Bluetooth.h"
 
 // Private APIs
-#import "BluetoothManager.h"
-#import "BluetoothDevice.h"
+//#import "BluetoothManager.h"
+//#import "BluetoothDevice.h"
 
 @implementation TrustFactor_Dispatch_Bluetooth
 

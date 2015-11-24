@@ -17,13 +17,13 @@
     
      NSArray *gyroRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
      
-     float xThreshold = 0.5;
-     float yThreshold = 0.5;
-     float zThreshold = 0.3;
-
-     float xDiff = 0.0;
-     float yDiff = 0.0;
-     float zDiff = 0.0;
+//     float xThreshold = 0.5;
+//     float yThreshold = 0.5;
+//     float zThreshold = 0.3;
+//
+//     float xDiff = 0.0;
+//     float yDiff = 0.0;
+//     float zDiff = 0.0;
     
      float lastX = 0.0;
      float lastY = 0.0;
@@ -49,7 +49,7 @@
          
          float dx = (x - lastX);
          float dy = (y - lastY);
-         float dz = (z - lastZ);
+//         float dz = (z - lastZ);
          dist = dist + sqrt(dx*dx + dy*dy + dx*dx);
          measurementCount++;
          
