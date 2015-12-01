@@ -1,0 +1,65 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "664DC41F713285FFC0FAD4B06CBB88956A712838",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "664DC41F713285FFC0FAD4B06CBB88956A712838" : 0,
+    "4182765C525509B305166AB949D5935FD5C85212" : 0,
+    "FDBCB31BF32C230143F3AA192326555B08744183" : 0,
+    "02800F849BB5D5C2AD07E361EB77151DB84A1815" : 0,
+    "1B52DA5F16F8F6F06BF84246ACBD8A44C511F29A" : 0,
+    "01C3894C578397EA2CD33F14E457FBD0745E7D29" : 0,
+    "61970E288A198DF838C0CF33FD39CD74C0B09B92" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9A762180-8BA5-4686-AA55-00213713707E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "664DC41F713285FFC0FAD4B06CBB88956A712838" : "sentegrity-ios",
+    "4182765C525509B305166AB949D5935FD5C85212" : "MBProgressHUD",
+    "FDBCB31BF32C230143F3AA192326555B08744183" : "SCLAlertView",
+    "02800F849BB5D5C2AD07E361EB77151DB84A1815" : "system-monitor",
+    "1B52DA5F16F8F6F06BF84246ACBD8A44C511F29A" : "StackoverflowTest",
+    "01C3894C578397EA2CD33F14E457FBD0745E7D29" : "LGBluetooth",
+    "61970E288A198DF838C0CF33FD39CD74C0B09B92" : "iOS-System-Services"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Sentegrity",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Sentegrity\/Sentegrity.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:l0gg3r\/LGBluetooth.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "01C3894C578397EA2CD33F14E457FBD0745E7D29"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:project-imas\/system-monitor.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "02800F849BB5D5C2AD07E361EB77151DB84A1815"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:dcorbatta\/StackoverflowTest.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1B52DA5F16F8F6F06BF84246ACBD8A44C511F29A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:jdg\/MBProgressHUD.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4182765C525509B305166AB949D5935FD5C85212"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Shmoopi\/iOS-System-Services.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "61970E288A198DF838C0CF33FD39CD74C0B09B92"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Sentegrity\/sentegrity-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "664DC41F713285FFC0FAD4B06CBB88956A712838"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:dogo\/SCLAlertView.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FDBCB31BF32C230143F3AA192326555B08744183"
+    }
+  ]
+}
