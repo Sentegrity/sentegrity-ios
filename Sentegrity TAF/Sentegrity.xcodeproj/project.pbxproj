@@ -508,8 +508,7 @@
 				4C97D3741BE15A35009F3779 /* Sentegrity Policy */,
 				4C97D3851BE15A35009F3779 /* TrustScore Computation */,
 			);
-			name = "Core Detection";
-			path = "../Core Detection/Core Detection";
+			path = "Core Detection";
 			sourceTree = "<group>";
 		};
 		4C97D2DD1BE15A35009F3779 /* Assertion Storage */ = {
