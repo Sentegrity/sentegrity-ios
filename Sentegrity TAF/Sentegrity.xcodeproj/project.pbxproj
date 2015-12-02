@@ -100,6 +100,40 @@
 		4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */; };
 		4CE9D8071B2FA606006D43D8 /* DINPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D8061B2FA606006D43D8 /* DINPro-Bold.otf */; };
 		4CE9D80D1B323847006D43D8 /* 3rd Party Library Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */; };
+		4CFE35CE1C0F55B2008C300A /* GD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE35CD1C0F55B2008C300A /* GD.framework */; };
+		4CFE35E01C0F5643008C300A /* DAFSkelFirstTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE35D11C0F5643008C300A /* DAFSkelFirstTimeViewController.m */; };
+		4CFE35E11C0F5643008C300A /* DAFSkelFirstTimeViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35D21C0F5643008C300A /* DAFSkelFirstTimeViewController_iPad.xib */; };
+		4CFE35E21C0F5643008C300A /* DAFSkelFirstTimeViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35D31C0F5643008C300A /* DAFSkelFirstTimeViewController_iPhone.xib */; };
+		4CFE35E31C0F5643008C300A /* DAFSkelMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE35D51C0F5643008C300A /* DAFSkelMainViewController.m */; };
+		4CFE35E41C0F5643008C300A /* DAFSkelMainViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35D61C0F5643008C300A /* DAFSkelMainViewController_iPad.xib */; };
+		4CFE35E51C0F5643008C300A /* DAFSkelMainViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35D71C0F5643008C300A /* DAFSkelMainViewController_iPhone.xib */; };
+		4CFE35E61C0F5643008C300A /* DAFSkelUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE35D91C0F5643008C300A /* DAFSkelUnlockViewController.m */; };
+		4CFE35E71C0F5643008C300A /* DAFSkelUnlockViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35DA1C0F5643008C300A /* DAFSkelUnlockViewController_iPad.xib */; };
+		4CFE35E81C0F5643008C300A /* DAFSkelUnlockViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35DB1C0F5643008C300A /* DAFSkelUnlockViewController_iPhone.xib */; };
+		4CFE35E91C0F5643008C300A /* DAFSkelAuthWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE35DD1C0F5643008C300A /* DAFSkelAuthWarningViewController.m */; };
+		4CFE35EA1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35DE1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPad.xib */; };
+		4CFE35EB1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35DF1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPhone.xib */; };
+		4CFE35F31C0F56AA008C300A /* DAFSupportResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35F01C0F56AA008C300A /* DAFSupportResources.bundle */; };
+		4CFE35F41C0F56AA008C300A /* GDAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35F11C0F56AA008C300A /* GDAssets.bundle */; };
+		4CFE35F51C0F56AA008C300A /* MockGDiOSResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35F21C0F56AA008C300A /* MockGDiOSResources.bundle */; };
+		4CFE35F91C0F5A6C008C300A /* DAFSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE35F71C0F5A5E008C300A /* DAFSupport.framework */; };
+		4CFE35FB1C0F5AC4008C300A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE35FA1C0F5AC4008C300A /* libz.tbd */; };
+		4CFE35FD1C0F5AD7008C300A /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE35FC1C0F5AD7008C300A /* libstdc++.tbd */; };
+		4CFE35FF1C0F5CCE008C300A /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE35FE1C0F5CCE008C300A /* LocalAuthentication.framework */; };
+		4CFE36011C0F5CD5008C300A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36001C0F5CD5008C300A /* MessageUI.framework */; };
+		4CFE36031C0F5CDA008C300A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36021C0F5CDA008C300A /* CoreData.framework */; };
+		4CFE36051C0F5CDF008C300A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36041C0F5CDF008C300A /* CFNetwork.framework */; };
+		4CFE36071C0F5CE3008C300A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36061C0F5CE3008C300A /* Security.framework */; };
+		4CFE36091C0F5CE8008C300A /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36081C0F5CE8008C300A /* AdSupport.framework */; };
+		4CFE360B1C0F5CED008C300A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE360A1C0F5CED008C300A /* CoreTelephony.framework */; };
+		4CFE360D1C0F5CF3008C300A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE360C1C0F5CF3008C300A /* SystemConfiguration.framework */; };
+		4CFE360F1C0F5D1C008C300A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE360E1C0F5D1C008C300A /* QuartzCore.framework */; };
+		4CFE36111C0F5D21008C300A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36101C0F5D21008C300A /* CoreGraphics.framework */; };
+		4CFE36131C0F5D28008C300A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36121C0F5D28008C300A /* UIKit.framework */; };
+		4CFE36151C0F5D34008C300A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36141C0F5D34008C300A /* Foundation.framework */; };
+		4CFE36171C0F5D39008C300A /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36161C0F5D39008C300A /* QuickLook.framework */; };
+		4CFE36191C0F5D3F008C300A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36181C0F5D3F008C300A /* MobileCoreServices.framework */; };
+		4CFE361C1C0F6DF0008C300A /* DAFSkelDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE361A1C0F6DF0008C300A /* DAFSkelDriver.cpp */; };
 		9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9676DF801B7EA92900C508D6 /* LandingViewController.m */; };
 		969CD0691B7E668500254F45 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0681B7E668500254F45 /* DashboardViewController.m */; };
 		969CD06D1B7E673900254F45 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD06C1B7E673900254F45 /* LoginViewController.m */; };
@@ -318,7 +352,45 @@
 		4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightMenuViewController.m; sourceTree = "<group>"; };
 		4CE9D8061B2FA606006D43D8 /* DINPro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPro-Bold.otf"; sourceTree = "<group>"; };
 		4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "3rd Party Library Notes.rtf"; sourceTree = "<group>"; };
-		9607733C1BBDDE43001F4D5E /* BluetoothManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BluetoothManager.framework; sourceTree = "<group>"; };
+		4CFE35CD1C0F55B2008C300A /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GD.framework; path = System/Library/Frameworks/GD.framework; sourceTree = SDKROOT; };
+		4CFE35D01C0F5643008C300A /* DAFSkelFirstTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFSkelFirstTimeViewController.h; sourceTree = "<group>"; };
+		4CFE35D11C0F5643008C300A /* DAFSkelFirstTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFSkelFirstTimeViewController.m; sourceTree = "<group>"; };
+		4CFE35D21C0F5643008C300A /* DAFSkelFirstTimeViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFSkelFirstTimeViewController_iPad.xib; sourceTree = "<group>"; };
+		4CFE35D31C0F5643008C300A /* DAFSkelFirstTimeViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFSkelFirstTimeViewController_iPhone.xib; sourceTree = "<group>"; };
+		4CFE35D41C0F5643008C300A /* DAFSkelMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFSkelMainViewController.h; sourceTree = "<group>"; };
+		4CFE35D51C0F5643008C300A /* DAFSkelMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFSkelMainViewController.m; sourceTree = "<group>"; };
+		4CFE35D61C0F5643008C300A /* DAFSkelMainViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFSkelMainViewController_iPad.xib; sourceTree = "<group>"; };
+		4CFE35D71C0F5643008C300A /* DAFSkelMainViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFSkelMainViewController_iPhone.xib; sourceTree = "<group>"; };
+		4CFE35D81C0F5643008C300A /* DAFSkelUnlockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFSkelUnlockViewController.h; sourceTree = "<group>"; };
+		4CFE35D91C0F5643008C300A /* DAFSkelUnlockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFSkelUnlockViewController.m; sourceTree = "<group>"; };
+		4CFE35DA1C0F5643008C300A /* DAFSkelUnlockViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFSkelUnlockViewController_iPad.xib; sourceTree = "<group>"; };
+		4CFE35DB1C0F5643008C300A /* DAFSkelUnlockViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFSkelUnlockViewController_iPhone.xib; sourceTree = "<group>"; };
+		4CFE35DC1C0F5643008C300A /* DAFSkelAuthWarningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFSkelAuthWarningViewController.h; sourceTree = "<group>"; };
+		4CFE35DD1C0F5643008C300A /* DAFSkelAuthWarningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFSkelAuthWarningViewController.m; sourceTree = "<group>"; };
+		4CFE35DE1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFSkelAuthWarningViewController_iPad.xib; sourceTree = "<group>"; };
+		4CFE35DF1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFSkelAuthWarningViewController_iPhone.xib; sourceTree = "<group>"; };
+		4CFE35F01C0F56AA008C300A /* DAFSupportResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DAFSupportResources.bundle; sourceTree = "<group>"; };
+		4CFE35F11C0F56AA008C300A /* GDAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GDAssets.bundle; sourceTree = "<group>"; };
+		4CFE35F21C0F56AA008C300A /* MockGDiOSResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MockGDiOSResources.bundle; sourceTree = "<group>"; };
+		4CFE35F71C0F5A5E008C300A /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DAFSupport.framework; sourceTree = "<group>"; };
+		4CFE35FA1C0F5AC4008C300A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		4CFE35FC1C0F5AD7008C300A /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		4CFE35FE1C0F5CCE008C300A /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		4CFE36001C0F5CD5008C300A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		4CFE36021C0F5CDA008C300A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4CFE36041C0F5CDF008C300A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		4CFE36061C0F5CE3008C300A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		4CFE36081C0F5CE8008C300A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		4CFE360A1C0F5CED008C300A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		4CFE360C1C0F5CF3008C300A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		4CFE360E1C0F5D1C008C300A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4CFE36101C0F5D21008C300A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		4CFE36121C0F5D28008C300A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4CFE36141C0F5D34008C300A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4CFE36161C0F5D39008C300A /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		4CFE36181C0F5D3F008C300A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		4CFE361A1C0F6DF0008C300A /* DAFSkelDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DAFSkelDriver.cpp; sourceTree = "<group>"; };
+		4CFE361B1C0F6DF0008C300A /* DAFSkelDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFSkelDriver.h; sourceTree = "<group>"; };
 		9676DF7F1B7EA92900C508D6 /* LandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandingViewController.h; sourceTree = "<group>"; };
 		9676DF801B7EA92900C508D6 /* LandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandingViewController.m; sourceTree = "<group>"; };
 		969896391B858E47004C5C7E /* Sentegrity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Sentegrity.entitlements; sourceTree = "<group>"; };
@@ -345,6 +417,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CFE36191C0F5D3F008C300A /* MobileCoreServices.framework in Frameworks */,
+				4CFE36171C0F5D39008C300A /* QuickLook.framework in Frameworks */,
+				4CFE36151C0F5D34008C300A /* Foundation.framework in Frameworks */,
+				4CFE36131C0F5D28008C300A /* UIKit.framework in Frameworks */,
+				4CFE36111C0F5D21008C300A /* CoreGraphics.framework in Frameworks */,
+				4CFE360F1C0F5D1C008C300A /* QuartzCore.framework in Frameworks */,
+				4CFE360D1C0F5CF3008C300A /* SystemConfiguration.framework in Frameworks */,
+				4CFE360B1C0F5CED008C300A /* CoreTelephony.framework in Frameworks */,
+				4CFE36091C0F5CE8008C300A /* AdSupport.framework in Frameworks */,
+				4CFE36071C0F5CE3008C300A /* Security.framework in Frameworks */,
+				4CFE36051C0F5CDF008C300A /* CFNetwork.framework in Frameworks */,
+				4CFE36031C0F5CDA008C300A /* CoreData.framework in Frameworks */,
+				4CFE36011C0F5CD5008C300A /* MessageUI.framework in Frameworks */,
+				4CFE35FF1C0F5CCE008C300A /* LocalAuthentication.framework in Frameworks */,
+				4CFE35FD1C0F5AD7008C300A /* libstdc++.tbd in Frameworks */,
+				4CFE35FB1C0F5AC4008C300A /* libz.tbd in Frameworks */,
+				4CFE35F91C0F5A6C008C300A /* DAFSupport.framework in Frameworks */,
+				4CFE35CE1C0F55B2008C300A /* GD.framework in Frameworks */,
 				4AAF480942FD8A13AE2789F8 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,6 +486,7 @@
 		04A248FB1B266AC2007D9460 /* Sentegrity */ = {
 			isa = PBXGroup;
 			children = (
+				4CFE35CF1C0F5633008C300A /* DAF */,
 				4CE9D80A1B3233D2006D43D8 /* AppDelegate */,
 				969CD06A1B7E673900254F45 /* LoginViewController */,
 				4CE9D8081B3233B2006D43D8 /* DashboardViewController */,
@@ -420,6 +511,7 @@
 				969896391B858E47004C5C7E /* Sentegrity.entitlements */,
 				04A248FE1B266AC2007D9460 /* main.m */,
 				4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */,
+				4CFE35F61C0F56AF008C300A /* DAF Bundles */,
 				04A249091B266AC2007D9460 /* Images.xcassets */,
 			);
 			path = "Supporting Files";
@@ -445,7 +537,24 @@
 		4A3429CBBD5FF34D6202962E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9607733C1BBDDE43001F4D5E /* BluetoothManager.framework */,
+				4CFE36181C0F5D3F008C300A /* MobileCoreServices.framework */,
+				4CFE36161C0F5D39008C300A /* QuickLook.framework */,
+				4CFE36141C0F5D34008C300A /* Foundation.framework */,
+				4CFE36121C0F5D28008C300A /* UIKit.framework */,
+				4CFE36101C0F5D21008C300A /* CoreGraphics.framework */,
+				4CFE360E1C0F5D1C008C300A /* QuartzCore.framework */,
+				4CFE360C1C0F5CF3008C300A /* SystemConfiguration.framework */,
+				4CFE360A1C0F5CED008C300A /* CoreTelephony.framework */,
+				4CFE36081C0F5CE8008C300A /* AdSupport.framework */,
+				4CFE36061C0F5CE3008C300A /* Security.framework */,
+				4CFE36041C0F5CDF008C300A /* CFNetwork.framework */,
+				4CFE36021C0F5CDA008C300A /* CoreData.framework */,
+				4CFE36001C0F5CD5008C300A /* MessageUI.framework */,
+				4CFE35FE1C0F5CCE008C300A /* LocalAuthentication.framework */,
+				4CFE35FC1C0F5AD7008C300A /* libstdc++.tbd */,
+				4CFE35FA1C0F5AC4008C300A /* libz.tbd */,
+				4CFE35F71C0F5A5E008C300A /* DAFSupport.framework */,
+				4CFE35CD1C0F55B2008C300A /* GD.framework */,
 				F48570A0D36F3F3E38C7B515 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -889,6 +998,50 @@
 			path = StoryBoards;
 			sourceTree = "<group>";
 		};
+		4CFE35CF1C0F5633008C300A /* DAF */ = {
+			isa = PBXGroup;
+			children = (
+				4CFE361D1C0F6E1B008C300A /* Skeleton Driver */,
+				4CFE35D01C0F5643008C300A /* DAFSkelFirstTimeViewController.h */,
+				4CFE35D11C0F5643008C300A /* DAFSkelFirstTimeViewController.m */,
+				4CFE35D21C0F5643008C300A /* DAFSkelFirstTimeViewController_iPad.xib */,
+				4CFE35D31C0F5643008C300A /* DAFSkelFirstTimeViewController_iPhone.xib */,
+				4CFE35D41C0F5643008C300A /* DAFSkelMainViewController.h */,
+				4CFE35D51C0F5643008C300A /* DAFSkelMainViewController.m */,
+				4CFE35D61C0F5643008C300A /* DAFSkelMainViewController_iPad.xib */,
+				4CFE35D71C0F5643008C300A /* DAFSkelMainViewController_iPhone.xib */,
+				4CFE35D81C0F5643008C300A /* DAFSkelUnlockViewController.h */,
+				4CFE35D91C0F5643008C300A /* DAFSkelUnlockViewController.m */,
+				4CFE35DA1C0F5643008C300A /* DAFSkelUnlockViewController_iPad.xib */,
+				4CFE35DB1C0F5643008C300A /* DAFSkelUnlockViewController_iPhone.xib */,
+				4CFE35DC1C0F5643008C300A /* DAFSkelAuthWarningViewController.h */,
+				4CFE35DD1C0F5643008C300A /* DAFSkelAuthWarningViewController.m */,
+				4CFE35DE1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPad.xib */,
+				4CFE35DF1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPhone.xib */,
+			);
+			name = DAF;
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		4CFE35F61C0F56AF008C300A /* DAF Bundles */ = {
+			isa = PBXGroup;
+			children = (
+				4CFE35F01C0F56AA008C300A /* DAFSupportResources.bundle */,
+				4CFE35F11C0F56AA008C300A /* GDAssets.bundle */,
+				4CFE35F21C0F56AA008C300A /* MockGDiOSResources.bundle */,
+			);
+			name = "DAF Bundles";
+			sourceTree = "<group>";
+		};
+		4CFE361D1C0F6E1B008C300A /* Skeleton Driver */ = {
+			isa = PBXGroup;
+			children = (
+				4CFE361A1C0F6DF0008C300A /* DAFSkelDriver.cpp */,
+				4CFE361B1C0F6DF0008C300A /* DAFSkelDriver.h */,
+			);
+			name = "Skeleton Driver";
+			sourceTree = "<group>";
+		};
 		9676DF7E1B7EA92900C508D6 /* LandingViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1023,10 +1176,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CFE35F51C0F56AA008C300A /* MockGDiOSResources.bundle in Resources */,
 				04A249081B266AC2007D9460 /* Main.storyboard in Resources */,
+				4CFE35E21C0F5643008C300A /* DAFSkelFirstTimeViewController_iPhone.xib in Resources */,
 				4C5393851B2F965D00EA4484 /* loading.gif in Resources */,
 				04A2490D1B266AC2007D9460 /* LaunchScreen.xib in Resources */,
+				4CFE35E11C0F5643008C300A /* DAFSkelFirstTimeViewController_iPad.xib in Resources */,
 				4CE9D8071B2FA606006D43D8 /* DINPro-Bold.otf in Resources */,
+				4CFE35E41C0F5643008C300A /* DAFSkelMainViewController_iPad.xib in Resources */,
+				4CFE35E81C0F5643008C300A /* DAFSkelUnlockViewController_iPhone.xib in Resources */,
 				4C97D3E61BE15A35009F3779 /* Default_Policy.plist in Resources */,
 				04E4031D1B307A1500A1705E /* DINPro-Black.otf in Resources */,
 				04E4031E1B307A1500A1705E /* DINPro-CondBold.otf in Resources */,
@@ -1035,19 +1193,25 @@
 				04E403211B307A1500A1705E /* OpenSans-Bold.ttf in Resources */,
 				04E403221B307A1500A1705E /* OpenSans-BoldItalic.ttf in Resources */,
 				04E403231B307A1500A1705E /* OpenSans-ExtraBold.ttf in Resources */,
+				4CFE35E71C0F5643008C300A /* DAFSkelUnlockViewController_iPad.xib in Resources */,
 				4CE9D80D1B323847006D43D8 /* 3rd Party Library Notes.rtf in Resources */,
 				04E403241B307A1500A1705E /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				04E403251B307A1500A1705E /* OpenSans-Italic.ttf in Resources */,
 				4C97D3E81BE15A35009F3779 /* oui.list in Resources */,
 				04E403261B307A1500A1705E /* OpenSans-Light.ttf in Resources */,
 				04E403271B307A1500A1705E /* OpenSans-LightItalic.ttf in Resources */,
+				4CFE35F41C0F56AA008C300A /* GDAssets.bundle in Resources */,
 				04E403281B307A1500A1705E /* OpenSans-Regular.ttf in Resources */,
+				4CFE35EA1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPad.xib in Resources */,
 				04E403291B307A1500A1705E /* OpenSans-Semibold.ttf in Resources */,
 				4C97D3EA1BE15A35009F3779 /* oui_all.list in Resources */,
 				04E4032A1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf in Resources */,
+				4CFE35EB1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPhone.xib in Resources */,
+				4CFE35F31C0F56AA008C300A /* DAFSupportResources.bundle in Resources */,
 				4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */,
 				04A2490A1B266AC2007D9460 /* Images.xcassets in Resources */,
 				4C97D3E41BE15A35009F3779 /* default.policy in Resources */,
+				4CFE35E51C0F5643008C300A /* DAFSkelMainViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1132,6 +1296,7 @@
 				4C1DEC2B1BBCA38B00B0A312 /* LocationPermissionViewController.m in Sources */,
 				969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */,
 				4C97D39C1BE15A35009F3779 /* Sentegrity_TrustFactor_Dispatcher.m in Sources */,
+				4CFE35E61C0F5643008C300A /* DAFSkelUnlockViewController.m in Sources */,
 				4C97D3E21BE15A35009F3779 /* ProtectMode.m in Sources */,
 				4C97D3941BE15A35009F3779 /* Sentegrity_TrustFactor_Output_Object.m in Sources */,
 				4C97D38C1BE15A35009F3779 /* Sentegrity_Assertion_Store+Helper.m in Sources */,
@@ -1168,9 +1333,11 @@
 				4C97D3C61BE15A35009F3779 /* TrustFactor_Dispatch_Location.m in Sources */,
 				4C97D3CC1BE15A35009F3779 /* TrustFactor_Dispatch_Platform.m in Sources */,
 				4C97D3A41BE15A35009F3779 /* ActiveProcess.m in Sources */,
+				4CFE361C1C0F6DF0008C300A /* DAFSkelDriver.cpp in Sources */,
 				9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */,
 				4C97D3EC1BE15A35009F3779 /* Sentegrity_Classification.m in Sources */,
 				4C97D3D61BE15A35009F3779 /* TrustFactor_Dispatch_Sentegrity.m in Sources */,
+				4CFE35E01C0F5643008C300A /* DAFSkelFirstTimeViewController.m in Sources */,
 				4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */,
 				4C97D3901BE15A35009F3779 /* Sentegrity_Stored_Assertion.m in Sources */,
 				969CD06D1B7E673900254F45 /* LoginViewController.m in Sources */,
@@ -1179,7 +1346,9 @@
 				4C97D3F01BE15A35009F3779 /* Sentegrity_Policy.m in Sources */,
 				4C97D3BA1BE15A35009F3779 /* TrustFactor_Dispatch_Activity.m in Sources */,
 				4C97D3DE1BE15A35009F3779 /* Sentegrity_History_Store.m in Sources */,
+				4CFE35E91C0F5643008C300A /* DAFSkelAuthWarningViewController.m in Sources */,
 				4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */,
+				4CFE35E31C0F5643008C300A /* DAFSkelMainViewController.m in Sources */,
 				4C97D39A1BE15A35009F3779 /* CoreDetection.m in Sources */,
 				4C97D3A81BE15A35009F3779 /* Sentegrity_TrustFactor_Dataset_Application.m in Sources */,
 				4C97D3EE1BE15A35009F3779 /* Sentegrity_DNEModifiers.m in Sources */,
@@ -1321,8 +1490,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1351,6 +1522,31 @@
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"ChameleonFramework\"",
+					"-l\"CircleProgressBar\"",
+					"-l\"DCKeyValueObjectMapping\"",
+					"-l\"DateTools\"",
+					"-l\"Facade\"",
+					"-l\"IIDelayedAction\"",
+					"-l\"ISHPermissionKit\"",
+					"-l\"JTHamburgerButton\"",
+					"-l\"LGBluetooth\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"NSObject-ObjectMap\"",
+					"-l\"NSString-Hashes\"",
+					"-l\"RESideMenu\"",
+					"-framework",
+					"\"CoreBluetooth\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1363,8 +1559,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1394,6 +1592,31 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"ChameleonFramework\"",
+					"-l\"CircleProgressBar\"",
+					"-l\"DCKeyValueObjectMapping\"",
+					"-l\"DateTools\"",
+					"-l\"Facade\"",
+					"-l\"IIDelayedAction\"",
+					"-l\"ISHPermissionKit\"",
+					"-l\"JTHamburgerButton\"",
+					"-l\"LGBluetooth\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"NSObject-ObjectMap\"",
+					"-l\"NSString-Hashes\"",
+					"-l\"RESideMenu\"",
+					"-framework",
+					"\"CoreBluetooth\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

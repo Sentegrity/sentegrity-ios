@@ -7,6 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+// DAF Support
+#import "DAFSupport/DAFAppBase.h"
+
+#import "DAFSkelMainViewController.h"
+#import "DAFSkelFirstTimeViewController.h"
+#import "DAFSkelUnlockViewController.h"
+#import "DAFSkelAuthWarningViewController.h"
 
 // Activity Dispatcher
 #import "Sentegrity_Activity_Dispatcher.h"
