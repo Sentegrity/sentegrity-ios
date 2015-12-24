@@ -42,10 +42,6 @@
     _subClassID = subClassID;
 }
 
-// Priority
-- (void)setPriority:(NSNumber *)priority{
-    _priority = priority;
-}
 
 // Name
 - (void)setName:(NSString *)name{

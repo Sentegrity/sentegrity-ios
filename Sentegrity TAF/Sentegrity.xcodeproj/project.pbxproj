@@ -613,7 +613,7 @@
 				4C97D3651BE15A35009F3779 /* History */,
 				4C97D3681BE15A35009F3779 /* Parser */,
 				4C97D36B1BE15A35009F3779 /* Protect Mode */,
-				4C97D36E1BE15A35009F3779 /* Sample Policies */,
+				4C97D36E1BE15A35009F3779 /* Policies */,
 				4C97D3741BE15A35009F3779 /* Sentegrity Policy */,
 				4C97D3851BE15A35009F3779 /* TrustScore Computation */,
 			);
@@ -859,7 +859,7 @@
 			path = "Protect Mode";
 			sourceTree = "<group>";
 		};
-		4C97D36E1BE15A35009F3779 /* Sample Policies */ = {
+		4C97D36E1BE15A35009F3779 /* Policies */ = {
 			isa = PBXGroup;
 			children = (
 				4C97D36F1BE15A35009F3779 /* default.policy */,
@@ -867,6 +867,7 @@
 				4C97D3721BE15A35009F3779 /* oui.list */,
 				4C97D3731BE15A35009F3779 /* oui_all.list */,
 			);
+			name = Policies;
 			path = "Sample Policies";
 			sourceTree = "<group>";
 		};

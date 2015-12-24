@@ -846,9 +846,9 @@ static dispatch_once_t onceToken;
             currentTime = CFAbsoluteTimeGetCurrent();
         }
         
-        // Timer expires
+        // Timer expires, for BT don't set to expired as we don't want a penaly, just noData
         NSLog(@"Discovered BLE devices timer expired");
-        [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
+        [self setDiscoveredBLESDNEStatus:DNEStatus_nodata];
         
         // Return the BLE devices
         return self.discoveredBLEDevices;
@@ -888,9 +888,9 @@ static dispatch_once_t onceToken;
             currentTime = CFAbsoluteTimeGetCurrent();
         }
         
-        // Timer expires
+        // Timer expires, for BT don't set to expired as we don't want a penaly, just noData
         NSLog(@"Connected classic BT device timer expired");
-        [self setConnectedClassicDNEStatus:DNEStatus_expired];
+        [self setConnectedClassicDNEStatus:DNEStatus_nodata];
         
         // Return connected BT devices
         return self.connectedClassicBTDevices;

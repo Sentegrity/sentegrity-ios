@@ -275,24 +275,64 @@
 
     // ** MAGNETIC FIELD **
     
+    // First  get accel parameters to apply as weights
+    
+    // Use the API which does not require motion authorization if there was an error in motion (i.e., not authorized)
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] accelMotionDNEStatus] == 0 ) {
+        
+        
+        // Use custom mechanism for increased accuracy (the non-motion API is designed for GUIs not user auth)
+        NSArray *gryoRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getAccelRadsInfo];
+        
+        float xAverage;
+        float yAverage;
+        float zAverage;
+        
+        float xTotal = 0.0;
+        float yTotal = 0.0;
+        float zTotal = 0.0;
+        
+        float count=0;
+        
+        for (NSDictionary *sample in gryoRads) {
+            
+            count++;
+            xTotal = xTotal + [[sample objectForKey:@"x"] floatValue];
+            yTotal = yTotal + [[sample objectForKey:@"y"] floatValue];
+            zTotal = zTotal + [[sample objectForKey:@"z"] floatValue];
+            
+        }
+        
+
+            xAverage = xTotal / count;
+            yAverage = yTotal / count;
+            zAverage = zTotal / count;
+        
+    }
+
+    
     // ** MAGNETIC FIELD **
     int magneticBlockSize=0;
-    if(locationAvailable==NO)
+    if(locationAvailable==NO){
         magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeNoLocation"] intValue];
-    else
+    }
+    else{
         magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeWithLocation"] intValue];
+    }
     
     if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] magneticHeadingDNEStatus] == 0 ){
         
         NSArray *headings;
         headings = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getMagneticHeadingsInfo];
+    
         
         // Check motion dataset has something
-        if (headings != nil ) {
+        if(headings != nil ) {
             
             float x = 0.0;
             float y = 0.0;
             float z = 0.0;
+            float heading = 0.0;
             
             float magnitudeAverage = 0.0;
             float magnitudeTotal = 0.0;
@@ -304,14 +344,17 @@
             for (NSDictionary *sample in headings) {
                 
                 // Get the calibrated magnetometer data
+                heading = [[sample objectForKey:@"heading"] floatValue];
                 x = [[sample objectForKey:@"x"] floatValue];
                 y = [[sample objectForKey:@"y"] floatValue];
                 z = [[sample objectForKey:@"z"] floatValue];
                 
                 // Calculate totl magnetic field regardless of position for each measurement
-                magnitude = sqrt (pow(x,2)+
-                                  pow(y,2)+
-                                  pow(z,2));
+                // magnitude = sqrt (pow(x,2)+
+                            //      pow(y,2)+
+                            //      pow(z,2));
+                
+                magnitude = sqrt (pow(z,2));
                 
                 magnitudeTotal = magnitudeTotal + magnitude;
                 
@@ -319,6 +362,7 @@
                 
                 
             }
+            
             
             // compute average across all samples taken
             magnitudeAverage = magnitudeTotal/counter;

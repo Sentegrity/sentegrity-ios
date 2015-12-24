@@ -13,7 +13,7 @@
 "unavailable": 0.1,
 "disabled": 0.5,
 "noData": 0,
-"expired": 0,
+"expired": 0.5,
 "error": 0
 },
 "classifications": [{
@@ -275,7 +275,6 @@
 "revision": 1,
 "classID": 1,
 "subClassID": 1,
-"priority": 1,
 "name": "Bad filesystem artifacts",
 "penalty": 100,
 "ruleType": 1,
@@ -335,13 +334,12 @@
 "/System/Library/LaunchDaemons/com.saurik.Cy@dia.Startup.plist"
 ]
 }, {
-"id": 1003,
+"id": 1002,
 "issueMessage": "Malicious network connections",
 "suggestionMessage": "Disconnect from network",
 "revision": 1,
 "classID": 1,
 "subClassID": 3,
-"priority": 3,
 "name": "Bad network destination",
 "penalty": 100,
 "ruleType": 1,
@@ -364,13 +362,12 @@
 "nesolabs.de"
 ]
 }, {
-"id": 1004,
+"id": 1003,
 "issueMessage": "Malicious network services",
 "suggestionMessage": "Reinstall operating system",
 "revision": 1,
 "classID":1,
 "subClassID": 3,
-"priority": 2,
 "name": "Privileged network services",
 "penalty": 100,
 "ruleType": 1,
@@ -391,13 +388,12 @@
 443
 ]
 }, {
-"id": 1006,
+"id": 1004,
 "issueMessage": "Sandbox integrity violated",
 "suggestionMessage": "Reinstall operating system",
 "revision": 1,
 "classID": 1,
 "subClassID": 8,
-"priority": 2,
 "name": "Sandbox integrity compromise",
 "penalty": 100,
 "ruleType": 1,
@@ -414,13 +410,12 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1007,
+"id": 1005,
 "issueMessage": "Application integrity violated",
 "suggestionMessage": "Reinstall application",
 "revision": 1,
 "classID": 1,
 "subClassID": 9,
-"priority": 1,
 "name": "Application tamper detection",
 "penalty": 100,
 "ruleType": 1,
@@ -439,13 +434,12 @@
 "MobileSubstrate"
 ]
 }, {
-"id": 1008,
+"id": 1006,
 "issueMessage": "OS version policy violation",
 "suggestionMessage": "Request policy exception",
 "revision": 1,
 "classID": 2,
 "subClassID": 18,
-"priority": 1,
 "name": "Policy (version)",
 "penalty": 100,
 "ruleType": 1,
@@ -464,13 +458,12 @@
 "9.0.2"
 ]
 }, {
-"id": 1009,
+"id": 1007,
 "issueMessage": "Filesystem integrity anomaly",
 "suggestionMessage": "Reinstall operating system",
 "revision": 1,
 "classID": 3,
 "subClassID": 8,
-"priority": 1,
 "name": "Critical file size anomaly",
 "penalty": 30,
 "ruleType": 2,
@@ -491,13 +484,12 @@
 "/etc/fstab"
 ]
 }, {
-"id": 1011,
+"id": 1007,
 "issueMessage": "Network service anomaly",
 "suggestionMessage": "Reinstall operating system",
 "revision": 1,
 "classID": 3,
 "subClassID": 3,
-"priority": 2,
 "name": "Unknown network service",
 "penalty": 30,
 "ruleType": 2,
@@ -514,13 +506,12 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1012,
+"id": 1008,
 "issueMessage": "Large data transfers",
 "suggestionMessage": "Reboot the device",
 "revision": 1,
 "classID": 3,
 "subClassID": 3,
-"priority": 2,
 "name": "Data exfiltration",
 "penalty": 10,
 "ruleType": 1,
@@ -540,13 +531,12 @@
 "maxSentMB" : 20
 }]
 }, {
-"id": 1013,
+"id": 1009,
 "issueMessage": "Unencrypted traffic detected",
 "suggestionMessage": "Close running apps",
 "revision": 1,
 "classID": 3,
 "subClassID": 3,
-"priority": 2,
 "name": "Unencrypted traffic",
 "penalty": 10,
 "ruleType": 1,
@@ -566,13 +556,12 @@
 8080
 ]
 }, {
-"id": 1014,
+"id": 1010,
 "issueMessage": "Possible physical attack",
 "suggestionMessage": "Connect to WiFi or cell",
 "revision": 1,
 "classID": 3,
 "subClassID": 3,
-"priority": 3,
 "name": "Network connectivity",
 "penalty": 20,
 "ruleType": 1,
@@ -589,13 +578,12 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1015,
+"id": 1011,
 "issueMessage": "Device is in airplane mode",
 "suggestionMessage": "Disable airplane mode",
 "revision": 1,
 "classID": 3,
 "subClassID": 17,
-"priority": 3,
 "name": "Airplane mode",
 "penalty": 10,
 "ruleType": 1,
@@ -612,13 +600,12 @@
 "privateAPI": 1,
 "payload": []
 }, {
-"id": 1016,
+"id": 1012,
 "issueMessage": "VPN connection in use",
 "suggestionMessage": "Disable VPN (per policy)",
 "revision": 1,
 "classID": 3,
 "subClassID": 3,
-"priority": 3,
 "name": "VPN connection",
 "penalty": 30,
 "ruleType": 1,
@@ -637,13 +624,12 @@
 "ppp0"
 ]
 }, {
-"id": 1017,
+"id": 1013,
 "issueMessage": "High risk WiFi router",
 "suggestionMessage": "",
 "revision": 1,
 "classID": 3,
 "subClassID": 4,
-"priority": 1,
 "name": "high risk access point",
 "penalty": 20,
 "ruleType": 1,
@@ -660,13 +646,12 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1018,
+"id": 1014,
 "issueMessage": "Unfamiliar WiFi connection",
 "suggestionMessage": "Use familiar WiFi APs",
 "revision": 1,
 "classID": 5,
 "subClassID": 4,
-"priority": 2,
 "name": "wifi ssid unknown",
 "penalty": 30,
 "ruleType": 3,
@@ -683,13 +668,12 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1019,
+"id": 1015,
 "issueMessage": "",
 "suggestionMessage": "Use familiar WiFi APs",
 "revision": 1,
 "classID": 5,
 "subClassID": 4,
-"priority": 2,
 "name": "wifi bssid",
 "penalty": -20,
 "ruleType": 4,
@@ -706,7 +690,7 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1020,
+"id": 1016,
 "issueMessage": "Hotspot tethering in use",
 "suggestionMessage": "Disable hotspot sharing",
 "revision": 1,
@@ -714,7 +698,6 @@
 "subClassID": 4,
 "priority": 1,
 "name": "hotspot enabled",
-"penalty": 20,
 "ruleType": 1,
 "learnMode": 0,
 "learnTime": 0,
@@ -729,13 +712,12 @@
 "privateAPI": 1,
 "payload": []
 }, {
-"id": 1021,
+"id": 1017,
 "issueMessage": "Carrier changed",
 "suggestionMessage": "Stop celluar roaming",
 "revision": 1,
 "classID": 3,
 "subClassID": 4,
-"priority": 1,
 "name": "cell connection change",
 "penalty": 10,
 "ruleType": 2,
@@ -752,13 +734,12 @@
 "privateAPI": 1,
 "payload": []
 }, {
-"id": 1023,
+"id": 1018,
 "issueMessage": "High risk installed apps",
 "suggestionMessage": "Uninstall high risk apps",
 "revision": 1,
 "classID": 3,
 "subClassID": 5,
-"priority": 2,
 "name": "high risk installed apps",
 "penalty": 35,
 "ruleType": 1,
@@ -778,7 +759,7 @@
 "net.technet.systat"
 ]
 }, {
-"id": 1024,
+"id": 1019,
 "issueMessage": "Vulnerable operating system",
 "suggestionMessage": "Upgrade operating system",
 "revision": 1,
@@ -786,7 +767,6 @@
 "subClassID": 6,
 "priority": 1,
 "name": "vulnerable platform",
-"penalty": 40,
 "ruleType": 1,
 "learnMode": 0,
 "learnTime": 0,
@@ -817,13 +797,12 @@
 "8.0-8.4"
 ]
 }, {
-"id": 1025,
+"id": 1020,
 "issueMessage": "Short uptime (device rebooted)",
 "suggestionMessage": "",
 "revision": 1,
 "classID": 3,
 "subClassID": 13,
-"priority": 1,
 "name": "device uptime",
 "penalty": 10,
 "ruleType": 1,
@@ -842,13 +821,12 @@
 "minimumHoursUp" : 6
 }]
 }, {
-"id": 1026,
+"id": 1021,
 "issueMessage": "Data replication detected",
 "suggestionMessage": "Disable backup services",
 "revision": 1,
 "classID": 3,
 "subClassID": 15,
-"priority": 1,
 "name": "device backup",
 "penalty": 20,
 "ruleType": 1,
@@ -867,13 +845,12 @@
 "backupd"
 ]
 }, {
-"id": 1027,
+"id": 1022,
 "issueMessage": "No device passcode set",
 "suggestionMessage": "Set a passcode on the device",
 "revision": 1,
 "classID": 3,
 "subClassID": 15,
-"priority": 1,
 "name": "device passcode",
 "penalty": 30,
 "ruleType": 1,
@@ -890,13 +867,12 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1028,
+"id": 1023,
 "issueMessage": "Unfamiliar access time",
 "suggestionMessage": "Access device regularly",
 "revision": 1,
 "classID": 5,
 "subClassID": 7,
-"priority": 1,
 "name": "access time hour day",
 "penalty": 30,
 "ruleType": 3,
@@ -915,13 +891,12 @@
 "hoursInBlock" : 3,
 }]
 }, {
-"id": 1030,
+"id": 1024,
 "issueMessage": "USB connected",
 "suggestionMessage": "Unplug device",
 "revision": 1,
 "classID": 3,
 "subClassID": 8,
-"priority": 1,
 "name": "plugged in",
 "penalty": 10,
 "ruleType": 1,
@@ -938,13 +913,12 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1031,
+"id": 1025,
 "issueMessage": "Unfamiliar power consumption",
 "suggestionMessage": "Charge device regularly",
 "revision": 1,
 "classID": 5,
 "subClassID": 13,
-"priority": 3,
 "name": "power level",
 "penalty": 15,
 "ruleType": 3,
@@ -964,13 +938,12 @@
 "powerInBlock": 25
 }]
 }, {
-"id": 1032,
+"id": 1026,
 "issueMessage": "Unfamiliar battery state",
 "suggestionMessage": "Charge device regularly",
 "revision": 1,
 "classID": 5,
 "subClassID": 13,
-"priority": 1,
 "name": "battery state",
 "penalty": 20,
 "ruleType": 3,
@@ -987,13 +960,12 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1033,
+"id": 1027,
 "issueMessage": "Unfamiliar device orientation",
 "suggestionMessage": "",
 "revision": 1,
 "classID": 5,
 "subClassID": 11,
-"priority": 3,
 "name": "device orientation",
 "penalty": 30,
 "ruleType": 3,
@@ -1010,13 +982,12 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1034,
+"id": 1028,
 "issueMessage": "Unfamiliar user activity",
 "suggestionMessage": "",
 "revision": 1,
 "classID": 5,
 "subClassID": 14,
-"priority": 1,
 "name": "unfamiliar user activity",
 "penalty": 10,
 "ruleType": 3,
@@ -1035,13 +1006,12 @@
 "hoursInBlock": 4
 }]
 }, {
-"id": 1050,
+"id": 1029,
 "issueMessage": "Unfamiliar device grip",
 "suggestionMessage": "Hold device regularly",
 "revision": 1,
 "classID": 5,
 "subClassID": 11,
-"priority": 3,
 "name": "device grip",
 "penalty": 50,
 "ruleType": 3,
@@ -1062,13 +1032,12 @@
 "movementBlockSize": 0.2
 }]
 }, {
-"id": 1059,
+"id": 1030,
 "issueMessage": "Approximate location anomaly",
 "suggestionMessage": "Access device in familiar areas",
 "revision": 1,
 "classID": 5,
 "subClassID": 20,
-"priority": 1,
 "name": "approximate location anomaly",
 "penalty": 25,
 "ruleType": 3,
@@ -1087,19 +1056,18 @@
 "brightnessBlocksizeWithLocation" : 3,
 "brightnessBlocksizeNoLocation" : 4,
 "locationRounding" : 1,
-"magneticBlockSizeNoLocation" : 5,
-"magneticBlockSizeWithLocation" : 14,
+"magneticBlockSizeNoLocation" : 10,
+"magneticBlockSizeWithLocation" : 20,
 "signalBlocksizeNoLocation" : 3,
 "signalBlocksizeWithLocation" : 4
 }]
 }, {
-"id": 1037,
+"id": 1031,
 "issueMessage": "GPS location anomaly",
 "suggestionMessage": "Access device in familiar locations",
 "revision": 1,
 "classID": 5,
 "subClassID": 10,
-"priority": 1,
 "name": "device location",
 "penalty": 40,
 "ruleType": 3,
@@ -1118,13 +1086,12 @@
 "rounding": 1
 }]
 }, {
-"id": 1038,
+"id": 1032,
 "issueMessage": "Location country violation",
 "suggestionMessage": "Request policy exception",
 "revision": 1,
 "classID": 4,
 "subClassID": 19,
-"priority": 1,
 "name": "Country allowed (device location)",
 "penalty": 100,
 "ruleType": 1,
@@ -1144,13 +1111,12 @@
 "CA"
 ]
 }, {
-"id": 1039,
+"id": 1033,
 "issueMessage": "",
 "suggestionMessage": "Employ a Bluetooth low-energy device",
 "revision": 1,
 "classID": 5,
 "subClassID": 12,
-"priority": 1,
 "name": "bluetooth low-energy scanning",
 "penalty": -70,
 "ruleType": 4,
@@ -1167,13 +1133,12 @@
 "privateAPI": 0,
 "payload": []
 }, {
-"id": 1040,
+"id": 1034,
 "issueMessage": "",
 "suggestionMessage": "Pair a Bluetooth device",
 "revision": 1,
 "classID": 5,
 "subClassID": 21,
-"priority": 1,
 "name": "bluetooth classic paired",
 "penalty": -200,
 "ruleType": 4,

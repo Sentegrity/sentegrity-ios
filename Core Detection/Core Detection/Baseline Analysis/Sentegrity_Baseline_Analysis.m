@@ -333,17 +333,17 @@
             // Do not decay
             break;
             
-        case 1:
+        case 1: // Last seen based decay, removes assertions according to the amount of days passed since last seen
             
             // Only run decay if history exceeds
             if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > [trustFactorOutputObject.trustFactor.decayMetric integerValue]) {
                 
-                trustFactorOutputObject = [self performCountBasedDecay:trustFactorOutputObject withError:error];
+                trustFactorOutputObject = [self performLastSeenBasedDecay:trustFactorOutputObject withError:error];
                 
             }
             break;
             
-        case 2:
+        case 2: // Metric based decay where hitcounts and divided by time since last time the stored assertion was hit
             
             // Only update decay if there is at leaste two stored assertion to be check, otherwise its a waste of time
             if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > 1){
@@ -379,7 +379,7 @@
             
             break;
             
-        // Rule Type 2 employs learning for anomaly detection, no default assertion is used, these rules don't take effect right away
+        // Rule Type 2 supports learning modes, no default assertion is used, these rules don't take effect right away as they must learn a profile first (generally device/system based rules)
         case 2:
             
             // If TrustFactor is learned run baseline analysis
@@ -611,15 +611,8 @@
 + (Sentegrity_TrustFactor_Output_Object *)performMetricBasedDecay:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
     
     double secondsInADay = 86400.0;
-    
-    // Accelerate for debug (10 min)
-    //double secondsInADay = 600;
-    
     double daysSinceCreation=0.0;
     double hitsPerDay=0.0;
- 
-    // Use the metric decay method (e.g., keep all assertions that meet the metric, removing only those that don't)
-    // This is ideal for TFs device orientation or access time
     
     // Array to hold assertions to retain
     NSMutableArray *assertionObjectsToKeep = [[NSMutableArray alloc]init];
@@ -627,9 +620,8 @@
     // Iterate through stored assertions for each trustFactorOutputObject
     for(Sentegrity_Stored_Assertion *storedAssertion in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
         
-        // Hours since the assertion was created
+        // Days since the assertion was created
         daysSinceCreation = ((double)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created doubleValue]) / secondsInADay;
-        //minutesSinceCreation = ((float)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created floatValue]) / 60;
 
         // Check when last time it was created
         if(daysSinceCreation < 1){
@@ -638,41 +630,20 @@
             daysSinceCreation = 1;
         }
         
-        // Calculate our core metric for sorting
+        // Calculate our decay metric
         hitsPerDay = [storedAssertion.hitCount doubleValue] / (daysSinceCreation);
         
-        // Set the metric for sorting
+        // Set the metric for storage
         [storedAssertion setDecayMetric:hitsPerDay];
         
+        // If the stored assertions (days / hits) metric exceeds the policy keep it
         if([storedAssertion decayMetric] > trustFactorOutputObject.trustFactor.decayMetric.floatValue) {
                 
             [assertionObjectsToKeep addObject:storedAssertion];
         }
     }
     
-    // Keep at leaste the top metric if none where found above the set limit
-    if (assertionObjectsToKeep.count == 0){
-        
-        // Sort the original array by decay
-        NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"decayMetric"
-                                                     ascending:NO];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-        
-        NSArray *sortedArray;
-        
-        //Sort the array
-        sortedArray = [trustFactorOutputObject.storedTrustFactorObject.assertionObjects sortedArrayUsingDescriptors:sortDescriptors];
-        
-        // add the first element (top) to the keep array
-        [assertionObjectsToKeep addObject:[sortedArray objectAtIndex:1]];
-        
-        trustFactorOutputObject.storedTrustFactorObject.assertionObjects = assertionObjectsToKeep;
-        
-        
-    } else {
-        
-        // Sort what we're keeping by decay metric, highest at top (in theory, the most frequently used)
+        // Sort what we're keeping by decay metric, this should help performance, highest at top (in theory, the most frequently used)
         NSSortDescriptor *sortDescriptor;
         sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"decayMetric"
                                                      ascending:NO];
@@ -685,58 +656,64 @@
         
         // Set the sorted version of what we're keeping
         trustFactorOutputObject.storedTrustFactorObject.assertionObjects = sortedArray;
-        
-    }
     
     // Return TrustFactor object
     return trustFactorOutputObject;
 }
 
 // Count based decay function
-+ (Sentegrity_TrustFactor_Output_Object *)performCountBasedDecay:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
++ (Sentegrity_TrustFactor_Output_Object *)performLastSeenBasedDecay:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
     
     //double secondsInADay = 86400.0;
     
     //Accelerate for debug (10 min)
     double secondsInADay = 600;
-    double daysSinceCreation=0.0;
-    double hitsPerDay=0.0;
+    double daysSinceLastSeen=0.0;
+    double daysPerRuns=0.0;
+    int runCount = trustFactorOutputObject.storedTrustFactorObject.runCount.intValue;
+    
+    // Array to hold assertions to retain
+    NSMutableArray *assertionObjectsToKeep = [[NSMutableArray alloc]init];
     
     // Iterate through stored assertions for each trustFactorOutputObject and update metric
     for(Sentegrity_Stored_Assertion *storedAssertion in trustFactorOutputObject.storedTrustFactorObject.assertionObjects) {
         
-        // Hours since the assertion was created
-        daysSinceCreation = ((double)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created doubleValue]) / secondsInADay;
-        //minutesSinceCreation = ((float)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created floatValue]) / 60;
+        // Days since the assertion was last hit
+        daysSinceLastSeen = ((double)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.lastTime doubleValue]) / secondsInADay;
         
-        
-        // Check when last time it was created
-        if(daysSinceCreation < 1){
+        // Check when last time it was seen
+        if(daysSinceLastSeen < 1){
             
-            // Set creation date to 1 if less than 1
-            daysSinceCreation = 1;
+            // Set last seen date to 1 if less than 1
+            daysSinceLastSeen = 1;
         }
+
+        // Calculate our decay metric
+        daysPerRuns = daysSinceLastSeen / runCount;
         
-        // Calculate our core metric for sorting
-        hitsPerDay = [storedAssertion.hitCount doubleValue] / (daysSinceCreation);
+        // Set the metric for storage
+        [storedAssertion setDecayMetric:daysPerRuns];
         
-        // Set the metric for sorting
-        [storedAssertion setDecayMetric:hitsPerDay];
+        // If the stored assertions (last seen in days) metric is less than the value set in the policy for max days, keep it
+        if([storedAssertion decayMetric] < trustFactorOutputObject.trustFactor.decayMetric.floatValue) {
+            
+            [assertionObjectsToKeep addObject:storedAssertion];
+        }
     }
     
-    // Sort all assertions by decay metric, highest at top (in theory, the most frequently used)
+    // Sort all assertions by decay metric, lowest at top (in theory, the more current the more likely it is to come up again)
     NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"decayMetric"
-                                                 ascending:NO];
+                                                 ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     
     NSArray *sortedArray;
     
-    //Sort the array
-    sortedArray = [trustFactorOutputObject.storedTrustFactorObject.assertionObjects sortedArrayUsingDescriptors:sortDescriptors];
+    // Sort the array
+    sortedArray = [assertionObjectsToKeep sortedArrayUsingDescriptors:sortDescriptors];
     
-    // Trim to the set amount of keep (decayMetric > 0 when decayMode = 1)
-    trustFactorOutputObject.storedTrustFactorObject.assertionObjects = [sortedArray subarrayWithRange:NSMakeRange(0,trustFactorOutputObject.trustFactor.decayMetric.intValue)];
+    // Set the sorted version of what we're keeping
+    trustFactorOutputObject.storedTrustFactorObject.assertionObjects = sortedArray;
     
     return trustFactorOutputObject;
 }

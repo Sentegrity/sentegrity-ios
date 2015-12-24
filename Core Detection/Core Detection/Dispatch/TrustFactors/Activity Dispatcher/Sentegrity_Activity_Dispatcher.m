@@ -356,7 +356,7 @@
                 
             } else {
                 
-                // Create an array of gyro samples
+                // Create an array of accelerometer samples
                 NSArray *itemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:accelData.acceleration.x], [NSNumber numberWithFloat:accelData.acceleration.y], [NSNumber numberWithFloat:accelData.acceleration.z], nil];
                 
                 // Create an array of keys
@@ -635,10 +635,10 @@
     
     
     // Create an array of headings samples
-    NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:heading.x], [NSNumber numberWithDouble:heading.y],[NSNumber numberWithDouble:heading.z], nil];
+    NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:heading.magneticHeading],[NSNumber numberWithDouble:heading.x], [NSNumber numberWithDouble:heading.y],[NSNumber numberWithDouble:heading.z], nil];
     
     // Create an array of keys
-    NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+    NSArray *KeyArray = [NSArray arrayWithObjects:@"heading",@"x", @"y", @"z", nil];
     
     // Create the dictionary
     NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];

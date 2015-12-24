@@ -155,7 +155,6 @@
             [trustFactorClasser setSuggestionMessage:[trustFactorClassifier objectForKey:kTFSuggestionMessage]];
             [trustFactorClasser setClassID:[trustFactorClassifier objectForKey:kTFClassID]];
             [trustFactorClasser setSubClassID:[trustFactorClassifier objectForKey:kTFSubclassID]];
-            [trustFactorClasser setPriority:[trustFactorClassifier objectForKey:kTFPriority]];
             [trustFactorClasser setName:[trustFactorClassifier objectForKey:kTFName]];
             [trustFactorClasser setPenalty:[trustFactorClassifier objectForKey:kTFPenalty]];
             [trustFactorClasser setDnePenalty:[trustFactorClassifier objectForKey:kTFDNEPenalty]];

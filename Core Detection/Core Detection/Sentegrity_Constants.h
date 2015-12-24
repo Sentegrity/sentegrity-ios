@@ -90,7 +90,6 @@
 #define kTFRevision                     @"revision"
 #define kTFClassID                      @"classID"
 #define kTFSubclassID                   @"subClassID"
-#define kTFPriority                     @"priority"
 #define kTFName                         @"name"
 #define kTFPenalty                      @"penalty"
 #define kTFDNEPenalty                   @"dnepenalty"

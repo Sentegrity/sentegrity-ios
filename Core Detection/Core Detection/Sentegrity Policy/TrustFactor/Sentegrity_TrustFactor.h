@@ -16,7 +16,6 @@
 @property (nonatomic, retain) NSNumber *revision;
 @property (nonatomic, retain) NSNumber *classID;
 @property (nonatomic, retain) NSNumber *subClassID;
-@property (nonatomic, retain) NSNumber *priority;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSNumber *penalty;
 @property (nonatomic, retain) NSNumber *dnePenalty;
