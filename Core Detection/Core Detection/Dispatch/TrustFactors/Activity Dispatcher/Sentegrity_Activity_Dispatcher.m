@@ -17,22 +17,6 @@
 // DLFCN - Dynamic Loading
 #import <dlfcn.h>
 
-@interface Sentegrity_Activity_Dispatcher(private)
-
-// Start Bluetooth
-- (void)startBluetoothBLE;
-
-// Start location
-- (void)startLocation;
-
-// Start Activity
-- (void)startActivity;
-
-// Start Motion
-- (void)startMotion;
-
-@end
-
 @implementation Sentegrity_Activity_Dispatcher
 
 #pragma mark - Additional functions
@@ -74,7 +58,7 @@
         magneticHeadingArray = [[NSMutableArray alloc] init];
         [self.locationManager startUpdatingHeading];
     }
-
+    
     
     
     
@@ -182,7 +166,7 @@
     accelRadsArray = [[NSMutableArray alloc] init];
     gyroRadsArray = [[NSMutableArray alloc] init];
     headingsArray = [[NSMutableArray alloc] init];
-
+    
     // Check if the gryo is available
     if (![manager isGyroAvailable] || manager == nil) {
         

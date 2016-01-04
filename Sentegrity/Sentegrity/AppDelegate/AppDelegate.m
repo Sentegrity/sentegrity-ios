@@ -45,21 +45,12 @@
         _activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
     }
     
-    // Check if the app has been used at all
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]) {
-        
-        // Do something on first launch
-        controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"]];
-        
-    } else {
-        
-        // Call the Activity data functions such as location/core
-        [_activityDispatcher runCoreDetectionActivities];
-        
-        // Set up the navigation controller
-        controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"]];
-        
-    }
+    // Run the activites from the dispatcher
+    [_activityDispatcher startBluetoothBLE];
+    [_activityDispatcher startMotion];
+    
+    // Set up the navigation controller
+    controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"]];
     
     // Hide the navigation bar
     [controller setNavigationBarHidden:YES];
@@ -112,60 +103,60 @@
 //
 //// HTTP Requests
 //- (void)httpRequests {
-//    
+//
 //    // Get device version information
 //    NSString *deviceType;
 //    struct utsname systemInfo;
 //    uname(&systemInfo);
-//    
+//
 //    // Get the system info
 //    deviceType = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
-//    
+//
 //    // Create a url request
 //    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://api.ineal.me/tss/all"]];
-//    
+//
 //    // Create a JSON dictionary
 //    __block NSDictionary *json;
 //    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//        
+//
 //        // Get the JSON
 //        json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-//        
+//
 //        // Run through all the json keys
 //        for (id typeKey in json) {
-//            
+//
 //            // Check if the deviceType is equal to the JSON Key
 //            if ([deviceType isEqualToString:[NSString stringWithString:typeKey]]) {
-//                
+//
 //                // Go through the subkeys
 //                for (id subKeys in [json objectForKey:typeKey]) {
-//                    
+//
 //                    // Check if any of the subkeys is the firmwares key
 //                    if ([subKeys isEqualToString:@"firmwares"]) {
-//                        
+//
 //                        // Go through all the objects in the firmwares key
 //                        for (id firmwareDicts in [subKeys objectForKey:@"firmwares"]) {
-//                            
+//
 //                            // Check if it's equal to the current version
 //                            if([@"version" isEqualToString:[NSString stringWithString:firmwareDicts]]){
-//                                
+//
 //                                // TODO: What is this doing?
 //                            }
 //                        }
-//                        
+//
 //                    }
-//                    
+//
 //                }
-//                
+//
 //                // Break
 //                break;
 //            }
 //        }
-//        
+//
 //        // Log the JSON
 //        NSLog(@"Async JSON: %@", json);
 //    }];
-//    
+//
 //}
 
 @end

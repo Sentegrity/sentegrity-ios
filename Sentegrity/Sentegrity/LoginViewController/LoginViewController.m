@@ -47,64 +47,95 @@ static MBProgressHUD *HUD;
 // View did appear
 - (void)viewDidAppear:(BOOL)animated {
     
-    // If this is the first run
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"] == NO) {
-        
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    // Check if the application has permissions to run the different activities
+    ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
+    ISHPermissionRequest *permissionActivity = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
+    
+    // Check if permissions are authorized
+    if ([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized || [permissionActivity permissionState] != ISHPermissionStateAuthorized) {
         
         // Prompt for user to allow motion and location activity gathering
         NSArray *permissions = @[@(ISHPermissionCategoryLocationWhenInUse), @(ISHPermissionCategoryActivity)];
         
-        ISHPermissionsViewController *vc = [ISHPermissionsViewController  permissionsViewControllerWithCategories:permissions  dataSource:self];
+        // Create the view controller
+        ISHPermissionsViewController *vc = [ISHPermissionsViewController  permissionsViewControllerWithCategories:permissions dataSource:self];
         
-        // Check the permission view controller
+        // Check the permission view controller is valid
         if (vc) {
-            [self presentViewController:vc
-                               animated:YES
-                             completion:^(void) {
-                                 
-       
-                                     // this completion gets called way early, lame
-                                     //[(AppDelegate *)[[UIApplication sharedApplication] delegate] runCoreDetectionActivities];
-                                 
-                             
-                             }];
+            
+            // Present the permissions kit view controller
+            [self presentViewController:vc animated:YES completion:nil];
+            
+            // Completion Block
+            [vc setCompletionBlock:^{
+                
+                // Permissions view controller finished
+                
+                // Check if permissions were granted
+                
+                // Location
+                if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse] permissionState] == ISHPermissionStateAuthorized) {
+                    
+                    // Location allowed
+                    
+                    // Start the location activity
+                    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startLocation];
+                    
+                }
+                
+                // Activity
+                if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryActivity] permissionState] == ISHPermissionStateAuthorized) {
+                    
+                    // Activity allowed
+                    
+                    // Start the activity activity
+                    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startActivity];
+                }
+                
+            }];
         }
+        
+    } else {
+        
+        // Start the location activity
+        [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startLocation];
+        
+        // Start the activity activity
+        [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startActivity];
         
     }
-  
-        
-        // Show Animation
-        HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
-        HUD.labelText = @"Analyzing";
-        HUD.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
-        
-        HUD.detailsLabelText = @"Mobile Security Posture";
-        HUD.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
-        
-        @autoreleasepool {
-            
-            dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
-            
-            dispatch_async(myQueue, ^{
-                
-                // Perform Core Detection
-                [self performCoreDetection:self];
-                
-            });
-        }
-        
-        
-        [super viewDidAppear:animated];
-
-        
-
     
-
- 
+    
+    // Show Animation
+    HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    HUD.labelText = @"Analyzing";
+    HUD.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
+    
+    HUD.detailsLabelText = @"Mobile Security Posture";
+    HUD.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
+    
+    @autoreleasepool {
+        
+        dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
+        
+        dispatch_async(myQueue, ^{
+            
+            // Perform Core Detection
+            [self performCoreDetection:self];
+            
+        });
+    }
+    
+    
+    [super viewDidAppear:animated];
+    
+    
+    
+    
+    
+    
 }
 
 // Perform Core Detection
@@ -112,7 +143,7 @@ static MBProgressHUD *HUD;
     
     /* Perform Core Detection */
     
-       // Create an error
+    // Create an error
     NSError *error;
     
     // Get the policy
@@ -130,7 +161,7 @@ static MBProgressHUD *HUD;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self analyzeResults:computationResults withPolicy:policy];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
-
+                
             });
             
             
@@ -143,8 +174,8 @@ static MBProgressHUD *HUD;
         
     }]; // End of the Core Detection Block
     
-
-
+    
+    
 } // End of Core Detection Function
 
 
@@ -152,16 +183,16 @@ static MBProgressHUD *HUD;
 - (void)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:(Sentegrity_Policy *)policy {
     
     
-        
+    
     if(computationResults.deviceTrusted==YES){
-
+        
         // Show landing page
         
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         // Create the main view controller
         LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
         [self.navigationController pushViewController:landingViewController animated:NO];
-
+        
         
     } else {
         
@@ -197,7 +228,7 @@ static MBProgressHUD *HUD;
                     
                     // If pw was correct
                     if ([currentProtectMode deactivateProtectModeUserWithPIN:userText.text andError:&error] == YES){
-    
+                        
                         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                         // Create the main view controller
                         LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
@@ -236,7 +267,7 @@ static MBProgressHUD *HUD;
                 SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
                 policyPIN.backgroundType = Transparent;
                 [policyPIN removeTopCircle];
-
+                
                 
                 UITextField *policyText = [policyPIN addTextField:@"Demo password is \"admin\""];
                 
@@ -262,7 +293,7 @@ static MBProgressHUD *HUD;
                     }
                     
                 }];
-
+                
                 [policyPIN addButton:@"View Dashboard" actionBlock:^(void) {
                     // Get the storyboard
                     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -272,13 +303,13 @@ static MBProgressHUD *HUD;
                 }];
                 
                 [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"Administrator Approval Required" closeButtonTitle:nil duration:0.0f];
-            
+                
                 
             }
                 break;
                 
         }
-
+        
     }
 }
 
@@ -288,7 +319,7 @@ static MBProgressHUD *HUD;
     // Call SuperClass
     [super viewDidLayoutSubviews];
     
- }
+}
 
 #pragma mark - ISHPermissionKit
 

@@ -29,7 +29,7 @@
     
     // Magnetometer
     NSMutableArray *magneticHeadingArray;
-
+    
     
     // Bluetooth Manager
     CBCentralManager *mgr;
@@ -44,7 +44,19 @@
 // Location manager
 @property (strong, atomic) CLLocationManager *locationManager;
 
-// Kick off Core Detection
+// Kick off all Core Detection Activities
 - (void)runCoreDetectionActivities;
+
+// Start Bluetooth
+- (void)startBluetoothBLE;
+
+// Start location
+- (void)startLocation;
+
+// Start Activity
+- (void)startActivity;
+
+// Start Motion
+- (void)startMotion;
 
 @end
