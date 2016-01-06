@@ -1,0 +1,20 @@
+### Sentegrity Application TODO List
+
+- [x] Permissions check fixes
+
+Check permissions for location/motion until the user actually elects, right now if you close the app during first run and never make an election it never asks again. Make sure we have the ability to prompt on-demand for future updates where, for example, we suggest the user allow location or motion if a score is low.
+
+### Core Detection TODO List
+
+- [ ] Create “startup” file to store temporary info
+
+This should be a JSON file like the policy/store, we can just use one “startup” class and hang the attributes off it that are parsed from the file. Lets have the file mapped into an object just like the policy with the ability to “set” it as well. This is where we will store things such as “lastOSVersion”, crypto salts, and a few other persistent storage attributes we need.
+
+- [ ] OS Updated Check
+
+Add new TF attribute “wipeOnUpdate” to each TF in the policy and all supporting TF object maps. During baseline analysis If the iOS version is determined to have been new/upgraded (check it once at start? and compare based on startup file “lastOSVersion”) then check every TF for this attribute. If the attribute is True then we delete the stored assertion object for this TF and create a new/blank one (this happens automatically if it can’t find a matching store TF object). This can likely occur within baseline analysis where, as it is already, if it does not find a matching TF object in the store it will create it. 
+
+
+- [ ] TF Updated Check
+
+If During baseline analysis the revision number from the TF’s policy does not match the revision number in the stored TF object we need to blow the stored TF object away. This means the policy was updated the TF changed there we don’t want to use any old data. By blowing way the TF the new TF will re-learn etc.
