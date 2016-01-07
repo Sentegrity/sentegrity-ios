@@ -18,3 +18,7 @@ Add new TF attribute “wipeOnUpdate” to each TF in the policy and all support
 - [ ] TF Updated Check
 
 If During baseline analysis the revision number from the TF’s policy does not match the revision number in the stored TF object we need to blow the stored TF object away. This means the policy was updated the TF changed there we don’t want to use any old data. By blowing way the TF the new TF will re-learn etc.
+
+- [ ] Add Core Detection timeout to policy
+
+Currently this is hardcoded into the app. We should populate this value from the policy. We can add an attribute to the policy as a single key/value near the top where other values are such as UserThreshold, DeviceThreshold, etc..
