@@ -22,3 +22,12 @@ If During baseline analysis the revision number from the TF’s policy does not 
 - [ ] Add Core Detection timeout to policy
 
 Currently this is hardcoded into the app. We should populate this value from the policy. We can add an attribute to the policy as a single key/value near the top where other values are such as UserThreshold, DeviceThreshold, etc..
+
+
+- [ ] Identify why TFs hang when celluar or WiFi connection is lost or very low
+
+We discussed addressing this once the app is integrated into Good by killing the thread that Core Detection runs on if it hangs. Obviously, it would be nice to figure out the root cause. I have a feeling it has something to do w/ one of the APIs and TrustFactor dataset class. This issue is not addressed by the Core Detection timeout as that timeout is internal to Core Detection to identify hardware (resource) constraints that are causing delays, not hangs. 
+
+- [ ] Bluetooth classic does not work
+
+I don't know when exactly this stopped working completely, perhaps when we stopped attaching the framework correctly and hid it from apple? But it never works for me now, seems not be able to find any devices that are paired. The dataset is always empty it seems. Can we also make it such that we can find paired devices using the refresh button as well? In the past we've always had to restart the whole app to get any data.
