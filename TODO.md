@@ -15,7 +15,7 @@ This should be a JSON file like the policy/store, we can just use one “startup
 Add new TF attribute “wipeOnUpdate” to each TF in the policy and all supporting TF object maps. During baseline analysis If the iOS version is determined to have been new/upgraded (check it once at start? and compare based on startup file “lastOSVersion”) then check every TF for this attribute. If the attribute is True then we delete the stored assertion object for this TF and create a new/blank one (this happens automatically if it can’t find a matching store TF object). This can likely occur within baseline analysis where, as it is already, if it does not find a matching TF object in the store it will create it. 
 
 
-- [ ] TF Updated Check
+- [x] TF Updated Check
 
 If During baseline analysis the revision number from the TF’s policy does not match the revision number in the stored TF object we need to blow the stored TF object away. This means the policy was updated the TF changed there we don’t want to use any old data. By blowing way the TF the new TF will re-learn etc.
 
