@@ -16,6 +16,7 @@
 @property (nonatomic,retain) NSNumber *revision;;
 @property (nonatomic,retain) NSNumber *userThreshold;
 @property (nonatomic,retain) NSNumber *systemThreshold;
+@property (nonatomic,retain) NSNumber *timeout;
 @property (nonatomic,retain) NSString *contactURL;
 @property (nonatomic,retain) NSString *contactPhone;
 @property (nonatomic,retain) NSString *contactEmail;

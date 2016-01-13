@@ -19,7 +19,7 @@ Add new TF attribute “wipeOnUpdate” to each TF in the policy and all support
 
 If During baseline analysis the revision number from the TF’s policy does not match the revision number in the stored TF object we need to blow the stored TF object away. This means the policy was updated the TF changed there we don’t want to use any old data. By blowing way the TF the new TF will re-learn etc.
 
-- [ ] Add Core Detection timeout to policy
+- [x] Add Core Detection timeout to policy
 
 Currently this is hardcoded into the app. We should populate this value from the policy. We can add an attribute to the policy as a single key/value near the top where other values are such as UserThreshold, DeviceThreshold, etc..
 
@@ -30,7 +30,11 @@ We discussed addressing this once the app is integrated into Good by killing the
 
 - [ ] Bluetooth classic does not work
 
-I don't know when exactly this stopped working completely, perhaps when we stopped attaching the framework correctly and hid it from apple? But it never works for me now, seems not be able to find any devices that are paired. The dataset is always empty it seems. Can we also make it such that we can find paired devices using the refresh button as well? In the past we've always had to restart the whole app to get any data.
+I don't know when exactly this stopped working completely, perhaps when we stopped attaching the framework correctly and hid it from apple? But it never works for me now, seems not be able to find any devices that are paired. The dataset is always empty it seems. 
+
+- [x] Refresh button refreshes activities
+
+Can we also make it such that we can find paired devices using the refresh button as well? In the past we've always had to restart the whole app to get any data.
 
 ### Protect Mode TODO List
 

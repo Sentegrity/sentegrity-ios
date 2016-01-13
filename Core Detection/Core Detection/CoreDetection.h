@@ -54,7 +54,7 @@ typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computati
  *  @param callback CoreDetectionBlock
  *  @warning TODO: Change the way errors are passed
  */
-- (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(NSTimeInterval)timeOut withCallback:(coreDetectionBlock)callback;
+- (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withCallback:(coreDetectionBlock)callback;
 
 /*!
  *  Get the last computation results

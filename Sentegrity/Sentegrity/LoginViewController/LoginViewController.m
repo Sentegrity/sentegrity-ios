@@ -46,6 +46,7 @@ static MBProgressHUD *HUD;
 
 // View did appear
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     // Check if the application has permissions to run the different activities
     ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
@@ -105,6 +106,11 @@ static MBProgressHUD *HUD;
         
     }
     
+    // Start the location activity
+    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startLocation];
+    
+    // Start the activity activity
+    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startActivity];
     
     // Show Animation
     HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -128,14 +134,6 @@ static MBProgressHUD *HUD;
         });
     }
     
-    
-    [super viewDidAppear:animated];
-    
-    
-    
-    
-    
-    
 }
 
 // Perform Core Detection
@@ -153,7 +151,7 @@ static MBProgressHUD *HUD;
     Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyPath withError:&error];
     
     // Run Core Detection
-    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withTimeout:5.0f withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
+    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
         
         // Check if core detection completed successfully
         if (success) {
@@ -181,7 +179,7 @@ static MBProgressHUD *HUD;
 - (void)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:(Sentegrity_Policy *)policy {
     
     // Check if the device is trusted
-    if (computationResults.deviceTrusted == YES) {
+    if (computationResults.deviceTrusted) {
         
         // Device is trusted
         
