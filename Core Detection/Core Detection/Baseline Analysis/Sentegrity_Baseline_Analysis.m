@@ -333,17 +333,7 @@
             // Do not decay
             break;
             
-        case 1: // Last seen based decay, removes assertions according to the amount of days passed since last seen
-            
-            // Only run decay if history exceeds
-            if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > [trustFactorOutputObject.trustFactor.decayMetric integerValue]) {
-                
-                trustFactorOutputObject = [self performLastSeenBasedDecay:trustFactorOutputObject withError:error];
-                
-            }
-            break;
-            
-        case 2: // Metric based decay where hitcounts and divided by time since last time the stored assertion was hit
+        case 1: // Metric based decay where hitcounts are divided by time since last the stored assertion was hit
             
             // Only update decay if there is at leaste two stored assertion to be check, otherwise its a waste of time
             if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > 1){
@@ -661,62 +651,6 @@
     return trustFactorOutputObject;
 }
 
-// Count based decay function
-+ (Sentegrity_TrustFactor_Output_Object *)performLastSeenBasedDecay:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
-    
-    //double secondsInADay = 86400.0;
-    
-    //Accelerate for debug (10 min)
-    double secondsInADay = 600;
-    double daysSinceLastSeen=0.0;
-    double daysPerRuns=0.0;
-    int runCount = trustFactorOutputObject.storedTrustFactorObject.runCount.intValue;
-    
-    // Array to hold assertions to retain
-    NSMutableArray *assertionObjectsToKeep = [[NSMutableArray alloc]init];
-    
-    // Iterate through stored assertions for each trustFactorOutputObject and update metric
-    for(Sentegrity_Stored_Assertion *storedAssertion in trustFactorOutputObject.storedTrustFactorObject.assertionObjects) {
-        
-        // Days since the assertion was last hit
-        daysSinceLastSeen = ((double)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.lastTime doubleValue]) / secondsInADay;
-        
-        // Check when last time it was seen
-        if(daysSinceLastSeen < 1){
-            
-            // Set last seen date to 1 if less than 1
-            daysSinceLastSeen = 1;
-        }
-
-        // Calculate our decay metric
-        daysPerRuns = daysSinceLastSeen / runCount;
-        
-        // Set the metric for storage
-        [storedAssertion setDecayMetric:daysPerRuns];
-        
-        // If the stored assertions (last seen in days) metric is less than the value set in the policy for max days, keep it
-        if([storedAssertion decayMetric] < trustFactorOutputObject.trustFactor.decayMetric.floatValue) {
-            
-            [assertionObjectsToKeep addObject:storedAssertion];
-        }
-    }
-    
-    // Sort all assertions by decay metric, lowest at top (in theory, the more current the more likely it is to come up again)
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"decayMetric"
-                                                 ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    
-    NSArray *sortedArray;
-    
-    // Sort the array
-    sortedArray = [assertionObjectsToKeep sortedArrayUsingDescriptors:sortDescriptors];
-    
-    // Set the sorted version of what we're keeping
-    trustFactorOutputObject.storedTrustFactorObject.assertionObjects = sortedArray;
-    
-    return trustFactorOutputObject;
-}
 
 // Update learning and candidate assertions function
 + (Sentegrity_TrustFactor_Output_Object *)updateLearningAndAddCandidateAssertions:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
