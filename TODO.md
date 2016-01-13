@@ -31,3 +31,16 @@ We discussed addressing this once the app is integrated into Good by killing the
 - [ ] Bluetooth classic does not work
 
 I don't know when exactly this stopped working completely, perhaps when we stopped attaching the framework correctly and hid it from apple? But it never works for me now, seems not be able to find any devices that are paired. The dataset is always empty it seems. Can we also make it such that we can find paired devices using the refresh button as well? In the past we've always had to restart the whole app to get any data.
+
+### Protect Mode TODO List
+
+- [ ] Modify whitelisting and popup box text in response  to a user vs. device threshold violation.
+- 
+Current state:
+Device threshold is always checked first:
++ If device threshold violated, ask for admin pin, we whitelist device assertions if correct (deviceTrustFactorsToWhitelist)
++ If user threshold is violated, ask for user pin, whitelist user assertions if correct (userTrustFactorsToWhitelist)
+
+We want to change to:
++ If device threshold is violated, ask for user pin and warn “high risk device - data breach may occur, this attempt has been recorded”, whitelist user and device assertions (deviceTrustFactorsToWhitelist + userTrustFactorsToWhitelist) (*user trustfactors are whitelisted regardless of whether a user threshold was violated because it’s an opportunity to learn from the user authenticating)
++ If user thresholds violated, ask for user pin and state “Password Required”, whitelist only user assertions (userTrustFactorsToWhitelist)
