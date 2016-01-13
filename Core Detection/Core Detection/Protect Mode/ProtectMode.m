@@ -89,10 +89,10 @@
     
     // TODO: Remove this sometime in the future
     // Check if the policy pin is equal to admin
-    if ([[policyPIN lowercaseString] isEqualToString:@"admin"]) {
+    if ([[policyPIN lowercaseString] isEqualToString:@"user"]) {
         
         // Log it
-        NSLog(@"Deactivating Protect Mode: Admin");
+        NSLog(@"Deactivating Protect Mode: User");
         
         // Check if the whitelistcount is more than 0
         if (self.trustFactorsToWhitelist.count > 0) {

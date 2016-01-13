@@ -125,7 +125,6 @@
     // Determining errors
     NSMutableArray *subClassDNECodes;
     
-    
     // For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
         
@@ -461,7 +460,7 @@
     for (Sentegrity_Classification *class in self.policy.classifications) {
         
         // If its a system class
-        if([[class user] intValue]==0){
+        if ([[class user] intValue] == 0) {
             
             int currentScore = MIN(100,MAX(0,100-(int)[class weightedPenalty]));
             
@@ -585,7 +584,7 @@
     
     
     // Set comprehensive scores
-    if(systemPolicyViolation == YES) {
+    if (systemPolicyViolation == YES) {
         
         self.systemScore = 0;
         
@@ -605,12 +604,12 @@
     
     self.deviceScore = (self.systemScore + self.userScore)/2;
     
-    //Defaults
+    // Defaults
     self.deviceTrusted = YES;
     self.userTrusted = YES;
     self.systemTrusted = YES;
     
-    //Check system threshold
+    // Check system threshold
     if (self.systemScore < self.policy.systemThreshold.integerValue) {
         // System is not trusted
         self.systemTrusted = NO;
@@ -624,15 +623,15 @@
         self.deviceTrusted = NO;
     }
     
-    
     // Analyze system first as it has priority
     
-    if(!self.systemTrusted){
+    // Check if the system is trusted
+    if (!self.systemTrusted) {
         
         // Set protect mode whitelist to all of the system domain
         self.protectModeWhitelist =  self.protectModeSystemWhitelist;
         
-        if(self.systemBreachScore <= self.systemSecurityScore) // SYSTEM_BREACH is attributing
+        if (self.systemBreachScore <= self.systemSecurityScore) // SYSTEM_BREACH is attributing
         {
             self.protectModeClassID = [systemBreachClass.identification integerValue] ;
             self.protectModeAction = [systemBreachClass.protectModeAction integerValue];
@@ -643,7 +642,7 @@
             self.systemGUIIconText = systemBreachClass.desc;
             
             // SYSTEM_POLICY is attributing
-        } else if(self.systemPolicyScore <= self.systemSecurityScore) {
+        } else if (self.systemPolicyScore <= self.systemSecurityScore) {
             
             self.protectModeClassID = [systemPolicyClass.identification integerValue] ;
             self.protectModeAction = [systemPolicyClass.protectModeAction integerValue];
@@ -672,13 +671,17 @@
         self.systemGUIIconText = @"Device Trusted";
     }
     
-    if(!self.userTrusted){
+    // Check if the user is trusted
+    if (!self.userTrusted) {
         
         // See which classification inside user attributed the most and set protect mode
         // USER_POLICY is attributing
-        if(self.userPolicyScore <= self.userAnomalyScore) {
+        if (self.userPolicyScore <= self.userAnomalyScore) {
             
-            if(self.systemTrusted) {
+            // Check if the system is trusted
+            if (self.systemTrusted) {
+                
+                // System is trusted
                 
                 // Get value of Class ID
                 self.protectModeClassID = [userPolicyClass.identification integerValue];
@@ -693,7 +696,24 @@
                 self.protectModeWhitelist = [[NSArray alloc] init];
                 
                 // Add entire user domain to whitelist
-                self.protectModeWhitelist = [self.protectModeWhitelist arrayByAddingObjectsFromArray:self.protectModeUserWhitelist] ;
+                self.protectModeWhitelist = [self.protectModeWhitelist arrayByAddingObjectsFromArray:self.protectModeUserWhitelist];
+                
+            } else {
+                
+                // System is not trusted
+                
+                // Add to the whitelist
+                
+                // Check if the protectmodewhitelist has something in it
+                if (!self.protectModeWhitelist || self.protectModeWhitelist.count < 1) {
+                    
+                    // Initialize protect mode white list
+                    self.protectModeWhitelist = [[NSArray alloc] init];
+                    
+                }
+                
+                // Add entire user domain to whitelist
+                self.protectModeWhitelist = [self.protectModeWhitelist arrayByAddingObjectsFromArray:self.protectModeUserWhitelist];
             }
             
             // Set dashboard and detailed user view info
@@ -704,15 +724,36 @@
         } else {
             
             // Set protect mode action to the class specified action ONLY if system did not already
-            if(self.systemTrusted){
+            if (self.systemTrusted) {
+                
+                // System is trusted
+                
                 self.protectModeClassID = [userAnomalyClass.identification integerValue];
                 self.protectModeAction = [userAnomalyClass.protectModeAction integerValue];
                 self.protectModeMessage = userAnomalyClass.protectModeMessage;
                 
-                self.protectModeWhitelist = [[NSMutableArray alloc] init];
+                self.protectModeWhitelist = [[NSArray alloc] init];
                 
                 // Add just user anomaly to whitelist
                 self.protectModeWhitelist = [self.protectModeWhitelist arrayByAddingObjectsFromArray:userAnomalyClass.trustFactorsToWhitelist];
+                
+            } else {
+                
+                // System is not trusted
+                
+                // Add to the whitelist
+                
+                // Check if the protectmodewhitelist has something in it
+                if (!self.protectModeWhitelist || self.protectModeWhitelist.count < 1) {
+                    
+                    // Initialize protect mode white list
+                    self.protectModeWhitelist = [[NSArray alloc] init];
+                    
+                }
+                
+                // Add just user anomaly to whitelist
+                self.protectModeWhitelist = [self.protectModeWhitelist arrayByAddingObjectsFromArray:userAnomalyClass.trustFactorsToWhitelist];
+                
             }
             
             // Set dashboard and detailed user view info
@@ -727,6 +768,7 @@
         self.userGUIIconText = @"User Trusted";
     }
     
+    // Return self
     return self;
 }
 

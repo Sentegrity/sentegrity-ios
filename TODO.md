@@ -34,7 +34,7 @@ I don't know when exactly this stopped working completely, perhaps when we stopp
 
 ### Protect Mode TODO List
 
-- [ ] Modify whitelisting and popup box text in response  to a user vs. device threshold violation.
+- [x] Modify whitelisting and popup box text in response  to a user vs. device threshold violation.
 
 Current state:
 Device threshold is always checked first:

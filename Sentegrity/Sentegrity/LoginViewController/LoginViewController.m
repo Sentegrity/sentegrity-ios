@@ -164,7 +164,7 @@ static MBProgressHUD *HUD;
                 
             });
             
-            
+            // Log the errors
             NSLog(@"\n\nErrors: %@", [*error localizedDescription]);
             
         } else {
@@ -174,32 +174,32 @@ static MBProgressHUD *HUD;
         
     }]; // End of the Core Detection Block
     
-    
-    
 } // End of Core Detection Function
 
 
 // Set up the customizations for the view
 - (void)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:(Sentegrity_Policy *)policy {
     
-    
-    
-    if(computationResults.deviceTrusted==YES){
+    // Check if the device is trusted
+    if (computationResults.deviceTrusted == YES) {
         
-        // Show landing page
+        // Device is trusted
         
+        // Show the landing page
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
         // Create the main view controller
         LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
         [self.navigationController pushViewController:landingViewController animated:NO];
         
-        
     } else {
+        
+        // Device is not trusted
         
         // Create the protect mode object
         ProtectMode *currentProtectMode = [[ProtectMode alloc] initWithPolicy:policy andTrustFactorsToWhitelist:computationResults.protectModeWhitelist];
         
-        //check protect mode action
+        // check protect mode action
         switch (computationResults.protectModeAction) {
             case 0:
                 break;
@@ -226,15 +226,21 @@ static MBProgressHUD *HUD;
                     // Create an error
                     NSError *error = nil;
                     
-                    // If pw was correct
-                    if ([currentProtectMode deactivateProtectModeUserWithPIN:userText.text andError:&error] == YES){
+                    // If the password was correct was correct
+                    if ([currentProtectMode deactivateProtectModeUserWithPIN:userText.text andError:&error] && error == nil) {
                         
+                        // Show the landing page
                         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                         // Create the main view controller
                         LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
                         [self.navigationController pushViewController:landingViewController animated:NO];
-                    }
-                    else{
+                    
+                    } else {
+                        
+                        // Log the error (if any)
+                        if (error) {
+                            NSLog(@"Error Thrown: %@", error.debugDescription);
+                        }
                         
                         // Prompt them again
                         [self analyzeResults:computationResults withPolicy:policy];
@@ -258,7 +264,8 @@ static MBProgressHUD *HUD;
             }
                 break;
                 
-            case 3: { // POLICY PROTECT MODE
+            case 3: {
+                // POLICY PROTECT MODE
                 
                 // Active protect mode
                 [currentProtectMode activateProtectModePolicy];
@@ -269,7 +276,7 @@ static MBProgressHUD *HUD;
                 [policyPIN removeTopCircle];
                 
                 
-                UITextField *policyText = [policyPIN addTextField:@"Demo password is \"admin\""];
+                UITextField *policyText = [policyPIN addTextField:@"Demo password is \"user\""];
                 
                 // Show deactivation textbox
                 [policyPIN addButton:@"Unlock" actionBlock:^(void) {
@@ -285,6 +292,7 @@ static MBProgressHUD *HUD;
                         // Create the main view controller
                         LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
                         [self.navigationController pushViewController:landingViewController animated:NO];
+                        
                     } else {
                         
                         // Prompt them again
@@ -302,7 +310,7 @@ static MBProgressHUD *HUD;
                     [self.navigationController pushViewController:mainViewController animated:NO];
                 }];
                 
-                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"Administrator Approval Required" closeButtonTitle:nil duration:0.0f];
+                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"Data breach may occur, this attempt has been recorded" closeButtonTitle:nil duration:0.0f];
                 
                 
             }
