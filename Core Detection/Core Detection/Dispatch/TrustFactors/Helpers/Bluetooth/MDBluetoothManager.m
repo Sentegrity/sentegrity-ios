@@ -461,16 +461,20 @@ void notificationCallback(CFNotificationCenterRef center, void* observer,
 {
     NSLog(@"bluetoothPowerChanged");
     
-    for (id<MDBluetoothObserverProtocol> observer in self.observers) {
-        [observer receivedBluetoothNotification:MDBluetoothPowerChangedNotification];
+    for (id<MDBluetoothObserverProtocol> observer in [self.observers copy]) {
+        if (observer) {
+            [observer receivedBluetoothNotification:MDBluetoothPowerChangedNotification];
+        }
     }
 }
 
 - (void)bluetoothAvailabilityChanged:(NSNotification*)notification
 {
     NSLog(@"bluetoothAvailabilityChanged");
-    for (id<MDBluetoothObserverProtocol> observer in self.observers) {
-        [observer receivedBluetoothNotification:MDBluetoothAvailabilityChangedNotification];
+    for (id<MDBluetoothObserverProtocol> observer in [self.observers copy]) {
+        if (observer) {
+            [observer receivedBluetoothNotification:MDBluetoothAvailabilityChangedNotification];
+        }
     }
 }
 
@@ -481,8 +485,10 @@ void notificationCallback(CFNotificationCenterRef center, void* observer,
     MDBluetoothDevice* bluetoothDevice = [[MDBluetoothDevice alloc] initWithBluetoothDevice:(id)[notification object]];
     [self.internalDiscoveredBluetoothDevices addObject:bluetoothDevice];
     
-    for (id<MDBluetoothObserverProtocol> observer in self.observers) {
-        [observer receivedBluetoothNotification:MDBluetoothDeviceDiscoveredNotification];
+    for (id<MDBluetoothObserverProtocol> observer in [self.observers copy]) {
+        if (observer) {
+            [observer receivedBluetoothNotification:MDBluetoothDeviceDiscoveredNotification];
+        }
     }
 }
 
@@ -492,8 +498,10 @@ void notificationCallback(CFNotificationCenterRef center, void* observer,
     MDBluetoothDevice* bluetoothDevice = [[MDBluetoothDevice alloc] initWithBluetoothDevice:(id)[notification object]];
     [self.internalDiscoveredBluetoothDevices removeObject:bluetoothDevice];
     
-    for (id<MDBluetoothObserverProtocol> observer in self.observers) {
-        [observer receivedBluetoothNotification:MDBluetoothDeviceRemovedNotification];
+    for (id<MDBluetoothObserverProtocol> observer in [self.observers copy]) {
+        if (observer) {
+            [observer receivedBluetoothNotification:MDBluetoothDeviceRemovedNotification];
+        }
     }
 }
 
