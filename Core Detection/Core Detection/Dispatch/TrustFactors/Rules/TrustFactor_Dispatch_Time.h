@@ -13,10 +13,10 @@
 // Not implemented in default policy
 + (Sentegrity_TrustFactor_Output_Object *)accessTime:(NSArray *)payload;
 
-//+ (Sentegrity_TrustFactor_Output_Object *)timeHour:(NSArray *)payload;
+/* Old/Archived
++ (Sentegrity_TrustFactor_Output_Object *)timeHour:(NSArray *)payload;
 
-
-//+ (Sentegrity_TrustFactor_Output_Object *)timeDay:(NSArray *)payload;
+ */
 
 @end
 

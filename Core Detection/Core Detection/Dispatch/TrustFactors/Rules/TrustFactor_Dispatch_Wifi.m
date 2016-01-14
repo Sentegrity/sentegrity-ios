@@ -140,8 +140,9 @@
     
 }
 
-// Captive Portal Unencrypted AP Check - Not available
-/* DEPRECATED
+
+/* Old/Archived
+ 
  + (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload {
  
  // Create the trustfactor output object

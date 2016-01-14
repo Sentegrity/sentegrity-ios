@@ -13,8 +13,9 @@
 // Determine if the connected access point is a SOHO (Small Office/Home Offic) network
 + (Sentegrity_TrustFactor_Output_Object *)highRiskAP:(NSArray *)payload;
 
-// TODO: This ability is not available on iOS outside of private API's
+/* Old/Archived
 //+ (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload;
+ */
 
 // Unknown SSID Check - Get the current AP SSID
 + (Sentegrity_TrustFactor_Output_Object *)SSID:(NSArray *)payload;
