@@ -28,13 +28,23 @@ Currently this is hardcoded into the app. We should populate this value from the
 
 We discussed addressing this once the app is integrated into Good by killing the thread that Core Detection runs on if it hangs. Obviously, it would be nice to figure out the root cause. I have a feeling it has something to do w/ one of the APIs and TrustFactor dataset class. This issue is not addressed by the Core Detection timeout as that timeout is internal to Core Detection to identify hardware (resource) constraints that are causing delays, not hangs. 
 
-- [ ] Bluetooth classic does not work
 
-I don't know when exactly this stopped working completely, perhaps when we stopped attaching the framework correctly and hid it from apple? But it never works for me now, seems not be able to find any devices that are paired. The dataset is always empty it seems. 
 
 - [x] Refresh button refreshes activities
 
 Can we also make it such that we can find paired devices using the refresh button as well? In the past we've always had to restart the whole app to get any data.
+
+### TrustFactor TODO List
+
+- [ ] Bluetooth classic does not work
+
+I don't know when exactly this stopped working completely, perhaps when we stopped attaching the framework correctly and hid it from apple? But it never works for me now, seems not be able to find any devices that are paired. The dataset is always empty it seems. 
+
+- [ ] Use Wigle to get locations and/or currently connected WiFi encryption
+
+If a user does not provie location authorization we can fallback on submitting (if available) the currently connected WiFI BSSID to Wigle and parsing the long/lat response. User: sentegrity password: s3nt3gr1ty. The free API is here: https://wigle.net/api/v1/jsonSearch?netid=00:22:55:DF:C8:01 but requires authentication. This python class shows how to talk to the API (otherwise its hard to find good documentation): https://code.activestate.com/recipes/578637-wigle-wifi-geolocation/
+
+We could also use this for getting the encrytion level of the AP (if available). Skyhook is another provider.
 
 ### Protect Mode TODO List
 
