@@ -36,7 +36,7 @@ Can we also make it such that we can find paired devices using the refresh butto
 
 ### TrustFactor TODO List
 
-- [ ] Bluetooth classic does not work
+- [x] Bluetooth classic does not work
 
 I don't know when exactly this stopped working completely, perhaps when we stopped attaching the framework correctly and hid it from apple? But it never works for me now, seems not be able to find any devices that are paired. The dataset is always empty it seems. 
 

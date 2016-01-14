@@ -1195,33 +1195,6 @@
       ]
     },
     {
-      "id": 1032,
-      "issueMessage": "Location country violation",
-      "suggestionMessage": "Request policy exception",
-      "revision": 1,
-      "classID": 4,
-      "subClassID": 19,
-      "name": "Country allowed (device location)",
-      "penalty": 100,
-      "ruleType": 1,
-      "learnMode": 0,
-      "learnTime": 0,
-      "learnAssertionCount": 0,
-      "learnRunCount": 0,
-      "threshold": 0,
-      "decayMode": 0,
-      "decayMetric": 0,
-      "wipeOnUpdate": 0,
-      "dispatch": "Location",
-      "implementation": "countryAllowed:",
-      "whitelistable": 1,
-      "privateAPI": 0,
-      "payload": [
-        "US",
-        "CA"
-      ]
-    },
-    {
       "id": 1033,
       "issueMessage": "",
       "suggestionMessage": "Employ a Bluetooth low-energy device",
