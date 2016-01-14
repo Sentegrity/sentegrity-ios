@@ -448,11 +448,9 @@
     Sentegrity_Classification *userAnomalyClass;
     Sentegrity_Classification *userPolicyClass;
     
-    int systemClassCount = 0;
-    int systemScoreSum = 0;
+    int systemPenaltySum = 0;
     
-    int userClassCount = 0;
-    int userScoreSum = 0;
+    int userPenaltySum = 0;
     
     BOOL systemPolicyViolation=NO;
     BOOL userPolicyViolation=NO;
@@ -463,15 +461,17 @@
         // If its a system class
         if([[class user] intValue]==0){
             
+            // Calculate total penalty for System classifications
+            systemPenaltySum = systemPenaltySum + (int)[class weightedPenalty];
+            
             int currentScore = MIN(100,MAX(0,100-(int)[class weightedPenalty]));
             
+            // Calculate individual class penalties (no longer used)
             switch ([[class identification] intValue]) {
                     
                 case 1:
                     systemBreachClass = class;
                     self.systemBreachScore = currentScore;
-                    systemScoreSum = systemScoreSum + currentScore;
-                    systemClassCount++;
                     break;
                     
                 case 2:
@@ -487,8 +487,6 @@
                 case 3:
                     systemSecurityClass = class;
                     self.systemSecurityScore = currentScore;
-                    systemScoreSum = systemScoreSum + currentScore;
-                    systemClassCount++;
                     break;
                 default:
                     break;
@@ -511,6 +509,9 @@
             // When it's a user class
         } else {
             
+            // Calculate total penalty for User classifications
+            userPenaltySum = userPenaltySum + (int)[class weightedPenalty];
+            
             int currentScore = MIN(100,MAX(0,100-(int)[class weightedPenalty]));
             
             switch ([[class identification] intValue]) {
@@ -528,8 +529,6 @@
                 case 5:
                     userAnomalyClass = class;
                     self.userAnomalyScore = currentScore;
-                    userScoreSum = userScoreSum +  currentScore;
-                    userClassCount++;
                     break;
                 default:
                     break;
@@ -585,13 +584,14 @@
     
     
     // Set comprehensive scores
+    // Gaurantee that a policy violataion will be zero (type 4 rules could technically overpower)
     if(systemPolicyViolation == YES) {
         
         self.systemScore = 0;
         
     } else {
         
-        self.systemScore = systemScoreSum / systemClassCount;
+        self.systemScore = MIN(100,MAX(0,100 - systemPenaltySum));
     }
     
     if (userPolicyViolation == YES) {
@@ -600,7 +600,7 @@
         
     } else {
         
-        self.userScore = userScoreSum / userClassCount;
+        self.userScore = MIN(100,MAX(0,100 - userPenaltySum));
     }
     
     self.deviceScore = (self.systemScore + self.userScore)/2;

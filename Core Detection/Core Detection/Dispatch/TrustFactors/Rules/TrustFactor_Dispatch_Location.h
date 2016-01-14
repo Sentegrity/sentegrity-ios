@@ -15,8 +15,10 @@
 
 @interface TrustFactor_Dispatch_Location : NSObject
 
+/* Old/Archived
 // Determine if device is in a location of an allowed country
-+ (Sentegrity_TrustFactor_Output_Object *)countryAllowed:(NSArray *)payload;
+// + (Sentegrity_TrustFactor_Output_Object *)countryAllowed:(NSArray *)payload;
+ */
 
 // Determine location of device
 + (Sentegrity_TrustFactor_Output_Object *)locationGPS:(NSArray *)payload;

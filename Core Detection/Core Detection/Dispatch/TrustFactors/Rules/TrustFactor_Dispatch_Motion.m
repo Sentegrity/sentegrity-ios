@@ -159,6 +159,8 @@
     
 }
 
+
+/* Old/Archived
  
  + (Sentegrity_TrustFactor_Output_Object *)moving:(NSArray *)payload {
      
@@ -221,6 +223,8 @@
      return trustFactorOutputObject;
  
  }
+ 
+ */
 
 
 // Get's the device's orientation

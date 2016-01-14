@@ -67,10 +67,7 @@
     return trustFactorOutputObject;
 }
 
-/*
- 
- OLD
- 
+/* Old/Archived
  
 + (Sentegrity_TrustFactor_Output_Object *)timeHour:(NSArray *)payload {
     // Create the trustfactor output object

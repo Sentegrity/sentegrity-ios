@@ -351,8 +351,10 @@
     // Create and update assertions depending on type of rule
     switch (trustFactorOutputObject.trustFactor.ruleType.intValue) {
         
-        // Rule type 1 leverages a default assertion to look for blacklisted artifacts on the system or enforce user policies
+        // Rule type 1 leverages a default assertion, no learning, trigger on NO MATCH in store
         case 1:
+            
+
             
             // Must be the first time this has run
             if(trustFactorOutputObject.storedTrustFactorObject.learned == NO) {
@@ -360,16 +362,17 @@
                 // Set stored assertion to the default for proper comparison
                 trustFactorOutputObject.storedTrustFactorObject.assertionObjects = @[[trustFactorOutputObject defaultAssertionObject]];
                 
-                // Updated assertion object
-                updatedTrustFactorOutputObject = [self updateLearningAndAddCandidateAssertions:trustFactorOutputObject withError:error];
+                // set to learned (type 1 rules don't use learning)
+                trustFactorOutputObject.storedTrustFactorObject.learned = YES;
+    
             }
             
-            // Run baseline analysis
+            // Run baseline analysis to determine if candidate does NOT match the default assertion (already in the store) or any other assertion that is in the store as a result of whitelisting
             updatedTrustFactorOutputObject = [self checkBaselineForNoMatch:trustFactorOutputObject withError:error];
             
             break;
             
-        // Rule Type 2 supports learning modes, no default assertion is used, these rules don't take effect right away as they must learn a profile first (generally device/system based rules)
+        // Rule Type 2 supports learning modes, these rules don't take effect right away as they must learn a profile first, triggered on NO MATCH in store
         case 2:
             
             // If TrustFactor is learned run baseline analysis
@@ -383,7 +386,7 @@
             
             break;
             
-        // Rule Type 3 uses no default assertion and no learning mode, triggers right away (e.g., builds a profile to identify known-good good user conditions one login at a time, good conditions are determined by login therefore no learning occurs, everything triggers on first run)
+        // Rule Type 3 no learning, triggers on first run and NO MATCH in store (e.g., builds a profile to identify known-good good user conditions one login at a time, good conditions are determined by login therefore no learning occurs, everything triggers on first run)
         case 3:
             
             // Must be the first time this has run
@@ -400,7 +403,7 @@
             
             break;
             
-        // Rule Type 4 is designed for authenticator TFs (known wifi, known bluetooth, etc) the same as ruletype 3 but flips the learning, it triggers when there is match in order to apply a negative penalty, unlike all other rule types that trigger on no-match and apply a positive penalty, only a few USER rules u
+        // Rule Type 4 is designed for authenticator TFs (known wifi, known bluetooth, etc) the same as ruletype 3 but flips the learning and trigger conditions. Candidate assertions are learned when the rule does not trigger but authentication is performed. The rule triggers when there IS a match in order to apply a negative penalty, only a few user rules employ this type
         case 4:
             
             // Must be the first time this has run
@@ -708,7 +711,7 @@
             }
             break;
             
-        // Learn Mode 3: Checks the number of assertions we have and the date since first run of TrustFactor
+        // Learn Mode 3: Checks the number of assertions we have and the date since first run of TrustFactor (not currently used by anything)
         case 3:
             
             // Add learned assertions to storedTrustFactorOutputObject

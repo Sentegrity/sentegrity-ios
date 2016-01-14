@@ -10,7 +10,7 @@
 
 @interface TrustFactor_Dispatch_Process : NSObject 
 
-/* Removed due to iOS 9
+/* Old/Archived - Removed due to iOS 9
  
 // 2 - Known Bad Processes
 + (Sentegrity_TrustFactor_Output_Object *)blacklisted:(NSArray *)payload;

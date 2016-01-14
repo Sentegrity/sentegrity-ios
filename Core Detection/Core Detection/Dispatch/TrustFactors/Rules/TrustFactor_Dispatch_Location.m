@@ -11,6 +11,8 @@
 
 @implementation TrustFactor_Dispatch_Location
 
+/* Old/Archived
+ 
 // Determine if the device is in a location of an allowed country
 + (Sentegrity_TrustFactor_Output_Object *)countryAllowed:(NSArray *)payload {
     
@@ -118,6 +120,8 @@
     return trustFactorOutputObject;
     
 }
+ 
+ */
 
 // Determine location of device
 + (Sentegrity_TrustFactor_Output_Object *)locationGPS:(NSArray *)payload {
