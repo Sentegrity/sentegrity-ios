@@ -144,7 +144,8 @@ typedef enum {
     DNEStatus_disabled                              = 4,
     DNEStatus_expired                               = 5,
     DNEStatus_error                                 = 6,
-    DNEStatus_nodata                                = 7
+    DNEStatus_nodata                                = 7,
+    DNEStatus_invalid                               = 8
 } DNEStatusCode;
 
 /*!

@@ -506,7 +506,7 @@
     if (bluetoothManagerClass == nil) {
         
         // Open the BluetoothManager private framework with dlopen
-        void *handle = dlopen("System/Library/PrivateFrameworks/BluetoothManager.framework/BluetoothManager", RTLD_NOW);
+        void *handle = dlopen("/System/Library/PrivateFrameworks/BluetoothManager.framework/BluetoothManager", RTLD_NOW);
         
         // Check if it was able to open
         if (handle) {

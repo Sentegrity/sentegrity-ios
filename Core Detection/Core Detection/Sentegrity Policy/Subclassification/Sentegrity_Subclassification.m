@@ -48,6 +48,12 @@
 // dneExpired
 - (void)setDneExpired:(NSString *)dneExpired{
     _dneExpired = dneExpired;
+    
+}
+
+// dneExpired
+- (void)setDneInvalid:(NSString *)dneInvalid{
+    _dneInvalid = dneInvalid;
 }
 // Weight
 - (void)setWeight:(NSNumber *)weight{

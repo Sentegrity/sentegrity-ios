@@ -247,16 +247,16 @@ static MBProgressHUD *HUD;
                     
                 }];
                 
-                [userPIN addButton:@"View Dashboard" actionBlock:^(void) {
+                [userPIN addButton:@"View Issues" actionBlock:^(void) {
                     // Get the storyboard
                     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                     // Create the main view controller
-                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"userinformationviewcontroller"];
                     [self.navigationController pushViewController:mainViewController animated:NO];
                 }];
                 
                 
-                [userPIN showCustom:self image:nil color:[UIColor grayColor] title:@"User Anomaly" subTitle:@"User Password Required" closeButtonTitle:nil duration:0.0f];
+                [userPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Unauthorized" subTitle:@"Password Required" closeButtonTitle:nil duration:0.0f];
                 
                 
             }
@@ -277,7 +277,7 @@ static MBProgressHUD *HUD;
                 UITextField *policyText = [policyPIN addTextField:@"Demo password is \"user\""];
                 
                 // Show deactivation textbox
-                [policyPIN addButton:@"Unlock" actionBlock:^(void) {
+                [policyPIN addButton:@"Login" actionBlock:^(void) {
                     
                     // Create an error
                     NSError *error = nil;
@@ -300,15 +300,15 @@ static MBProgressHUD *HUD;
                     
                 }];
                 
-                [policyPIN addButton:@"View Dashboard" actionBlock:^(void) {
+                [policyPIN addButton:@"View Issues" actionBlock:^(void) {
                     // Get the storyboard
                     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                     // Create the main view controller
-                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"systeminformationviewcontroller"];
                     [self.navigationController pushViewController:mainViewController animated:NO];
                 }];
                 
-                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"Data breach may occur, this attempt has been recorded" closeButtonTitle:nil duration:0.0f];
+                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"Access may result in data breach, this attempt has been recorded. \n\nEnter password to continue." closeButtonTitle:nil duration:0.0f];
                 
                 
             }

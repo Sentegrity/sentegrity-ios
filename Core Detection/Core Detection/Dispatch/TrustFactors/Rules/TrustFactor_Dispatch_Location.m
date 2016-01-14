@@ -354,11 +354,11 @@
                 z = [[sample objectForKey:@"z"] floatValue];
                 
                 // Calculate totl magnetic field regardless of position for each measurement
-                // magnitude = sqrt (pow(x,2)+
-                            //      pow(y,2)+
-                            //      pow(z,2));
+                 magnitude = sqrt (pow(x,2)+
+                                  pow(y,2)+
+                                  pow(z,2));
                 
-                magnitude = sqrt (pow(z,2));
+                //magnitude = sqrt (pow(z,2));
                 
                 magnitudeTotal = magnitudeTotal + magnitude;
                 

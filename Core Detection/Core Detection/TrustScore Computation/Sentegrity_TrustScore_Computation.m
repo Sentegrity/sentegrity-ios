@@ -352,6 +352,11 @@
                         [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check unavailable"]];
                         
                     }
+                    else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_invalid]]){
+                        
+                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check invalid"]];
+                        
+                    }
                     else{
                         
                         [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check error"]];
@@ -820,6 +825,17 @@
                 }
             }
             break;
+        case DNEStatus_invalid:
+            // Invalid
+            
+            // Check if subclass contains custom suggestion for the current error code
+            if(subClass.dneInvalid.length != 0)
+            {   //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneInvalid]){
+                    [suggestionsInClass addObject:subClass.dneInvalid];
+                }
+            }
+            break;
         default:
             break;
     }
@@ -924,6 +940,21 @@
                 //Does suggestion already exist?
                 if(![suggestionsInClass containsObject:subClass.dneExpired]){
                     [suggestionsInClass addObject:subClass.dneExpired];
+                }
+            }
+            
+            break;
+        case DNEStatus_invalid:
+            
+            // Expired
+            penaltyMod = [policy.DNEModifiers.invalid doubleValue];
+            
+            // Check if subclass contains custom suggestion for the current error code
+            if(subClass.dneInvalid.length!= 0) {
+                
+                //Does suggestion already exist?
+                if(![suggestionsInClass containsObject:subClass.dneInvalid]){
+                    [suggestionsInClass addObject:subClass.dneInvalid];
                 }
             }
             

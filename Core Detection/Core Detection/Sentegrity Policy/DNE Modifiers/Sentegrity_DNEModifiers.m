@@ -41,8 +41,13 @@
 }
 
 //noData
-- (void)noData:(NSNumber *)noData{
+- (void)setNoData:(NSNumber *)noData{
     _noData = noData;
+}
+
+//Error
+- (void)setInvalid:(NSNumber *)invalid{
+    _invalid = invalid;
 }
 
 

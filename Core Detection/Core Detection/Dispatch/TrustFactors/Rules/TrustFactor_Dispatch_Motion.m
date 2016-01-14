@@ -132,8 +132,8 @@
     float movementBlockSize = [[[payload objectAtIndex:0] objectForKey:@"movementBlockSize"] floatValue];
     
     // Calculate blocks
-    int pitchBlock = ceilf(pitchAvg / pitchBlockSize);
-    int rollBlock = ceilf(rollAvg / rollBlockSize);
+    int pitchBlock = round(pitchAvg / pitchBlockSize);
+    int rollBlock = round(rollAvg / rollBlockSize);
     
     //[outputArray addObject:[NSString stringWithFormat:@"pitch_%.*f,roll_%.*f",decimalPlaces,pitchAvg,decimalPlaces,rollAvg]];
     
@@ -144,10 +144,19 @@
     
     
     // Process movement
-    int movementBlock = ceilf(movement / movementBlockSize);
+    int movementBlock = round(movement / movementBlockSize);
     
     // Combine with tuple
     motionTuple = [motionTuple stringByAppendingString:[NSString stringWithFormat:@"_movement_%d",movementBlock]];
+    
+    // Do not allow a grip that indicates the device is sitting on something
+    if(pitchBlock==0 && movementBlock==0){
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_invalid];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
+    }
     
     [outputArray addObject:motionTuple];
     
@@ -239,7 +248,18 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    [outputArray addObject:[[Sentegrity_TrustFactor_Datasets sharedDatasets] getDeviceOrientation]];
+    NSString *orientation = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getDeviceOrientation];
+    
+    [outputArray addObject:orientation];
+    
+    // Do not allow a grip that indicates the device is sitting on something
+    if([orientation isEqual:@"Face_Up"] || [orientation isEqual: @"Face_Down"] || [orientation  isEqual: @"unknown"]){
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_invalid];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
+    }
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];

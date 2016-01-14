@@ -15,7 +15,8 @@
     "disabled": 0.5,
     "noData": 0,
     "expired": 0.5,
-    "error": 0
+    "error": 0,
+    "invalid": 1
   },
   "classifications": [
     {
@@ -74,6 +75,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -84,6 +86,8 @@
       "dneUnavailable": "",
       "dneDisabled": "",
       "dneNoData": "",
+      "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -95,6 +99,7 @@
       "dneDisabled": "",
       "dneNoData": "No network data",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -106,6 +111,7 @@
       "dneDisabled": "Enable WiFi",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -117,6 +123,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -128,6 +135,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -139,6 +147,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -150,6 +159,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -161,6 +171,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -172,6 +183,7 @@
       "dneDisabled": "Enable location services",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -183,6 +195,7 @@
       "dneDisabled": "Enable motion services",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "Device position invalid",
       "weight": 0
     },
     {
@@ -194,6 +207,7 @@
       "dneDisabled": "Enable Bluetooth",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -205,6 +219,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -216,6 +231,7 @@
       "dneDisabled": "Enabled activity data",
       "dneNoData": "No activity data found",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -227,6 +243,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -238,6 +255,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -249,6 +267,7 @@
       "dneDisabled": "Enable celluar",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -260,6 +279,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -271,6 +291,7 @@
       "dneDisabled": "",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -282,6 +303,7 @@
       "dneDisabled": "Enable celluar access",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     },
     {
@@ -293,6 +315,7 @@
       "dneDisabled": "Enable Bluetooth",
       "dneNoData": "",
       "dneExpired": "",
+      "dneInvalid": "",
       "weight": 0
     }
   ],
@@ -1128,7 +1151,7 @@
         {
           "pitchBlockSize": 0.2,
           "rollBlockSize": 0.06,
-          "movementBlockSize": 0.2
+          "movementBlockSize": 0.1
         }
       ]
     },
@@ -1158,11 +1181,11 @@
         {
           "brightnessBlocksizeWithLocation" : 3,
           "brightnessBlocksizeNoLocation" : 4,
-          "locationRounding" : 1,
+          "locationRounding" : 2,
           "magneticBlockSizeNoLocation" : 10,
           "magneticBlockSizeWithLocation" : 20,
-          "signalBlocksizeNoLocation" : 3,
-          "signalBlocksizeWithLocation" : 4
+          "signalBlocksizeNoLocation" : 1,
+          "signalBlocksizeWithLocation" : 2
         }
       ]
     },
@@ -1192,33 +1215,6 @@
         {
           "rounding": 1
         }
-      ]
-    },
-    {
-      "id": 1032,
-      "issueMessage": "Location country violation",
-      "suggestionMessage": "Request policy exception",
-      "revision": 1,
-      "classID": 4,
-      "subClassID": 19,
-      "name": "Country allowed (device location)",
-      "penalty": 100,
-      "ruleType": 1,
-      "learnMode": 0,
-      "learnTime": 0,
-      "learnAssertionCount": 0,
-      "learnRunCount": 0,
-      "threshold": 0,
-      "decayMode": 0,
-      "decayMetric": 0,
-      "wipeOnUpdate": 0,
-      "dispatch": "Location",
-      "implementation": "countryAllowed:",
-      "whitelistable": 1,
-      "privateAPI": 0,
-      "payload": [
-        "US",
-        "CA"
       ]
     },
     {

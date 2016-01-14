@@ -17,6 +17,7 @@
 @property (nonatomic,retain) NSNumber *noData;
 @property (nonatomic,retain) NSNumber *expired;
 @property (nonatomic,retain) NSNumber *error;
+@property (nonatomic,retain) NSNumber *invalid;
 
 
 @end
