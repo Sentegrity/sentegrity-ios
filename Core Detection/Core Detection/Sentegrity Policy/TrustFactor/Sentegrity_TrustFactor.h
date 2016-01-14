@@ -29,6 +29,7 @@
 @property (nonatomic, retain) NSNumber *privateAPI;
 @property (nonatomic, retain) NSNumber *decayMode;
 @property (nonatomic, retain) NSNumber *decayMetric;
+@property (nonatomic, retain) NSNumber *wipeOnUpdate;
 @property (nonatomic, retain) NSString *dispatch;
 @property (nonatomic, retain) NSString *implementation;
 @property (nonatomic, retain) NSArray *payload;

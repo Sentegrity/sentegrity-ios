@@ -24,16 +24,6 @@
 
 @interface CoreDetection(Private)
 
-/*!
- *  Parse the policy
- *
- *  @param policyPath Policy Path URL to be parsed
- *  @param error      Error information
- *
- *  @return Policy Object
- */
-- (Sentegrity_Policy *)parsePolicy:(NSURL *)policyPath withError:(NSError **)error;
-
 /**
  *  Protect Mode Analysis callback
  *
@@ -53,7 +43,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 #pragma mark - Protect Mode Analysis
 
 // Start Core Detection
-- (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withTimeout:(NSTimeInterval)timeOut withCallback:(coreDetectionBlock)callback {
+- (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withCallback:(coreDetectionBlock)callback {
     
     // Create the error to use
     NSError *error = nil;
@@ -135,9 +125,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 
     
     /* Start the TrustFactor Dispatcher */
-    
+    // TODO: Add Timeout
     // Executes the TrustFactors and gets the output objects
-    NSArray *trustFactorOutputObjects = [Sentegrity_TrustFactor_Dispatcher performTrustFactorAnalysis:policy.trustFactors withTimeout:timeOut andError:&error];
+    NSArray *trustFactorOutputObjects = [Sentegrity_TrustFactor_Dispatcher performTrustFactorAnalysis:policy.trustFactors withTimeout:[policy.timeout doubleValue] andError:&error];
     
     // Check for valid trustFactorOutputObjects
     if (!trustFactorOutputObjects || trustFactorOutputObjects == nil || trustFactorOutputObjects.count < 1) {

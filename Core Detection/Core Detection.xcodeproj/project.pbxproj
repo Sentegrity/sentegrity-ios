@@ -133,6 +133,8 @@
 		4C35E5301BE153C600A603AF /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E4C01BE153C600A603AF /* Sentegrity_Subclassification+Computation.m */; };
 		4C35E5311BE153C600A603AF /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E4C21BE153C600A603AF /* Sentegrity_TrustScore_Computation.m */; };
 		4C35E5321BE153C600A603AF /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E4C21BE153C600A603AF /* Sentegrity_TrustScore_Computation.m */; };
+		4C46AA731C46EC9F0091D7AB /* Sentegrity_History.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C46AA701C46EC9F0091D7AB /* Sentegrity_History.m */; };
+		4C46AA741C46EC9F0091D7AB /* Sentegrity_Startup.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C46AA721C46EC9F0091D7AB /* Sentegrity_Startup.m */; };
 		4C81CC0B1BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C81CC0A1BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.m */; };
 		4C97D2DB1BE159A2009F3779 /* BluetoothManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D2D91BE159A2009F3779 /* BluetoothManager.framework */; };
 		7A232A0B3582EFBBD2EA0C74 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD4CA745EE9C90A8421F9D43 /* libPods.a */; };
@@ -311,6 +313,10 @@
 		4C35E4C01BE153C600A603AF /* Sentegrity_Subclassification+Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Sentegrity_Subclassification+Computation.m"; sourceTree = "<group>"; };
 		4C35E4C11BE153C600A603AF /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4C35E4C21BE153C600A603AF /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
+		4C46AA6F1C46EC9F0091D7AB /* Sentegrity_History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_History.h; sourceTree = "<group>"; };
+		4C46AA701C46EC9F0091D7AB /* Sentegrity_History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_History.m; sourceTree = "<group>"; };
+		4C46AA711C46EC9F0091D7AB /* Sentegrity_Startup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Startup.h; sourceTree = "<group>"; };
+		4C46AA721C46EC9F0091D7AB /* Sentegrity_Startup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Startup.m; sourceTree = "<group>"; };
 		4C81CC091BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Activity_Dispatcher.h; sourceTree = "<group>"; };
 		4C81CC0A1BEE84FF0033441B /* Sentegrity_Activity_Dispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Activity_Dispatcher.m; sourceTree = "<group>"; };
 		4C97D2CD1BE1550F009F3779 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -403,6 +409,7 @@
 				4C35E4261BE153C600A603AF /* Dispatch */,
 				4C35E49C1BE153C600A603AF /* History */,
 				4C35E49F1BE153C600A603AF /* Parser */,
+				4C46AA6E1C46EC9F0091D7AB /* Startup */,
 				4C35E4A21BE153C600A603AF /* Protect Mode */,
 				4C35E4A51BE153C600A603AF /* Sample Policies */,
 				4C35E4AB1BE153C600A603AF /* Sentegrity Policy */,
@@ -735,6 +742,17 @@
 			path = "TrustScore Computation";
 			sourceTree = "<group>";
 		};
+		4C46AA6E1C46EC9F0091D7AB /* Startup */ = {
+			isa = PBXGroup;
+			children = (
+				4C46AA6F1C46EC9F0091D7AB /* Sentegrity_History.h */,
+				4C46AA701C46EC9F0091D7AB /* Sentegrity_History.m */,
+				4C46AA711C46EC9F0091D7AB /* Sentegrity_Startup.h */,
+				4C46AA721C46EC9F0091D7AB /* Sentegrity_Startup.m */,
+			);
+			path = Startup;
+			sourceTree = "<group>";
+		};
 		4C81CC0C1BEE852A0033441B /* Activity Dispatcher */ = {
 			isa = PBXGroup;
 			children = (
@@ -919,6 +937,7 @@
 				4C35E5311BE153C600A603AF /* Sentegrity_TrustScore_Computation.m in Sources */,
 				4C35E4111BE153B800A603AF /* ViewController.m in Sources */,
 				4C35E5191BE153C600A603AF /* ProtectMode.m in Sources */,
+				4C46AA741C46EC9F0091D7AB /* Sentegrity_Startup.m in Sources */,
 				4C35E4DF1BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Application.m in Sources */,
 				4C35E4D11BE153C600A603AF /* CoreDetection.m in Sources */,
 				4C35E4EF1BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Wifi.m in Sources */,
@@ -942,6 +961,7 @@
 				4C35E40F1BE153B800A603AF /* main.m in Sources */,
 				4C35E4F31BE153C600A603AF /* TrustFactor_Dispatch_Application.m in Sources */,
 				4C35E4D51BE153C600A603AF /* MDBluetoothDevice.m in Sources */,
+				4C46AA731C46EC9F0091D7AB /* Sentegrity_History.m in Sources */,
 				4C35E4E11BE153C600A603AF /* Sentegrity_TrustFactor_Dataset_Cell.m in Sources */,
 				4C35E4CD1BE153C600A603AF /* Sentegrity_TrustFactor_Storage.m in Sources */,
 				4C35E5091BE153C600A603AF /* TrustFactor_Dispatch_Route.m in Sources */,

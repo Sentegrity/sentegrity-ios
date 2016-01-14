@@ -37,7 +37,7 @@
     // Get routes
     NSArray *routeArray = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getRouteInfo];
     
-    NSLog(@"%@",routeArray);
+    //NSLog(@"%@",routeArray);
 
     // Check for routes
     if (!routeArray || routeArray == nil || routeArray.count < 1) {

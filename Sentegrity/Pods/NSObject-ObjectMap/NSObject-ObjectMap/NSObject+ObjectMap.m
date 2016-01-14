@@ -121,7 +121,10 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
     return [self initWithObjectData:data type:CAPSDataTypeSOAP];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
 - (instancetype)initWithObjectData:(NSData *)data type:(CAPSDataType)type {
+    
     switch (type) {
         case CAPSDataTypeJSON:
             return [NSObject objectOfClass:[self class] fromJSONData:data];
