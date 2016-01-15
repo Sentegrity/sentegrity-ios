@@ -1,8 +1,10 @@
 ### Sentegrity Application TODO List
 
-- [x] Permissions check fixes
+- [ ] Permissions check fixes
 
 Check permissions for location/motion until the user actually elects, right now if you close the app during first run and never make an election it never asks again. Make sure we have the ability to prompt on-demand for future updates where, for example, we suggest the user allow location or motion if a score is low.
+
+UPDATE: When you install the app it prematurely prompts for location and motion authorization prior to the screen being displayed. Can we make Core Detection wait to start until after the user walks through the authorization screens?
 
 ### Core Detection TODO List
 
