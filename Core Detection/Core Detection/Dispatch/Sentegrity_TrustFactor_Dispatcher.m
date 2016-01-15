@@ -144,8 +144,20 @@
     // Try to run implementation
     @try {
         
+        // Log the start time
+        NSDate *methodStart = [NSDate date];
+        
         // Run the trustfactor implementation and get trustFactorOutputObject
         trustFactorOutputObject = [self runTrustFactorWithDispatch:trustFactor.dispatch andImplementation:trustFactor.implementation withPayload:trustFactor.payload andError:error];
+        
+        // Log the finish time
+        NSDate *methodFinish = [NSDate date];
+        
+        // Get the execution Time
+        NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+        
+        // Log the TrustFactor Execution Time
+        NSLog(@"%@ %@ Execution Time = %f seconds", trustFactor.dispatch, trustFactor.implementation, executionTime);
     }
     @catch (NSException *exception) {
         
