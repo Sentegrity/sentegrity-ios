@@ -24,7 +24,6 @@
     // Get the user's activity history
     NSArray *previousActivities;
     
-    
     // Check if error was already determined when activity was started
     if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] activityDNEStatus] != 0 ){
         // Set the DNE status code to what was previously determined
