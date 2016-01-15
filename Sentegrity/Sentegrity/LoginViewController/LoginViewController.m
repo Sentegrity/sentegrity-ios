@@ -251,12 +251,12 @@ static MBProgressHUD *HUD;
                     // Get the storyboard
                     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                     // Create the main view controller
-                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"userinformationviewcontroller"];
+                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
                     [self.navigationController pushViewController:mainViewController animated:NO];
                 }];
                 
                 
-                [userPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Unauthorized" subTitle:@"Password Required" closeButtonTitle:nil duration:0.0f];
+                [userPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Login Required" subTitle:@"Enter password to continue." closeButtonTitle:nil duration:0.0f];
                 
                 
             }
@@ -304,11 +304,11 @@ static MBProgressHUD *HUD;
                     // Get the storyboard
                     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                     // Create the main view controller
-                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"systeminformationviewcontroller"];
+                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
                     [self.navigationController pushViewController:mainViewController animated:NO];
                 }];
                 
-                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"Access may result in data breach, this attempt has been recorded. \n\nEnter password to continue." closeButtonTitle:nil duration:0.0f];
+                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Login Required" subTitle:@"This is a high risk device, access may result in data breach. \n\nEnter password to continue." closeButtonTitle:nil duration:0.0f];
                 
                 
             }
