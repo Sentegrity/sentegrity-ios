@@ -106,12 +106,6 @@ static MBProgressHUD *HUD;
         
     }
     
-    // Start the location activity
-    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startLocation];
-    
-    // Start the activity activity
-    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startActivity];
-    
     // Show Animation
     HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //[MBProgressHUD showHUDAddedTo:self.view animated:YES];

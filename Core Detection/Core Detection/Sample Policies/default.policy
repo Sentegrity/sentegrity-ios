@@ -814,7 +814,7 @@
       "learnAssertionCount": 0,
       "learnRunCount": 0,
       "threshold": 0,
-      "decayMode": ,
+      "decayMode": 0,
       "decayMetric": 0,
       "wipeOnUpdate": 0,
       "dispatch": "Celluar",
