@@ -18,9 +18,7 @@
  */
 
 // Unknown SSID Check - Get the current AP SSID
-+ (Sentegrity_TrustFactor_Output_Object *)SSID:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)SSIDBSSID:(NSArray *)payload;
 
-// Known BSSID - Get the current BSSID of the AP
-+ (Sentegrity_TrustFactor_Output_Object *)BSSID:(NSArray *)payload;
 
 @end

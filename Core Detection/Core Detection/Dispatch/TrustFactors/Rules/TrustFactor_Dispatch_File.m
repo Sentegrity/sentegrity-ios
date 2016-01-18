@@ -81,6 +81,8 @@
     // Create the output array
     NSMutableArray *fileSizes = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
+
+    
     // Run through all the files in the payload
     for (NSString *path in payload) {
         
