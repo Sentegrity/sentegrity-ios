@@ -12,6 +12,13 @@ UPDATE: When you install the app it prematurely prompts for location and motion 
 
 This should be a JSON file like the policy/store, we can just use one “startup” class and hang the attributes off it that are parsed from the file. Lets have the file mapped into an object just like the policy with the ability to “set” it as well. This is where we will store things such as “lastOSVersion”, crypto salts, and a few other persistent storage attributes we need.
 
+
+- [ ] Create new TF w/ NEHotspotNetwork "secure" attribute called "Insecure WiFi Connection"
+
+See class structure here: NEHotspotNetwork https://developer.apple.com/library/ios/documentation/NetworkExtension/Reference/NEHotspotNetworkClassRef/#//apple_ref/occ/instp/NEHotspotNetwork/justJoined
+
+We should aim to return if the network is encrypted, the result can simply be default assertion unless unencrypted WiFi is detected then the rule returns the SSID.
+
 - [ ] OS Updated Check
 
 Add new TF attribute “wipeOnUpdate” to each TF in the policy and all supporting TF object maps. During baseline analysis If the iOS version is determined to have been new/upgraded (check it once at start? and compare based on startup file “lastOSVersion”) then check every TF for this attribute. If the attribute is True then we delete the stored assertion object for this TF and create a new/blank one (this happens automatically if it can’t find a matching store TF object). This can likely occur within baseline analysis where, as it is already, if it does not find a matching TF object in the store it will create it. 
