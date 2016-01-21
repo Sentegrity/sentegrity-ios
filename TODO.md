@@ -1,16 +1,22 @@
 ### Sentegrity Application TODO List
 
-- [ ] Permissions check fixes
+- [-] Permissions check fixes
 
 Check permissions for location/motion until the user actually elects, right now if you close the app during first run and never make an election it never asks again. Make sure we have the ability to prompt on-demand for future updates where, for example, we suggest the user allow location or motion if a score is low.
 
 UPDATE: When you install the app it prematurely prompts for location and motion authorization prior to our custom screens being displayed. Can we make Core Detection wait to start until after the user walks through the authorization screens?
 
+- [ ] Prevent Core Detection from starting prior to permission request
+
+Core Detection runs in the background before the user finishes answering the questions. It would be best to wait until after so that all TrustFactors can run (right now the ones that require permissions return DNE unauthorized because the user has yet to elect)
+
 ### Core Detection TODO List
 
-- [ ] Create “startup” file to store temporary info
+- [ ] Create “startup” file to store temporary info and modify assertion store class to be universal
 
 This should be a JSON file like the policy/store, we can just use one “startup” class and hang the attributes off it that are parsed from the file. Lets have the file mapped into an object just like the policy with the ability to “set” it as well. This is where we will store things such as “lastOSVersion”, crypto salts, and a few other persistent storage attributes we need.
+
+We can probably modify the existing I/O built into the assertion store class/mechanism and make that more of a helper for writing any I/O to a JSON file and reading it back into an object. Centralizing the I/O will help when we have to port all I/O to Good's special wrappers that encrypt data.
 
 
 - [ ] Create new TF w/ NEHotspotNetwork "secure" attribute called "Insecure WiFi Connection"
@@ -35,9 +41,9 @@ Currently this is hardcoded into the app. We should populate this value from the
 
 - [ ] Identify why TFs hang when celluar or WiFi connection is lost or very low
 
-We discussed addressing this once the app is integrated into Good by killing the thread that Core Detection runs on if it hangs. Obviously, it would be nice to figure out the root cause. I have a feeling it has something to do w/ one of the APIs and TrustFactor dataset class. This issue is not addressed by the Core Detection timeout as that timeout is internal to Core Detection to identify hardware (resource) constraints that are causing delays, not hangs. 
+UPDATE: Nick added timers to each TF, console now logs how long each TF takes. Solving this or narrowing down what is causing the problem is now just a matter of reproducing the problem while debugging the app. 
 
-
+We discussed addressing this once the app is integrated into Good by killing the thread that Core Detection runs on if it hangs. Obviously, it would be nice to figure out the root cause. I have a feeling it has something to do w/ one of the APIs and TrustFactor dataset class related to WiFi or celluar. Sometimes putting the phone into airplane will cause Core Detection to change from hanging to done. This issue is not addressed by the Core Detection timeout as that timeout is internal to Core Detection to identify hardware (resource) constraints that are causing delays, not hangs. 
 
 - [x] Refresh button refreshes activities
 
@@ -49,11 +55,19 @@ Can we also make it such that we can find paired devices using the refresh butto
 
 I don't know when exactly this stopped working completely, perhaps when we stopped attaching the framework correctly and hid it from apple? But it never works for me now, seems not be able to find any devices that are paired. The dataset is always empty it seems. 
 
-- [ ] Use Wigle to get locations and/or currently connected WiFi encryption
+- [ ] Implement SkyHook's API to grab location when user does not authorize
 
-If a user does not provie location authorization we can fallback on submitting (if available) the currently connected WiFI BSSID to Wigle and parsing the long/lat response. User: sentegrity password: s3nt3gr1ty. The free API is here: https://wigle.net/api/v1/jsonSearch?netid=00:22:55:DF:C8:01 but requires authentication. This python class shows how to talk to the API (otherwise its hard to find good documentation): https://code.activestate.com/recipes/578637-wigle-wifi-geolocation/
+I spoke with SkyHook and they are getting us API info to test. We will use this HTTP call to their web service and provide the currently connected WiFi AP and get a long/lat back. This will be used when the user has no authorized location.
 
 We could also use this for getting the encrytion level of the AP (if available). Skyhook is another provider.
+
+- [ ] Add WiFi signal strength TF (Jason)
+
+Implement existing WiFi signal dataset inside a real TF that combines SSID and signal strength for near location profiling.
+
+- [ ] Update Magnetometer approximate location rule (Ivo)
+
+Refine Magnetometer use to augment celluar signal strength and brightness of location
 
 ### Protect Mode TODO List
 
