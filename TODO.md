@@ -1,6 +1,6 @@
 ### Sentegrity Application TODO List
 
-- [-] Permissions check fixes
+- [x] Permissions check fixes
 
 Check permissions for location/motion until the user actually elects, right now if you close the app during first run and never make an election it never asks again. Make sure we have the ability to prompt on-demand for future updates where, for example, we suggest the user allow location or motion if a score is low.
 
