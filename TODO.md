@@ -55,9 +55,9 @@ Can we also make it such that we can find paired devices using the refresh butto
 
 I don't know when exactly this stopped working completely, perhaps when we stopped attaching the framework correctly and hid it from apple? But it never works for me now, seems not be able to find any devices that are paired. The dataset is always empty it seems. 
 
-- [ ] Implement SkyHook's API to grab location when user does not authorize
+- [ ] Figure out how to do async HTTP request and implement SkyHook's API to grab location when user does not authorize
 
-I spoke with SkyHook and they are getting us API info to test. We will use this HTTP call to their web service and provide the currently connected WiFi AP and get a long/lat back. This will be used when the user has no authorized location.
+I spoke with SkyHook and they are getting us API info to test. We will use this HTTP call to their web service and provide the currently connected WiFi AP and get a long/lat back. This will be used when the user has no authorized location within the location anomaly TrustFactor.
 
 We could also use this for getting the encrytion level of the AP (if available). Skyhook is another provider.
 
