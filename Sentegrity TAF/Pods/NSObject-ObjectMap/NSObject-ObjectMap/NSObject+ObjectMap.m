@@ -121,7 +121,10 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
     return [self initWithObjectData:data type:CAPSDataTypeSOAP];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
 - (instancetype)initWithObjectData:(NSData *)data type:(CAPSDataType)type {
+    
     switch (type) {
         case CAPSDataTypeJSON:
             return [NSObject objectOfClass:[self class] fromJSONData:data];
@@ -381,14 +384,14 @@ static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefgh
             return typeName;
         }
         else if (attribute[0] == 'T' && attribute[1] == '@' && strlen(attribute) == 2) {
-             // it's an ObjC id type:
-             return @"id";
+            // it's an ObjC id type:
+            return @"id";
         }
         else if (attribute[0] == 'T' && attribute[1] == '@') {
-             // it's another ObjC object type:
-             NSData *data = [NSData dataWithBytes:(attribute + 3) length:strlen(attribute) - 4];
-             NSString *className = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-             return className;
+            // it's another ObjC object type:
+            NSData *data = [NSData dataWithBytes:(attribute + 3) length:strlen(attribute) - 4];
+            NSString *className = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            return className;
         }
     }
     
