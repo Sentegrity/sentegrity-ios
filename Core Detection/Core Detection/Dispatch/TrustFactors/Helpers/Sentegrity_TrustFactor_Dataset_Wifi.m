@@ -89,6 +89,7 @@
         return nil;
     }
     
+    
     // Create an array of the objects
     NSArray *ItemArray = [NSArray arrayWithObjects:ssid, bssid, gatewayIP, wifiIP, nil];
     
@@ -414,7 +415,8 @@
     
     // Get WiFi strength
     
-    NSNumber *wifiBars;
+    // Set default
+    NSNumber *wifiBars = [NSNumber numberWithInt:0];
     
     
     for (UIView* view in statusBarForegroundView.subviews)
@@ -424,7 +426,7 @@
             
             if (view)
             {
-                wifiBars = [NSNumber numberWithInt:[[view valueForKey:@"_wifiStrengthBars"] intValue]];
+                wifiBars = [NSNumber numberWithInt:[[view valueForKey:@"_wifiStrengthRaw"] intValue]];
                 
             }
             break;

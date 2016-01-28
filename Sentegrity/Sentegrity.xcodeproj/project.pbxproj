@@ -110,6 +110,8 @@
 		969CD07C1B7E7DEC00254F45 /* SCLAlertViewStyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0741B7E7DEC00254F45 /* SCLAlertViewStyleKit.m */; };
 		969CD07D1B7E7DEC00254F45 /* SCLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0761B7E7DEC00254F45 /* SCLButton.m */; };
 		969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */; };
+		96A486AE1C581C5600C11B62 /* default_ssids.list in Resources */ = {isa = PBXBuildFile; fileRef = 96A486AD1C581C5600C11B62 /* default_ssids.list */; };
+		96A486B01C5866BC00C11B62 /* hotspot_ssids.list in Resources */ = {isa = PBXBuildFile; fileRef = 96A486AF1C5866BC00C11B62 /* hotspot_ssids.list */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -342,6 +344,8 @@
 		969CD0771B7E7DEC00254F45 /* SCLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLMacros.h; sourceTree = "<group>"; };
 		969CD0781B7E7DEC00254F45 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		96A486AD1C581C5600C11B62 /* default_ssids.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default_ssids.list; sourceTree = "<group>"; };
+		96A486AF1C5866BC00C11B62 /* hotspot_ssids.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hotspot_ssids.list; sourceTree = "<group>"; };
 		A861559935991A5C1535CE5A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F48570A0D36F3F3E38C7B515 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -772,6 +776,8 @@
 		4C97D36E1BE15A35009F3779 /* Sample Policies */ = {
 			isa = PBXGroup;
 			children = (
+				96A486AF1C5866BC00C11B62 /* hotspot_ssids.list */,
+				96A486AD1C581C5600C11B62 /* default_ssids.list */,
 				4C97D36F1BE15A35009F3779 /* default.policy */,
 				4C97D3701BE15A35009F3779 /* Old */,
 				4C97D3721BE15A35009F3779 /* oui.list */,
@@ -1062,10 +1068,12 @@
 				04E403271B307A1500A1705E /* OpenSans-LightItalic.ttf in Resources */,
 				04E403281B307A1500A1705E /* OpenSans-Regular.ttf in Resources */,
 				04E403291B307A1500A1705E /* OpenSans-Semibold.ttf in Resources */,
+				96A486B01C5866BC00C11B62 /* hotspot_ssids.list in Resources */,
 				4C97D3EA1BE15A35009F3779 /* oui_all.list in Resources */,
 				04E4032A1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf in Resources */,
 				4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */,
 				04A2490A1B266AC2007D9460 /* Images.xcassets in Resources */,
+				96A486AE1C581C5600C11B62 /* default_ssids.list in Resources */,
 				4C97D3E41BE15A35009F3779 /* default.policy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

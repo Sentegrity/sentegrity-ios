@@ -117,7 +117,7 @@
     
     NSString *policy = @"\nPolicy Settings\n++++++++++++++++++++++++++++++\n";
     
-    policy = [policy stringByAppendingFormat:@"\nUser Threshold: %@\nSystem Threshold: %@\n",self.computationResults.policy.systemThreshold,self.computationResults.policy.userThreshold];
+    policy = [policy stringByAppendingFormat:@"\nSystem Threshold: %@\nUser Threshold: %@\n",self.computationResults.policy.systemThreshold,self.computationResults.policy.userThreshold];
     
     
     complete = [complete stringByAppendingString:policy];

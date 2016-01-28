@@ -11,7 +11,11 @@
 @interface TrustFactor_Dispatch_Wifi : NSObject
 
 // Determine if the connected access point is a SOHO (Small Office/Home Offic) network
-+ (Sentegrity_TrustFactor_Output_Object *)highRiskAP:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)consumerAP:(NSArray *)payload;
+
++ (Sentegrity_TrustFactor_Output_Object *)hotspot:(NSArray *)payload;
+
++ (Sentegrity_TrustFactor_Output_Object *)defaultSSID:(NSArray *)payload;
 
 /* Old/Archived
 //+ (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload;

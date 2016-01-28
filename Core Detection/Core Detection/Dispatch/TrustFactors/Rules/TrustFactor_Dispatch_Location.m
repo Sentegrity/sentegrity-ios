@@ -276,6 +276,92 @@
         
     }
     
+    // ** WiFi Signal Strength **
+    
+    // Check if WiFi is disabled
+    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
+        
+        // Return NA for WiFi
+        anomalyString = [anomalyString stringByAppendingString:@"_WIFI:DISABLED"];
+        
+    }    // If we're enabled, still check if we're tethering and set as unavaialble if we are
+    else if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
+        
+        // Return NA for WiFi
+        anomalyString = [anomalyString stringByAppendingString:@"_WIFI:TETHERING"];
+        
+    }
+    else{
+        
+        NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
+        
+        // Check for a connection
+        if (wifiInfo == nil){
+            
+            // Return NA for WiFi
+            anomalyString = [anomalyString stringByAppendingString:@"_WIFI:NOCON"];
+            
+        }
+        else{
+            
+            // Get the ssid
+            NSString *ssid = [wifiInfo objectForKey:@"ssid"];
+            
+            // Validate the gateway IP and BSSID
+            if ((ssid == nil && ssid.length == 0)) {
+                
+                // Return NA for WiFi
+                anomalyString = [anomalyString stringByAppendingString:@"_WIFI:NOSSID"];
+                
+            }
+            else{
+                
+                NSNumber *wifiSignal = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiSignal];
+                
+                // Check if we have a signal reading
+                if([wifiSignal intValue] == 0){
+                    
+                    // Return just the SSID
+                    NSString *ssidString = [NSString stringWithFormat:@"_WIFI:%@",ssid];
+                    anomalyString = [anomalyString stringByAppendingString:ssidString];
+                }
+                else{
+                    
+                    // Divide into blocksizes
+                    int blocksize=0;
+                    
+                    // If no location data use sensitive
+                    if(locationAvailable==NO){
+                        
+                        blocksize = [[[payload objectAtIndex:0] objectForKey:@"wifiSignalBlocksizeNoLocation"] floatValue];
+                        
+                    } //else use liberal
+                    else{
+                        
+                        blocksize = [[[payload objectAtIndex:0] objectForKey:@"wifiSignalBlocksizeWithLocation"] floatValue];
+                    }
+                    
+                    int blockOfWiFi = round(abs([wifiSignal intValue]) / blocksize);
+                    
+                    
+                    anomalyString = [anomalyString stringByAppendingString:[NSString stringWithFormat:@"_WIFI:%@_%i",ssid,blockOfWiFi]];
+                    
+                    
+                }
+
+                
+            }
+            
+            
+            
+        }
+            
+    }
+        
+        
+    
+    
+    
 
     // ** MAGNETIC FIELD **
     
@@ -316,76 +402,72 @@
 
     
     // ** MAGNETIC FIELD **
-    int magneticBlockSize=0;
+
     if(locationAvailable==NO){
-        magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeNoLocation"] intValue];
-    }
-    else{
-        magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSizeWithLocation"] intValue];
-    }
-    
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] magneticHeadingDNEStatus] == 0 ){
+        int magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSize"] intValue];
         
-        NSArray *headings;
-        headings = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getMagneticHeadingsInfo];
-    
-        
-        // Check motion dataset has something
-        if(headings != nil ) {
+        if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] magneticHeadingDNEStatus] == 0 ){
             
-            float x = 0.0;
-            float y = 0.0;
-            float z = 0.0;
-            float heading = 0.0;
+            NSArray *headings;
+            headings = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getMagneticHeadingsInfo];
             
-            float magnitudeAverage = 0.0;
-            float magnitudeTotal = 0.0;
-            float magnitude = 0.0;
             
-            float counter = 0.0;
-            
-            // Run through all the sample we got prior to stopping motion
-            for (NSDictionary *sample in headings) {
+            // Check motion dataset has something
+            if(headings != nil ) {
                 
-                // Get the calibrated magnetometer data
-                heading = [[sample objectForKey:@"heading"] floatValue];
-                x = [[sample objectForKey:@"x"] floatValue];
-                y = [[sample objectForKey:@"y"] floatValue];
-                z = [[sample objectForKey:@"z"] floatValue];
+                float x = 0.0;
+                float y = 0.0;
+                float z = 0.0;
+                float heading = 0.0;
                 
-                // Calculate totl magnetic field regardless of position for each measurement
-                 magnitude = sqrt (pow(x,2)+
-                                  pow(y,2)+
-                                  pow(z,2));
+                float magnitudeAverage = 0.0;
+                float magnitudeTotal = 0.0;
+                float magnitude = 0.0;
                 
-                //magnitude = sqrt (pow(z,2));
+                float counter = 0.0;
                 
-                magnitudeTotal = magnitudeTotal + magnitude;
+                // Run through all the sample we got prior to stopping motion
+                for (NSDictionary *sample in headings) {
+                    
+                    // Get the calibrated magnetometer data
+                    heading = [[sample objectForKey:@"heading"] floatValue];
+                    x = [[sample objectForKey:@"x"] floatValue];
+                    y = [[sample objectForKey:@"y"] floatValue];
+                    z = [[sample objectForKey:@"z"] floatValue];
+                    
+                    // Calculate totl magnetic field regardless of position for each measurement
+                    magnitude = sqrt (pow(x,2)+
+                                      pow(y,2)+
+                                      pow(z,2));
+                    
+                    //magnitude = sqrt (pow(z,2));
+                    
+                    magnitudeTotal = magnitudeTotal + magnitude;
+                    
+                    counter++;
+                    
+                    
+                }
                 
-                counter++;
                 
+                // compute average across all samples taken
+                magnitudeAverage = magnitudeTotal/counter;
+                
+                int blockOfMagnetic = ceilf(fabsf(magnitudeAverage)/magneticBlockSize);
+                // round to the nearest n:  x_rounded = ((x + n/2)/n)*n;
+                // round to nearest X
+                //int rounded = floor((magnitudeAverage+(roundingSensitivity/2))/roundingSensitivity)*roundingSensitivity;
+                
+                NSString *magnitudeString = [NSString stringWithFormat:@"_MAGNET:%d",blockOfMagnetic];
+                
+                anomalyString = [anomalyString stringByAppendingString:magnitudeString];
                 
             }
-            
-            
-            // compute average across all samples taken
-            magnitudeAverage = magnitudeTotal/counter;
-            
-            int blockOfMagnetic = ceilf(fabsf(magnitudeAverage)/magneticBlockSize);
-            // round to the nearest n:  x_rounded = ((x + n/2)/n)*n;
-            // round to nearest X
-            //int rounded = floor((magnitudeAverage+(roundingSensitivity/2))/roundingSensitivity)*roundingSensitivity;
-            
-            NSString *magnitudeString = [NSString stringWithFormat:@"_M%d",blockOfMagnetic];
-            
-            anomalyString = [anomalyString stringByAppendingString:magnitudeString];
-            
         }
+
     }
 
-    
-    
-    
+
     
     // The magnetomter reading is used in an attempt to calculate a unique field for the user's current location
     /*
@@ -463,18 +545,18 @@
     //Screen level is given as a float 0.1-1
     float screenLevel = [[UIScreen mainScreen] brightness];
     
-    float blocksize=0;
+    float brightnessBlockSize=0;
     
     
     // If no location data use sensitive
     if(locationAvailable==NO){
         
-        blocksize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksizeNoLocation"] floatValue];
+        brightnessBlockSize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksizeNoLocation"] floatValue];
         
     } //else use liberal
     else{
         
-        blocksize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksizeWithLocation"] floatValue];
+        brightnessBlockSize = [[[payload objectAtIndex:0] objectForKey:@"brightnessBlocksizeWithLocation"] floatValue];
     }
     
     // With a blocksize of .25 or 4 we get block 0-.25,.25-.5,.5-.75,.75-1
@@ -486,22 +568,24 @@
         screenLevel = 0.1;
     }
     
-    int blockOfBrightness = ceilf(screenLevel / (1/blocksize));
+    int blockOfBrightness = round(screenLevel / (1/brightnessBlockSize));
     
-    anomalyString = [anomalyString stringByAppendingString:[NSString stringWithFormat:@"_L%d", blockOfBrightness]];
+    anomalyString = [anomalyString stringByAppendingString:[NSString stringWithFormat:@"_LIGHT:%d", blockOfBrightness]];
     
     
     // ** CELLUAR SIGNAL STRENGTH **
     
     // If no location data use sensitive
+    
+    int celluarBlockSize;
     if(locationAvailable==NO){
         
-        blocksize = [[[payload objectAtIndex:0] objectForKey:@"signalBlocksizeNoLocation"] floatValue];
+        celluarBlockSize = [[[payload objectAtIndex:0] objectForKey:@"cellSignalBlocksizeNoLocation"] floatValue];
         
     } //else use liberal
     else{
         
-        blocksize = [[[payload objectAtIndex:0] objectForKey:@"signalBlocksizeWithLocation"] floatValue];
+        celluarBlockSize = [[[payload objectAtIndex:0] objectForKey:@"cellSignalBlocksizeWithLocation"] floatValue];
     }
     
     NSNumber *signal = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getCelluarSignalRaw];
@@ -510,13 +594,34 @@
     // Probably in airplane mode or no signal
     if(signal==nil || !signal){
         
-        celluar = @"NO_SIGNAL";
+        // First check airplanbe mode
+        NSNumber *enabled = [[Sentegrity_TrustFactor_Datasets sharedDatasets] isAirplaneMode];
+        
+        // Check the array
+        if (!enabled || enabled == nil) {
+            
+            celluar = @"_CELL:NOSIGNAL";
+        }
+        else{
+            
+            // Is airplane enabled?
+            if(enabled.intValue == 1){
+                celluar = @"_CELL:AIRPLANE";
+            }
+            else{
+                
+                celluar = @"_CELL:NOSIGNAL";
+                
+            }
+            
+        }
+        
         
     }
     else{
-        
-        int blockOfSignal = ceil(abs([signal intValue]) / blocksize);
-        celluar = [NSString stringWithFormat:@"_S%d",blockOfSignal];
+        //int blockOfSignal = (([signal intValue] + blocksize/2)/blocksize)*blocksize;
+        int blockOfSignal = round(abs([signal intValue]) / celluarBlockSize);
+        celluar = [NSString stringWithFormat:@"_CELL:%d",blockOfSignal];
     }
     
     anomalyString = [anomalyString stringByAppendingString:celluar];

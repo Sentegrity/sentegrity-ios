@@ -491,7 +491,9 @@
                 if(trustFactorOutputObject.trustFactor.threshold.intValue != 0) {
                     
                     // Still strigger the rule if we have not meet the hitcount threshold, regardless of if its in the store or not (generally only user anomaly rules)
-                    if(newHitCount < trustFactorOutputObject.trustFactor.threshold) {
+                    
+                    // Don't apply thresholding if this is the default assertion and not a true candidate otherwise the rule can be falsely triggered until the default assertion meetings the threshold, only necessary for ruleType=1 (e.g., No Match rules)
+                    if(([[candidate assertionHash] isEqualToString:[[trustFactorOutputObject defaultAssertionObject] assertionHash ]]==NO) &&newHitCount < trustFactorOutputObject.trustFactor.threshold ) {
                         
                         // Only add as triggered if meet
                         trustFactorOutputObject.triggered=YES;
