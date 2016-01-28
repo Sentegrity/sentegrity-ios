@@ -86,7 +86,7 @@
     
     if(computation.deviceTrusted==YES){ // Transparently authentication
         
-            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Success!" subTitle:@"You've been transparently authenticated. You and your device are TRUSTED." closeButtonTitle:nil duration:0.0f];
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"Access Granted" subTitle:@"You've been transparently authenticated." closeButtonTitle:nil duration:0.0f];
         
 /*try to open inbox (airwatch)
         
@@ -104,10 +104,10 @@
  */
         
     }else if((computation.userTrusted==NO) && (computation.systemTrusted==YES)){ // User anomaly
-            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"What happened?" subTitle:@"Your user password was required due to abnormal behavior (transparent authentication failed)." closeButtonTitle:nil duration:0.0f];
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"What happened?" subTitle:@"A password was required\n due to abnormal user activity." closeButtonTitle:nil duration:0.0f];
     }else{ // Policy violation
         
-            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"What happened?" subTitle:@"An administrator password was required due to high risk device conditions." closeButtonTitle:nil duration:0.0f];
+            [unlocked showCustom:self image:nil color:[UIColor grayColor] title:@"What happened?" subTitle:@"Data breach may occur due to a high risk device." closeButtonTitle:nil duration:0.0f];
     }
 
     
