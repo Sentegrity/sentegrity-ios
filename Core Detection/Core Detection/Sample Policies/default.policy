@@ -1277,9 +1277,9 @@
           "brightnessBlocksizeWithLocation" : 3,
           "brightnessBlocksizeNoLocation" : 4,
           "locationRounding" : 2,
-          "magneticBlockSize" : 25,
+          "magneticBlockSize" : 40,
           "cellSignalBlocksizeNoLocation" : 3,
-          "cellSignalBlocksizeWithLocation" : 4,
+          "cellSignalBlocksizeWithLocation" : 5,
           "wifiSignalBlocksizeNoLocation" : 5,
           "wifiSignalBlocksizeWithLocation" : 10
         }

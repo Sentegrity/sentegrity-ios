@@ -366,39 +366,7 @@
     // ** MAGNETIC FIELD **
     
     // First  get accel parameters to apply as weights
-    
-    // Use the API which does not require motion authorization if there was an error in motion (i.e., not authorized)
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] accelMotionDNEStatus] == 0 ) {
-        
-        
-        // Use custom mechanism for increased accuracy (the non-motion API is designed for GUIs not user auth)
-        NSArray *gryoRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getAccelRadsInfo];
-        
-        float xAverage;
-        float yAverage;
-        float zAverage;
-        
-        float xTotal = 0.0;
-        float yTotal = 0.0;
-        float zTotal = 0.0;
-        
-        float count=0;
-        
-        for (NSDictionary *sample in gryoRads) {
-            
-            count++;
-            xTotal = xTotal + [[sample objectForKey:@"x"] floatValue];
-            yTotal = yTotal + [[sample objectForKey:@"y"] floatValue];
-            zTotal = zTotal + [[sample objectForKey:@"z"] floatValue];
-            
-        }
-        
 
-            xAverage = xTotal / count;
-            yAverage = yTotal / count;
-            zAverage = zTotal / count;
-        
-    }
 
     
     // ** MAGNETIC FIELD **
@@ -463,6 +431,14 @@
                 anomalyString = [anomalyString stringByAppendingString:magnitudeString];
                 
             }
+        }
+        else{ //No location authorizaed and magnetometer not supported, trigger hard
+            
+            [trustFactorOutputObject setStatusCode:DNEStatus_unauthorized];
+            
+            // Return the trustfactor output object
+            return trustFactorOutputObject;
+            
         }
 
     }
