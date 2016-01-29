@@ -4,7 +4,7 @@
   "revision": 1,
   "userThreshold": 75,
   "systemThreshold": 40,
-  "timeout": 5,
+  "timeout": 15,
   "contactPhone": "18005556666",
   "contactURL": "www.application.com",
   "contactEmail": "help@application.com",

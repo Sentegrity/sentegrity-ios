@@ -17,6 +17,9 @@
 #import "LocationPermissionViewController.h"
 #import "ActivityPermissionViewController.h"
 
+// Import the datasets
+#import "Sentegrity_TrustFactor_Datasets.h"
+
 @interface LoginViewController () <ISHPermissionsViewControllerDataSource>
 
 /* Properties */
@@ -54,6 +57,21 @@ static MBProgressHUD *HUD;
     
     // Check if permissions are authorized
     if ([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized || [permissionActivity permissionState] != ISHPermissionStateAuthorized) {
+        
+        if([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized) {
+            // Set location error
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
+            
+            // Set placemark error
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemarkDNEStatus:DNEStatus_unauthorized];
+        }
+        
+        if([permissionActivity permissionState] != ISHPermissionStateAuthorized) {
+            
+            // The app isn't authorized to use motion activity support.
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unauthorized];
+        }
+        
         
         // Prompt for user to allow motion and location activity gathering
         NSArray *permissions = @[@(ISHPermissionCategoryLocationWhenInUse), @(ISHPermissionCategoryActivity)];
