@@ -45,9 +45,8 @@
         _activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
     }
     
-    // Run the activites from the dispatcher
-    [_activityDispatcher startBluetoothBLE];
-    [_activityDispatcher startMotion];
+    // Run the activites from the dispatcher ASAP
+    [_activityDispatcher runCoreDetectionActivities];
     
     // Set up the navigation controller
     controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"]];

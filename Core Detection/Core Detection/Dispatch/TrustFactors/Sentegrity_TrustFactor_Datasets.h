@@ -54,6 +54,8 @@
 @property (atomic, retain) CLPlacemark *placemark;
 @property (atomic) int placemarkDNEStatus;
 
+
+// Magnetometer
 @property (atomic, strong) NSArray *magneticHeading;
 @property (atomic) int magneticHeadingDNEStatus;
 
@@ -66,9 +68,6 @@
 @property (atomic, retain) NSArray *gyroRollPitch;
 @property (atomic, retain) NSArray *gyroRads;
 @property (atomic) int gyroMotionDNEStatus;
-
-@property (atomic, retain) NSArray *headings;
-@property (atomic) int headingsMotionDNEStatus;
 
 @property (atomic, retain) NSArray *accelRads;
 @property (atomic) int accelMotionDNEStatus;

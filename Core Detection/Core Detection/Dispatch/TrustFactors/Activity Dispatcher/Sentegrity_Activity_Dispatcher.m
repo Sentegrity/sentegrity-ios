@@ -17,6 +17,11 @@
 // DLFCN - Dynamic Loading
 #import <dlfcn.h>
 
+// Permissions
+#import "ISHPermissionKit.h"
+#import "LocationPermissionViewController.h"
+#import "ActivityPermissionViewController.h"
+
 @implementation Sentegrity_Activity_Dispatcher
 
 #pragma mark - Additional functions
@@ -24,14 +29,45 @@
 // Run the Core Detection Activites
 - (void)runCoreDetectionActivities {
     
-    // Start Bluetooth
+    
+    // Start Bluetooth as soon as possible
     [self startBluetoothBLE]; // Also starts classic
     
-    // Start location
-    [self startLocation];
+    // Check if the application has permissions to run the different activities
+    ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
+    ISHPermissionRequest *permissionActivity = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
     
-    // Start Activity
-    [self startActivity];
+    // Check if permissions are authorized
+    if ([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized || [permissionActivity permissionState] != ISHPermissionStateAuthorized) {
+        
+        if([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized) {
+            // Set location error
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
+            
+        }else{
+            // Start location
+            [self startLocation];
+        }
+        
+        if([permissionActivity permissionState] != ISHPermissionStateAuthorized) {
+            
+            // The app isn't authorized to use motion activity support.
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unauthorized];
+        }
+        else{
+            // Start Activity
+            [self startActivity];
+        }
+    }
+    else{
+        
+        // Start location
+        [self startLocation];
+        
+        // Start Activity
+        [self startActivity];
+        
+    }
     
     // Start Motion
     [self startMotion];
@@ -40,9 +76,11 @@
 
 #pragma mark - Core Detection Activities
 
-// Location services
+// ** GET LOCATION DATA **
 - (void)startLocation {
     
+    
+   
     // Create the location manager
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
@@ -60,8 +98,6 @@
     }
     
     
-    
-    
     NSUInteger code = [CLLocationManager authorizationStatus];
     
     // Check if it's enabled
@@ -70,8 +106,6 @@
         // Set location disabled
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setLocationDNEStatus:DNEStatus_disabled];
         
-        // Set placemark disabled
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setPlacemarkDNEStatus:DNEStatus_disabled];
         
     } else {
         
@@ -100,8 +134,6 @@
         //Set location unauthorized
         [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
         
-        //Set placemark unauthorized
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setPlacemarkDNEStatus:DNEStatus_unauthorized];
         
     } else {
         
@@ -110,13 +142,98 @@
         // Set location error
         [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
         
-        // Set placemark error
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemarkDNEStatus:DNEStatus_unauthorized];
+    }
+}
+
+// ** LOCATION UPDATE **
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    
+    // Set the long/lat location
+    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setLocation:newLocation];
+    
+    /* Placemark Removed as TF was removed
+     
+     // Attempt to obtain geo data for country
+     CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
+     
+     // Get the reverse geocode location when finished
+     [reverseGeocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+     
+     //// Cancel any future requests
+     [reverseGeocoder cancelGeocode];
+     
+     // Check for any errors
+     if (error) {
+     
+     // Error exists, set DNE error
+     [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemarkDNEStatus:DNEStatus_error];
+     
+     } else {
+     
+     // No Errors
+     
+     // Get placemark object
+     CLPlacemark *myPlacemark = [placemarks objectAtIndex:0];
+     
+     // Set the placemark
+     [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemark:myPlacemark];
+     
+     }
+     
+     
+     }];
+     */
+    
+    // Stop all future updates (we only needed one)
+    [manager stopUpdatingLocation];
+    
+}
+
+
+
+// ** LOCATION MAGNETOMETER HEADING UPDATE **
+
+// This Magnetometer reading is calibrated for the device's interference but it does not work when location is not authorized
+
+// This delegate method is invoked when the location manager has heading data.
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)heading {
+    // Update the labels with the raw x, y, and z values.
+    
+    
+    // Create an array of headings samples
+    NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:heading.magneticHeading],[NSNumber numberWithDouble:heading.x], [NSNumber numberWithDouble:heading.y],[NSNumber numberWithDouble:heading.z], nil];
+    
+    // Create an array of keys
+    NSArray *KeyArray = [NSArray arrayWithObjects:@"heading",@"x", @"y", @"z", nil];
+    
+    // Create the dictionary
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+    
+    // Add sample to array
+    [magneticHeadingArray addObject:dict];
+    
+    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setMagneticHeading: magneticHeadingArray];
+    
+    if (magneticHeadingArray.count > 5) {
+        
+        [manager stopUpdatingHeading];
+
     }
     
 }
 
-// Start Motion Monitoring
+// This delegate method is invoked when the location managed encounters an error condition.
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    if ([error code] == kCLErrorDenied) {
+        // This error indicates that the user has denied the application's request to use location services.
+        [manager stopUpdatingHeading];
+    } else if ([error code] == kCLErrorHeadingFailure) {
+        // This error indicates that the heading could not be determined, most likely because of strong magnetic interference.
+    }
+}
+
+// ** GET HISTORICAL ACTIVITY DATA **
 - (void)startActivity {
     
     // Check if the motion activity manager is available
@@ -155,17 +272,15 @@
     
 }
 
-// Start the motion tracking - Gyro
+// ** GET MOTION PITCH/ROLL, MOVEMENT, ORIENTATION DATA **
 - (void)startMotion {
     
     // Create the motion manager
     CMMotionManager *manager = [[CMMotionManager alloc] init];
     
-    // Allocate all the gyro arrays
+    // Allocate all the pith/roll array
     pitchRollArray = [[NSMutableArray alloc] init];
-    accelRadsArray = [[NSMutableArray alloc] init];
-    gyroRadsArray = [[NSMutableArray alloc] init];
-    headingsArray = [[NSMutableArray alloc] init];
+
     
     // Check if the gryo is available
     if (![manager isGyroAvailable] || manager == nil) {
@@ -173,25 +288,17 @@
         // Gyro not available
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unsupported];
         
+        // Magnetometer not available
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setMagneticHeadingDNEStatus:DNEStatus_unsupported];
+        
     } else {
         
-        // Gyro is available
-        
-        // User Grip & Calibrated Magnetics
+        // Gyro is available get user grip
         manager.deviceMotionUpdateInterval = .001f;
         
         // Get the device motion updates
         [manager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXMagneticNorthZVertical toQueue:[NSOperationQueue currentQueue] withHandler:^(CMDeviceMotion  *motion, NSError *error) {
-            
-            // Check for errors
-            if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
-                
-                // The app isn't authorized to use motion activity support.
-                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unauthorized];
-                
-            } else {
-                
-                // Got the Gyro Pitch/Roll
+
                 
                 // Create an array of motion samples
                 NSArray *itemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.attitude.pitch], [NSNumber numberWithFloat:motion.attitude.roll], nil];
@@ -207,73 +314,64 @@
                 
                 // Set the gyro roll pictch
                 [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRollPitch:pitchRollArray];
-                
-                // Check if the device motion field is not 0
-                if (manager.deviceMotion.magneticField.field.z != 0) {
-                    
-                    // Create an array of headings samples
-                    NSArray *itemArrayInfo = [NSArray arrayWithObjects:[NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.x], [NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.y],[NSNumber numberWithDouble:manager.deviceMotion.magneticField.field.z], nil];
-                    
-                    // Create an array of keys
-                    NSArray *keyArrayInfo = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
-                    
-                    // Create the dictionary
-                    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:itemArrayInfo forKeys:keyArrayInfo];
-                    
-                    // Add sample to array
-                    [headingsArray addObject:dict];
-                    
-                    // Set the headings
-                    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadings:headingsArray];
-                    
-                }
-                
+            
                 // Keep updating until we stop
                 // We want a minimum of 3 samples before we average them inside the TF
                 // its possible we will get more as this handler gets called additional times prior to
                 // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
-                if (pitchRollArray.count > 3 && headingsArray.count > 3){
+                if (pitchRollArray.count > 3){
                     [manager stopDeviceMotionUpdates];
                 }
                 
-            }
+            //}
             
         }];
         
-        /*
-         // magnetomer readings, this does not work well as its not calibrated (raw data very unpredictable)
-         manager.magnetometerUpdateInterval = .001;
-         [manager startMagnetometerUpdatesToQueue:[NSOperationQueue currentQueue]  withHandler:^(CMMagnetometerData  *magnetometer, NSError *error) {
-         
-         [manager stopMagnetometerUpdates];
-         
-         if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
-         // The app isn't authorized to use motion activity support.
-         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadingsMotionDNEStatus:DNEStatus_unauthorized];
-         }
-         else{
-         
-         
-         // Create an array of headings samples
-         NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:magnetometer.magneticField.x], [NSNumber numberWithDouble:magnetometer.magneticField.y],[NSNumber numberWithDouble:magnetometer.magneticField.z], nil];
-         
-         // Create an array of keys
-         NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
-         
-         // Create the dictionary
-         NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
-         
-         // Add sample to array
-         [headingsArray addObject:dict];
-         
-         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setHeadings:headingsArray];
-         }
-         
-         }];
-         
-         */
+        // ** GET MAGNETOMETER DATA **
         
-        // Attempt to detect large movements
+        // If location was denied, get magnetometer reading via raw as this does not require permissions
+        
+        if([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] == DNEStatus_unauthorized)
+        {
+
+            manager.magnetometerUpdateInterval = .001;
+            headingsArray = [[NSMutableArray alloc] init];
+            [manager startMagnetometerUpdatesToQueue:[NSOperationQueue currentQueue]  withHandler:^(CMMagnetometerData  *magnetometer, NSError *error) {
+    
+                
+                // Create an array of headings samples
+                NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:magnetometer.magneticField.x], [NSNumber numberWithDouble:magnetometer.magneticField.y],[NSNumber numberWithDouble:magnetometer.magneticField.z], nil];
+                
+                // Create an array of keys
+                NSArray *KeyArray = [NSArray arrayWithObjects:@"x", @"y", @"z", nil];
+                
+                // Create the dictionary
+                NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+                
+                // Add sample to array
+                [headingsArray addObject:dict];
+                
+                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setMagneticHeading:headingsArray];
+                
+                if (headingsArray.count > 5) {
+                    
+                    [manager stopMagnetometerUpdates];
+                    
+                }
+                
+            }];
+
+            
+        }
+
+        
+        // ** GET MOVEMENT DATA **
+        
+        // Attempt to detect large movements using Gyro
+
+        // Allocate the gyro array
+        gyroRadsArray = [[NSMutableArray alloc] init];
+        
         manager.gyroUpdateInterval = .001f;
         [manager startGyroUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMGyroData  *gyroData, NSError *error) {
             
@@ -316,7 +414,11 @@
         
     }
     
-    // Accelerometer
+    
+    // ** GET ACCEL DATA **
+    
+    // Allocate the accel array
+    accelRadsArray = [[NSMutableArray alloc] init];
     
     // Check if the accelerometer is available
     if (![manager isAccelerometerAvailable] || manager == nil) {
@@ -372,7 +474,8 @@
     
 }
 
-// Start Bluetooth scanning
+
+// ** BLUETOOTH 4.0 SCANNING **
 - (void)startBluetoothBLE {
     
     // Set the start time
@@ -386,7 +489,8 @@
     
 }
 
-// Start Scanning Bluetooth classic
+
+// ** BLUETOOTH CLASSIC **
 - (void)startBluetoothClassic {
     
     // Start Bluetooth Manager
@@ -394,9 +498,9 @@
     
 }
 
-#pragma mark - Bluetooth Manager Delegate
 
-// Callback for didDiscoverPeripherals
+// ** BLUETOOTH 4.0 DISCOVERED DEVICES **
+
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     
     // Add the device dictionary to the list
@@ -419,7 +523,7 @@
     
 }
 
-// Central manager updated
+// ** BLUETOOTH 4.0 STATE UPDATE **
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     
     // Check which state the bluetooth manager is in
@@ -491,9 +595,7 @@
     
 }
 
-#pragma mark - Bluetooth Classic Manager Delegate
-
-// Received Bluetooth notification
+// ** BLUETOOTH CLASSIC NOTIFICATION **
 - (void)receivedBluetoothNotification:(MDBluetoothNotification)bluetoothNotification {
     
     // Unregister bluetooth
@@ -564,90 +666,6 @@
     // Set the dataset
     [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:connectedBTDevices];
     
-}
-
-#pragma mark - Location Manager Delegate
-
-// Location Manager Delegate Methods
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
-    // Set the long/lat location
-    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setLocation:newLocation];
-    
-    // Attempt to obtain geo data for country
-    CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
-    
-    // Get the reverse geocode location when finished
-    [reverseGeocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        
-        // Cancel any future requests
-        [reverseGeocoder cancelGeocode];
-        
-        // Check for any errors
-        if (error) {
-            
-            // Error exists, set DNE error
-            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemarkDNEStatus:DNEStatus_error];
-            
-        } else {
-            
-            // No Errors
-            
-            // Get placemark object
-            CLPlacemark *myPlacemark = [placemarks objectAtIndex:0];
-            
-            // Set the placemark
-            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemark:myPlacemark];
-            
-        }
-        
-    }];
-    
-    // Stop all future updates (we only needed one)
-    [manager stopUpdatingLocation];
-    
-}
-
-
-
-#pragma mark - Magnetometer heading
-
-
-// This delegate method is invoked when the location manager has heading data.
-- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)heading {
-    // Update the labels with the raw x, y, and z values.
-    
-    
-    // Create an array of headings samples
-    NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:heading.magneticHeading],[NSNumber numberWithDouble:heading.x], [NSNumber numberWithDouble:heading.y],[NSNumber numberWithDouble:heading.z], nil];
-    
-    // Create an array of keys
-    NSArray *KeyArray = [NSArray arrayWithObjects:@"heading",@"x", @"y", @"z", nil];
-    
-    // Create the dictionary
-    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
-    
-    // Add sample to array
-    [magneticHeadingArray addObject:dict];
-    
-    
-    if (magneticHeadingArray.count > 5) {
-        
-        [manager stopUpdatingHeading];
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setMagneticHeading: magneticHeadingArray];
-    }
-    
-}
-
-
-// This delegate method is invoked when the location managed encounters an error condition.
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    if ([error code] == kCLErrorDenied) {
-        // This error indicates that the user has denied the application's request to use location services.
-        [manager stopUpdatingHeading];
-    } else if ([error code] == kCLErrorHeadingFailure) {
-        // This error indicates that the heading could not be determined, most likely because of strong magnetic interference.
-    }
 }
 
 

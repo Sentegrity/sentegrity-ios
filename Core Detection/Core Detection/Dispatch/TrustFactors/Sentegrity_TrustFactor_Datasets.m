@@ -716,51 +716,6 @@ static dispatch_once_t onceToken;
 
 
 
-
-
-// Headings information
-- (NSArray *)getHeadingsInfo {
-    
-    //Do we any headings yet?
-    if(self.headings == nil || self.headings.count < 1) {
-        
-        //Nope, wait for rads
-        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-        CFAbsoluteTime currentTime = startTime;
-        float waitTime = 0.5;
-        
-        while ((currentTime-startTime) < waitTime){
-            
-            // If its greater than 0 return
-            if(self.headings.count > 0) {
-                
-                NSLog(@"Got headings after waiting..");
-                
-                // Return headings
-                return self.headings;
-            }
-            
-            [NSThread sleepForTimeInterval:0.01];
-            
-            // Update timer
-            currentTime = CFAbsoluteTimeGetCurrent();
-        }
-        
-        // Timer Expires
-        NSLog(@"Headings timer expired");
-        [self setHeadingsMotionDNEStatus:DNEStatus_expired];
-        
-        // Return headings
-        return self.headings;
-    }
-    
-    // We alreaady have the data
-    NSLog(@"Got headings without waiting...");
-    
-    // Return headings
-    return self.headings;
-}
-
 // Wifi information
 - (NSDictionary *)getWifiInfo {
     

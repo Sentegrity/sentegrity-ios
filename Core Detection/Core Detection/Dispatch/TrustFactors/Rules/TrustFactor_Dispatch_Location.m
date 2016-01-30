@@ -359,16 +359,7 @@
     }
         
         
-    
-    
-    
 
-    // ** MAGNETIC FIELD **
-    
-    // First  get accel parameters to apply as weights
-
-
-    
     // ** MAGNETIC FIELD **
 
     if(locationAvailable==NO){
@@ -429,6 +420,14 @@
                 NSString *magnitudeString = [NSString stringWithFormat:@"_MAGNET:%d",blockOfMagnetic];
                 
                 anomalyString = [anomalyString stringByAppendingString:magnitudeString];
+                
+            } // No headings, return unauthorized
+            else{
+                
+                [trustFactorOutputObject setStatusCode:DNEStatus_unauthorized];
+                
+                // Return the trustfactor output object
+                return trustFactorOutputObject;
                 
             }
         }
@@ -514,7 +513,9 @@
             
         }
 */
-     
+    
+    
+    // ** Add movement **
      
     // ** SCREEN BRIGHTNESS **
     
