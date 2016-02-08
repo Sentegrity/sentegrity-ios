@@ -67,6 +67,7 @@
 // Motion
 @property (atomic, retain) NSArray *gyroRollPitch;
 @property (atomic, retain) NSArray *gyroRads;
+@property (atomic, retain) NSArray *motionTotal;
 @property (atomic) int gyroMotionDNEStatus;
 
 @property (atomic, retain) NSArray *accelRads;
@@ -172,6 +173,7 @@
 
 // ** MOTION **
 - (NSArray *)getGyroRadsInfo;
+- (NSArray *)getMotionTotalInfo;
 - (NSArray *)getAccelRadsInfo;
 - (NSArray *)getGyroPitchInfo;
 - (NSArray *)getHeadingsInfo;

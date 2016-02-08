@@ -39,6 +39,9 @@
     // Bluetooth Devices
     NSMutableArray *connectedBTDevices;
     
+    // complete motion object (because we need lot of data from inside)
+    NSMutableArray *motionArray;
+    
 }
 
 // Location manager

@@ -75,6 +75,154 @@
 
 }
 
++ (NSString *) userMovement {
+    NSArray *arrayM = [NSArray arrayWithArray: [[Sentegrity_TrustFactor_Datasets sharedDatasets] getMotionTotalInfo]];
+    
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    CGFloat accelerationMagnitude3D = 0;
+    CGFloat accelerationMagnitude2D = 0;
+    CGFloat rotationMagnitude = 0;
+    CGFloat gravityMagnitude = 0;
+    CGFloat gravX, gravY, gravZ;
+    CGFloat accX, accY, accZ;
+
+    gravX = 0;
+    gravY = 0;
+    gravZ = 0;
+    
+    accX = 0;
+    accY = 0;
+    accZ = 0;
+    
+    // lets check orientation of device but for this purpose
+    NSInteger filteredOrientation = 0;
+    CMDeviceMotion *lastMotion = [arrayM lastObject];
+    
+    if (orientation == 1 || orientation == 2 || (orientation >= 5 && fabs(lastMotion.gravity.y) > fabs(lastMotion.gravity.x))) {
+        filteredOrientation = 1; // Mostly Portrait
+    }
+    else if (orientation == 3 || orientation == 4 || (orientation >= 5 && fabs(lastMotion.gravity.x) > fabs(lastMotion.gravity.y))) {
+        filteredOrientation = 2; // Mostly Landscape
+    }
+    else {
+        filteredOrientation = 3; // unknown
+    }
+    
+    
+    for (CMDeviceMotion *motion in arrayM) {
+        
+        // gravity by elements
+        gravX = gravX + motion.gravity.x;
+        gravY = gravY + motion.gravity.y;
+        gravZ = gravZ + motion.gravity.z;
+        
+        
+        // 3D acceleration
+        CGFloat acc3D =
+        motion.userAcceleration.x * motion.userAcceleration.x +
+        motion.userAcceleration.y * motion.userAcceleration.y +
+        motion.userAcceleration.z * motion.userAcceleration.z;
+        
+        acc3D = sqrt(acc3D);
+        accelerationMagnitude3D += acc3D;
+        
+        
+        // 2D acceleration
+        CGFloat acc2D;
+        if (filteredOrientation == 1) {
+            // we need only Z and Y axis for portriat
+            acc2D = motion.userAcceleration.y * motion.userAcceleration.y + motion.userAcceleration.z * motion.userAcceleration.z;
+        }
+        else if (filteredOrientation == 2) {
+            // we need only Z and X axis for landscape
+            acc2D = motion.userAcceleration.x * motion.userAcceleration.x + motion.userAcceleration.z * motion.userAcceleration.z;
+        }
+        else {
+            acc2D =
+            motion.userAcceleration.x * motion.userAcceleration.x +
+            motion.userAcceleration.y * motion.userAcceleration.y +
+            motion.userAcceleration.z * motion.userAcceleration.z;
+        }
+        
+        acc2D = sqrt(acc2D);
+        accelerationMagnitude2D += acc2D;
+        NSLog(@"ACC %lf", acc2D);
+        
+        NSLog(@"ACC final %lf", accelerationMagnitude2D);
+
+        // rotation
+        CGFloat rotationSpeed = (motion.rotationRate.x*motion.rotationRate.x + motion.rotationRate.y*motion.rotationRate.y + motion.rotationRate.z*motion.rotationRate.z);
+        rotationSpeed = sqrt(rotationSpeed);
+        rotationMagnitude += rotationSpeed;
+        
+        
+        // acceleration by elements
+        accX += motion.userAcceleration.x;
+        accY += motion.userAcceleration.y;
+        accZ += motion.userAcceleration.z;
+        
+        
+    }
+    
+    //finding final gravity magnitude by avarage of all axis
+    gravX = gravX / (CGFloat) arrayM.count;
+    gravY = gravY / (CGFloat) arrayM.count;
+    gravZ = gravZ / (CGFloat) arrayM.count;
+    gravityMagnitude = gravX*gravX + gravY*gravY + gravZ*gravZ;
+    gravityMagnitude = sqrt(gravityMagnitude);
+    
+    
+    //acceleration
+    accelerationMagnitude3D = accelerationMagnitude3D / (CGFloat) arrayM.count;
+    accelerationMagnitude2D = accelerationMagnitude2D / (CGFloat) arrayM.count;
+    accX = accX / (CGFloat) arrayM.count;
+    accY = accY / (CGFloat) arrayM.count;
+    accZ = accZ / (CGFloat) arrayM.count;
+    
+    
+    
+    //rotation
+    rotationMagnitude = rotationMagnitude / (CGFloat) arrayM.count;
+    
+    // 0 - standing still, 1 - walking, 2 - running
+    NSInteger statusMoving = 0;
+    
+    if (accelerationMagnitude2D < 0.09)
+        statusMoving = 0;
+    else if (accelerationMagnitude2D < 0.22)
+        statusMoving = 1;
+    else
+        statusMoving = 2;
+    
+    
+    // 0 - no error, 1 - changing orientation, 2 - rotating or shaking
+    NSInteger errorObserving = 0;
+
+    if (gravityMagnitude < 0.955)
+        errorObserving = 1;
+    else if (rotationMagnitude > 1.0)
+        errorObserving = 2;
+
+    
+    // one of the examples of final statement
+    if (errorObserving == 0) {
+        if (statusMoving == 0)
+            return @"StandingStill";
+        else if (statusMoving == 1)
+            return @"Walking";
+        else
+            return @"Running";
+    }
+    
+    else if (errorObserving == 1)
+        return @"ChangingOrientation";
+    
+    else
+        return @"RotatingOrShaking";
+
+}
+
+
 
 // Checking orientation of device
 + (NSString *)orientation {
@@ -199,5 +347,8 @@
     
     return orientationString;
 }
+
+
+
 
 @end

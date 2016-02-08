@@ -583,6 +583,49 @@ static dispatch_once_t onceToken;
     return self.gyroRads;
 }
 
+// motion information
+- (NSArray *)getMotionTotalInfo {
+    
+    //Full data yet?
+    if(self.motionTotal == nil || self.motionTotal.count < 50) {
+        
+        //Nope, wait for data
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.5;
+        
+        while ((currentTime-startTime) < waitTime){
+            
+            // If its greater than 0 return
+            if(self.motionTotal.count > 0){
+                NSLog(@"Got Motion total after waiting..");
+                return self.motionTotal;
+                
+            }
+            
+            [NSThread sleepForTimeInterval:0.01];
+            
+            // Update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
+        }
+        
+        // Timer expires
+        NSLog(@"Motion total timer expired");
+        [self setGyroMotionDNEStatus:DNEStatus_expired];
+        
+        // Return motion
+        return self.motionTotal;
+    }
+    
+    // We already have the data
+    NSLog(@"Got Motion total without waiting...");
+    
+    // Return motion
+    return self.motionTotal;
+
+}
+
+
 // Gyro pitch information
 - (NSArray *)getGyroPitchInfo {
     

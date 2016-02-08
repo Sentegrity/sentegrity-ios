@@ -80,7 +80,6 @@
 - (void)startLocation {
     
     
-   
     // Create the location manager
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
@@ -326,6 +325,47 @@
             //}
             
         }];
+        
+        
+        // ** GET ENTIRE MOTION DATA **
+        
+        // New motion manager. We do not want to use CMAttitudeReferenceFrameXMagneticNorthZVertical (because it needs calibration), and do not want to stop observing once pitchRollArray is filled
+        CMMotionManager *manager2 = [[CMMotionManager alloc] init];
+
+        // Allocate all the motion array
+        motionArray = [[NSMutableArray alloc] init];
+        
+        // Check if the gryo is available
+        if (![manager2 isGyroAvailable] || manager2 == nil) {
+            
+            // Gyro not available
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unsupported];
+            
+            
+        } else {
+            manager2.accelerometerUpdateInterval = 0.01f;
+            manager2.gyroUpdateInterval = 0.01f;
+            
+            //neccessary to detect device orientation
+            [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+            
+            
+            // get device motion update
+            [manager2 startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMDeviceMotion * _Nullable motion, NSError * _Nullable error) {
+                
+                
+                [motionArray addObject:motion];
+                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setMotionTotal:motionArray];
+                
+                // bigger array capacity will increase precission
+                if (motionArray.count > 50)
+                    [manager2 stopDeviceMotionUpdates];
+            }];
+            
+        }
+
+        
+        
         
         // ** GET MAGNETOMETER DATA **
         

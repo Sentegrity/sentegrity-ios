@@ -23,5 +23,10 @@
 // Orientation function
 + (NSString *) orientation;
 
+// Total movement of user and device
++ (NSString *) userMovement;
+
+
+
 @end
 
