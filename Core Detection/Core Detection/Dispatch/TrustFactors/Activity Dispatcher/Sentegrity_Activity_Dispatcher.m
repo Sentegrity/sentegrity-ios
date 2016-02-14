@@ -274,6 +274,8 @@
 // ** GET MOTION PITCH/ROLL, MOVEMENT, ORIENTATION DATA **
 - (void)startMotion {
     
+    // ** GET GRIP DATA **
+    
     // Create the motion manager
     CMMotionManager *manager = [[CMMotionManager alloc] init];
     
@@ -290,12 +292,15 @@
         // Magnetometer not available
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setMagneticHeadingDNEStatus:DNEStatus_unsupported];
         
+        // Motion data won't work
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setUserMovementDNEStatus:DNEStatus_unsupported];
+        
     } else {
         
         // Gyro is available get user grip
         manager.deviceMotionUpdateInterval = .001f;
         
-        // Get the device motion updates
+
         [manager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXMagneticNorthZVertical toQueue:[NSOperationQueue currentQueue] withHandler:^(CMDeviceMotion  *motion, NSError *error) {
 
                 
@@ -327,7 +332,7 @@
         }];
         
         
-        // ** GET ENTIRE MOTION DATA **
+        // ** GET USER MOVEMENT DATA **
         
         // New motion manager. We do not want to use CMAttitudeReferenceFrameXMagneticNorthZVertical (because it needs calibration), and do not want to stop observing once pitchRollArray is filled
         CMMotionManager *manager2 = [[CMMotionManager alloc] init];
@@ -340,6 +345,7 @@
             
             // Gyro not available
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unsupported];
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setUserMovementDNEStatus:DNEStatus_unsupported];
             
             
         } else {
@@ -355,7 +361,7 @@
                 
                 
                 [motionArray addObject:motion];
-                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setMotionTotal:motionArray];
+                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setUserMovementInfo:motionArray];
                 
                 // bigger array capacity will increase precission
                 if (motionArray.count > 50)
@@ -405,7 +411,7 @@
         }
 
         
-        // ** GET MOVEMENT DATA **
+        // ** GET GRIP MOVEMENT DATA **
         
         // Attempt to detect large movements using Gyro
 
@@ -415,13 +421,7 @@
         manager.gyroUpdateInterval = .001f;
         [manager startGyroUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMGyroData  *gyroData, NSError *error) {
             
-            // Check for errors
-            if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
-                
-                // The app isn't authorized to use motion activity support.
-                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unauthorized];
-                
-            } else {
+     
                 
                 // Create an array of gyro samples
                 NSArray *itemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:gyroData.rotationRate.x], [NSNumber numberWithFloat:gyroData.rotationRate.y], [NSNumber numberWithFloat:gyroData.rotationRate.z], nil];
@@ -447,8 +447,7 @@
                 if (gyroRadsArray.count > 3){
                     [manager stopGyroUpdates];
                 }
-                
-            }
+            
             
         }];
         
@@ -474,13 +473,7 @@
         manager.accelerometerUpdateInterval = .001f;
         [manager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMAccelerometerData  *accelData, NSError *error) {
             
-            // Check if an error occured
-            if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {
-                
-                // The app isn't authorized to use motion activity support.
-                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unauthorized];
-                
-            } else {
+
                 
                 // Create an array of accelerometer samples
                 NSArray *itemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:accelData.acceleration.x], [NSNumber numberWithFloat:accelData.acceleration.y], [NSNumber numberWithFloat:accelData.acceleration.z], nil];
@@ -505,8 +498,7 @@
                 if (accelRadsArray.count > 3){
                     [manager stopAccelerometerUpdates];
                 }
-                
-            }
+
             
         }];
         

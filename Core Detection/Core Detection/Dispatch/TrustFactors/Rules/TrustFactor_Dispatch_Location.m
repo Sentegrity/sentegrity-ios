@@ -212,7 +212,6 @@
     // in order to collect more datapoint. If they did authorize location then we decrease the sensitivity.
     // Location approximation takes into consideration 3 different values, the brightness of the screen (indicating light in room), the strength of the cell tower signal, and magnetomter readings that attempt to calculate the magnetic field of a room.
     
-    // The following is  generaly TrustFactor stuff that is not too specific to this function
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
@@ -233,6 +232,7 @@
     
     // This string gets built by various factors that are available
     NSString *anomalyString = @"";
+    
     
     // ** LOCATION **
     
@@ -277,86 +277,75 @@
     }
     
     // ** WiFi Signal Strength **
+
+    NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
+
     
-    // Check if WiFi is disabled
-    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
+    // Check for a connection
+    if (wifiInfo == nil){
         
         // Return NA for WiFi
-        anomalyString = [anomalyString stringByAppendingString:@"_WIFI:DISABLED"];
-        
-    }    // If we're enabled, still check if we're tethering and set as unavaialble if we are
-    else if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
-        
-        // Return NA for WiFi
-        anomalyString = [anomalyString stringByAppendingString:@"_WIFI:TETHERING"];
+        anomalyString = [anomalyString stringByAppendingString:@"_WIFI:NOCON"];
         
     }
     else{
         
-        NSDictionary *wifiInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiInfo];
+        // Get the ssid
+        NSString *ssid = [wifiInfo objectForKey:@"ssid"];
         
-        // Check for a connection
-        if (wifiInfo == nil){
+        // Get the signal strength
+        NSNumber *wifiSignal = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiSignal];
+        
+        // Check if we have a signal reading (returns 0 if there is no WiFi icon present)
+        if([wifiSignal intValue] == 0){
             
-            // Return NA for WiFi
-            anomalyString = [anomalyString stringByAppendingString:@"_WIFI:NOCON"];
-            
+            if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
+                
+                // Return NA for WiFi
+                anomalyString = [anomalyString stringByAppendingString:@"_WIFI:DISABLED"];
+                
+            }    // If we're enabled, still check if we're tethering and set as unavaialble if we are
+            else if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
+                
+                // Return NA for WiFi
+                anomalyString = [anomalyString stringByAppendingString:@"_WIFI:TETHERING"];
+                
+            }
+            else{ //Don't know what happened, set to no connection
+                
+                 anomalyString = [anomalyString stringByAppendingString:@"_WIFI:NOCON"];
+                
+            }
+
+
         }
         else{
             
-            // Get the ssid
-            NSString *ssid = [wifiInfo objectForKey:@"ssid"];
+            // Divide into blocksizes
+            int blocksize=0;
             
-            // Validate the gateway IP and BSSID
-            if ((ssid == nil && ssid.length == 0)) {
+            // If no location data use sensitive
+            if(locationAvailable==NO){
                 
-                // Return NA for WiFi
-                anomalyString = [anomalyString stringByAppendingString:@"_WIFI:NOSSID"];
+                blocksize = [[[payload objectAtIndex:0] objectForKey:@"wifiSignalBlocksizeNoLocation"] floatValue];
                 
-            }
+            } //else use liberal
             else{
                 
-                NSNumber *wifiSignal = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiSignal];
-                
-                // Check if we have a signal reading
-                if([wifiSignal intValue] == 0){
-                    
-                    // Return just the SSID
-                    NSString *ssidString = [NSString stringWithFormat:@"_WIFI:%@",ssid];
-                    anomalyString = [anomalyString stringByAppendingString:ssidString];
-                }
-                else{
-                    
-                    // Divide into blocksizes
-                    int blocksize=0;
-                    
-                    // If no location data use sensitive
-                    if(locationAvailable==NO){
-                        
-                        blocksize = [[[payload objectAtIndex:0] objectForKey:@"wifiSignalBlocksizeNoLocation"] floatValue];
-                        
-                    } //else use liberal
-                    else{
-                        
-                        blocksize = [[[payload objectAtIndex:0] objectForKey:@"wifiSignalBlocksizeWithLocation"] floatValue];
-                    }
-                    
-                    int blockOfWiFi = round(abs([wifiSignal intValue]) / blocksize);
-                    
-                    
-                    anomalyString = [anomalyString stringByAppendingString:[NSString stringWithFormat:@"_WIFI:%@_%i",ssid,blockOfWiFi]];
-                    
-                    
-                }
-
-                
+                blocksize = [[[payload objectAtIndex:0] objectForKey:@"wifiSignalBlocksizeWithLocation"] floatValue];
             }
             
+            int blockOfWiFi = round(abs([wifiSignal intValue]) / blocksize);
+            
+            
+            anomalyString = [anomalyString stringByAppendingString:[NSString stringWithFormat:@"_WIFI:%@_%i",ssid,blockOfWiFi]];
             
             
         }
-            
+
+        
     }
+        
         
         
 
@@ -514,8 +503,6 @@
         }
 */
     
-    
-    // ** Add movement **
      
     // ** SCREEN BRIGHTNESS **
     

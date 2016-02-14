@@ -18,7 +18,7 @@
 @interface Motion_Info : NSObject
 
 // Moving function
-+ (NSNumber *) movement;
++ (NSNumber *) gripMovement;
 
 // Orientation function
 + (NSString *) orientation;

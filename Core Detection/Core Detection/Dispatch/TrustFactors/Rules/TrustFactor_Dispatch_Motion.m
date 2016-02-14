@@ -86,7 +86,7 @@
     
     // Get movement dataset
     float movement=0.0;
-    movement = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getMovement] floatValue];
+    movement = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getGripMovement] floatValue];
     
     if(!movement || movement == 0.0 ){
         
@@ -129,8 +129,7 @@
     // Rounding from policy
     float pitchBlockSize = [[[payload objectAtIndex:0] objectForKey:@"pitchBlockSize"] floatValue];
     float rollBlockSize = [[[payload objectAtIndex:0] objectForKey:@"rollBlockSize"] floatValue];
-    float movementBlockSize = [[[payload objectAtIndex:0] objectForKey:@"movementBlockSize"] floatValue];
-    
+
     // Calculate blocks
     int pitchBlock = round(pitchAvg / pitchBlockSize);
     int rollBlock = round(rollAvg / rollBlockSize);
@@ -141,14 +140,11 @@
     NSString *motionTuple = [NSString stringWithFormat:@"pitch_%d,roll_%d",pitchBlock,rollBlock];
     
     
-    
-    
     // Process movement
-    int movementBlock = round(movement / movementBlockSize);
+    int movementBlock = round(movement / 0.1);
     
     // Combine with tuple
-    motionTuple = [motionTuple stringByAppendingString:[NSString stringWithFormat:@"_movement_%d",movementBlock]];
-    
+
     // Do not allow a grip that indicates the device is sitting on something
     if(pitchBlock==0 && movementBlock==0){
         
@@ -157,6 +153,74 @@
         return trustFactorOutputObject;
         
     }
+    
+    [outputArray addObject:motionTuple];
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+    
+}
+
+// Get motion using gyroscope
++ (Sentegrity_TrustFactor_Output_Object *)movement:(NSArray *)payload {
+    
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Validate the payload
+    if (![[Sentegrity_TrustFactor_Datasets sharedDatasets] validatePayload:payload]) {
+        // Payload is EMPTY
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
+    
+    
+    // Check if error was determined by user movement in the app delegate
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  userMovementDNEStatus] != 0 ){
+        
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  userMovementDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    // Get device movement dataset
+    float gripMovement=0.0;
+    gripMovement = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getGripMovement] floatValue];
+    
+    if(!gripMovement || gripMovement == 0.0 ){
+        
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
+    }
+    
+    float movementBlockSize = [[[payload objectAtIndex:0] objectForKey:@"movementBlockSize"] floatValue];
+    
+    // Process movement
+    int movementBlock = round(gripMovement / movementBlockSize);
+    
+
+    // Get user movement dataset
+    NSString *userMovement = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getUserMovement];
+
+    //Combine into tuple
+    NSString *motionTuple = [NSString stringWithFormat:@"gripMovement_%d,device_Movement%@",movementBlock,userMovement];
     
     [outputArray addObject:motionTuple];
     

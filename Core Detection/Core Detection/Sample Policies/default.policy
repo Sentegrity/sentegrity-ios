@@ -1246,12 +1246,39 @@
         {
           "pitchBlockSize": 0.2,
           "rollBlockSize": 0.06,
-          "movementBlockSize": 0.1
         }
       ]
     },
     {
       "id": 34,
+      "issueMessage": "Unfamiliar device movement",
+      "suggestionMessage": "Hold device regularly",
+      "revision": 1,
+      "classID": 5,
+      "subClassID": 11,
+      "name": "device movement",
+      "penalty": 30,
+      "ruleType": 3,
+      "learnMode": 0,
+      "learnTime": 0,
+      "learnAssertionCount": 0,
+      "learnRunCount": 0,
+      "threshold": 0,
+      "decayMode": 1,
+      "decayMetric": 0.7,
+      "wipeOnUpdate": 0,
+      "dispatch": "Motion",
+      "implementation": "movement:",
+      "whitelistable": 1,
+      "privateAPI": 0,
+      "payload": [
+        {
+          "movementBlockSize": 0.1
+        }
+      ]
+    },
+    {
+      "id": 35,
       "issueMessage": "Approximate location anomaly",
       "suggestionMessage": "Access device in familiar areas",
       "revision": 1,
@@ -1279,14 +1306,14 @@
           "locationRounding" : 2,
           "magneticBlockSize" : 40,
           "cellSignalBlocksizeNoLocation" : 3,
-          "cellSignalBlocksizeWithLocation" : 5,
-          "wifiSignalBlocksizeNoLocation" : 5,
-          "wifiSignalBlocksizeWithLocation" : 10
+          "cellSignalBlocksizeWithLocation" : 6,
+          "wifiSignalBlocksizeNoLocation" : 10,
+          "wifiSignalBlocksizeWithLocation" : 15
         }
       ]
     },
     {
-      "id": 35,
+      "id": 36,
       "issueMessage": "GPS location anomaly",
       "suggestionMessage": "Access device in familiar locations",
       "revision": 1,
@@ -1314,7 +1341,7 @@
       ]
     },
     {
-      "id": 36,
+      "id": 37,
       "issueMessage": "",
       "suggestionMessage": "Employ a Bluetooth low-energy device",
       "revision": 1,
@@ -1338,7 +1365,7 @@
       "payload": []
     },
     {
-      "id": 37,
+      "id": 38,
       "issueMessage": "",
       "suggestionMessage": "Pair a Bluetooth device",
       "revision": 1,

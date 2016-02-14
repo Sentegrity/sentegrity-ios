@@ -19,9 +19,7 @@
 // Get motion using gyroscope
 + (Sentegrity_TrustFactor_Output_Object *)grip:(NSArray *)payload;
 
-/* Old/Archived
- + (Sentegrity_TrustFactor_Output_Object *)moving:(NSArray *)payload;
- */
++ (Sentegrity_TrustFactor_Output_Object *)movement:(NSArray *)payload;
 
 // Gets the device's orientation
 + (Sentegrity_TrustFactor_Output_Object *)orientation:(NSArray *)payload;

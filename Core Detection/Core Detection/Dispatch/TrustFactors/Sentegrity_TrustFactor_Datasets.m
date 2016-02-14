@@ -147,21 +147,40 @@ static dispatch_once_t onceToken;
 }
 
 // Device orientation
-- (NSNumber *)getMovement {
+- (NSNumber *)getGripMovement {
     
     // If dataset is not populated
-    if(!self.movement || self.movement == nil) {
+    if(!self.gripMovement || self.gripMovement == nil) {
         
         // Get device moving info
-        self.movement = [Motion_Info movement];
+        self.gripMovement = [Motion_Info gripMovement];
         
         // Return moving info
-        return self.movement;
+        return self.gripMovement;
         
     } else {
         
         // Return moving info
-        return self.movement;
+        return self.gripMovement;
+    }
+}
+
+// User Movement
+- (NSString *)getUserMovement {
+    
+    // If dataset is not populated
+    if(!self.userMovement || self.userMovement == nil) {
+        
+        // Get device moving info
+        self.userMovement = [Motion_Info userMovement];
+        
+        // Return moving info
+        return self.userMovement;
+        
+    } else {
+        
+        // Return moving info
+        return self.userMovement;
     }
 }
 
@@ -584,22 +603,22 @@ static dispatch_once_t onceToken;
 }
 
 // motion information
-- (NSArray *)getMotionTotalInfo {
+- (NSArray *)getUserMovementInfo {
     
     //Full data yet?
-    if(self.motionTotal == nil || self.motionTotal.count < 50) {
+    if(self.userMovementInfo == nil || self.userMovementInfo.count < 50) {
         
         //Nope, wait for data
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         CFAbsoluteTime currentTime = startTime;
-        float waitTime = 0.5;
+        float waitTime = 0.25;
         
         while ((currentTime-startTime) < waitTime){
             
             // If its greater than 0 return
-            if(self.motionTotal.count > 0){
-                NSLog(@"Got Motion total after waiting..");
-                return self.motionTotal;
+            if(self.userMovementInfo.count > 0){
+                NSLog(@"Got user movement after waiting..");
+                return self.userMovementInfo;
                 
             }
             
@@ -610,18 +629,18 @@ static dispatch_once_t onceToken;
         }
         
         // Timer expires
-        NSLog(@"Motion total timer expired");
-        [self setGyroMotionDNEStatus:DNEStatus_expired];
+        NSLog(@"User movement timer expired");
+        [self setUserMovementDNEStatus:DNEStatus_expired];
         
         // Return motion
-        return self.motionTotal;
+        return self.userMovementInfo;
     }
     
     // We already have the data
-    NSLog(@"Got Motion total without waiting...");
+    NSLog(@"Got user movement without waiting...");
     
     // Return motion
-    return self.motionTotal;
+    return self.userMovementInfo;
 
 }
 

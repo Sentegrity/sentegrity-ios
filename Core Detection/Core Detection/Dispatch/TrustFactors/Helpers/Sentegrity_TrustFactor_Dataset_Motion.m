@@ -11,7 +11,7 @@
 @implementation Motion_Info
 
 // Checking if device is moving
-+(NSNumber*)movement{
++(NSNumber*)gripMovement{
     
     //Determine if device is moving during grip check
     
@@ -76,7 +76,7 @@
 }
 
 + (NSString *) userMovement {
-    NSArray *arrayM = [NSArray arrayWithArray: [[Sentegrity_TrustFactor_Datasets sharedDatasets] getMotionTotalInfo]];
+    NSArray *arrayM = [NSArray arrayWithArray: [[Sentegrity_TrustFactor_Datasets sharedDatasets] getUserMovementInfo]];
     
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     CGFloat accelerationMagnitude3D = 0;

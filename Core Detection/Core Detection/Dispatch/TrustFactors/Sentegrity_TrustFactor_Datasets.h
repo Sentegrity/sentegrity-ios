@@ -64,18 +64,23 @@
 @property (atomic, retain) NSArray *previousActivities;
 @property (atomic) int activityDNEStatus;
 
-// Motion
+// Motion datasets (requires processing)
 @property (atomic, retain) NSArray *gyroRollPitch;
 @property (atomic, retain) NSArray *gyroRads;
-@property (atomic, retain) NSArray *motionTotal;
 @property (atomic) int gyroMotionDNEStatus;
 
 @property (atomic, retain) NSArray *accelRads;
 @property (atomic) int accelMotionDNEStatus;
-@property (atomic,retain) NSString *deviceOrientation;
-@property (atomic, retain) NSNumber *movement;
 
-// Bluetooth BLE
+@property (atomic, retain) NSArray *userMovementInfo;
+@property (atomic) int userMovementDNEStatus;
+
+// Motion results (post processing)
+@property (atomic,retain) NSString *deviceOrientation;
+@property (atomic, retain) NSString *userMovement;
+@property (atomic, retain) NSNumber *gripMovement;
+
+// Bluetooth BLE 
 @property (atomic, retain) NSArray *discoveredBLEDevices;
 @property (atomic) int discoveredBLESDNEStatus;
 
@@ -172,13 +177,18 @@
 - (NSArray *)getPreviousActivityInfo;
 
 // ** MOTION **
+
+// Holds the datasets needed for processing
 - (NSArray *)getGyroRadsInfo;
-- (NSArray *)getMotionTotalInfo;
+- (NSArray *)getUserMovementInfo;
 - (NSArray *)getAccelRadsInfo;
 - (NSArray *)getGyroPitchInfo;
 - (NSArray *)getHeadingsInfo;
+
+// Holds the result of post-processing
 - (NSString *)getDeviceOrientation;
-- (NSNumber *)getMovement;
+- (NSNumber *)getGripMovement;
+- (NSString *)getUserMovement;
 
 // ** BLUETOOTH **
 - (NSArray *)getDiscoveredBLEInfo;
