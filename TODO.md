@@ -3,13 +3,13 @@
 
 ### Core Detection TODO List
 
-[ ] Create a “startup” file to store temporary info by modifying the assertion store class to be universal
+- [ ] Create a “startup” file to store temporary info by modifying the assertion store class to be universal
 
 This should be a JSON file like the assertion store. I think we just need to create a  “startup” class for the mapper and then make the existing assertion store functionality a bit more flexible in that it can accept other files, etc. We need to have the file mapped into an object just like the policy is with the ability to “set” it as well. This is where we will store things such as “lastOSVersion”, crypto salts, and a few other persistent storage attributes we need for bootstrapping the app. 
 
 We can do this by modify the existing I/O built into the assertion store class/mechanism and make that more of a helper for writing any I/O to a JSON file and reading it back into an object. Centralizing the I/O into one helper will help when we have to port all I/O to Good's special wrappers that encrypt data.
 
-[ ] OS Updated Check
+- [ ] OS Updated Check
 
 Add new TF attribute “wipeOnUpdate” need to be added to each TF in the policy and all supporting TF object map classes. During baseline analysis if the iOS version is determined to have been new/upgraded (check it once at start? and compare based on startup file “lastOSVersion”?) then Baseline Analysis should check every TF for this attribute. If the attribute in policy for the current working TrustFactor is set to True then we delete the stored assertion object for this TF and create a new/blank one (this happens automatically by the assertion store object if it can’t find a matching store TF object). This can likely occur within baseline analysis where, as it is already, if it does not find a matching TF object in the store it will create it. The purpose of this is to ensure that we erase stored assertions for TrustFactors (mainly system TrustFactors) whose datapoints may change when an OS upgrade happens and could cause a false positive. For example, the file system monitoring rule should have its assertion store deleted such that it goes back into learning mode if a new OS is installed. This ensures that a change in file size isn't detected as malicious when the OS is merely updated.
 
