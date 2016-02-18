@@ -34,6 +34,7 @@
 		4C1DEC2E1BBCA39F00B0A312 /* ActivityPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DEC2D1BBCA39F00B0A312 /* ActivityPermissionViewController.m */; };
 		4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */; };
 		4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */; };
+		4C4612B51C7669D90015318C /* Sentegrity_Startup_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4612B41C7669D90015318C /* Sentegrity_Startup_Store.m */; };
 		4C46AA6C1C46EB650091D7AB /* Sentegrity_History.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C46AA691C46EB650091D7AB /* Sentegrity_History.m */; };
 		4C46AA6D1C46EB650091D7AB /* Sentegrity_Startup.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C46AA6B1C46EB650091D7AB /* Sentegrity_Startup.m */; };
 		4C5393851B2F965D00EA4484 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393841B2F965D00EA4484 /* loading.gif */; };
@@ -80,7 +81,6 @@
 		4C97D3D81BE15A35009F3779 /* TrustFactor_Dispatch_Time.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D3601BE15A35009F3779 /* TrustFactor_Dispatch_Time.m */; };
 		4C97D3DA1BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D3621BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m */; };
 		4C97D3DC1BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D3641BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m */; };
-		4C97D3DE1BE15A35009F3779 /* Sentegrity_History_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D3671BE15A35009F3779 /* Sentegrity_History_Store.m */; };
 		4C97D3E01BE15A35009F3779 /* Sentegrity_Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D36A1BE15A35009F3779 /* Sentegrity_Parser.m */; };
 		4C97D3E21BE15A35009F3779 /* ProtectMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D36D1BE15A35009F3779 /* ProtectMode.m */; };
 		4C97D3E41BE15A35009F3779 /* default.policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D36F1BE15A35009F3779 /* default.policy */; };
@@ -166,6 +166,8 @@
 		4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemInformationViewController.m; sourceTree = "<group>"; };
 		4C22C0001B7B986800EFFD7D /* UserInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInformationViewController.h; sourceTree = "<group>"; };
 		4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInformationViewController.m; sourceTree = "<group>"; };
+		4C4612B31C7669D90015318C /* Sentegrity_Startup_Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Startup_Store.h; sourceTree = "<group>"; };
+		4C4612B41C7669D90015318C /* Sentegrity_Startup_Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Startup_Store.m; sourceTree = "<group>"; };
 		4C46AA681C46EB650091D7AB /* Sentegrity_History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_History.h; sourceTree = "<group>"; };
 		4C46AA691C46EB650091D7AB /* Sentegrity_History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_History.m; sourceTree = "<group>"; };
 		4C46AA6A1C46EB650091D7AB /* Sentegrity_Startup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Startup.h; sourceTree = "<group>"; };
@@ -294,8 +296,6 @@
 		4C97D3621BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Wifi.m; sourceTree = "<group>"; };
 		4C97D3631BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Datasets.h; sourceTree = "<group>"; };
 		4C97D3641BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Datasets.m; sourceTree = "<group>"; };
-		4C97D3661BE15A35009F3779 /* Sentegrity_History_Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_History_Store.h; sourceTree = "<group>"; };
-		4C97D3671BE15A35009F3779 /* Sentegrity_History_Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_History_Store.m; sourceTree = "<group>"; };
 		4C97D3691BE15A35009F3779 /* Sentegrity_Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Parser.h; sourceTree = "<group>"; };
 		4C97D36A1BE15A35009F3779 /* Sentegrity_Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Parser.m; sourceTree = "<group>"; };
 		4C97D36C1BE15A35009F3779 /* ProtectMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtectMode.h; sourceTree = "<group>"; };
@@ -490,6 +490,8 @@
 				4C46AA691C46EB650091D7AB /* Sentegrity_History.m */,
 				4C46AA6A1C46EB650091D7AB /* Sentegrity_Startup.h */,
 				4C46AA6B1C46EB650091D7AB /* Sentegrity_Startup.m */,
+				4C4612B31C7669D90015318C /* Sentegrity_Startup_Store.h */,
+				4C4612B41C7669D90015318C /* Sentegrity_Startup_Store.m */,
 			);
 			path = Startup;
 			sourceTree = "<group>";
@@ -522,7 +524,6 @@
 				4C97D2DD1BE15A35009F3779 /* Assertion Storage */,
 				4C97D2EA1BE15A35009F3779 /* Baseline Analysis */,
 				4C97D2EF1BE15A35009F3779 /* Dispatch */,
-				4C97D3651BE15A35009F3779 /* History */,
 				4C97D3681BE15A35009F3779 /* Parser */,
 				4C97D36B1BE15A35009F3779 /* Protect Mode */,
 				4C97D36E1BE15A35009F3779 /* Sample Policies */,
@@ -744,15 +745,6 @@
 				4C97D3621BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m */,
 			);
 			path = Rules;
-			sourceTree = "<group>";
-		};
-		4C97D3651BE15A35009F3779 /* History */ = {
-			isa = PBXGroup;
-			children = (
-				4C97D3661BE15A35009F3779 /* Sentegrity_History_Store.h */,
-				4C97D3671BE15A35009F3779 /* Sentegrity_History_Store.m */,
-			);
-			path = History;
 			sourceTree = "<group>";
 		};
 		4C97D3681BE15A35009F3779 /* Parser */ = {
@@ -1185,6 +1177,7 @@
 				0427EFF71B7908FE000658AB /* UserDebugViewController.m in Sources */,
 				4C97D3A61BE15A35009F3779 /* ActiveRoute.m in Sources */,
 				4C97D3AA1BE15A35009F3779 /* Sentegrity_TrustFactor_Dataset_Cell.m in Sources */,
+				4C4612B51C7669D90015318C /* Sentegrity_Startup_Store.m in Sources */,
 				4C97D39E1BE15A35009F3779 /* MDBluetoothDevice.m in Sources */,
 				4C97D3D01BE15A35009F3779 /* TrustFactor_Dispatch_Process.m in Sources */,
 				4C97D3DC1BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m in Sources */,
@@ -1206,7 +1199,6 @@
 				4C97D3C01BE15A35009F3779 /* TrustFactor_Dispatch_Celluar.m in Sources */,
 				4C97D3F01BE15A35009F3779 /* Sentegrity_Policy.m in Sources */,
 				4C97D3BA1BE15A35009F3779 /* TrustFactor_Dispatch_Activity.m in Sources */,
-				4C97D3DE1BE15A35009F3779 /* Sentegrity_History_Store.m in Sources */,
 				4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */,
 				4C97D39A1BE15A35009F3779 /* CoreDetection.m in Sources */,
 				4C97D3A81BE15A35009F3779 /* Sentegrity_TrustFactor_Dataset_Application.m in Sources */,

@@ -22,6 +22,9 @@
 // Baseline Analysis
 #import "Sentegrity_Baseline_Analysis.h"
 
+// Startup
+#import "Sentegrity_Startup_Store.h"
+
 @interface CoreDetection(Private)
 
 /**
@@ -122,7 +125,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         // Return
         return;
     }
-
+    
+    // Set the current state of Core Detection
+    [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Starting Core Detection"];
     
     /* Start the TrustFactor Dispatcher */
     // TODO: Add Timeout
