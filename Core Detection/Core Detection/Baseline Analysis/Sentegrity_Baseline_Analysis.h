@@ -14,11 +14,11 @@
 
 @interface Sentegrity_Baseline_Analysis : NSObject
 
-// TrustFactorOutputObject eligable for protectMode whitelisting
+// TrustFactorOutputObject (assertions) eligable for protectMode whitelisting
 @property (nonatomic) NSMutableArray *trustFactorOutputObjectsForProtectMode;
 
 /*!
- *  Perform baseline analysis with given TrustFactor objects.
+ *  Perform baseline analysis with given TrustFactor output objects (assertions).
  *
  *  @param trustFactorOutputObjects
  *  @param policy                   The policy used for baseline analysis

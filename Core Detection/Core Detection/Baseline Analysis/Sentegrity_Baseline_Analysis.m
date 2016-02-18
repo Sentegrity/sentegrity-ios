@@ -75,7 +75,7 @@
         }
         
         // Check DNE status code prior to computation to avoid evaluation non-ok rules, but do evaluate nodata so that they can update learning
-        if(trustFactorOutputObject.statusCode != DNEStatus_ok && trustFactorOutputObject.statusCode != DNEStatus_nodata) {
+        if (trustFactorOutputObject.statusCode != DNEStatus_ok && trustFactorOutputObject.statusCode != DNEStatus_nodata) {
             continue;
         }
         
@@ -171,7 +171,7 @@
                 trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
                 
                 // Perform baseline analysis against storedTrustFactorObject
-                updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
+                updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
                 
                 // Check if we got a result
                 if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {

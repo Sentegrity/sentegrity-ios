@@ -10,11 +10,11 @@
 
 @implementation Sentegrity_TrustFactor
 
+
 // Identification
 - (void)setIdentification:(NSNumber *)identification{
     _identification = identification;
 }
-
 
 // issue message
 - (void)setIssueMessage:(NSString *)trustedMessage{
@@ -122,6 +122,11 @@
 // Payload
 - (void)setPayload:(NSArray *)payload{
     _payload = payload;
+}
+
+// WipeOnUpdate
+- (void)setWipeOnUpdate:(NSNumber *)wipeOnUpdate{
+    _wipeOnUpdate = wipeOnUpdate;
 }
 
 @end
