@@ -14,6 +14,7 @@
 #import "Sentegrity_Policy.h"
 #import "Sentegrity_TrustFactor_Storage.h"
 #import "Sentegrity_TrustFactor_Datasets.h"
+#import "Sentegrity_Startup_Store.h"
 
 
 // Pod for hashing
@@ -43,6 +44,58 @@
         if (!localStore || localStore == nil) {
             return nil;
         }
+    }
+    
+    // Get our startup file
+    NSError *startupError;
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupFile:&startupError];
+    
+    // Validate no errors
+    if (!startup || startup == nil) {
+        
+        // Check if there are any errors
+        if (startupError || startupError != nil) {
+            
+            // Unable to get startup file!
+            
+            // Log Error
+            NSLog(@"Failed to get startup file: %@", startupError.debugDescription);
+            
+            // Set the error
+            *error = startupError;
+            
+            // Don't return anything
+            return nil;
+            
+        }
+        
+        // Error out, no trustFactorOutputObject were able to be added
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to get startup file", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No startup file received", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try validating the startup file", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStartupInstance userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Failed to Add trustFactorOutputObject: %@", errorDetails);
+        
+        // Don't return anything
+        return nil;
+        
+    }
+    
+    // Should TF wipe due to update?
+    BOOL shouldWipeOldData = NO;
+    
+    // Check for updated version
+    if (![startup.lastOSVersion isEqualToString:[[UIDevice currentDevice] systemVersion]]) {
+        
+        // OS Versions DO NOT MATCH
+        shouldWipeOldData = YES;
+        
     }
     
     // Create the mutable array to hold the storedTrustFactoObjects for each trustFactorOutputObject
@@ -85,7 +138,7 @@
         
         
         // If we could not find an existing stored assertion in the local store create it
-        if (!storedTrustFactorObject || storedTrustFactorObject == nil || exists==NO) {
+        if (exists == NO || !storedTrustFactorObject || storedTrustFactorObject == nil) {
             
             //  Create new stored assertion in the local store with error
             storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
@@ -116,7 +169,7 @@
             trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
             
             // Perform baseline analysis against storedTrustFactorObject
-            updatedTrustFactorOutputObject =[self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
+            updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
             
             // Check if we got a result
             if (!updatedTrustFactorOutputObject || updatedTrustFactorOutputObject == nil) {
@@ -159,10 +212,11 @@
             }
             
         } else {
+            
             // Found an existing stored assertion, check revisions
             
-            // If revisions do not match create new
-            if (![self checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject]) {
+            // If revisions do not match create new - or if device versions don't match and the trustfactor should wipe on new versions, create new
+            if (![self checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject] || (shouldWipeOldData && [trustFactorOutputObject.trustFactor.wipeOnUpdate boolValue])) {
                 
                 // Create a new object in the local store
                 storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
@@ -215,6 +269,7 @@
                 
                 
             } else {
+                
                 // Revisions match, no replacement required
                 
                 // Update the trustFactorOutputObject with newly created storedTrustFactorObject
