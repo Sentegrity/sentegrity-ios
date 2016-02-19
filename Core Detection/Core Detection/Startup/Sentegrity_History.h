@@ -16,18 +16,18 @@
 @property (nonatomic, assign) NSInteger trustScore;
 
 // Device Issues
-@property (nonatomic, strong) NSArray<NSString *> *deviceIssues;
+@property (nonatomic, strong) NSArray<NSString  *> *deviceIssues;
 
 // User Score
 @property (nonatomic, assign) NSInteger userScore;
 
 // Timestamp
-@property (nonatomic, copy) NSDate *timestamp;
+@property (nonatomic, copy  ) NSDate    *timestamp;
 
 // Protect Mode Action
 @property (nonatomic, assign) NSInteger protectModeAction;
 
 // User Issues
-@property (nonatomic, strong) NSArray<NSString *> *userIssues;
+@property (nonatomic, strong) NSArray<NSString  *> *userIssues;
 
 @end

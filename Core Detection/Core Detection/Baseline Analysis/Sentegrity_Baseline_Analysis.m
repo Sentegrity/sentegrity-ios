@@ -80,7 +80,7 @@
         *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStartupInstance userInfo:errorDetails];
         
         // Log Error
-        NSLog(@"Failed to Add trustFactorOutputObject: %@", errorDetails);
+        NSLog(@"Failed to get startup file: %@", errorDetails);
         
         // Don't return anything
         return nil;
@@ -96,6 +96,27 @@
         // OS Versions DO NOT MATCH
         shouldWipeOldData = YES;
         
+        // Write the new startup os version
+        [startup setLastOSVersion:[[UIDevice currentDevice] systemVersion]];
+        
+        // Set the startup file
+        [[Sentegrity_Startup_Store sharedStartupStore] setStartupFile:startup withError:&startupError];
+        
+        // Check for errors
+        if (startupError || startupError != nil) {
+            
+            // Unable to set startup file!
+            
+            // Log Error
+            NSLog(@"Failed to set startup file: %@", startupError.debugDescription);
+            
+            // Set the error
+            *error = startupError;
+            
+            // Don't return anything
+            return nil;
+            
+        }
     }
     
     // Create the mutable array to hold the storedTrustFactoObjects for each trustFactorOutputObject
