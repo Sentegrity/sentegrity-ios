@@ -10,6 +10,7 @@
 #import "Sentegrity_TrustFactor.h"
 #import "Sentegrity_Constants.h"
 #import "CoreDetection.h"
+#import "Sentegrity_Startup_Store.h"
 
 // Import the objc runtime to get class by name
 #import <objc/runtime.h>
@@ -21,6 +22,9 @@
 
 // Run an array of trustfactors and generate candidate assertions
 + (NSArray *)performTrustFactorAnalysis:(NSArray *)trustFactors withTimeout:(NSTimeInterval)timeout andError:(NSError **)error {
+    
+    // Set the current state of Core Detection
+    [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Performing TrustFactor Analysis"];
     
     // Get the current date
     NSDate *startTime = [NSDate date];

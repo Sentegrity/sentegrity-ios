@@ -24,6 +24,9 @@
 // TrustFactor Datasets
 #import "Sentegrity_TrustFactor_Datasets.h"
 
+// Startup File
+#import "Sentegrity_Startup_Store.h"
+
 // Sentegrity
 #import "Sentegrity.h"
 
@@ -92,6 +95,9 @@ static MBProgressHUD *HUD;
     
     [self updateComputationResults:self];
     
+    // Set the current state in the startup file
+    [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Dashboard"];
+    
     // Set the side menu delegate
     [self.sideMenuViewController setDelegate:self];
     
@@ -113,7 +119,7 @@ static MBProgressHUD *HUD;
     // Sentegrity Gold
     [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
     
-    // Re (Good) color
+    // Red (Good For Enterprise) color
     //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
 
     //Gradient

@@ -20,6 +20,9 @@
 // Import the datasets
 #import "Sentegrity_TrustFactor_Datasets.h"
 
+// Startup Store
+#import "Sentegrity_Startup_Store.h"
+
 @interface LoginViewController () <ISHPermissionsViewControllerDataSource>
 
 /* Properties */
@@ -202,6 +205,9 @@ static MBProgressHUD *HUD;
         LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
         [self.navigationController pushViewController:landingViewController animated:NO];
         
+        // Set the current state in the startup file
+        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Landing View"];
+        
     } else {
         
         // Device is not trusted
@@ -217,6 +223,9 @@ static MBProgressHUD *HUD;
                 break;
             case 2: {
                 //USER PROTECT MODE
+                
+                // Set the current state in the startup file
+                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for User Password"];
                 
                 // Active protect mode
                 [currentProtectMode activateProtectModeUser];
@@ -244,6 +253,9 @@ static MBProgressHUD *HUD;
                         // Create the main view controller
                         LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
                         [self.navigationController pushViewController:landingViewController animated:NO];
+                        
+                        // Set the current state in the startup file
+                        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Landing View"];
                     
                     } else {
                         
@@ -277,6 +289,9 @@ static MBProgressHUD *HUD;
             case 3: {
                 // POLICY PROTECT MODE
                 
+                // Set the current state in the startup file
+                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for Policy Password"];
+                
                 // Active protect mode
                 [currentProtectMode activateProtectModePolicy];
                 
@@ -302,6 +317,9 @@ static MBProgressHUD *HUD;
                         // Create the main view controller
                         LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
                         [self.navigationController pushViewController:landingViewController animated:NO];
+                        
+                        // Set the current state in the startup file
+                        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Landing View"];
                         
                     } else {
                         

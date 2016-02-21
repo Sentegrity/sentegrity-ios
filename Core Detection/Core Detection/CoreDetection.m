@@ -22,6 +22,9 @@
 // Baseline Analysis
 #import "Sentegrity_Baseline_Analysis.h"
 
+// Startup
+#import "Sentegrity_Startup_Store.h"
+
 @interface CoreDetection(Private)
 
 /**
@@ -122,7 +125,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         // Return
         return;
     }
-
+    
+    // Set the current state of Core Detection
+    [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Starting Core Detection"];
     
     /* Start the TrustFactor Dispatcher */
     // TODO: Add Timeout
@@ -219,8 +224,91 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 // Callback function for core detection
 - (void)coreDetectionResponse:(BOOL)success withComputationResults:(Sentegrity_TrustScore_Computation *)computationResults andError:(NSError **)error {
     
+    // Save the output to the startup file (run history)
+    
+    // Get our startup file
+    NSError *startupError;
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupFile:&startupError];
+    
+    // Validate no errors
+    if (!startup || startup == nil) {
+        
+        // Check if there are any errors
+        if (startupError || startupError != nil) {
+            
+            // Unable to get startup file!
+            
+            // Log Error
+            NSLog(@"Failed to get startup file: %@", startupError.debugDescription);
+            
+            // Set the error
+            *error = startupError;
+            
+        }
+        
+        // Error out, no trustFactorOutputObject were able to be added
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to get startup file", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No startup file received", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try validating the startup file", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStartupInstance userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Failed to get startup file: %@", errorDetails);
+        
+    }
+    
+    // Create a run history
+    Sentegrity_History *runHistoryObject = [[Sentegrity_History alloc] init];
+    [runHistoryObject setDeviceScore:computationResults.systemScore];
+    [runHistoryObject setTrustScore:computationResults.deviceScore];
+    [runHistoryObject setUserScore:computationResults.userScore];
+    [runHistoryObject setDeviceIssues:computationResults.systemGUIIssues];
+    [runHistoryObject setTimestamp:[NSDate date]];
+    [runHistoryObject setProtectModeAction:computationResults.protectModeAction];
+    [runHistoryObject setUserIssues:computationResults.userGUIIssues];
+    
+    // Check if the startup file already has an array of history objects
+    if (!startup.runHistory || startup.runHistory.count < 1) {
+        
+        // Create a new array
+        NSArray *historyArray = [NSArray arrayWithObject:runHistoryObject];
+        
+        // Set the array to the startup file
+        [startup setRunHistory:historyArray];
+        
+    } else {
+        
+        // Startup History is an array with objects in it already
+        NSArray *historyArray = [[startup runHistory] arrayByAddingObject:runHistoryObject];
+        
+        // Set the array to the startup file
+        [startup setRunHistory:historyArray];
+        
+    }
+    
+    // Save the updates to the startup file
+    [[Sentegrity_Startup_Store sharedStartupStore] setStartupFile:startup withError:&startupError];
+    
+    // Check for errors
+    if (startupError || startupError != nil) {
+        
+        // Unable to set startup file!
+        
+        // Log Error
+        NSLog(@"Failed to set startup file: %@", startupError.debugDescription);
+        
+        // Set the error
+        *error = startupError;
+        
+    }
+    
     // Block callback
     if (coreDetectionBlockCallBack) {
+        
         // Call the Core Detection Block Callabck
         coreDetectionBlockCallBack(success, computationResults, error);
         

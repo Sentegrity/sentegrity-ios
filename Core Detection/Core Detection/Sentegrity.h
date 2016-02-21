@@ -27,6 +27,9 @@
 // Policy
 #import "Sentegrity_Policy.h"
 
+// Startup
+#import "Sentegrity_Startup_Store.h"
+
 // Did not execute modifiers
 #import "Sentegrity_DNEModifiers.h"
 

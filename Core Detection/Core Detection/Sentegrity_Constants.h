@@ -28,6 +28,13 @@
 #define kDefaultGlobalStoreName         @"global"
 #define kDefaultTrustFactorOutput       @"0"
 
+// Startup File Name
+#define kStartupFileName                @"startup"
+
+// TODO: Default salts
+#define kDefaultDeviceSalt              @"sdkfljasdf89dsjd"
+#define kDefaultUserSalt                @"faklsjfads8sadjd8d"
+
 #pragma mark - Assertion Storage
 
 #define kAssertionStorePath             @"/Assertion_Stores/"
@@ -35,6 +42,10 @@
 #define kResumePath                     @"/Resume/"
 #define kStoredTrustFactorObjectMapping @"storedTrustFactorObjects"
 #define kAssertionObjectMapping         @"assertionObjects"
+
+#pragma mark - Startup File Keys
+
+#define kRunHistory                     @"runHistory"
 
 #pragma mark - Policy Keys
 
@@ -189,6 +200,12 @@ enum {
     
     // No TrustFactors set to analyze
     SANoTrustFactorsSetToAnalyze                    = 3,
+    
+    // Invalid Startup File
+    SAInvalidStartupFile                            = 322,
+    
+    // Invalid Startup Instance
+    SAInvalidStartupInstance                        = 323,
     
     // No TrustFactor output objects provided from dispatcher
     SANoTrustFactorOutputObjectsFromDispatcher      = 4,
