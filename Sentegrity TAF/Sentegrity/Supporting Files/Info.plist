@@ -18,8 +18,49 @@
 	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.good.example.daf.skeleton</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.good.example.daf.skeleton.sc</string>
+				<string>com.good.example.daf.skeleton.sc2</string>
+				<string>com.good.gd.discovery</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>2</string>
+	<key>GDApplicationID</key>
+	<string>com.sentegrity.daf</string>
+	<key>GDApplicationVersion</key>
+	<string>1.0.0.0</string>
+	<key>GDConsoleLogger</key>
+	<string>GDFilterNone</string>
+	<key>GDPermissions</key>
+	<array>
+		<dict>
+			<key>Permission</key>
+			<dict>
+				<key>GDApplicationId</key>
+				<string>com.good.example.daf.skeleton</string>
+				<key>TAAPIPermission</key>
+				<string>1</string>
+				<key>nativeApplicationId</key>
+				<string>com.good.example.daf.skeleton</string>
+			</dict>
+			<key>Signature</key>
+			<string>8182c644bb808d9039dad88fce4e049b99076d19bfbcdb5c4a968ec6c5224d62ffc29f455d3b795b22666926b215214da1e7de6eb4633afdbac3b26422744c4da259cfb9180b687de2953e7fcc54f5a8741ecebbbd276f32fb679b6f0682cfc46169a8bb353e7a94503b7a6a6bc8b572eecd340d37c4587815cfa46b2f867566</string>
+			<key>SignatureScheme</key>
+			<string>RSAv1</string>
+		</dict>
+	</array>
+	<key>GDTrustedAuthenticator</key>
+	<true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -70,46 +111,5 @@
 	</array>
 	<key>com.apple.developer.ubiquity-container-identifiers</key>
 	<string>$(TeamIdentifierPrefix).$(CFBundleIdentifier)</string>
-	<key>GDApplicationID</key>
-	<string>com.good.example.daf.skeleton</string>
-	<key>GDApplicationVersion</key>
-	<string>1.0.0.0</string>
-	<key>GDConsoleLogger</key>
-	<string>GDFilterNone</string>
-	<key>GDPermissions</key>
-	<array>
-		<dict>
-			<key>Permission</key>
-			<dict>
-				<key>GDApplicationId</key>
-				<string>com.good.example.daf.skeleton</string>
-				<key>TAAPIPermission</key>
-				<string>1</string>
-				<key>nativeApplicationId</key>
-				<string>com.good.example.daf.skeleton</string>
-			</dict>
-			<key>Signature</key>
-			<string>8182c644bb808d9039dad88fce4e049b99076d19bfbcdb5c4a968ec6c5224d62ffc29f455d3b795b22666926b215214da1e7de6eb4633afdbac3b26422744c4da259cfb9180b687de2953e7fcc54f5a8741ecebbbd276f32fb679b6f0682cfc46169a8bb353e7a94503b7a6a6bc8b572eecd340d37c4587815cfa46b2f867566</string>
-			<key>SignatureScheme</key>
-			<string>RSAv1</string>
-		</dict>
-	</array>
-	<key>GDTrustedAuthenticator</key>
-	<true/>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>com.good.example.daf.skeleton</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.good.example.daf.skeleton.sc</string>
-				<string>com.good.example.daf.skeleton.sc2</string>
-				<string>com.good.gd.discovery</string>
-			</array>
-		</dict>
-	</array>
 </dict>
 </plist>

@@ -18,7 +18,7 @@
 // Activity Dispatcher
 #import "Sentegrity_Activity_Dispatcher.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,DAFAppBase>
 
 // Window
 @property (strong, nonatomic) UIWindow *window;
