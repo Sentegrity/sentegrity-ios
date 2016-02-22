@@ -25,6 +25,9 @@
 - (void)endScan;
 - (NSArray*)discoveredBluetoothDevices;
 
+// return array of currently connected MDBluetoothDevice(s)
+- (NSArray*)connectedDevices;
+
 - (void)registerObserver:(id<MDBluetoothObserverProtocol>)observer;
 - (void)unregisterObserver:(id<MDBluetoothObserverProtocol>)observer;
 

@@ -443,6 +443,46 @@ void notificationCallback(CFNotificationCenterRef center, void* observer,
     return [self.internalDiscoveredBluetoothDevices copy]; // make it immutable
 }
 
+- (NSArray*)connectedDevices {
+    
+    // Get the selector
+    SEL selector = NSSelectorFromString(@"connectedDevices");
+    
+    // Check if the class responds
+    if ([_internalBluetoothManager respondsToSelector:selector]) {
+        
+        NSArray * __unsafe_unretained tempConnectedDevices;
+        
+        
+        // Create the invocation
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+                                    [[_internalBluetoothManager class] instanceMethodSignatureForSelector:selector]];
+        
+        // Set the selector
+        [invocation setSelector:selector];
+        
+        // Set the target
+        [invocation setTarget:_internalBluetoothManager];
+        
+        // Call the method
+        [invocation invoke];
+        
+        // get devices
+        [invocation getReturnValue:&tempConnectedDevices];
+        
+        NSMutableArray *arrayM = [[NSMutableArray alloc] init];
+        
+        for (id device in tempConnectedDevices) {
+            MDBluetoothDevice *deviceB = [[MDBluetoothDevice alloc] initWithBluetoothDevice:device];
+            [arrayM addObject:deviceB];
+        }
+        
+        return [NSArray arrayWithArray:arrayM];
+    }
+    
+    return @[];
+}
+
 #pragma mark - Observer methods
 
 - (void)registerObserver:(id<MDBluetoothObserverProtocol>)observer
