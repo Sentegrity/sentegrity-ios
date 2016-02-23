@@ -19,6 +19,7 @@
 @property (assign, nonatomic, readonly) BOOL supportsBatteryLevel;
 @property (strong, nonatomic, readonly) NSDate* detectingDate;
 
+
 - (instancetype)init __unavailable;
 - (BOOL)isEqual:(id)object;
 - (NSUInteger)hash;
