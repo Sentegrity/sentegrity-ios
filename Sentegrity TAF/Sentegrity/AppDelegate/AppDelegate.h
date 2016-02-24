@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+
 // DAF Support
 #import "DAFSupport/DAFAppBase.h"
 
@@ -18,13 +19,19 @@
 // Activity Dispatcher
 #import "Sentegrity_Activity_Dispatcher.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : DAFAppBase <UIApplicationDelegate>
 
 // Window
-@property (strong, nonatomic) UIWindow *window;
+//@property (strong, nonatomic) UIWindow *window;
 
 // Activity Dispatcher
 @property (strong, atomic) Sentegrity_Activity_Dispatcher *activityDispatcher;
+
+// TODO: Change these DAF View Controllers
+@property (strong, nonatomic) DAFSkelMainViewController *mainViewController;
+@property (strong, nonatomic) DAFSkelFirstTimeViewController *firstTimeViewController;
+@property (strong, nonatomic) DAFSkelUnlockViewController *unlockViewController;
+@property (strong, nonatomic) DAFSkelAuthWarningViewController *easyActivationViewController;
 
 @end
 

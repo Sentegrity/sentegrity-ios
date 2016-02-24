@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Sentegrity MockGD.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>15</integer>
+		</dict>
 		<key>Sentegrity.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -18,6 +23,11 @@
 			<true/>
 		</dict>
 		<key>04A249111B266AC2007D9460</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4C97592D1C7E0664008A8597</key>
 		<dict>
 			<key>primary</key>
 			<true/>
