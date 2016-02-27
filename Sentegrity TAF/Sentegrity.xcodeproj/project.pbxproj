@@ -76,7 +76,6 @@
 		4C31B4A01C5922010000FEAE /* TrustFactor_Dispatch_Time.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4481C5922010000FEAE /* TrustFactor_Dispatch_Time.m */; };
 		4C31B4A11C5922010000FEAE /* TrustFactor_Dispatch_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B44A1C5922010000FEAE /* TrustFactor_Dispatch_Wifi.m */; };
 		4C31B4A21C5922010000FEAE /* Sentegrity_TrustFactor_Datasets.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B44C1C5922010000FEAE /* Sentegrity_TrustFactor_Datasets.m */; };
-		4C31B4A31C5922010000FEAE /* Sentegrity_History_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B44F1C5922010000FEAE /* Sentegrity_History_Store.m */; };
 		4C31B4A41C5922010000FEAE /* Sentegrity_Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4521C5922010000FEAE /* Sentegrity_Parser.m */; };
 		4C31B4A51C5922010000FEAE /* ProtectMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4551C5922010000FEAE /* ProtectMode.m */; };
 		4C31B4A61C5922010000FEAE /* default.policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C31B4571C5922010000FEAE /* default.policy */; };
@@ -95,10 +94,144 @@
 		4C31B4B31C5922010000FEAE /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4781C5922010000FEAE /* Sentegrity_TrustScore_Computation.m */; };
 		4C5393851B2F965D00EA4484 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393841B2F965D00EA4484 /* loading.gif */; };
 		4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393861B2F966700EA4484 /* loadingWhite.gif */; };
+		4C97561D1C7D29BA008A8597 /* Sentegrity_Startup_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97561C1C7D29BA008A8597 /* Sentegrity_Startup_Store.m */; };
+		4C9759301C7E0664008A8597 /* SCLAlertViewStyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0741B7E7DEC00254F45 /* SCLAlertViewStyleKit.m */; };
+		4C9759311C7E0664008A8597 /* Sentegrity_Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4521C5922010000FEAE /* Sentegrity_Parser.m */; };
+		4C9759321C7E0664008A8597 /* ProtectMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4551C5922010000FEAE /* ProtectMode.m */; };
+		4C9759331C7E0664008A8597 /* SCLAlertViewResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0721B7E7DEC00254F45 /* SCLAlertViewResponder.m */; };
+		4C9759341C7E0664008A8597 /* Sentegrity_TrustFactor_Dispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B3D91C5922010000FEAE /* Sentegrity_TrustFactor_Dispatcher.m */; };
+		4C9759351C7E0664008A8597 /* Sentegrity_Subclassification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4761C5922010000FEAE /* Sentegrity_Subclassification+Computation.m */; };
+		4C9759361C7E0664008A8597 /* Sentegrity_Startup.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4711C5922010000FEAE /* Sentegrity_Startup.m */; };
+		4C9759371C7E0664008A8597 /* SCLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0761B7E7DEC00254F45 /* SCLButton.m */; };
+		4C9759381C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4211C5922010000FEAE /* Sentegrity_TrustFactor_Dataset_Netstat.m */; };
+		4C9759391C7E0664008A8597 /* MDBluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B40D1C5922010000FEAE /* MDBluetoothManager.m */; };
+		4C97593A1C7E0664008A8597 /* TrustFactor_Dispatch_Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B42A1C5922010000FEAE /* TrustFactor_Dispatch_Activity.m */; };
+		4C97593B1C7E0664008A8597 /* ActiveProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4131C5922010000FEAE /* ActiveProcess.m */; };
+		4C97593C1C7E0664008A8597 /* TrustFactor_Dispatch_Celluar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4301C5922010000FEAE /* TrustFactor_Dispatch_Celluar.m */; };
+		4C97593D1C7E0664008A8597 /* SCLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0701B7E7DEC00254F45 /* SCLAlertView.m */; };
+		4C97593E1C7E0664008A8597 /* TrustFactor_Dispatch_Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4321C5922010000FEAE /* TrustFactor_Dispatch_Configuration.m */; };
+		4C97593F1C7E0664008A8597 /* TrustFactor_Dispatch_Power.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B43E1C5922010000FEAE /* TrustFactor_Dispatch_Power.m */; };
+		4C9759401C7E0664008A8597 /* Sentegrity_TrustFactor_Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B3D11C5922010000FEAE /* Sentegrity_TrustFactor_Storage.m */; };
+		4C9759411C7E0664008A8597 /* ComputationInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427EFFE1B79361E000658AB /* ComputationInfoViewController.m */; };
+		4C9759421C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Motion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B41F1C5922010000FEAE /* Sentegrity_TrustFactor_Dataset_Motion.m */; };
+		4C9759431C7E0664008A8597 /* TrustFactor_Dispatch_Sentegrity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4461C5922010000FEAE /* TrustFactor_Dispatch_Sentegrity.m */; };
+		4C9759441C7E0664008A8597 /* TrustFactor_Dispatch_Process.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4401C5922010000FEAE /* TrustFactor_Dispatch_Process.m */; };
+		4C9759451C7E0664008A8597 /* TrustFactor_Dispatch_Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B42C1C5922010000FEAE /* TrustFactor_Dispatch_Application.m */; };
+		4C9759461C7E0664008A8597 /* Sentegrity_Subclassification.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4671C5922010000FEAE /* Sentegrity_Subclassification.m */; };
+		4C9759471C7E0664008A8597 /* Sentegrity_TrustFactor_Datasets.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B44C1C5922010000FEAE /* Sentegrity_TrustFactor_Datasets.m */; };
+		4C9759481C7E0664008A8597 /* CoreDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B3D61C5922010000FEAE /* CoreDetection.m */; };
+		4C9759491C7E0664008A8597 /* Sentegrity_Classification.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B45F1C5922010000FEAE /* Sentegrity_Classification.m */; };
+		4C97594A1C7E0664008A8597 /* TrustFactor_Dispatch_Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4361C5922010000FEAE /* TrustFactor_Dispatch_Location.m */; };
+		4C97594B1C7E0664008A8597 /* Sentegrity_Stored_Assertion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B3CB1C5922010000FEAE /* Sentegrity_Stored_Assertion.m */; };
+		4C97594C1C7E0664008A8597 /* LocationPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DEC2A1BBCA38B00B0A312 /* LocationPermissionViewController.m */; };
+		4C97594D1C7E0664008A8597 /* TrustFactor_Dispatch_Netstat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B43A1C5922010000FEAE /* TrustFactor_Dispatch_Netstat.m */; };
+		4C97594E1C7E0664008A8597 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */; };
+		4C97594F1C7E0664008A8597 /* Sentegrity_Assertion_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B3C91C5922010000FEAE /* Sentegrity_Assertion_Store.m */; };
+		4C9759501C7E0664008A8597 /* Sentegrity_Activity_Dispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B3DD1C5922010000FEAE /* Sentegrity_Activity_Dispatcher.m */; };
+		4C9759511C7E0664008A8597 /* DAFSkelUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE35D91C0F5643008C300A /* DAFSkelUnlockViewController.m */; };
+		4C9759521C7E0664008A8597 /* TrustFactor_Dispatch_Bluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B42E1C5922010000FEAE /* TrustFactor_Dispatch_Bluetooth.m */; };
+		4C9759531C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4171C5922010000FEAE /* Sentegrity_TrustFactor_Dataset_Application.m */; };
+		4C9759541C7E0664008A8597 /* SystemDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427EFFA1B792037000658AB /* SystemDebugViewController.m */; };
+		4C9759551C7E0664008A8597 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A249011B266AC2007D9460 /* AppDelegate.m */; };
+		4C9759561C7E0664008A8597 /* TrustFactor_Dispatch_Platform.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B43C1C5922010000FEAE /* TrustFactor_Dispatch_Platform.m */; };
+		4C9759571C7E0664008A8597 /* ActivityPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C1DEC2D1BBCA39F00B0A312 /* ActivityPermissionViewController.m */; };
+		4C9759581C7E0664008A8597 /* UserDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427EFF61B7908FE000658AB /* UserDebugViewController.m */; };
+		4C9759591C7E0664008A8597 /* Sentegrity_TrustFactor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B46A1C5922010000FEAE /* Sentegrity_TrustFactor.m */; };
+		4C97595A1C7E0664008A8597 /* Sentegrity_History.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B46F1C5922010000FEAE /* Sentegrity_History.m */; };
+		4C97595B1C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4231C5922010000FEAE /* Sentegrity_TrustFactor_Dataset_Process.m */; };
+		4C97595C1C7E0664008A8597 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0681B7E668500254F45 /* DashboardViewController.m */; };
+		4C97595D1C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_CPU.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B41B1C5922010000FEAE /* Sentegrity_TrustFactor_Dataset_CPU.m */; };
+		4C97595E1C7E0664008A8597 /* TrustFactor_Dispatch_Sandbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4441C5922010000FEAE /* TrustFactor_Dispatch_Sandbox.m */; };
+		4C97595F1C7E0664008A8597 /* DAFSkelDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE361A1C0F6DF0008C300A /* DAFSkelDriver.cpp */; };
+		4C9759601C7E0664008A8597 /* ActiveConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4111C5922010000FEAE /* ActiveConnection.m */; };
+		4C9759611C7E0664008A8597 /* Sentegrity_Stored_TrustFactor_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B3CD1C5922010000FEAE /* Sentegrity_Stored_TrustFactor_Object.m */; };
+		4C9759621C7E0664008A8597 /* LandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9676DF801B7EA92900C508D6 /* LandingViewController.m */; };
+		4C9759631C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4191C5922010000FEAE /* Sentegrity_TrustFactor_Dataset_Cell.m */; };
+		4C9759641C7E0664008A8597 /* DAFSkelFirstTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE35D11C0F5643008C300A /* DAFSkelFirstTimeViewController.m */; };
+		4C9759651C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4271C5922010000FEAE /* Sentegrity_TrustFactor_Dataset_Wifi.m */; };
+		4C9759661C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B41D1C5922010000FEAE /* Sentegrity_TrustFactor_Dataset_Location.m */; };
+		4C9759671C7E0664008A8597 /* Sentegrity_Policy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4641C5922010000FEAE /* Sentegrity_Policy.m */; };
+		4C9759681C7E0664008A8597 /* SystemInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */; };
+		4C9759691C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4251C5922010000FEAE /* Sentegrity_TrustFactor_Dataset_Routes.m */; };
+		4C97596A1C7E0664008A8597 /* Sentegrity_Classification+Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4741C5922010000FEAE /* Sentegrity_Classification+Computation.m */; };
+		4C97596B1C7E0664008A8597 /* Sentegrity_DNEModifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4621C5922010000FEAE /* Sentegrity_DNEModifiers.m */; };
+		4C97596C1C7E0664008A8597 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD06C1B7E673900254F45 /* LoginViewController.m */; };
+		4C97596D1C7E0664008A8597 /* Sentegrity_Baseline_Analysis.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B3D41C5922010000FEAE /* Sentegrity_Baseline_Analysis.m */; };
+		4C97596E1C7E0664008A8597 /* Sentegrity_TrustFactor_Output_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B3CF1C5922010000FEAE /* Sentegrity_TrustFactor_Output_Object.m */; };
+		4C97596F1C7E0664008A8597 /* Sentegrity_Assertion_Store+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B3C71C5922010000FEAE /* Sentegrity_Assertion_Store+Helper.m */; };
+		4C9759701C7E0664008A8597 /* TrustFactor_Dispatch_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B44A1C5922010000FEAE /* TrustFactor_Dispatch_Wifi.m */; };
+		4C9759711C7E0664008A8597 /* ActiveRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4151C5922010000FEAE /* ActiveRoute.m */; };
+		4C9759721C7E0664008A8597 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */; };
+		4C9759731C7E0664008A8597 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4781C5922010000FEAE /* Sentegrity_TrustScore_Computation.m */; };
+		4C9759741C7E0664008A8597 /* DAFSkelAuthWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE35DD1C0F5643008C300A /* DAFSkelAuthWarningViewController.m */; };
+		4C9759751C7E0664008A8597 /* TrustFactor_Dispatch_Time.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4481C5922010000FEAE /* TrustFactor_Dispatch_Time.m */; };
+		4C9759761C7E0664008A8597 /* TrustFactor_Dispatch_Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4421C5922010000FEAE /* TrustFactor_Dispatch_Route.m */; };
+		4C9759771C7E0664008A8597 /* TrustFactor_Dispatch_File.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4341C5922010000FEAE /* TrustFactor_Dispatch_File.m */; };
+		4C9759781C7E0664008A8597 /* TrustFactor_Dispatch_Motion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B4381C5922010000FEAE /* TrustFactor_Dispatch_Motion.m */; };
+		4C9759791C7E0664008A8597 /* UserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */; };
+		4C97597A1C7E0664008A8597 /* DAFSkelMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE35D51C0F5643008C300A /* DAFSkelMainViewController.m */; };
+		4C97597B1C7E0664008A8597 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A248FE1B266AC2007D9460 /* main.m */; };
+		4C97597C1C7E0664008A8597 /* MDBluetoothDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C31B40B1C5922010000FEAE /* MDBluetoothDevice.m */; };
+		4C97597D1C7E0664008A8597 /* Sentegrity_Startup_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97561C1C7D29BA008A8597 /* Sentegrity_Startup_Store.m */; };
+		4C97597F1C7E0664008A8597 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36181C0F5D3F008C300A /* MobileCoreServices.framework */; };
+		4C9759801C7E0664008A8597 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36161C0F5D39008C300A /* QuickLook.framework */; };
+		4C9759811C7E0664008A8597 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36141C0F5D34008C300A /* Foundation.framework */; };
+		4C9759821C7E0664008A8597 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36121C0F5D28008C300A /* UIKit.framework */; };
+		4C9759831C7E0664008A8597 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36101C0F5D21008C300A /* CoreGraphics.framework */; };
+		4C9759841C7E0664008A8597 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE360E1C0F5D1C008C300A /* QuartzCore.framework */; };
+		4C9759851C7E0664008A8597 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE360C1C0F5CF3008C300A /* SystemConfiguration.framework */; };
+		4C9759861C7E0664008A8597 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE360A1C0F5CED008C300A /* CoreTelephony.framework */; };
+		4C9759871C7E0664008A8597 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36081C0F5CE8008C300A /* AdSupport.framework */; };
+		4C9759881C7E0664008A8597 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36061C0F5CE3008C300A /* Security.framework */; };
+		4C9759891C7E0664008A8597 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36041C0F5CDF008C300A /* CFNetwork.framework */; };
+		4C97598A1C7E0664008A8597 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36021C0F5CDA008C300A /* CoreData.framework */; };
+		4C97598B1C7E0664008A8597 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE36001C0F5CD5008C300A /* MessageUI.framework */; };
+		4C97598C1C7E0664008A8597 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE35FE1C0F5CCE008C300A /* LocalAuthentication.framework */; };
+		4C97598D1C7E0664008A8597 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE35FC1C0F5AD7008C300A /* libstdc++.tbd */; };
+		4C97598E1C7E0664008A8597 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE35FA1C0F5AC4008C300A /* libz.tbd */; };
+		4C9759901C7E0664008A8597 /* DAFSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE35F71C0F5A5E008C300A /* DAFSupport.framework */; };
+		4C9759911C7E0664008A8597 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F48570A0D36F3F3E38C7B515 /* libPods.a */; };
+		4C9759931C7E0664008A8597 /* MockGDiOSResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35F21C0F56AA008C300A /* MockGDiOSResources.bundle */; };
+		4C9759941C7E0664008A8597 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04A249061B266AC2007D9460 /* Main.storyboard */; };
+		4C9759951C7E0664008A8597 /* DAFSkelFirstTimeViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35D31C0F5643008C300A /* DAFSkelFirstTimeViewController_iPhone.xib */; };
+		4C9759961C7E0664008A8597 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393841B2F965D00EA4484 /* loading.gif */; };
+		4C9759971C7E0664008A8597 /* Default_Policy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C31B4591C5922010000FEAE /* Default_Policy.plist */; };
+		4C9759981C7E0664008A8597 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04A2490B1B266AC2007D9460 /* LaunchScreen.xib */; };
+		4C9759991C7E0664008A8597 /* DAFSkelFirstTimeViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35D21C0F5643008C300A /* DAFSkelFirstTimeViewController_iPad.xib */; };
+		4C97599A1C7E0664008A8597 /* DINPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D8061B2FA606006D43D8 /* DINPro-Bold.otf */; };
+		4C97599B1C7E0664008A8597 /* DAFSkelMainViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35D61C0F5643008C300A /* DAFSkelMainViewController_iPad.xib */; };
+		4C97599C1C7E0664008A8597 /* DAFSkelUnlockViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35DB1C0F5643008C300A /* DAFSkelUnlockViewController_iPhone.xib */; };
+		4C97599D1C7E0664008A8597 /* DINPro-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04E4030F1B307A1500A1705E /* DINPro-Black.otf */; };
+		4C97599E1C7E0664008A8597 /* DINPro-CondBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403101B307A1500A1705E /* DINPro-CondBold.otf */; };
+		4C97599F1C7E0664008A8597 /* DINPro-CondMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403111B307A1500A1705E /* DINPro-CondMedium.otf */; };
+		4C9759A01C7E0664008A8597 /* DINPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403121B307A1500A1705E /* DINPro-Regular.otf */; };
+		4C9759A11C7E0664008A8597 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403131B307A1500A1705E /* OpenSans-Bold.ttf */; };
+		4C9759A21C7E0664008A8597 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403141B307A1500A1705E /* OpenSans-BoldItalic.ttf */; };
+		4C9759A31C7E0664008A8597 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403151B307A1500A1705E /* OpenSans-ExtraBold.ttf */; };
+		4C9759A41C7E0664008A8597 /* DAFSkelUnlockViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35DA1C0F5643008C300A /* DAFSkelUnlockViewController_iPad.xib */; };
+		4C9759A51C7E0664008A8597 /* 3rd Party Library Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */; };
+		4C9759A61C7E0664008A8597 /* oui_all.list in Resources */ = {isa = PBXBuildFile; fileRef = 4C31B45B1C5922010000FEAE /* oui_all.list */; };
+		4C9759A71C7E0664008A8597 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403161B307A1500A1705E /* OpenSans-ExtraBoldItalic.ttf */; };
+		4C9759A81C7E0664008A8597 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403171B307A1500A1705E /* OpenSans-Italic.ttf */; };
+		4C9759A91C7E0664008A8597 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403181B307A1500A1705E /* OpenSans-Light.ttf */; };
+		4C9759AA1C7E0664008A8597 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403191B307A1500A1705E /* OpenSans-LightItalic.ttf */; };
+		4C9759AB1C7E0664008A8597 /* GDAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35F11C0F56AA008C300A /* GDAssets.bundle */; };
+		4C9759AC1C7E0664008A8597 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E4031A1B307A1500A1705E /* OpenSans-Regular.ttf */; };
+		4C9759AD1C7E0664008A8597 /* DAFSkelAuthWarningViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35DE1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPad.xib */; };
+		4C9759AE1C7E0664008A8597 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E4031B1B307A1500A1705E /* OpenSans-Semibold.ttf */; };
+		4C9759AF1C7E0664008A8597 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E4031C1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf */; };
+		4C9759B01C7E0664008A8597 /* oui.list in Resources */ = {isa = PBXBuildFile; fileRef = 4C31B45A1C5922010000FEAE /* oui.list */; };
+		4C9759B11C7E0664008A8597 /* DAFSkelAuthWarningViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35DF1C0F5643008C300A /* DAFSkelAuthWarningViewController_iPhone.xib */; };
+		4C9759B21C7E0664008A8597 /* DAFSupportResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35F01C0F56AA008C300A /* DAFSupportResources.bundle */; };
+		4C9759B31C7E0664008A8597 /* loadingWhite.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393861B2F966700EA4484 /* loadingWhite.gif */; };
+		4C9759B41C7E0664008A8597 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A249091B266AC2007D9460 /* Images.xcassets */; };
+		4C9759B51C7E0664008A8597 /* DAFSkelMainViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35D71C0F5643008C300A /* DAFSkelMainViewController_iPhone.xib */; };
+		4C9759B61C7E0664008A8597 /* default.policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C31B4571C5922010000FEAE /* default.policy */; };
+		4C9759BF1C7E0685008A8597 /* GD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C9759BE1C7E0685008A8597 /* GD.framework */; };
+		4C9759C31C7E134E008A8597 /* MockGD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C9759C21C7E134E008A8597 /* MockGD.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */; };
 		4CE9D8071B2FA606006D43D8 /* DINPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D8061B2FA606006D43D8 /* DINPro-Bold.otf */; };
 		4CE9D80D1B323847006D43D8 /* 3rd Party Library Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */; };
-		4CFE35CE1C0F55B2008C300A /* GD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFE35CD1C0F55B2008C300A /* GD.framework */; };
 		4CFE35E01C0F5643008C300A /* DAFSkelFirstTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CFE35D11C0F5643008C300A /* DAFSkelFirstTimeViewController.m */; };
 		4CFE35E11C0F5643008C300A /* DAFSkelFirstTimeViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35D21C0F5643008C300A /* DAFSkelFirstTimeViewController_iPad.xib */; };
 		4CFE35E21C0F5643008C300A /* DAFSkelFirstTimeViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFE35D31C0F5643008C300A /* DAFSkelFirstTimeViewController_iPhone.xib */; };
@@ -316,8 +449,6 @@
 		4C31B44A1C5922010000FEAE /* TrustFactor_Dispatch_Wifi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Wifi.m; sourceTree = "<group>"; };
 		4C31B44B1C5922010000FEAE /* Sentegrity_TrustFactor_Datasets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Datasets.h; sourceTree = "<group>"; };
 		4C31B44C1C5922010000FEAE /* Sentegrity_TrustFactor_Datasets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Datasets.m; sourceTree = "<group>"; };
-		4C31B44E1C5922010000FEAE /* Sentegrity_History_Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_History_Store.h; sourceTree = "<group>"; };
-		4C31B44F1C5922010000FEAE /* Sentegrity_History_Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_History_Store.m; sourceTree = "<group>"; };
 		4C31B4511C5922010000FEAE /* Sentegrity_Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Parser.h; sourceTree = "<group>"; };
 		4C31B4521C5922010000FEAE /* Sentegrity_Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Parser.m; sourceTree = "<group>"; };
 		4C31B4541C5922010000FEAE /* ProtectMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtectMode.h; sourceTree = "<group>"; };
@@ -350,11 +481,16 @@
 		4C31B4781C5922010000FEAE /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
 		4C5393841B2F965D00EA4484 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		4C5393861B2F966700EA4484 /* loadingWhite.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loadingWhite.gif; sourceTree = "<group>"; };
+		4C97561B1C7D29BA008A8597 /* Sentegrity_Startup_Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Startup_Store.h; sourceTree = "<group>"; };
+		4C97561C1C7D29BA008A8597 /* Sentegrity_Startup_Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Startup_Store.m; sourceTree = "<group>"; };
+		4C9759BC1C7E0664008A8597 /* Sentegrity MockGD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sentegrity MockGD.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C9759BD1C7E0664008A8597 /* Sentegrity copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Sentegrity copy-Info.plist"; path = "/Users/Kramer/Projects/Sentegrity-iOS/Sentegrity TAF/Sentegrity copy-Info.plist"; sourceTree = "<absolute>"; };
+		4C9759BE1C7E0685008A8597 /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GD.framework; path = System/Library/Frameworks/GD.framework; sourceTree = SDKROOT; };
+		4C9759C21C7E134E008A8597 /* MockGD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MockGD.framework; path = "../../../../../Good Technology/daf-sdk-ios-v2.0.173/Frameworks/MockGD.framework"; sourceTree = "<group>"; };
 		4C9EBE191B2B5B58003ED356 /* RightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightMenuViewController.h; sourceTree = "<group>"; };
 		4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightMenuViewController.m; sourceTree = "<group>"; };
 		4CE9D8061B2FA606006D43D8 /* DINPro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPro-Bold.otf"; sourceTree = "<group>"; };
 		4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "3rd Party Library Notes.rtf"; sourceTree = "<group>"; };
-		4CFE35CD1C0F55B2008C300A /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GD.framework; path = System/Library/Frameworks/GD.framework; sourceTree = SDKROOT; };
 		4CFE35D01C0F5643008C300A /* DAFSkelFirstTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFSkelFirstTimeViewController.h; sourceTree = "<group>"; };
 		4CFE35D11C0F5643008C300A /* DAFSkelFirstTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFSkelFirstTimeViewController.m; sourceTree = "<group>"; };
 		4CFE35D21C0F5643008C300A /* DAFSkelFirstTimeViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFSkelFirstTimeViewController_iPad.xib; sourceTree = "<group>"; };
@@ -419,6 +555,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C9759BF1C7E0685008A8597 /* GD.framework in Frameworks */,
 				4CFE36191C0F5D3F008C300A /* MobileCoreServices.framework in Frameworks */,
 				4CFE36171C0F5D39008C300A /* QuickLook.framework in Frameworks */,
 				4CFE36151C0F5D34008C300A /* Foundation.framework in Frameworks */,
@@ -436,7 +573,6 @@
 				4CFE35FD1C0F5AD7008C300A /* libstdc++.tbd in Frameworks */,
 				4CFE35FB1C0F5AC4008C300A /* libz.tbd in Frameworks */,
 				4CFE35F91C0F5A6C008C300A /* DAFSupport.framework in Frameworks */,
-				4CFE35CE1C0F55B2008C300A /* GD.framework in Frameworks */,
 				4AAF480942FD8A13AE2789F8 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +581,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C97597E1C7E0664008A8597 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C97597F1C7E0664008A8597 /* MobileCoreServices.framework in Frameworks */,
+				4C9759801C7E0664008A8597 /* QuickLook.framework in Frameworks */,
+				4C9759811C7E0664008A8597 /* Foundation.framework in Frameworks */,
+				4C9759821C7E0664008A8597 /* UIKit.framework in Frameworks */,
+				4C9759831C7E0664008A8597 /* CoreGraphics.framework in Frameworks */,
+				4C9759841C7E0664008A8597 /* QuartzCore.framework in Frameworks */,
+				4C9759851C7E0664008A8597 /* SystemConfiguration.framework in Frameworks */,
+				4C9759861C7E0664008A8597 /* CoreTelephony.framework in Frameworks */,
+				4C9759871C7E0664008A8597 /* AdSupport.framework in Frameworks */,
+				4C9759881C7E0664008A8597 /* Security.framework in Frameworks */,
+				4C9759891C7E0664008A8597 /* CFNetwork.framework in Frameworks */,
+				4C97598A1C7E0664008A8597 /* CoreData.framework in Frameworks */,
+				4C97598B1C7E0664008A8597 /* MessageUI.framework in Frameworks */,
+				4C97598C1C7E0664008A8597 /* LocalAuthentication.framework in Frameworks */,
+				4C97598D1C7E0664008A8597 /* libstdc++.tbd in Frameworks */,
+				4C97598E1C7E0664008A8597 /* libz.tbd in Frameworks */,
+				4C9759901C7E0664008A8597 /* DAFSupport.framework in Frameworks */,
+				4C9759C31C7E134E008A8597 /* MockGD.framework in Frameworks */,
+				4C9759911C7E0664008A8597 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,6 +635,7 @@
 				04A248FA1B266AC2007D9460 /* Products */,
 				BCE0E0550A85C5B5C27375E3 /* Pods */,
 				4A3429CBBD5FF34D6202962E /* Frameworks */,
+				4C9759BD1C7E0664008A8597 /* Sentegrity copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -481,6 +644,7 @@
 			children = (
 				04A248F91B266AC2007D9460 /* Sentegrity.app */,
 				04A249121B266AC2007D9460 /* SentegrityTests.xctest */,
+				4C9759BC1C7E0664008A8597 /* Sentegrity MockGD.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -539,6 +703,8 @@
 		4A3429CBBD5FF34D6202962E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C9759C21C7E134E008A8597 /* MockGD.framework */,
+				4C9759BE1C7E0685008A8597 /* GD.framework */,
 				4CFE36181C0F5D3F008C300A /* MobileCoreServices.framework */,
 				4CFE36161C0F5D39008C300A /* QuickLook.framework */,
 				4CFE36141C0F5D34008C300A /* Foundation.framework */,
@@ -556,7 +722,6 @@
 				4CFE35FC1C0F5AD7008C300A /* libstdc++.tbd */,
 				4CFE35FA1C0F5AC4008C300A /* libz.tbd */,
 				4CFE35F71C0F5A5E008C300A /* DAFSupport.framework */,
-				4CFE35CD1C0F55B2008C300A /* GD.framework */,
 				F48570A0D36F3F3E38C7B515 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -592,7 +757,6 @@
 				4C31B3D51C5922010000FEAE /* CoreDetection.h */,
 				4C31B3D61C5922010000FEAE /* CoreDetection.m */,
 				4C31B3D71C5922010000FEAE /* Dispatch */,
-				4C31B44D1C5922010000FEAE /* History */,
 				4C31B4501C5922010000FEAE /* Parser */,
 				4C31B4531C5922010000FEAE /* Protect Mode */,
 				4C31B4561C5922010000FEAE /* Sample Policies */,
@@ -835,15 +999,6 @@
 			path = Rules;
 			sourceTree = "<group>";
 		};
-		4C31B44D1C5922010000FEAE /* History */ = {
-			isa = PBXGroup;
-			children = (
-				4C31B44E1C5922010000FEAE /* Sentegrity_History_Store.h */,
-				4C31B44F1C5922010000FEAE /* Sentegrity_History_Store.m */,
-			);
-			path = History;
-			sourceTree = "<group>";
-		};
 		4C31B4501C5922010000FEAE /* Parser */ = {
 			isa = PBXGroup;
 			children = (
@@ -937,6 +1092,8 @@
 				4C31B46F1C5922010000FEAE /* Sentegrity_History.m */,
 				4C31B4701C5922010000FEAE /* Sentegrity_Startup.h */,
 				4C31B4711C5922010000FEAE /* Sentegrity_Startup.m */,
+				4C97561B1C7D29BA008A8597 /* Sentegrity_Startup_Store.h */,
+				4C97561C1C7D29BA008A8597 /* Sentegrity_Startup_Store.m */,
 			);
 			path = Startup;
 			sourceTree = "<group>";
@@ -1151,6 +1308,26 @@
 			productReference = 04A249121B266AC2007D9460 /* SentegrityTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		4C97592D1C7E0664008A8597 /* Sentegrity MockGD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C9759B91C7E0664008A8597 /* Build configuration list for PBXNativeTarget "Sentegrity MockGD" */;
+			buildPhases = (
+				4C97592E1C7E0664008A8597 /* Check Pods Manifest.lock */,
+				4C97592F1C7E0664008A8597 /* Sources */,
+				4C97597E1C7E0664008A8597 /* Frameworks */,
+				4C9759921C7E0664008A8597 /* Resources */,
+				4C9759B71C7E0664008A8597 /* Copy Pods Resources */,
+				4C9759B81C7E0664008A8597 /* Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Sentegrity MockGD";
+			productName = Sentegrity;
+			productReference = 4C9759BC1C7E0664008A8597 /* Sentegrity MockGD.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1190,6 +1367,7 @@
 			targets = (
 				04A248F81B266AC2007D9460 /* Sentegrity */,
 				04A249111B266AC2007D9460 /* SentegrityTests */,
+				4C97592D1C7E0664008A8597 /* Sentegrity MockGD */,
 			);
 		};
 /* End PBXProject section */
@@ -1245,6 +1423,49 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4C9759921C7E0664008A8597 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C9759931C7E0664008A8597 /* MockGDiOSResources.bundle in Resources */,
+				4C9759941C7E0664008A8597 /* Main.storyboard in Resources */,
+				4C9759951C7E0664008A8597 /* DAFSkelFirstTimeViewController_iPhone.xib in Resources */,
+				4C9759961C7E0664008A8597 /* loading.gif in Resources */,
+				4C9759971C7E0664008A8597 /* Default_Policy.plist in Resources */,
+				4C9759981C7E0664008A8597 /* LaunchScreen.xib in Resources */,
+				4C9759991C7E0664008A8597 /* DAFSkelFirstTimeViewController_iPad.xib in Resources */,
+				4C97599A1C7E0664008A8597 /* DINPro-Bold.otf in Resources */,
+				4C97599B1C7E0664008A8597 /* DAFSkelMainViewController_iPad.xib in Resources */,
+				4C97599C1C7E0664008A8597 /* DAFSkelUnlockViewController_iPhone.xib in Resources */,
+				4C97599D1C7E0664008A8597 /* DINPro-Black.otf in Resources */,
+				4C97599E1C7E0664008A8597 /* DINPro-CondBold.otf in Resources */,
+				4C97599F1C7E0664008A8597 /* DINPro-CondMedium.otf in Resources */,
+				4C9759A01C7E0664008A8597 /* DINPro-Regular.otf in Resources */,
+				4C9759A11C7E0664008A8597 /* OpenSans-Bold.ttf in Resources */,
+				4C9759A21C7E0664008A8597 /* OpenSans-BoldItalic.ttf in Resources */,
+				4C9759A31C7E0664008A8597 /* OpenSans-ExtraBold.ttf in Resources */,
+				4C9759A41C7E0664008A8597 /* DAFSkelUnlockViewController_iPad.xib in Resources */,
+				4C9759A51C7E0664008A8597 /* 3rd Party Library Notes.rtf in Resources */,
+				4C9759A61C7E0664008A8597 /* oui_all.list in Resources */,
+				4C9759A71C7E0664008A8597 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				4C9759A81C7E0664008A8597 /* OpenSans-Italic.ttf in Resources */,
+				4C9759A91C7E0664008A8597 /* OpenSans-Light.ttf in Resources */,
+				4C9759AA1C7E0664008A8597 /* OpenSans-LightItalic.ttf in Resources */,
+				4C9759AB1C7E0664008A8597 /* GDAssets.bundle in Resources */,
+				4C9759AC1C7E0664008A8597 /* OpenSans-Regular.ttf in Resources */,
+				4C9759AD1C7E0664008A8597 /* DAFSkelAuthWarningViewController_iPad.xib in Resources */,
+				4C9759AE1C7E0664008A8597 /* OpenSans-Semibold.ttf in Resources */,
+				4C9759AF1C7E0664008A8597 /* OpenSans-SemiboldItalic.ttf in Resources */,
+				4C9759B01C7E0664008A8597 /* oui.list in Resources */,
+				4C9759B11C7E0664008A8597 /* DAFSkelAuthWarningViewController_iPhone.xib in Resources */,
+				4C9759B21C7E0664008A8597 /* DAFSupportResources.bundle in Resources */,
+				4C9759B31C7E0664008A8597 /* loadingWhite.gif in Resources */,
+				4C9759B41C7E0664008A8597 /* Images.xcassets in Resources */,
+				4C9759B51C7E0664008A8597 /* DAFSkelMainViewController_iPhone.xib in Resources */,
+				4C9759B61C7E0664008A8597 /* default.policy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1261,6 +1482,51 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4C97592E1C7E0664008A8597 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4C9759B71C7E0664008A8597 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4C9759B81C7E0664008A8597 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		64B3E1D964723394681DAD11 /* Check Pods Manifest.lock */ = {
@@ -1370,7 +1636,6 @@
 				4C31B4B31C5922010000FEAE /* Sentegrity_TrustScore_Computation.m in Sources */,
 				4CFE35E91C0F5643008C300A /* DAFSkelAuthWarningViewController.m in Sources */,
 				4C31B4A01C5922010000FEAE /* TrustFactor_Dispatch_Time.m in Sources */,
-				4C31B4A31C5922010000FEAE /* Sentegrity_History_Store.m in Sources */,
 				4C31B49D1C5922010000FEAE /* TrustFactor_Dispatch_Route.m in Sources */,
 				4C31B4961C5922010000FEAE /* TrustFactor_Dispatch_File.m in Sources */,
 				4C31B4981C5922010000FEAE /* TrustFactor_Dispatch_Motion.m in Sources */,
@@ -1378,6 +1643,7 @@
 				4CFE35E31C0F5643008C300A /* DAFSkelMainViewController.m in Sources */,
 				04A248FF1B266AC2007D9460 /* main.m in Sources */,
 				4C31B4831C5922010000FEAE /* MDBluetoothDevice.m in Sources */,
+				4C97561D1C7D29BA008A8597 /* Sentegrity_Startup_Store.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1385,6 +1651,91 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C97592F1C7E0664008A8597 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C9759301C7E0664008A8597 /* SCLAlertViewStyleKit.m in Sources */,
+				4C9759311C7E0664008A8597 /* Sentegrity_Parser.m in Sources */,
+				4C9759321C7E0664008A8597 /* ProtectMode.m in Sources */,
+				4C9759331C7E0664008A8597 /* SCLAlertViewResponder.m in Sources */,
+				4C9759341C7E0664008A8597 /* Sentegrity_TrustFactor_Dispatcher.m in Sources */,
+				4C9759351C7E0664008A8597 /* Sentegrity_Subclassification+Computation.m in Sources */,
+				4C9759361C7E0664008A8597 /* Sentegrity_Startup.m in Sources */,
+				4C9759371C7E0664008A8597 /* SCLButton.m in Sources */,
+				4C9759381C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */,
+				4C9759391C7E0664008A8597 /* MDBluetoothManager.m in Sources */,
+				4C97593A1C7E0664008A8597 /* TrustFactor_Dispatch_Activity.m in Sources */,
+				4C97593B1C7E0664008A8597 /* ActiveProcess.m in Sources */,
+				4C97593C1C7E0664008A8597 /* TrustFactor_Dispatch_Celluar.m in Sources */,
+				4C97593D1C7E0664008A8597 /* SCLAlertView.m in Sources */,
+				4C97593E1C7E0664008A8597 /* TrustFactor_Dispatch_Configuration.m in Sources */,
+				4C97593F1C7E0664008A8597 /* TrustFactor_Dispatch_Power.m in Sources */,
+				4C9759401C7E0664008A8597 /* Sentegrity_TrustFactor_Storage.m in Sources */,
+				4C9759411C7E0664008A8597 /* ComputationInfoViewController.m in Sources */,
+				4C9759421C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Motion.m in Sources */,
+				4C9759431C7E0664008A8597 /* TrustFactor_Dispatch_Sentegrity.m in Sources */,
+				4C9759441C7E0664008A8597 /* TrustFactor_Dispatch_Process.m in Sources */,
+				4C9759451C7E0664008A8597 /* TrustFactor_Dispatch_Application.m in Sources */,
+				4C9759461C7E0664008A8597 /* Sentegrity_Subclassification.m in Sources */,
+				4C9759471C7E0664008A8597 /* Sentegrity_TrustFactor_Datasets.m in Sources */,
+				4C9759481C7E0664008A8597 /* CoreDetection.m in Sources */,
+				4C9759491C7E0664008A8597 /* Sentegrity_Classification.m in Sources */,
+				4C97594A1C7E0664008A8597 /* TrustFactor_Dispatch_Location.m in Sources */,
+				4C97594B1C7E0664008A8597 /* Sentegrity_Stored_Assertion.m in Sources */,
+				4C97594C1C7E0664008A8597 /* LocationPermissionViewController.m in Sources */,
+				4C97594D1C7E0664008A8597 /* TrustFactor_Dispatch_Netstat.m in Sources */,
+				4C97594E1C7E0664008A8597 /* UIImage+ImageEffects.m in Sources */,
+				4C97594F1C7E0664008A8597 /* Sentegrity_Assertion_Store.m in Sources */,
+				4C9759501C7E0664008A8597 /* Sentegrity_Activity_Dispatcher.m in Sources */,
+				4C9759511C7E0664008A8597 /* DAFSkelUnlockViewController.m in Sources */,
+				4C9759521C7E0664008A8597 /* TrustFactor_Dispatch_Bluetooth.m in Sources */,
+				4C9759531C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Application.m in Sources */,
+				4C9759541C7E0664008A8597 /* SystemDebugViewController.m in Sources */,
+				4C9759551C7E0664008A8597 /* AppDelegate.m in Sources */,
+				4C9759561C7E0664008A8597 /* TrustFactor_Dispatch_Platform.m in Sources */,
+				4C9759571C7E0664008A8597 /* ActivityPermissionViewController.m in Sources */,
+				4C9759581C7E0664008A8597 /* UserDebugViewController.m in Sources */,
+				4C9759591C7E0664008A8597 /* Sentegrity_TrustFactor.m in Sources */,
+				4C97595A1C7E0664008A8597 /* Sentegrity_History.m in Sources */,
+				4C97595B1C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Process.m in Sources */,
+				4C97595C1C7E0664008A8597 /* DashboardViewController.m in Sources */,
+				4C97595D1C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_CPU.m in Sources */,
+				4C97595E1C7E0664008A8597 /* TrustFactor_Dispatch_Sandbox.m in Sources */,
+				4C97595F1C7E0664008A8597 /* DAFSkelDriver.cpp in Sources */,
+				4C9759601C7E0664008A8597 /* ActiveConnection.m in Sources */,
+				4C9759611C7E0664008A8597 /* Sentegrity_Stored_TrustFactor_Object.m in Sources */,
+				4C9759621C7E0664008A8597 /* LandingViewController.m in Sources */,
+				4C9759631C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Cell.m in Sources */,
+				4C9759641C7E0664008A8597 /* DAFSkelFirstTimeViewController.m in Sources */,
+				4C9759651C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Wifi.m in Sources */,
+				4C9759661C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Location.m in Sources */,
+				4C9759671C7E0664008A8597 /* Sentegrity_Policy.m in Sources */,
+				4C9759681C7E0664008A8597 /* SystemInformationViewController.m in Sources */,
+				4C9759691C7E0664008A8597 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */,
+				4C97596A1C7E0664008A8597 /* Sentegrity_Classification+Computation.m in Sources */,
+				4C97596B1C7E0664008A8597 /* Sentegrity_DNEModifiers.m in Sources */,
+				4C97596C1C7E0664008A8597 /* LoginViewController.m in Sources */,
+				4C97596D1C7E0664008A8597 /* Sentegrity_Baseline_Analysis.m in Sources */,
+				4C97596E1C7E0664008A8597 /* Sentegrity_TrustFactor_Output_Object.m in Sources */,
+				4C97596F1C7E0664008A8597 /* Sentegrity_Assertion_Store+Helper.m in Sources */,
+				4C9759701C7E0664008A8597 /* TrustFactor_Dispatch_Wifi.m in Sources */,
+				4C9759711C7E0664008A8597 /* ActiveRoute.m in Sources */,
+				4C9759721C7E0664008A8597 /* RightMenuViewController.m in Sources */,
+				4C9759731C7E0664008A8597 /* Sentegrity_TrustScore_Computation.m in Sources */,
+				4C9759741C7E0664008A8597 /* DAFSkelAuthWarningViewController.m in Sources */,
+				4C9759751C7E0664008A8597 /* TrustFactor_Dispatch_Time.m in Sources */,
+				4C9759761C7E0664008A8597 /* TrustFactor_Dispatch_Route.m in Sources */,
+				4C9759771C7E0664008A8597 /* TrustFactor_Dispatch_File.m in Sources */,
+				4C9759781C7E0664008A8597 /* TrustFactor_Dispatch_Motion.m in Sources */,
+				4C9759791C7E0664008A8597 /* UserInformationViewController.m in Sources */,
+				4C97597A1C7E0664008A8597 /* DAFSkelMainViewController.m in Sources */,
+				4C97597B1C7E0664008A8597 /* main.m in Sources */,
+				4C97597C1C7E0664008A8597 /* MDBluetoothDevice.m in Sources */,
+				4C97597D1C7E0664008A8597 /* Sentegrity_Startup_Store.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1515,13 +1866,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FIPS_PACKAGE = "$(CURRENT_ARCH).sdk";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
-					"$(inherited)",
 					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+					"$(PROJECT_DIR)",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (
@@ -1542,7 +1891,40 @@
 				);
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD = "/Good Technology/Good.platform/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
+				LDPLUSPLUS = "/Good Technology/Good.platform/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ChameleonFramework\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/CircleProgressBar\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/DCKeyValueObjectMapping\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Facade\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/IIDelayedAction\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ISHPermissionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/JTHamburgerButton\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/LGBluetooth\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/NSObject-ObjectMap\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/NSString-Hashes\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RESideMenu\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1584,13 +1966,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FIPS_PACKAGE = "$(CURRENT_ARCH).sdk";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
-					"$(inherited)",
 					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+					"$(PROJECT_DIR)",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (
@@ -1611,8 +1991,41 @@
 				);
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD = "/Good Technology/Good.platform/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
+				LDPLUSPLUS = "/Good Technology/Good.platform/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ChameleonFramework\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/CircleProgressBar\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/DCKeyValueObjectMapping\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Facade\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/IIDelayedAction\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ISHPermissionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/JTHamburgerButton\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/LGBluetooth\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/NSObject-ObjectMap\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/NSString-Hashes\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RESideMenu\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1680,6 +2093,211 @@
 			};
 			name = Release;
 		};
+		4C9759BA1C7E0664008A8597 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A861559935991A5C1535CE5A /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LIBRARY = "libstdc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FIPS_PACKAGE = "$(CURRENT_ARCH).sdk";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+					"$(PROJECT_DIR)",
+				);
+				GCC_NO_COMMON_BLOCKS = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/ChameleonFramework\"",
+					"\"${PODS_ROOT}/Headers/Public/CircleProgressBar\"",
+					"\"${PODS_ROOT}/Headers/Public/DCKeyValueObjectMapping\"",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"\"${PODS_ROOT}/Headers/Public/Facade\"",
+					"\"${PODS_ROOT}/Headers/Public/IIDelayedAction\"",
+					"\"${PODS_ROOT}/Headers/Public/JTHamburgerButton\"",
+					"\"${PODS_ROOT}/Headers/Public/LGBluetooth\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/NSObject-ObjectMap\"",
+					"\"${PODS_ROOT}/Headers/Public/NSString-Hashes\"",
+					"\"${PODS_ROOT}/Headers/Public/RESideMenu\"",
+				);
+				INFOPLIST_FILE = "Sentegrity copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD = "/Good Technology/Good.platform/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
+				LDPLUSPLUS = "/Good Technology/Good.platform/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ChameleonFramework\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/CircleProgressBar\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/DCKeyValueObjectMapping\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Facade\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/IIDelayedAction\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ISHPermissionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/JTHamburgerButton\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/LGBluetooth\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/NSObject-ObjectMap\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/NSString-Hashes\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RESideMenu\"",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"ChameleonFramework\"",
+					"-l\"CircleProgressBar\"",
+					"-l\"DCKeyValueObjectMapping\"",
+					"-l\"DateTools\"",
+					"-l\"Facade\"",
+					"-l\"IIDelayedAction\"",
+					"-l\"ISHPermissionKit\"",
+					"-l\"JTHamburgerButton\"",
+					"-l\"LGBluetooth\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"NSObject-ObjectMap\"",
+					"-l\"NSString-Hashes\"",
+					"-l\"RESideMenu\"",
+					"-framework",
+					"\"CoreBluetooth\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"UIKit\"",
+					"-force_load",
+					"/Good\\ Technology/daf-sdk-ios-v2.0.173/Frameworks/MockGD.framework/MockGD",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		4C9759BB1C7E0664008A8597 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 42EFD5DFE715E4FE18052085 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LIBRARY = "libstdc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FIPS_PACKAGE = "$(CURRENT_ARCH).sdk";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+					"$(PROJECT_DIR)",
+				);
+				GCC_NO_COMMON_BLOCKS = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/ChameleonFramework\"",
+					"\"${PODS_ROOT}/Headers/Public/CircleProgressBar\"",
+					"\"${PODS_ROOT}/Headers/Public/DCKeyValueObjectMapping\"",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"\"${PODS_ROOT}/Headers/Public/Facade\"",
+					"\"${PODS_ROOT}/Headers/Public/IIDelayedAction\"",
+					"\"${PODS_ROOT}/Headers/Public/JTHamburgerButton\"",
+					"\"${PODS_ROOT}/Headers/Public/LGBluetooth\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/NSObject-ObjectMap\"",
+					"\"${PODS_ROOT}/Headers/Public/NSString-Hashes\"",
+					"\"${PODS_ROOT}/Headers/Public/RESideMenu\"",
+				);
+				INFOPLIST_FILE = "Sentegrity copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD = "/Good Technology/Good.platform/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
+				LDPLUSPLUS = "/Good Technology/Good.platform/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ChameleonFramework\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/CircleProgressBar\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/DCKeyValueObjectMapping\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/DateTools\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Facade\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/IIDelayedAction\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ISHPermissionKit\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/JTHamburgerButton\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/LGBluetooth\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/NSObject-ObjectMap\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/NSString-Hashes\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/RESideMenu\"",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"ChameleonFramework\"",
+					"-l\"CircleProgressBar\"",
+					"-l\"DCKeyValueObjectMapping\"",
+					"-l\"DateTools\"",
+					"-l\"Facade\"",
+					"-l\"IIDelayedAction\"",
+					"-l\"ISHPermissionKit\"",
+					"-l\"JTHamburgerButton\"",
+					"-l\"LGBluetooth\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"NSObject-ObjectMap\"",
+					"-l\"NSString-Hashes\"",
+					"-l\"RESideMenu\"",
+					"-framework",
+					"\"CoreBluetooth\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"UIKit\"",
+					"-force_load",
+					"/Good\\ Technology/daf-sdk-ios-v2.0.173/Frameworks/MockGD.framework/MockGD",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1706,6 +2324,15 @@
 			buildConfigurations = (
 				04A249201B266AC2007D9460 /* Debug */,
 				04A249211B266AC2007D9460 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4C9759B91C7E0664008A8597 /* Build configuration list for PBXNativeTarget "Sentegrity MockGD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C9759BA1C7E0664008A8597 /* Debug */,
+				4C9759BB1C7E0664008A8597 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
