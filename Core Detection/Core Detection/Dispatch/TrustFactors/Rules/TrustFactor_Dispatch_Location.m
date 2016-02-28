@@ -149,8 +149,9 @@
     // Location
     CLLocation *currentLocation;
     
-    // Check if error was determined by location callback in app delegate
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != 0 ){
+    // Check if error was determined by location callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != DNEStatus_expired ){
         
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus]];
@@ -240,8 +241,9 @@
     CLLocation *currentLocation;
     BOOL locationAvailable=YES;
     
-    // Check if error was determined by location callback in app delegate
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != 0 ){
+    // Check if error was determined by location callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] != DNEStatus_expired ){
         
         // Location services was not authorized or we didn't get any data, this is later used to increase sensitivity
         locationAvailable=NO;
@@ -253,7 +255,7 @@
         
         
         // Check if error was determined after call to dataset helper
-        if([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] == 0){
+        if([[Sentegrity_TrustFactor_Datasets sharedDatasets]  locationDNEStatus] == DNEStatus_ok){
             
             if(currentLocation != nil){
                 
@@ -354,10 +356,20 @@
     if(locationAvailable==NO){
         int magneticBlockSize = [[[payload objectAtIndex:0] objectForKey:@"magneticBlockSize"] intValue];
         
-        if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] magneticHeadingDNEStatus] == 0 ){
+        // Check if error was determined by magnetomter callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+        
+        if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  magneticHeadingDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  magneticHeadingDNEStatus] != DNEStatus_expired ){
             
-            NSArray *headings;
-            headings = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getMagneticHeadingsInfo];
+            [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  magneticHeadingDNEStatus]];
+            
+            // Return the trustfactor output object
+            return trustFactorOutputObject;
+        }
+
+        NSArray *headings;
+        headings = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getMagneticHeadingsInfo];
+        
+        if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] magneticHeadingDNEStatus] == DNEStatus_ok ){
             
             
             // Check motion dataset has something
@@ -410,7 +422,7 @@
                 
                 anomalyString = [anomalyString stringByAppendingString:magnitudeString];
                 
-            } // No headings, return unauthorized
+            } // No headings, trigger hard by return unauthorized
             else{
                 
                 [trustFactorOutputObject setStatusCode:DNEStatus_unauthorized];

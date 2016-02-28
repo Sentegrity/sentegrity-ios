@@ -31,6 +31,7 @@
 // Run the Core Detection Activites
 - (void)runCoreDetectionActivities {
     
+    [self startNetstat];
     
     // Start Bluetooth as soon as possible
     [self startBluetoothBLE]; // Also starts classic
@@ -77,6 +78,31 @@
 }
 
 #pragma mark - Core Detection Activities
+
+// ** GET NETSTAT DATA **
+- (void)startNetstat {
+    // Declare the block variable
+    void (^getNetstat)(void);
+    
+    // Create and assign the block
+    getNetstat = ^ {
+
+        
+        // Get the list of all connections
+        @try {
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setNetstatData:[Netstat_Info getTCPConnections]];
+        }
+        @catch (NSException * ex) {
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setNetstatData:nil];
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setNetstatDataDNEStatus:DNEStatus_error];
+        }
+        
+
+    };
+    
+    // Call the block
+    getNetstat();
+}
 
 // ** GET LOCATION DATA **
 - (void)startLocation {

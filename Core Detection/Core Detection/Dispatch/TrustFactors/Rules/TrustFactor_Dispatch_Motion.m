@@ -37,8 +37,9 @@
     // Get motion dataset
     NSArray *gyroRads;
     
-    // Check if error was already determined when motion was started
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
+    // Check if error was determined by gyro motion callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  gyroMotionDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  gyroMotionDNEStatus] != DNEStatus_expired ){
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
         
@@ -51,7 +52,7 @@
         gyroRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
         
         // Check if error from dataset (expired)
-        if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != 0 ){
+        if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus] != DNEStatus_ok ){
             // Set the DNE status code to what was previously determined
             [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] gyroMotionDNEStatus]];
             
@@ -188,8 +189,9 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     
-    // Check if error was determined by user movement in the app delegate
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  userMovementDNEStatus] != 0 ){
+    // Check if error was determined by user movement callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  userMovementDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  userMovementDNEStatus] != DNEStatus_expired ){
         
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  userMovementDNEStatus]];
@@ -201,6 +203,16 @@
     // Get device movement dataset
     float gripMovement=0.0;
     gripMovement = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getGripMovement] floatValue];
+    
+    // Check if error from dataset (expired)
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] userMovementDNEStatus] != DNEStatus_ok ){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] userMovementDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+
     
     if(!gripMovement || gripMovement == 0.0 ){
         
@@ -316,8 +328,8 @@
     
     [outputArray addObject:orientation];
     
-    // Do not allow a grip that indicates the device is sitting on something
-    if([orientation isEqual:@"Face_Up"] || [orientation isEqual: @"Face_Down"] || [orientation  isEqual: @"unknown"]){
+    // Do not allow a grip that indicates the device is not being held
+    if([orientation isEqual: @"Face_Down"] || [orientation  isEqual: @"unknown"]){
         
         [trustFactorOutputObject setStatusCode:DNEStatus_invalid];
         // Return with the blank output object

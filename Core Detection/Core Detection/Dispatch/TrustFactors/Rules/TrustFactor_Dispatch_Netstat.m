@@ -33,8 +33,30 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
+    // Check if error was determined by netstat data callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus] != DNEStatus_expired ){
+        
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     // Get the current netstat data
     NSArray *connections = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getNetstatInfo];
+    
+    // Check if error from dataset (expired)
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus] != DNEStatus_ok ){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+
     
     // Check the array
     if (!connections || connections == nil || connections.count < 1) {
@@ -101,8 +123,28 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
+    // Check if error was determined by netstat data callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus] != DNEStatus_expired ){
+        
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     // Get the current netstat data
     NSArray *connections = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getNetstatInfo];
+    
+    // Check if error from dataset (expired)
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus] != DNEStatus_ok ){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
     
     // Check the array
     if (!connections || connections == nil || connections.count < 1) {
@@ -161,8 +203,28 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
+    // Check if error was determined by netstat data callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus] != DNEStatus_expired ){
+        
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     // Get the current netstat data
     NSArray *connections = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getNetstatInfo];
+    
+    // Check if error from dataset (expired)
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus] != DNEStatus_ok ){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
     
     // Check the array
     if (!connections || connections == nil || connections.count < 1) {
@@ -354,8 +416,28 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
+    // Check if error was determined by netstat data callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus] != DNEStatus_expired ){
+        
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
     // Get the current netstat data
     NSArray *connections = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getNetstatInfo];
+    
+    // Check if error from dataset (expired)
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus] != DNEStatus_ok ){
+        // Set the DNE status code to what was previously determined
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus]];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
     
     // Check the array
     if (!connections || connections == nil || connections.count < 1) {
@@ -388,8 +470,27 @@
                 // make sure we don't add more than one instance of the connection
                 if (![outputArray containsObject:connection.remoteHost]){
                     
-                    // Add the process to the output array
-                    [outputArray addObject:connection.remoteHost];
+                    // Trim to last two octets of domain
+                    NSString *host = connection.remoteHost;
+                    
+                    // > 15 its probably a DNS name
+                    if(host.length > 15){
+                        NSArray *components = [connection.remoteHost componentsSeparatedByString:@"."];
+                        if (components.count > 1)
+                        {
+                            host = [components[components.count-2] stringByAppendingString:components[components.count-1]];
+                        }
+                    }else{
+                        NSArray *components = [connection.remoteHost componentsSeparatedByString:@"."];
+                        if (components.count == 4)
+                        {
+                            host = [[components[components.count-4] stringByAppendingString:components[components.count-3]] stringByAppendingString:components[components.count-2]];
+                        }
+
+                    }
+                    
+
+                    [outputArray addObject:host];
                 }
             }
         }

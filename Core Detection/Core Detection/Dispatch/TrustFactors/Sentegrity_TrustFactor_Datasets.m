@@ -405,32 +405,54 @@ static dispatch_once_t onceToken;
 
 // NetStat Info
 - (NSArray *)getNetstatInfo {
-    
-    
-    // If dataset is not populated
+
+    //Do we any data yet?
     if(!self.netstatData || self.netstatData == nil) {
         
-        // Get the list of processes and all information about them
-        @try {
-            
-            // Set net stat data
-            self.netstatData = [Netstat_Info getTCPConnections];
-            
-            // Return net stat data
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self netstatDataDNEStatus]==DNEStatus_expired){
             return self.netstatData;
         }
         
-        @catch (NSException * ex) {
-            // Error
-            return nil;
+        //Nope, wait for data
+        CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+        CFAbsoluteTime currentTime = startTime;
+        float waitTime = 0.25;
+        
+        while ((currentTime-startTime) < waitTime){
+            
+            // If its greater than 0 return
+            if(self.netstatData != nil) {
+                
+                NSLog(@"Got netstat data after waiting..");
+                
+                // Return location
+                return self.netstatData;
+            }
+            
+            [NSThread sleepForTimeInterval:0.01];
+            
+            // Update timer
+            currentTime = CFAbsoluteTimeGetCurrent();
         }
         
-        // If dataset is already populated
-    } else {
+        // Timer expires
+        NSLog(@"Netstat data timer expired");
+        [self setNetstatDataDNEStatus:DNEStatus_expired];
         
-        // Return net stat data
+        // Return Location
         return self.netstatData;
     }
+    
+    // We already have the data
+    NSLog(@"Got netstat data without waiting...");
+    
+    // Return location
+    return self.netstatData;
+    
 }
 
 // Location information
@@ -438,6 +460,14 @@ static dispatch_once_t onceToken;
     
     //Do we any data yet?
     if(self.location == nil) {
+        
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self locationDNEStatus]==DNEStatus_expired){
+            return self.location;
+        }
         
         //Nope, wait for data
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
@@ -482,6 +512,14 @@ static dispatch_once_t onceToken;
     //Do we any data yet?
     if(self.placemark == nil) {
         
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self placemarkDNEStatus]==DNEStatus_expired){
+            return self.placemark;
+        }
+        
         //Nope, wait for data
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         CFAbsoluteTime currentTime = startTime;
@@ -525,6 +563,14 @@ static dispatch_once_t onceToken;
     //Do we any data yet?
     if(self.previousActivities == nil || self.previousActivities.count < 1) {
         
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self activityDNEStatus]==DNEStatus_expired){
+            return self.previousActivities;
+        }
+        
         //Nope, wait for data
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         CFAbsoluteTime currentTime = startTime;
@@ -567,6 +613,14 @@ static dispatch_once_t onceToken;
     //Do we any data yet?
     if(self.gyroRads == nil || self.gyroRads.count < 1) {
         
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self gyroMotionDNEStatus]==DNEStatus_expired){
+            return self.gyroRads;
+        }
+        
         //Nope, wait for data
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         CFAbsoluteTime currentTime = startTime;
@@ -607,6 +661,14 @@ static dispatch_once_t onceToken;
     
     //Full data yet?
     if(self.userMovementInfo == nil || self.userMovementInfo.count < 50) {
+        
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self userMovementDNEStatus]==DNEStatus_expired){
+            return self.userMovementInfo;
+        }
         
         //Nope, wait for data
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
@@ -651,6 +713,14 @@ static dispatch_once_t onceToken;
     // Do we any pitch info yet?
     if(self.gyroRollPitch == nil || self.gyroRollPitch.count < 1) {
         
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self gyroMotionDNEStatus]==DNEStatus_expired){
+            return self.gyroRollPitch;
+        }
+        
         // Nope, wait for data
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         CFAbsoluteTime currentTime = startTime;
@@ -693,6 +763,14 @@ static dispatch_once_t onceToken;
     
     // Do we any rads yet?
     if(self.accelRads == nil || self.accelRads.count < 1) {
+        
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self accelMotionDNEStatus]==DNEStatus_expired){
+            return self.accelRads;
+        }
         
         // Nope, wait for rads
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
@@ -738,6 +816,14 @@ static dispatch_once_t onceToken;
     
     //Do we any headings yet?
     if(self.magneticHeading == nil || self.magneticHeading.count < 1) {
+        
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self magneticHeadingDNEStatus]==DNEStatus_expired){
+            return self.magneticHeading;
+        }
         
         //Nope, wait for rads
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
@@ -842,6 +928,14 @@ static dispatch_once_t onceToken;
     //Do we any devices yet?
     if(self.discoveredBLEDevices == nil || self.discoveredBLEDevices.count < 1) {
         
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self discoveredBLESDNEStatus]==DNEStatus_expired){
+            return self.discoveredBLEDevices;
+        }
+        
         //Nope, wait for devices
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         CFAbsoluteTime currentTime = startTime;
@@ -883,6 +977,14 @@ static dispatch_once_t onceToken;
     
     //Do we any devices yet?
     if(self.connectedClassicBTDevices == nil || self.connectedClassicBTDevices.count < 1) {
+        
+        // If the dataset expired during a previous TF attempt, don't wait again, just exit.
+        // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
+        // but we are not waiting again
+        
+        if([self connectedClassicDNEStatus]==DNEStatus_expired){
+            return self.connectedClassicBTDevices;
+        }
         
         //Nope, wait for devices
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();

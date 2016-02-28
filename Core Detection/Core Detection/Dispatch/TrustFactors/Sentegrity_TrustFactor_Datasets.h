@@ -127,6 +127,7 @@
 
 // Netstat Info
 @property (atomic, retain) NSArray *netstatData;
+@property (atomic) int netstatDataDNEStatus;
 
 #pragma mark - Dataset methods
 

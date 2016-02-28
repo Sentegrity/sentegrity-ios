@@ -24,8 +24,9 @@
     // Get the user's activity history
     NSArray *previousActivities;
     
-    // Check if error was already determined when activity was started
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] activityDNEStatus] != 0 ){
+    // Check if error was determined by activity callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  activityDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  activityDNEStatus] != DNEStatus_expired ){
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] activityDNEStatus]];
         

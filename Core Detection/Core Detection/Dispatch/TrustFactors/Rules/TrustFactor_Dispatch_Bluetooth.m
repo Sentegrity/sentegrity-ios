@@ -26,8 +26,9 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
 
     
-    // Check if error was determined by bluetooth scanner in app delegate
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus] != 0 ){
+    // Check if error was determined by BT callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus] != DNEStatus_expired ){
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus]];
         
@@ -39,7 +40,7 @@
     NSArray *bluetoothDevices = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getClassicBTInfo];
     
     // Check if error was determined after call to dataset helper (e.g., timer expired)
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus] != 0 ){
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus] != DNEStatus_ok ){
         
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  connectedClassicDNEStatus]];
@@ -85,8 +86,9 @@
     // Create the output array
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
-    // Check if error was determined by bluetooth scanner in app delegate
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus] != 0 ){
+    // Check if error was determined by BT callback in app delegate, except expired, if it expired during a previous TF we still want to try again
+    
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus] != DNEStatus_expired ){
         
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus]];
