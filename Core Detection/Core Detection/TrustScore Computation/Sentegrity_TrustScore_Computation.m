@@ -112,6 +112,8 @@
     NSMutableArray *trustFactorsInClass;
     NSMutableArray *subClassesInClass;
     NSMutableArray *trustFactorsToWhitelistInClass;
+    NSMutableArray *trustFactorsForTransparentAuthInClass;
+    bool isUserClass;
     
     // Per-Subclass TrustFactor sorting
     NSMutableArray *trustFactorsInSubClass;
@@ -128,12 +130,19 @@
     // For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
         
-        // Reset mutable temp vars fro each class
+        // Set user class to default
+        
+        if(class.user.intValue == 1){
+            isUserClass=YES;
+        }else{
+            isUserClass = NO;
+        }
         
         // Per-Class TrustFactor sorting
         trustFactorsInClass = [NSMutableArray array];
         subClassesInClass = [NSMutableArray array];
         trustFactorsToWhitelistInClass = [NSMutableArray array];
+        trustFactorsForTransparentAuthInClass = [NSMutableArray array];
         
         // DEBUG
         trustFactorsNotLearnedInClass = [NSMutableArray array];
@@ -223,6 +232,13 @@
                             } else {
                                 // Rule triggered is of Type4 (inverse), such as WiFI BSSID or Bluetooth, this is good
                                 
+                                // if the classification is a User class
+                                if(isUserClass==YES){
+                                    // Add to transparent auth list
+                                    [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
+                                    
+                                }
+                                
                                 // Generate authentictor name based on dispatch (could add a policy attribute if we wanted more custom)
                                 NSString *name = [trustFactorOutputObject.trustFactor.dispatch stringByAppendingString:@" authenticator found"];
                                 
@@ -273,6 +289,17 @@
                                         [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.suggestionMessage];
                                     }
                                 }
+                            }
+                            else{ // If a non type 4 rule did not trigger
+                                
+                                // If the classification is a User class
+                                if(isUserClass==YES){
+                                    
+                                    // Add to transparent auth list
+                                    [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
+                                    
+                                }
+                                
                             }
                         }
                         
@@ -389,6 +416,9 @@
         // Add the trustfactors for protect mode to the classification
         [class setTrustFactorsToWhitelist:trustFactorsToWhitelistInClass];
         
+        // Add the trustfactor for transparent auth to the classification
+        [class setTrustFactorsForTransparentAuthentication:trustFactorsForTransparentAuthInClass];
+        
         // Set the penalty weight for the classification
         class.weightedPenalty = (class.basePenalty * (1-(0.1 * class.weight.integerValue)) );
         
@@ -444,6 +474,9 @@
     NSMutableArray *userTrustFactorsWithErrors = [[NSMutableArray alloc] init];
     NSMutableArray *userAllTrustFactorOutputObjects = [[NSMutableArray alloc] init];
     NSMutableArray *userTrustFactorsToWhitelist = [[NSMutableArray alloc] init];
+    
+    // Transparent authentication
+    NSMutableArray *userTrustFactorsForTransparentAuthentication = [[NSMutableArray alloc] init];
     
     // Get classifications
     Sentegrity_Classification *systemBreachClass;
@@ -552,6 +585,9 @@
             
             // Add whitelists together
             [userTrustFactorsToWhitelist addObjectsFromArray:[class trustFactorsToWhitelist]];
+            
+            // Add all transparent authentication trustfactors together
+            [userTrustFactorsForTransparentAuthentication addObjectsFromArray:[class trustFactorsForTransparentAuthentication]];
         }
     }
     
@@ -566,7 +602,10 @@
     self.userGUIAnalysis = [userSubClassStatuses allObjects];
     self.userGUIAuthenticators = [userAuthenticators allObjects];
     
-    // DEBUG: Set whitelists for system/user domains
+    // Set transparent authentication list
+    self.transparentAuthenticationTrustFactors = userTrustFactorsForTransparentAuthentication;
+    
+    // Set whitelists for system/user domains
     self.protectModeUserWhitelist = userTrustFactorsToWhitelist;
     self.protectModeSystemWhitelist = systemTrustFactorsToWhitelist;
     
@@ -613,12 +652,14 @@
     self.deviceTrusted = YES;
     self.userTrusted = YES;
     self.systemTrusted = YES;
+    self.attemptTransparentAuthentication = YES;
     
     // Check system threshold
     if (self.systemScore < self.policy.systemThreshold.integerValue) {
         // System is not trusted
         self.systemTrusted = NO;
         self.deviceTrusted = NO;
+        self.attemptTransparentAuthentication = NO;
     }
     
     // Check User Threshold
@@ -626,6 +667,7 @@
         // User is not trusted
         self.userTrusted = NO;
         self.deviceTrusted = NO;
+        self.attemptTransparentAuthentication = NO;
     }
     
     // Analyze system first as it has priority

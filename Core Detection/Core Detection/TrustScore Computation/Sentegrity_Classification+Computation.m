@@ -20,6 +20,9 @@ NSString const *trustFactorsKeyClass = @"Sentegrity.trustFactors";
 // ProtectMode
 NSString const *trustFactorsToWhitelistKey = @"Sentegrity.trustFactorsToWhitelist";
 
+// Transparent Auth
+NSString const *trustFactorsForTransparentAuthenticationKey = @"Sentegrity.trustFactorsForTransparentAuthentication";
+
 // Debug
 NSString const *trustFactorsTriggeredKey = @"Sentegrity.trustFactorsTriggered";
 NSString const *trustFactorsNotLearnedKey = @"Sentegrity.trustFactorsNotLearned";
@@ -73,6 +76,16 @@ NSString const *authenticatorsKey = @"Sentegrity.authenticators";
 
 - (NSArray *)trustFactors {
     return objc_getAssociatedObject(self, &trustFactorsKeyClass);
+}
+
+// TrustFactors for transparent authentication
+
+- (void)setTrustFactorsForTransparentAuthentication:(NSArray *)trustFactorsForTransparentAuthentication{
+    objc_setAssociatedObject(self, &trustFactorsForTransparentAuthenticationKey, trustFactorsForTransparentAuthentication, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)trustFactorsForTransparentAuthentication {
+    return objc_getAssociatedObject(self, &trustFactorsForTransparentAuthenticationKey);
 }
 
 // TrustFactors to whitelist during protect mode deactivation

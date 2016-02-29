@@ -116,14 +116,20 @@
 // Message to display in prompt box
 @property (nonatomic) NSString *protectModeMessage;
 
-//Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
+// Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
 @property (nonatomic) NSArray *protectModeWhitelist;
 
-//Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
+// Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
 @property (nonatomic) NSArray *protectModeUserWhitelist;
 
-//Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
+// Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
 @property (nonatomic) NSArray *protectModeSystemWhitelist;
+
+// Holds the trustFactorOutputObjects for use in transparent authentication
+@property (nonatomic) NSArray *transparentAuthenticationTrustFactors;
+
+// Should attempt transparent authentication
+@property (nonatomic) BOOL  attemptTransparentAuthentication;
 
 // Compute the systemScore and the UserScore from the trust scores and the assertion storage objects
 + (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorAssertions withError:(NSError **)error;

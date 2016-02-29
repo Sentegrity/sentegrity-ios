@@ -16,6 +16,9 @@
 // Protect Mode
 @property (nonatomic,retain) NSArray *trustFactorsToWhitelist;
 
+// Transparent authentication
+@property (nonatomic,retain) NSArray *trustFactorsForTransparentAuthentication;
+
 // Debug Information
 @property (nonatomic,retain) NSArray *trustFactorsNotLearned;
 @property (nonatomic,retain) NSArray *trustFactorsTriggered;
