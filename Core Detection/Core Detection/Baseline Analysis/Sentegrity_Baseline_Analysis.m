@@ -555,6 +555,9 @@
                 // Change foundMatch variable
                 foundMatch = YES;
                 
+                // store assertion
+                trustFactorOutputObject.foundAssertionObject = stored;
+                
                 // Set so that it can be used later
                 
                 //we DID find a match, RULE NOT YET TRIGGERED  (increment matching stored assertions hitcount & check threshold)
@@ -632,6 +635,9 @@
                 
                 // Change foundMatch variable
                 foundMatch = YES;
+                
+                // store assertion
+                trustFactorOutputObject.foundAssertionObject = stored;
                 
                 // We DID find a match, rule should trigger as its inverse (applies a negative value that boosts the score positively by negating penalties)
                 trustFactorOutputObject.triggered=YES;

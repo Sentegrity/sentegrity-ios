@@ -32,6 +32,9 @@
 // Default assertion string
 @property (nonatomic,retain) Sentegrity_Stored_Assertion *defaultAssertionObject;
 
+// Required to calculate penaltyPercent
+@property (nonatomic,retain) Sentegrity_Stored_Assertion *foundAssertionObject;
+
 // DNE modifier
 @property (nonatomic) DNEStatusCode statusCode;
 

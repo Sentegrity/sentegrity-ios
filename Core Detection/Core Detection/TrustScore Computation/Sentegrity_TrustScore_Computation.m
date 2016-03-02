@@ -20,6 +20,17 @@
 
 @synthesize systemScore = _systemScore, userScore = _userScore, deviceScore = _deviceScore;
 
+
++ (double) penaltyPercentForTrustFactorOutputObject: (Sentegrity_TrustFactor_Output_Object *) trustFactorOutputObject  {
+    Sentegrity_Stored_Assertion *highestAssertion = trustFactorOutputObject.storedTrustFactorObject.assertionObjects.firstObject;
+    
+    double percent = (highestAssertion.decayMetric - trustFactorOutputObject.foundAssertionObject.decayMetric) / (highestAssertion.decayMetric - trustFactorOutputObject.trustFactor.decayMetric.doubleValue);
+    
+    return percent;
+
+}
+
+
 // Compute the systemScore and the UserScore from the policy
 + (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorOutputObjects withError:(NSError **)error {
     
@@ -291,6 +302,10 @@
                                 }
                             }
                             else{ // If a non type 4 rule did not trigger
+                                
+                                // Apply partially TF's penalty to subclass base penalty score
+                                NSInteger partiallyPenalty = (NSInteger)([self penaltyPercentForTrustFactorOutputObject:trustFactorOutputObject] * trustFactorOutputObject.trustFactor.penalty.integerValue);
+                                subClass.basePenalty = (subClass.basePenalty + partiallyPenalty);
                                 
                                 // If the classification is a User class
                                 if(isUserClass==YES){
