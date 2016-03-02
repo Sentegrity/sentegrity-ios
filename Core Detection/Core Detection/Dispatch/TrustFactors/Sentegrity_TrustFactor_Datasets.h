@@ -32,6 +32,7 @@
 #import "Sentegrity_TrustFactor_Dataset_Wifi.h"
 #import "Sentegrity_TrustFactor_Dataset_Cell.h"
 #import "Sentegrity_TrustFactor_Dataset_Motion.h"
+#import "Sentegrity_TrustFactor_Dataset_StatusBar.h"
 
 @interface Sentegrity_TrustFactor_Datasets : NSObject
 
@@ -45,7 +46,9 @@
 
 #pragma mark - Properties
 
-// These properties are set by the data generated in AppDelegate
+// Status bar
+@property (atomic, retain) NSDictionary *statusBar;
+@property (atomic) int statusBarDNEStatus;
 
 //Location
 @property (atomic, retain) CLLocation *location;
@@ -95,9 +98,9 @@
 @property (atomic, retain) NSNumber *wifiSignal;
 
 //Celluar
-@property (atomic, retain) NSNumber *celluarSignalBars;
 @property (atomic, retain) NSNumber *celluarSignalRaw;
-@property (atomic, retain) NSString *carrierConnectionInfo;
+@property (atomic, retain) NSString *carrierConnectionName;
+@property (atomic, retain) NSString *carrierConnectionSpeed;
 @property (atomic, retain) NSNumber *airplaneMode;
 @property (atomic, retain) NSNumber *tethering;
 
@@ -134,6 +137,9 @@
 // Validate the given payload
 - (BOOL)validatePayload:(NSArray *)payload;
 
+// ** Status Bar **
+-(NSDictionary *)getStatusBar;
+
 // ** CPU **
 - (float)getCPUUsage;
 
@@ -160,9 +166,9 @@
 - (NSNumber *)isTethering;
 
 // ** CELLUAR **
-- (NSNumber *) getCelluarSignalBars;
 - (NSNumber *) getCelluarSignalRaw;
-- (NSString *) getCarrierConnectionInfo;
+- (NSString *) getCarrierConnectionName;
+- (NSString *) getCarrierConnectionSpeed;
 - (NSNumber *) isAirplaneMode;
 
 // ** NETWORKING **

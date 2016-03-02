@@ -378,62 +378,16 @@
 
 + (NSNumber *) isTethering {
     
-    NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
-    UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
+    NSDictionary* status = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getStatusBar];
+    return [status valueForKey:@"isTethering"];
     
-    NSString *text = [statusBar valueForKey:@"_currentDoubleHeightText"];
-    if([text containsString:@"Hotspot"]){
-        
-        return [NSNumber numberWithInt:1];
-    }
-    else{
-        
-        return [NSNumber numberWithInt:0];
-    }
-
 }
-
 
 
 + (NSNumber *) getSignal{
     
-    // Get the status Bar
-    NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
-    UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
-    
-    UIView* statusBarForegroundView = nil;
-    
-    for (UIView* view in statusBar.subviews)
-    {
-        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarForegroundView")])
-        {
-            statusBarForegroundView = view;
-            break;
-        }
-    }
-    
-    
-    // Get WiFi strength
-    
-    // Set default
-    NSNumber *wifiBars = [NSNumber numberWithInt:0];
-    
-    
-    for (UIView* view in statusBarForegroundView.subviews)
-    {
-        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarDataNetworkItemView")])
-        {
-            
-            if (view)
-            {
-                wifiBars = [NSNumber numberWithInt:[[view valueForKey:@"_wifiStrengthRaw"] intValue]];
-                
-            }
-            break;
-        }
-    }
-
-    return wifiBars;
+    NSDictionary* status = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getStatusBar];
+    return [status valueForKey:@"wifiSignal"];
 }
 
 // Connected to WiFi?

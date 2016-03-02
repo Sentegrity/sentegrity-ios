@@ -56,6 +56,30 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Dataset Helpers
 
+// Statusbar Dictionary
+- (NSDictionary *)getStatusBar {
+    
+    // When dataset is not populated
+    if(!self.statusBar) {
+        
+        // Set self status bar
+        self.statusBar = [StatusBar getStatusBarInfo];
+        
+        // Set DNE if it errored
+        if(self.statusBar == nil){
+            self.statusBarDNEStatus = DNEStatus_error;
+        }
+        
+        // Return status bar
+        return self.statusBar;
+        
+    } else {
+        
+        // Return status bar
+        return self.statusBar;
+    }
+}
+
 // CPU usage
 - (float)getCPUUsage {
     
@@ -1051,34 +1075,6 @@ static dispatch_once_t onceToken;
     }
 }
 
-// Cellular signal information
-- (NSNumber *)getCelluarSignalBars {
-    
-    // If dataset is not populated
-    if(!self.celluarSignalBars || self.celluarSignalBars == nil) {
-        
-        // Get the list of processes and all information about them
-        @try {
-            
-            // Set the bars to how many we have
-            self.celluarSignalBars = [Cell_Info getSignalBars];
-            
-            // Return cell signal
-            return self.celluarSignalBars;
-        }
-        
-        @catch (NSException * ex) {
-            // Error
-            return nil;
-        }
-        
-        // If it is already populated
-    } else {
-        
-        // Return cell signal
-        return self.celluarSignalBars;
-    }
-}
 
 // Raw cellular signal
 - (NSNumber *)getCelluarSignalRaw {
@@ -1109,20 +1105,20 @@ static dispatch_once_t onceToken;
     }
 }
 
-// Carrier connection information
-- (NSString *)getCarrierConnectionInfo {
+// Carrier connection name
+- (NSString *)getCarrierConnectionName {
     
     // If dataset is not populated
-    if(!self.carrierConnectionInfo || self.carrierConnectionInfo == nil) {
+    if(!self.carrierConnectionName || self.carrierConnectionName == nil) {
         
         // Get the list of processes and all information about them
         @try {
             
             // Set carrier connection information
-            self.carrierConnectionInfo = [Cell_Info getCarrierInfo];
+            self.carrierConnectionName = [Cell_Info getCarrierName];
             
             // Return carrier connection information
-            return self.carrierConnectionInfo;
+            return self.carrierConnectionName;
         }
         
         @catch (NSException * ex) {
@@ -1134,7 +1130,36 @@ static dispatch_once_t onceToken;
     } else {
         
         // Return carrier connection information
-        return self.carrierConnectionInfo;
+        return self.carrierConnectionName;
+    }
+}
+
+// Carrier connection name
+- (NSString *)getCarrierConnectionSpeed {
+    
+    // If dataset is not populated
+    if(!self.carrierConnectionSpeed || self.carrierConnectionSpeed == nil) {
+        
+        // Get the list of processes and all information about them
+        @try {
+            
+            // Set carrier connection information
+            self.carrierConnectionSpeed = [Cell_Info getCarrierSpeed];
+            
+            // Return carrier connection information
+            return self.carrierConnectionSpeed;
+        }
+        
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+        // If dataset is already populated
+    } else {
+        
+        // Return carrier connection information
+        return self.carrierConnectionSpeed;
     }
 }
 

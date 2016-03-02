@@ -549,9 +549,14 @@
     anomalyString = [anomalyString stringByAppendingString:[NSString stringWithFormat:@"_LIGHT:%d", blockOfBrightness]];
     
     
-    // ** CELLUAR SIGNAL STRENGTH **
+    // ** CELLUAR SIGNAL and CARRIER NAME/SPEED **
     
     // If no location data use sensitive
+    
+    // In the event status bar does not work make sure we have something
+    NSString *carrierConnectionInfo = @"";
+    
+    carrierConnectionInfo = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionName] stringByAppendingString:[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionSpeed]];
     
     int celluarBlockSize;
     if(locationAvailable==NO){
@@ -597,7 +602,7 @@
     else{
         //int blockOfSignal = (([signal intValue] + blocksize/2)/blocksize)*blocksize;
         int blockOfSignal = round(abs([signal intValue]) / celluarBlockSize);
-        celluar = [NSString stringWithFormat:@"_CELL:%d",blockOfSignal];
+        celluar = [NSString stringWithFormat:@"_CELL:%@_%d",carrierConnectionInfo,blockOfSignal];
     }
     
     anomalyString = [anomalyString stringByAppendingString:celluar];

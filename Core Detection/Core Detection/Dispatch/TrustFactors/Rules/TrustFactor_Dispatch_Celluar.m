@@ -22,7 +22,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] init];
     
     // Get the current list of user apps
-    NSString *carrierConnectionInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionInfo];
+    NSString *carrierConnectionInfo = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionName];
     
     // Check the array
     if (!carrierConnectionInfo || carrierConnectionInfo == nil || carrierConnectionInfo.length < 1) {

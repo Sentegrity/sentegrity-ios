@@ -17,179 +17,37 @@
 
 static UIView* statusBarForegroundView;
 
-// Check how many bars we have for our signal
-+(NSNumber*)getSignalBars{
-
-    // Lets not do this every time
-    if(!statusBarForegroundView){
-        
-        NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
-        UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
-        
-        for (UIView* view in statusBar.subviews) {
-            
-            if ([view isKindOfClass:NSClassFromString(@"UIStatusBarForegroundView")]) {
-                
-                statusBarForegroundView = view;
-                break;
-            }
-        }
-    }
-
-    //Get cell strength
-    int signalStrength;
-    int blockSize=15;
-    //int celluarRaw=0;
-    
-    for (UIView* view in statusBarForegroundView.subviews) {
-        
-        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarSignalStrengthItemView")]) {
-            
-            if (view) {
-                signalStrength = abs([[view valueForKey:@"_signalStrengthRaw"] intValue]);
-            }
-            break;
-        }
-    }
-
-    // Prevents values less than 15
-    if(signalStrength < blockSize){
-        signalStrength = blockSize;
-    }
-    
-    int blockOfSignal = ceilf(signalStrength / blockSize);
-    return [NSNumber numberWithInt:blockOfSignal];
-}
 
 // Check for signal strength
 +(NSNumber*)getSignalRaw {
     
-    // Lets not do this every time
-    if(!statusBarForegroundView) {
-        
-        NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
-        UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
-        
-        for (UIView* view in statusBar.subviews) {
-            
-            if ([view isKindOfClass:NSClassFromString(@"UIStatusBarForegroundView")]) {
-                
-                statusBarForegroundView = view;
-                break;
-            }
-        }
-    }
-    
-    // Get cell strength
-    NSNumber *celluarRaw;
-    //int celluarRaw=0;
-    
-    for (UIView* view in statusBarForegroundView.subviews) {
-        
-        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarSignalStrengthItemView")]) {
-            
-            if (view) {
-                
-                celluarRaw = [NSNumber numberWithInt:[[view valueForKey:@"_signalStrengthRaw"] intValue]];
-                
-            }
-            break;
-        }
-    }
-    
-    return celluarRaw;
+    NSDictionary* status = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getStatusBar];
+    return [status valueForKey:@"cellSignal"];
 }
 
 // Get WiFi IP Address
-+ (NSString *)getCarrierInfo {
++ (NSString *)getCarrierName {
+    
+    NSDictionary* status = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getStatusBar];
+    return [status valueForKey:@"cellServiceString"];
+}
 
-    // Name variable
-    NSString *name;
-    
-    // Lets not do this every time
-    if(!statusBarForegroundView) {
-        
-        NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
-        UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
-        
-        for (UIView* view in statusBar.subviews) {
-            
-            if ([view isKindOfClass:NSClassFromString(@"UIStatusBarForegroundView")]) {
-                
-                statusBarForegroundView = view;
-                break;
-            }
-        }
-    }
-    
-    for (UIView* view in statusBarForegroundView.subviews) {
-        
-        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarServiceItemView")]) {
-            
-            name = (NSString *)[view valueForKey:@"_serviceString"];
-            break;
-        }
-    }
-    
-    BOOL isBackingUp=NO;
-    for (UIView* view in statusBarForegroundView.subviews) {
-        // iOS 9?
-        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarActivityItemView")]) {
-            
-            if((BOOL)[view valueForKey:@"_syncActivity"] == TRUE) {
-                
-                isBackingUp=YES;
-            }
-           // break;
-        }
-    }
+// Get WiFi IP Address
++ (NSString *)getCarrierSpeed {
     
     NSString *carrierSpeed;
     CTTelephonyNetworkInfo *telephonyInfo = [CTTelephonyNetworkInfo new];
     carrierSpeed = telephonyInfo.currentRadioAccessTechnology;
     
-    // Check if the carrier speed is nil
-    if (carrierSpeed != nil || carrierSpeed.length > 0) {
-        return [name stringByAppendingString:carrierSpeed];
-    }
-
-    // Just return the name
-    return name;
+    return carrierSpeed;
 }
+
 
 // Check if we are in airplane mode
 +(NSNumber *)isAirplane{
-    
-    NSNumber *airplane=[NSNumber numberWithInt:0];
-    
-    // Lets not do this every time
-    if(!statusBarForegroundView){
-        
-        NSString *statusBarString = [NSString stringWithFormat:@"%@ar", @"_statusB"];
-        UIView* statusBar = [[UIApplication sharedApplication] valueForKey:statusBarString];
-        
-        for (UIView* view in statusBar.subviews) {
-            
-            if ([view isKindOfClass:NSClassFromString(@"UIStatusBarForegroundView")]) {
-                
-                statusBarForegroundView = view;
-                break;
-            }
-        }
-    }
-    
-    // Get airplane mode view
-    for (UIView* view in statusBarForegroundView.subviews) {
-        
-        if ([view isKindOfClass:NSClassFromString(@"UIStatusBarAirplaneModeItemView")]) {
-            
-            //Airplane mode is enabled
-            airplane=[NSNumber numberWithInt:1];
-            break;
-        }
-    }
-    
-    return airplane;
+
+    NSDictionary* status = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getStatusBar];
+    return [status valueForKey:@"isAirplaneMode"];
 }
 
 @end

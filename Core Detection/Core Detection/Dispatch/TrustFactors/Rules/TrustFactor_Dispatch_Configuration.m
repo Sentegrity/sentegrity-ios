@@ -45,6 +45,14 @@
         [outputArray addObject:@"backupEnabled"];
     }
     
+    NSDictionary* status = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getStatusBar];
+    NSNumber* isSyncing = [status valueForKey:@"isBackingUp"];
+    
+    
+    if([isSyncing intValue]==1){
+        [outputArray addObject:@"backupInProgress"];
+    }
+
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
     
@@ -97,20 +105,34 @@
         }
         
         NSMutableDictionary *setQuery = [query mutableCopy];
-        [setQuery setObject:password forKey:(__bridge_transfer id)kSecValueData];
-        [setQuery setObject:(__bridge_transfer id)sacObject forKey:(__bridge_transfer id)kSecAttrAccessControl];
+        setQuery[(__bridge id) kSecValueData] = password;
+        setQuery[(__bridge id) kSecAttrAccessControl] = (__bridge id) sacObject;
         
         OSStatus status;
         status = SecItemAdd((__bridge CFDictionaryRef)setQuery, NULL);
         
-        status = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
+        // if we have the object, release it.
+        if (sacObject) {
+            CFRelease(sacObject);
+            sacObject = NULL;
+        }
         
-        // It managed to retrieve data successfully
-        if (status != errSecSuccess) {
-            
-            // Passcode enabled
+        // if it failed to add the item.
+        if (status == errSecDecode) {
             [outputArray addObject:@"passcodeNotSet"];
         }
+        else{ //try copy
+            
+            status = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
+            
+            // it managed to retrieve data successfully
+            if (status != errSecSuccess) {
+                [outputArray addObject:@"passcodeNotSet"];
+            }
+
+            
+        }
+        
         
     } else {
         

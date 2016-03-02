@@ -60,13 +60,19 @@
             for (NSString *vpnInterface in payload) {
                 
                 // Check if the interface is equal to a known VPN interface name
-                if([route.interface isEqualToString:vpnInterface]) {
+                if([route.interface containsString:vpnInterface]) {
                     
-                    // make sure we don't add more than one instance of the VPN interface name
-                    if (![outputArray containsObject:vpnInterface]){
+                    // make sure gateway contains an IP, otherwise we'll ad "Link #15" and such which is not unique to this VPN connection
+                    if([route.gateway containsString:@"."]){
                         
-                        // Add the interface of VPN to the output array
-                        [outputArray addObject:[vpnInterface stringByAppendingString:route.gateway]];
+                        // make sure we don't add more than one instance of the VPN interface name
+                        if (![outputArray containsObject:[vpnInterface stringByAppendingString:route.gateway]]){
+                            
+                            // Add the interface of VPN to the output array
+                            [outputArray addObject:[vpnInterface stringByAppendingString:route.gateway]];
+                        }
+
+                        
                     }
                 }
             }

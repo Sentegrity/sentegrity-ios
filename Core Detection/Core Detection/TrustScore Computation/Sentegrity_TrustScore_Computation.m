@@ -321,8 +321,15 @@
                             
                             [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
                             
+                            // Do not penalize for WiFi rules that did not run within system-based classifications
+                            // This is because WiFi is considered dangerous from a system perspective
+                        } else if ([class.user intValue]==0 && [subClass.name isEqualToString:@"WiFi"]) {
+                            
+                            // do nothing
+                        }
                             // Not an inverse rule therefore record messages AND apply modified DNE penalty
-                        } else {
+                        else
+                        {
                             
                             [self addSuggestionsAndCalcPenaltyForClass:class withSubClass:subClass withPolicy:policy withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
                         }

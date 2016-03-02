@@ -10,16 +10,17 @@
 
 // Import Constants
 #import "Sentegrity_Constants.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
 
 // Headers
 
 @interface Cell_Info : NSObject
 
 // Check which carrier we have
-+ (NSString *) getCarrierInfo;
++ (NSString *) getCarrierName;
 
-// Check how strong the signal is
-+ (NSNumber *) getSignalBars;
+// Check which carrier we have
++ (NSString *) getCarrierSpeed;
 
 // Check the strength of the signal
 + (NSNumber *) getSignalRaw;

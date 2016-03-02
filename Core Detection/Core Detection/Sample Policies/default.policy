@@ -592,7 +592,8 @@
       "whitelistable": 0,
       "privateAPI": 0,
       "payload": [
-        "ppp0"
+        "ppp",
+        "utun"
       ]
     },
     {
