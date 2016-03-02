@@ -20,6 +20,15 @@
 
 @synthesize systemScore = _systemScore, userScore = _userScore, deviceScore = _deviceScore;
 
+/* calulate partial penalty with formula:
+ penaltyPercent (X) = (maxDecayMeter - X) / (maxDecayMeter - decayMeterThreshold)
+ 
+ where:
+ - penaltyPercent is function calculated in interval between 0.0 and 1.0, where 1 present 100%.
+ - maxDecayMeter - decayMeter of the first (biggest) stored assertion
+ - decayMeterThreshold - decayMeter defined in the policy
+ - X - decayMeter of the chosen assertion
+ */
 
 + (double) penaltyPercentForTrustFactorOutputObject: (Sentegrity_TrustFactor_Output_Object *) trustFactorOutputObject  {
     Sentegrity_Stored_Assertion *highestAssertion = trustFactorOutputObject.storedTrustFactorObject.assertionObjects.firstObject;
@@ -304,8 +313,8 @@
                             else{ // If a non type 4 rule did not trigger
                                 
                                 // Apply partially TF's penalty to subclass base penalty score
-                                NSInteger partiallyPenalty = (NSInteger)([self penaltyPercentForTrustFactorOutputObject:trustFactorOutputObject] * trustFactorOutputObject.trustFactor.penalty.integerValue);
-                                subClass.basePenalty = (subClass.basePenalty + partiallyPenalty);
+                                NSInteger partialPenalty = (NSInteger)([self penaltyPercentForTrustFactorOutputObject:trustFactorOutputObject] * trustFactorOutputObject.trustFactor.penalty.integerValue);
+                                subClass.basePenalty = (subClass.basePenalty + partialPenalty);
                                 
                                 // If the classification is a User class
                                 if(isUserClass==YES){
