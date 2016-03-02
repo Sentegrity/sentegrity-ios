@@ -1,34 +1,62 @@
 ### Sentegrity Application TODO List
 
 
+### Good Integration Pilot TODO list
+
+- [ ] Policy download
+
+Prior to core detection running, initiate an async HTTPs download of a new policy file located on app1.sentegrity.com/services/policyupdate. Once downloaded the policy checksum should be checked (simple sha1). Implement the following SSL certificate pinning mechanism: https://github.com/project-imas/ssl-conservatory
+  
+### Transparent Authentication TODO list
+
+- [ ] Modify default.store (assertion store) to store transparent authentication keys and new object
+
+Need to create a new object and file similiar to "storedTrustFactorObjects" that gets mapped out of default.store at the same time the other objects are. This object can be called "transparentAuthenticationObject". We also need to make some changes to the default.store, currently the assertion store contains two JSON objects "appID" and "storedTrustFactorObjects" we should add an object called "storedTransparentKeys". The code to make updates to these objects (like we do for storedTrustFactorObjects will need to be created as well). This is probably a lot of copy/paste.
+
+which can look like the below:
+
+"storedTransparentKeys" : [
+{
+  "hitCount": 1
+  "created" : 1455490264
+  "decayMetric" : 0.07
+  "hash" : [blob]
+  "encryptedPassword" : [blob]
+  "iv" : [blob]
+},
+{
+  "hitCount": 3
+  "created" : 1455490264
+  "decayMetric" : 0.07
+  "hash" : [blob]
+  "encryptedPassword" : [blob]
+  "iv" : [blob]
+},
+[etc..]
+
+]
+
+We'll need to map this to the created object. These objects will be searched during protectMode to determine if there is a match from the key derived from the computationResults.transparentAuthenticationTrustFactors combined output. Jason will take care of this last part. It's not clear exactly when we will update the store with new transparent objects, TBD as somewhere in protectMode when transparent authentication is attempted. 
+
+  
 ### Core Detection TODO List
 
-- [ ] Create a “startup” file to store temporary info by modifying the assertion store class to be universal
+- [ ] Generate and use device salt
 
-This should be a JSON file like the assertion store. I think we just need to create a  “startup” class for the mapper and then make the existing assertion store functionality a bit more flexible in that it can accept other files, etc. We need to have the file mapped into an object just like the policy is with the ability to “set” it as well. This is where we will store things such as “lastOSVersion”, crypto salts, and a few other persistent storage attributes we need for bootstrapping the app. 
+During first run after installation, generate random device salt and store it in the startup file in raw format. This salt should then be used for all assertion generation by appending it to the raw TrustFactor data prior to hashing (assertion creation), this takes place in dispatcher (I beleive) when the TrustFactor returns. I'm not sure what the best method for determining first run is, but reinstallation should be considered "first run". I.e., keychain may not be the best method, perhaps writing a dummy file?
 
-We can do this by modify the existing I/O built into the assertion store class/mechanism and make that more of a helper for writing any I/O to a JSON file and reading it back into an object. Centralizing the I/O into one helper will help when we have to port all I/O to Good's special wrappers that encrypt data.
-
-- [ ] OS Updated Check
-
-Add new TF attribute “wipeOnUpdate” need to be added to each TF in the policy and all supporting TF object map classes. During baseline analysis if the iOS version is determined to have been new/upgraded (check it once at start? and compare based on startup file “lastOSVersion”?) then Baseline Analysis should check every TF for this attribute. If the attribute in policy for the current working TrustFactor is set to True then we delete the stored assertion object for this TF and create a new/blank one (this happens automatically by the assertion store object if it can’t find a matching store TF object). This can likely occur within baseline analysis where, as it is already, if it does not find a matching TF object in the store it will create it. The purpose of this is to ensure that we erase stored assertions for TrustFactors (mainly system TrustFactors) whose datapoints may change when an OS upgrade happens and could cause a false positive. For example, the file system monitoring rule should have its assertion store deleted such that it goes back into learning mode if a new OS is installed. This ensures that a change in file size isn't detected as malicious when the OS is merely updated.
-
-
-- [ ] Identify why TFs hang when celluar or WiFi connection is lost or very low
-
-UPDATE: Nick added timers to each TF, console now logs how long each TF takes. Solving this or narrowing down what is causing the problem is now just a matter of reproducing the problem while debugging the app. 
-
-UPDATE: I noticed it happens inside the "Netstat" TrustFactors, this appears to have something to do with the Netstat API calls. Can someone see if it is something inside one of the TFs in TrustFactor_Dispatch_Netstat or where the dataset is created inside Sentegrity_TrustFactor_Dataset_Netstat
-
-We discussed addressing this once the app is integrated into Good by killing the thread that Core Detection runs on if it hangs. Obviously, it would be nice to figure out the root cause. I have a feeling it has something to do w/ one of the APIs and TrustFactor dataset class related to WiFi or celluar. Sometimes putting the phone into airplane will cause Core Detection to change from hanging to done. This issue is not addressed by the Core Detection timeout as that timeout is internal to Core Detection to identify hardware (resource) constraints that are causing delays, not hangs. 
 
 ### TrustFactor TODO List
 
-- [ ] Bluetooth classic does not work unless you re-launch the entire application
-
-This is actually a big problem we've had for a while that needs to get fixed or users will certaintly notice something wrong.This is the TF that checks if a classic Bluetooth device is paired (unlikes the BLE 4.0 scanner TF). This is the only way to get paired device information and why we use the private API. It works great if you cold launch the app with a paired Bluetooth device connected, it gets a notification and can retrieve the MAC address for the connected device. For whatever reason, whenever you restart Core Detection (using the refresh button the dashboard), this TF never gets any notification about a connected device and therefore does not find it. Only when you close the app and re-open it will it work. You can see what I mean by breaking inside Sentegrity_Activity_Dispatcher inside - (void)receivedBluetoothNotification:(MDBluetoothNotification)bluetoothNotification where the notification comes from the private framework. It will fire fine on cold boot of the app but you will never see a notification again after that. I tried playing the register/unregister observer but it didn't seem to make any difference.
-
-
 ### Protect Mode TODO List
 
+### Future Good Integration Production TODO list
+  
+- [ ] Employ encrypted memory for user password and transparent authentication keys
+
+  https://github.com/project-imas/memory-security
+  
+- [ ] Use device salt to self destruct
+
+During each startup of Core Detection a function call should then be made to a honeypot function isDeviceJailbroken(). This function should be set to perform a basic (fake but obvious) Jailbreak check, always return YES and return nil. If the function returns "NO" then we should replace the device salt in the startup file (and currently used one) with a newly generated one. This essentially operates as a mechanism to indirectly destory the entire assertion store without actually deleting the file itself. By changing the device salt (deleting it) none of the old assertions can ever be recreated again and the next time core detection runs it will produce a 0 score. The objective for any further integrity checks or self-protect should be to destory this salt. Doing so also protects user TrustFactor hashes from being brute forced offline.
 
