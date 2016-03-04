@@ -20,19 +20,19 @@
 #import <ifaddrs.h>
 #import <net/if.h>
 
-
-
 @interface Wifi_Info : NSObject
 
-
+// Get wifi information
 + (NSDictionary*)getWifi;
 
+// Signal information
 + (NSNumber *) getSignal;
 
+// Check if wifi enables
 + (NSNumber *)isWiFiEnabled;
 
+// Check if tethering
 + (NSNumber *)isTethering;
-
 
 @end
 

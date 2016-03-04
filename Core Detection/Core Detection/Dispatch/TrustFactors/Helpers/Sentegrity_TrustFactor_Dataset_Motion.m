@@ -75,6 +75,7 @@
 
 }
 
+// Total movement of user and device
 + (NSString *) userMovement {
     NSArray *arrayM = [NSArray arrayWithArray: [[Sentegrity_TrustFactor_Datasets sharedDatasets] getUserMovementInfo]];
     
@@ -98,14 +99,18 @@
     NSInteger filteredOrientation = 0;
     CMDeviceMotion *lastMotion = [arrayM lastObject];
     
+    // In portrait
     if (orientation == 1 || orientation == 2 || (orientation >= 5 && fabs(lastMotion.gravity.y) > fabs(lastMotion.gravity.x))) {
-        filteredOrientation = 1; // Mostly Portrait
+        filteredOrientation = 1;
     }
+    
+    // In landscape
     else if (orientation == 3 || orientation == 4 || (orientation >= 5 && fabs(lastMotion.gravity.x) > fabs(lastMotion.gravity.y))) {
-        filteredOrientation = 2; // Mostly Landscape
-    }
-    else {
-        filteredOrientation = 3; // unknown
+        filteredOrientation = 2;
+        
+    // Unknown orientation
+    } else {
+        filteredOrientation = 3;
     }
     
     
@@ -130,14 +135,14 @@
         // 2D acceleration
         CGFloat acc2D;
         if (filteredOrientation == 1) {
-            // we need only Z and Y axis for portriat
+            // We need only Z and Y axis for portriat
             acc2D = motion.userAcceleration.y * motion.userAcceleration.y + motion.userAcceleration.z * motion.userAcceleration.z;
-        }
-        else if (filteredOrientation == 2) {
-            // we need only Z and X axis for landscape
+            
+        } else if (filteredOrientation == 2) {
+            // We need only Z and X axis for landscape
             acc2D = motion.userAcceleration.x * motion.userAcceleration.x + motion.userAcceleration.z * motion.userAcceleration.z;
-        }
-        else {
+            
+        } else {
             acc2D =
             motion.userAcceleration.x * motion.userAcceleration.x +
             motion.userAcceleration.y * motion.userAcceleration.y +
@@ -150,41 +155,35 @@
         
         NSLog(@"ACC final %lf", accelerationMagnitude2D);
 
-        // rotation
+        // Rotation
         CGFloat rotationSpeed = (motion.rotationRate.x*motion.rotationRate.x + motion.rotationRate.y*motion.rotationRate.y + motion.rotationRate.z*motion.rotationRate.z);
         rotationSpeed = sqrt(rotationSpeed);
         rotationMagnitude += rotationSpeed;
         
-        
-        // acceleration by elements
+        // Acceleration by elements
         accX += motion.userAcceleration.x;
         accY += motion.userAcceleration.y;
         accZ += motion.userAcceleration.z;
-        
-        
     }
     
-    //finding final gravity magnitude by avarage of all axis
+    // Finding final gravity magnitude by avarage of all axis
     gravX = gravX / (CGFloat) arrayM.count;
     gravY = gravY / (CGFloat) arrayM.count;
     gravZ = gravZ / (CGFloat) arrayM.count;
     gravityMagnitude = gravX*gravX + gravY*gravY + gravZ*gravZ;
     gravityMagnitude = sqrt(gravityMagnitude);
     
-    
-    //acceleration
+    // Acceleration
     accelerationMagnitude3D = accelerationMagnitude3D / (CGFloat) arrayM.count;
     accelerationMagnitude2D = accelerationMagnitude2D / (CGFloat) arrayM.count;
     accX = accX / (CGFloat) arrayM.count;
     accY = accY / (CGFloat) arrayM.count;
     accZ = accZ / (CGFloat) arrayM.count;
     
-    
-    
-    //rotation
+    // Rotation
     rotationMagnitude = rotationMagnitude / (CGFloat) arrayM.count;
     
-    // 0 - standing still, 1 - walking, 2 - running
+    // 0 - Standing still, 1 - Walking, 2 - Running
     NSInteger statusMoving = 0;
     
     if (accelerationMagnitude2D < 0.09)
@@ -195,7 +194,7 @@
         statusMoving = 2;
     
     
-    // 0 - no error, 1 - changing orientation, 2 - rotating or shaking
+    // 0 - No error, 1 - Changing orientation, 2 - Rotating or Shaking
     NSInteger errorObserving = 0;
 
     if (gravityMagnitude < 0.955)
@@ -203,8 +202,7 @@
     else if (rotationMagnitude > 1.0)
         errorObserving = 2;
 
-    
-    // one of the examples of final statement
+    // One of the examples of final statement
     if (errorObserving == 0) {
         if (statusMoving == 0)
             return @"StandingStill";
@@ -221,8 +219,6 @@
         return @"RotatingOrShaking";
 
 }
-
-
 
 // Checking orientation of device
 + (NSString *)orientation {
@@ -260,7 +256,7 @@
             
         }
         
-        // We dond't have any samples? avoid dividing by 0 use default API
+        // We don't have any samples? avoid dividing by 0 use default API
         if(count < 1) {
             
             // Set the device to current device
@@ -268,8 +264,7 @@
             orientation = device.orientation;
             
         } else {
-            
-            
+        
             xAverage = xTotal / count;
             yAverage = yTotal / count;
             zAverage = zTotal / count;
@@ -287,7 +282,7 @@
                 
                 orientation = UIDeviceOrientationPortrait;
                 
-            }else if (yAverage >= 0.15 && (xAverage <= 0.7 && xAverage >= -0.7)) {
+            } else if (yAverage >= 0.15 && (xAverage <= 0.7 && xAverage >= -0.7)) {
                 
                 orientation = UIDeviceOrientationPortraitUpsideDown;
                 
@@ -310,30 +305,37 @@
 
     switch (orientation) {
             
+        // Portrait Orientation
         case UIDeviceOrientationPortrait:
             orientationString =  @"Portrait";
             break;
-            
+          
+        // Landscape Right Orientation
         case UIDeviceOrientationLandscapeRight:
             orientationString =  @"Landscape_Right";
             break;
             
+        // Portrait Upside Down
         case UIDeviceOrientationPortraitUpsideDown:
             orientationString =  @"Portrait_Upside_Down";
             break;
             
+        // Landscape Left
         case UIDeviceOrientationLandscapeLeft:
             orientationString =  @"Landscape_Left";
             break;
             
+        // Face Up
         case UIDeviceOrientationFaceUp:
             orientationString =  @"Face_Up";
             break;
             
+        // Face Down
         case UIDeviceOrientationFaceDown:
             orientationString =  @"Face_Down";
             break;
-            
+           
+        // Orientation Unknown
         case UIDeviceOrientationUnknown:
             //Error
             orientationString =  @"unknown";
@@ -344,11 +346,7 @@
             orientationString =  @"error";
             break;
     }
-    
     return orientationString;
 }
-
-
-
 
 @end

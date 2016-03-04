@@ -12,11 +12,9 @@
 #import <UIKit/UIKit.h>
 @import CoreTelephony;
 
-
 @implementation Cell_Info
 
 static UIView* statusBarForegroundView;
-
 
 // Check for signal strength
 +(NSNumber*)getSignalRaw {
@@ -41,7 +39,6 @@ static UIView* statusBarForegroundView;
     
     return carrierSpeed;
 }
-
 
 // Check if we are in airplane mode
 +(NSNumber *)isAirplane{

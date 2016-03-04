@@ -53,15 +53,13 @@
                 [userApps addObject:dict];
 
             }
-
+            
             return userApps;
         }
         @catch (NSException * ex) {
             // Error
             return nil;
         }
-   
 }
-
 
 @end
