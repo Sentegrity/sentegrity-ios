@@ -33,9 +33,9 @@
 + (double) penaltyPercentForTrustFactorOutputObject: (Sentegrity_TrustFactor_Output_Object *) trustFactorOutputObject  {
     Sentegrity_Stored_Assertion *highestAssertion = trustFactorOutputObject.storedTrustFactorObject.assertionObjects.firstObject;
     
-    double percent = (highestAssertion.decayMetric - trustFactorOutputObject.foundAssertionObject.decayMetric) / (highestAssertion.decayMetric - trustFactorOutputObject.trustFactor.decayMetric.doubleValue);
+    double percent = (highestAssertion.decayMetric - trustFactorOutputObject.matchedAssertionObject.decayMetric) / (highestAssertion.decayMetric - trustFactorOutputObject.trustFactor.decayMetric.doubleValue);
     
-    return percent;
+    return percent * 0.25;
 
 }
 
@@ -312,12 +312,14 @@
                             }
                             else{ // If a non type 4 rule did not trigger
                                 
-                                // Apply partially TF's penalty to subclass base penalty score
-                                NSInteger partialPenalty = (NSInteger)([self penaltyPercentForTrustFactorOutputObject:trustFactorOutputObject] * trustFactorOutputObject.trustFactor.penalty.integerValue);
-                                subClass.basePenalty = (subClass.basePenalty + partialPenalty);
-                                
+
                                 // If the classification is a User class
                                 if(isUserClass==YES){
+                                    
+                                    // Apply partially TF's penalty to subclass base penalty score
+                                    NSInteger partialPenalty = (NSInteger)([self penaltyPercentForTrustFactorOutputObject:trustFactorOutputObject] * trustFactorOutputObject.trustFactor.penalty.integerValue);
+                                    subClass.basePenalty = (subClass.basePenalty + partialPenalty);
+                                    
                                     
                                     // Add to transparent auth list
                                     [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];

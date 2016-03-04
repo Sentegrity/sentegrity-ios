@@ -1137,8 +1137,8 @@
       "privateAPI": 0,
       "payload": [
         {
-          "pitchBlockSize": 0.2,
-          "rollBlockSize": 0.06,
+          "pitchBlockSize": 0.3,
+          "rollBlockSize": 0.08,
         }
       ]
     },

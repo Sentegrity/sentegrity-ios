@@ -31,17 +31,17 @@
     BOOL exists = NO;
     
     // Attempt to get our local assertion store
-    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:policy.appID withError:error];
+    Sentegrity_Assertion_Store *assertionStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:policy.appID withError:error];
     
     // Check if the local store exists (should, unless is the first run for this policy)
-    if (!localStore || localStore == nil || !exists) {
+    if (!assertionStore || assertionStore == nil || !exists) {
         
         NSLog(@"Local store did not exist...creating blank");
         // Create the store for the first time
-        localStore = [[Sentegrity_Assertion_Store alloc] init];
+        assertionStore = [[Sentegrity_Assertion_Store alloc] init];
         
         // Check if we've failed again
-        if (!localStore || localStore == nil) {
+        if (!assertionStore || assertionStore == nil) {
             return nil;
         }
     }
@@ -125,7 +125,7 @@
     // Updated trustFactorOutputObject
     Sentegrity_TrustFactor_Output_Object *updatedTrustFactorOutputObject;
     
-    // Run through all the trustFactorOutput objects and determine if they're local or global TrustFactors and perform compare
+    // Run through all the trustFactorOutput objects and perform compare based on rule type
     for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in trustFactorOutputObjects) {
         
         // Check if the TrustFactor is valid to start with
@@ -154,15 +154,15 @@
         }
         
         
-        // Find the matching stored assertion object for the trustfactor in the local store
-        storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
+        // Find the matching stored assertion object for the trustfactor
+        storedTrustFactorObject = [assertionStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
         
         
         // If we could not find an existing stored assertion in the local store create it
         if (exists == NO || !storedTrustFactorObject || storedTrustFactorObject == nil) {
             
             //  Create new stored assertion in the local store with error
-            storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
+            storedTrustFactorObject = [assertionStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
             
             NSLog(@"Could not find storedTrustFactorObject in local store, creating new");
             
@@ -213,7 +213,7 @@
             }
             
             // Add the new storedTrustFactorObject to the runtime local store, to be written later
-            if (![localStore addSingleObjectToStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+            if (![assertionStore addSingleObjectToStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                 
                 // Error out, no storedTrustFactorObjects were able to be added
                 NSDictionary *errorDetails = @{
@@ -240,7 +240,7 @@
             if (![self checkTrustFactorRevision:trustFactorOutputObject withStored:storedTrustFactorObject] || (shouldWipeOldData && [trustFactorOutputObject.trustFactor.wipeOnUpdate boolValue])) {
                 
                 // Create a new object in the local store
-                storedTrustFactorObject = [localStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
+                storedTrustFactorObject = [assertionStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
                 
                 // Update the trustFactorOutputObject with newly created storedTrustFactorObject
                 trustFactorOutputObject.storedTrustFactorObject = storedTrustFactorObject;
@@ -269,7 +269,7 @@
                 }
                 
                 // Replace existing in the local store
-                if (![localStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                if (![assertionStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                     
                     // Error out, no storedTrustFactorOutputObjects were able to be added
                     NSDictionary *errorDetails = @{
@@ -320,7 +320,7 @@
                 }
                 
                 // Since we modified, replace existing in the local store
-                if (![localStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
+                if (![assertionStore replaceSingleObjectInStore:updatedTrustFactorOutputObject.storedTrustFactorObject withError:error]) {
                     
                     // Error out, no storedTrustFactorOutputObjects were able to be added
                     NSDictionary *errorDetails = @{
@@ -346,7 +346,7 @@
     exists = YES;
     
     // Update stores
-    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:localStore withAppID:policy.appID withError:error];
+    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:assertionStore withAppID:policy.appID withError:error];
     
     // If local store doesn't get written
     if (!localStoreOutput || localStoreOutput == nil) {
@@ -402,26 +402,12 @@
     }
     
     // Check if decay is enabled for this TrustFactor
-    switch (trustFactorOutputObject.trustFactor.decayMode.intValue) {
+    if(trustFactorOutputObject.trustFactor.decayMode.intValue == 1) {
             
-        case 0:
+        // Metric based decay where hitcounts are divided by time since last the stored assertion was hit
             
-            // Do not decay
-            break;
-            
-        case 1: // Metric based decay where hitcounts are divided by time since last the stored assertion was hit
-            
-            // Only update decay if there is at leaste two stored assertion to be check, otherwise its a waste of time
-            if(trustFactorOutputObject.storedTrustFactorObject.assertionObjects.count > 1){
-                
-                trustFactorOutputObject = [self performMetricBasedDecay:trustFactorOutputObject withError:error];
-            }
+        trustFactorOutputObject = [self performMetricBasedDecay:trustFactorOutputObject withError:error];
 
-            break;
-            
-        // Default case
-        default:
-            break;
     }
     
     // Create and update assertions depending on type of rule
@@ -556,7 +542,7 @@
                 foundMatch = YES;
                 
                 // store assertion
-                trustFactorOutputObject.foundAssertionObject = stored;
+                trustFactorOutputObject.matchedAssertionObject = stored;
                 
                 // Set so that it can be used later
                 
@@ -637,7 +623,7 @@
                 foundMatch = YES;
                 
                 // store assertion
-                trustFactorOutputObject.foundAssertionObject = stored;
+                trustFactorOutputObject.matchedAssertionObject = stored;
                 
                 // We DID find a match, rule should trigger as its inverse (applies a negative value that boosts the score positively by negating penalties)
                 trustFactorOutputObject.triggered=YES;
@@ -701,10 +687,10 @@
         daysSinceCreation = ((double)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created doubleValue]) / secondsInADay;
 
         // Check when last time it was created
-        if(daysSinceCreation < 1){
+        if(daysSinceCreation < .3){
             
             // Set creation date to 1 if less than 1
-            daysSinceCreation = 1;
+       //     daysSinceCreation = 1;
         }
         
         // Calculate our decay metric
