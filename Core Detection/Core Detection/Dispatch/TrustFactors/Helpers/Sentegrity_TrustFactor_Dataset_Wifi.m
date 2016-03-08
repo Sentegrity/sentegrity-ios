@@ -10,11 +10,12 @@
 #import "Sentegrity_TrustFactor_Dataset_Wifi.h"
 #import "ActiveRoute.h"
 
-
 @implementation Wifi_Info
 
+// Get wifi information
 +(NSDictionary*)getWifi{
-
+    
+    // If wifi is not connected
     if(![self isWiFiConnected]){
         return nil;
     }
@@ -70,25 +71,24 @@
         return nil;
     }
     
-    
     // Set the route array variable with the routing information
     NSArray *routeArray = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getRouteInfo];
-        
+    
     // Return the first route object's gateway IP which will be WiFi if it is connected
     gatewayIP = [[routeArray objectAtIndex:0] gateway];
-
+    
     // Validate the gatewayIP
     if (gatewayIP == nil || gatewayIP.length == 0) {
         return nil;
     }
     
+    // Set wifi IP address
     wifiIP = [self wiFiIPAddress];
     
     // Validate the wifiIP
     if (wifiIP == nil || wifiIP.length == 0) {
         return nil;
     }
-    
     
     // Create an array of the objects
     NSArray *ItemArray = [NSArray arrayWithObjects:ssid, bssid, gatewayIP, wifiIP, nil];
@@ -100,9 +100,7 @@
     NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
     
     return dict;
-    
 }
-
 
 // Get WiFi IP Address
 + (NSString *)wiFiIPAddress {
@@ -161,7 +159,6 @@
         return nil;
     }
 }
-
 
 // Get Current IP Address
 + (NSString *)currentIPAddress {
@@ -339,7 +336,7 @@
     }
 }
 
-
+// Is wifi enabled
 + (NSNumber *) isWiFiEnabled {
     
     NSCountedSet * cset = [NSCountedSet new];
@@ -357,18 +354,17 @@
     // FREEDOM
     freeifaddrs(interfaces);
     
-    //If we got more than 1 instance of awdl0 from this API its a trick to tell that WiFi is enabled
+    // If we got more than 1 instance of awdl0 from this API its a trick to tell that WiFi is enabled
     if([cset countForObject:@"awdl0"] > 1){
         return [NSNumber numberWithInt:1];
-    }else{
+    } else {
         
         // Check if we're tethering
         if([[self isTethering] intValue] == 1){
             
             return [NSNumber numberWithInt:1];
             
-        }
-        else{ //return that its disabled for realz
+        } else { //return that its disabled for realz
             
             return [NSNumber numberWithInt:0];
         }
@@ -376,6 +372,7 @@
     
 }
 
+// Check if tethering
 + (NSNumber *) isTethering {
     
     NSDictionary* status = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getStatusBar];
@@ -383,7 +380,7 @@
     
 }
 
-
+// Get the wifi signal
 + (NSNumber *) getSignal{
     
     NSDictionary* status = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getStatusBar];
@@ -403,6 +400,5 @@
         return true;
     }
 }
-
 
 @end

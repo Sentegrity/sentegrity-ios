@@ -11,7 +11,10 @@
 
 @interface Netstat_Info : NSObject
 
+// TCP connections
 + (NSArray *) getTCPConnections;
+
+// Interface size
 + (NSDictionary *)getInterfaceBytes;
 
 @end

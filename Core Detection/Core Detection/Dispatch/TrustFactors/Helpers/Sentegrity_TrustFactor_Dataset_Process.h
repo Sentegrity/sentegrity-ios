@@ -21,5 +21,4 @@
 // Get self PID
 + (NSNumber *) getOurPID;
 
-
 @end

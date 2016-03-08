@@ -16,5 +16,4 @@
 // Get the cpu usage function
 + (float)getCPUUsage;
 
-
 @end

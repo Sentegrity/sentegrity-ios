@@ -26,11 +26,10 @@
 
 #pragma mark - Additional functions
 
-
-
 // Run the Core Detection Activites
 - (void)runCoreDetectionActivities {
     
+    // Start Netstat
     [self startNetstat];
     
     // Start Bluetooth as soon as possible
@@ -43,26 +42,28 @@
     // Check if permissions are authorized
     if ([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized || [permissionActivity permissionState] != ISHPermissionStateAuthorized) {
         
+        // If permission isn't authorized
         if([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized) {
             // Set location error
             [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
             
-        }else{
+        } else {
             // Start location
             [self startLocation];
         }
         
+        // If motion activity isn't authorized
         if([permissionActivity permissionState] != ISHPermissionStateAuthorized) {
             
             // The app isn't authorized to use motion activity support.
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unauthorized];
-        }
-        else{
+            
+        } else {
             // Start Activity
             [self startActivity];
         }
-    }
-    else{
+        
+    } else {
         
         // Start location
         [self startLocation];
@@ -81,13 +82,13 @@
 
 // ** GET NETSTAT DATA **
 - (void)startNetstat {
+    
     // Declare the block variable
     void (^getNetstat)(void);
     
     // Create and assign the block
     getNetstat = ^ {
 
-        
         // Get the list of all connections
         @try {
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setNetstatData:[Netstat_Info getTCPConnections]];
@@ -97,7 +98,6 @@
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setNetstatDataDNEStatus:DNEStatus_error];
         }
         
-
     };
     
     // Call the block
@@ -107,24 +107,22 @@
 // ** GET LOCATION DATA **
 - (void)startLocation {
     
-    
     // Create the location manager
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     
-    
-    // check if the hardware has a magnetometer
+    // Check if the hardware has a magnetometer
     if ([CLLocationManager headingAvailable] == NO) {
         // Set magnetic disabled
         [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setMagneticHeadingDNEStatus:DNEStatus_disabled];
-    }
-    else {
+        
+    } else {
         self.locationManager.headingFilter = kCLHeadingFilterNone;
         magneticHeadingArray = [[NSMutableArray alloc] init];
         [self.locationManager startUpdatingHeading];
     }
     
-    
+    // Get authorization status and set the code for it
     NSUInteger code = [CLLocationManager authorizationStatus];
     
     // Check if it's enabled
@@ -133,7 +131,6 @@
         // Set location disabled
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setLocationDNEStatus:DNEStatus_disabled];
         
-        
     } else {
         
         // Check if location is actually allowed
@@ -141,7 +138,6 @@
             
             // Request location when application is in use
             [self.locationManager requestWhenInUseAuthorization];
-            
         }
     }
     
@@ -160,7 +156,6 @@
         
         //Set location unauthorized
         [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
-        
         
     } else {
         
@@ -217,8 +212,6 @@
     
 }
 
-
-
 // ** LOCATION MAGNETOMETER HEADING UPDATE **
 
 // This Magnetometer reading is calibrated for the device's interference but it does not work when location is not authorized
@@ -226,7 +219,6 @@
 // This delegate method is invoked when the location manager has heading data.
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)heading {
     // Update the labels with the raw x, y, and z values.
-    
     
     // Create an array of headings samples
     NSArray *ItemArray = [NSArray arrayWithObjects:[NSNumber numberWithDouble:heading.magneticHeading],[NSNumber numberWithDouble:heading.x], [NSNumber numberWithDouble:heading.y],[NSNumber numberWithDouble:heading.z], nil];
@@ -243,7 +235,7 @@
     [[Sentegrity_TrustFactor_Datasets sharedDatasets] setMagneticHeading: magneticHeadingArray];
     
     if (magneticHeadingArray.count > 5) {
-        
+
         [manager stopUpdatingHeading];
 
     }
@@ -252,9 +244,12 @@
 
 // This delegate method is invoked when the location managed encounters an error condition.
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    
+    // If location services is denied
     if ([error code] == kCLErrorDenied) {
         // This error indicates that the user has denied the application's request to use location services.
         [manager stopUpdatingHeading];
+        
     } else if ([error code] == kCLErrorHeadingFailure) {
         // This error indicates that the heading could not be determined, most likely because of strong magnetic interference.
     }
@@ -309,7 +304,6 @@
     
     // Allocate all the pith/roll array
     pitchRollArray = [[NSMutableArray alloc] init];
-
     
     // Check if the gryo is available
     if (![manager isGyroAvailable] || manager == nil) {
@@ -328,10 +322,8 @@
         // Gyro is available get user grip
         manager.deviceMotionUpdateInterval = .001f;
         
-
         [manager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXMagneticNorthZVertical toQueue:[NSOperationQueue currentQueue] withHandler:^(CMDeviceMotion  *motion, NSError *error) {
 
-                
                 // Create an array of motion samples
                 NSArray *itemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:motion.attitude.pitch], [NSNumber numberWithFloat:motion.attitude.roll], nil];
                 
@@ -368,38 +360,32 @@
         // Allocate all the motion array
         motionArray = [[NSMutableArray alloc] init];
         
-        // Check if the gryo is available
+        // Check if the gyro is available
         if (![manager2 isGyroAvailable] || manager2 == nil) {
             
             // Gyro not available
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroMotionDNEStatus:DNEStatus_unsupported];
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setUserMovementDNEStatus:DNEStatus_unsupported];
             
-            
         } else {
             manager2.accelerometerUpdateInterval = 0.01f;
             manager2.gyroUpdateInterval = 0.01f;
             
-            //neccessary to detect device orientation
+            // Neccessary to detect device orientation
             [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
             
-            
-            // get device motion update
+            // Get device motion update
             [manager2 startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMDeviceMotion * _Nullable motion, NSError * _Nullable error) {
-                
                 
                 [motionArray addObject:motion];
                 [[Sentegrity_TrustFactor_Datasets sharedDatasets] setUserMovementInfo:motionArray];
                 
-                // bigger array capacity will increase precission
+                // Bigger array capacity will increase precision
                 if (motionArray.count > 50)
                     [manager2 stopDeviceMotionUpdates];
             }];
             
         }
-
-        
-        
         
         // ** GET MAGNETOMETER DATA **
         
@@ -432,13 +418,9 @@
                     [manager stopMagnetometerUpdates];
                     
                 }
-                
             }];
-
-            
         }
 
-        
         // ** GET GRIP MOVEMENT DATA **
         
         // Attempt to detect large movements using Gyro
@@ -449,8 +431,6 @@
         manager.gyroUpdateInterval = .001f;
         [manager startGyroUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMGyroData  *gyroData, NSError *error) {
             
-     
-                
                 // Create an array of gyro samples
                 NSArray *itemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:gyroData.rotationRate.x], [NSNumber numberWithFloat:gyroData.rotationRate.y], [NSNumber numberWithFloat:gyroData.rotationRate.z], nil];
                 
@@ -465,8 +445,7 @@
                 
                 // Set the gyro radians
                 [[Sentegrity_TrustFactor_Datasets sharedDatasets] setGyroRads:gyroRadsArray];
-                
-                
+            
                 // We want a minimum of 3 samples before we average them inside the TF
                 // its possible we will get more as this handler gets called additional times prior to
                 // the TF needing the dataset, but we don't want to cause it to wait therefore we stick with a minimum of 3. If we get more it will continue to update
@@ -475,12 +454,8 @@
                 if (gyroRadsArray.count > 3){
                     [manager stopGyroUpdates];
                 }
-            
-            
         }];
-        
     }
-    
     
     // ** GET ACCEL DATA **
     
@@ -501,8 +476,6 @@
         manager.accelerometerUpdateInterval = .001f;
         [manager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMAccelerometerData  *accelData, NSError *error) {
             
-
-                
                 // Create an array of accelerometer samples
                 NSArray *itemArray = [NSArray arrayWithObjects:[NSNumber numberWithFloat:accelData.acceleration.x], [NSNumber numberWithFloat:accelData.acceleration.y], [NSNumber numberWithFloat:accelData.acceleration.z], nil];
                 
@@ -526,14 +499,9 @@
                 if (accelRadsArray.count > 3){
                     [manager stopAccelerometerUpdates];
                 }
-
-            
         }];
-        
     }
-    
 }
-
 
 // ** BLUETOOTH 4.0 SCANNING **
 - (void)startBluetoothBLE {
@@ -546,35 +514,32 @@
     
     // Start the manager
     mgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:options];
-    
 }
-
 
 // ** BLUETOOTH CLASSIC **
 
-
-// need to wait for the first bluetooth notification
+// Need to wait for the first bluetooth notification
 static BOOL bluetoothObservingStarted;
-
 
 - (void)startBluetoothClassic {
     
     if (bluetoothObservingStarted) {
-        // called startBluetoothClassic for the first time, lets start our BluetoothManager
+        // Called startBluetoothClassic for the first time, lets start our BluetoothManager
         NSArray *array = [[MDBluetoothManager sharedInstance] connectedDevices];
         NSMutableArray *arrayM = [NSMutableArray array];
         
+        // Add devices to array
         for (MDBluetoothDevice *device in array) {
             [arrayM addObject:[NSString stringWithFormat:@"%@", device.address]];
         }
         
+        // Set which classic bluetooth devices are set.
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:[NSArray arrayWithArray:arrayM]];
-    }
-    else {
+        
+    } else {
         [[MDBluetoothManager sharedInstance] registerObserver:self];
     }
 }
-
 
 // ** BLUETOOTH 4.0 DISCOVERED DEVICES **
 
@@ -595,9 +560,7 @@ static BOOL bluetoothObservingStarted;
         // Scanning stopped
         NSLog(@"Bluetooth scanning stopped");
         [mgr stopScan];
-        
     }
-    
 }
 
 // ** BLUETOOTH 4.0 STATE UPDATE **
@@ -605,6 +568,8 @@ static BOOL bluetoothObservingStarted;
     
     // Check which state the bluetooth manager is in
     switch (central.state) {
+            
+        // State Unknown
         case CBCentralManagerStateUnknown:
         {
             //messtoshow=[NSString stringWithFormat:@"State unknown, update imminent."];
@@ -612,6 +577,8 @@ static BOOL bluetoothObservingStarted;
             // Wait
             break;
         }
+            
+        // State Resetting
         case CBCentralManagerStateResetting:
         {
             //messtoshow=[NSString stringWithFormat:@"The connection with the system service was momentarily lost, update imminent."];
@@ -619,6 +586,8 @@ static BOOL bluetoothObservingStarted;
             // Wait
             break;
         }
+            
+        // State Unsupported
         case CBCentralManagerStateUnsupported:
         {
             
@@ -629,6 +598,8 @@ static BOOL bluetoothObservingStarted;
             
             break;
         }
+            
+        // State Unauthorized
         case CBCentralManagerStateUnauthorized:
         {
             //messtoshow=[NSString stringWithFormat:@"The app is not authorized to use Bluetooth Low Energy"];
@@ -639,6 +610,8 @@ static BOOL bluetoothObservingStarted;
             
             break;
         }
+            
+        // State PoweredOff
         case CBCentralManagerStatePoweredOff:
         {
             //messtoshow=[NSString stringWithFormat:@"Bluetooth is currently powered off."];
@@ -648,12 +621,12 @@ static BOOL bluetoothObservingStarted;
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_disabled];
             break;
         }
+            
+        // State PoweredOn
         case CBCentralManagerStatePoweredOn:
         {
-            
             // Create the bluetooth array
             discoveredBLEDevices = [[NSMutableArray alloc] init];
-            
             
             // Set timer to eventually stop scanning (otherwise if we don't find any it will keep trying during app use and kill battery)
             startTime = CFAbsoluteTimeGetCurrent();
@@ -667,27 +640,16 @@ static BOOL bluetoothObservingStarted;
             // Done
             break;
         }
-            
     }
-    
 }
-
-
 
 // ** BLUETOOTH CLASSIC NOTIFICATION **
 - (void)receivedBluetoothNotification:(MDBluetoothNotification)bluetoothNotification {
     
-    // we only need first MDBluetoothNotification, as a signal that BluetoothManager started to work properly
+    // We only need first MDBluetoothNotification, as a signal that BluetoothManager started to work properly
     bluetoothObservingStarted = YES;
     [[MDBluetoothManager sharedInstance] unregisterObserver:self];
     [self startBluetoothClassic];
-   
-    
-    
 }
- 
-
-
-
 
 @end

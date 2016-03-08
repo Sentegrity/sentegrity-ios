@@ -31,8 +31,6 @@
                 }
             }
             
-            
-            
             // Set datapoint variables
             NSNumber *wifiSignal = [NSNumber numberWithInt:0];
             NSNumber *cellSignal = [NSNumber numberWithInt:0];
@@ -47,25 +45,27 @@
             // Create an array of keys
             NSArray *KeyArray = [NSArray arrayWithObjects:@"wifiSignal", @"cellSignal", @"isTethering", @"isAirplaneMode", @"isBackingUp", @"cellServiceString", @"lastApp", @"isOnCall", @"isNavigating", nil];
             
-            
-            
+            // Get necessary values from status bar
             for (UIView* view in statusBarForegroundView.subviews)
             {
+                // Wifi Signal
                 if ([view isKindOfClass:NSClassFromString(@"UIStatusBarDataNetworkItemView")])
                 {
                     wifiSignal = [NSNumber numberWithInt:[[view valueForKey:@"_wifiStrengthRaw"] intValue]];
-
                 }
+                
+                // Cell Signal for Wifi
                 else if([view isKindOfClass:NSClassFromString(@"UIStatusBarDataNetworkItemView")])
                 {
-
                     cellSignal = [NSNumber numberWithInt:[[view valueForKey:@"_wifiStrengthRaw"] intValue]];
-                    
                 }
+                
+                // Airplane mode status
                 else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarAirplaneModeItemView")]) {
-                    
                     isAirplaneMode=[NSNumber numberWithInt:1];
                 }
+                
+                // If syncing
                 else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarActivityItemView")]) {
                         
                     if((BOOL)[view valueForKey:@"_syncActivity"] == TRUE) {
@@ -73,15 +73,21 @@
                         isBackingUp=[NSNumber numberWithInt:1];
                     }
                 }
+                
+                // Which service
                 else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarServiceItemView")]) {
                     
                     cellServiceString = (NSString *)[view valueForKey:@"_serviceString"];
                 }
+                
+                // Cell Signal
                 else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarSignalStrengthItemView")]) {
                     
                     cellSignal = [NSNumber numberWithInt:[[view valueForKey:@"_signalStrengthRaw"] intValue]];
   
                 }
+                
+                // Last app
                 else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarBreadcrumbItemView")]) {
                     
                     lastApp = (NSString *)[view valueForKey:@"_destinationText"];
@@ -105,20 +111,17 @@
                 isOnCall = [NSNumber numberWithInt:1];
             }
             
-
-            // temp for testing
+            // Temp for testing
             BOOL isOtherAudioPlaying = [[AVAudioSession sharedInstance] isOtherAudioPlaying];
             // Create an array of the objects
             NSArray *ItemArray = [NSArray arrayWithObjects:wifiSignal,cellSignal,isTethering,isAirplaneMode,isBackingUp,cellServiceString,lastApp, isOnCall, isNavigating, nil];
 
-            
             // Create the dictionary
             NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
             
-            
             return dict;
-            
         }
+    
         @catch (NSException * ex) {
             // Error
             return nil;

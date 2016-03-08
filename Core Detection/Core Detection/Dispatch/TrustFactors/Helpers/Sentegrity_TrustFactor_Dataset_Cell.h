@@ -28,6 +28,5 @@
 // Check if we are in airplane mode
 + (NSNumber *) isAirplane;
 
-
 @end
 

@@ -26,7 +26,5 @@
 // Total movement of user and device
 + (NSString *) userMovement;
 
-
-
 @end
 

@@ -10,12 +10,12 @@
 #import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 
-
+// Location information
 @implementation Location_Info
 
+// Method to get location
 +(void)getLocation{
     
-
 }
 
 @end

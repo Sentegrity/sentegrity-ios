@@ -15,6 +15,7 @@
 
 @interface Location_Info : NSObject
 
+// Get the users location
 + (void)getLocation;
 
 

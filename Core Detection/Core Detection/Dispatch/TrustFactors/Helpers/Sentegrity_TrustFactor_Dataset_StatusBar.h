@@ -13,6 +13,7 @@
 
 @interface StatusBar : NSObject
 
+// Status bar info
 + (NSDictionary *)getStatusBarInfo;
 
 @end

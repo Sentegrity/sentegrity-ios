@@ -11,10 +11,10 @@
 // Pod for hashing
 #import "NSString+Hashes.h"
 
-
 @implementation Sentegrity_TrustFactor_Output_Object
 
 
+// Set assertion objects from output
 -(void)setAssertionObjectsFromOutput
 {
     // Temporary mutable array to hold Sentegrity_Stored_Assertion objects
@@ -33,7 +33,6 @@
         NSDate *now = [NSDate date];
         NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
         
-        
         // Set object properties
         [new setAssertionHash:hash];
         [new setLastTime:[NSNumber numberWithInteger:nowEpochSeconds]];
@@ -43,7 +42,6 @@
         
         // Add object to the array
         [assertionObjects addObject:new];
-        
     }
     
     // Set property
@@ -51,6 +49,7 @@
     
 }
 
+// Override init to our defaults
 - (id) init {
     if (self = [super init]) {
         
