@@ -18,8 +18,14 @@
 
 // User
 
-- (void)setUser:(NSNumber *)user{
-    _user = user;
+- (void)setType:(NSNumber *)type{
+    _type = type;
+}
+
+// Computation method
+
+- (void)setComputationMethod:(NSNumber *)computationMethod{
+    _computationMethod = computationMethod;
 }
 
 // Name
@@ -34,11 +40,6 @@
     _desc = desc;
 }
 
-// Weight
-
-- (void)setWeight:(NSNumber *)weight{
-    _weight = weight;
-}
 
 // ProtectModeAction
 

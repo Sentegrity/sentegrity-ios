@@ -27,13 +27,13 @@
 // Retrieve stored assertions
 + (NSArray *)performBaselineAnalysisUsing:(NSArray *)trustFactorOutputObjects forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
 
-    // Create a bool to check if local store exists
+    // Create a bool to check if the assertion store exists
     BOOL exists = NO;
     
-    // Attempt to get our local assertion store
-    Sentegrity_Assertion_Store *assertionStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getLocalStore:&exists withAppID:policy.appID withError:error];
+    // Attempt to get our assertion store
+    Sentegrity_Assertion_Store *assertionStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getAssertionStore:&exists withAppID:policy.appID withError:error];
     
-    // Check if the local store exists (should, unless is the first run for this policy)
+    // Check if the assertion store exists (should, unless is the first run for this policy)
     if (!assertionStore || assertionStore == nil || !exists) {
         
         NSLog(@"Local store did not exist...creating blank");
@@ -147,12 +147,6 @@
             // Don't return anything
             return nil;
         }
-        
-        // Check DNE status code prior to computation to avoid evaluation non-ok rules, but do evaluate nodata so that they can update learning
-        if (trustFactorOutputObject.statusCode != DNEStatus_ok && trustFactorOutputObject.statusCode != DNEStatus_nodata) {
-            continue;
-        }
-        
         
         // Find the matching stored assertion object for the trustfactor
         storedTrustFactorObject = [assertionStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
@@ -342,11 +336,11 @@
         }
     }
     
-    // Save stores due to learning mode updates
+    // Save stores due to learning mode and decay updates
     exists = YES;
     
     // Update stores
-    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setLocalStore:assertionStore withAppID:policy.appID withError:error];
+    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setAssertionStore:assertionStore withAppID:policy.appID withError:error];
     
     // If local store doesn't get written
     if (!localStoreOutput || localStoreOutput == nil) {
@@ -379,7 +373,7 @@
     Sentegrity_TrustFactor_Output_Object *updatedTrustFactorOutputObject;
     
     // An array for the objects added to WhiteList
-    trustFactorOutputObject.assertionObjectsToWhitelist = [[NSMutableArray alloc] init];
+    trustFactorOutputObject.candidateAssertionObjectsForWhitelisting = [[NSMutableArray alloc] init];
     
     // First check if we recieved the trustFactorOutputObject
     if (!trustFactorOutputObject) {
@@ -410,82 +404,31 @@
 
     }
     
-    // Create and update assertions depending on type of rule
-    switch (trustFactorOutputObject.trustFactor.ruleType.intValue) {
-        
-        // Rule type 1 leverages a default assertion, no learning, trigger on NO MATCH in store
-        case 1:
-            
-
-            
-            // Must be the first time this has run
-            if(trustFactorOutputObject.storedTrustFactorObject.learned == NO) {
-                
-                // Set stored assertion to the default for proper comparison
-                trustFactorOutputObject.storedTrustFactorObject.assertionObjects = @[[trustFactorOutputObject defaultAssertionObject]];
-                
-                // set to learned (type 1 rules don't use learning)
-                trustFactorOutputObject.storedTrustFactorObject.learned = YES;
-    
-            }
-            
-            // Run baseline analysis to determine if candidate does NOT match the default assertion (already in the store) or any other assertion that is in the store as a result of whitelisting
-            updatedTrustFactorOutputObject = [self checkBaselineForNoMatch:trustFactorOutputObject withError:error];
-            
-            break;
-            
-        // Rule Type 2 supports learning modes, these rules don't take effect right away as they must learn a profile first, triggered on NO MATCH in store
-        case 2:
-            
-            // If TrustFactor is learned run baseline analysis
-            if(trustFactorOutputObject.storedTrustFactorObject.learned == YES) {
-                updatedTrustFactorOutputObject = [self checkBaselineForNoMatch:trustFactorOutputObject withError:error];
-            } else {
-                
-                // Not yet learned, just update learning and don't baseline
-                updatedTrustFactorOutputObject = [self updateLearningAndAddCandidateAssertions:trustFactorOutputObject withError:error];
-            }
-            
-            break;
-            
-        // Rule Type 3 no learning, triggers on first run and NO MATCH in store (e.g., builds a profile to identify known-good good user conditions one login at a time, good conditions are determined by login therefore no learning occurs, everything triggers on first run)
-        case 3:
-            
-            // Must be the first time this has run
-            if(trustFactorOutputObject.storedTrustFactorObject.learned == NO) {
-                // Do any first time stuff here
-                
-                // Set to learned
-                trustFactorOutputObject.storedTrustFactorObject.learned = YES;
-                
-            }
-            
-            // Update learning
-            updatedTrustFactorOutputObject = [self checkBaselineForNoMatch:trustFactorOutputObject withError:error];
-            
-            break;
-            
-        // Rule Type 4 is designed for authenticator TFs (known wifi, known bluetooth, etc) the same as ruletype 3 but flips the learning and trigger conditions. Candidate assertions are learned when the rule does not trigger but authentication is performed. The rule triggers when there IS a match in order to apply a negative penalty, only a few user rules employ this type
-        case 4:
-            
-            // Must be the first time this has run
-            if(trustFactorOutputObject.storedTrustFactorObject.learned == NO) {
-                // Do any first time stuff here
-                
-                // Set to learned
-                trustFactorOutputObject.storedTrustFactorObject.learned = YES;
-            }
-            
-            // Update learning
-            updatedTrustFactorOutputObject = [self checkBaselineForAMatch:trustFactorOutputObject withError:error];
-            
-            
-            break;
-            
-        // Default case
-        default:
-            break;
+    // Check learning
+    if(trustFactorOutputObject.storedTrustFactorObject.learned==NO){
+        updatedTrustFactorOutputObject = [self updateLearningAndAddCandidateAssertions:trustFactorOutputObject withError:error];
     }
+    
+    // Dont do baseline if we have no output and the rule did not error OR it has a DNE of no data
+    if((trustFactorOutputObject.candidateAssertionObjects.count < 1 && trustFactorOutputObject.statusCode == DNEStatus_ok) || trustFactorOutputObject.statusCode == DNEStatus_nodata){
+        trustFactorOutputObject.forComputation=NO;
+        updatedTrustFactorOutputObject = trustFactorOutputObject;
+    }
+    else{
+        
+        // Everything else should go to computation
+        trustFactorOutputObject.forComputation=YES;
+        
+        // If we have output and the TF is learned then do baseline analysis
+        // We check learned again here in the event that hte TF was just learned during the last call to "updateLearningAndAddCandidateAssertions"
+        if(trustFactorOutputObject.storedTrustFactorObject.learned == YES) {
+            updatedTrustFactorOutputObject = [self checkBaselineForMatch:trustFactorOutputObject withError:error];
+            
+            
+        }
+
+    }
+    
     
     // Check if trustFactorOutputObject was found
     if (!updatedTrustFactorOutputObject) {
@@ -512,161 +455,73 @@
 }
 
 // Perform the actual baseline analysis with no match
-+ (Sentegrity_TrustFactor_Output_Object *)checkBaselineForNoMatch:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
++ (Sentegrity_TrustFactor_Output_Object *)checkBaselineForMatch:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
     
-    // Now we do the real  baseline analysis
     NSNumber *origHitCount;
     NSNumber *newHitCount;
-    NSMutableArray *assertionObjectsToWhitelist;
-    BOOL foundMatch;
+    NSMutableArray *candidateAssertionToWhitelist;
+    NSMutableArray *storedAssertionObjectsMatched;
+    BOOL currentCandidateMatch=NO;
 
-    // Trigger on NO MATCH in the baseline
-    // e.g., knownBadProcesses, shortUptime, newRootProcess, etc
-    
     // List of individual candidates that should be whitelisted in the TF if/when it goes into protect mode
-    assertionObjectsToWhitelist = [[NSMutableArray alloc]init];
+    candidateAssertionToWhitelist = [[NSMutableArray alloc]init];
     
-    // When candidate is in assertion objects
-    for(Sentegrity_Stored_Assertion *candidate in trustFactorOutputObject.assertionObjects) {
+    // List of all match assertion objects
+    storedAssertionObjectsMatched = [[NSMutableArray alloc]init];
+    
+    
+    
+    // Iterate through all candidates returned by TrustFactor, remember many rules return multiple candidates
+    for(Sentegrity_Stored_Assertion *candidate in trustFactorOutputObject.candidateAssertionObjects) {
         
         // Set foundMatch variable
-        foundMatch = NO;
+        currentCandidateMatch = NO;
         
-        // Iterate through all stored assertions for this TrustFactor looking for a match on the candidate
+        // Iterate through all stored assertions for this TrustFactor looking for a match to the current candidate
         for(Sentegrity_Stored_Assertion *stored in trustFactorOutputObject.storedTrustFactorObject.assertionObjects) {
             
             // Search for a match in the stored objetcs
             if([[candidate assertionHash] isEqualToString:[stored assertionHash]]) {
-                
-                // Change foundMatch variable
-                foundMatch = YES;
-                
-                // store assertion
-                trustFactorOutputObject.matchedAssertionObject = stored;
-                
-                // Set so that it can be used later
-                
-                //we DID find a match, RULE NOT YET TRIGGERED  (increment matching stored assertions hitcount & check threshold)
+
+                // increment matching stored assertions hitcount & check threshold
                 origHitCount = [stored hitCount];
                 newHitCount = [NSNumber numberWithInt:[origHitCount intValue]+1];
                 [stored setHitCount:newHitCount];
                 [stored setLastTime:[NSNumber numberWithInteger:[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch]]];
                 
-                // If this rules has frequency requirments then enforce them
-                if(trustFactorOutputObject.trustFactor.threshold.intValue != 0) {
-                    
-                    // Still strigger the rule if we have not meet the hitcount threshold, regardless of if its in the store or not (generally only user anomaly rules)
-                    
-                    // Don't apply thresholding if this is the default assertion and not a true candidate otherwise the rule can be falsely triggered until the default assertion meetings the threshold, only necessary for ruleType=1 (e.g., No Match rules)
-                    if(([[candidate assertionHash] isEqualToString:[[trustFactorOutputObject defaultAssertionObject] assertionHash ]]==NO) &&newHitCount < trustFactorOutputObject.trustFactor.threshold ) {
-                        
-                        // Only add as triggered if meet
-                        trustFactorOutputObject.triggered=YES;
-                    }
-                }
+                // Set matched
+                currentCandidateMatch = YES;
+                trustFactorOutputObject.matchFound = YES;
+                
+                // store assertion objects matched
+                [storedAssertionObjectsMatched addObject:stored];
+            
                 break;
             }
-        }
+        } // Completed iterating through all stored assertions for current candidate
         
-        // We DID NOT find a match for the candidate in the store = RULE TRIGGERED (a bad thing, since it should match the kDefaultTrustFactorOutput assertion at the very least)
-        if(foundMatch == NO) {
+        // We DID NOT find a match for the candidate
+        if(currentCandidateMatch == NO) {
             
-            // Trigger rule
-            trustFactorOutputObject.triggered=YES;
-            
-            // Update list, but we still need to look at all assertions before exiting loop
+            // Add candidate assertion to whitelist for TrustFactor object if its whitelistable
             if(trustFactorOutputObject.trustFactor.whitelistable.intValue == 1) {
                 
                 //Add non matching assertion to whitelist for TF
-                [assertionObjectsToWhitelist addObject:candidate];
-                trustFactorOutputObject.whitelist=YES;
+                [candidateAssertionToWhitelist addObject:candidate];
             }
         // End notfound/found if/else
         }
     // End next candidate assertion
     }
+
     
-    // Set the whitelist to the mutable array using during runtime
-    [trustFactorOutputObject setAssertionObjectsToWhitelist:assertionObjectsToWhitelist];
+    // Set the assertions objects not match to the mutable array using during runtime
+    [trustFactorOutputObject setCandidateAssertionObjectsForWhitelisting:candidateAssertionToWhitelist];
+    
+    // Set the assertions objects match to the mutable array using during runtime
+    [trustFactorOutputObject setStoradeAssertionObjectsMatched:storedAssertionObjectsMatched];
     
     // Return the object
-    return trustFactorOutputObject;
-}
-
-// Perform the actual basline analysis with a match
-+ (Sentegrity_TrustFactor_Output_Object *)checkBaselineForAMatch:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject withError:(NSError **)error {
-    
-    NSNumber *origHitCount;
-    NSNumber *newHitCount;
-    NSMutableArray *assertionObjectsToWhitelist;
-    BOOL foundMatch;
-    
-    // tTrigger on MATCH to ensure negative penalty is applied, these are authenticator type rules (currently only: knownBLEDevice, KnowWifiBSSID)
-    
-    // List of individual candidates that should be whitelisted in the TF if/when it goes into protect mode
-    assertionObjectsToWhitelist = [[NSMutableArray alloc]init];
-    
-    // Go through the candidates in assertion objects
-    for(Sentegrity_Stored_Assertion *candidate in trustFactorOutputObject.assertionObjects)
-    {
-        
-        // Set foundMatch variable
-        foundMatch = NO;
-        
-        // Iterate through all stored assertions for this TF looking for a match on the candidate
-        for(Sentegrity_Stored_Assertion *stored in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
-            
-            // Search for a match in the stored objetcs
-            if([[candidate assertionHash] isEqualToString:[stored assertionHash]]) {
-                
-                // Change foundMatch variable
-                foundMatch = YES;
-                
-                // store assertion
-                trustFactorOutputObject.matchedAssertionObject = stored;
-                
-                // We DID find a match, rule should trigger as its inverse (applies a negative value that boosts the score positively by negating penalties)
-                trustFactorOutputObject.triggered=YES;
-                
-                // Increment hitCount for matching stored assertion (used for decay)
-                origHitCount = [stored hitCount];
-                newHitCount = [NSNumber numberWithInt:[origHitCount intValue]+1];
-                [stored setHitCount:newHitCount];
-                [stored setLastTime:[NSNumber numberWithInteger:[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch]]];
-                
-                // If this rules has frequency requirments then enforce them
-                if(trustFactorOutputObject.trustFactor.threshold.intValue != 0) {
-                    
-                    // Don't trigger the rule if we have not meet the hitcount threshold, regardless of if its in the store or not (generally only user anomaly rules)
-                    if(newHitCount < trustFactorOutputObject.trustFactor.threshold) {
-                        
-                        // Only add as triggered if meet
-                        trustFactorOutputObject.triggered = NO;
-                    }
-                }
-                break;
-            }
-        }
-        
-        // We DID NOT find a match for the candidate in the store don't do anything but add to whitelist since this is inverse (applies a negative value that boosts the score positively by negating penalties)
-        if(foundMatch == NO) {
-            
-            // Perform if the TrustFactor candidate is able to be white listed
-            if(trustFactorOutputObject.trustFactor.whitelistable.intValue == 1){
-                
-                // Add the candidate to WhiteList
-                [assertionObjectsToWhitelist addObject:candidate];
-                trustFactorOutputObject.whitelist=YES;
-            }
-        }
-        
-    // End next candidate assertion
-    }
-    
-    // Set the whitelist to the mutable array using during runtime
-    [trustFactorOutputObject setAssertionObjectsToWhitelist:assertionObjectsToWhitelist];
-    
-    // Return object
     return trustFactorOutputObject;
 }
 
@@ -687,10 +542,10 @@
         daysSinceCreation = ((double)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created doubleValue]) / secondsInADay;
 
         // Check when last time it was created
-        if(daysSinceCreation < .3){
+        if(daysSinceCreation < 1){
             
             // Set creation date to 1 if less than 1
-       //     daysSinceCreation = 1;
+            daysSinceCreation = 1;
         }
         
         // Calculate our decay metric
@@ -707,6 +562,7 @@
     }
     
         // Sort what we're keeping by decay metric, this should help performance, highest at top (in theory, the most frequently used)
+        // Highest at top prevents from having to search long for a common match
         NSSortDescriptor *sortDescriptor;
         sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"decayMetric"
                                                      ascending:NO];
@@ -835,13 +691,13 @@
     if (!storedAssertions || storedAssertions == nil || storedAssertions.count < 1) {
         
         // Empty assertions, must be the first run, set it to the candidates
-        [trustFactorOutputObject.storedTrustFactorObject setAssertionObjects:[trustFactorOutputObject assertionObjects]];
+        [trustFactorOutputObject.storedTrustFactorObject setAssertionObjects:[trustFactorOutputObject candidateAssertionObjects]];
     
     // Does contain assertions, must walk through and find anything new to add
     } else {
         
         // Go through each candidate in assertion objects
-        for(Sentegrity_Stored_Assertion *candidate in trustFactorOutputObject.assertionObjects) {
+        for(Sentegrity_Stored_Assertion *candidate in trustFactorOutputObject.candidateAssertionObjects) {
             
             // Set foundMatch variable
             foundMatch = NO;

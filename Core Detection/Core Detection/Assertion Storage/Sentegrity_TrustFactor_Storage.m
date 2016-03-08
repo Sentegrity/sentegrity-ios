@@ -42,50 +42,9 @@
     return self;
 }
 
-// Get the global store
-- (Sentegrity_Assertion_Store *)getGlobalStore:(BOOL *)exists withError:(NSError **)error {
-    return [self getStoreWithAppID:kDefaultGlobalStoreName doesExist:exists withError:error];
-}
-
-// Set the global store
-- (Sentegrity_Assertion_Store *)setGlobalStore:(Sentegrity_Assertion_Store *)store withError:(NSError **)error {
-    return [self setStore:store forAppID:kDefaultGlobalStoreName withError:error];
-}
-
 
 // Get the local store
-- (Sentegrity_Assertion_Store *)getLocalStore:(BOOL *)exists withAppID:(NSString *)appID withError:(NSError **)error {
-    return [self getStoreWithAppID:appID doesExist:exists withError:error];
-}
-
-// Set the local store
-- (Sentegrity_Assertion_Store *)setLocalStore:(Sentegrity_Assertion_Store *)store withAppID:(NSString *)appID withError:(NSError **)error {
-    return [self setStore:store forAppID:appID withError:error];
-}
-
-// Get a store by app ID
-- (Sentegrity_Assertion_Store *)getStoreWithAppID:(NSString *)appID doesExist:(BOOL *)exists withError:(NSError **)error {
-    
-    // Check the app ID first
-    if (!appID || appID.length < 1) {
-        
-        // No app ID provided
-        NSDictionary *errorDetails = @{
-                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Receive appID.", nil),
-                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No appID provided.", nil),
-                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try providing an appID.", nil)
-                                       };
-        
-        // Set the error
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAppIDProvided userInfo:errorDetails];
-        
-        // Log Error
-        NSLog(@"Failed to Receive appID: %@", errorDetails);
-        
-        // Return nil
-        return nil;
-    }
-    
+- (Sentegrity_Assertion_Store *)getAssertionStore:(BOOL *)exists withAppID:(NSString *)appID withError:(NSError **)error {
     // Start by creating the parser
     Sentegrity_Parser *parser = [[Sentegrity_Parser alloc] init];
     
@@ -109,46 +68,17 @@
             // Return Store
             return store;
         }
-
+        
     }
     
     // Return nothing
     *exists = NO;
     return nil;
+
 }
 
-// Set a local store by app id
-- (Sentegrity_Assertion_Store *)setStore:(Sentegrity_Assertion_Store *)store forAppID:(NSString *)appID withError:(NSError **)error {
-    
-    // Check the app id first
-    if (!appID || appID.length < 1) {
-        
-        // No app ID provided
-        NSDictionary *errorDetails = @{
-                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Receive appID.", nil),
-                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No appID provided.", nil),
-                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try providing an appID.", nil)
-                                       };
-        
-        // Set the error
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SANoAppIDProvided userInfo:errorDetails];
-        
-        // Log Error
-        NSLog(@"Failed to Receive appID: %@", errorDetails);
-    
-        // Return nil
-        return nil;
-    }
-    
-    // Check if the store contains a valid id
-    if (!store.appID || store.appID.length < 1) {
-        
-        // Set the app id to the store
-        [store setAppID:appID];
-    }
-    
-    // Save to disk
-    // BETA2: Nick's Addtion = Store is now assumed to be JSON and will be written as such
+// Set the local store
+- (Sentegrity_Assertion_Store *)setAssertionStore:(Sentegrity_Assertion_Store *)store withAppID:(NSString *)appID withError:(NSError **)error {
     NSData *data = [store JSONData];
     
     // Create store name & path
@@ -182,6 +112,7 @@
     // Return the new or existing store
     return store;
 }
+
 
 
 

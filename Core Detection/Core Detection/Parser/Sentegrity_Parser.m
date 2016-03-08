@@ -98,9 +98,9 @@
         for (NSDictionary *classifiers in classifications) {
             Sentegrity_Classification *classer = [[Sentegrity_Classification alloc] init];
             [classer setIdentification:[classifiers objectForKey:kIdentification]];
-            [classer setUser:[classifiers objectForKey:kUser]];
+            [classer setType:[classifiers objectForKey:kType]];
+            [classer setComputationMethod:[classifiers objectForKey:kComputationMethod]];
             [classer setName:[classifiers objectForKey:kName]];
-            [classer setWeight:[classifiers objectForKey:kWeight]];
             [classer setDesc:[classifiers objectForKey:kDesc]];
             [classer setProtectModeAction:[classifiers objectForKey:kProtectModeAction]];
             [classer setProtectModeMessage: [classifiers objectForKey:kProtectModeMessage]];
@@ -151,19 +151,20 @@
         for(NSDictionary *trustFactorClassifier in trustFactors){
             Sentegrity_TrustFactor *trustFactorClasser = [[Sentegrity_TrustFactor alloc] init];
             [trustFactorClasser setIdentification:[trustFactorClassifier objectForKey:kTFIdentification]];
-            [trustFactorClasser setIssueMessage:[trustFactorClassifier objectForKey:kTFIssueMessage]];
-            [trustFactorClasser setSuggestionMessage:[trustFactorClassifier objectForKey:kTFSuggestionMessage]];
+            [trustFactorClasser setNotFoundIssueMessage:[trustFactorClassifier objectForKey:kTFNotFoundIssueMessage]];
+            [trustFactorClasser setNotFoundSuggestionMessage:[trustFactorClassifier objectForKey:kTFNotFoundSuggestionMessage]];
+            [trustFactorClasser setLowConfidenceIssueMessage:[trustFactorClassifier objectForKey:kTFLowConfidenceIssueMessage]];
+            [trustFactorClasser setLowConfidenceSuggestionMessage:[trustFactorClassifier objectForKey:kTFLowConfidenceSuggestionMessage]];
             [trustFactorClasser setClassID:[trustFactorClassifier objectForKey:kTFClassID]];
             [trustFactorClasser setSubClassID:[trustFactorClassifier objectForKey:kTFSubclassID]];
             [trustFactorClasser setName:[trustFactorClassifier objectForKey:kTFName]];
-            [trustFactorClasser setPenalty:[trustFactorClassifier objectForKey:kTFPenalty]];
+            [trustFactorClasser setWeight:[trustFactorClassifier objectForKey:kTFWeight]];
             [trustFactorClasser setDnePenalty:[trustFactorClassifier objectForKey:kTFDNEPenalty]];
-            [trustFactorClasser setRuleType:[trustFactorClassifier objectForKey:kTFRuleType]];
+            [trustFactorClasser setPartialWeight:[trustFactorClassifier objectForKey:kTFPartialWeight]];
             [trustFactorClasser setLearnMode:[trustFactorClassifier objectForKey:kTFLearnMode]];
             [trustFactorClasser setLearnTime:[trustFactorClassifier objectForKey:kTFLearnTime]];
             [trustFactorClasser setLearnAssertionCount:[trustFactorClassifier objectForKey:kTFLearnAssertionCount]];
             [trustFactorClasser setLearnRunCount:[trustFactorClassifier objectForKey:kTFLearnRunCount]];
-            [trustFactorClasser setThreshold:[trustFactorClassifier objectForKey:kTFThreshold]];
             [trustFactorClasser setDecayMode:[trustFactorClassifier objectForKey:kTFDecayMode]];
             [trustFactorClasser setDecayMetric:[trustFactorClassifier objectForKey:kTFDecayMetric]];
             [trustFactorClasser setDispatch:[trustFactorClassifier objectForKey:kTFDispatch]];
@@ -214,7 +215,7 @@
     //        NSLog(@"TrustFactors SubclassID: %@", classObject.subClassID);
     //        NSLog(@"TrustFactors Priority: %@", classObject.priority);
     //        NSLog(@"TrustFactors Name: %@", classObject.name);
-    //        NSLog(@"TrustFactors Penalty: %@", classObject.penalty);
+    //        NSLog(@"TrustFactors Weight: %@", classObject.weight);
     //        NSLog(@"TrustFactors DNEPenalty: %@", classObject.dnePenalty);
     //        NSLog(@"TrustFactors LearnMode: %@", classObject.learnMode);
     //        NSLog(@"TrustFactors LearnTime: %@", classObject.learnTime);

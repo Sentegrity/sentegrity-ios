@@ -20,7 +20,7 @@
 
 @synthesize systemScore = _systemScore, userScore = _userScore, deviceScore = _deviceScore;
 
-/* calulate partial penalty with formula:
+/* calulate partial weight with formula:
  penaltyPercent (X) = (maxDecayMeter - X) / (maxDecayMeter - decayMeterThreshold)
  
  where:
@@ -30,12 +30,32 @@
  - X - decayMeter of the chosen assertion
  */
 
-+ (double) penaltyPercentForTrustFactorOutputObject: (Sentegrity_TrustFactor_Output_Object *) trustFactorOutputObject  {
-    Sentegrity_Stored_Assertion *highestAssertion = trustFactorOutputObject.storedTrustFactorObject.assertionObjects.firstObject;
++ (double) weightPercentForTrustFactorOutputObject: (Sentegrity_TrustFactor_Output_Object *) trustFactorOutputObject  {
+    // Partial penalities work well for TrustFactors that are likely to exhaust all possiblities, this allows us
+    // to apply a relative weight based on the other stored assertions. For TrustFactors that will never exhaust
+    // such as Bluetooth or WiFi this is not necessary. The risk when applied to TrustFactors that don't exhaust
+    // is such that if one particular WiFi AP or Bluetooth device is used heavily the others diminish in value
+    // for example, only applying 4% of their value even though this is a paired device that we automatically trust
     
-    double percent = (highestAssertion.decayMetric - trustFactorOutputObject.matchedAssertionObject.decayMetric) / (highestAssertion.decayMetric - trustFactorOutputObject.trustFactor.decayMetric.doubleValue);
+    Sentegrity_Stored_Assertion *highestStoredAssertion = trustFactorOutputObject.storedTrustFactorObject.assertionObjects.firstObject;
     
-    return percent * 0.25;
+    // If there is more than one matched assertion, average the decay metrics
+    
+    double currentAssertionDecayMetricTotal = 0;
+    double currentAssertionDecayMetricAverage = 0;
+    double highestStoredAssertionDecayMetric = highestStoredAssertion.decayMetric;
+    double trustFactorPolicyDecayMetric = trustFactorOutputObject.trustFactor.decayMetric.doubleValue;
+    
+    for(Sentegrity_Stored_Assertion *matchedStoredAssertion in trustFactorOutputObject.storadeAssertionObjectsMatched) {
+        currentAssertionDecayMetricTotal = currentAssertionDecayMetricTotal + matchedStoredAssertion.decayMetric;
+    }
+    
+    currentAssertionDecayMetricAverage = currentAssertionDecayMetricTotal / trustFactorOutputObject.storadeAssertionObjectsMatched.count;
+    
+    //abs just in case highest stored is ever less than current
+    double percent = fabs(1-((highestStoredAssertionDecayMetric - currentAssertionDecayMetricAverage) / (highestStoredAssertionDecayMetric - trustFactorPolicyDecayMetric)));
+    
+    return percent;
 
 }
 
@@ -125,7 +145,7 @@
     
     // DEBUG
     NSMutableArray *trustFactorsNotLearnedInClass;
-    NSMutableArray *trustFactorsTriggeredInClass;
+    NSMutableArray *trustFactorsAttributingToScoreInClass;
     NSMutableArray *trustFactorsWithErrorsInClass;
     
     // Per-Class TrustFactor sorting
@@ -133,7 +153,6 @@
     NSMutableArray *subClassesInClass;
     NSMutableArray *trustFactorsToWhitelistInClass;
     NSMutableArray *trustFactorsForTransparentAuthInClass;
-    bool isUserClass;
     
     // Per-Subclass TrustFactor sorting
     NSMutableArray *trustFactorsInSubClass;
@@ -142,7 +161,6 @@
     NSMutableArray *statusInClass;
     NSMutableArray *issuesInClass;
     NSMutableArray *suggestionsInClass;
-    NSMutableArray *authenticatorsInClass; // for user classes only
     
     // Determining errors
     NSMutableArray *subClassDNECodes;
@@ -150,13 +168,6 @@
     // For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
         
-        // Set user class to default
-        
-        if(class.user.intValue == 1){
-            isUserClass=YES;
-        }else{
-            isUserClass = NO;
-        }
         
         // Per-Class TrustFactor sorting
         trustFactorsInClass = [NSMutableArray array];
@@ -166,14 +177,13 @@
         
         // DEBUG
         trustFactorsNotLearnedInClass = [NSMutableArray array];
-        trustFactorsTriggeredInClass = [NSMutableArray array];
+        trustFactorsAttributingToScoreInClass = [NSMutableArray array];
         trustFactorsWithErrorsInClass = [NSMutableArray array];
         
         //GUI
         statusInClass = [NSMutableArray array];
         issuesInClass = [NSMutableArray array];
         suggestionsInClass = [NSMutableArray array];
-        authenticatorsInClass = [NSMutableArray array];
         
         // Run through all the subclassifications that are in the policy
         for (Sentegrity_Subclassification *subClass in policy.subclassifications) {
@@ -181,7 +191,7 @@
             // Per-Subclass TrustFactor sorting
             trustFactorsInSubClass = [NSMutableArray array];
             
-            BOOL subClassContainsTrustFactors=NO;
+            BOOL subClassContainsTrustFactor=NO;
             
             // Determines if any error existed in any TF within the subclass
             BOOL subClassAnalysisIncomplete=NO;
@@ -196,176 +206,209 @@
                 if (([trustFactorOutputObject.trustFactor.classID intValue] == [[class identification] intValue]) && ([trustFactorOutputObject.trustFactor.subClassID intValue] == [[subClass identification] intValue])) {
                     
                     //Check for hit
-                    subClassContainsTrustFactors=YES;
+                    subClassContainsTrustFactor=YES;
                     
-                    // Check if the TF was executed successfully
-                    if (trustFactorOutputObject.statusCode == DNEStatus_ok) {
+                    // Ignores TFs that have no output,not learned, etc determined during baseline analysis
+                    if(trustFactorOutputObject.forComputation==YES){
                         
-                        // Add TF to whitelist array if baseline analysis determined this is whitelistable
-                        if(trustFactorOutputObject.whitelist==YES){
-                            [trustFactorsToWhitelistInClass addObject:trustFactorOutputObject];
-                        }
-                        
-                        // Do not count TF if its not learned yet
-                        if(trustFactorOutputObject.storedTrustFactorObject.learned==NO){
+                        // Check if the TF was executed successfully
+                        if (trustFactorOutputObject.statusCode == DNEStatus_ok) {
                             
-                            //FOR DEBUG OUTPUT
-                            [trustFactorsNotLearnedInClass addObject:trustFactorOutputObject];
-                            
-                            //go to next TF
-                            continue;
-                        }
-                        
-                        // IF RULE TRIGGERED
-                        if(trustFactorOutputObject.triggered==YES){
-                            
-                            //FOR DEBUG OUTPUT
-                            [trustFactorsTriggeredInClass addObject:trustFactorOutputObject];
-                            
-                            // Apply TF's penalty to subclass base penalty score
-                            subClass.basePenalty = (subClass.basePenalty + trustFactorOutputObject.trustFactor.penalty.integerValue);
-                            
-                            // IF the TF triggers on no match (not type 4), update issues and suggestion messages  (triggering a non type 4 rule is bad)
-                            if(trustFactorOutputObject.trustFactor.ruleType.intValue != 4){
+                            // Do not count TF if its not learned yet
+                            if(trustFactorOutputObject.storedTrustFactorObject.learned==NO){
                                 
+                                // We still want to add assertions to the store while its in learning mode
+                                [trustFactorsToWhitelistInClass addObject:trustFactorOutputObject];
+                                
+                                //FOR DEBUG OUTPUT
+                                [trustFactorsNotLearnedInClass addObject:trustFactorOutputObject];
+                                
+                                //go to next TF
+                                continue;
+                            }
+                            
+                            if(trustFactorOutputObject.matchFound==YES){
+                                
+                                // If the computation method is 1 (additive score) (e.g., User anomaly)
+                                if([[class computationMethod] intValue]==1){
+                                    
+                                    //Add TF to transparent auth list
+                                    [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
+                                    
+                                    //Add  TF to attributing list
+                                    [trustFactorsAttributingToScoreInClass addObject:trustFactorOutputObject];
+                                    
+                                    NSInteger partialWeight;
+                                    
+                                    // Determine if the TF should apply partial weight or full weight
+                                    if([trustFactorOutputObject.trustFactor.partialWeight intValue]==1){
+                                        
+                                        // apply partial weight of TF
+                                        double percent = [self weightPercentForTrustFactorOutputObject:trustFactorOutputObject];
+                                        NSInteger partialWeight = (NSInteger)(percent * trustFactorOutputObject.trustFactor.weight.integerValue);
+                                        subClass.baseWeight = (subClass.baseWeight + partialWeight);
+                                        
+                                        // Stored for debug purposes
+                                        trustFactorOutputObject.appliedWeight = partialWeight;
+                                        trustFactorOutputObject.percentAppliedWeight = percent;
+                                        
+                                        // apply issues and suggestions even though there was a match if the partial weight is very low comparatively such tht the user knows how to improve score
+                                        
+                                        if(partialWeight < (trustFactorOutputObject.trustFactor.weight.integerValue * 0.25)){
+                                            
+                                            // Add issues and suggestions for all TrustFactors since no match is always a bad thing
+                                            // Check if the TF contains a custom issue message
+                                            if(trustFactorOutputObject.trustFactor.lowConfidenceIssueMessage.length != 0)
+                                            {
+                                                // Check if we already have the issue in the our list
+                                                if(![issuesInClass containsObject:trustFactorOutputObject.trustFactor.lowConfidenceIssueMessage]){
+                                                    
+                                                    // Add it
+                                                    [issuesInClass addObject:trustFactorOutputObject.trustFactor.lowConfidenceIssueMessage];
+                                                }
+                                            }
+                                            
+                                            // Check if the TF contains a custom suggestion message
+                                            if(trustFactorOutputObject.trustFactor.lowConfidenceSuggestionMessage.length != 0)
+                                            {
+                                                // Check if the we already have the issue in our list
+                                                if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.lowConfidenceSuggestionMessage]){
+                                                    
+                                                    // Add it
+                                                    [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.lowConfidenceSuggestionMessage];
+                                                }
+                                            }
+                                        }
+                                        
+                                    }else{
+                                        
+                                        // apply full weight of TF
+                                        subClass.baseWeight = (subClass.baseWeight + trustFactorOutputObject.trustFactor.weight.integerValue);
+                                        
+                                        // Stored for debug purposes
+                                        trustFactorOutputObject.appliedWeight = trustFactorOutputObject.trustFactor.weight.integerValue;
+                                        trustFactorOutputObject.percentAppliedWeight = 1;
+                                    }
+                                }else{
+                                    
+                                    // Computation method of 0 (subtractive score) does nothing when a match is found
+                                }
+                                
+                                
+                                
+                                
+                                
+                            }
+                            else{ // No Match found
+                                
+                                // If no match found, regardless of TF type - they are added to whitelist
+                                [trustFactorsToWhitelistInClass addObject:trustFactorOutputObject];
+                                
+                                // If the computation method is 0 (subtractive scoring) (e.g., System classifications and User Policy)
+                                if([[class computationMethod] intValue]==0){
+                                    
+                                    // Add to triggered list
+                                    [trustFactorsAttributingToScoreInClass addObject:trustFactorOutputObject];
+                                    
+                                    // Determine if the TF should apply partial weight or full weight
+                                    if([trustFactorOutputObject.trustFactor.partialWeight intValue]==1){
+                                        
+                                        // apply partial weight of TF
+                                        double percent = [self weightPercentForTrustFactorOutputObject:trustFactorOutputObject];
+                                        NSInteger partialWeight = (NSInteger)(percent * trustFactorOutputObject.trustFactor.weight.integerValue);
+                                        subClass.baseWeight = (subClass.baseWeight + partialWeight);
+                                        
+                                        // Stored for debug purposes
+                                        trustFactorOutputObject.appliedWeight = partialWeight;
+                                        trustFactorOutputObject.percentAppliedWeight = percent;
+
+                                        
+                                        
+                                    }else{
+                                        
+                                        // apply full weight of TF
+                                        subClass.baseWeight = (subClass.baseWeight + trustFactorOutputObject.trustFactor.weight.integerValue);
+                                        
+                                        // Stored for debug purposes
+                                        trustFactorOutputObject.appliedWeight = trustFactorOutputObject.trustFactor.weight.integerValue;
+                                        trustFactorOutputObject.percentAppliedWeight = 1;
+                                    }
+                                }
+                                else{
+                                    // Computation method of 1 (additive scoring) does nothing when there is no match found
+                                }
+                                
+                                // Add issues and suggestions for all TrustFactors since no match is always a bad thing
                                 // Check if the TF contains a custom issue message
-                                if(trustFactorOutputObject.trustFactor.issueMessage.length != 0)
+                                if(trustFactorOutputObject.trustFactor.notFoundIssueMessage.length != 0)
                                 {
                                     // Check if we already have the issue in the our list
-                                    if(![issuesInClass containsObject:trustFactorOutputObject.trustFactor.issueMessage]){
+                                    if(![issuesInClass containsObject:trustFactorOutputObject.trustFactor.notFoundIssueMessage]){
                                         
                                         // Add it
-                                        [issuesInClass addObject:trustFactorOutputObject.trustFactor.issueMessage];
+                                        [issuesInClass addObject:trustFactorOutputObject.trustFactor.notFoundIssueMessage];
                                     }
                                 }
                                 
                                 // Check if the TF contains a custom suggestion message
-                                if(trustFactorOutputObject.trustFactor.suggestionMessage.length != 0)
+                                if(trustFactorOutputObject.trustFactor.notFoundSuggestionMessage.length != 0)
                                 {
                                     // Check if the we already have the issue in our list
-                                    if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.suggestionMessage]){
+                                    if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.notFoundSuggestionMessage]){
                                         
                                         // Add it
-                                        [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.suggestionMessage];
+                                        [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.notFoundSuggestionMessage];
                                     }
                                 }
-                            } else {
-                                // Rule triggered is of Type4 (inverse), such as WiFI BSSID or Bluetooth, this is good
                                 
-                                // if the classification is a User class
-                                if(isUserClass==YES){
-                                    // Add to transparent auth list
-                                    [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
-                                    
-                                }
                                 
-                                // Generate authentictor name based on dispatch (could add a policy attribute if we wanted more custom)
-                                NSString *name = [trustFactorOutputObject.trustFactor.dispatch stringByAppendingString:@" authenticator found"];
-                                
-                                // Check if the we already have the authenticator in our list
-                                
-                                if (![authenticatorsInClass containsObject:name]) {
-                                    
-                                    // Make sure the array is not nil!
-                                    if (!authenticatorsInClass || authenticatorsInClass.count < 1) {
-                                        
-                                        // Add it to the array and instantiate the array
-                                        authenticatorsInClass = [NSMutableArray arrayWithObject:name];
-                                        
-                                    } else {
-                                        
-                                        // Add it to the array
-                                        [authenticatorsInClass addObject:name];
-                                    }
-                                    
-                                }
-                                
-                            }
+                            } // End No Match found
                             
-                            // Rule did not trigger
+                            
+                            // TrustFactor did not run successfully -> Did Not Execute
                         } else {
                             
-                            // Check if TF is inverse (not triggering a type 4 rule should not boost score, i.e., don't do anything score wise)
-                            if(trustFactorOutputObject.trustFactor.ruleType.intValue == 4){
+                            // FOR DEBUG OUTPUT
+                            [trustFactorsWithErrorsInClass addObject:trustFactorOutputObject];
+                            
+                            // Record all DNE status codes within the subclass
+                            [subClassDNECodes addObject:[NSNumber numberWithInt:trustFactorOutputObject.statusCode]];
+                            
+                            // Mark subclass as incomplete since not all TFs ran
+                            subClassAnalysisIncomplete=YES;
+                            
+                            // If a user TrustFactor than only add suggestions, no weight is applied (since that would boost the score)
+                            if ([[class computationMethod] intValue]==1){
                                 
-                                // Check if the inverse TF contains a custom issue message (this is rare, don't think any inverse rules have one)
-                                if(trustFactorOutputObject.trustFactor.issueMessage.length != 0)
-                                {
-                                    // Check if we already have the issue in our list
-                                    if(![issuesInClass containsObject:trustFactorOutputObject.trustFactor.issueMessage]){
-                                        
-                                        // Add it
-                                        [issuesInClass addObject:trustFactorOutputObject.trustFactor.issueMessage];
-                                    }
-                                }
+                                [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
                                 
-                                // Check if the inverse TF contains a suggestion message (this is common as it gives the user ways to boost score)
-                                if(trustFactorOutputObject.trustFactor.suggestionMessage.length != 0) {
-                                    
-                                    // Check if we already have the suggestion in our list
-                                    if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.suggestionMessage]){
-                                        
-                                        // Add it
-                                        [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.suggestionMessage];
-                                    }
-                                }
                             }
-                            else{ // If a non type 4 rule did not trigger
+                            // Record messages AND apply modified DNE penalty (SYSTEM classes only)
+                            else if([[class computationMethod] intValue]==0)
+                            {
+                            
+                                // Do not penalize for WiFi rules that did not run within system-based classifications
+                                // This is because WiFi is considered dangerous from a system perspective and should not penalize
+                                if ([[class type] intValue]!=0 && ![subClass.name isEqualToString:@"WiFi"]) {
                                 
+                                    [self addSuggestionsAndCalcWeightForClass:class withSubClass:subClass withPolicy:policy withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
+                                }
 
-                                // If the classification is a User class
-                                if(isUserClass==YES){
-                                    
-                                    // Apply partially TF's penalty to subclass base penalty score
-                                    NSInteger partialPenalty = (NSInteger)([self penaltyPercentForTrustFactorOutputObject:trustFactorOutputObject] * trustFactorOutputObject.trustFactor.penalty.integerValue);
-                                    subClass.basePenalty = (subClass.basePenalty + partialPenalty);
-                                    
-                                    
-                                    // Add to transparent auth list
-                                    [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
-                                    
-                                }
                                 
                             }
                         }
+
                         
-                        // TrustFactor did not run successfully -> Did Not Execute
-                    } else {
+                        // Add TrustFactor to classification
+                        [trustFactorsInClass addObject:trustFactorOutputObject.trustFactor];
                         
-                        // FOR DEBUG OUTPUT
-                        [trustFactorsWithErrorsInClass addObject:trustFactorOutputObject];
+                        // Add TrustFactor to subclass
+                        [trustFactorsInSubClass addObject:trustFactorOutputObject.trustFactor];
                         
-                        // Record all DNE status codes within the subclass
-                        [subClassDNECodes addObject:[NSNumber numberWithInt:trustFactorOutputObject.statusCode]];
-                        
-                        // Mark subclass as incomplete since not all TFs ran
-                        subClassAnalysisIncomplete=YES;
-                        
-                        // If TrustFactor is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
-                        // If TrustFactor is inverse then only add suggestions (e.g., we don't penalize for a faulty rule that boosts your score)
-                        if (trustFactorOutputObject.trustFactor.ruleType.intValue==4){
-                            
-                            [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
-                            
-                            // Do not penalize for WiFi rules that did not run within system-based classifications
-                            // This is because WiFi is considered dangerous from a system perspective
-                        } else if ([class.user intValue]==0 && [subClass.name isEqualToString:@"WiFi"]) {
-                            
-                            // do nothing
-                        }
-                            // Not an inverse rule therefore record messages AND apply modified DNE penalty
-                        else
-                        {
-                            
-                            [self addSuggestionsAndCalcPenaltyForClass:class withSubClass:subClass withPolicy:policy withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
-                        }
                     }
+                    // End if ForComputation
                     
-                    // Add TrustFactor to classification
-                    [trustFactorsInClass addObject:trustFactorOutputObject.trustFactor];
-                    
-                    // Add TrustFactor to subclass
-                    [trustFactorsInSubClass addObject:trustFactorOutputObject.trustFactor];
+
                     
                 }
                 // End trustfactors loop
@@ -373,7 +416,7 @@
             
             // Create Analysis category list for output
             // If any trustFactors existed within this subClass
-            if(subClassContainsTrustFactors) {
+            if(subClassContainsTrustFactor) {
                 
                 // No errors, update analysis message with subclass complete
                 if(!subClassAnalysisIncomplete) {
@@ -425,10 +468,10 @@
                 }
                 
                 // Set the penalty weight for the subclass
-                subClass.weightedPenalty = (subClass.basePenalty * (1-(0.1 * subClass.weight.integerValue)) );
+                subClass.totalWeight = (subClass.baseWeight * (1-(0.1 * subClass.weight.integerValue)) );
                 
-                // Add the subclass weightedPenalty to the classification basePenalty
-                class.basePenalty = (class.basePenalty + subClass.weightedPenalty);
+                // Add the subclass total weight to the classification's base weight
+                class.score = class.score + subClass.totalWeight;
                 
                 // Add trustFactors to the list of trusfactors in a subclass
                 [subClass setTrustFactors:trustFactorsInSubClass];
@@ -452,18 +495,14 @@
         // Add the trustfactor for transparent auth to the classification
         [class setTrustFactorsForTransparentAuthentication:trustFactorsForTransparentAuthInClass];
         
-        // Set the penalty weight for the classification
-        class.weightedPenalty = (class.basePenalty * (1-(0.1 * class.weight.integerValue)) );
-        
         // Set GUI elements
         [class setStatus: statusInClass];
         [class setIssues: issuesInClass];
         [class setSuggestions: suggestionsInClass];
-        [class setAuthenticators:authenticatorsInClass];
         
         // Set debug elements
         [class setTrustFactorsNotLearned:trustFactorsNotLearnedInClass];
-        [class setTrustFactorsTriggered:trustFactorsTriggeredInClass];
+        [class setTrustFactorsTriggered:trustFactorsAttributingToScoreInClass];
         [class setTrustFactorsWithErrors:trustFactorsWithErrorsInClass];
         
         
@@ -495,14 +534,14 @@
     NSMutableSet *userSubClassStatuses = [[NSMutableSet alloc] init];
     
     // TrustFactor Sorting - System
-    NSMutableArray *systemTrustFactorsTriggered = [[NSMutableArray alloc] init];
+    NSMutableArray *systemTrustFactorsAttributingToScore = [[NSMutableArray alloc] init];
     NSMutableArray *systemTrustFactorsNotLearned = [[NSMutableArray alloc] init];
     NSMutableArray *systemTrustFactorsWithErrors = [[NSMutableArray alloc] init];
     NSMutableArray *systemAllTrustFactorOutputObjects = [[NSMutableArray alloc] init];
     NSMutableArray *systemTrustFactorsToWhitelist = [[NSMutableArray alloc] init];
     
     // TrustFactor Sorting - User
-    NSMutableArray *userTrustFactorsTriggered = [[NSMutableArray alloc] init];
+    NSMutableArray *userTrustFactorsAttributingToScore = [[NSMutableArray alloc] init];
     NSMutableArray *userTrustFactorsNotLearned = [[NSMutableArray alloc] init];
     NSMutableArray *userTrustFactorsWithErrors = [[NSMutableArray alloc] init];
     NSMutableArray *userAllTrustFactorOutputObjects = [[NSMutableArray alloc] init];
@@ -518,9 +557,9 @@
     Sentegrity_Classification *userAnomalyClass;
     Sentegrity_Classification *userPolicyClass;
     
-    int systemPenaltySum = 0;
+    int systemTrustScoreSum = 0;
     
-    int userPenaltySum = 0;
+    int userTrustScoreSum = 0;
     
     BOOL systemPolicyViolation=NO;
     BOOL userPolicyViolation=NO;
@@ -529,14 +568,23 @@
     for (Sentegrity_Classification *class in self.policy.classifications) {
         
         // If its a system class
-        if ([[class user] intValue] == 0) {
+        if ([[class type] intValue] == 0) {
             
             // Calculate total penalty for System classifications
-            systemPenaltySum = systemPenaltySum + (int)[class weightedPenalty];
+            systemTrustScoreSum = systemTrustScoreSum + (int)[class score];
             
-            int currentScore = MIN(100,MAX(0,100-(int)[class weightedPenalty]));
+            int currentScore=0;
+            // This method starts at 100 and goes down to 0
+            if([[class computationMethod] intValue] == 0){
+             currentScore = MIN(100,MAX(0,100-(int)[class score]));
+            }
+            // This method starts at 0 and goes to 100
+            else if([[class computationMethod] intValue] == 1){
+             currentScore = MIN(100,(int)[class score]);
+            }
+
             
-            // Calculate individual class penalties (no longer used)
+            // Calculate individual class penalties
             switch ([[class identification] intValue]) {
                     
                 case 1:
@@ -568,7 +616,7 @@
             [systemSubClassStatuses addObjectsFromArray:[class status]];
             
             // Tally system debug data
-            [systemTrustFactorsTriggered addObjectsFromArray:[class trustFactorsTriggered]];
+            [systemTrustFactorsAttributingToScore addObjectsFromArray:[class trustFactorsTriggered]];
             [systemTrustFactorsNotLearned addObjectsFromArray:[class trustFactorsNotLearned]];
             [systemTrustFactorsWithErrors addObjectsFromArray:[class trustFactorsWithErrors]];
             [systemAllTrustFactorOutputObjects addObjectsFromArray:[class trustFactors]];
@@ -579,14 +627,23 @@
             // When it's a user class
         } else {
             
-            // Calculate total penalty for User classifications
-            userPenaltySum = userPenaltySum + (int)[class weightedPenalty];
+            // Calculate total weight for User classifications
+            userTrustScoreSum = userTrustScoreSum + (int)[class score];
             
-            int currentScore = MIN(100,MAX(0,100-(int)[class weightedPenalty]));
+            int currentScore=0;
+            // This method starts at 100 and goes down to 0
+            if([[class computationMethod] intValue] == 0){
+                currentScore = MIN(100,MAX(0,100-(int)[class score]));
+            }
+            // This method starts at 0 and goes to 100
+            else if([[class computationMethod] intValue] == 1){
+                currentScore = MIN(100,(int)[class score]);
+            }
             
             switch ([[class identification] intValue]) {
                     
                 case 4:
+                   
                     userPolicyClass = class;
                     self.userPolicyScore = currentScore;
                     
@@ -595,6 +652,7 @@
                         userPolicyViolation=YES;
                     }
                     break;
+                    
                     
                 case 5:
                     userAnomalyClass = class;
@@ -611,7 +669,7 @@
             [userAuthenticators addObjectsFromArray:[class authenticators]];
             
             // Tally user debug data
-            [userTrustFactorsTriggered addObjectsFromArray:[class trustFactorsTriggered]];
+            [userTrustFactorsAttributingToScore addObjectsFromArray:[class trustFactorsTriggered]];
             [userTrustFactorsNotLearned addObjectsFromArray:[class trustFactorsNotLearned]];
             [userTrustFactorsWithErrors addObjectsFromArray:[class trustFactorsWithErrors]];
             [userAllTrustFactorOutputObjects addObjectsFromArray:[class trustFactors]];
@@ -647,8 +705,8 @@
     self.systemAllTrustFactorOutputObjects = systemAllTrustFactorOutputObjects;
     
     // DEBUG: Set triggered for system/user domains
-    self.userTrustFactorsTriggered = userTrustFactorsTriggered;
-    self.systemTrustFactorsTriggered = systemTrustFactorsTriggered;
+    self.userTrustFactorsAttributingToScore = userTrustFactorsAttributingToScore;
+    self.systemTrustFactorsAttributingToScore = systemTrustFactorsAttributingToScore;
     
     // DEBUG: Set not learned for system/user domains
     self.userTrustFactorsNotLearned = userTrustFactorsNotLearned;
@@ -667,7 +725,7 @@
         
     } else {
         
-        self.systemScore = MIN(100,MAX(0,100 - systemPenaltySum));
+        self.systemScore = MIN(100,MAX(0,100 - systemTrustScoreSum));
     }
     
     if (userPolicyViolation == YES) {
@@ -676,7 +734,7 @@
         
     } else {
         
-        self.userScore = MIN(100,MAX(0,100 - userPenaltySum));
+        self.userScore = MIN(100,userTrustScoreSum);
     }
     
     self.deviceScore = (self.systemScore + self.userScore)/2;
@@ -703,7 +761,8 @@
         self.attemptTransparentAuthentication = NO;
     }
     
-    // Analyze system first as it has priority
+    // Determine whitelisting and protect mode actions
+    // First determine protect mode action
     
     // Check if the system is trusted
     if (!self.systemTrusted) {
@@ -713,6 +772,7 @@
         
         if (self.systemBreachScore <= self.systemSecurityScore) // SYSTEM_BREACH is attributing
         {
+            
             self.protectModeClassID = [systemBreachClass.identification integerValue] ;
             self.protectModeAction = [systemBreachClass.protectModeAction integerValue];
             self.protectModeMessage = systemBreachClass.protectModeMessage;
@@ -758,7 +818,7 @@
         // USER_POLICY is attributing
         if (self.userPolicyScore <= self.userAnomalyScore) {
             
-            // Check if the system is trusted
+            // Check if the system is trusted such that we add the system whitelist
             if (self.systemTrusted) {
                 
                 // System is trusted
@@ -848,9 +908,10 @@
         self.userGUIIconText = @"User Trusted";
     }
     
-    // Return self
     return self;
 }
+
+
 
 + (void)addSuggestionsForClass:(Sentegrity_Classification *)class withSubClass:(Sentegrity_Subclassification *)subClass withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
     
@@ -918,7 +979,7 @@
 }
 
 // Calculates penalty and adds suggestions
-+ (void)addSuggestionsAndCalcPenaltyForClass:(Sentegrity_Classification *)class withSubClass:(Sentegrity_Subclassification *)subClass withPolicy:(Sentegrity_Policy *)policy withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
++ (void)addSuggestionsAndCalcWeightForClass:(Sentegrity_Classification *)class withSubClass:(Sentegrity_Subclassification *)subClass withPolicy:(Sentegrity_Policy *)policy withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
     
     // Create an int to hold the dnePenalty multiplied by the modifier
     double penaltyMod = 0;
@@ -1041,8 +1102,14 @@
             break;
     }
     
+    NSInteger weight = (trustFactorOutputObject.trustFactor.weight.integerValue * penaltyMod);
+    
     // Apply DNE percent to the TFs normal penalty to reduce it (penaltyMode of 0 negates the rule completely)
-    subClass.basePenalty = subClass.basePenalty + (trustFactorOutputObject.trustFactor.penalty.integerValue * penaltyMod);
+    subClass.baseWeight = subClass.baseWeight + weight;
+    
+    // For debug;
+    trustFactorOutputObject.appliedWeight = weight;
+    trustFactorOutputObject.percentAppliedWeight = 1;
     
 }
 

@@ -20,8 +20,8 @@
 @property (nonatomic) NSArray *systemTrustFactorsNotLearned;
 
 // Tracking triggered rules
-@property (nonatomic) NSArray *userTrustFactorsTriggered;
-@property (nonatomic) NSArray *systemTrustFactorsTriggered;
+@property (nonatomic) NSArray *userTrustFactorsAttributingToScore;
+@property (nonatomic) NSArray *systemTrustFactorsAttributingToScore;
 
 // Tracking errors
 @property (nonatomic) NSArray *userTrustFactorsWithErrors;

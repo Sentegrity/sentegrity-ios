@@ -843,9 +843,9 @@
 		4C97D3851BE15A35009F3779 /* TrustScore Computation */ = {
 			isa = PBXGroup;
 			children = (
-				4C97D3861BE15A35009F3779 /* Sentegrity_Classification+Computation.h */,
 				4C97D3871BE15A35009F3779 /* Sentegrity_Classification+Computation.m */,
 				4C97D3881BE15A35009F3779 /* Sentegrity_Subclassification+Computation.h */,
+				4C97D3861BE15A35009F3779 /* Sentegrity_Classification+Computation.h */,
 				4C97D3891BE15A35009F3779 /* Sentegrity_Subclassification+Computation.m */,
 				4C97D38A1BE15A35009F3779 /* Sentegrity_TrustScore_Computation.h */,
 				4C97D38B1BE15A35009F3779 /* Sentegrity_TrustScore_Computation.m */,

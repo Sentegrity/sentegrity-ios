@@ -217,18 +217,11 @@ static MBProgressHUD *HUD;
         
         // check protect mode action
         switch (computationResults.protectModeAction) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2: {
-                //USER PROTECT MODE
+            case 1: {
+                //REQUIRE USER PASSWORD
                 
                 // Set the current state in the startup file
-                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for User Password"];
-                
-                // Active protect mode
-                [currentProtectMode activateProtectModeUser];
+                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for user password after anomaly"];
                 
                 // Setup login box
                 SCLAlertView *userPIN = [[SCLAlertView alloc] init];
@@ -236,7 +229,7 @@ static MBProgressHUD *HUD;
                 userPIN.showAnimationType = SlideInFromBottom;
                 [userPIN removeTopCircle];
                 
-                UITextField *userText = [userPIN addTextField:@"Demo password is \"user\""];
+                UITextField *userText = [userPIN addTextField:@"No password required for demo"];
                 
                 // Show deactivation textbox
                 
@@ -244,9 +237,9 @@ static MBProgressHUD *HUD;
                     
                     // Create an error
                     NSError *error = nil;
-                    
-                    // If the password was correct was correct
-                    if ([currentProtectMode deactivateProtectModeUserWithPIN:userText.text andError:&error] && error == nil) {
+
+                    // Try to deactivate
+                    if ([currentProtectMode deactivateProtectModeAction:computationResults.protectModeAction withInput:userText.text andError:&error] && error == nil) {
                         
                         // Show the landing page
                         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -286,14 +279,12 @@ static MBProgressHUD *HUD;
             }
                 break;
                 
-            case 3: {
-                // POLICY PROTECT MODE
+            case 2: {
+                // REQUIRE USER PASSWORD AND WARN ABOUT POLICY VIOLATION
                 
                 // Set the current state in the startup file
-                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for Policy Password"];
-                
-                // Active protect mode
-                [currentProtectMode activateProtectModePolicy];
+                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for user password after policy violation"];
+  
                 
                 // Setup login box
                 SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
@@ -301,7 +292,7 @@ static MBProgressHUD *HUD;
                 [policyPIN removeTopCircle];
                 
                 
-                UITextField *policyText = [policyPIN addTextField:@"Demo password is \"user\""];
+                UITextField *policyText = [policyPIN addTextField:@"No password required for demo"];
                 
                 // Show deactivation textbox
                 [policyPIN addButton:@"Login" actionBlock:^(void) {
@@ -309,8 +300,8 @@ static MBProgressHUD *HUD;
                     // Create an error
                     NSError *error = nil;
                     
-                    // If pw is correct
-                    if ([currentProtectMode deactivateProtectModePolicyWithPIN:policyText.text andError:&error] == YES) {
+                    // Try to deactivate
+                    if ([currentProtectMode deactivateProtectModeAction:computationResults.protectModeAction withInput:policyText.text andError:&error] && error == nil) {
                         
                         // Show demo landing page
                         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -338,7 +329,138 @@ static MBProgressHUD *HUD;
                     [self.navigationController pushViewController:mainViewController animated:NO];
                 }];
                 
-                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Login Required" subTitle:@"This is a high risk device, access may result in data breach. \n\nEnter password to continue." closeButtonTitle:nil duration:0.0f];
+                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Policy Violation" subTitle:@"You are in violation of a policy. This attempt has been recorded. \n\nEnter password to continue." closeButtonTitle:nil duration:0.0f];
+                
+                
+            }
+                break;
+            case 3: {
+                // REQUIRE USER PASSWORD AND WARN ABOUT DATA BREACH
+                
+                // Set the current state in the startup file
+                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for user password after warning"];
+                
+                // Setup login box
+                SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
+                policyPIN.backgroundType = Transparent;
+                [policyPIN removeTopCircle];
+                
+                
+                UITextField *policyText = [policyPIN addTextField:@"No password required for demo"];
+                
+                // Show deactivation textbox
+                [policyPIN addButton:@"Login" actionBlock:^(void) {
+                    
+                    // Create an error
+                    NSError *error = nil;
+                    
+                    if ([currentProtectMode deactivateProtectModeAction:computationResults.protectModeAction withInput:policyText.text andError:&error] && error == nil) {
+                        
+                        // Show demo landing page
+                        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                        // Create the main view controller
+                        LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
+                        [self.navigationController pushViewController:landingViewController animated:NO];
+                        
+                        // Set the current state in the startup file
+                        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Landing View"];
+                        
+                    } else {
+                        
+                        // Prompt them again
+                        [self analyzeResults:computationResults withPolicy:policy];
+                        
+                    }
+                    
+                }];
+                
+                [policyPIN addButton:@"View Issues" actionBlock:^(void) {
+                    // Get the storyboard
+                    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    // Create the main view controller
+                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+                    [self.navigationController pushViewController:mainViewController animated:NO];
+                }];
+                
+                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"Access may result in data breach. This attempt has been recorded. \n\nEnter password to continue." closeButtonTitle:nil duration:0.0f];
+                
+                
+            }
+                break;
+                
+            case 4: {
+                // PREVENT ACCESS
+                
+                // Set the current state in the startup file
+                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting after locking out"];
+                
+                
+                // Setup login box
+                SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
+                policyPIN.backgroundType = Transparent;
+                [policyPIN removeTopCircle];
+                
+                
+                
+                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Application locked" subTitle:@"Access denied. \n" closeButtonTitle:nil duration:0.0f];
+                
+                // Create an error
+                NSError *error = nil;
+                [currentProtectMode deactivateProtectModeAction:computationResults.protectModeAction withInput:@"" andError:&error];
+                
+                
+            }
+                break;
+            case 5: {
+                // REQUIRE ADMIN PASSWORD
+                
+                // Set the current state in the startup file
+                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for user override password"];
+ 
+                
+                // Setup login box
+                SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
+                policyPIN.backgroundType = Transparent;
+                [policyPIN removeTopCircle];
+                
+                
+                UITextField *policyText = [policyPIN addTextField:@"No password required for demo"];
+                
+                // Show deactivation textbox
+                [policyPIN addButton:@"Unlock" actionBlock:^(void) {
+                    
+                    // Create an error
+                    NSError *error = nil;
+                    
+                    if ([currentProtectMode deactivateProtectModeAction:computationResults.protectModeAction withInput:policyText.text andError:&error] && error == nil) {
+                        
+                        // Show demo landing page
+                        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                        // Create the main view controller
+                        LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
+                        [self.navigationController pushViewController:landingViewController animated:NO];
+                        
+                        // Set the current state in the startup file
+                        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Landing View"];
+                        
+                    } else {
+                        
+                        // Prompt them again
+                        [self analyzeResults:computationResults withPolicy:policy];
+                        
+                    }
+                    
+                }];
+                
+                [policyPIN addButton:@"View Issues" actionBlock:^(void) {
+                    // Get the storyboard
+                    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    // Create the main view controller
+                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+                    [self.navigationController pushViewController:mainViewController animated:NO];
+                }];
+                
+                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"The conditions of this device require administrator approval to continue. \n\nEnter override PIN to continue." closeButtonTitle:nil duration:0.0f];
                 
                 
             }

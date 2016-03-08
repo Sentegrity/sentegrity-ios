@@ -12,8 +12,7 @@
 
 @implementation Sentegrity_Classification (Computation)
 
-NSString const *basePenaltyKeyClass = @"Sentegrity.basePenalty";
-NSString const *weightedPenaltyKeyClass = @"Sentegrity.weightedPenalty";
+NSString const *scoreKeyClass = @"Sentegrity.score";
 NSString const *subClassificationsKeyClass = @"Sentegrity.subClassifications";
 NSString const *trustFactorsKeyClass = @"Sentegrity.trustFactors";
 
@@ -35,27 +34,16 @@ NSString const *statusKey = @"Sentegrity.status";
 NSString const *authenticatorsKey = @"Sentegrity.authenticators";
 
 
-// Base Penalty
+// Classification score
 
-- (void)setBasePenalty:(NSInteger)basePenalty {
-    NSNumber *basePenaltyNumber = [NSNumber numberWithInteger:basePenalty];
-    objc_setAssociatedObject(self, &basePenaltyKeyClass, basePenaltyNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setScore:(NSInteger)score {
+    NSNumber *scoreNumber = [NSNumber numberWithInteger:score];
+    objc_setAssociatedObject(self, &scoreKeyClass, scoreNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSInteger)basePenalty {
-    NSNumber *basePenaltyNumber = objc_getAssociatedObject(self, &basePenaltyKeyClass);
-    return [basePenaltyNumber integerValue];
-}
-// Weighted Penalty
-
-- (void)setWeightedPenalty:(NSInteger)weightedPenalty {
-    NSNumber *weightedPenaltyNumber = [NSNumber numberWithInteger:weightedPenalty];
-    objc_setAssociatedObject(self, &weightedPenaltyKeyClass, weightedPenaltyNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSInteger)weightedPenalty {
-    NSNumber *weightedPenaltyNumber = objc_getAssociatedObject(self, &weightedPenaltyKeyClass);
-    return [weightedPenaltyNumber integerValue];
+- (NSInteger)score {
+    NSNumber *scoreNumber = objc_getAssociatedObject(self, &scoreKeyClass);
+    return [scoreNumber integerValue];
 }
 
 // Subclassifications

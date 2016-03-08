@@ -24,9 +24,8 @@
 @property (nonatomic,retain) NSArray *trustFactorsTriggered;
 @property (nonatomic,retain) NSArray *trustFactorsWithErrors;
 
-// Penalty
-@property (nonatomic) NSInteger basePenalty;
-@property (nonatomic) NSInteger weightedPenalty;
+// Weight
+@property (nonatomic) NSInteger score;
 
 // Messages
 @property (nonatomic,retain) NSArray *issues;

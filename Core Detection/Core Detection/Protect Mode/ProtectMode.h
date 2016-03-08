@@ -16,43 +16,19 @@
 
 @interface ProtectMode : NSObject
 
-#pragma mark - Activate
-
 /*!
- *  Activate Protect Mode Policy
+ *  Attempts transparent authentication
  */
-- (void)activateProtectModePolicy;
+- (void)attemptTransparentAuthentication;
 
 /*!
- *  Activate Protect Mode user
- */
-- (void)activateProtectModeUser;
-
-/*!
- *  Activate Protect mode Wipe
- */
-- (void)activateProtectModeWipe;
-
-
-#pragma mark - Deactivation
-
-/*!
- *  Deactivate Protect Mode Policy with a pin
+ *  Deactivate Protect Mode Action using the provided input
  *
- *  @param policyPIN PIN input for the policy
- *
- *  @return Whether the protect mode was deactivated or not
- */
-- (BOOL)deactivateProtectModePolicyWithPIN:(NSString *)policyPIN andError:(NSError **)error;
-
-/*!
- *  Deactivate Protect Mode Users with a pin
- *
- *  @param userPIN PIN input by the user
+ *  @param action specifies what to do
  *
  *  @return Whether the protect mode was deactived or not
  */
-- (BOOL)deactivateProtectModeUserWithPIN:(NSString *)userPIN andError:(NSError **)error;
+- (BOOL)deactivateProtectModeAction:(NSInteger *)action withInput:(NSString *)input andError:(NSError **)error;
 
 #pragma mark - Whitelisting
 

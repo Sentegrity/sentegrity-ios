@@ -117,22 +117,23 @@
     NSString *complete = @"";
     
     NSString *systemTrustFactorsTriggered = @"\nTrustFactors Triggered\n++++++++++++++++++++++++++++++\n";
-    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.systemTrustFactorsTriggered){
+    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.systemTrustFactorsAttributingToScore){
         
         NSString *storedAssertions =@"";
         NSString *currentAssertions =@"";
         
-        for(Sentegrity_Stored_Assertion *stored in trustFactorOutputObject.storedTrustFactorObject.assertionObjects){
+        for(Sentegrity_Stored_Assertion *stored in trustFactorOutputObject.storadeAssertionObjectsMatched){
             
             storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.decayMetric,stored.lastTime];
         }
         
-        for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.assertionObjects){
+        for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.candidateAssertionObjects){
             
             currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.decayMetric,current.lastTime];
             
         }
-        systemTrustFactorsTriggered = [systemTrustFactorsTriggered stringByAppendingFormat:@"--Name: %@\n\nCurrent Assertion:\n%@Stored Assertions:\n%@",trustFactorOutputObject.trustFactor.name, currentAssertions,storedAssertions];
+
+        systemTrustFactorsTriggered = [systemTrustFactorsTriggered stringByAppendingFormat:@"--Name: %@\n\nWeight Applied:%ld\nWeight Percent:%.02g\nUse Partial:%@\nTotal Possible:%@\n\nCurrent Assertion:\n%@Matching Assertions:\n%@",trustFactorOutputObject.trustFactor.name, (long)trustFactorOutputObject.appliedWeight,trustFactorOutputObject.percentAppliedWeight,trustFactorOutputObject.trustFactor.partialWeight,trustFactorOutputObject.trustFactor.weight,currentAssertions,storedAssertions];
         
     }
     complete = [complete stringByAppendingString:systemTrustFactorsTriggered];
@@ -147,7 +148,7 @@
             storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.decayMetric,stored.lastTime];
         }
         
-        for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.assertionObjects){
+        for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.candidateAssertionObjects){
             
             currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.decayMetric,current.lastTime];
         }
@@ -177,7 +178,7 @@
             storedAssertions = [storedAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",stored.assertionHash,stored.hitCount,stored.decayMetric,stored.lastTime];
         }
         
-        for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.assertionObjects){
+        for(Sentegrity_Stored_Assertion *current in trustFactorOutputObject.candidateAssertionObjects){
             
             currentAssertions = [currentAssertions stringByAppendingFormat:@"Hash: %@\nHitCount: %@\nDecayMetric: %f\nLastTime: %@\n\n",current.assertionHash,current.hitCount,current.decayMetric,current.lastTime];
         }

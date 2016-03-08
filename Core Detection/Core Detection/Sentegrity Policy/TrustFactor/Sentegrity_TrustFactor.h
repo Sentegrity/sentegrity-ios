@@ -11,20 +11,21 @@
 @interface Sentegrity_TrustFactor : NSObject
 
 @property (nonatomic, retain) NSNumber *identification;
-@property (nonatomic, retain) NSString *issueMessage;
-@property (nonatomic, retain) NSString *suggestionMessage;
+@property (nonatomic, retain) NSString *notFoundIssueMessage;
+@property (nonatomic, retain) NSString *lowConfidenceIssueMessage;
+@property (nonatomic, retain) NSString *notFoundSuggestionMessage;
+@property (nonatomic, retain) NSString *lowConfidenceSuggestionMessage;
 @property (nonatomic, retain) NSNumber *revision;
 @property (nonatomic, retain) NSNumber *classID;
 @property (nonatomic, retain) NSNumber *subClassID;
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSNumber *penalty;
+@property (nonatomic, retain) NSNumber *partialWeight;
+@property (nonatomic, retain) NSNumber *weight;
 @property (nonatomic, retain) NSNumber *dnePenalty;
-@property (nonatomic, retain) NSNumber *ruleType;
 @property (nonatomic, retain) NSNumber *learnMode;
 @property (nonatomic, retain) NSNumber *learnTime;
 @property (nonatomic, retain) NSNumber *learnAssertionCount;
 @property (nonatomic, retain) NSNumber *learnRunCount;
-@property (nonatomic, retain) NSNumber *threshold;
 @property (nonatomic, retain) NSNumber *whitelistable;
 @property (nonatomic, retain) NSNumber *privateAPI;
 @property (nonatomic, retain) NSNumber *decayMode;

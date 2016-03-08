@@ -12,33 +12,33 @@
 
 @implementation Sentegrity_Subclassification (Computation)
 
-NSString const *basePenaltyKey = @"Sentegrity.basePenalty";
-NSString const *weightedPenaltyKey = @"Sentegrity.weightedPenalty";
+NSString const *baseWeightKey = @"Sentegrity.baseWeight";
+NSString const *totalWeightKey = @"Sentegrity.totalWeight";
 NSString const *subClassificationsKey = @"Sentegrity.subClassifications";
 NSString const *trustFactorsKey = @"Sentegrity.trustFactors";
 
-// Base Penalty
+// Base Weight
 
-- (void)setBasePenalty:(NSInteger)basePenalty {
-    NSNumber *basePenaltyNumber = [NSNumber numberWithInteger:basePenalty];
-    objc_setAssociatedObject(self, &basePenaltyKey, basePenaltyNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setBaseWeight:(NSInteger)baseWeight {
+    NSNumber *baseWeightNumber = [NSNumber numberWithInteger:baseWeight];
+    objc_setAssociatedObject(self, &baseWeightKey, baseWeightNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSInteger)basePenalty {
-    NSNumber *basePenaltyNumber = objc_getAssociatedObject(self, &basePenaltyKey);
-    return [basePenaltyNumber integerValue];
+- (NSInteger)baseWeight {
+    NSNumber *baseWeightNumber = objc_getAssociatedObject(self, &baseWeightKey);
+    return [baseWeightNumber integerValue];
 }
 
-// Weighted Penalty
+// Total Weight
 
-- (void)setWeightedPenalty:(NSInteger)weightedPenalty {
-    NSNumber *weightedPenaltyNumber = [NSNumber numberWithInteger:weightedPenalty];
-    objc_setAssociatedObject(self, &weightedPenaltyKey, weightedPenaltyNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setTotalWeight:(NSInteger)totalWeight {
+    NSNumber *totalWeightNumber = [NSNumber numberWithInteger:totalWeight];
+    objc_setAssociatedObject(self, &totalWeightKey, totalWeightNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSInteger)weightedPenalty {
-    NSNumber *weightedPenaltyNumber = objc_getAssociatedObject(self, &weightedPenaltyKey);
-    return [weightedPenaltyNumber integerValue];
+- (NSInteger)totalWeight {
+    NSNumber *totalWeightNumber = objc_getAssociatedObject(self, &totalWeightKey);
+    return [totalWeightNumber integerValue];
 }
 
 // TrustFactors

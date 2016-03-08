@@ -17,13 +17,24 @@
 }
 
 // issue message
-- (void)setIssueMessage:(NSString *)trustedMessage{
-    _issueMessage = trustedMessage;
+- (void)setNotFoundIssueMessage:(NSString *)notFoundIssueMessage{
+    _notFoundIssueMessage = notFoundIssueMessage;
+}
+
+// issue message
+- (void)setLowConfidenceIssueMessage:(NSString *)lowConfidenceIssueMessage{
+    _lowConfidenceIssueMessage = lowConfidenceIssueMessage;
+}
+
+
+// suggestion message
+- (void)setNotFoundSuggestionMessage:(NSString *)notFoundSuggestionMessage{
+    _notFoundSuggestionMessage = notFoundSuggestionMessage;
 }
 
 // suggestion message
-- (void)setSuggestionMessage:(NSString *)untrustedMessage{
-    _suggestionMessage = untrustedMessage;
+- (void)setLowConfidenceSuggestionMessage:(NSString *)lowConfidenceSuggestionMessage{
+    _lowConfidenceSuggestionMessage = lowConfidenceSuggestionMessage;
 }
 
 
@@ -48,9 +59,14 @@
     _name = name;
 }
 
-// Penalty
-- (void)setPenalty:(NSNumber *)penalty{
-    _penalty = penalty;
+// Partial weight
+- (void)setPartialWeight:(NSNumber *)partialWeight{
+    _partialWeight = partialWeight;
+}
+
+// Weight
+- (void)setWeight:(NSNumber *)weight{
+    _weight = weight;
 }
 
 //DNEPenalty
@@ -78,11 +94,6 @@
     _learnRunCount = learnRunCount;
 }
 
-// Threshold
-- (void)setThreshold:(NSNumber *)threshold{
-    _threshold = threshold;
-}
-
 
 // Decay Mode
 - (void)setDecayMode:(NSNumber *)decayMode{
@@ -104,10 +115,6 @@
     _implementation = implementation;
 }
 
-// Inverse
-- (void)setRuleType:(NSNumber *)ruleType{
-    _ruleType = ruleType;
-}
 
 // Whitelistable
 - (void)setWhitelistable:(NSNumber *)whitelistable{

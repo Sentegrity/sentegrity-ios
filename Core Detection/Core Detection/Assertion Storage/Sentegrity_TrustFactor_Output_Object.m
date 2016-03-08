@@ -14,35 +14,6 @@
 
 @implementation Sentegrity_TrustFactor_Output_Object
 
--(void)generateDefaultAssertionObject
-{
-    
-    Sentegrity_Stored_Assertion *new = [[Sentegrity_Stored_Assertion alloc]init];
-    
-    NSString *defaultAssertionString = [[[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID, kDefaultTrustFactorOutput] sha1]stringByAppendingString:[NSString stringWithFormat:@"-%@",kDefaultTrustFactorOutput]];
-    
-    NSDate *now = [NSDate date];
-    NSTimeInterval nowEpochSeconds = [now timeIntervalSince1970];
-    
-    [new setAssertionHash:defaultAssertionString];
-    [new setLastTime:[NSNumber numberWithInteger:nowEpochSeconds]];
-    [new setHitCount:[NSNumber numberWithInt:1]];
-    [new setCreated:[NSNumber numberWithInteger:nowEpochSeconds]];
-    [new setDecayMetric:10.0];
-    
-    // Set property
-    self.defaultAssertionObject = new;
-    
-}
-
--(void)setAssertionObjectsToDefault
-{
-    // Generate and set the default assertion object
-    
-    // Set assertion objects array to just the default object
-    self.assertionObjects = [[NSArray alloc] initWithObjects:[self defaultAssertionObject],nil];
-    
-}
 
 -(void)setAssertionObjectsFromOutput
 {
@@ -76,7 +47,7 @@
     }
     
     // Set property
-    self.assertionObjects= assertionObjects;
+    self.candidateAssertionObjects= assertionObjects;
     
 }
 
@@ -86,7 +57,6 @@
         // Set the DNE to OK
         [self setStatusCode:DNEStatus_ok];
         
-        [self generateDefaultAssertionObject];
         
     }
     return self;

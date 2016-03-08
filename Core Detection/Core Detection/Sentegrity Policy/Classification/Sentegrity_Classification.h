@@ -12,10 +12,10 @@
 
 
 @property (nonatomic,retain) NSNumber *identification;
-@property (nonatomic,retain) NSNumber *user;
+@property (nonatomic,retain) NSNumber *type;
+@property (nonatomic,retain) NSNumber *computationMethod;
 @property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) NSString *desc;
-@property (nonatomic,retain) NSNumber *weight;
 @property (nonatomic,retain) NSNumber *protectModeAction;
 @property (nonatomic,retain) NSString *protectModeMessage;
 

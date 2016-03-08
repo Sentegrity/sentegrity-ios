@@ -23,28 +23,32 @@
 // Plaintext output from TrustFactor
 @property (nonatomic,retain) NSArray *output;
 
+// Required to calculate percent of weight to apply
+// List of all matched assertions in the store
+@property (nonatomic,retain) NSArray *storadeAssertionObjectsMatched;
+
 // Sentegrity_Stored_Assertion objects to whitelist if protect mode is deactivated
-@property (nonatomic,retain) NSArray *assertionObjectsToWhitelist;
+@property (nonatomic,retain) NSArray *candidateAssertionObjectsForWhitelisting;
 
 // Sentegrity_Store_Assertion objects created from output
-@property (nonatomic,retain) NSArray *assertionObjects;
-
-// Default assertion string
-@property (nonatomic,retain) Sentegrity_Stored_Assertion *defaultAssertionObject;
-
-// Required to calculate penaltyPercent
-@property (nonatomic,retain) Sentegrity_Stored_Assertion *foundAssertionObject;
+@property (nonatomic,retain) NSArray *candidateAssertionObjects;
 
 // DNE modifier
 @property (nonatomic) DNEStatusCode statusCode;
 
-// Trigger bool set during baseline analysis and checked during computation
-@property (nonatomic) BOOL triggered;
+// Indicates if match found in assertion store, set during baseline analysis and checked during computation
+@property (nonatomic) BOOL matchFound;
 
-// Trigger bool set during baseline analysis and checked during computation
+// Indicates if the TrustFactor shold be triggered regardless of match found or not found in the store
+@property (nonatomic) BOOL forComputation;
+
+// Indicates if the TrustFactor should be whitelisted
 @property (nonatomic) BOOL whitelist;
 
-- (void)generateDefaultAssertionObject;
+// Debug value to hold the actual weight this TF applied (not necessarily the policy weight)
+@property (nonatomic) NSInteger appliedWeight;
+@property (nonatomic) double percentAppliedWeight;
+
 
 - (void)setAssertionObjectsFromOutput;
 

@@ -214,35 +214,12 @@
         return trustFactorOutputObject;
     }
 
-    // Create assertions
-    if (trustFactor.ruleType.intValue == 1) {
+
+    if(trustFactorOutputObject.output.count > 0){
         
-        // Check if the output is empty
-        if (trustFactorOutputObject.output.count==0) {
-            
-            // Output has nothing, implementation must not have found what it was looking for (generally a good thing)
-            
-            // Set the default assertion
-            [trustFactorOutputObject setAssertionObjectsToDefault];
-            
-        } else {
-            
-            // Generate assertions for each output
-            [trustFactorOutputObject setAssertionObjectsFromOutput];
-            
-            // Add the default so that it stays #1 hitCount and hit/day wise and won't ever get decayed
-            [trustFactorOutputObject setAssertionObjects:[trustFactorOutputObject.assertionObjects arrayByAddingObject:[trustFactorOutputObject defaultAssertionObject]]];
-            
-        }
-        
-    } else {
-        
-        //ruletype = 2, 3, or 4
-        
-        // Set assertion objects from output
         [trustFactorOutputObject setAssertionObjectsFromOutput];
-        
     }
+
     
     // Return the output object
     return trustFactorOutputObject;
