@@ -52,7 +52,7 @@
 
 - (void)setAssertionObjectsFromOutput;
 
-- (void)setAssertionObjectsToDefault;
+//TODO: Unused: - (void)setAssertionObjectsToDefault;
 
 // Custom init to set DNE = OK and defaultAssertionString
 - (id) init;

@@ -24,11 +24,11 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.good.example.daf.skeleton</string>
+			<string>com.sentegrity.ios</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.good.example.daf.skeleton.sc</string>
-				<string>com.good.example.daf.skeleton.sc2</string>
+				<string>com.sentegrity.ios.sc</string>
+				<string>com.sentegrity.ios.sc2</string>
 				<string>com.good.gd.discovery</string>
 			</array>
 		</dict>
@@ -44,19 +44,19 @@
 	<key>GDPermissions</key>
 	<array>
 		<dict>
-			<key>Permission</key>
-			<dict>
-				<key>GDApplicationId</key>
-				<string>com.good.example.daf.skeleton</string>
-				<key>TAAPIPermission</key>
-				<string>1</string>
-				<key>nativeApplicationId</key>
-				<string>com.good.example.daf.skeleton</string>
-			</dict>
 			<key>Signature</key>
-			<string>8182c644bb808d9039dad88fce4e049b99076d19bfbcdb5c4a968ec6c5224d62ffc29f455d3b795b22666926b215214da1e7de6eb4633afdbac3b26422744c4da259cfb9180b687de2953e7fcc54f5a8741ecebbbd276f32fb679b6f0682cfc46169a8bb353e7a94503b7a6a6bc8b572eecd340d37c4587815cfa46b2f867566</string>
+			<string>0f5c19e41d8b20a702bb451f993f621fe5567e9eec21b3ce635c0aa8b3e2148a411874cd3b95c6c6c86af461b951c218961a5616dcf5e2cb418ba6dfca325cfa0abcf1a125036b1eb0f302a0153a7ae859c8894e089b67bf34ec99e980bb1670e539f3988287e4999268ed35af9300dceda96487bd4fce33c04267dc057b3318</string>
 			<key>SignatureScheme</key>
 			<string>RSAv1</string>
+			<key>Permission</key>
+			<dict>
+				<key>nativeApplicationId</key>
+				<string>com.sentegrity.ios</string>
+				<key>GDApplicationId</key>
+				<string>com.sentegrity.daf</string>
+				<key>TAAPIPermission</key>
+				<string>1</string>
+			</dict>
 		</dict>
 	</array>
 	<key>GDTrustedAuthenticator</key>

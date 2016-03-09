@@ -42,7 +42,7 @@
 
 
 // Deactivate Protect Mode User with user pin
-- (BOOL)deactivateProtectModeAction:(NSInteger *)action withInput:(NSString *)input andError:(NSError **)error {
+- (BOOL)deactivateProtectModeAction:(NSInteger)action withInput:(NSString *)input andError:(NSError **)error {
     
     // Validate the user pin
     if (!input || input == nil || input.length < 1) {

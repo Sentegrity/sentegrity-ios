@@ -29,10 +29,6 @@
 
 //#pragma mark - App Delegate Functions
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    NSLog(@"Application did finish launching");
-    return [super application:application didFinishLaunchingWithOptions:launchOptions];
-}
 
 //// Application did finish launching
 //- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

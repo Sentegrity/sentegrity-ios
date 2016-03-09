@@ -238,7 +238,7 @@
                                     //Add  TF to attributing list
                                     [trustFactorsAttributingToScoreInClass addObject:trustFactorOutputObject];
                                     
-                                    NSInteger partialWeight;
+                                    //TODO: Unused: NSInteger partialWeight;
                                     
                                     // Determine if the TF should apply partial weight or full weight
                                     if([trustFactorOutputObject.trustFactor.partialWeight intValue]==1){

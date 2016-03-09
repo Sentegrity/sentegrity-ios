@@ -28,7 +28,7 @@
  *
  *  @return Whether the protect mode was deactived or not
  */
-- (BOOL)deactivateProtectModeAction:(NSInteger *)action withInput:(NSString *)input andError:(NSError **)error;
+- (BOOL)deactivateProtectModeAction:(NSInteger)action withInput:(NSString *)input andError:(NSError **)error;
 
 #pragma mark - Whitelisting
 

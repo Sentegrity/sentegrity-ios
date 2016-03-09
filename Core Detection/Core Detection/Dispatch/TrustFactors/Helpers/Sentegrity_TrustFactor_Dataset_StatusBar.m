@@ -112,7 +112,7 @@
             }
             
             // Temp for testing
-            BOOL isOtherAudioPlaying = [[AVAudioSession sharedInstance] isOtherAudioPlaying];
+            //TODO: Unused: BOOL isOtherAudioPlaying = [[AVAudioSession sharedInstance] isOtherAudioPlaying];
             // Create an array of the objects
             NSArray *ItemArray = [NSArray arrayWithObjects:wifiSignal,cellSignal,isTethering,isAirplaneMode,isBackingUp,cellServiceString,lastApp, isOnCall, isNavigating, nil];
 

@@ -190,7 +190,7 @@
 - (NSArray *)getUserMovementInfo;
 - (NSArray *)getAccelRadsInfo;
 - (NSArray *)getGyroPitchInfo;
-- (NSArray *)getHeadingsInfo;
+//TODO: - (NSArray *)getHeadingsInfo;
 
 // Holds the result of post-processing
 - (NSString *)getDeviceOrientation;
