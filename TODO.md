@@ -1,17 +1,10 @@
 ### Sentegrity Application TODO List
-
-
-### Good Integration Pilot TODO list
-
-- [ ] Policy download
-
-Prior to core detection running, initiate an async HTTPs download of a new policy file located on app1.sentegrity.com/services/policyupdate. Once downloaded the policy checksum should be checked (simple sha1). Implement the following SSL certificate pinning mechanism: https://github.com/project-imas/ssl-conservatory
   
 ### Transparent Authentication TODO list
 
 - [ ] Modify default.store (assertion store) to store transparent authentication keys and new object
 
-Need to create a new object and file similiar to "storedTrustFactorObjects" that gets mapped out of default.store at the same time the other objects are. This object can be called "transparentAuthenticationObject". We also need to make some changes to the default.store, currently the assertion store contains two JSON objects "appID" and "storedTrustFactorObjects" we should add an object called "storedTransparentKeys". The code to make updates to these objects (like we do for storedTrustFactorObjects will need to be created as well). This is probably a lot of copy/paste.
+Need to create a new object and file similiar to "storedTrustFactorObjects" that gets mapped out of default.store at the same time the other objects are (by th parser that parses the assertion store). This object can be called "transparentAuthenticationObject". In order for this to work, we also need to make some changes to the default.store, currently the assertion store contains two JSON objects "appID" and "storedTrustFactorObjects" we should add an object called "storedTransparentKeys" that contains an array of objects each with a "hitCount", "created", "decayMetric", etc.. value. The code to make updates to these objects (like we do for storedTrustFactorObjects) will need to be created as well, but its all the same that we already have. Take a look at how the assertion store is currently handled and you will see its not hard to add a new object/class to be mapped out of the store. You will need to add some dummy data to the assertion store (dummy "storedTransprentKeys" objects) for testing purposes. This is probably a lot of copy/paste.
 
 which can look like the below:
 
@@ -36,19 +29,29 @@ which can look like the below:
 
 ]
 
-We'll need to map this to the created object. These objects will be searched during protectMode to determine if there is a match from the key derived from the computationResults.transparentAuthenticationTrustFactors combined output. Jason will take care of this last part. It's not clear exactly when we will update the store with new transparent objects, TBD as somewhere in protectMode when transparent authentication is attempted. 
+We'll need to map this to the created object. These objects will be searched during protectMode to determine if there is a match from the key derived from the computationResults.transparentAuthenticationTrustFactors combined output. Jason will take care of this last part. It's not clear exactly when we will update the store with new transparent objects, TBD as somewhere in protectMode when transparent authentication is attempted. This depends on the Good Integration, but regardless - this first part of modifying the assertion store to contain "transparentAuthenticationObject"
 
   
 ### Core Detection TODO List
 
 - [ ] Generate and use device salt
 
-During first run after installation, generate random device salt and store it in the startup file in raw format. This salt should then be used for all assertion generation by appending it to the raw TrustFactor data prior to hashing (assertion creation), this takes place in dispatcher (I beleive) when the TrustFactor returns. I'm not sure what the best method for determining first run is, but reinstallation should be considered "first run". I.e., keychain may not be the best method, perhaps writing a dummy file?
+During first run after installation, generate random device salt and store it in the startup file in raw format. Currently just a dummy salt is stored in the startup file. Nick  recently completed the startup file, you should be ableto see the code somewhere. This salt should then be used for all assertion generation by appending it to the raw TrustFactor data prior to hashing (assertion creation). This can probably be done inside each TrustFactorOutputObject's setAssertionObjectsFromOutput which is called inside Sentegrity_TrustFactor_Dispatcher.
+
+I'm not sure what the best method for determining first run is, but reinstallation should be considered "first run". I.e., keychain may not be the best method, perhaps writing a dummy file?
 
 
 ### TrustFactor TODO List
 
-### Protect Mode TODO List
+- [ ] Create new "State" TrustFactor
+
+The purpose of this TrustFactor is to simply identify what is happening on the device at the point of Sentegrity running. We can likely put this TrustFactor inside TrustFactor_Dispatch_Activity. I already created a helper class (Sentegrity_TrustFactor_Dataset_StatusBar) that provides this information in a dictionary. You can access this inside the TrustFactor by calling the "getStatusBar" function inside Sentegrity_TrustFactor_Dataset. WiFi and Celluar TrustFactors currently do this for signal strengths, take a look at those to get an idea (I think this is the "approximate locatio" rule Obviously, you don't need all the values from this helper for this particular TrustFactor. The following can be used, and any others that make sense. Feel free to add to these if you want to explore any additional data that can be identified: "isNavigating", "isOnCall", "isTethering", "isBackingUp", and "isAirplaneMode". If none of these states are present we can simply return "none" or something of that nature. You will need to add a new TrustFactor to the policy, you can probably add it somewhere in the middle of the policy. The policy is executed sequentially, therefore we usually reserve Bluetooth, location, etc and other slow TrustFactors for the end of the policy. This provides maximum amount of time for the activity dispatch datasets to start collecting data prior to that data being needed by the TrustFactor. 
+
+### Good Integration Pilot TODO list
+
+- [ ] Policy download
+
+Prior to core detection running, initiate an async HTTPs download of a new policy file located on app1.sentegrity.com/services/policyupdate. Once downloaded the policy checksum should be checked (simple sha1). Implement the following SSL certificate pinning mechanism: https://github.com/project-imas/ssl-conservatory
 
 ### Future Good Integration Production TODO list
   
