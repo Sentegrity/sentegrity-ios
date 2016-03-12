@@ -79,6 +79,9 @@
 
 // Set the local store
 - (Sentegrity_Assertion_Store *)setAssertionStore:(Sentegrity_Assertion_Store *)store withAppID:(NSString *)appID withError:(NSError **)error {
+    
+    store.appID = appID;
+    
     NSData *data = [store JSONData];
     
     // Create store name & path
