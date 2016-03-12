@@ -14,8 +14,10 @@
 @implementation Sentegrity_TrustFactor_Output_Object
 
 
+
+
 // Set assertion objects from output
--(void)setAssertionObjectsFromOutput
+-(void)setAssertionObjectsFromOutputWithDeviceSalt: (NSString *) deviceSalt
 {
     // Temporary mutable array to hold Sentegrity_Stored_Assertion objects
     NSMutableArray *assertionObjects = [[NSMutableArray alloc]init];
@@ -27,7 +29,7 @@
         Sentegrity_Stored_Assertion *new = [[Sentegrity_Stored_Assertion alloc]init];
         
         // Create the hash
-        NSString *hash = [[[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID, trustFactorOutput] sha1]stringByAppendingString:[NSString stringWithFormat:@"-%@",trustFactorOutput]];
+        NSString *hash = [[[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue], deviceSalt, trustFactorOutput] sha1]stringByAppendingString:[NSString stringWithFormat:@"-%@",trustFactorOutput]];
         
         // Get EPOCH
         NSDate *now = [NSDate date];

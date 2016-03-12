@@ -20,6 +20,9 @@
 #import "DCParserConfiguration.h"
 #import "NSObject+ObjectMap.h"
 
+//categories
+#import "NSString+Hashes.h"
+
 @implementation Sentegrity_Startup_Store
 
 // Singleton instance
@@ -31,6 +34,14 @@
     });
     return sharedStore;
 }
+
+
+- (NSString *) deviceSalt {
+    NSInteger r = arc4random();
+    NSString *salt = [NSString stringWithFormat:@"%@-%ld", [[UIDevice currentDevice] identifierForVendor], r];
+    return [salt sha1];
+}
+
 
 // Get the startup file
 - (Sentegrity_Startup *)getStartupFile:(NSError **)error {
@@ -51,7 +62,7 @@
         
         // Set the salts
         [startup setUserSalt:kDefaultUserSalt];
-        [startup setDeviceSalt:kDefaultDeviceSalt];
+        [startup setDeviceSalt:[self deviceSalt]];
         
         // Set the OS Version
         [startup setLastOSVersion:[[UIDevice currentDevice] systemVersion]];

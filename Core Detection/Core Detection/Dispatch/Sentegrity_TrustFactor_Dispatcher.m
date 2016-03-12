@@ -26,6 +26,12 @@
     // Set the current state of Core Detection
     [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Performing TrustFactor Analysis"];
     
+    //load startup file to get deviceSalt
+    NSError *startupError;
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupFile:&startupError];
+    NSString *deviceSalt = [startup deviceSalt];
+    
+    
     // Get the current date
     NSDate *startTime = [NSDate date];
     
@@ -129,7 +135,7 @@
         }
         
         // Run the TrustFactor and populate output object
-        Sentegrity_TrustFactor_Output_Object *trustFactorOutputObjects = [self executeTrustFactor:trustFactor withError:error];
+        Sentegrity_TrustFactor_Output_Object *trustFactorOutputObjects = [self executeTrustFactor:trustFactor withDeviceSalt:deviceSalt withError:error];
         
         // Add the trustFactorOutput object to the output array
         [processedTrustFactorArray addObject:trustFactorOutputObjects];
@@ -140,7 +146,7 @@
 }
 
 // Executes the TrustFactor with given rule
-+ (Sentegrity_TrustFactor_Output_Object *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withError:(NSError **)error {
++ (Sentegrity_TrustFactor_Output_Object *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withDeviceSalt: (NSString *) deviceSalt withError:(NSError **)error {
     
     // Create an output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject;
@@ -217,7 +223,7 @@
 
     if(trustFactorOutputObject.output.count > 0){
         
-        [trustFactorOutputObject setAssertionObjectsFromOutput];
+        [trustFactorOutputObject setAssertionObjectsFromOutputWithDeviceSalt:deviceSalt];
     }
 
     

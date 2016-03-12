@@ -50,7 +50,7 @@
 @property (nonatomic) double percentAppliedWeight;
 
 
-- (void)setAssertionObjectsFromOutput;
+- (void)setAssertionObjectsFromOutputWithDeviceSalt: (NSString *) deviceSalt;
 
 //TODO: Unused: - (void)setAssertionObjectsToDefault;
 
