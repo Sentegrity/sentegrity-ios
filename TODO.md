@@ -53,6 +53,20 @@ The purpose of this TrustFactor is to simply identify what is happening on the d
 
 Prior to core detection running, initiate an async HTTPs download of a new policy file located on app1.sentegrity.com/services/policyupdate. Once downloaded the policy checksum should be checked (simple sha1). Implement the following SSL certificate pinning mechanism: https://github.com/project-imas/ssl-conservatory
 
+- [ ] startup file upload download
+
+We need to a crude mechanism to upload the startup file to our server after every X number of core detection runs or time has passed since last upload. This will likely involve a couple additional policy settings and data points to be recorded in the startup file.
+
+For example, the following two policy settings would be required:
+"statusUploadRunFrequency": 5 (runs)
+"statusUploadTimeFrequency": 7 (days) 
+
+The following new data point should be recorded in the startup file:
+"runCountAtLastUpload": 231 (runCount when last upload was done)
+"dateTimeOfLastUpload": timestamp (timestamp during last upload was done)
+
+"statusUploadRunFrequency" would be the policy setting that indicates after how many runs the startup file should be uploaded. "statusUploadTimeFrequency" would indicate after how many weeks it should upload. After Core Detection completes and the startup file is updated, we would check the current "runCount" (in startup file) compared to "runCountAtLastUpload". If this exceed "statusUploadRunFrequency" then we perform upload. If this requirement is meet then we continue to check the current time against "dateTimeOfLastUpload" stored in the startup file and see if the difference exceeds the number of days outlined in "statusUploadTimeFrequency". If it does then we upload. The checking of time frequency if the run frequency is meet is to prevent a situation where Sentegrity is not used often and we would not get many uploads. Therefore, we want to ensure that we get at least one upload every week. 
+
 ### Future Good Integration Production TODO list
   
 - [ ] Employ encrypted memory for user password and transparent authentication keys
