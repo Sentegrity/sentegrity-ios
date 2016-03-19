@@ -29,7 +29,7 @@
         Sentegrity_Stored_Assertion *new = [[Sentegrity_Stored_Assertion alloc]init];
         
         // Create the hash
-        NSString *hash = [[[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue], deviceSalt, trustFactorOutput] sha1]stringByAppendingString:[NSString stringWithFormat:@"-%@",trustFactorOutput]];
+        NSString *hash = [[[NSString stringWithFormat:@"%@%@%@%@", [self.trustFactor.identification stringValue], kUniqueDeviceID, deviceSalt, trustFactorOutput] sha1]stringByAppendingString:[NSString stringWithFormat:@"-%@",trustFactorOutput]];
         
         // Get EPOCH
         NSDate *now = [NSDate date];

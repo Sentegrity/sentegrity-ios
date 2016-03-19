@@ -14,6 +14,7 @@
 // Assertions
 #import "Sentegrity_TrustFactor_Output_Object.h"
 
+@class Sentegrity_Startup;
 @interface Sentegrity_TrustFactor_Dispatcher : NSObject
 
 /**
@@ -27,8 +28,8 @@
  */
 + (NSArray *)performTrustFactorAnalysis:(NSArray *)trustFactors withTimeout:(NSTimeInterval)timeout andError:(NSError **)error;
 
-// Generate the output from a single TrustFactor
-+ (Sentegrity_TrustFactor_Output_Object *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withDeviceSalt: (NSString *) deviceSalt withError:(NSError **)error;
+// Generate the output from a single TrustFactor and StartupFile
++ (Sentegrity_TrustFactor_Output_Object *)executeTrustFactor:(Sentegrity_TrustFactor *)trustFactor withStartup: (Sentegrity_Startup *) startup withError:(NSError **)error;
 
 // Run an individual trustfactor with just the name and the payload (returned assertion will not be able to identify the trustfactor that was run)
 + (Sentegrity_TrustFactor_Output_Object *)runTrustFactorWithDispatch:(NSString *)dispatch andImplementation:(NSString *)implementation withPayload:(NSArray *)payload andError:(NSError **)error;

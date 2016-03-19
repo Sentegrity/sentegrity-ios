@@ -36,6 +36,7 @@
 }
 
 
+// Private method for generating salt as SHA from device UUID and random number
 - (NSString *) deviceSalt {
     NSInteger r = arc4random();
     NSString *salt = [NSString stringWithFormat:@"%@-%ld", [[UIDevice currentDevice] identifierForVendor], r];
