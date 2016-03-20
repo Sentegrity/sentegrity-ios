@@ -41,23 +41,32 @@
             NSString *lastApp = @"";
             NSNumber *isOnCall = [NSNumber numberWithInt:0];
             NSNumber *isNavigating = [NSNumber numberWithInt:0];
+            NSNumber *isUsingYourLocation = [NSNumber numberWithInt:0];
+            NSNumber *doNotDisturb = [NSNumber numberWithInt:0];
+            NSNumber *orientationLock = [NSNumber numberWithInt:0];
+
             
-            // Create an array of keys
-            NSArray *KeyArray = [NSArray arrayWithObjects:@"wifiSignal", @"cellSignal", @"isTethering", @"isAirplaneMode", @"isBackingUp", @"cellServiceString", @"lastApp", @"isOnCall", @"isNavigating", nil];
             
             // Get necessary values from status bar
             for (UIView* view in statusBarForegroundView.subviews)
             {
                 // Wifi Signal
-                if ([view isKindOfClass:NSClassFromString(@"UIStatusBarDataNetworkItemView")])
-                {
+                if ([view isKindOfClass:NSClassFromString(@"UIStatusBarDataNetworkItemView")]) {
                     wifiSignal = [NSNumber numberWithInt:[[view valueForKey:@"_wifiStrengthRaw"] intValue]];
                 }
                 
+                /*
+                 Ivo Leko: Cell signal is not Wifi signal? Below is correct way to get cell signal
                 // Cell Signal for Wifi
                 else if([view isKindOfClass:NSClassFromString(@"UIStatusBarDataNetworkItemView")])
                 {
                     cellSignal = [NSNumber numberWithInt:[[view valueForKey:@"_wifiStrengthRaw"] intValue]];
+                }
+                 */
+                
+                // Cell Signal
+                else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarSignalStrengthItemView")]) {
+                    cellSignal = [NSNumber numberWithInt:[[view valueForKey:@"_signalStrengthRaw"] intValue]];
                 }
                 
                 // Airplane mode status
@@ -69,29 +78,29 @@
                 else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarActivityItemView")]) {
                         
                     if((BOOL)[view valueForKey:@"_syncActivity"] == TRUE) {
-                            
                         isBackingUp=[NSNumber numberWithInt:1];
                     }
                 }
                 
                 // Which service
                 else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarServiceItemView")]) {
-                    
                     cellServiceString = (NSString *)[view valueForKey:@"_serviceString"];
                 }
-                
-                // Cell Signal
-                else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarSignalStrengthItemView")]) {
-                    
-                    cellSignal = [NSNumber numberWithInt:[[view valueForKey:@"_signalStrengthRaw"] intValue]];
-  
-                }
-                
+            
                 // Last app
                 else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarBreadcrumbItemView")]) {
-                    
                     lastApp = (NSString *)[view valueForKey:@"_destinationText"];
-                    
+                }
+                
+                // Do not disturb
+                else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarQuietModeItemView")]) {
+                    doNotDisturb = [NSNumber numberWithInt:1];
+                }
+                
+                // Portrait orientation lock
+                else if ([view isKindOfClass:NSClassFromString(@"UIStatusBarIndicatorItemView")]) {
+                    if ([[[view valueForKey:@"_item"] valueForKey:@"indicatorName"] isEqualToString:@"RotationLock"])
+                        orientationLock = [NSNumber numberWithInt:1];
                 }
  
             }
@@ -108,16 +117,33 @@
             } // Check for navigation
             else if([text containsString:@"return to Navigation"]){
                 
-                isOnCall = [NSNumber numberWithInt:1];
+                isNavigating = [NSNumber numberWithInt:1];
+            }
+            else if ([text containsString:@"is Using Your Location"]){
+                
+                isUsingYourLocation = [NSNumber numberWithInt:1];
             }
             
             // Temp for testing
             //TODO: Unused: BOOL isOtherAudioPlaying = [[AVAudioSession sharedInstance] isOtherAudioPlaying];
-            // Create an array of the objects
-            NSArray *ItemArray = [NSArray arrayWithObjects:wifiSignal,cellSignal,isTethering,isAirplaneMode,isBackingUp,cellServiceString,lastApp, isOnCall, isNavigating, nil];
-
+            
+            
             // Create the dictionary
-            NSDictionary *dict = [[NSDictionary alloc] initWithObjects:ItemArray forKeys:KeyArray];
+            NSDictionary *dict = @{
+                                   @"wifiSignal"            : wifiSignal,
+                                   @"cellSignal"            : cellSignal,
+                                   @"isTethering"           : isTethering,
+                                   @"isAirplaneMode"        : isAirplaneMode,
+                                   @"isBackingUp"           : isBackingUp,
+                                   @"cellServiceString"     : cellServiceString,
+                                   @"lastApp"               : lastApp,
+                                   @"isOnCall"              : isOnCall,
+                                   @"isNavigating"          : isNavigating,
+                                   @"isUsingYourLocation"   : isUsingYourLocation,
+                                   @"doNotDisturb"          : doNotDisturb,
+                                   @"orientationLock"       : orientationLock
+                                   };
+            
             
             return dict;
         }
