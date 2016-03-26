@@ -114,7 +114,7 @@
             [systemAttributedString appendAttributedString:issueSection];
             
             // Run through all the system GUI issues
-            for (NSString *string in self.computationResults.systemGUIIssues) {
+            for (NSString *string in self.computationResults.systemIssues) {
                 
                 // Create the X image in the string
                 NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
@@ -147,7 +147,7 @@
             [systemAttributedString appendAttributedString:section];
             
             // Run through all the system GUI suggestions
-            for (NSString *string in self.computationResults.systemGUISuggestions) {
+            for (NSString *string in self.computationResults.systemSuggestions) {
                 
                 // Create the checkmark image in the string
                 NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
@@ -180,7 +180,7 @@
             [systemAttributedString appendAttributedString:section];
             
             // Run through all the system GUI suggestions
-            for (NSString *string in self.computationResults.systemGUIAnalysis) {
+            for (NSString *string in self.computationResults.systemAnalysisResults) {
                 
                 // Check if the string contains the word failed
                 if (![string containsString:@"complete"]) {

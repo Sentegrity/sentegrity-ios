@@ -31,43 +31,35 @@
     BOOL exists = NO;
     
     // Attempt to get our assertion store
-    Sentegrity_Assertion_Store *assertionStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getAssertionStore:&exists withAppID:policy.appID withError:error];
+    Sentegrity_Assertion_Store *assertionStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getAssertionStoreWithError:error];
     
     // Check if the assertion store exists (should, unless is the first run for this policy)
-    if (!assertionStore || assertionStore == nil || !exists) {
+    if (!assertionStore || assertionStore == nil) {
         
-        NSLog(@"Local store did not exist...creating blank");
-        // Create the store for the first time
-        assertionStore = [[Sentegrity_Assertion_Store alloc] init];
+        // Error out, no trustFactorOutputObject were able to be added
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to get assertion store file", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No assertion file received", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try validating the assertion file", nil)
+                                       };
         
-        // Check if we've failed again
-        if (!assertionStore || assertionStore == nil) {
-            return nil;
-        }
+        // Set the error
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStartupInstance userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Failed to get assertion store file: %@", errorDetails);
+        
+        // Don't return anything
+        return nil;
+
     }
     
     // Get our startup file
     NSError *startupError;
-    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupFile:&startupError];
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&startupError];
     
     // Validate no errors
     if (!startup || startup == nil) {
-        
-        // Check if there are any errors
-        if (startupError || startupError != nil) {
-            
-            // Unable to get startup file!
-            
-            // Log Error
-            NSLog(@"Failed to get startup file: %@", startupError.debugDescription);
-            
-            // Set the error
-            *error = startupError;
-            
-            // Don't return anything
-            return nil;
-            
-        }
         
         // Error out, no trustFactorOutputObject were able to be added
         NSDictionary *errorDetails = @{
@@ -98,25 +90,7 @@
         
         // Write the new startup os version
         [startup setLastOSVersion:[[UIDevice currentDevice] systemVersion]];
-        
-        // Set the startup file
-        [[Sentegrity_Startup_Store sharedStartupStore] setStartupFile:startup withError:&startupError];
-        
-        // Check for errors
-        if (startupError || startupError != nil) {
-            
-            // Unable to set startup file!
-            
-            // Log Error
-            NSLog(@"Failed to set startup file: %@", startupError.debugDescription);
-            
-            // Set the error
-            *error = startupError;
-            
-            // Don't return anything
-            return nil;
-            
-        }
+
     }
     
     // Create the mutable array to hold the storedTrustFactoObjects for each trustFactorOutputObject
@@ -340,27 +314,8 @@
     exists = YES;
     
     // Update stores
-    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setAssertionStore:assertionStore withAppID:policy.appID withError:error];
+    [[Sentegrity_TrustFactor_Storage sharedStorage] setAssertionStoreWithError:error];
     
-    // If local store doesn't get written
-    if (!localStoreOutput || localStoreOutput == nil) {
-        
-        // Create error explaining what went wrong
-        NSDictionary *errorDetails = @{
-                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Write Assertion Stores", nil),
-                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error writing assertion stores after baseline analysis.", nil),
-                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid store to write.", nil)
-                                       };
-        
-        // Set the error
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
-        
-        // Log Error
-        NSLog(@"Failed to Write Assertion Stores: %@", errorDetails);
-        
-        // Don't return anything
-        return nil;
-    }
     
     // Return the TrustFactor objects
     return trustFactorOutputObjects;

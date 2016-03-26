@@ -14,11 +14,18 @@
 #import "Sentegrity_Policy.h"
 #import "Sentegrity_Assertion_Store.h"
 
-@interface Sentegrity_Parser : NSObject
+@interface Sentegrity_Policy_Parser : NSObject
 
-// Parse a policy plist with a valid path
-- (Sentegrity_Policy *)parsePolicyPlistWithPath:(NSURL *)filePathURL withError:(NSError **)error;
+// Singleton instance
++ (id)sharedPolicy;
 
+@property (atomic,retain) Sentegrity_Policy *currentPolicy;
+
+/* Getter */
+// Get the startup file
+- (Sentegrity_Policy *)getPolicy:(NSError **)error;
+
+/* Helper */
 // Parse a policy json with a valid path
 - (Sentegrity_Policy *)parsePolicyJSONWithPath:(NSURL *)filePathURL withError:(NSError **)error;
 

@@ -16,8 +16,8 @@
 @property (nonatomic,retain) NSNumber *computationMethod;
 @property (nonatomic,retain) NSString *name;
 @property (nonatomic,retain) NSString *desc;
-@property (nonatomic,retain) NSNumber *protectModeAction;
-@property (nonatomic,retain) NSString *protectModeMessage;
+@property (nonatomic,retain) NSNumber *violationAction;
+@property (nonatomic,retain) NSNumber *authenticationAction;
 
 
 @end

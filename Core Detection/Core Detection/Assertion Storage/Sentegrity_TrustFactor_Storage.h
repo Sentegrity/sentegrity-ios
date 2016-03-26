@@ -13,11 +13,13 @@
 // Singleton instance
 + (id)sharedStorage;
 
+@property (atomic,retain) Sentegrity_Assertion_Store *currentStore;
+
 // Get the assertion store
-- (Sentegrity_Assertion_Store *)getAssertionStore:(BOOL *)exists withAppID:(NSString *)appID withError:(NSError **)error;
+- (Sentegrity_Assertion_Store *)getAssertionStoreWithError:(NSError **)error;
 
 // Set the asertion store
-- (Sentegrity_Assertion_Store *)setAssertionStore:(Sentegrity_Assertion_Store *)store withAppID:(NSString *)appID withError:(NSError **)error;
+- (void)setAssertionStoreWithError:(NSError **)error;
 
 // Store Path
 @property (atomic,strong) NSString *storePath;

@@ -5,7 +5,7 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
-#import "ProtectMode.h"
+#import "LoginAction.h"
 
 // Assertion Store
 #import "Sentegrity_Assertion_Store+Helper.h"
@@ -13,7 +13,7 @@
 // TrustFactor Storage
 #import "Sentegrity_TrustFactor_Storage.h"
 
-@implementation ProtectMode
+@implementation LoginAction
 
 // Init
 - (id)init {
@@ -39,6 +39,38 @@
 
 #pragma mark - Deactivations
 
+
+// Deactivate Protect Mode User with user pin
+- (NSString *)getPreLoginMessageForViolationActionCode:(NSInteger)violationActionCode andError:(NSError **)error {
+    
+    // check policy for message realted to code
+    return @"pre login message";
+    
+}
+
+// Deactivate Protect Mode User with user pin
+- (NSString *)getFailedLoginAttemptMessageForViolationActionCode:(NSInteger)violationActionCode andError:(NSError **)error {
+    
+    // check policy for message realted to code
+    return @"failed login message";
+    
+}
+
+// Deactivate Protect Mode User with user pin
+- (NSString *)getSuccessPostLoginMessageForViolationActionCode:(NSInteger)violationActionCode andError:(NSError **)error {
+    
+    // check policy for message realted to code
+    return @"success post login message";
+    
+}
+
+
+// Deactivate Protect Mode User with user pin
++ (NSInteger)attemptLoginWithViolationActionCode:(NSInteger)violationCode withAuthenticationCode:(NSInteger)authenticationCode withUserInput:(NSString *)Userinput andError:(NSError **)error {
+    
+    return 0;
+
+}
 
 
 // Deactivate Protect Mode User with user pin
@@ -280,7 +312,7 @@
     BOOL exists = NO;
     
     // Get the shared store
-    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getAssertionStore:&exists withAppID:self.policy.appID withError:error];
+    Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getAssertionStoreWithError:error];
     
     // Check for errors
     if (!localStore || localStore == nil || !exists) {
@@ -351,33 +383,9 @@
     }
     
     // Update the stores
-    Sentegrity_Assertion_Store *localStoreOutput = [[Sentegrity_TrustFactor_Storage sharedStorage] setAssertionStore:localStore withAppID:self.policy.appID withError:error];
+    [[Sentegrity_TrustFactor_Storage sharedStorage] setAssertionStoreWithError:error];
     
-    // Validate it was set
-    if (!localStoreOutput || localStoreOutput == nil) {
         
-        // Unable to set the local store
-        // Set the error if it's not set
-        if (!*error) {
-            
-            // Unable to set stroe
-            NSDictionary *errorDetails = @{
-                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Whitelist Attributing TrustFactor Output Objects Failed", nil),
-                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error setting the local store", nil),
-                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure assertions are provided to whitelist", nil)
-                                           };
-            
-            // Set the error
-            *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToWhitelistAssertions userInfo:errorDetails];
-            
-            // Log it
-            NSLog(@"Whitelist Attributing TrustFactor Output Objects Failed: %@", errorDetails);
-        }
-        
-        // Return NO
-        return NO;
-    }
-    
     // Return YES
     return YES;
 }

@@ -23,6 +23,9 @@
 // Startup Store
 #import "Sentegrity_Startup_Store.h"
 
+// Authentication helper
+#import "LoginAction.h"
+
 @interface LoginViewController () <ISHPermissionsViewControllerDataSource>
 
 /* Properties */
@@ -159,20 +162,14 @@ static MBProgressHUD *HUD;
     // Create an error
     NSError *error;
     
-    // Get the policy
-    NSURL *policyPath = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"default" ofType:@"policy"]];
-    
-    // Parse the policy
-    Sentegrity_Policy *policy = [[CoreDetection sharedDetection] parsePolicy:policyPath withError:&error];
-    
     // Run Core Detection
-    [[CoreDetection sharedDetection] performCoreDetectionWithPolicy:policy withCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
+    [[CoreDetection sharedDetection] performCoreDetectionWithCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
         
         // Check if core detection completed successfully
         if (success) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self analyzeResults:computationResults withPolicy:policy];
+                [self analyzeActionsWithComputationResults:computationResults withError:error];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
                 
             });
@@ -191,284 +188,155 @@ static MBProgressHUD *HUD;
 
 
 // Set up the customizations for the view
-- (void)analyzeResults:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:(Sentegrity_Policy *)policy {
-    
-    // Check if the device is trusted
-    if (computationResults.deviceTrusted) {
-        
-        // Device is trusted
-        
-        // Show the landing page
-        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
-        // Create the main view controller
-        LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
-        [self.navigationController pushViewController:landingViewController animated:NO];
-        
-        // Set the current state in the startup file
-        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Landing View"];
-        
-    } else {
-        
-        // Device is not trusted
-        
-        // Create the protect mode object
-        ProtectMode *currentProtectMode = [[ProtectMode alloc] initWithPolicy:policy andTrustFactorsToWhitelist:computationResults.protectModeWhitelist];
-        
-        // check protect mode action
-        switch (computationResults.protectModeAction) {
-            case 1: {
-                //REQUIRE USER PASSWORD
-                
-                // Set the current state in the startup file
-                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for user password after anomaly"];
-                
-                // Setup login box
-                SCLAlertView *userPIN = [[SCLAlertView alloc] init];
-                userPIN.backgroundType = Transparent;
-                userPIN.showAnimationType = SlideInFromBottom;
-                [userPIN removeTopCircle];
-                
-                UITextField *userText = [userPIN addTextField:@"No password required for demo"];
-                
-                // Show deactivation textbox
-                
-                [userPIN addButton:@"Login" actionBlock:^(void) {
-                    
-                    // Create an error
-                    NSError *error = nil;
+- (void)analyzeActionsWithComputationResults:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)error {
 
-                    // Try to deactivate
-                    if ([currentProtectMode deactivateProtectModeAction:computationResults.protectModeAction withInput:userText.text andError:&error] && error == nil) {
-                        
-                        // Show the landing page
-                        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                        // Create the main view controller
-                        LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
-                        [self.navigationController pushViewController:landingViewController animated:NO];
-                        
-                        // Set the current state in the startup file
-                        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Landing View"];
-                    
-                    } else {
-                        
-                        // Log the error (if any)
-                        if (error) {
-                            NSLog(@"Error Thrown: %@", error.debugDescription);
-                        }
-                        
-                        // Prompt them again
-                        [self analyzeResults:computationResults withPolicy:policy];
-                        
-                    }
-                    
-                }];
-                
-                [userPIN addButton:@"View Issues" actionBlock:^(void) {
-                    // Get the storyboard
-                    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    // Create the main view controller
-                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-                    [self.navigationController pushViewController:mainViewController animated:NO];
-                }];
-                
-                
-                [userPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Login Required" subTitle:@"Enter password to continue." closeButtonTitle:nil duration:0.0f];
-                
-                
-            }
-                break;
-                
-            case 2: {
-                // REQUIRE USER PASSWORD AND WARN ABOUT POLICY VIOLATION
-                
-                // Set the current state in the startup file
-                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for user password after policy violation"];
-  
-                
-                // Setup login box
-                SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
-                policyPIN.backgroundType = Transparent;
-                [policyPIN removeTopCircle];
-                
-                
-                UITextField *policyText = [policyPIN addTextField:@"No password required for demo"];
-                
-                // Show deactivation textbox
-                [policyPIN addButton:@"Login" actionBlock:^(void) {
-                    
-                    // Create an error
-                    NSError *error = nil;
-                    
-                    // Try to deactivate
-                    if ([currentProtectMode deactivateProtectModeAction:computationResults.protectModeAction withInput:policyText.text andError:&error] && error == nil) {
-                        
-                        // Show demo landing page
-                        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                        // Create the main view controller
-                        LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
-                        [self.navigationController pushViewController:landingViewController animated:NO];
-                        
-                        // Set the current state in the startup file
-                        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Landing View"];
-                        
-                    } else {
-                        
-                        // Prompt them again
-                        [self analyzeResults:computationResults withPolicy:policy];
-                        
-                    }
-                    
-                }];
-                
-                [policyPIN addButton:@"View Issues" actionBlock:^(void) {
-                    // Get the storyboard
-                    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    // Create the main view controller
-                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-                    [self.navigationController pushViewController:mainViewController animated:NO];
-                }];
-                
-                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Policy Violation" subTitle:@"You are in violation of a policy. This attempt has been recorded. \n\nEnter password to continue." closeButtonTitle:nil duration:0.0f];
-                
-                
-            }
-                break;
-            case 3: {
-                // REQUIRE USER PASSWORD AND WARN ABOUT DATA BREACH
-                
-                // Set the current state in the startup file
-                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for user password after warning"];
-                
-                // Setup login box
-                SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
-                policyPIN.backgroundType = Transparent;
-                [policyPIN removeTopCircle];
-                
-                
-                UITextField *policyText = [policyPIN addTextField:@"No password required for demo"];
-                
-                // Show deactivation textbox
-                [policyPIN addButton:@"Login" actionBlock:^(void) {
-                    
-                    // Create an error
-                    NSError *error = nil;
-                    
-                    if ([currentProtectMode deactivateProtectModeAction:computationResults.protectModeAction withInput:policyText.text andError:&error] && error == nil) {
-                        
-                        // Show demo landing page
-                        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                        // Create the main view controller
-                        LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
-                        [self.navigationController pushViewController:landingViewController animated:NO];
-                        
-                        // Set the current state in the startup file
-                        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Landing View"];
-                        
-                    } else {
-                        
-                        // Prompt them again
-                        [self analyzeResults:computationResults withPolicy:policy];
-                        
-                    }
-                    
-                }];
-                
-                [policyPIN addButton:@"View Issues" actionBlock:^(void) {
-                    // Get the storyboard
-                    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    // Create the main view controller
-                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-                    [self.navigationController pushViewController:mainViewController animated:NO];
-                }];
-                
-                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"Access may result in data breach. This attempt has been recorded. \n\nEnter password to continue." closeButtonTitle:nil duration:0.0f];
-                
-                
-            }
-                break;
-                
-            case 4: {
-                // PREVENT ACCESS
-                
-                // Set the current state in the startup file
-                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting after locking out"];
-                
-                
-                // Setup login box
-                SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
-                policyPIN.backgroundType = Transparent;
-                [policyPIN removeTopCircle];
-                
-                
-                
-                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"Application locked" subTitle:@"Access denied. \n" closeButtonTitle:nil duration:0.0f];
-                
-                // Create an error
-                NSError *error = nil;
-                [currentProtectMode deactivateProtectModeAction:computationResults.protectModeAction withInput:@"" andError:&error];
-                
-                
-            }
-                break;
-            case 5: {
-                // REQUIRE ADMIN PASSWORD
-                
-                // Set the current state in the startup file
-                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Waiting for user override password"];
- 
-                
-                // Setup login box
-                SCLAlertView *policyPIN = [[SCLAlertView alloc] init];
-                policyPIN.backgroundType = Transparent;
-                [policyPIN removeTopCircle];
-                
-                
-                UITextField *policyText = [policyPIN addTextField:@"No password required for demo"];
-                
-                // Show deactivation textbox
-                [policyPIN addButton:@"Unlock" actionBlock:^(void) {
-                    
-                    // Create an error
-                    NSError *error = nil;
-                    
-                    if ([currentProtectMode deactivateProtectModeAction:computationResults.protectModeAction withInput:policyText.text andError:&error] && error == nil) {
-                        
-                        // Show demo landing page
-                        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                        // Create the main view controller
-                        LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
-                        [self.navigationController pushViewController:landingViewController animated:NO];
-                        
-                        // Set the current state in the startup file
-                        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Landing View"];
-                        
-                    } else {
-                        
-                        // Prompt them again
-                        [self analyzeResults:computationResults withPolicy:policy];
-                        
-                    }
-                    
-                }];
-                
-                [policyPIN addButton:@"View Issues" actionBlock:^(void) {
-                    // Get the storyboard
-                    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    // Create the main view controller
-                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-                    [self.navigationController pushViewController:mainViewController animated:NO];
-                }];
-                
-                [policyPIN showCustom:self image:nil color:[UIColor grayColor] title:@"High Risk Device" subTitle:@"The conditions of this device require administrator approval to continue. \n\nEnter override PIN to continue." closeButtonTitle:nil duration:0.0f];
-                
-                
-            }
-                break;
-                
+    NSString *messageTitle;
+    NSString *messageDescription;
+    
+
+    
+    // Check the violationActionCode to determine what we should do GUI or login wise
+    
+    switch (computationResults.violationActionCode) {
+        case violationActionCode_TransparentlyAuthenticate:
+        {
+            // Set history now, we already have all the info we need
+            [[Sentegrity_Startup_Store sharedStartupStore] setHistoryFileWithComputationResult:computationResults withError:error];
+            
+            // Master key should have already been decrypted during transparent auth
+            // We don't use it for anything in the demo, but this would be presented to the parent app for authentication
+            NSData *decryptedMasterKey = [[Sentegrity_Crypto sharedCrypto] decryptedMasterKeyData];
+            
+            // Show the landing page since we've been transparently authenticated
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            // Create the main view controller
+            LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
+            [self.navigationController pushViewController:landingViewController animated:NO];
+
         }
-        
+            break;
+        case violationActionCode_BlockAndWarn:
+        {
+
+            messageTitle = @"Access Denied";
+            messageDescription = @"This device is at high risk of data breach or in violation of policy";
+            
+                       // Set history now, we already have all the info we need
+            // Set the run history using current computationResults object
+            [[Sentegrity_Startup_Store sharedStartupStore] setHistoryFileWithComputationResult:computationResults withError:error];
+            
+            
+            SCLAlertView *blocked = [[SCLAlertView alloc] init];
+            blocked.backgroundType = Shadow;
+            [blocked removeTopCircle];
+            
+            [blocked showCustom:self image:nil color:[UIColor grayColor] title:messageTitle subTitle:messageDescription closeButtonTitle:nil duration:0.0f];
+
+            
+        }
+            break;
+        case violationActionCode_PromptForUserPassword:
+        {
+            
+            // authenticationResponseCode will hold nothing if this is the first time
+            
+            switch (computationResults.authenticationResponseCode) {
+                case authenticationResponseCode_incorrectLogin:
+                    messageTitle=@"Incorrect Login";
+                    messageDescription = @"Please re-enter your password.";
+                    break;
+                case authenticationResponseCode_UnknownError:
+                    messageTitle=@"Error";
+                    messageDescription = @"Please re-enter your password. If this problem persists, reinstall the application.";
+                    break;
+                case authenticationResponseCode_WhitelistError:
+                    messageTitle=@"Error";
+                    messageDescription = @"Please re-enter your password. If this problem persists, reinstall the application.";
+                    break;
+                default:
+                    messageTitle = @"User Login";
+                    messageDescription = @"Please enter your password.";
+                    break;
+            }
+            
+
+            
+            // Wait until after login to set history file so that we see the result or failure
+            
+            // For all other results, setup login box
+            SCLAlertView *userInput = [[SCLAlertView alloc] init];
+            userInput.backgroundType = Transparent;
+            userInput.showAnimationType = SlideInFromBottom;
+            [userInput removeTopCircle];
+            
+            UITextField *userText = [userInput addTextField:@"Password is: user"];
+
+            
+            [userInput addButton:@"Login" actionBlock:^(void) {
+                
+                computationResults.authenticationResponseCode = [LoginAction attemptLoginWithViolationActionCode:computationResults.violationActionCode withAuthenticationCode:computationResults.authenticationActionCode withUserInput:userText.text andError:error];
+                
+                // Set the run history using current computationResults object
+                [[Sentegrity_Startup_Store sharedStartupStore] setHistoryFileWithComputationResult:computationResults withError:&error];
+                
+                switch (computationResults.authenticationResponseCode) {
+                    case authenticationResponseCode_Success:{
+                        
+                        // If attemptLogin was successful the master key should be decrypted in memory by now
+                        NSData *decryptedMasterKey = [[Sentegrity_Crypto sharedCrypto] decryptedMasterKeyData];
+                        
+                        // Go to landing page now that we have the master key
+                        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                        // Create the main view controller
+                        LandingViewController *landingViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"landingviewcontroller"];
+                        [self.navigationController pushViewController:landingViewController animated:NO];
+                        
+                    }
+                        break;
+                    case authenticationResponseCode_incorrectLogin:{
+                        
+                    }
+                        break;
+                    case authenticationResponseCode_UnknownError:{
+                        
+                    }
+                        break;
+                    case authenticationResponseCode_WhitelistError:{
+                        
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }];
+            
+            
+            [userInput showCustom:self image:nil color:[UIColor grayColor] title:messageTitle subTitle:messageDescription closeButtonTitle:nil duration:0.0f];
+            
+        }
+            break;
+        case violationActionCode_PromptForUserPasswordAndWarn:
+        {
+            
+            NSString *messageTitle = @"Warning";
+            NSString *messageDescription = @"This device is at high risk of data breach or in violation of policy, this login will be reported.";
+            
+            
+            // Set history now, we already have all the info we need
+            // Set the run history using current computationResults object
+            [[Sentegrity_Startup_Store sharedStartupStore] setHistoryFileWithComputationResult:computationResults withError:error];
+            
+            
+            
+        }
+            break;
+            
+        default:
+            break;
     }
+  
+
 }
 
 

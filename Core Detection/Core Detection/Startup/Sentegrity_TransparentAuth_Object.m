@@ -6,8 +6,8 @@
 //  Copyright (c) Sentegrity. All rights reserved.
 //
 
-#import "Sentegrity_History.h"
+#import "Sentegrity_TransparentAuth_Object.h"
 
-@implementation Sentegrity_History
+@implementation Sentegrity_TransparentAuth_Object
 
 @end

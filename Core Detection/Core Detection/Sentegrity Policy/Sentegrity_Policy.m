@@ -18,15 +18,23 @@
     _policyID = policyID;
 }
 
-// App ID
-- (void)setAppID:(NSString *)appID{
-    _appID = appID;
+
+// TransparentAuthDecayMetric
+- (void)setTransparentAuthDecayMetric:(NSNumber *)transparentAuthDecayMetric{
+    _transparentAuthDecayMetric = transparentAuthDecayMetric;
+}
+
+// TransparentAuthEnabled
+- (void)setTransparentAuthEnabled:(NSNumber *)transparentAuthEnabled{
+    _transparentAuthEnabled = transparentAuthEnabled;
 }
 
 // Revision
 - (void)setRevision:(NSNumber *)revision{
     _revision = revision;
 }
+
+
 
 // Private APIs
 - (void)setAllowPrivateAPIs:(NSNumber *)allowPrivateAPIs{

@@ -31,6 +31,12 @@
 // Startup File Name
 #define kStartupFileName                @"startup"
 
+// Policy File Name
+#define kPolicyFileName                @"policy"
+
+// Assertion Store File Name
+#define kAssertionStoreFileName                @"store"
+
 // TODO: Default salts
 #define kDefaultDeviceSalt              @"sdkfljasdf89dsjd"
 #define kDefaultUserSalt                @"faklsjfads8sadjd8d"
@@ -46,10 +52,13 @@
 #pragma mark - Startup File Keys
 
 #define kRunHistory                     @"runHistory"
+#define kTransparentAuthKeys            @"transparentAuthKeys"
 
 #pragma mark - Policy Keys
 
 #define kPolicyID                       @"policyID"
+#define kTransparentAuthDecayMetric     @"transparentAuthDecayMetric"
+#define kTransparentAuthEnabled         @"transparentAuthEnabled"
 #define kRevision                       @"revision"
 #define kUserThreshold                  @"userThreshold"
 #define kSystemThreshold                @"systemThreshold"
@@ -78,8 +87,8 @@
 #define kType                           @"type"
 #define kComputationMethod              @"computationMethod"
 #define kDesc                           @"desc"
-#define kProtectModeAction              @"protectModeAction"
-#define kProtectModeMessage             @"protectModeMessage"
+#define kViolationAction                @"violationAction"
+#define kAuthenticationAction           @"authenticationAction"
 
 #pragma mark - Subclassification Keys
 
@@ -171,15 +180,88 @@ typedef enum {
     userAnomaly                                     = 4
 } attributingClassID;
 
+#pragma mark - Core Detection Result Codes
+
+/*!
+ * Core Detection Result Codes
+ * These indicates the result of core detection and are mainly for logging or GUI use
+ */
+typedef enum {
+    CoreDetectionResult_UserAnomaly                            = 1,
+    CoreDetectionResult_PolicyViolation                        = 2,
+    CoreDetectionResult_HighRiskDevice                         = 3,
+    CoreDetectionResult_TransparentAuthSuccess                 = 4,
+    CoreDetectionResult_TransparentAuthNewKey                  = 5,
+    CoreDetectionResult_CoreDetectionError                     = 6,
+    CoreDetectionResult_TransparentAuthError                   = 7,
+    CoreDetectionResult_DeviceCompromise                       = 8,
+    CoreDetectionResult_DeviceTrustedNoTransparentAuth         = 9
+    
+} CoreDetectionResultCode;
+
+#pragma mark - Core Detection Action Codes
+
+/*!
+ * Violation Action Codes
+ * These indicate what the application that Sentegrity integrated with should do after core detection was complete
+ */
+typedef enum {
+    violationActionCode_PromptForUserPassword                            = 1,
+    violationActionCode_PromptForUserPasswordAndWarn                     = 2,
+    violationActionCode_BlockAndWarn                                     = 3,
+    violationActionCode_TransparentlyAuthenticate                        = 4
+    
+    
+} violationActionCode;
+
+
+#pragma mark - Post Authentication Action Codes
+
+/*!
+ * Authentication Action
+ * These indicate what should happen after a successful authentication event
+ */
+typedef enum {
+    
+    authenticationActionCode_whitelistUserAssertions                            = 1,
+    authenticationActionCode_whitelistUserAndSystemAssertions                   = 2,
+    authenticationActionCode_whitelistSystemAssertions                          = 3,
+    authenticationActionCode_DoNothing                                          = 4,
+    authenticationActionCode_showSuggestions                                    = 5,
+    authenticationActionCode_whitelistUserAssertionsAndCreateTransparentKey     = 6,
+
+} authenticationActionCode;
+
+#pragma mark - Authentication Response Codes
+
+/*!
+ * Authentication Response Code
+ * These indicate what should happen after a successful authentication event
+ */
+typedef enum {
+    
+    authenticationResponseCode_incorrectLogin                                   = 1,
+    authenticationResponseCode_UnknownError                                     = 2,
+    authenticationResponseCode_WhitelistError                                   = 3,
+    authenticationResponseCode_Success                                          = 4,
+    
+} authenticationResponseCode;
+
 #pragma mark - Error Cases
 
 /*!
  * Error Domains
  */
+static NSString * const transparentAuthDomain           = @"Transparent Authentication";
 static NSString * const coreDetectionDomain             = @"Core Detection";
 static NSString * const assertionStoreDomain            = @"Assertion Store";
 static NSString * const trustFactorDispatcherDomain     = @"TrustFactor Dispatcher";
 static NSString * const sentegrityDomain                = @"Sentegrity";
+
+
+//TODO: This is bloated, cut it into multiple domains
+/*! NSError codes in NSCocoaErrorDomain. Note that other frameworks (such as AppKit and CoreData) also provide additional NSCocoaErrorDomain error codes.
+ */
 
 /**
  *  Unknown Error Code
@@ -218,7 +300,17 @@ enum {
     SAErrorDuringComputation                        = 6,
     
     // Unable to get the policy from the provided path
-    SAInvalidPolicyPath                             = 7
+    SAInvalidPolicyPath                             = 7,
+    
+    // Unable to get the assertion store from provided path
+    SAInvalidAssertionStorePath                     = 52,
+    
+    // No computation received
+    SANoComputationReceived                         = 29,
+    
+    // Error performing core detection result analysis
+    SACannotPerformAnalysis                         = 43,
+    
 };
 
 
@@ -234,6 +326,14 @@ enum {
     
     // Invalid User PIN provided
     SAInvalidUserPinProvided                        = 10,
+    
+    // Unable to find a stored assertion during whitelisting
+    SAErrorDuringWhitelisting                       = 41,
+    
+    // Unable to deactivate protect mode due to error
+    SAUnableToDeactivateProtectMode                 = 44,
+    
+    
 };
 
 /*!
@@ -264,7 +364,13 @@ enum {
     SANoMatchingAssertionsFound                     = 25,
     
     // No FactorID received
-    SAAssertionStoreNoFactorIDReceived                            = 20
+    SAAssertionStoreNoFactorIDReceived              = 20,
+
+    // Unable to add assertion into store, already exists
+    SAUnableToAddAssertionIntoStoreAlreadyExists    = 24,
+    
+    // Cannot overwrite existing store
+    SACannotOverwriteExistingStore                  = 35,
 };
 
 /*!
@@ -287,6 +393,12 @@ enum {
     // No assertions added to store
     SANoAssertionsAddedToStore                      = 19,
     
+    // Unable to compare the assertion object
+    SAUnableToCompareAssertion                      = 22,
+    
+    // Unable to find assertion object to compare
+    SAUnableToFindAssertionToCompare                = 23,
+    
     // Unable to set assertion to the store
     SAUnableToSetAssertionToStore                   = 28,
     
@@ -297,7 +409,14 @@ enum {
     SAUnableToPerformBaselineAnalysisForTrustFactor = 38,
     
     // Error when trying to check TF learning and add candidate assertions in
-    SAErrorDuringLearningCheck                      = 47
+    SAErrorDuringLearningCheck                      = 47,
+    
+    // Error when trying to decay a TFs stored assertions
+    SAErrorDuringDecay                              = 46,
+
+    // Invalie due to no candidate assertions generated
+    SAInvalidDueToNoCandidateAssertions             = 37,
+    
     
 };
 
@@ -336,40 +455,24 @@ enum {
     
 };
 
-//TODO: This is bloated, cut it into multiple domains
-/*! NSError codes in NSCocoaErrorDomain. Note that other frameworks (such as AppKit and CoreData) also provide additional NSCocoaErrorDomain error codes.
+/*!
+ * Transparent Authentication Error Codes
  */
 enum {
+    // Invalid transparent key raw output
+    SAInvalidTransparentKeyOutput                   = 47,
     
-    // Unable to compare the assertion object
-    SAUnableToCompareAssertion                      = 22,
+    // Invalid PBKDF2 transparent key derivation
+    SAInvalidPBKDF2TransparentKeyDerivation         = 48,
     
-    // Unable to find assertion object to compare
-    SAUnableToFindAssertionToCompare                = 23,
+    // Invalid hash of transparent key
+    SAInvalidHashOfTransparentKey                   = 49,
     
-    // Unable to add assertion into store, already exists
-    SAUnableToAddAssertionIntoStoreAlreadyExists    = 24,
+    // Unable to decrypt MASTER KEY using transparent key
+    SAUnableToDecryptMasterKeyUsingTransparentKey   = 50,
     
-    // No computation received
-    SANoComputationReceived                         = 29,
-    
-    // Cannot overwrite existing store
-    SACannotOverwriteExistingStore                  = 35,
-    
-    // Invalie due to no candidate assertions generated
-    SAInvalidDueToNoCandidateAssertions             = 37,
-    
-    // Unable to find a stored assertion during whitelisting
-    SAErrorDuringWhitelisting                       = 41,
-    
-    // Error performing core detection result analysis
-    SACannotPerformAnalysis                         = 43,
-    
-    // Unable to deactivate protect mode due to error
-    SAUnableToDeactivateProtectMode                 = 44,
-    
-    // Error when trying to decay a TFs stored assertions
-    SAErrorDuringDecay                              = 46,
+    // No transparent authentication trustfactor objects
+    SANoTransparentAuthenticationTrustFactorObjects  = 51,
     
 };
 

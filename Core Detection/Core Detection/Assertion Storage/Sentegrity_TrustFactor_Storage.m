@@ -9,7 +9,11 @@
 
 #import "Sentegrity_TrustFactor_Storage.h"
 #import "Sentegrity_Constants.h"
-#import "Sentegrity_Parser.h"
+
+// DCObjectMapping
+#import "DCKeyValueObjectMapping.h"
+#import "DCArrayMapping.h"
+#import "DCParserConfiguration.h"
 #import "NSObject+ObjectMap.h"
 
 @implementation Sentegrity_TrustFactor_Storage
@@ -24,95 +28,222 @@
     return sharedStorage;
 }
 
-// Init (Defaults)
-- (id)init {
+
+
+// Assertion Store File Path
+- (NSString *)assertionStoreFilePath {
     
-    // Check if self exists
-    if (self = [super init]) {
-        
-        // Set defaults here if need be
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-        
-        // Set the store path directly to the instance variable
-        _storePath = basePath;
-    }
+    // Get the documents directory paths
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     
-    // Return
-    return self;
+    // Get the document directory
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    // Get the path to our startup file
+    return [NSString stringWithFormat:@"%@/%@", documentsDirectory, kAssertionStoreFileName];
 }
 
 
-// Get the local store
-- (Sentegrity_Assertion_Store *)getAssertionStore:(BOOL *)exists withAppID:(NSString *)appID withError:(NSError **)error {
-    // Start by creating the parser
-    Sentegrity_Parser *parser = [[Sentegrity_Parser alloc] init];
+
+// Get the startup file
+- (Sentegrity_Assertion_Store *)getAssertionStoreWithError:(NSError **)error {
     
-    // Create store name & path
-    NSString *storeName = [appID stringByAppendingString:@".store"];
-    NSString *storePath = [_storePath stringByAppendingPathComponent:storeName];
-    NSURL *storeURLPath = [NSURL URLWithString:storePath];
+    // Check if the assertion file exists
     
-    // Check if it exists
-    if ([[NSFileManager defaultManager] fileExistsAtPath:storePath]) {
+    // Zero out the error
+    *error = nil;
+    
+    // Print out the assertion file path
+    //NSLog(@"Assertion File Path: %@", filePath);
+    
+    // Did we already create a startup store instance of the object?
+    if(self.currentStore == nil || !self.currentStore){
         
-        // Turn the path into an object
-        Sentegrity_Assertion_Store *store = [parser parseAssertionStoreWithPath:storeURLPath withError:error];
-        
-        // Check if the store's appID matches the policies appID
-        if (store && [store.appID isEqualToString:appID]) {
+        // Check if the assertion file exists, if not we will create a new one
+        if (![[NSFileManager defaultManager] fileExistsAtPath:[self assertionStoreFilePath]]) {
             
-            // Found the store
-            *exists = YES;
+            // Startup file does NOT exist (yet)
+            Sentegrity_Assertion_Store *assertionStore = [[Sentegrity_Assertion_Store alloc] init];
             
-            // Return Store
-            return store;
+            // Set the current store
+            self.currentStore = assertionStore;
+            
+            // Save the file
+            [self setAssertionStoreWithError:error];
+            
+            // Check for errors
+            if (*error || *error != nil) {
+                
+                // Encountered an error saving the file
+                return nil;
+                
+            }
+            
+            // Saved the file, no errors, return the reference
+            return assertionStore;
+            
+        } else {
+            
+            // Assertion file does exist, just not yet parsed
+            
+            // Get the contents of the file
+            NSDictionary *jsonParsed = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[self assertionStoreFilePath]]
+                                                                       options:NSJSONReadingMutableContainers error:error];
+            
+            // Check the parsed startup file
+            if (jsonParsed.count < 1 || jsonParsed == nil) {
+                
+                // Check if the error is set
+                if (!*error || *error == nil) {
+                    
+                    // Assertion store came back empty, and so did the error
+                    NSDictionary *errorDetails = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Parse Assertion Store Failed", nil),
+                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to parse assertion store, unknown error", nil),
+                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try fixing the format of the assertion store", nil)
+                                                   };
+                    
+                    // Set the error
+                    *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnknownError userInfo:errorDetails];
+                    
+                    // Log it
+                    NSLog(@"Parse Assertion Store Failed: %@", errorDetails);
+                    
+                    // Don't return anything
+                    return nil;
+                }
+            }
+            
+                // Map Sentegrity Assertion Store Class
+            DCArrayMapping *mapper = [DCArrayMapping mapperForClassElements:[Sentegrity_Stored_TrustFactor_Object class] forAttribute:kStoredTrustFactorObjectMapping onClass:[Sentegrity_Assertion_Store class]];
+            DCArrayMapping *mapper2 = [DCArrayMapping mapperForClassElements:[Sentegrity_Stored_Assertion class] forAttribute:kAssertionObjectMapping onClass:[Sentegrity_Stored_TrustFactor_Object class]];
+                
+                // Set up the parser configuration for json parsing
+            DCParserConfiguration *config = [DCParserConfiguration configuration];
+                [config addArrayMapper:mapper];
+                [config addArrayMapper:mapper2];
+                
+                // Set up the date parsing configuration
+                config.datePattern = OMDateFormat;
+                
+                // Set the parser and include the configuration
+                DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass:[Sentegrity_Assertion_Store class] andConfiguration:config];
+                
+                // Get the policy from the parsing
+                Sentegrity_Assertion_Store *store = [parser parseDictionary:jsonParsed];
+
+            
+            // Make sure the class is valid
+            if (!store || store == nil) {
+                
+                // Assertion store Class is invalid!
+                
+                // Assertion store came back empty, and so did the error
+                NSDictionary *errorDetails = @{
+                                               NSLocalizedDescriptionKey: NSLocalizedString(@"Parse Assertion Store Failed", nil),
+                                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to parse assertion store, unknown error", nil),
+                                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try fixing the format of the assertion store", nil)
+                                               };
+                
+                // Set the error
+                *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnknownError userInfo:errorDetails];
+                
+                // Log it
+                NSLog(@"Parse Assertion Store Failed: %@", errorDetails);
+                
+                // Don't return anything
+                return nil;
+
+                
+            }
+            
+            // Return the object
+            self.currentStore = store;
+            return self.currentStore;
+            
         }
         
+        
+    }
+    else{
+        return self.currentStore;
     }
     
-    // Return nothing
-    *exists = NO;
+    // Not found
     return nil;
-
 }
 
-// Set the local store
-- (Sentegrity_Assertion_Store *)setAssertionStore:(Sentegrity_Assertion_Store *)store withAppID:(NSString *)appID withError:(NSError **)error {
-    NSData *data = [store JSONData];
+
     
-    // Create store name & path
-    NSString *storeName = [appID stringByAppendingString:@".store"];
-    NSString *storePath = [_storePath stringByAppendingPathComponent:storeName];
+// Set the assertion file
+- (void)setAssertionStoreWithError:(NSError **)error {
     
-    BOOL outFileWrite = [data writeToFile:storePath options:kNilOptions error:error];
-    //NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:error];
-    //[dict writeToFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.store", appID]] atomically:NO];
+    // Zero out the error
+    *error = nil;
     
-    // BETA2: Nick's added write out validation
-    if (!outFileWrite ) {
+    // Make sure the class is valid
+    if (!self.currentStore || self.currentStore == nil) {
         
-        // Unable to write out local store!!!
+        // Startup Class is invalid!
+        
+        // No valid startup provided
         NSDictionary *errorDetails = @{
-                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Write Store.", nil),
-                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to write out local store.", nil),
-                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try providing correct store to write out.", nil)
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Setting Assertion Store File Unsuccessful", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Assertion Store Class reference is invalid", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid assertion store object instance", nil)
                                        };
         
         // Set the error
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAUnableToWriteStore userInfo:errorDetails];
+        *error = [NSError errorWithDomain:coreDetectionDomain code:SAInvalidStartupInstance userInfo:errorDetails];
         
-        // Log Error
-        NSLog(@"Failed to Write Store: %@", errorDetails);
-        
-        // Return nil
-        return nil;
     }
     
-    // Return the new or existing store
-    return store;
+    // Save the assertion store file to disk (as json)
+    NSData *data = [self.currentStore JSONData];
+    
+    // Validate the data
+    if (!data || data == nil) {
+        
+        
+        // No valid assertion store
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Setting Assertion Store File Unsuccessful", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Assertion store class reference does not parse to JSON correctly", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid JSON assertion store object instance", nil)
+                                       };
+        
+        // Set the error
+        *error = [NSError errorWithDomain:coreDetectionDomain code:SAInvalidStartupInstance userInfo:errorDetails];
+        
+    }
+    
+    // Write the data out to the path
+    BOOL outFileWrite = [data writeToFile:[self assertionStoreFilePath] options:kNilOptions error:error];
+    
+    // Validate that the write was successful
+    if (!outFileWrite ) {
+        
+        // Check if error passed back was empty
+        if (!*error || *error == nil) {
+            
+            // Unable to write out startup file!!
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to Write Assertion Store file", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Unable to write assertion file", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try providing correct assertion store to write out.", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToWriteStore userInfo:errorDetails];
+            
+        }
+        
+        // Log Error
+        NSLog(@"Failed to Write Store: %@", *error);
+        
+    }
+    
 }
-
 
 
 

@@ -14,12 +14,7 @@
 // Sentegrity Policy
 #import "Sentegrity_Policy.h"
 
-@interface ProtectMode : NSObject
-
-/*!
- *  Attempts transparent authentication
- */
-- (void)attemptTransparentAuthentication;
+@interface LoginAction : NSObject
 
 /*!
  *  Deactivate Protect Mode Action using the provided input
@@ -28,7 +23,9 @@
  *
  *  @return Whether the protect mode was deactived or not
  */
-- (BOOL)deactivateProtectModeAction:(NSInteger)action withInput:(NSString *)input andError:(NSError **)error;
+
+// Deactivate Protect Mode User with user pin
++ (NSInteger)attemptLoginWithViolationActionCode:(NSInteger)violationCode withAuthenticationCode:(NSInteger)authenticationCode withUserInput:(NSString *)Userinput andError:(NSError **)error;
 
 #pragma mark - Whitelisting
 

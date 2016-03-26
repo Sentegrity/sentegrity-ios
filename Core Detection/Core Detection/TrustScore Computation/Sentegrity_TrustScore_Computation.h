@@ -7,11 +7,12 @@
 
 #import <Foundation/Foundation.h>
 #import "Sentegrity_Policy.h"
+#import "Sentegrity_Classification.h"
+
+// Transparent Authentication
+#import "TransparentAuthentication.h"
 
 @interface Sentegrity_TrustScore_Computation : NSObject
-
-// Policy object
-@property (nonatomic) Sentegrity_Policy *policy;
 
 #pragma mark - Debug
 
@@ -31,6 +32,17 @@
 @property (nonatomic) NSArray *userAllTrustFactorOutputObjects;
 @property (nonatomic) NSArray *systemAllTrustFactorOutputObjects;
 
+
+#pragma mark - Classification Types
+
+// After we figure out what classification is which we assign them here in order to map protect mode actions
+
+@property (nonatomic) Sentegrity_Classification *systemBreachClass;
+@property (nonatomic) Sentegrity_Classification *systemPolicyClass;
+@property (nonatomic) Sentegrity_Classification *systemSecurityClass;
+@property (nonatomic) Sentegrity_Classification *userAnomalyClass;
+@property (nonatomic) Sentegrity_Classification *userPolicyClass;
+
 #pragma mark - Classification Scores
 
 // System Breach
@@ -48,6 +60,8 @@
 // User Anomaly
 @property (nonatomic) int userAnomalyScore;
 
+
+
 #pragma mark - Composite System Score
 
 // System Score
@@ -63,13 +77,14 @@
 @property (nonatomic) NSString *systemGUIIconText;
 
 // System detailed view: Issue Messages
-@property (nonatomic) NSArray *systemGUIIssues;
+@property (nonatomic) NSArray *systemIssues;
 
 // System detailed view: Suggesstion Messages
-@property (nonatomic) NSArray *systemGUISuggestions;
+@property (nonatomic) NSArray *systemSuggestions;
 
 // System detailed view: Analysis Messages
-@property (nonatomic) NSArray *systemGUIAnalysis;
+@property (nonatomic) NSArray *systemAnalysisResults;
+
 
 #pragma mark - Composite User Score
 
@@ -86,16 +101,15 @@
 @property (nonatomic) NSString *userGUIIconText;
 
 // User detailed view: Issue Messages
-@property (nonatomic) NSArray *userGUIIssues;
+@property (nonatomic) NSArray *userIssues;
 
 // User detailed view: Suggesstion Messages
-@property (nonatomic) NSArray *userGUISuggestions;
-
-// User detailed view: Authenticator Messages (we don't do this in the system space)
-@property (nonatomic) NSArray *userGUIAuthenticators;
+@property (nonatomic) NSArray *userSuggestions;
 
 // User detailed view: Analysis Messages
-@property (nonatomic) NSArray *userGUIAnalysis;
+@property (nonatomic) NSArray *userAnalysisResults;
+
+
 
 #pragma mark - Composite Device Score
 
@@ -105,16 +119,30 @@
 // device Trusted
 @property (nonatomic) BOOL  deviceTrusted;
 
-#pragma mark - Protect Mode
+
+
+#pragma mark - Core Detection Results and Action Code
 
 // Classification responsible for causing protect mode
-@property (nonatomic) NSInteger protectModeClassID;
+@property (nonatomic) NSInteger attributingClassID;
 
 // Action to take (e.g., prompt user or admin pin)
-@property (nonatomic) NSInteger protectModeAction;
+@property (nonatomic) NSInteger violationActionCode;
 
-// Message to display in prompt box
-@property (nonatomic) NSString *protectModeMessage;
+// Action to take (e.g., prompt user or admin pin)
+@property (nonatomic) NSInteger authenticationActionCode;
+
+// Action to take (e.g., prompt user or admin pin)
+@property (nonatomic) NSInteger CoreDetectionResultCode;
+
+
+#pragma mark - Authentication Results and Action Code
+
+// Action to take (e.g., prompt user or admin pin)
+@property (nonatomic) NSInteger authenticationResponseCode;
+
+
+#pragma mark - Core Detection Whitelists
 
 // Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
 @property (nonatomic) NSArray *protectModeWhitelist;
@@ -125,11 +153,19 @@
 // Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
 @property (nonatomic) NSArray *protectModeSystemWhitelist;
 
+
+#pragma mark - Transparent Authentication
+
 // Holds the trustFactorOutputObjects for use in transparent authentication
-@property (nonatomic) NSArray *transparentAuthenticationTrustFactors;
+@property (nonatomic) NSArray *transparentAuthenticationTrustFactorOutputObjects;
+
+// Transparent authentication result
+@property (nonatomic) NSInteger  transparentAuthenticationAction;
 
 // Should attempt transparent authentication
-@property (nonatomic) BOOL  attemptTransparentAuthentication;
+@property (nonatomic) BOOL  shouldAttemptTransparentAuthentication;
+
+
 
 // Compute the systemScore and the UserScore from the trust scores and the assertion storage objects
 + (instancetype)performTrustFactorComputationWithPolicy:(Sentegrity_Policy *)policy withTrustFactorOutputObjects:(NSArray *)trustFactorAssertions withError:(NSError **)error;

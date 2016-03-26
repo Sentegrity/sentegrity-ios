@@ -238,7 +238,6 @@
                                     //Add  TF to attributing list
                                     [trustFactorsAttributingToScoreInClass addObject:trustFactorOutputObject];
                                     
-                                    //TODO: Unused: NSInteger partialWeight;
                                     
                                     // Determine if the TF should apply partial weight or full weight
                                     if([trustFactorOutputObject.trustFactor.partialWeight intValue]==1){
@@ -508,19 +507,10 @@
         
     }// End classifications loop
     
+    // Perform class-level computation
+    
     // Object to return
     Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc]init];
-    
-    computationResults.policy = policy;
-    
-    // Return computation (mainly to check for errors since this is singleton return not really needed)
-    return [computationResults analyzeResultsWithError:error];
-}
-
-#pragma mark - Private Helper Methods
-// Get a classification from an array with the name provided
-- (Sentegrity_TrustScore_Computation *)analyzeResultsWithError:(NSError **)error {
-    
     
     // GUI Messages - System
     NSMutableSet *systemIssues = [[NSMutableSet alloc] init];
@@ -530,7 +520,6 @@
     // GUI Messages - User
     NSMutableSet *userIssues = [[NSMutableSet alloc] init];
     NSMutableSet *userSuggestions = [[NSMutableSet alloc] init];
-    NSMutableSet *userAuthenticators = [[NSMutableSet alloc] init];
     NSMutableSet *userSubClassStatuses = [[NSMutableSet alloc] init];
     
     // TrustFactor Sorting - System
@@ -549,13 +538,6 @@
     
     // Transparent authentication
     NSMutableArray *userTrustFactorsForTransparentAuthentication = [[NSMutableArray alloc] init];
-    
-    // Get classifications
-    Sentegrity_Classification *systemBreachClass;
-    Sentegrity_Classification *systemPolicyClass;
-    Sentegrity_Classification *systemSecurityClass;
-    Sentegrity_Classification *userAnomalyClass;
-    Sentegrity_Classification *userPolicyClass;
     
     int systemTrustScoreSum = 0;
     
@@ -576,24 +558,24 @@
             int currentScore=0;
             // This method starts at 100 and goes down to 0
             if([[class computationMethod] intValue] == 0){
-             currentScore = MIN(100,MAX(0,100-(int)[class score]));
+                currentScore = MIN(100,MAX(0,100-(int)[class score]));
             }
             // This method starts at 0 and goes to 100
             else if([[class computationMethod] intValue] == 1){
-             currentScore = MIN(100,(int)[class score]);
+                currentScore = MIN(100,(int)[class score]);
             }
-
+            
             
             // Calculate individual class penalties
             switch ([[class identification] intValue]) {
                     
                 case 1:
-                    systemBreachClass = class;
+                    self.systemBreachClass = class;
                     self.systemBreachScore = currentScore;
                     break;
                     
                 case 2:
-                    systemPolicyClass = class;
+                    self.systemPolicyClass = class;
                     self.systemPolicyScore = currentScore;
                     
                     // Don't add policy scores to overall as it just inflates it
@@ -603,7 +585,7 @@
                     break;
                     
                 case 3:
-                    systemSecurityClass = class;
+                    self.systemSecurityClass = class;
                     self.systemSecurityScore = currentScore;
                     break;
                 default:
@@ -643,8 +625,8 @@
             switch ([[class identification] intValue]) {
                     
                 case 4:
-                   
-                    userPolicyClass = class;
+                    
+                    self.userPolicyClass = class;
                     self.userPolicyScore = currentScore;
                     
                     // Don't add policy scores to overall as it just inflates it
@@ -655,7 +637,7 @@
                     
                     
                 case 5:
-                    userAnomalyClass = class;
+                    self.userAnomalyClass = class;
                     self.userAnomalyScore = currentScore;
                     break;
                 default:
@@ -666,7 +648,6 @@
             [userIssues addObjectsFromArray:[class issues]];
             [userSuggestions addObjectsFromArray:[class suggestions]];
             [userSubClassStatuses addObjectsFromArray:[class status]];
-            [userAuthenticators addObjectsFromArray:[class authenticators]];
             
             // Tally user debug data
             [userTrustFactorsAttributingToScore addObjectsFromArray:[class trustFactorsTriggered]];
@@ -683,18 +664,17 @@
     }
     
     // Set GUI messages (system)
-    self.systemGUIIssues = [systemIssues allObjects];
-    self.systemGUISuggestions = [systemSuggestions allObjects];
-    self.systemGUIAnalysis = [systemSubClassStatuses allObjects];
+    self.systemIssues = [systemIssues allObjects];
+    self.systemSuggestions = [systemSuggestions allObjects];
+    self.systemAnalysisResults = [systemSubClassStatuses allObjects];
     
     // Set GUI messages (user)
-    self.userGUIIssues = [userIssues allObjects];
-    self.userGUISuggestions = [userSuggestions allObjects];
-    self.userGUIAnalysis = [userSubClassStatuses allObjects];
-    self.userGUIAuthenticators = [userAuthenticators allObjects];
+    self.userIssues = [userIssues allObjects];
+    self.userSuggestions = [userSuggestions allObjects];
+    self.userAnalysisResults = [userSubClassStatuses allObjects];
     
     // Set transparent authentication list
-    self.transparentAuthenticationTrustFactors = userTrustFactorsForTransparentAuthentication;
+    self.transparentAuthenticationTrustFactorOutputObjects = userTrustFactorsForTransparentAuthentication;
     
     // Set whitelists for system/user domains
     self.protectModeUserWhitelist = userTrustFactorsToWhitelist;
@@ -739,178 +719,11 @@
     
     self.deviceScore = (self.systemScore + self.userScore)/2;
     
-    // Defaults
-    self.deviceTrusted = YES;
-    self.userTrusted = YES;
-    self.systemTrusted = YES;
-    self.attemptTransparentAuthentication = YES;
     
-    // Check system threshold
-    if (self.systemScore < self.policy.systemThreshold.integerValue) {
-        // System is not trusted
-        self.systemTrusted = NO;
-        self.deviceTrusted = NO;
-        self.attemptTransparentAuthentication = NO;
-    }
-    
-    // Check User Threshold
-    if (self.userScore < self.policy.userThreshold.integerValue) {
-        // User is not trusted
-        self.userTrusted = NO;
-        self.deviceTrusted = NO;
-        self.attemptTransparentAuthentication = NO;
-    }
-    
-    // Determine whitelisting and protect mode actions
-    // First determine protect mode action
-    
-    // Check if the system is trusted
-    if (!self.systemTrusted) {
-        
-        // Set protect mode whitelist to all of the system domain
-        self.protectModeWhitelist =  self.protectModeSystemWhitelist;
-        
-        if (self.systemBreachScore <= self.systemSecurityScore) // SYSTEM_BREACH is attributing
-        {
-            
-            self.protectModeClassID = [systemBreachClass.identification integerValue] ;
-            self.protectModeAction = [systemBreachClass.protectModeAction integerValue];
-            self.protectModeMessage = systemBreachClass.protectModeMessage;
-            
-            // Set dashboard and detailed system view info
-            self.systemGUIIconID = [systemBreachClass.identification intValue];
-            self.systemGUIIconText = systemBreachClass.desc;
-            
-            // SYSTEM_POLICY is attributing
-        } else if (self.systemPolicyScore <= self.systemSecurityScore) {
-            
-            self.protectModeClassID = [systemPolicyClass.identification integerValue] ;
-            self.protectModeAction = [systemPolicyClass.protectModeAction integerValue];
-            self.protectModeMessage = systemPolicyClass.protectModeMessage;
-            
-            // Set dashboard and detailed system view info
-            self.systemGUIIconID = [systemPolicyClass.identification intValue];
-            self.systemGUIIconText = systemPolicyClass.desc;
-            
-            //SYSTEM_SECURITY is attributing
-        } else {
-            
-            self.protectModeClassID = [systemSecurityClass.identification integerValue] ;
-            self.protectModeAction = [systemSecurityClass.protectModeAction integerValue];
-            self.protectModeMessage = systemSecurityClass.protectModeMessage;
-            
-            // Set dashboard and detailed system view info
-            self.systemGUIIconID = [systemSecurityClass.identification intValue];
-            self.systemGUIIconText = systemSecurityClass.desc;
-        }
-        
-    } else {
-        
-        // Set dashboard and detailed system view info
-        self.systemGUIIconID = 0;
-        self.systemGUIIconText = @"Device Trusted";
-    }
-    
-    // Check if the user is trusted
-    if (!self.userTrusted) {
-        
-        // See which classification inside user attributed the most and set protect mode
-        // USER_POLICY is attributing
-        if (self.userPolicyScore <= self.userAnomalyScore) {
-            
-            // Check if the system is trusted such that we add the system whitelist
-            if (self.systemTrusted) {
-                
-                // System is trusted
-                
-                // Get value of Class ID
-                self.protectModeClassID = [userPolicyClass.identification integerValue];
-                
-                // Get value of protect mode
-                self.protectModeAction = [userPolicyClass.protectModeAction integerValue];
-                
-                // Get protect mode message from policy class and set it to self
-                self.protectModeMessage = userPolicyClass.protectModeMessage;
-                
-                // Initialize protect mode white list
-                self.protectModeWhitelist = [[NSArray alloc] init];
-                
-                // Add entire user domain to whitelist
-                self.protectModeWhitelist = [self.protectModeWhitelist arrayByAddingObjectsFromArray:self.protectModeUserWhitelist];
-                
-            } else {
-                
-                // System is not trusted
-                
-                // Add to the whitelist
-                
-                // Check if the protectmodewhitelist has something in it
-                if (!self.protectModeWhitelist || self.protectModeWhitelist.count < 1) {
-                    
-                    // Initialize protect mode white list
-                    self.protectModeWhitelist = [[NSArray alloc] init];
-                    
-                }
-                
-                // Add entire user domain to whitelist
-                self.protectModeWhitelist = [self.protectModeWhitelist arrayByAddingObjectsFromArray:self.protectModeUserWhitelist];
-            }
-            
-            // Set dashboard and detailed user view info
-            self.userGUIIconID = [userPolicyClass.identification intValue];
-            self.userGUIIconText = userPolicyClass.desc;
-            
-            //USER_ANOMALY is attributing
-        } else {
-            
-            // Set protect mode action to the class specified action ONLY if system did not already
-            if (self.systemTrusted) {
-                
-                // System is trusted
-                
-                self.protectModeClassID = [userAnomalyClass.identification integerValue];
-                self.protectModeAction = [userAnomalyClass.protectModeAction integerValue];
-                self.protectModeMessage = userAnomalyClass.protectModeMessage;
-                
-                self.protectModeWhitelist = [[NSArray alloc] init];
-                
-                // Add just user anomaly to whitelist
-                self.protectModeWhitelist = [self.protectModeWhitelist arrayByAddingObjectsFromArray:userAnomalyClass.trustFactorsToWhitelist];
-                
-            } else {
-                
-                // System is not trusted
-                
-                // Add to the whitelist
-                
-                // Check if the protectmodewhitelist has something in it
-                if (!self.protectModeWhitelist || self.protectModeWhitelist.count < 1) {
-                    
-                    // Initialize protect mode white list
-                    self.protectModeWhitelist = [[NSArray alloc] init];
-                    
-                }
-                
-                // Add just user anomaly to whitelist
-                self.protectModeWhitelist = [self.protectModeWhitelist arrayByAddingObjectsFromArray:userAnomalyClass.trustFactorsToWhitelist];
-                
-            }
-            
-            // Set dashboard and detailed user view info
-            self.userGUIIconID = [userAnomalyClass.identification intValue];
-            self.userGUIIconText = userAnomalyClass.desc;
-        }
-        
-    } else {
-        
-        // Set dashboard and detailed system view info
-        self.userGUIIconID = 0;
-        self.userGUIIconText = @"User Trusted";
-    }
-    
-    return self;
+    return computationResults;
 }
 
+#pragma mark - Private Helper Methods
 
 
 + (void)addSuggestionsForClass:(Sentegrity_Classification *)class withSubClass:(Sentegrity_Subclassification *)subClass withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{

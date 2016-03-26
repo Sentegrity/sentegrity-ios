@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 
 // Policy
-#import "Sentegrity_Policy.h"
+#import "Sentegrity_Policy_Parser.h"
 
 // TrustScore Computation
 #import "Sentegrity_TrustScore_Computation.h"
+
+// Core Detection Results Analysis
+#import "Sentegrity_Results_Analysis.h"
 
 @interface CoreDetection : NSObject
 
@@ -23,17 +26,6 @@
  */
 + (id)sharedDetection;
 
-#pragma mark - Parsing
-
-/*!
- *  Parse a policy with a specified path
- *
- *  @param policyPath Provide the URL file path to be parsed
- *  @param error      Send an NSError to receive an error value
- *
- *  @return A Policy Object
- */
-- (Sentegrity_Policy *)parsePolicy:(NSURL *)policyPath withError:(NSError **)error;
 
 #pragma mark - Core Detection
 
@@ -54,7 +46,7 @@ typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computati
  *  @param callback CoreDetectionBlock
  *  @warning TODO: Change the way errors are passed
  */
-- (void)performCoreDetectionWithPolicy:(Sentegrity_Policy *)policy withCallback:(coreDetectionBlock)callback;
+- (void)performCoreDetectionWithCallback:(coreDetectionBlock)callback;
 
 /*!
  *  Get the last computation results
@@ -64,11 +56,6 @@ typedef void (^coreDetectionBlock)(BOOL success, Sentegrity_TrustScore_Computati
 - (Sentegrity_TrustScore_Computation *)getLastComputationResults;
 
 #pragma mark - Properties
-
-/*!
- *  Get/set the current policy being parsed
- */
-@property (atomic, retain) Sentegrity_Policy *currentPolicy;
 
 /*!
  *  Get/set the current computation results

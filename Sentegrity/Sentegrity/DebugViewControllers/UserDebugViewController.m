@@ -188,7 +188,7 @@
     
     
     NSString *trustFactorsForTransparentAuth = @"\nTrustFactors For Transparent Auth\n++++++++++++++++++++++++++++++\n";
-    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.transparentAuthenticationTrustFactors){
+    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.transparentAuthenticationTrustFactorOutputObjects){
         
         NSString *currentAssertions =@"";
         

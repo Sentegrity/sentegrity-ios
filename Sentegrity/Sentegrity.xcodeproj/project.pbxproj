@@ -35,7 +35,7 @@
 		4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22BFFE1B7B985A00EFFD7D /* SystemInformationViewController.m */; };
 		4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */; };
 		4C4612B51C7669D90015318C /* Sentegrity_Startup_Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4612B41C7669D90015318C /* Sentegrity_Startup_Store.m */; };
-		4C46AA6C1C46EB650091D7AB /* Sentegrity_History.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C46AA691C46EB650091D7AB /* Sentegrity_History.m */; };
+		4C46AA6C1C46EB650091D7AB /* Sentegrity_History_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C46AA691C46EB650091D7AB /* Sentegrity_History_Object.m */; };
 		4C46AA6D1C46EB650091D7AB /* Sentegrity_Startup.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C46AA6B1C46EB650091D7AB /* Sentegrity_Startup.m */; };
 		4C5393851B2F965D00EA4484 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393841B2F965D00EA4484 /* loading.gif */; };
 		4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393861B2F966700EA4484 /* loadingWhite.gif */; };
@@ -81,10 +81,10 @@
 		4C97D3D81BE15A35009F3779 /* TrustFactor_Dispatch_Time.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D3601BE15A35009F3779 /* TrustFactor_Dispatch_Time.m */; };
 		4C97D3DA1BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D3621BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m */; };
 		4C97D3DC1BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D3641BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m */; };
-		4C97D3E01BE15A35009F3779 /* Sentegrity_Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D36A1BE15A35009F3779 /* Sentegrity_Parser.m */; };
-		4C97D3E21BE15A35009F3779 /* ProtectMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D36D1BE15A35009F3779 /* ProtectMode.m */; };
-		4C97D3E41BE15A35009F3779 /* default.policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D36F1BE15A35009F3779 /* default.policy */; };
-		4C97D3E51BE15A35009F3779 /* default.policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D36F1BE15A35009F3779 /* default.policy */; };
+		4C97D3E01BE15A35009F3779 /* Sentegrity_Policy_Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D36A1BE15A35009F3779 /* Sentegrity_Policy_Parser.m */; };
+		4C97D3E21BE15A35009F3779 /* LoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D36D1BE15A35009F3779 /* LoginAction.m */; };
+		4C97D3E41BE15A35009F3779 /* policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D36F1BE15A35009F3779 /* policy */; };
+		4C97D3E51BE15A35009F3779 /* policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D36F1BE15A35009F3779 /* policy */; };
 		4C97D3E61BE15A35009F3779 /* Default_Policy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D3711BE15A35009F3779 /* Default_Policy.plist */; };
 		4C97D3E71BE15A35009F3779 /* Default_Policy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D3711BE15A35009F3779 /* Default_Policy.plist */; };
 		4C97D3E81BE15A35009F3779 /* oui.list in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D3721BE15A35009F3779 /* oui.list */; };
@@ -102,7 +102,11 @@
 		4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */; };
 		4CE9D8071B2FA606006D43D8 /* DINPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D8061B2FA606006D43D8 /* DINPro-Bold.otf */; };
 		4CE9D80D1B323847006D43D8 /* 3rd Party Library Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */; };
+		965B62141C9DE1340016D403 /* Sentegrity_Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B62131C9DE1340016D403 /* Sentegrity_Crypto.m */; };
+		965B62181CA0A43C0016D403 /* Sentegrity_Results_Analysis.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B62171CA0A43C0016D403 /* Sentegrity_Results_Analysis.m */; };
 		9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9676DF801B7EA92900C508D6 /* LandingViewController.m */; };
+		9680BCBD1C9B8A1E00C81077 /* TransparentAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 9680BCBC1C9B8A1E00C81077 /* TransparentAuthentication.m */; };
+		9680BCC01C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 9680BCBF1C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.m */; };
 		969CD0691B7E668500254F45 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0681B7E668500254F45 /* DashboardViewController.m */; };
 		969CD06D1B7E673900254F45 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD06C1B7E673900254F45 /* LoginViewController.m */; };
 		969CD07A1B7E7DEC00254F45 /* SCLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0701B7E7DEC00254F45 /* SCLAlertView.m */; };
@@ -169,8 +173,8 @@
 		4C22C0011B7B986800EFFD7D /* UserInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInformationViewController.m; sourceTree = "<group>"; };
 		4C4612B31C7669D90015318C /* Sentegrity_Startup_Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Startup_Store.h; sourceTree = "<group>"; };
 		4C4612B41C7669D90015318C /* Sentegrity_Startup_Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Startup_Store.m; sourceTree = "<group>"; };
-		4C46AA681C46EB650091D7AB /* Sentegrity_History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_History.h; sourceTree = "<group>"; };
-		4C46AA691C46EB650091D7AB /* Sentegrity_History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_History.m; sourceTree = "<group>"; };
+		4C46AA681C46EB650091D7AB /* Sentegrity_History_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_History_Object.h; sourceTree = "<group>"; };
+		4C46AA691C46EB650091D7AB /* Sentegrity_History_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_History_Object.m; sourceTree = "<group>"; };
 		4C46AA6A1C46EB650091D7AB /* Sentegrity_Startup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Startup.h; sourceTree = "<group>"; };
 		4C46AA6B1C46EB650091D7AB /* Sentegrity_Startup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Startup.m; sourceTree = "<group>"; };
 		4C5393841B2F965D00EA4484 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
@@ -297,11 +301,11 @@
 		4C97D3621BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Wifi.m; sourceTree = "<group>"; };
 		4C97D3631BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Datasets.h; sourceTree = "<group>"; };
 		4C97D3641BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Datasets.m; sourceTree = "<group>"; };
-		4C97D3691BE15A35009F3779 /* Sentegrity_Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Parser.h; sourceTree = "<group>"; };
-		4C97D36A1BE15A35009F3779 /* Sentegrity_Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Parser.m; sourceTree = "<group>"; };
-		4C97D36C1BE15A35009F3779 /* ProtectMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtectMode.h; sourceTree = "<group>"; };
-		4C97D36D1BE15A35009F3779 /* ProtectMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtectMode.m; sourceTree = "<group>"; };
-		4C97D36F1BE15A35009F3779 /* default.policy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = default.policy; sourceTree = "<group>"; };
+		4C97D3691BE15A35009F3779 /* Sentegrity_Policy_Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sentegrity_Policy_Parser.h; path = ../Parser/Sentegrity_Policy_Parser.h; sourceTree = "<group>"; };
+		4C97D36A1BE15A35009F3779 /* Sentegrity_Policy_Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sentegrity_Policy_Parser.m; path = ../Parser/Sentegrity_Policy_Parser.m; sourceTree = "<group>"; };
+		4C97D36C1BE15A35009F3779 /* LoginAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginAction.h; sourceTree = "<group>"; };
+		4C97D36D1BE15A35009F3779 /* LoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginAction.m; sourceTree = "<group>"; };
+		4C97D36F1BE15A35009F3779 /* policy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = policy; sourceTree = "<group>"; };
 		4C97D3711BE15A35009F3779 /* Default_Policy.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Default_Policy.plist; sourceTree = "<group>"; };
 		4C97D3721BE15A35009F3779 /* oui.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oui.list; sourceTree = "<group>"; };
 		4C97D3731BE15A35009F3779 /* oui_all.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oui_all.list; sourceTree = "<group>"; };
@@ -328,8 +332,16 @@
 		4CE9D8061B2FA606006D43D8 /* DINPro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPro-Bold.otf"; sourceTree = "<group>"; };
 		4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "3rd Party Library Notes.rtf"; sourceTree = "<group>"; };
 		9607733C1BBDDE43001F4D5E /* BluetoothManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BluetoothManager.framework; sourceTree = "<group>"; };
+		965B62121C9DE1340016D403 /* Sentegrity_Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Crypto.h; sourceTree = "<group>"; };
+		965B62131C9DE1340016D403 /* Sentegrity_Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Crypto.m; sourceTree = "<group>"; };
+		965B62161CA0A43C0016D403 /* Sentegrity_Results_Analysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Results_Analysis.h; sourceTree = "<group>"; };
+		965B62171CA0A43C0016D403 /* Sentegrity_Results_Analysis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Results_Analysis.m; sourceTree = "<group>"; };
 		9676DF7F1B7EA92900C508D6 /* LandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandingViewController.h; sourceTree = "<group>"; };
 		9676DF801B7EA92900C508D6 /* LandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandingViewController.m; sourceTree = "<group>"; };
+		9680BCBB1C9B8A1E00C81077 /* TransparentAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentAuthentication.h; sourceTree = "<group>"; };
+		9680BCBC1C9B8A1E00C81077 /* TransparentAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentAuthentication.m; sourceTree = "<group>"; };
+		9680BCBE1C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TransparentAuth_Object.h; sourceTree = "<group>"; };
+		9680BCBF1C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TransparentAuth_Object.m; sourceTree = "<group>"; };
 		969896391B858E47004C5C7E /* Sentegrity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Sentegrity.entitlements; sourceTree = "<group>"; };
 		969CD0681B7E668500254F45 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
 		969CD06B1B7E673900254F45 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -409,6 +421,8 @@
 		04A248FB1B266AC2007D9460 /* Sentegrity */ = {
 			isa = PBXGroup;
 			children = (
+				965B62111C9DE1340016D403 /* Crypto */,
+				9680BCBA1C9B8A1E00C81077 /* TransparentAuthentication */,
 				4CE9D80A1B3233D2006D43D8 /* AppDelegate */,
 				969CD06A1B7E673900254F45 /* LoginViewController */,
 				4CE9D8081B3233B2006D43D8 /* DashboardViewController */,
@@ -489,8 +503,10 @@
 		4C46AA671C46EB650091D7AB /* Startup */ = {
 			isa = PBXGroup;
 			children = (
-				4C46AA681C46EB650091D7AB /* Sentegrity_History.h */,
-				4C46AA691C46EB650091D7AB /* Sentegrity_History.m */,
+				9680BCBE1C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.h */,
+				9680BCBF1C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.m */,
+				4C46AA681C46EB650091D7AB /* Sentegrity_History_Object.h */,
+				4C46AA691C46EB650091D7AB /* Sentegrity_History_Object.m */,
 				4C46AA6A1C46EB650091D7AB /* Sentegrity_Startup.h */,
 				4C46AA6B1C46EB650091D7AB /* Sentegrity_Startup.m */,
 				4C4612B31C7669D90015318C /* Sentegrity_Startup_Store.h */,
@@ -520,6 +536,7 @@
 		4C97D2DC1BE15A35009F3779 /* Core Detection */ = {
 			isa = PBXGroup;
 			children = (
+				965B62151CA0A43C0016D403 /* Results Analysis */,
 				4C97D3831BE15A35009F3779 /* Sentegrity.h */,
 				4C97D3841BE15A35009F3779 /* Sentegrity_Constants.h */,
 				4C97D2ED1BE15A35009F3779 /* CoreDetection.h */,
@@ -527,8 +544,7 @@
 				4C97D2DD1BE15A35009F3779 /* Assertion Storage */,
 				4C97D2EA1BE15A35009F3779 /* Baseline Analysis */,
 				4C97D2EF1BE15A35009F3779 /* Dispatch */,
-				4C97D3681BE15A35009F3779 /* Parser */,
-				4C97D36B1BE15A35009F3779 /* Protect Mode */,
+				4C97D36B1BE15A35009F3779 /* Login Action */,
 				4C97D36E1BE15A35009F3779 /* Sample Policies */,
 				4C97D3741BE15A35009F3779 /* Sentegrity Policy */,
 				4C46AA671C46EB650091D7AB /* Startup */,
@@ -752,21 +768,13 @@
 			path = Rules;
 			sourceTree = "<group>";
 		};
-		4C97D3681BE15A35009F3779 /* Parser */ = {
+		4C97D36B1BE15A35009F3779 /* Login Action */ = {
 			isa = PBXGroup;
 			children = (
-				4C97D3691BE15A35009F3779 /* Sentegrity_Parser.h */,
-				4C97D36A1BE15A35009F3779 /* Sentegrity_Parser.m */,
+				4C97D36C1BE15A35009F3779 /* LoginAction.h */,
+				4C97D36D1BE15A35009F3779 /* LoginAction.m */,
 			);
-			path = Parser;
-			sourceTree = "<group>";
-		};
-		4C97D36B1BE15A35009F3779 /* Protect Mode */ = {
-			isa = PBXGroup;
-			children = (
-				4C97D36C1BE15A35009F3779 /* ProtectMode.h */,
-				4C97D36D1BE15A35009F3779 /* ProtectMode.m */,
-			);
+			name = "Login Action";
 			path = "Protect Mode";
 			sourceTree = "<group>";
 		};
@@ -775,7 +783,7 @@
 			children = (
 				96A486AF1C5866BC00C11B62 /* hotspot_ssids.list */,
 				96A486AD1C581C5600C11B62 /* default_ssids.list */,
-				4C97D36F1BE15A35009F3779 /* default.policy */,
+				4C97D36F1BE15A35009F3779 /* policy */,
 				4C97D3701BE15A35009F3779 /* Old */,
 				4C97D3721BE15A35009F3779 /* oui.list */,
 				4C97D3731BE15A35009F3779 /* oui_all.list */,
@@ -798,6 +806,8 @@
 				4C97D3781BE15A35009F3779 /* DNE Modifiers */,
 				4C97D37B1BE15A35009F3779 /* Sentegrity_Policy.h */,
 				4C97D37C1BE15A35009F3779 /* Sentegrity_Policy.m */,
+				4C97D3691BE15A35009F3779 /* Sentegrity_Policy_Parser.h */,
+				4C97D36A1BE15A35009F3779 /* Sentegrity_Policy_Parser.m */,
 				4C97D37D1BE15A35009F3779 /* Subclassification */,
 				4C97D3801BE15A35009F3779 /* TrustFactor */,
 			);
@@ -911,6 +921,24 @@
 			path = StoryBoards;
 			sourceTree = "<group>";
 		};
+		965B62111C9DE1340016D403 /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				965B62121C9DE1340016D403 /* Sentegrity_Crypto.h */,
+				965B62131C9DE1340016D403 /* Sentegrity_Crypto.m */,
+			);
+			path = Crypto;
+			sourceTree = "<group>";
+		};
+		965B62151CA0A43C0016D403 /* Results Analysis */ = {
+			isa = PBXGroup;
+			children = (
+				965B62161CA0A43C0016D403 /* Sentegrity_Results_Analysis.h */,
+				965B62171CA0A43C0016D403 /* Sentegrity_Results_Analysis.m */,
+			);
+			path = "Results Analysis";
+			sourceTree = "<group>";
+		};
 		9676DF7E1B7EA92900C508D6 /* LandingViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -918,6 +946,15 @@
 				9676DF801B7EA92900C508D6 /* LandingViewController.m */,
 			);
 			path = LandingViewController;
+			sourceTree = "<group>";
+		};
+		9680BCBA1C9B8A1E00C81077 /* TransparentAuthentication */ = {
+			isa = PBXGroup;
+			children = (
+				9680BCBB1C9B8A1E00C81077 /* TransparentAuthentication.h */,
+				9680BCBC1C9B8A1E00C81077 /* TransparentAuthentication.m */,
+			);
+			path = TransparentAuthentication;
 			sourceTree = "<group>";
 		};
 		969CD06A1B7E673900254F45 /* LoginViewController */ = {
@@ -968,7 +1005,6 @@
 				04A248F61B266AC2007D9460 /* Frameworks */,
 				04A248F71B266AC2007D9460 /* Resources */,
 				3FABE24ACD9AD39980BDA839 /* Copy Pods Resources */,
-				CFFD0B592D4B2C83E8152943 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1071,7 +1107,7 @@
 				4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */,
 				04A2490A1B266AC2007D9460 /* Images.xcassets in Resources */,
 				96A486AE1C581C5600C11B62 /* default_ssids.list in Resources */,
-				4C97D3E41BE15A35009F3779 /* default.policy in Resources */,
+				4C97D3E41BE15A35009F3779 /* policy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1081,7 +1117,7 @@
 			files = (
 				4C97D3E91BE15A35009F3779 /* oui.list in Resources */,
 				4C97D3E71BE15A35009F3779 /* Default_Policy.plist in Resources */,
-				4C97D3E51BE15A35009F3779 /* default.policy in Resources */,
+				4C97D3E51BE15A35009F3779 /* policy in Resources */,
 				4C97D3EB1BE15A35009F3779 /* oui_all.list in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1119,21 +1155,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		CFFD0B592D4B2C83E8152943 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1156,18 +1177,20 @@
 				4C1DEC2B1BBCA38B00B0A312 /* LocationPermissionViewController.m in Sources */,
 				969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */,
 				4C97D39C1BE15A35009F3779 /* Sentegrity_TrustFactor_Dispatcher.m in Sources */,
-				4C97D3E21BE15A35009F3779 /* ProtectMode.m in Sources */,
+				4C97D3E21BE15A35009F3779 /* LoginAction.m in Sources */,
 				4C97D3941BE15A35009F3779 /* Sentegrity_TrustFactor_Output_Object.m in Sources */,
 				4C97D38C1BE15A35009F3779 /* Sentegrity_Assertion_Store+Helper.m in Sources */,
+				965B62141C9DE1340016D403 /* Sentegrity_Crypto.m in Sources */,
 				4C97D3D81BE15A35009F3779 /* TrustFactor_Dispatch_Time.m in Sources */,
 				0427EFFB1B792037000658AB /* SystemDebugViewController.m in Sources */,
 				4C9606A61BEE8772005E6B97 /* Sentegrity_Activity_Dispatcher.m in Sources */,
 				4C97D3B61BE15A35009F3779 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */,
-				4C46AA6C1C46EB650091D7AB /* Sentegrity_History.m in Sources */,
+				4C46AA6C1C46EB650091D7AB /* Sentegrity_History_Object.m in Sources */,
 				4C97D3CA1BE15A35009F3779 /* TrustFactor_Dispatch_Netstat.m in Sources */,
 				4C97D3961BE15A35009F3779 /* Sentegrity_TrustFactor_Storage.m in Sources */,
 				4C97D3F41BE15A35009F3779 /* Sentegrity_TrustFactor.m in Sources */,
 				04A249021B266AC2007D9460 /* AppDelegate.m in Sources */,
+				965B62181CA0A43C0016D403 /* Sentegrity_Results_Analysis.m in Sources */,
 				4C97D3FA1BE15A35009F3779 /* Sentegrity_TrustScore_Computation.m in Sources */,
 				4C97D3C41BE15A35009F3779 /* TrustFactor_Dispatch_File.m in Sources */,
 				4C97D3F61BE15A35009F3779 /* Sentegrity_Classification+Computation.m in Sources */,
@@ -1184,6 +1207,7 @@
 				4C97D3A61BE15A35009F3779 /* ActiveRoute.m in Sources */,
 				4C97D3AA1BE15A35009F3779 /* Sentegrity_TrustFactor_Dataset_Cell.m in Sources */,
 				4C4612B51C7669D90015318C /* Sentegrity_Startup_Store.m in Sources */,
+				9680BCBD1C9B8A1E00C81077 /* TransparentAuthentication.m in Sources */,
 				4C97D39E1BE15A35009F3779 /* MDBluetoothDevice.m in Sources */,
 				4C97D3D01BE15A35009F3779 /* TrustFactor_Dispatch_Process.m in Sources */,
 				4C97D3DC1BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m in Sources */,
@@ -1199,6 +1223,7 @@
 				4C97D3EC1BE15A35009F3779 /* Sentegrity_Classification.m in Sources */,
 				4C97D3D61BE15A35009F3779 /* TrustFactor_Dispatch_Sentegrity.m in Sources */,
 				4C22BFFF1B7B985A00EFFD7D /* SystemInformationViewController.m in Sources */,
+				9680BCC01C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.m in Sources */,
 				4C97D3901BE15A35009F3779 /* Sentegrity_Stored_Assertion.m in Sources */,
 				969CD06D1B7E673900254F45 /* LoginViewController.m in Sources */,
 				4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */,
@@ -1212,7 +1237,7 @@
 				4C46AA6D1C46EB650091D7AB /* Sentegrity_Startup.m in Sources */,
 				4C97D3DA1BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m in Sources */,
 				04A248FF1B266AC2007D9460 /* main.m in Sources */,
-				4C97D3E01BE15A35009F3779 /* Sentegrity_Parser.m in Sources */,
+				4C97D3E01BE15A35009F3779 /* Sentegrity_Policy_Parser.m in Sources */,
 				4C97D3D41BE15A35009F3779 /* TrustFactor_Dispatch_Sandbox.m in Sources */,
 				4C97D3AE1BE15A35009F3779 /* Sentegrity_TrustFactor_Dataset_Location.m in Sources */,
 			);

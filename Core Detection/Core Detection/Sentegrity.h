@@ -22,7 +22,7 @@
 #import "ProtectMode.h"
 
 // Parser of policy files - takes json and plist
-#import "Sentegrity_Parser.h"
+#import "Sentegrity_Policy_Parser.h"
 
 // Policy
 #import "Sentegrity_Policy.h"

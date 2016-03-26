@@ -8,13 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
-// Startup
+// Startup file
 #import "Sentegrity_Startup.h"
 
-// History
-#import "Sentegrity_History.h"
+// Run History Object
+#import "Sentegrity_History_Object.h"
+
+// Transparent Auth Object
+#import "Sentegrity_TransparentAuth_Object.h"
+
+// Computation Results
+#import "CoreDetection.h"
+
+
+
+
 
 @interface Sentegrity_Startup_Store : NSObject
+
+
 
 // Singleton instance
 + (id)sharedStartupStore;
@@ -22,13 +34,20 @@
 /* Properties */
 @property (nonatomic,retain) NSString *currentState;
 
+@property (atomic,retain) Sentegrity_Startup *currentStore;
+
 /* Getter */
 // Get the startup file
-- (Sentegrity_Startup *)getStartupFile:(NSError **)error;
+- (Sentegrity_Startup *)getStartupStore:(NSError **)error;
+
 
 /* Setter */
 // Set the startup file
-- (void)setStartupFile:(Sentegrity_Startup *)startup withError:(NSError **)error;
+- (void)setStartupStoreWithError:(NSError **)error;
+
+/* Getter */
+// Set the run history object
+- (void)setHistoryFileWithComputationResult:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)error;
 
 
 /* Helper */

@@ -12,8 +12,9 @@
 @interface Sentegrity_Policy : NSObject
 
 @property (nonatomic,retain) NSNumber *policyID;
-@property (nonatomic,retain) NSString *appID;
-@property (nonatomic,retain) NSNumber *revision;;
+@property (nonatomic,retain) NSNumber *transparentAuthDecayMetric;
+@property (nonatomic,retain) NSNumber *transparentAuthEnabled;
+@property (nonatomic,retain) NSNumber *revision;
 @property (nonatomic,retain) NSNumber *userThreshold;
 @property (nonatomic,retain) NSNumber *systemThreshold;
 @property (nonatomic,retain) NSNumber *timeout;

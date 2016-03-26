@@ -24,6 +24,13 @@
 // Landing Page View Controller
 #import "LandingViewController.h"
 
+// Transparent Authentication
+#import "TransparentAuthentication.h"
+
+// Crypto
+#import "Sentegrity_Crypto.h"
+
+
 @interface LoginViewController : UIViewController
 
 /* Perform Core Detection */

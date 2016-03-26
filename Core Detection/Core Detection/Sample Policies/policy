@@ -3,11 +3,13 @@
   "appID": "default",
   "revision": 1,
   "userThreshold": 80,
-  "systemThreshold": 5e0,
+  "systemThreshold": 50,
   "timeout": 15,
   "contactPhone": "18005556666",
   "contactURL": "www.application.com",
   "contactEmail": "help@application.com",
+  "transparentAuthEnabled": 1,
+  "transparentAuthDecayMetric": 0.07,
   "DNEModifiers": {
     "unauthorized": 0.5,
     "unsupported": 0,
@@ -25,8 +27,8 @@
       "computationMethod": 0,
       "name": "SYSTEM_BREACH",
       "desc": "High Risk Device",
-      "protectModeAction": 3,
-      "protectModeMessage": "Enter administrator PIN to deactivate."
+      "violationAction": 3,
+      "authenticationAction": 3
     },
     {
       "id": 2,
@@ -34,8 +36,8 @@
       "computationMethod": 0,
       "name": "SYSTEM_POLICY",
       "desc": "Device Violation",
-      "protectModeAction": 2,
-      "protectModeMessage": "Enter administrator PIN to deactivate."
+      "violationAction": 2,
+      "authenticationAction": 3
     },
     {
       "id": 3,
@@ -43,8 +45,8 @@
       "computationMethod": 0,
       "name": "SYSTEM_SECURITY",
       "desc": "Device Anomaly",
-      "protectModeAction": 3,
-      "protectModeMessage": "Enter administrator PIN to deactivate."
+      "violationAction": 2,
+      "authenticationAction": 3
     },
     {
       "id": 4,
@@ -52,8 +54,8 @@
       "computationMethod": 0,
       "name": "USER_POLICY",
       "desc": "User Violation",
-      "protectModeAction": 2,
-      "protectModeMessage": "Enter administrator PIN to deactivate."
+      "violationAction": 2,
+      "authenticationAction": 1
     },
     {
       "id": 5,
@@ -61,8 +63,8 @@
       "computationMethod": 1,
       "name": "USER_ANOMALY",
       "desc": "User Anomaly",
-      "protectModeAction": 1,
-      "protectModeMessage": "Enter user PIN to deactivate."
+      "violationAction": 1,
+      "authenticationAction": 1
     }
   ],
   "subclassifications": [
