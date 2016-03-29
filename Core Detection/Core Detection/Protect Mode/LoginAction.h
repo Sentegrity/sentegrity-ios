@@ -14,10 +14,18 @@
 // Sentegrity Policy
 #import "Sentegrity_Policy.h"
 
+#import "Sentegrity_LoginResponse_Object.h"
+
+
 @interface LoginAction : NSObject
 
+// Singleton instance
++ (id)sharedLogin;
+
+
+#pragma mark - Pre Auth function
 /*!
- *  Deactivate Protect Mode Action using the provided input
+ *  attempt login returns the decrypted master key for transparent auth and interactive
  *
  *  @param action specifies what to do
  *
@@ -25,40 +33,8 @@
  */
 
 // Deactivate Protect Mode User with user pin
-+ (NSInteger)attemptLoginWithViolationActionCode:(NSInteger)violationCode withAuthenticationCode:(NSInteger)authenticationCode withUserInput:(NSString *)Userinput andError:(NSError **)error;
+- (Sentegrity_LoginResponse_Object *)attemptLoginWithUserInput:(NSString *)Userinput andError:(NSError **)error;
 
-#pragma mark - Whitelisting
-
-/*!
- *  WhiteList the attributing trustfactor output objects
- *
- *  @return Whether the trustfactors were whitelisted or not
- */
-- (BOOL)whitelistAttributingTrustFactorOutputObjectsWithError:(NSError **)error;
-
-#pragma mark - Special Init
-
-/*!
- *  Initialize with a policy and trustfactors
- *
- *  @param policy                  Policy
- *  @param trustFactorsToWhitelist TrustFactors to whitelist
- *
- *  @return instance of ProtectMode
- */
-- (id)initWithPolicy:(Sentegrity_Policy *)policy andTrustFactorsToWhitelist:(NSArray *)trustFactorsToWhitelist;
-
-#pragma mark - Properties
-
-/**
- *  Policy
- */
-@property (atomic, retain) Sentegrity_Policy *policy;
-
-/*!
- *  TrustFactors to whitelist
- */
-@property (atomic, retain) NSArray *trustFactorsToWhitelist;
 
 
 @end

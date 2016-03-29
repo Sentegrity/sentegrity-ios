@@ -677,8 +677,8 @@
     self.transparentAuthenticationTrustFactorOutputObjects = userTrustFactorsForTransparentAuthentication;
     
     // Set whitelists for system/user domains
-    self.protectModeUserWhitelist = userTrustFactorsToWhitelist;
-    self.protectModeSystemWhitelist = systemTrustFactorsToWhitelist;
+    self.userTrustFactorWhitelist = userTrustFactorsToWhitelist;
+    self.systemTrustFactorWhitelist = systemTrustFactorsToWhitelist;
     
     // DEBUG: Set trustfactor objects for system/user domains
     self.userAllTrustFactorOutputObjects = userAllTrustFactorOutputObjects;

@@ -224,7 +224,7 @@
     NSString *userKeyPBKDF2HashString = [[Sentegrity_Crypto sharedCrypto] createSHA1HashOfData:userKeyData];
     
     // Set user key pbkdf2 hash string
-    [startup setUserKeyPBKDF2Hash:userKeyPBKDF2HashString];
+    [startup setUserKeyHash:userKeyPBKDF2HashString];
     
     
     // Generate a master key
@@ -367,7 +367,7 @@
     
 }
 
-- (void)setHistoryFileWithComputationResult:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)startupError{
+- (void)setStartupFileWithComputationResult:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)startupError{
     
     // Get our startup file
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:startupError];
@@ -393,24 +393,27 @@
     
     // Create a run history object for this run
     Sentegrity_History_Object *runHistoryObject = [[Sentegrity_History_Object alloc] init];
+    
+    // Scores
     [runHistoryObject setDeviceScore:computationResults.systemScore];
     [runHistoryObject setTrustScore:computationResults.deviceScore];
     [runHistoryObject setUserScore:computationResults.userScore];
     [runHistoryObject setTimestamp:[NSDate date]];
     
-    [runHistoryObject setCoreDetectionResult:computationResults.CoreDetectionResultCode];
-    [runHistoryObject setViolationAction:computationResults.violationActionCode];
-    [runHistoryObject setAuthenticationAction:computationResults.authenticationActionCode];
-    
+    // Text issues from GUI
     [runHistoryObject setSystemIssues:computationResults.systemIssues];
     [runHistoryObject setUserIssues:computationResults.userIssues];
     
+    // Sub category results (e.g., WiFi, Celluar, Motion, etc)
     [runHistoryObject setSystemAnalysisResults:computationResults.systemAnalysisResults];
     [runHistoryObject setUserAnalysisResults:computationResults.userAnalysisResults];
     
-    [runHistoryObject setViolationAction:computationResults.violationActionCode];
-    [runHistoryObject setAuthenticationAction:computationResults.authenticationActionCode];
-    [runHistoryObject setAuthenticationResponseCode:computationResults.authenticationResponseCode];
+    // Results and status codes
+    [runHistoryObject setCoreDetectionResult:computationResults.coreDetectionResult];
+    [runHistoryObject setPreAuthenticationAction:computationResults.preAuthenticationAction];
+    [runHistoryObject setPostAuthenticationAction:computationResults.postAuthenticationAction];
+    [runHistoryObject setAuthenticationResult:computationResults.authenticationResult];
+    
     
     // Check if the startup file already has an array of history objects
     if (!startup.runHistoryObjects || startup.runHistoryObjects.count < 1) {

@@ -27,8 +27,8 @@
       "computationMethod": 0,
       "name": "SYSTEM_BREACH",
       "desc": "High Risk Device",
-      "violationAction": 3,
-      "authenticationAction": 3
+      "preAuthenticationAction": 3,
+      "postAuthenticationAction": 3
     },
     {
       "id": 2,
@@ -36,8 +36,8 @@
       "computationMethod": 0,
       "name": "SYSTEM_POLICY",
       "desc": "Device Violation",
-      "violationAction": 2,
-      "authenticationAction": 3
+      "preAuthenticationAction": 2,
+      "postAuthenticationAction": 3
     },
     {
       "id": 3,
@@ -45,8 +45,8 @@
       "computationMethod": 0,
       "name": "SYSTEM_SECURITY",
       "desc": "Device Anomaly",
-      "violationAction": 2,
-      "authenticationAction": 3
+      "preAuthenticationAction": 2,
+      "postAuthenticationAction": 3
     },
     {
       "id": 4,
@@ -54,8 +54,8 @@
       "computationMethod": 0,
       "name": "USER_POLICY",
       "desc": "User Violation",
-      "violationAction": 2,
-      "authenticationAction": 1
+      "preAuthenticationAction": 2,
+      "postAuthenticationAction": 1
     },
     {
       "id": 5,
@@ -63,8 +63,8 @@
       "computationMethod": 1,
       "name": "USER_ANOMALY",
       "desc": "User Anomaly",
-      "violationAction": 1,
-      "authenticationAction": 1
+      "preAuthenticationAction": 1,
+      "postAuthenticationAction": 1
     }
   ],
   "subclassifications": [

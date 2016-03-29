@@ -71,8 +71,8 @@
 
 // ** SET DURING USER PASSWORD SETUP **
 
-// User Key Hash (compared to user password during transparent auth key creation or user anomaly)
-@property (nonatomic, assign) NSString* userKeyPBKDF2Hash;
+// User Key Hash compared during any user auth check
+@property (nonatomic, assign) NSString* userKeyHash;
 
 
 // User Password Encrypted Master Key Blob

@@ -43,14 +43,14 @@
 
 // ProtectModeAction
 
-- (void)setProtectModeAction:(NSNumber *)protectModeAction{
-    _protectModeAction = protectModeAction;
+- (void)setPreAuthenticationAction:(NSNumber *)preAuthenticationAction{
+    _preAuthenticationAction = preAuthenticationAction;
 }
 
 // ProtectModeMessage
 
-- (void)setProtectModeMessage:(NSString *)protectModeMessage{
-    _protectModeMessage = protectModeMessage;
+- (void)setPostAuthenticationAction:(NSString *)postAuthenticationAction{
+    _postAuthenticationAction = postAuthenticationAction;
 }
 
 

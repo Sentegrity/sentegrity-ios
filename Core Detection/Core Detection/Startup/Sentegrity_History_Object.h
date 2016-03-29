@@ -22,16 +22,16 @@
 @property (nonatomic, copy  ) NSDate    *timestamp;
 
 // Violation Action
-@property (nonatomic, assign) NSInteger violationAction;
+@property (nonatomic, assign) NSInteger preAuthenticationAction;
 
 // Authentication  Action
-@property (nonatomic, assign) NSInteger authenticationAction;
+@property (nonatomic, assign) NSInteger postAuthenticationAction;
 
 // Core Detection Result
 @property (nonatomic, assign) NSInteger coreDetectionResult;
 
 // Core Detection Result
-@property (nonatomic, assign) NSInteger authenticationResponseCode;
+@property (nonatomic, assign) NSInteger authenticationResult;
 
 // User Issues
 @property (nonatomic, strong) NSArray<NSString  *> *userIssues;

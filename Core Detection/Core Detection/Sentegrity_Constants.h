@@ -202,50 +202,51 @@ typedef enum {
 #pragma mark - Core Detection Action Codes
 
 /*!
- * Violation Action Codes
+ * Pre Authentication Action Codes
  * These indicate what the application that Sentegrity integrated with should do after core detection was complete
  */
 typedef enum {
-    violationActionCode_PromptForUserPassword                            = 1,
-    violationActionCode_PromptForUserPasswordAndWarn                     = 2,
-    violationActionCode_BlockAndWarn                                     = 3,
-    violationActionCode_TransparentlyAuthenticate                        = 4
+    preAuthenticationAction_PromptForUserPassword                            = 1,
+    preAuthenticationAction_PromptForUserPasswordAndWarn                     = 2,
+    preAuthenticationAction_BlockAndWarn                                     = 3,
+    preAuthenticationAction_TransparentlyAuthenticate                        = 4
     
     
-} violationActionCode;
+} preAuthenticationAction;
 
 
 #pragma mark - Post Authentication Action Codes
 
 /*!
- * Authentication Action
+ * Post Authentication Action
  * These indicate what should happen after a successful authentication event
  */
 typedef enum {
     
-    authenticationActionCode_whitelistUserAssertions                            = 1,
-    authenticationActionCode_whitelistUserAndSystemAssertions                   = 2,
-    authenticationActionCode_whitelistSystemAssertions                          = 3,
-    authenticationActionCode_DoNothing                                          = 4,
-    authenticationActionCode_showSuggestions                                    = 5,
-    authenticationActionCode_whitelistUserAssertionsAndCreateTransparentKey     = 6,
+    postAuthenticationAction_whitelistUserAssertions                            = 1,
+    postAuthenticationAction_whitelistUserAndSystemAssertions                   = 2,
+    postAuthenticationAction_whitelistSystemAssertions                          = 3,
+    postAuthenticationAction_DoNothing                                          = 4,
+    postAuthenticationAction_showSuggestions                                    = 5,
+    postAuthenticationAction_whitelistUserAssertionsAndCreateTransparentKey     = 6,
 
-} authenticationActionCode;
+} postAuthenticationAction;
 
 #pragma mark - Authentication Response Codes
 
 /*!
- * Authentication Response Code
+ * Authentication Result Code
  * These indicate what should happen after a successful authentication event
  */
 typedef enum {
     
-    authenticationResponseCode_incorrectLogin                                   = 1,
-    authenticationResponseCode_UnknownError                                     = 2,
-    authenticationResponseCode_WhitelistError                                   = 3,
-    authenticationResponseCode_Success                                          = 4,
+    authenticationResult_incorrectLogin                                   = 1,
+    authenticationResult_irrecoverableError                               = 2,
+    authenticationResult_Success                                          = 3,
+    authenticationResult_recoverableError                                 = 4,
+
     
-} authenticationResponseCode;
+} authenticationResult;
 
 #pragma mark - Error Cases
 
@@ -332,6 +333,9 @@ enum {
     
     // Unable to deactivate protect mode due to error
     SAUnableToDeactivateProtectMode                 = 44,
+    
+    // Post authentication action error
+    SAUnableToPerformPostAuthenticationAction       = 53,
     
     
 };
@@ -473,6 +477,9 @@ enum {
     
     // No transparent authentication trustfactor objects
     SANoTransparentAuthenticationTrustFactorObjects  = 51,
+    
+    // Unable to create new transparent key
+    SAUnableToCreateNewTransparentKey                = 54,
     
 };
 

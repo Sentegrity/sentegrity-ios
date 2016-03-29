@@ -17,12 +17,12 @@
 // Transparent Auth Object
 #import "Sentegrity_TransparentAuth_Object.h"
 
-// Computation Results
 #import "CoreDetection.h"
 
 
 
 
+@class Sentegrity_TrustScore_Computation;
 
 @interface Sentegrity_Startup_Store : NSObject
 
@@ -47,7 +47,8 @@
 
 /* Getter */
 // Set the run history object
-- (void)setHistoryFileWithComputationResult:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)error;
+
+- (void)setStartupFileWithComputationResult:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)error;
 
 
 /* Helper */

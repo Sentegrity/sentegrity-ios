@@ -168,7 +168,7 @@
     complete = [complete stringByAppendingString:systemTrustFactorsWithErrors];
     
     NSString *systemTrustFactorsToWhitelist = @"\nTrustFactors To Whitelist\n++++++++++++++++++++++++++++++\n";
-    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.protectModeSystemWhitelist){
+    for(Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in self.computationResults.systemTrustFactorWhitelist){
         
         NSString *storedAssertions =@"";
         NSString *currentAssertions =@"";

@@ -12,6 +12,9 @@
 // Transparent Authentication
 #import "TransparentAuthentication.h"
 
+// Startup
+#import "Sentegrity_TransparentAuth_Object.h"
+
 @interface Sentegrity_TrustScore_Computation : NSObject
 
 #pragma mark - Debug
@@ -127,31 +130,36 @@
 @property (nonatomic) NSInteger attributingClassID;
 
 // Action to take (e.g., prompt user or admin pin)
-@property (nonatomic) NSInteger violationActionCode;
+@property (nonatomic) NSInteger preAuthenticationAction;
 
 // Action to take (e.g., prompt user or admin pin)
-@property (nonatomic) NSInteger authenticationActionCode;
+@property (nonatomic) NSInteger postAuthenticationAction;
 
 // Action to take (e.g., prompt user or admin pin)
-@property (nonatomic) NSInteger CoreDetectionResultCode;
+@property (nonatomic) NSInteger coreDetectionResult;
 
 
 #pragma mark - Authentication Results and Action Code
 
 // Action to take (e.g., prompt user or admin pin)
-@property (nonatomic) NSInteger authenticationResponseCode;
+@property (nonatomic) NSInteger authenticationResult;
+
+
+#pragma mark - Crypto
+
+// Decrypted master key, only populated after a pre authentication action
+@property (nonatomic) NSData* decryptedMasterKey;
 
 
 #pragma mark - Core Detection Whitelists
 
-// Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
-@property (nonatomic) NSArray *protectModeWhitelist;
 
 // Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
-@property (nonatomic) NSArray *protectModeUserWhitelist;
+@property (nonatomic) NSArray *userTrustFactorWhitelist;
 
 // Holds the trustFactorOutputObjects to whitelist during protect mode deactivation
-@property (nonatomic) NSArray *protectModeSystemWhitelist;
+@property (nonatomic) NSArray *systemTrustFactorWhitelist;
+
 
 
 #pragma mark - Transparent Authentication
@@ -165,6 +173,17 @@
 // Should attempt transparent authentication
 @property (nonatomic) BOOL  shouldAttemptTransparentAuthentication;
 
+// Identified matching transparent auth master key data to be decrypted later (only present if transparent auth was attempted)
+
+@property (nonatomic, assign) Sentegrity_TransparentAuth_Object* matchingTransparentAuthenticationObject;
+
+// Candidate Transparent Auth materials temporarily stored if transparent authentication attempt failed and user must provide password
+// This is then used to create a new transparent auth key
+@property (nonatomic, assign) NSData* candidateTransparentKey;
+
+// Candidate key after raw output was feed through PBKDF2 and reduced in size through SHA1
+
+@property (nonatomic, assign) NSString* candidateTransparentKeyHashString;
 
 
 // Compute the systemScore and the UserScore from the trust scores and the assertion storage objects

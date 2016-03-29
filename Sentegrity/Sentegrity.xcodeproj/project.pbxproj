@@ -104,6 +104,7 @@
 		4CE9D80D1B323847006D43D8 /* 3rd Party Library Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */; };
 		965B62141C9DE1340016D403 /* Sentegrity_Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B62131C9DE1340016D403 /* Sentegrity_Crypto.m */; };
 		965B62181CA0A43C0016D403 /* Sentegrity_Results_Analysis.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B62171CA0A43C0016D403 /* Sentegrity_Results_Analysis.m */; };
+		965B621B1CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B621A1CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.m */; };
 		9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9676DF801B7EA92900C508D6 /* LandingViewController.m */; };
 		9680BCBD1C9B8A1E00C81077 /* TransparentAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 9680BCBC1C9B8A1E00C81077 /* TransparentAuthentication.m */; };
 		9680BCC01C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 9680BCBF1C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.m */; };
@@ -336,6 +337,8 @@
 		965B62131C9DE1340016D403 /* Sentegrity_Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Crypto.m; sourceTree = "<group>"; };
 		965B62161CA0A43C0016D403 /* Sentegrity_Results_Analysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Results_Analysis.h; sourceTree = "<group>"; };
 		965B62171CA0A43C0016D403 /* Sentegrity_Results_Analysis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Results_Analysis.m; sourceTree = "<group>"; };
+		965B62191CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_LoginResponse_Object.h; sourceTree = "<group>"; };
+		965B621A1CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_LoginResponse_Object.m; sourceTree = "<group>"; };
 		9676DF7F1B7EA92900C508D6 /* LandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandingViewController.h; sourceTree = "<group>"; };
 		9676DF801B7EA92900C508D6 /* LandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandingViewController.m; sourceTree = "<group>"; };
 		9680BCBB1C9B8A1E00C81077 /* TransparentAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentAuthentication.h; sourceTree = "<group>"; };
@@ -771,6 +774,8 @@
 		4C97D36B1BE15A35009F3779 /* Login Action */ = {
 			isa = PBXGroup;
 			children = (
+				965B62191CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.h */,
+				965B621A1CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.m */,
 				4C97D36C1BE15A35009F3779 /* LoginAction.h */,
 				4C97D36D1BE15A35009F3779 /* LoginAction.m */,
 			);
@@ -1183,6 +1188,7 @@
 				965B62141C9DE1340016D403 /* Sentegrity_Crypto.m in Sources */,
 				4C97D3D81BE15A35009F3779 /* TrustFactor_Dispatch_Time.m in Sources */,
 				0427EFFB1B792037000658AB /* SystemDebugViewController.m in Sources */,
+				965B621B1CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.m in Sources */,
 				4C9606A61BEE8772005E6B97 /* Sentegrity_Activity_Dispatcher.m in Sources */,
 				4C97D3B61BE15A35009F3779 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */,
 				4C46AA6C1C46EB650091D7AB /* Sentegrity_History_Object.m in Sources */,

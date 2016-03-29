@@ -19,7 +19,7 @@
 #import "CoreDetection.h"
 
 // Protect Mode
-#import "ProtectMode.h"
+#import "LoginAction.h"
 
 // Parser of policy files - takes json and plist
 #import "Sentegrity_Policy_Parser.h"

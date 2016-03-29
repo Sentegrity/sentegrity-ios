@@ -265,7 +265,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     
     
     // Sanity check that we have all the action codes we need
-    if (computationResults.authenticationActionCode==0 || computationResults.violationActionCode==0 || !computationResults.CoreDetectionResultCode==0) {
+    if (computationResults.postAuthenticationAction==0 || computationResults.preAuthenticationAction==0 || !computationResults.coreDetectionResult==0) {
         
         // Invalid analysis, bad computation results
         NSDictionary *errorDetails = @{
@@ -293,7 +293,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 
     
     
-    // Set last computation results
+    // Set last computation results to be stored in core detection for use by functions that need it after core detection has alreay compelted
     [self setComputationResults:computationResults];
     
     // Return through the block callback
