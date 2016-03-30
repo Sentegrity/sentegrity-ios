@@ -27,9 +27,7 @@
 
 /* Helper */
 // Parse a policy json with a valid path
-- (Sentegrity_Policy *)parsePolicyJSONWithPath:(NSURL *)filePathURL withError:(NSError **)error;
+- (Sentegrity_Policy *)parsePolicyJSONWithError:(NSError **)error;
 
-// Parse Assertion Store with a valid path
-- (Sentegrity_Assertion_Store *)parseAssertionStoreWithPath:(NSURL *)assertionStorePathURL withError:(NSError **)error;
 
 @end

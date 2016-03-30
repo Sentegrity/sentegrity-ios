@@ -38,6 +38,8 @@
 
 #pragma mark - Classification Types
 
+//@property (nonatomic) Sentegrity_Policy *policy;
+
 // After we figure out what classification is which we assign them here in order to map protect mode actions
 
 @property (nonatomic) Sentegrity_Classification *systemBreachClass;

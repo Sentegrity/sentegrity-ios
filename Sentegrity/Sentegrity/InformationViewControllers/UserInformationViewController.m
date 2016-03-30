@@ -105,6 +105,7 @@
         NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.userStatusLabel.font.fontName size:16.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
       
         // Check if there are any GUI authenticators in use
+        /* DEPRECATED
         if (self.computationResults.userGUIAuthenticators.count > 0 && self.computationResults.userGUIAuthenticators != nil) {
             
             // Set the issues section
@@ -136,11 +137,11 @@
             // Append a newline
             [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         }
-        
+        */
 
         
         // Check if there are any GUI issues
-        if (self.computationResults.userGUIIssues.count > 0 && self.computationResults.userGUIIssues != nil) {
+        if (self.computationResults.userIssues.count > 0 && self.computationResults.userIssues != nil) {
             
             // Set the issues section
             NSAttributedString *issueSection = [[NSAttributedString alloc] initWithString:@"Issues\n" attributes:sectionStringDict];
@@ -175,7 +176,7 @@
 
         
         // Check if there are any GUI suggestions
-        if (self.computationResults.userGUISuggestions.count > 0 && self.computationResults.userGUISuggestions != nil) {
+        if (self.computationResults.userSuggestions.count > 0 && self.computationResults.userSuggestions != nil) {
             
             // Set the suggestions section
             NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Suggestions\n" attributes:sectionStringDict];
@@ -210,7 +211,7 @@
 
         
         // Check if there are any GUI analysis
-        if (self.computationResults.userGUIAnalysis.count > 0 && self.computationResults.userGUIAnalysis != nil) {
+        if (self.computationResults.userAnalysisResults.count > 0 && self.computationResults.userAnalysisResults != nil) {
             
             // Set the suggestions section
             NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Analysis\n" attributes:sectionStringDict];

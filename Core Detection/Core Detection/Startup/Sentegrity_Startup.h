@@ -20,8 +20,6 @@
 // Device Salt (used for TrustFactor assertion generation)
 @property (nonatomic, copy  ) NSString  *deviceSaltString;
 
-
-
 // ** UPDATED DURING EACH RUN **
 
 // Last OS Version

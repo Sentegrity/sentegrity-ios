@@ -34,6 +34,11 @@
     _revision = revision;
 }
 
+// Revision
+- (void)setContinueOnError:(NSNumber *)continueOnError{
+    _continueOnError = continueOnError;
+}
+
 
 
 // Private APIs

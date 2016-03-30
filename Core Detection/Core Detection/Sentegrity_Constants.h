@@ -32,10 +32,10 @@
 #define kStartupFileName                @"startup"
 
 // Policy File Name
-#define kPolicyFileName                @"policy"
+#define kPolicyFileName                 @"policy"
 
 // Assertion Store File Name
-#define kAssertionStoreFileName                @"store"
+#define kAssertionStoreFileName         @"store"
 
 // TODO: Default salts
 #define kDefaultDeviceSalt              @"sdkfljasdf89dsjd"
@@ -43,22 +43,20 @@
 
 #pragma mark - Assertion Storage
 
-#define kAssertionStorePath             @"/Assertion_Stores/"
-#define kPolicyPath                     @"/Policies/"
-#define kResumePath                     @"/Resume/"
 #define kStoredTrustFactorObjectMapping @"storedTrustFactorObjects"
 #define kAssertionObjectMapping         @"assertionObjects"
 
 #pragma mark - Startup File Keys
 
-#define kRunHistory                     @"runHistory"
-#define kTransparentAuthKeys            @"transparentAuthKeys"
+#define kRunHistory                     @"runHistoryObjects"
+#define kTransparentAuthKeys            @"transparentAuthKeyObjects"
 
 #pragma mark - Policy Keys
 
 #define kPolicyID                       @"policyID"
 #define kTransparentAuthDecayMetric     @"transparentAuthDecayMetric"
 #define kTransparentAuthEnabled         @"transparentAuthEnabled"
+#define kcontinueOnError                @"continueOnError"
 #define kRevision                       @"revision"
 #define kUserThreshold                  @"userThreshold"
 #define kSystemThreshold                @"systemThreshold"
@@ -70,72 +68,9 @@
 #define kSubClassifications             @"subclassifications"
 #define kTrustFactors                   @"trustFactors"
 
-#pragma mark - DNEModifier Keys
-
-#define kUnauthorized                   @"unauthorized"
-#define kUnsupported                    @"unsupported"
-#define kUnavailable                    @"unavailable"
-#define kDisabled                       @"disabled"
-#define kNoData                         @"noData"
-#define kExpired                        @"expired"
-#define kError                          @"error"
-
-#pragma mark - Classification Keys
-
-#define kIdentification                 @"id"
-#define kName                           @"name"
-#define kType                           @"type"
-#define kComputationMethod              @"computationMethod"
-#define kDesc                           @"desc"
-#define kViolationAction                @"violationAction"
-#define kAuthenticationAction           @"authenticationAction"
-
-#pragma mark - Subclassification Keys
-
-#define kSCIdentification               @"id"
-#define kSCName                         @"name"
-#define kSCDNEUnauthorized              @"dneUnauthorized"
-#define kSCDNEUnsupported               @"dneUnsupported"
-#define kSCDNEUnavailable               @"dneUnavailable"
-#define kSCDNEDisabled                  @"dneDisabled"
-#define kSCDNENoData                    @"dneNoData"
-#define kSCDNEExpired                   @"dneExpired"
-#define kSCWeight                       @"weight"
-
-#pragma mark - TrustFactor Keys
-
-#define kTFIdentification               @"id"
-#define kTFNotFoundIssueMessage         @"notFoundIssueMessage"
-#define kTFLowConfidenceIssueMessage    @"lowConfidenceIssueMessage"
-#define kTFNotFoundSuggestionMessage    @"notFoundSuggestionMessage"
-#define kTFLowConfidenceSuggestionMessage   @"lowConfidenceSuggestionMessage"
-#define kTFRevision                     @"revision"
-#define kTFClassID                      @"classID"
-#define kTFSubclassID                   @"subClassID"
-#define kTFName                         @"name"
-#define kTFWeight                       @"weight"
-#define kTFDNEPenalty                   @"dnepenalty"
-#define kTFPartialWeight                @"partialWeight"
-#define kTFLearnMode                    @"learnMode"
-#define kTFLearnTime                    @"learnTime"
-#define kTFLearnAssertionCount          @"learnAssertionCount"
-#define kTFLearnRunCount                @"learnRunCount"
-#define kTFDecayMode                    @"decayMode"
-#define kTFDecayMetric                  @"decayMetric"
-#define kTFDispatch                     @"dispatch"
-#define kTFImplementation               @"implementation"
-#define kTFWhitelistable                @"whitelistable"
-#define kTFPrivateAPI                   @"privateAPI"
-#define kTFPayload                      @"payload"
-
 #pragma mark - Dispatch Routines
 
 #define kTrustFactorDispatch            @"TrustFactor_Dispatch_%@"
-
-#pragma mark - Routine Outputs
-
-#define kFileNamesFound                 @"FILE_NAMES_FOUND"
-#define kReturnValue                    @"RETURN"
 
 #pragma mark - TrustScore Computation
 
@@ -195,7 +130,6 @@ typedef enum {
     CoreDetectionResult_CoreDetectionError                     = 6,
     CoreDetectionResult_TransparentAuthError                   = 7,
     CoreDetectionResult_DeviceCompromise                       = 8,
-    CoreDetectionResult_DeviceTrustedNoTransparentAuth         = 9
     
 } CoreDetectionResultCode;
 
@@ -448,7 +382,7 @@ enum {
 };
 
 /*!
- * Sentegrity TrustScore Somputation Error Codes
+ * Sentegrity TrustScore Computation Error Codes
  */
 enum {
     // No classifications found
@@ -481,6 +415,14 @@ enum {
     // Unable to create new transparent key
     SAUnableToCreateNewTransparentKey                = 54,
     
+};
+
+/*!
+ *  Crypto Codes
+ */
+enum {
+    // Unable to create new user key and master key
+    SAUnableToCreateNewUserAndMasterKey             = 55,
 };
 
 #endif

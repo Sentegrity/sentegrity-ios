@@ -82,8 +82,6 @@
 		4C97D3DA1BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D3621BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m */; };
 		4C97D3DC1BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D3641BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m */; };
 		4C97D3E01BE15A35009F3779 /* Sentegrity_Policy_Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D36A1BE15A35009F3779 /* Sentegrity_Policy_Parser.m */; };
-		4C97D3E21BE15A35009F3779 /* LoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D36D1BE15A35009F3779 /* LoginAction.m */; };
-		4C97D3E41BE15A35009F3779 /* policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D36F1BE15A35009F3779 /* policy */; };
 		4C97D3E51BE15A35009F3779 /* policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D36F1BE15A35009F3779 /* policy */; };
 		4C97D3E61BE15A35009F3779 /* Default_Policy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D3711BE15A35009F3779 /* Default_Policy.plist */; };
 		4C97D3E71BE15A35009F3779 /* Default_Policy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D3711BE15A35009F3779 /* Default_Policy.plist */; };
@@ -104,7 +102,9 @@
 		4CE9D80D1B323847006D43D8 /* 3rd Party Library Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */; };
 		965B62141C9DE1340016D403 /* Sentegrity_Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B62131C9DE1340016D403 /* Sentegrity_Crypto.m */; };
 		965B62181CA0A43C0016D403 /* Sentegrity_Results_Analysis.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B62171CA0A43C0016D403 /* Sentegrity_Results_Analysis.m */; };
-		965B621B1CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B621A1CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.m */; };
+		965B62211CAA21FE0016D403 /* LoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B621E1CAA21FE0016D403 /* LoginAction.m */; };
+		965B62221CAA21FE0016D403 /* Sentegrity_LoginResponse_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 965B62201CAA21FE0016D403 /* Sentegrity_LoginResponse_Object.m */; };
+		965EA4821CAAE112003564BA /* policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C97D36F1BE15A35009F3779 /* policy */; };
 		9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9676DF801B7EA92900C508D6 /* LandingViewController.m */; };
 		9680BCBD1C9B8A1E00C81077 /* TransparentAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 9680BCBC1C9B8A1E00C81077 /* TransparentAuthentication.m */; };
 		9680BCC01C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 9680BCBF1C9C46D300C81077 /* Sentegrity_TransparentAuth_Object.m */; };
@@ -304,8 +304,6 @@
 		4C97D3641BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Datasets.m; sourceTree = "<group>"; };
 		4C97D3691BE15A35009F3779 /* Sentegrity_Policy_Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sentegrity_Policy_Parser.h; path = ../Parser/Sentegrity_Policy_Parser.h; sourceTree = "<group>"; };
 		4C97D36A1BE15A35009F3779 /* Sentegrity_Policy_Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sentegrity_Policy_Parser.m; path = ../Parser/Sentegrity_Policy_Parser.m; sourceTree = "<group>"; };
-		4C97D36C1BE15A35009F3779 /* LoginAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginAction.h; sourceTree = "<group>"; };
-		4C97D36D1BE15A35009F3779 /* LoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginAction.m; sourceTree = "<group>"; };
 		4C97D36F1BE15A35009F3779 /* policy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = policy; sourceTree = "<group>"; };
 		4C97D3711BE15A35009F3779 /* Default_Policy.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Default_Policy.plist; sourceTree = "<group>"; };
 		4C97D3721BE15A35009F3779 /* oui.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oui.list; sourceTree = "<group>"; };
@@ -337,8 +335,10 @@
 		965B62131C9DE1340016D403 /* Sentegrity_Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Crypto.m; sourceTree = "<group>"; };
 		965B62161CA0A43C0016D403 /* Sentegrity_Results_Analysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Results_Analysis.h; sourceTree = "<group>"; };
 		965B62171CA0A43C0016D403 /* Sentegrity_Results_Analysis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Results_Analysis.m; sourceTree = "<group>"; };
-		965B62191CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_LoginResponse_Object.h; sourceTree = "<group>"; };
-		965B621A1CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_LoginResponse_Object.m; sourceTree = "<group>"; };
+		965B621D1CAA21FE0016D403 /* LoginAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginAction.h; sourceTree = "<group>"; };
+		965B621E1CAA21FE0016D403 /* LoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginAction.m; sourceTree = "<group>"; };
+		965B621F1CAA21FE0016D403 /* Sentegrity_LoginResponse_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_LoginResponse_Object.h; sourceTree = "<group>"; };
+		965B62201CAA21FE0016D403 /* Sentegrity_LoginResponse_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_LoginResponse_Object.m; sourceTree = "<group>"; };
 		9676DF7F1B7EA92900C508D6 /* LandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandingViewController.h; sourceTree = "<group>"; };
 		9676DF801B7EA92900C508D6 /* LandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandingViewController.m; sourceTree = "<group>"; };
 		9680BCBB1C9B8A1E00C81077 /* TransparentAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentAuthentication.h; sourceTree = "<group>"; };
@@ -539,6 +539,7 @@
 		4C97D2DC1BE15A35009F3779 /* Core Detection */ = {
 			isa = PBXGroup;
 			children = (
+				965B621C1CAA21FE0016D403 /* Login Action */,
 				965B62151CA0A43C0016D403 /* Results Analysis */,
 				4C97D3831BE15A35009F3779 /* Sentegrity.h */,
 				4C97D3841BE15A35009F3779 /* Sentegrity_Constants.h */,
@@ -547,7 +548,6 @@
 				4C97D2DD1BE15A35009F3779 /* Assertion Storage */,
 				4C97D2EA1BE15A35009F3779 /* Baseline Analysis */,
 				4C97D2EF1BE15A35009F3779 /* Dispatch */,
-				4C97D36B1BE15A35009F3779 /* Login Action */,
 				4C97D36E1BE15A35009F3779 /* Sample Policies */,
 				4C97D3741BE15A35009F3779 /* Sentegrity Policy */,
 				4C46AA671C46EB650091D7AB /* Startup */,
@@ -771,18 +771,6 @@
 			path = Rules;
 			sourceTree = "<group>";
 		};
-		4C97D36B1BE15A35009F3779 /* Login Action */ = {
-			isa = PBXGroup;
-			children = (
-				965B62191CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.h */,
-				965B621A1CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.m */,
-				4C97D36C1BE15A35009F3779 /* LoginAction.h */,
-				4C97D36D1BE15A35009F3779 /* LoginAction.m */,
-			);
-			name = "Login Action";
-			path = "Protect Mode";
-			sourceTree = "<group>";
-		};
 		4C97D36E1BE15A35009F3779 /* Sample Policies */ = {
 			isa = PBXGroup;
 			children = (
@@ -944,6 +932,18 @@
 			path = "Results Analysis";
 			sourceTree = "<group>";
 		};
+		965B621C1CAA21FE0016D403 /* Login Action */ = {
+			isa = PBXGroup;
+			children = (
+				965B621D1CAA21FE0016D403 /* LoginAction.h */,
+				965B621E1CAA21FE0016D403 /* LoginAction.m */,
+				965B621F1CAA21FE0016D403 /* Sentegrity_LoginResponse_Object.h */,
+				965B62201CAA21FE0016D403 /* Sentegrity_LoginResponse_Object.m */,
+			);
+			name = "Login Action";
+			path = "../../Sentegrity/Sentegrity/Login Action";
+			sourceTree = "<group>";
+		};
 		9676DF7E1B7EA92900C508D6 /* LandingViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1086,6 +1086,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				965EA4821CAAE112003564BA /* policy in Resources */,
 				04A249081B266AC2007D9460 /* Main.storyboard in Resources */,
 				4C5393851B2F965D00EA4484 /* loading.gif in Resources */,
 				04A2490D1B266AC2007D9460 /* LaunchScreen.xib in Resources */,
@@ -1112,7 +1113,6 @@
 				4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */,
 				04A2490A1B266AC2007D9460 /* Images.xcassets in Resources */,
 				96A486AE1C581C5600C11B62 /* default_ssids.list in Resources */,
-				4C97D3E41BE15A35009F3779 /* policy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1182,14 +1182,13 @@
 				4C1DEC2B1BBCA38B00B0A312 /* LocationPermissionViewController.m in Sources */,
 				969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */,
 				4C97D39C1BE15A35009F3779 /* Sentegrity_TrustFactor_Dispatcher.m in Sources */,
-				4C97D3E21BE15A35009F3779 /* LoginAction.m in Sources */,
 				4C97D3941BE15A35009F3779 /* Sentegrity_TrustFactor_Output_Object.m in Sources */,
 				4C97D38C1BE15A35009F3779 /* Sentegrity_Assertion_Store+Helper.m in Sources */,
 				965B62141C9DE1340016D403 /* Sentegrity_Crypto.m in Sources */,
 				4C97D3D81BE15A35009F3779 /* TrustFactor_Dispatch_Time.m in Sources */,
 				0427EFFB1B792037000658AB /* SystemDebugViewController.m in Sources */,
-				965B621B1CA6B88D0016D403 /* Sentegrity_LoginResponse_Object.m in Sources */,
 				4C9606A61BEE8772005E6B97 /* Sentegrity_Activity_Dispatcher.m in Sources */,
+				965B62221CAA21FE0016D403 /* Sentegrity_LoginResponse_Object.m in Sources */,
 				4C97D3B61BE15A35009F3779 /* Sentegrity_TrustFactor_Dataset_Routes.m in Sources */,
 				4C46AA6C1C46EB650091D7AB /* Sentegrity_History_Object.m in Sources */,
 				4C97D3CA1BE15A35009F3779 /* TrustFactor_Dispatch_Netstat.m in Sources */,
@@ -1242,6 +1241,7 @@
 				4C97D3EE1BE15A35009F3779 /* Sentegrity_DNEModifiers.m in Sources */,
 				4C46AA6D1C46EB650091D7AB /* Sentegrity_Startup.m in Sources */,
 				4C97D3DA1BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m in Sources */,
+				965B62211CAA21FE0016D403 /* LoginAction.m in Sources */,
 				04A248FF1B266AC2007D9460 /* main.m in Sources */,
 				4C97D3E01BE15A35009F3779 /* Sentegrity_Policy_Parser.m in Sources */,
 				4C97D3D41BE15A35009F3779 /* TrustFactor_Dispatch_Sandbox.m in Sources */,

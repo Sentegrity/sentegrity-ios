@@ -34,7 +34,7 @@
 /* Properties */
 @property (nonatomic,retain) NSString *currentState;
 
-@property (atomic,retain) Sentegrity_Startup *currentStore;
+@property (nonatomic,retain) Sentegrity_Startup *currentStartupStore;
 
 /* Getter */
 // Get the startup file

@@ -49,7 +49,7 @@
 
 // ProtectModeMessage
 
-- (void)setPostAuthenticationAction:(NSString *)postAuthenticationAction{
+- (void)setPostAuthenticationAction:(NSNumber *)postAuthenticationAction{
     _postAuthenticationAction = postAuthenticationAction;
 }
 

@@ -48,7 +48,7 @@
     // Did we already create a startup store instance of the object?
     if(self.currentPolicy == nil || !self.currentPolicy){
         
-        NSString *policyPath = [self policyFilePath];
+        NSURL *policyPath = [self policyFilePath];
         // Validate the policy path provided
         if (!policyPath || policyPath == nil) {
             // Invalid policy path provided
@@ -110,23 +110,24 @@
 
 
 // Policy File Path
-- (NSString *)policyFilePath {
+- (NSURL *)policyFilePath {
     
-    // Get the documents directory paths
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSURL *policyPath = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:kPolicyFileName ofType:@""]];
     
-    // Get the document directory
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    // Validate the policy path provided
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[policyPath path]]) {
+        
+        return nil;
+    }
     
-    // Get the path to our startup file
-    return [NSString stringWithFormat:@"%@/%@", documentsDirectory, kPolicyFileName];
+    return policyPath;
 }
 
 // Parse a policy json with a valid path
 - (Sentegrity_Policy *)parsePolicyJSONWithError:(NSError **)error {
     
     // Load the json
-    NSDictionary *jsonParsed = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[self policyFilePath]]
+    NSDictionary *jsonParsed = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:[self policyFilePath].path]
                                                                options:NSJSONReadingMutableContainers error:error];
     
     // Check the parsed startup file

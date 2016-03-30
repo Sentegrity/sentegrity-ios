@@ -103,6 +103,40 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         return;
     }
 
+    // Get the startup store
+    
+    // Get our startup file
+    
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
+    
+    // Validate no errors
+    if (!startup || startup == nil) {
+        
+        // Check if there are any errors
+        if (error || error != nil) {
+            
+            // Unable to get startup file!
+            
+            // Log Error
+            NSLog(@"Failed to get startup file: %@", error.debugDescription);
+            
+
+        }
+        
+        // Error out, no trustFactorOutputObject were able to be added
+        NSDictionary *errorDetails = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to get startup file", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No startup file received", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try validating the startup file", nil)
+                                       };
+        
+        // Set the error
+        error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStartupInstance userInfo:errorDetails];
+        
+        // Log Error
+        NSLog(@"Failed to get startup file: %@", errorDetails);
+        
+    }
     
     // Set the current state of Core Detection
     [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Starting Core Detection"];
@@ -265,7 +299,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     
     
     // Sanity check that we have all the action codes we need
-    if (computationResults.postAuthenticationAction==0 || computationResults.preAuthenticationAction==0 || !computationResults.coreDetectionResult==0) {
+    if (computationResults.postAuthenticationAction==0 || computationResults.preAuthenticationAction==0 ||computationResults.coreDetectionResult==0) {
         
         // Invalid analysis, bad computation results
         NSDictionary *errorDetails = @{
@@ -287,11 +321,6 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         return;
     }
 
-    
-    
-    
-
-    
     
     // Set last computation results to be stored in core detection for use by functions that need it after core detection has alreay compelted
     [self setComputationResults:computationResults];

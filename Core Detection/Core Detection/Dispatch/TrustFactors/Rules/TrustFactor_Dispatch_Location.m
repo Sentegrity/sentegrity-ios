@@ -556,7 +556,19 @@
     // In the event status bar does not work make sure we have something
     NSString *carrierConnectionInfo = @"";
     
-    carrierConnectionInfo = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionName] stringByAppendingString:[[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionSpeed]];
+    NSString *carrierName = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionName];
+    
+    if(!carrierName || carrierName==nil){
+        carrierName = @"None";
+    }
+    
+    NSString *carrierConnectionSpeed = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionSpeed];
+    
+    if(!carrierConnectionSpeed || carrierConnectionSpeed==nil){
+        carrierConnectionSpeed = @"None";
+    }
+    
+    carrierConnectionInfo = [carrierName stringByAppendingString:carrierConnectionSpeed];
     
     int celluarBlockSize;
     if(locationAvailable==NO){

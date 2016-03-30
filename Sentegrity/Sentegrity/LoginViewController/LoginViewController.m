@@ -57,6 +57,8 @@ static MBProgressHUD *HUD;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    /** START SENTEGRITY CODE **/
+    
     // Check if the application has permissions to run the different activities
     ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
     ISHPermissionRequest *permissionActivity = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
@@ -159,8 +161,6 @@ static MBProgressHUD *HUD;
     
     /* Perform Core Detection */
     
-    // Create an error
-    NSError *error;
     
     // Run Core Detection
     [[CoreDetection sharedDetection] performCoreDetectionWithCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
@@ -364,6 +364,7 @@ static MBProgressHUD *HUD;
             
             
             [userInput addButton:@"Login" actionBlock:^(void) {
+                
                 
             Sentegrity_LoginResponse_Object *loginResponseObject = [[LoginAction sharedLogin] attemptLoginWithUserInput:userText.text andError:error];
                 

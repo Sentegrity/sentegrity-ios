@@ -105,7 +105,7 @@
         NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.systemStatusLabel.font.fontName size:20.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
         
         // Check if there are any GUI issues
-        if (self.computationResults.systemGUIIssues.count > 0 && self.computationResults.systemGUIIssues != nil) {
+        if (self.computationResults.systemIssues.count > 0 && self.computationResults.systemIssues != nil) {
             
             // Set the issues section
             NSAttributedString *issueSection = [[NSAttributedString alloc] initWithString:@"Issues\n" attributes:sectionStringDict];
@@ -138,7 +138,7 @@
         [systemAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         
         // Check if there are any GUI suggestions
-        if (self.computationResults.systemGUISuggestions.count > 0 && self.computationResults.systemGUISuggestions != nil) {
+        if (self.computationResults.systemSuggestions.count > 0 && self.computationResults.systemSuggestions != nil) {
             
             // Set the suggestions section
             NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Suggestions\n" attributes:sectionStringDict];
@@ -171,7 +171,7 @@
         [systemAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         
         // Check if there are any GUI analysis
-        if (self.computationResults.systemGUIAnalysis.count > 0 && self.computationResults.systemGUIAnalysis != nil) {
+        if (self.computationResults.systemAnalysisResults.count > 0 && self.computationResults.systemAnalysisResults != nil) {
             
             // Set the suggestions section
             NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Analysis\n" attributes:sectionStringDict];

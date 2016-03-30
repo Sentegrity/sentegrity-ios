@@ -116,8 +116,11 @@
     NSString *complete = @"";
     
     NSString *policy = @"\nPolicy Settings\n++++++++++++++++++++++++++++++\n";
+    NSError *error;
     
-    policy = [policy stringByAppendingFormat:@"\nSystem Threshold: %@\nUser Threshold: %@\n",self.computationResults.policy.systemThreshold,self.computationResults.policy.userThreshold];
+    Sentegrity_Policy * policy1 = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+    
+    policy = [policy stringByAppendingFormat:@"\nSystem Threshold: %@\nUser Threshold: %@\n",policy1.systemThreshold,policy1.userThreshold];
     
     
     complete = [complete stringByAppendingString:policy];

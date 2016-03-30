@@ -1,0 +1,5 @@
+#include "NSString-Hashes.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/NSString-Hashes" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/ChameleonFramework" "${PODS_ROOT}/Headers/Public/CircleProgressBar" "${PODS_ROOT}/Headers/Public/DCKeyValueObjectMapping" "${PODS_ROOT}/Headers/Public/DateTools" "${PODS_ROOT}/Headers/Public/Facade" "${PODS_ROOT}/Headers/Public/IIDelayedAction" "${PODS_ROOT}/Headers/Public/ISHPermissionKit" "${PODS_ROOT}/Headers/Public/JTHamburgerButton" "${PODS_ROOT}/Headers/Public/LGBluetooth" "${PODS_ROOT}/Headers/Public/MBProgressHUD" "${PODS_ROOT}/Headers/Public/MIHCrypto" "${PODS_ROOT}/Headers/Public/NSObject-ObjectMap" "${PODS_ROOT}/Headers/Public/NSString-Hashes" "${PODS_ROOT}/Headers/Public/OpenSSL-Universal" "${PODS_ROOT}/Headers/Public/OpenSSL-Universal/openssl" "${PODS_ROOT}/Headers/Public/RESideMenu"
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES

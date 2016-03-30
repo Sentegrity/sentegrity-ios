@@ -512,6 +512,8 @@
     // Object to return
     Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc]init];
     
+    //computationResults.policy = policy;
+    
     // GUI Messages - System
     NSMutableSet *systemIssues = [[NSMutableSet alloc] init];
     NSMutableSet *systemSuggestions = [[NSMutableSet alloc] init];
@@ -546,8 +548,9 @@
     BOOL systemPolicyViolation=NO;
     BOOL userPolicyViolation=NO;
     
+    
     // Iterate through all classifications populated in prior function
-    for (Sentegrity_Classification *class in self.policy.classifications) {
+    for (Sentegrity_Classification *class in policy.classifications) {
         
         // If its a system class
         if ([[class type] intValue] == 0) {
@@ -570,13 +573,13 @@
             switch ([[class identification] intValue]) {
                     
                 case 1:
-                    self.systemBreachClass = class;
-                    self.systemBreachScore = currentScore;
+                    computationResults.systemBreachClass = class;
+                    computationResults.systemBreachScore = currentScore;
                     break;
                     
                 case 2:
-                    self.systemPolicyClass = class;
-                    self.systemPolicyScore = currentScore;
+                    computationResults.systemPolicyClass = class;
+                    computationResults.systemPolicyScore = currentScore;
                     
                     // Don't add policy scores to overall as it just inflates it
                     if(currentScore < 100){
@@ -585,8 +588,8 @@
                     break;
                     
                 case 3:
-                    self.systemSecurityClass = class;
-                    self.systemSecurityScore = currentScore;
+                    computationResults.systemSecurityClass = class;
+                    computationResults.systemSecurityScore = currentScore;
                     break;
                 default:
                     break;
@@ -626,8 +629,8 @@
                     
                 case 4:
                     
-                    self.userPolicyClass = class;
-                    self.userPolicyScore = currentScore;
+                    computationResults.userPolicyClass = class;
+                    computationResults.userPolicyScore = currentScore;
                     
                     // Don't add policy scores to overall as it just inflates it
                     if(currentScore < 100){
@@ -637,8 +640,8 @@
                     
                     
                 case 5:
-                    self.userAnomalyClass = class;
-                    self.userAnomalyScore = currentScore;
+                    computationResults.userAnomalyClass = class;
+                    computationResults.userAnomalyScore = currentScore;
                     break;
                 default:
                     break;
@@ -664,60 +667,60 @@
     }
     
     // Set GUI messages (system)
-    self.systemIssues = [systemIssues allObjects];
-    self.systemSuggestions = [systemSuggestions allObjects];
-    self.systemAnalysisResults = [systemSubClassStatuses allObjects];
+    computationResults.systemIssues = [systemIssues allObjects];
+    computationResults.systemSuggestions = [systemSuggestions allObjects];
+    computationResults.systemAnalysisResults = [systemSubClassStatuses allObjects];
     
     // Set GUI messages (user)
-    self.userIssues = [userIssues allObjects];
-    self.userSuggestions = [userSuggestions allObjects];
-    self.userAnalysisResults = [userSubClassStatuses allObjects];
+    computationResults.userIssues = [userIssues allObjects];
+    computationResults.userSuggestions = [userSuggestions allObjects];
+    computationResults.userAnalysisResults = [userSubClassStatuses allObjects];
     
     // Set transparent authentication list
-    self.transparentAuthenticationTrustFactorOutputObjects = userTrustFactorsForTransparentAuthentication;
+    computationResults.transparentAuthenticationTrustFactorOutputObjects = userTrustFactorsForTransparentAuthentication;
     
     // Set whitelists for system/user domains
-    self.userTrustFactorWhitelist = userTrustFactorsToWhitelist;
-    self.systemTrustFactorWhitelist = systemTrustFactorsToWhitelist;
+    computationResults.userTrustFactorWhitelist = userTrustFactorsToWhitelist;
+    computationResults.systemTrustFactorWhitelist = systemTrustFactorsToWhitelist;
     
     // DEBUG: Set trustfactor objects for system/user domains
-    self.userAllTrustFactorOutputObjects = userAllTrustFactorOutputObjects;
-    self.systemAllTrustFactorOutputObjects = systemAllTrustFactorOutputObjects;
+    computationResults.userAllTrustFactorOutputObjects = userAllTrustFactorOutputObjects;
+    computationResults.systemAllTrustFactorOutputObjects = systemAllTrustFactorOutputObjects;
     
     // DEBUG: Set triggered for system/user domains
-    self.userTrustFactorsAttributingToScore = userTrustFactorsAttributingToScore;
-    self.systemTrustFactorsAttributingToScore = systemTrustFactorsAttributingToScore;
+    computationResults.userTrustFactorsAttributingToScore = userTrustFactorsAttributingToScore;
+    computationResults.systemTrustFactorsAttributingToScore = systemTrustFactorsAttributingToScore;
     
     // DEBUG: Set not learned for system/user domains
-    self.userTrustFactorsNotLearned = userTrustFactorsNotLearned;
-    self.systemTrustFactorsNotLearned = systemTrustFactorsNotLearned;
+    computationResults.userTrustFactorsNotLearned = userTrustFactorsNotLearned;
+    computationResults.systemTrustFactorsNotLearned = systemTrustFactorsNotLearned;
     
     // DEBUG: Set errored for system/user domains
-    self.userTrustFactorsWithErrors = userTrustFactorsWithErrors;
-    self.systemTrustFactorsWithErrors = systemTrustFactorsWithErrors;
+    computationResults.userTrustFactorsWithErrors = userTrustFactorsWithErrors;
+    computationResults.systemTrustFactorsWithErrors = systemTrustFactorsWithErrors;
     
     
     // Set comprehensive scores
     // Gaurantee that a policy violataion will be zero (type 4 rules could technically overpower)
     if(systemPolicyViolation == YES) {
         
-        self.systemScore = 0;
+        computationResults.systemScore = 0;
         
     } else {
         
-        self.systemScore = MIN(100,MAX(0,100 - systemTrustScoreSum));
+        computationResults.systemScore = MIN(100,MAX(0,100 - systemTrustScoreSum));
     }
     
     if (userPolicyViolation == YES) {
         
-        self.userScore = 0;
+        computationResults.userScore = 0;
         
     } else {
         
-        self.userScore = MIN(100,userTrustScoreSum);
+        computationResults.userScore = MIN(100,userTrustScoreSum);
     }
     
-    self.deviceScore = (self.systemScore + self.userScore)/2;
+    computationResults.deviceScore = (computationResults.systemScore + computationResults.userScore)/2;
     
     
     return computationResults;

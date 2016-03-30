@@ -56,7 +56,7 @@
     
     // Get our startup file
     NSError *startupError;
-    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&startupError];
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
     
     // Validate no errors
     if (!startup || startup == nil) {
@@ -103,7 +103,7 @@
     for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in trustFactorOutputObjects) {
         
         // Check if the TrustFactor is valid to start with
-        if (!trustFactorOutputObject || trustFactorOutputObject == nil) {
+        if (!trustFactorOutputObject || trustFactorOutputObject == nil || trustFactorOutputObject.statusCode == DNEStatus_error) {
             
             // Error out, no trustFactorOutputObject were able to be added
             NSDictionary *errorDetails = @{
@@ -119,7 +119,16 @@
             NSLog(@"Failed to Add trustFactorOutputObject: %@", errorDetails);
             
             // Don't return anything
-            return nil;
+            if(policy.continueOnError.intValue == 1){
+                // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
+                continue;
+            }
+            else{
+                return nil;
+            }
+
+            
+            
         }
         
         // Find the matching stored assertion object for the trustfactor
@@ -151,7 +160,14 @@
                 NSLog(@"No trustFactorOutputObject were able to be added: %@", errorDetails);
                 
                 // Don't return anything
-                return nil;
+                if(policy.continueOnError.intValue == 1){
+                    // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
+                    continue;
+                }
+                else{
+                    return nil;
+                }
+
             }
             
             // Add the created storedTrustFactorObject to the current trustFactorOutputObject
@@ -177,7 +193,14 @@
                 NSLog(@"Failed to Compare: %@", errorDetails);
                 
                 // Don't return anything
-                return nil;
+                if(policy.continueOnError.intValue == 1){
+                    // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
+                    continue;
+                }
+                else{
+                    return nil;
+                }
+
             }
             
             // Add the new storedTrustFactorObject to the runtime local store, to be written later
@@ -197,7 +220,14 @@
                 NSLog(@"Failed to Add storedTrustFactorObjects: %@", errorDetails);
                 
                 // Don't return anything
-                return nil;
+                if(policy.continueOnError.intValue == 1){
+                    // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
+                    continue;
+                }
+                else{
+                    return nil;
+                }
+
             }
             
         } else {
@@ -233,7 +263,14 @@
                     NSLog(@"Failed to Perform: %@", errorDetails);
                     
                     // Don't return anything
-                    return nil;
+                    if(policy.continueOnError.intValue == 1){
+                        // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
+                        continue;
+                    }
+                    else{
+                        return nil;
+                    }
+
                 }
                 
                 // Replace existing in the local store
@@ -253,7 +290,14 @@
                     NSLog(@"No trustFactorOutputObject were able to be added: %@", errorDetails);
             
                     // Don't return anything
-                    return nil;
+                    if(policy.continueOnError.intValue == 1){
+                        // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
+                        continue;
+                    }
+                    else{
+                        return nil;
+                    }
+
                 }
                 
                 
@@ -284,7 +328,14 @@
                     NSLog(@"Failed to Perform: %@", errorDetails);
                     
                     // Don't return anything
-                    return nil;
+                    if(policy.continueOnError.intValue == 1){
+                        // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
+                        continue;
+                    }
+                    else{
+                        return nil;
+                    }
+
                 }
                 
                 // Since we modified, replace existing in the local store
