@@ -238,7 +238,7 @@
     [self.currentStartupStore setTransparentAuthKeyObjects:empty];
     
     // Save the store
-    [self setStartupStoreWithError:&error];
+    [self setStartupStoreWithError:error];
     
 }
 

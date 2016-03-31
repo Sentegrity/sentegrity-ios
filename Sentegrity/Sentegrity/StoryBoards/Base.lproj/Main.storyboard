@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DPq-fc-8bf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DPq-fc-8bf">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -322,7 +322,7 @@ Anomaly</string>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="Cci-sx-jte">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="Cci-sx-jte">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -396,7 +396,7 @@ Anomaly</string>
                                             </mask>
                                         </variation>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-nt-m1r">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-nt-m1r">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -826,7 +826,7 @@ Anomaly</string>
                                             </mask>
                                         </variation>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="BHa-vS-aqU">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="BHa-vS-aqU">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -1370,7 +1370,7 @@ Anomaly</string>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-nU-Jl9">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-nU-Jl9">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -1604,11 +1604,11 @@ Anomaly</string>
         </scene>
     </scenes>
     <resources>
+        <image name="Error_yellow" width="144" height="144"/>
         <image name="Mobile_Grey" width="64" height="64"/>
         <image name="Refresh" width="48" height="48"/>
         <image name="SplashScreen" width="640" height="960"/>
         <image name="User_Grey" width="128" height="128"/>
-        <image name="error_yellow" width="144" height="144"/>
         <image name="sentegrity_logo_black" width="155" height="164"/>
     </resources>
 </document>

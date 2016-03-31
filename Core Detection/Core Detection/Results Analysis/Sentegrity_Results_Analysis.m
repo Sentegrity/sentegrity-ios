@@ -27,8 +27,8 @@
     
     // Set the result code, these should not be 0 by the end of core detection otherwise something is wrong
     computationResults.coreDetectionResult = 0;
-    computationResults.preAuthenticationAction =0;
-    computationResults.postAuthenticationAction =0;
+    computationResults.preAuthenticationAction = 0;
+    computationResults.postAuthenticationAction = 0;
 
     
     // Check system threshold

@@ -63,7 +63,7 @@
     
     // Get startup store of current transparent authentication key hashes
     // Get our startup file
-    NSError *startupError;
+    //NSError *startupError;
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
     
     // Validate no errors

@@ -31,7 +31,7 @@
 
 - (NSData *)getTransparentKeyForTrustFactorOutput:(NSString *)ouput {
     
-    NSError *startupError;
+    //NSError *startupError;
     
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
     
@@ -52,7 +52,7 @@
 
 - (NSData *)getUserKeyForPassword:(NSString *)password {
     
-    NSError *startupError;
+    //NSError *startupError;
     
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
     
@@ -74,7 +74,7 @@
 - (NSData*)decryptMasterKeyUsingUserKey:(NSData *)userPBKDF2Key{
     
     
-    NSError *startupError;
+    //NSError *startupError;
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
     
     // Validate no errors
@@ -160,7 +160,7 @@
     
     // Get startup store of current transparent authentication key hashes
     // Get our startup file
-    NSError *startupError;
+    //NSError *startupError;
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
     
     // Validate no errors
@@ -198,7 +198,7 @@
 - (BOOL)updateUserKeyForExistingMasterKeyWithPassword:(NSString *)userPassword withDecryptedMasterKey:(NSData *)masterKey{
     
     // Get our startup file
-    NSError *startupError;
+    //NSError *startupError;
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
     
     // Validate no errors

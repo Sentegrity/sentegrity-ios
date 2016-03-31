@@ -18,15 +18,15 @@
 // ** SET DURING FIRST STARTUP **
 
 // Device Salt (used for TrustFactor assertion generation)
-@property (nonatomic, copy  ) NSString  *deviceSaltString;
+@property (nonatomic, strong) NSString  *deviceSaltString;
 
 // ** UPDATED DURING EACH RUN **
 
 // Last OS Version
-@property (nonatomic, copy  ) NSString  *lastOSVersion;
+@property (nonatomic, strong) NSString  *lastOSVersion;
 
 // Last State of application
-@property (nonatomic, copy  ) NSString  *lastState;
+@property (nonatomic, strong) NSString  *lastState;
 
 // Run History array of objects
 @property (nonatomic, strong) NSArray   *runHistoryObjects;
@@ -39,7 +39,7 @@
 // ** SET DURING FIRST STARTUP **
 
 // Transparent Auth PBKDF2 IV (used for searching)
-@property (nonatomic, assign) NSString* transparentAuthGlobalPBKDF2SaltString;
+@property (nonatomic, strong) NSString* transparentAuthGlobalPBKDF2SaltString;
 
 // PBKDF2 benchmarked rounds for 0.1s
 @property (nonatomic, assign) int transparentAuthPBKDF2rounds;
@@ -64,17 +64,17 @@
 @property (nonatomic, assign) int userKeyPBKDF2rounds;
 
 // User Key Hash PBKDF2 and master key salt (we use it for both)
-@property (nonatomic, assign) NSString* userKeySaltString;
+@property (nonatomic, strong) NSString* userKeySaltString;
 
 
 // ** SET DURING USER PASSWORD SETUP **
 
 // User Key Hash compared during any user auth check
-@property (nonatomic, assign) NSString* userKeyHash;
+@property (nonatomic, strong) NSString* userKeyHash;
 
 
 // User Password Encrypted Master Key Blob
-@property (nonatomic, assign) NSString* userKeyEncryptedMasterKeyBlobString;
+@property (nonatomic, strong) NSString* userKeyEncryptedMasterKeyBlobString;
 
 
 
