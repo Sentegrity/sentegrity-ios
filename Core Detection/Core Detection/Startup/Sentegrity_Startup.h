@@ -42,7 +42,7 @@
 @property (nonatomic, strong) NSString* transparentAuthGlobalPBKDF2SaltString;
 
 // PBKDF2 benchmarked rounds for 0.1s
-@property (nonatomic, assign) int transparentAuthPBKDF2rounds;
+@property (nonatomic) int transparentAuthPBKDF2rounds;
 
 
 // ** UPDATED DURING EACH NEW TRANSPARENT KEY CREATION OR EXISTING MATCH IN STARTUP FILE **

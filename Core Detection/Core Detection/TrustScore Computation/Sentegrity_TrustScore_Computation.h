@@ -177,15 +177,15 @@
 
 // Identified matching transparent auth master key data to be decrypted later (only present if transparent auth was attempted)
 
-@property (nonatomic, assign) Sentegrity_TransparentAuth_Object* matchingTransparentAuthenticationObject;
+@property (nonatomic) Sentegrity_TransparentAuth_Object* matchingTransparentAuthenticationObject;
 
 // Candidate Transparent Auth materials temporarily stored if transparent authentication attempt failed and user must provide password
 // This is then used to create a new transparent auth key
-@property (nonatomic, assign) NSData* candidateTransparentKey;
+@property (nonatomic) NSData* candidateTransparentKey;
 
 // Candidate key after raw output was feed through PBKDF2 and reduced in size through SHA1
 
-@property (nonatomic, assign) NSString* candidateTransparentKeyHashString;
+@property (nonatomic) NSString* candidateTransparentKeyHashString;
 
 
 // Compute the systemScore and the UserScore from the trust scores and the assertion storage objects

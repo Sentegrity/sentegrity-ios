@@ -188,7 +188,7 @@
     // In those conditions (violationActionCode and authenticationActionCodes are pulled striaght from that classifications
     // policy declerations
     
-    if(computationResults.coreDetectionResult != CoreDetectionResult_TransparentAuthSuccess && computationResults.coreDetectionResult != CoreDetectionResult_TransparentAuthError && foundMatch==YES){
+    if(computationResults.coreDetectionResult != CoreDetectionResult_TransparentAuthSuccess && computationResults.coreDetectionResult != CoreDetectionResult_TransparentAuthError && foundMatch==NO){
         
         // If we made it this far there were no errors but we didnt find a match otherwise TransparentAuthSuccess would be present
         // checking for foundMatch is purely a sanity check as under normal operation if we make it this far and TransparentAuthSuccess

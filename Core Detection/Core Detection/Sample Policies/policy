@@ -38,7 +38,7 @@
       "name": "SYSTEM_POLICY",
       "desc": "Device Violation",
       "preAuthenticationAction": 2,
-      "postAuthenticationAction": 3
+      "postAuthenticationAction": 2
     },
     {
       "id": 3,
@@ -47,7 +47,7 @@
       "name": "SYSTEM_SECURITY",
       "desc": "Device Anomaly",
       "preAuthenticationAction": 2,
-      "postAuthenticationAction": 3
+      "postAuthenticationAction": 2
     },
     {
       "id": 4,

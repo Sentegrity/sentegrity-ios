@@ -169,6 +169,8 @@ static MBProgressHUD *HUD;
         if (success) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                
+                
                 [self analyzePreAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
                 
@@ -372,7 +374,6 @@ static MBProgressHUD *HUD;
             
             [userInput addButton:@"Login" actionBlock:^(void) {
                 
-                
                 Sentegrity_LoginResponse_Object *loginResponseObject = [[LoginAction sharedLogin] attemptLoginWithUserInput:userText.text andError:error];
                 
                 // Set the authentication response code
@@ -381,78 +382,62 @@ static MBProgressHUD *HUD;
                 // Set history now, we already have all the info we need
                 [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:error];
                 
-                switch (computationResults.authenticationResult) {
-                    case authenticationResult_Success:{
+                // Success and recoverable errors operate the same since we still managed to get a decrypted master key
+                if(computationResults.authenticationResult == authenticationResult_Success || computationResults.authenticationResult == authenticationResult_recoverableError ) {
+                    
+                    // Now we could pass the key to the GD runtime
+                    NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+                    
+                    // For demo purposes we just go to landing page
+                    
+                    // Show the landing page since we've been transparently authenticated
+                    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    // Create the main view controller
+                    DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+                    [self.navigationController pushViewController:mainViewController animated:NO];
+                    
+                    
+                }
+                else if(computationResults.authenticationResult == authenticationResult_incorrectLogin)
+                {
+                    
+                    // Show alert window
+                    SCLAlertView *incorrect = [[SCLAlertView alloc] init];
+                    incorrect.backgroundType = Shadow;
+                    [incorrect removeTopCircle];
+                    
+                    [incorrect addButton:@"Retry" actionBlock:^(void) {
                         
-                        // Now we could pass the key to the GD runtime
-                        NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+                        // Call this function again
+                        [self analyzePreAuthenticationActionsWithError:error];
                         
-                        // For demo purposes we just go to landing page
+                    }];
+                    
+                    [incorrect showCustom:self image:nil color:[UIColor grayColor] title:loginResponseObject.responseLoginTitle subTitle:loginResponseObject.responseLoginDescription closeButtonTitle:nil duration:0.0f];
+                    
+                }
+                else if (computationResults.authenticationResult == authenticationResult_irrecoverableError)
+                {
+                    
+                    // Show alert window
+                    SCLAlertView *error = [[SCLAlertView alloc] init];
+                    error.backgroundType = Shadow;
+                    [error removeTopCircle];
+                    
+                    [error addButton:@"Retry" actionBlock:^(void) {
                         
-                        // Show the landing page since we've been transparently authenticated
+                        // Go to back to login view which also re-runs core detection, hopefully fixing the error
                         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                        // Create the main view controller
-                        DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-                        [self.navigationController pushViewController:mainViewController animated:NO];
+                        LoginViewController *loginViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"];
+                        [self.navigationController pushViewController:loginViewController animated:NO];
                         
-                        // Nick's Addition: Moved Break
-                        break;
-                    }
-
-                    case authenticationResult_incorrectLogin:
-                    {
-                        
-                        // Show alert window
-                        SCLAlertView *incorrect = [[SCLAlertView alloc] init];
-                        incorrect.backgroundType = Shadow;
-                        [incorrect removeTopCircle];
-                        
-                        [incorrect addButton:@"Retry" actionBlock:^(void) {
-                            
-                            // Call this function again
-                            // Call this function again
-                            [self analyzePreAuthenticationActionsWithError:error];
-                            
-                        }];
-                        
-                        [incorrect showCustom:self image:nil color:[UIColor grayColor] title:loginResponseObject.responseLoginTitle subTitle:loginResponseObject.responseLoginDescription closeButtonTitle:nil duration:0.0f];
-                        
-                        // Nick's Addition: Moved Break
-                        break;
-                        
-                    }
-
-                    case authenticationResult_irrecoverableError:
-                    {
-                        
-                        // Show alert window
-                        SCLAlertView *error = [[SCLAlertView alloc] init];
-                        error.backgroundType = Shadow;
-                        [error removeTopCircle];
-                        
-                        [error addButton:@"Retry" actionBlock:^(void) {
-                            
-                            // Go to back to login view which also re-runs core detection, hopefully fixing the error
-                            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                            LoginViewController *loginViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"];
-                            [self.navigationController pushViewController:loginViewController animated:NO];
-                            
-                        }];
-                        
-                        [error showCustom:self image:nil color:[UIColor grayColor] title:loginResponseObject.responseLoginTitle subTitle:loginResponseObject.responseLoginDescription closeButtonTitle:nil duration:0.0f];
-                        
-                        // Nick's Addition: Moved Break
-                        break;
-                        
-                    }
-                        
-                    default:
-                        break;
-                        
-                } // Done Switch Authentication Result
+                    }];
+                    
+                    [error showCustom:self image:nil color:[UIColor grayColor] title:loginResponseObject.responseLoginTitle subTitle:loginResponseObject.responseLoginDescription closeButtonTitle:nil duration:0.0f];
+                    
+                }
                 
-                
-            }]; // Done login
+            }];
             
             // Show the warning
             [userInput showCustom:self image:nil color:[UIColor grayColor] title:@"Warning" subTitle:@"This device is high risk or in violation of policy, this access attempt will be reported." closeButtonTitle:nil duration:0.0f];

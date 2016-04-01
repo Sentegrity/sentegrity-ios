@@ -70,7 +70,7 @@
                 // Unable to perform post authentication events
                 
                 // Set the error if it's not set
-                if (!*error) {
+                if (!error) {
                     NSDictionary *errorDetails = @{
                                                    NSLocalizedDescriptionKey: NSLocalizedString(@"Post authentication action failed", nil),
                                                    NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error during post authentication", nil),
@@ -158,7 +158,7 @@
                     // Unable to perform post authentication events
                     
                     // Set the error if it's not set
-                    if (!*error) {
+                    if (!error) {
                         NSDictionary *errorDetails = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Post authentication action failed", nil),
                                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error during post authentication", nil),
@@ -202,6 +202,15 @@
             [loginResponseObject setDecryptedMasterKey:nil];
         }
         
+    }     // Check if the preauthentication action is to prompt for user password or prompt for user password and warn
+    else if (computationResults.preAuthenticationAction == preAuthenticationAction_BlockAndWarn) {
+        
+        [loginResponseObject setAuthenticationResponseCode:authenticationResult_incorrectLogin];
+        [loginResponseObject setResponseLoginTitle:@"Access Denied"];
+        [loginResponseObject setResponseLoginDescription:@"This device has exceeded it's risk threshold."];
+        [loginResponseObject setDecryptedMasterKey:nil];
+
+    
     } else {
         
         // Somehow we ended up here
@@ -249,7 +258,7 @@
                     // Unable to whitelist attributing TrustFactor Output Objects
                     
                     // Set the error if it's not set
-                    if (!*error) {
+                    if (!error) {
                         NSDictionary *errorDetails = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Deactivate Protect Mode Failed", nil),
                                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error during assertion whitelisting", nil),
@@ -287,7 +296,7 @@
                     // Unable to whitelist attributing TrustFactor Output Objects
                     
                     // Set the error if it's not set
-                    if (!*error) {
+                    if (!error) {
                         NSDictionary *errorDetails = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Deactivate Protect Mode Failed", nil),
                                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error during assertion whitelisting", nil),
@@ -326,7 +335,7 @@
                     // Unable to whitelist attributing TrustFactor Output Objects
                     
                     // Set the error if it's not set
-                    if (!*error) {
+                    if (!error) {
                         NSDictionary *errorDetails = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Deactivate Protect Mode Failed", nil),
                                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error during assertion whitelisting", nil),
@@ -364,7 +373,7 @@
                     // Unable to whitelist attributing TrustFactor Output Objects
                     
                     // Set the error if it's not set
-                    if (!*error) {
+                    if (!error) {
                         NSDictionary *errorDetails = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Deactivate Protect Mode Failed", nil),
                                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error during assertion whitelisting", nil),
@@ -394,7 +403,7 @@
                 // Unable to whitelist attributing TrustFactor Output Objects
                 
                 // Set the error if it's not set
-                if (!*error) {
+                if (!error) {
                     NSDictionary *errorDetails = @{
                                                    NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to create new transparent key", nil),
                                                    NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Faile to create new object for whitelisting", nil),
@@ -467,18 +476,16 @@
 // Whitelist the Attributing TrustFactor Output Objects
 + (BOOL)whitelistAttributingTrustFactorOutputObjects:(NSArray *)trustFactorsToWhitelist withError:(NSError **)error {
     
-    // Create a variable to check if the localstore exists
-    BOOL exists = NO;
     
     // Get the shared store
     Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getAssertionStoreWithError:error];
     
     // Check for errors
-    if (!localStore || localStore == nil || !exists) {
+    if (!localStore || localStore == nil ) {
         
         // Unable to get the local store
         // Set the error if it's not set
-        if (!*error) {
+        if (!error) {
             NSDictionary *errorDetails = @{
                                            NSLocalizedDescriptionKey: NSLocalizedString(@"Whitelist Attributing TrustFactor Output Objects Failed", nil),
                                            NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error getting the local store", nil),
@@ -525,6 +532,7 @@
             [trustFactorOutputObject.storedTrustFactorObject setAssertionObjects:mergedStoredAssertionObjects];
         }
         
+        BOOL exists;
         // Check for matching stored assertion object in the local store
         Sentegrity_Stored_TrustFactor_Object *storedTrustFactorObject = [localStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
         
