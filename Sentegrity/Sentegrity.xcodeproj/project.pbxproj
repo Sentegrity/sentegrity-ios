@@ -302,8 +302,8 @@
 		4C97D3621BE15A35009F3779 /* TrustFactor_Dispatch_Wifi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Wifi.m; sourceTree = "<group>"; };
 		4C97D3631BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Datasets.h; sourceTree = "<group>"; };
 		4C97D3641BE15A35009F3779 /* Sentegrity_TrustFactor_Datasets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Datasets.m; sourceTree = "<group>"; };
-		4C97D3691BE15A35009F3779 /* Sentegrity_Policy_Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sentegrity_Policy_Parser.h; path = ../Parser/Sentegrity_Policy_Parser.h; sourceTree = "<group>"; };
-		4C97D36A1BE15A35009F3779 /* Sentegrity_Policy_Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sentegrity_Policy_Parser.m; path = ../Parser/Sentegrity_Policy_Parser.m; sourceTree = "<group>"; };
+		4C97D3691BE15A35009F3779 /* Sentegrity_Policy_Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Policy_Parser.h; sourceTree = "<group>"; };
+		4C97D36A1BE15A35009F3779 /* Sentegrity_Policy_Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Policy_Parser.m; sourceTree = "<group>"; };
 		4C97D36F1BE15A35009F3779 /* policy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = policy; sourceTree = "<group>"; };
 		4C97D3711BE15A35009F3779 /* Default_Policy.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Default_Policy.plist; sourceTree = "<group>"; };
 		4C97D3721BE15A35009F3779 /* oui.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = oui.list; sourceTree = "<group>"; };
