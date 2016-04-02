@@ -78,7 +78,7 @@
 		4C2D0E521CAF4192003BD75E /* TrustFactor_Dispatch_Time.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2D0DED1CAF4192003BD75E /* TrustFactor_Dispatch_Time.m */; };
 		4C2D0E531CAF4192003BD75E /* TrustFactor_Dispatch_Wifi.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2D0DEF1CAF4192003BD75E /* TrustFactor_Dispatch_Wifi.m */; };
 		4C2D0E541CAF4192003BD75E /* Sentegrity_TrustFactor_Datasets.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2D0DF11CAF4192003BD75E /* Sentegrity_TrustFactor_Datasets.m */; };
-		4C2D0E551CAF4192003BD75E /* LoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2D0DF41CAF4192003BD75E /* LoginAction.m */; };
+		4C2D0E551CAF4192003BD75E /* Sentegrity_LoginAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2D0DF41CAF4192003BD75E /* Sentegrity_LoginAction.m */; };
 		4C2D0E561CAF4192003BD75E /* Sentegrity_LoginResponse_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2D0DF61CAF4192003BD75E /* Sentegrity_LoginResponse_Object.m */; };
 		4C2D0E571CAF4192003BD75E /* Sentegrity_Results_Analysis.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2D0DFA1CAF4192003BD75E /* Sentegrity_Results_Analysis.m */; };
 		4C2D0E581CAF4192003BD75E /* default_ssids.list in Resources */ = {isa = PBXBuildFile; fileRef = 4C2D0DFC1CAF4192003BD75E /* default_ssids.list */; };
@@ -294,8 +294,8 @@
 		4C2D0DEF1CAF4192003BD75E /* TrustFactor_Dispatch_Wifi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrustFactor_Dispatch_Wifi.m; sourceTree = "<group>"; };
 		4C2D0DF01CAF4192003BD75E /* Sentegrity_TrustFactor_Datasets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Datasets.h; sourceTree = "<group>"; };
 		4C2D0DF11CAF4192003BD75E /* Sentegrity_TrustFactor_Datasets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Datasets.m; sourceTree = "<group>"; };
-		4C2D0DF31CAF4192003BD75E /* LoginAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginAction.h; sourceTree = "<group>"; };
-		4C2D0DF41CAF4192003BD75E /* LoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginAction.m; sourceTree = "<group>"; };
+		4C2D0DF31CAF4192003BD75E /* Sentegrity_LoginAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_LoginAction.h; sourceTree = "<group>"; };
+		4C2D0DF41CAF4192003BD75E /* Sentegrity_LoginAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_LoginAction.m; sourceTree = "<group>"; };
 		4C2D0DF51CAF4192003BD75E /* Sentegrity_LoginResponse_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_LoginResponse_Object.h; sourceTree = "<group>"; };
 		4C2D0DF61CAF4192003BD75E /* Sentegrity_LoginResponse_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_LoginResponse_Object.m; sourceTree = "<group>"; };
 		4C2D0DF91CAF4192003BD75E /* Sentegrity_Results_Analysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Results_Analysis.h; sourceTree = "<group>"; };
@@ -764,8 +764,8 @@
 		4C2D0DF21CAF4192003BD75E /* Login Action */ = {
 			isa = PBXGroup;
 			children = (
-				4C2D0DF31CAF4192003BD75E /* LoginAction.h */,
-				4C2D0DF41CAF4192003BD75E /* LoginAction.m */,
+				4C2D0DF31CAF4192003BD75E /* Sentegrity_LoginAction.h */,
+				4C2D0DF41CAF4192003BD75E /* Sentegrity_LoginAction.m */,
 				4C2D0DF51CAF4192003BD75E /* Sentegrity_LoginResponse_Object.h */,
 				4C2D0DF61CAF4192003BD75E /* Sentegrity_LoginResponse_Object.m */,
 			);
@@ -1202,7 +1202,7 @@
 				4C2D0E301CAF4192003BD75E /* CoreDetection.m in Sources */,
 				4C2D0E3A1CAF4192003BD75E /* Sentegrity_TrustFactor_Dataset_Cell.m in Sources */,
 				4C1DEC2B1BBCA38B00B0A312 /* LocationPermissionViewController.m in Sources */,
-				4C2D0E551CAF4192003BD75E /* LoginAction.m in Sources */,
+				4C2D0E551CAF4192003BD75E /* Sentegrity_LoginAction.m in Sources */,
 				4C2D0E2B1CAF4192003BD75E /* Sentegrity_Stored_Assertion.m in Sources */,
 				4C2D0E351CAF4192003BD75E /* MDBluetoothManager.m in Sources */,
 				4C2D0E461CAF4192003BD75E /* TrustFactor_Dispatch_Celluar.m in Sources */,

@@ -1,12 +1,12 @@
 //
-//  ProtectMode.h
+//  Sentegrity_LoginAction.h
 //  Sentegrity
 //
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
 /*!
- *  Protect Mode activates the different protect modes and sets trustfactors to whitelist
+ *  Login action activates the different login actions and sets trustfactors to whitelist
  */
 
 #import <Foundation/Foundation.h>
@@ -14,14 +14,18 @@
 // Sentegrity Policy
 #import "Sentegrity_Policy.h"
 
+// Login Response Object
 #import "Sentegrity_LoginResponse_Object.h"
 
 
-@interface LoginAction : NSObject
+@interface Sentegrity_LoginAction : NSObject
 
-// Singleton instance
+/*!
+ *  sharedLogin
+ *
+ *  @return Singleton Instance
+ */
 + (id)sharedLogin;
-
 
 #pragma mark - Pre Auth function
 /*!
@@ -31,10 +35,6 @@
  *
  *  @return Whether the protect mode was deactived or not
  */
-
-// Deactivate Protect Mode User with user pin
 - (Sentegrity_LoginResponse_Object *)attemptLoginWithUserInput:(NSString *)Userinput andError:(NSError **)error;
-
-
 
 @end

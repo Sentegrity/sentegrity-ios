@@ -24,7 +24,7 @@
 #import "Sentegrity_Startup_Store.h"
 
 // Authentication helper
-#import "LoginAction.h"
+#import "Sentegrity_LoginAction.h"
 
 @interface LoginViewController () <ISHPermissionsViewControllerDataSource>
 

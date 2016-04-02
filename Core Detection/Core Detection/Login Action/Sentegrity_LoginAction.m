@@ -1,11 +1,11 @@
 //
-//  ProtectMode.m
+//  Sentegrity_LoginAction.m
 //  Sentegrity
 //
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
-#import "LoginAction.h"
+#import "Sentegrity_LoginAction.h"
 
 // Assertion Store
 #import "Sentegrity_Assertion_Store+Helper.h"
@@ -22,11 +22,11 @@
 // Core Detection
 #import "CoreDetection.h"
 
-@implementation LoginAction
+@implementation Sentegrity_LoginAction
 
 // Singleton instance
 + (id)sharedLogin {
-    static LoginAction *sharedLogin = nil;
+    static Sentegrity_LoginAction *sharedLogin = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedLogin = [[self alloc] init];
@@ -35,8 +35,6 @@
 }
 
 #pragma mark - Deactivations
-
-
 
 // Deactivate Protect Mode User with user pin
 - (Sentegrity_LoginResponse_Object *)attemptLoginWithUserInput:(NSString *)Userinput andError:(NSError **)error {
@@ -66,7 +64,7 @@
             [loginResponseObject setDecryptedMasterKey:computationResults.decryptedMasterKey];
             
             // Perform post auth action (e.g., whitelist)
-            if ([LoginAction performPostAuthenticationActionWithError:error] == NO) {
+            if ([Sentegrity_LoginAction performPostAuthenticationActionWithError:error] == NO) {
                 
                 // Unable to perform post authentication events
                 
@@ -154,7 +152,7 @@
                 [loginResponseObject setDecryptedMasterKey:computationResults.decryptedMasterKey];
                 
                 // Perform post auth action (e.g., whitelist)
-                if ([LoginAction performPostAuthenticationActionWithError:error] == NO) {
+                if ([Sentegrity_LoginAction performPostAuthenticationActionWithError:error] == NO) {
                     
                     // Unable to perform post authentication events
                     
@@ -211,7 +209,6 @@
         [loginResponseObject setResponseLoginDescription:@"This device has exceeded it's risk threshold."];
         [loginResponseObject setDecryptedMasterKey:nil];
         
-        
     } else {
         
         // Somehow we ended up here
@@ -227,13 +224,9 @@
         
     }
     
-    
-    
     return loginResponseObject;
     
-    
 }
-
 
 // Perform post-login action
 + (BOOL)performPostAuthenticationActionWithError:(NSError **)error{
@@ -244,7 +237,6 @@
     
     //Get trustfactors to whitelist from computation results
     NSArray *trustFactorsToWhitelist;
-    
     
     switch (computationResults.postAuthenticationAction) {
         case postAuthenticationAction_whitelistUserAssertions:{
@@ -423,7 +415,6 @@
                 
             }
             
-            
             // Get the current Transparent objects from the startup file and re-set the file
             
             //NSError *startupError;
@@ -431,7 +422,6 @@
             
             // Validate no errors
             if (!startup || startup == nil) {
-                
                 
                 // Error out, no trustFactorOutputObject were able to be added
                 NSDictionary *errorDetails = @{
@@ -450,7 +440,6 @@
                 
             }
             
-            
             NSMutableArray * currentTransparentAuthKeyObjects = [[startup transparentAuthKeyObjects] mutableCopy];
             [currentTransparentAuthKeyObjects addObject:newTransparentObject];
             
@@ -460,7 +449,6 @@
             // Return YES - no errors
             return YES;
             
-            
         }
             break;
         default: //We only care aboute whitelisting here, anything else, such as show suggestions or doNothing is handled outside of this
@@ -468,15 +456,12 @@
             break;
     }
     
-    
-    
 }
 
 #pragma mark - Whitelisting
 
 // Whitelist the Attributing TrustFactor Output Objects
 + (BOOL)whitelistAttributingTrustFactorOutputObjects:(NSArray *)trustFactorsToWhitelist withError:(NSError **)error {
-    
     
     // Get the shared store
     Sentegrity_Assertion_Store *localStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getAssertionStoreWithError:error];
@@ -552,7 +537,6 @@
     
     // Update the stores
     [[Sentegrity_TrustFactor_Storage sharedStorage] setAssertionStoreWithError:error];
-    
     
     // Return YES
     return YES;
