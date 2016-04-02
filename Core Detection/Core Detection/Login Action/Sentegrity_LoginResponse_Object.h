@@ -13,12 +13,12 @@
 @property (nonatomic, assign) NSInteger authenticationResponseCode;
 
 // Trust Score
-@property (nonatomic, assign) NSData *decryptedMasterKey;
+@property (nonatomic, retain) NSData *decryptedMasterKey;
 
 // Trust Score
-@property (nonatomic, assign) NSString *responseLoginTitle;
+@property (nonatomic, retain) NSString *responseLoginTitle;
 
 // User Score
-@property (nonatomic, assign) NSString *responseLoginDescription;
+@property (nonatomic, retain) NSString *responseLoginDescription;
 
 @end

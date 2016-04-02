@@ -200,7 +200,7 @@ static MBProgressHUD *HUD;
         {
             // Attempt to login
             // we have no input to pass, use nil
-            Sentegrity_LoginResponse_Object *loginResponseObject = [[LoginAction sharedLogin] attemptLoginWithUserInput:nil andError:error];
+            Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithUserInput:nil andError:error];
             
             // Set the authentication response code
             computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
@@ -251,7 +251,7 @@ static MBProgressHUD *HUD;
         case preAuthenticationAction_BlockAndWarn:
         {
             
-            Sentegrity_LoginResponse_Object *loginResponseObject = [[LoginAction sharedLogin] attemptLoginWithUserInput:nil andError:error];
+            Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithUserInput:nil andError:error];
             
             // Set the authentication response code
             computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
@@ -291,7 +291,7 @@ static MBProgressHUD *HUD;
             
             [userInput addButton:@"Login" actionBlock:^(void) {
                 
-                Sentegrity_LoginResponse_Object *loginResponseObject = [[LoginAction sharedLogin] attemptLoginWithUserInput:userText.text andError:error];
+                Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithUserInput:userText.text andError:error];
                 
                 // Set the authentication response code
                 computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
@@ -374,7 +374,7 @@ static MBProgressHUD *HUD;
             
             [userInput addButton:@"Login" actionBlock:^(void) {
                 
-                Sentegrity_LoginResponse_Object *loginResponseObject = [[LoginAction sharedLogin] attemptLoginWithUserInput:userText.text andError:error];
+                Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithUserInput:userText.text andError:error];
                 
                 // Set the authentication response code
                 computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
