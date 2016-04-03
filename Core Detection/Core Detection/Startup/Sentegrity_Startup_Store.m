@@ -165,19 +165,19 @@
      * Set device salt
      */
     NSData *deviceSaltData = [[Sentegrity_Crypto sharedCrypto] generateSalt256];
-    [self.currentStartupStore setDeviceSaltString:[[Sentegrity_Crypto sharedCrypto] convertDataToHexString:deviceSaltData]];
+    [self.currentStartupStore setDeviceSaltString:[[Sentegrity_Crypto sharedCrypto] convertDataToHexString:deviceSaltData withError:error]];
     
     /*
      * Set the user key salt
      */
     NSData *userKeySaltData = [[Sentegrity_Crypto sharedCrypto] generateSalt256];
-    [self.currentStartupStore setUserKeySaltString:[[Sentegrity_Crypto sharedCrypto] convertDataToHexString:userKeySaltData]];
+    [self.currentStartupStore setUserKeySaltString:[[Sentegrity_Crypto sharedCrypto] convertDataToHexString:userKeySaltData withError:error]];
     
     /*
      * Set the transparent auth global PBKDF2 salt (used for all PBKDF2 transparent key hashes)
      */
     NSData *transparentAuthGlobalPBKDF2Salt = [[Sentegrity_Crypto sharedCrypto] generateSalt256];
-    [self.currentStartupStore setTransparentAuthGlobalPBKDF2SaltString:[[Sentegrity_Crypto sharedCrypto] convertDataToHexString:transparentAuthGlobalPBKDF2Salt]];
+    [self.currentStartupStore setTransparentAuthGlobalPBKDF2SaltString:[[Sentegrity_Crypto sharedCrypto] convertDataToHexString:transparentAuthGlobalPBKDF2Salt withError:error]];
     
     /*
      * Set the transparent auth global PBKDF2 round estimate
@@ -185,7 +185,8 @@
     
     // How many rounds to use so that it takes 0.05s (50ms) ?
     NSString *testTransparentAuthOutput = @"TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0_TEST_0";
-    int transparentAuthEstimateRounds = [[Sentegrity_Crypto sharedCrypto] benchmarkPBKDF2UsingExampleString:testTransparentAuthOutput forTimeInMS:10];
+    int transparentAuthEstimateRounds = [[Sentegrity_Crypto sharedCrypto] benchmarkPBKDF2UsingExampleString:testTransparentAuthOutput forTimeInMS:10 withError:error];
+    // TODO: Utilize Error
     [self.currentStartupStore setTransparentAuthPBKDF2rounds:transparentAuthEstimateRounds];
     
     /*
@@ -194,9 +195,9 @@
     
     // How many rounds to use so that it takes 0.05s (50ms) ?
     NSString *testUserPassword = @"abcdef";
-    int userEstimateRounds = [[Sentegrity_Crypto sharedCrypto] benchmarkPBKDF2UsingExampleString:testUserPassword forTimeInMS:50];
+    int userEstimateRounds = [[Sentegrity_Crypto sharedCrypto] benchmarkPBKDF2UsingExampleString:testUserPassword forTimeInMS:50 withError:error];
+    // TODO: Utilize Error
     [self.currentStartupStore setUserKeyPBKDF2rounds:userEstimateRounds];
-    
     
     /*
      * Set the OS Version
@@ -215,9 +216,11 @@
     NSString *userPassword = @"user";
     
     // Generate and store user key hash and user key encrypted master key blob
-    BOOL createdUserAndMasterKey = [[Sentegrity_Crypto sharedCrypto] provisionNewUserKeyAndCreateMasterKeyWithPassword:userPassword];
+    BOOL createdUserAndMasterKey = [[Sentegrity_Crypto sharedCrypto] provisionNewUserKeyAndCreateMasterKeyWithPassword:userPassword withError:error];
     
-    if(!createdUserAndMasterKey || createdUserAndMasterKey==NO){
+    // TODO: Utilize Error
+    
+    if (!createdUserAndMasterKey || createdUserAndMasterKey==NO){
         // No valid startup provided
         NSDictionary *errorDetails = @{
                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Error creating new user and master key", nil),
@@ -243,7 +246,7 @@
 }
 
 // Set the startup file
-- (void)setStartupStoreWithError:(NSError **)error {
+- (BOOL)setStartupStoreWithError:(NSError **)error {
     
     // Zero out the error
     *error = nil;
@@ -262,6 +265,9 @@
         
         // Set the error
         *error = [NSError errorWithDomain:coreDetectionDomain code:SAInvalidStartupInstance userInfo:errorDetails];
+        
+        // Return NO
+        return NO;
         
     }
     
@@ -282,6 +288,9 @@
         
         // Set the error
         *error = [NSError errorWithDomain:coreDetectionDomain code:SAInvalidStartupInstance userInfo:errorDetails];
+        
+        // Return NO
+        return NO;
         
     }
     
@@ -304,12 +313,18 @@
             // Set the error
             *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToWriteStore userInfo:errorDetails];
             
+            // Return NO
+            return NO;
+            
         }
         
         // Log Error
         NSLog(@"Failed to Write Store: %@", *error);
 
     }
+    
+    // Return Success
+    return YES;
     
 }
 
@@ -370,7 +385,7 @@
     
 }
 
-- (void)setStartupFileWithComputationResult:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)startupError{
+- (void)setStartupFileWithComputationResult:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)error {
     
     // Get our startup file
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
@@ -386,13 +401,12 @@
                                        };
         
         // Set the error
-        *startupError = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStartupInstance userInfo:errorDetails];
+        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStartupInstance userInfo:errorDetails];
         
         // Log Error
         NSLog(@"Failed to get startup file: %@", errorDetails);
         
-    }
-    
+    } // Done validating no errors
     
     // Create a run history object for this run
     Sentegrity_History_Object *runHistoryObject = [[Sentegrity_History_Object alloc] init];
@@ -417,7 +431,6 @@
     [runHistoryObject setPostAuthenticationAction:computationResults.postAuthenticationAction];
     [runHistoryObject setAuthenticationResult:computationResults.authenticationResult];
     
-    
     // Check if the startup file already has an array of history objects
     if (!startup.runHistoryObjects || startup.runHistoryObjects.count < 1) {
         
@@ -438,19 +451,24 @@
     }
     
     // Save all updates to the startup file, this includes version check during baseline analysis, any transparent auth changes, run history
-    [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:startupError];
-    
-    // Check for errors
-    if (startupError || startupError != nil) {
+    if (![[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:error]) {
         
-        // Unable to set startup file!
-        
-        // Log Error
-        //NSLog(@"Failed to set startup file: %@", startupError.debugDescription);
-        
+        // TODO: Something wonky here - Check for errors
+        if (*error || *error != nil || *error != NULL) {
+            
+            // Unable to set startup file!
+            
+            // Log Error
+            NSLog(@"Failed to set startup file: %@", [(NSError *)*error debugDescription]);
+            
+        } else {
+            
+            // Failed to set startup file for unknown reason
+            NSLog(@"Fialed to set startup file for unknown reasons");
+            
+        }
         
     }
-
 
 }
 

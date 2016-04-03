@@ -15,8 +15,8 @@
 
 
 // Set assertion objects from output
--(void)setAssertionObjectsFromOutput
-{
+- (void)setAssertionObjectsFromOutput {
+    
     // Temporary mutable array to hold Sentegrity_Stored_Assertion objects
     NSMutableArray *assertionObjects = [[NSMutableArray alloc]init];
     
@@ -45,18 +45,15 @@
     }
     
     // Set property
-    self.candidateAssertionObjects= assertionObjects;
+    self.candidateAssertionObjects = assertionObjects;
     
 }
 
 // Override init to our defaults
-- (id) init {
+- (id)init {
     if (self = [super init]) {
-        
         // Set the DNE to OK
-        [self setStatusCode:DNEStatus_ok];
-        
-        
+        _statusCode = DNEStatus_ok;
     }
     return self;
 }

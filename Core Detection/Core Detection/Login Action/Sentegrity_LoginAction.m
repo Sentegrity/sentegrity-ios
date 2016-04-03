@@ -52,7 +52,9 @@
         // Transparent Authentication
         
         // Decrypt using previously determiend values
-        computationResults.decryptedMasterKey = [[Sentegrity_Crypto sharedCrypto] decryptMasterKeyUsingTransparentAuthentication];
+        computationResults.decryptedMasterKey = [[Sentegrity_Crypto sharedCrypto] decryptMasterKeyUsingTransparentAuthenticationWithError:error];
+        
+        // TODO: Utilize Error
         
         // See if it decrypted
         if (computationResults.decryptedMasterKey != nil || !computationResults.decryptedMasterKey) {
@@ -129,10 +131,14 @@
         } // Done validating no errors
         
         // Derive key from user input (we do this here instead of inside sentegrity crypto to prevent doing multiple key derivations, in the event the password is correct and we need to do decryption)
-        NSData *userKey = [[Sentegrity_Crypto sharedCrypto] getUserKeyForPassword:Userinput];
+        NSData *userKey = [[Sentegrity_Crypto sharedCrypto] getUserKeyForPassword:Userinput withError:error];
+        
+        // TODO: Utilize Error
         
         // Create user key hash
-        NSString *candidateUserKeyHash =  [[Sentegrity_Crypto sharedCrypto] createSHA1HashOfData:userKey];
+        NSString *candidateUserKeyHash =  [[Sentegrity_Crypto sharedCrypto] createSHA1HashOfData:userKey withError:error];
+        
+        // TODO: Utilize Error
         
         // Retrieve the stored user key hash created during provisoning
         NSString *storedUserKeyHash = [startup userKeyHash];
@@ -141,7 +147,9 @@
         if ([candidateUserKeyHash isEqualToString:storedUserKeyHash]) {
             
             // Attempt to decrypt master
-            computationResults.decryptedMasterKey = [[Sentegrity_Crypto sharedCrypto] decryptMasterKeyUsingUserKey:userKey];
+            computationResults.decryptedMasterKey = [[Sentegrity_Crypto sharedCrypto] decryptMasterKeyUsingUserKey:userKey withError:error];
+            
+            // TODO: Utilize Error
             
             // See if it decrypted
             if (computationResults.decryptedMasterKey != nil || !computationResults.decryptedMasterKey) {
@@ -438,7 +446,9 @@
             } // Done checking the whitelist count
             
             // Now create a new transparent key
-            Sentegrity_TransparentAuth_Object *newTransparentObject = [[Sentegrity_Crypto sharedCrypto] createNewTransparentAuthKeyObject];
+            Sentegrity_TransparentAuth_Object *newTransparentObject = [[Sentegrity_Crypto sharedCrypto] createNewTransparentAuthKeyObjectWithError:(NSError **)error];
+            
+            // TODO: Utilize Error Checking
             
             // Check for error
             if (!newTransparentObject || newTransparentObject == nil) {

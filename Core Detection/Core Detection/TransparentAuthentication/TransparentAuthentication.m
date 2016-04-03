@@ -96,7 +96,9 @@
     // Generate the PBKDF2 raw key from concatinated output and set it, salt is created once at startup and used for all PBKDF2 of
     // transparent auth keys - a different salt is used for encryption of the master key by each transparent key
     
-    computationResults.candidateTransparentKey = [[Sentegrity_Crypto sharedCrypto] getTransparentKeyForTrustFactorOutput:candidateTransparentKeyRawOutputString];
+    computationResults.candidateTransparentKey = [[Sentegrity_Crypto sharedCrypto] getTransparentKeyForTrustFactorOutput:candidateTransparentKeyRawOutputString withError:error];
+    
+    // TODO: Utilize Error
 
     // Validate no errors
     if (!computationResults.candidateTransparentKey || computationResults.candidateTransparentKey == nil) {
@@ -125,7 +127,9 @@
     // Create SHA1 hash of PBKDF2 raw key to perform search on and save for later in the event we dont find a match and
     // it is used to create a new key completely
     
-    computationResults.candidateTransparentKeyHashString = [[Sentegrity_Crypto sharedCrypto] createSHA1HashOfData:computationResults.candidateTransparentKey];
+    computationResults.candidateTransparentKeyHashString = [[Sentegrity_Crypto sharedCrypto] createSHA1HashOfData:computationResults.candidateTransparentKey withError:error];
+    
+    // TODO: Utilize Error
     
     // Defaults
     BOOL foundMatch=NO;

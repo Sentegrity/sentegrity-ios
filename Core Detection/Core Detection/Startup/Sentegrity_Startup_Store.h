@@ -42,7 +42,7 @@
 
 /* Setter */
 // Set the startup file
-- (void)setStartupStoreWithError:(NSError **)error;
+- (BOOL)setStartupStoreWithError:(NSError **)error;
 
 /* Getter */
 // Set the run history object
