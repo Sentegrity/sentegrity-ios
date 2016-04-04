@@ -17,23 +17,22 @@
 // Transparent Auth Object
 #import "Sentegrity_TransparentAuth_Object.h"
 
+// Core Detection
 #import "CoreDetection.h"
 
-
-
-
+// TrustScore Computation
 @class Sentegrity_TrustScore_Computation;
 
 @interface Sentegrity_Startup_Store : NSObject
-
-
 
 // Singleton instance
 + (id)sharedStartupStore;
 
 /* Properties */
-@property (nonatomic,retain) NSString *currentState;
 
+// Current state
+@property (nonatomic,retain) NSString *currentState;
+// Current startup store
 @property (nonatomic,retain) Sentegrity_Startup *currentStartupStore;
 
 /* Getter */
@@ -43,13 +42,11 @@
 
 /* Setter */
 // Set the startup file
-- (void)setStartupStoreWithError:(NSError **)error;
+- (BOOL)setStartupStoreWithError:(NSError **)error;
 
 /* Getter */
 // Set the run history object
-
 - (void)setStartupFileWithComputationResult:(Sentegrity_TrustScore_Computation *)computationResults withError:(NSError **)error;
-
 
 /* Helper */
 // Startup File Path

@@ -19,6 +19,7 @@
 // Crypto
 #import "Sentegrity_Crypto.h"
 
+// Core Detection
 #import "CoreDetection.h"
 
 @implementation LoginAction

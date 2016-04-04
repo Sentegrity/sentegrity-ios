@@ -19,8 +19,8 @@
 
 // Permissions
 #import "ISHPermissionKit.h"
-#import "LocationPermissionViewController.h"
-#import "ActivityPermissionViewController.h"
+//#import "LocationPermissionViewController.h"
+//#import "ActivityPermissionViewController.h"
 
 @implementation Sentegrity_Activity_Dispatcher
 

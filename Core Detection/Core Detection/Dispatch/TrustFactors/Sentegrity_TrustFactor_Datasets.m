@@ -431,13 +431,13 @@ static dispatch_once_t onceToken;
 - (NSArray *)getNetstatInfo {
 
     //Do we any data yet?
-    if(!self.netstatData || self.netstatData == nil) {
+    if (!self.netstatData || self.netstatData == nil) {
         
         // If the dataset expired during a previous TF attempt, don't wait again, just exit.
         // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
         // but we are not waiting again
         
-        if([self netstatDataDNEStatus]==DNEStatus_expired){
+        if ([self netstatDataDNEStatus] == DNEStatus_expired) {
             return self.netstatData;
         }
         
@@ -449,7 +449,7 @@ static dispatch_once_t onceToken;
         while ((currentTime-startTime) < waitTime){
             
             // If its greater than 0 return
-            if(self.netstatData != nil) {
+            if (self.netstatData != nil) {
                 
                 NSLog(@"Got netstat data after waiting..");
                 

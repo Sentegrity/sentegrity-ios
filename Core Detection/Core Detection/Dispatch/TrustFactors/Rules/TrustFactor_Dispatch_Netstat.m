@@ -194,7 +194,7 @@
 // New service
 + (Sentegrity_TrustFactor_Output_Object *)newService:(NSArray *)payload {
     
-    // Create the trustfactor output object
+    // TODO: Leak here - Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
     // Set the default status code to OK (default = DNEStatus_ok)
@@ -208,7 +208,7 @@
     if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus] != DNEStatus_ok && [[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus] != DNEStatus_expired ){
         
         // Set the DNE status code to what was previously determined
-        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  netstatDataDNEStatus]];
+        [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus]];
         
         // Return with the blank output object
         return trustFactorOutputObject;
@@ -218,7 +218,8 @@
     NSArray *connections = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getNetstatInfo];
     
     // Check if error from dataset (expired)
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus] != DNEStatus_ok ){
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus] != DNEStatus_ok ) {
+        
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets] netstatDataDNEStatus]];
         
@@ -237,24 +238,21 @@
         return trustFactorOutputObject;
     }
     
-
-    
     // Run through all the connection dictionaries
     for (ActiveConnection *connection in connections) {
         
         // Skip if this is NOT a listening socket
-        if(![connection.status isEqualToString:@"LISTEN"])
+        if (![connection.status isEqualToString:@"LISTEN"]) {
             continue;
-        
+        }
         
         // make sure we don't add more than one instance of the port
-        if (![outputArray containsObject:connection.localPort]){
+        if (![outputArray containsObject:connection.localPort]) {
             
             // Add the port to the output array
             [outputArray addObject:connection.localPort];
         }
     }
-    
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];

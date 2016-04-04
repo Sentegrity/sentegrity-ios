@@ -214,8 +214,8 @@
                                                        encoding:NSUTF8StringEncoding
                                                           error:&error];
         if (!error) {
-            NSUInteger  an_Integer;
-            NSArray * ipItemsArray;
+            NSUInteger an_Integer;
+            NSArray *ipItemsArray;
             NSString *externalIP;
             NSScanner *theScanner;
             NSString *text = nil;

@@ -3,5 +3,11 @@ pod 'DCKeyValueObjectMapping', '~> 1.4'
 pod 'NSObject-ObjectMap', '~> 2.0'
 pod 'NSString-Hashes', '~> 1.2'
 
+# Permissions Kit
+pod 'ISHPermissionKit', '~> 0.8'
+
 # Bluetooth
 pod "LGBluetooth", "~> 1.1.5"
+
+# Transparent Auth
+pod "MIHCrypto", "~> 0.4.1"

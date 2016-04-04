@@ -9,7 +9,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ISHPermissionKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>LGBluetooth.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MIHCrypto.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -42,12 +52,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C5EDAB76FBB5BEA04F28EFCFDC3A4E6F</key>
+		<key>3F3A65BC19C13AADD27E93C1E6AA1B66</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DBADDABE1751AC6002610FB0A5CB95C5</key>
+		<key>70547B5EBA2DD8947B915742A4D0BBAA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>849D391205F789776AD27DEB3B8FF20A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C5EDAB76FBB5BEA04F28EFCFDC3A4E6F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
