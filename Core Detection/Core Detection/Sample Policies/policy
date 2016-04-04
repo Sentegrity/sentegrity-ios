@@ -79,7 +79,7 @@
       "dneNoData": "No network data",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 2,
@@ -91,7 +91,7 @@
       "dneNoData": "",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 3,
@@ -103,7 +103,7 @@
       "dneNoData": "",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 4,
@@ -115,7 +115,7 @@
       "dneNoData": "",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 5,
@@ -127,7 +127,7 @@
       "dneNoData": "",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 6,
@@ -139,7 +139,7 @@
       "dneNoData": "",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 7,
@@ -151,7 +151,7 @@
       "dneNoData": "",
       "dneExpired": "",
       "dneInvalid": "Device position invalid",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 8,
@@ -163,7 +163,7 @@
       "dneNoData": "",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 9,
@@ -175,7 +175,7 @@
       "dneNoData": "",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 10,
@@ -187,7 +187,7 @@
       "dneNoData": "No activity data found",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 11,
@@ -199,7 +199,7 @@
       "dneNoData": "",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     },
     {
       "id": 12,
@@ -211,7 +211,7 @@
       "dneNoData": "",
       "dneExpired": "",
       "dneInvalid": "",
-      "weight": 0
+      "weight": 1
     }
   ],
   "trustFactors": [
@@ -337,7 +337,7 @@
       "wipeOnUpdate": 0,
       "dispatch": "Netstat",
       "implementation": "priviledgedPort:",
-      "whitelistable": 1,
+      "whitelistable": 0,
       "privateAPI": 0,
       "payload": [
         22,
@@ -445,7 +445,7 @@
       "wipeOnUpdate": 0,
       "dispatch": "File",
       "implementation": "sizeChange:",
-      "whitelistable": 1,
+      "whitelistable": 0,
       "privateAPI": 0,
       "payload": [
         "/etc/passwd",
@@ -474,7 +474,7 @@
       "wipeOnUpdate": 0,
       "dispatch": "Netstat",
       "implementation": "newService:",
-      "whitelistable": 1,
+      "whitelistable": 0,
       "privateAPI": 0,
       "payload": []
     },
@@ -828,7 +828,7 @@
       "wipeOnUpdate": 0,
       "dispatch": "Application",
       "implementation": "installedApp:",
-      "whitelistable": 1,
+      "whitelistable": 0,
       "privateAPI": 1,
       "payload": [
         "com.dunkinbrands.DunkinMobile",

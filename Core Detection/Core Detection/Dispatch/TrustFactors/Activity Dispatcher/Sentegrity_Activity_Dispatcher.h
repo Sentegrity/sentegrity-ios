@@ -62,4 +62,7 @@
 // Start Motion
 - (void)startMotion;
 
+// Start Motion
+- (void)startNetstat;
+
 @end

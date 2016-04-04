@@ -59,6 +59,18 @@ static MBProgressHUD *HUD;
     
     /** START SENTEGRITY CODE **/
     
+    // Wipe out all previous datasets (in the event this is not the first run)
+    [Sentegrity_TrustFactor_Datasets selfDestruct];
+    
+    // Start Motion
+    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startMotion];
+    
+    // Start Netstat
+    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startNetstat];
+    
+    // Start Bluetooth as soon as possible
+    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startBluetoothBLE];
+    
     // Check if the application has permissions to run the different activities
     ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
     ISHPermissionRequest *permissionActivity = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
@@ -131,6 +143,8 @@ static MBProgressHUD *HUD;
         [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startActivity];
         
     }
+    
+
     
     // Show Animation
     HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];

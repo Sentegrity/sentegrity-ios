@@ -392,12 +392,6 @@ static MBProgressHUD *HUD;
     
     [untrusted addButton:@"Yes" actionBlock:^(void) {
         
-        // Clea up datasets
-        [Sentegrity_TrustFactor_Datasets selfDestruct];
-        
-        // Run the Core Detection Activities
-        [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] runCoreDetectionActivities];
-        
         // Show the landing page
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         

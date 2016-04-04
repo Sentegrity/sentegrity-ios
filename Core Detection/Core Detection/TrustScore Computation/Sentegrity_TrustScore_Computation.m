@@ -56,7 +56,7 @@
     double percent = fabs(1-((highestStoredAssertionDecayMetric - currentAssertionDecayMetricAverage) / (highestStoredAssertionDecayMetric - trustFactorPolicyDecayMetric)));
     
     return percent;
-
+    
 }
 
 
@@ -168,7 +168,6 @@
     // For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
         
-        
         // Per-Class TrustFactor sorting
         trustFactorsInClass = [NSMutableArray array];
         subClassesInClass = [NSMutableArray array];
@@ -187,6 +186,9 @@
         
         // Run through all the subclassifications that are in the policy
         for (Sentegrity_Subclassification *subClass in policy.subclassifications) {
+            
+            // Zero out subclass score for each classification
+            subClass.score = 0;
             
             // Per-Subclass TrustFactor sorting
             trustFactorsInSubClass = [NSMutableArray array];
@@ -245,7 +247,7 @@
                                         // apply partial weight of TF
                                         double percent = [self weightPercentForTrustFactorOutputObject:trustFactorOutputObject];
                                         NSInteger partialWeight = (NSInteger)(percent * trustFactorOutputObject.trustFactor.weight.integerValue);
-                                        subClass.baseWeight = (subClass.baseWeight + partialWeight);
+                                        subClass.score = (subClass.score + partialWeight);
                                         
                                         // Stored for debug purposes
                                         trustFactorOutputObject.appliedWeight = partialWeight;
@@ -282,7 +284,7 @@
                                     }else{
                                         
                                         // apply full weight of TF
-                                        subClass.baseWeight = (subClass.baseWeight + trustFactorOutputObject.trustFactor.weight.integerValue);
+                                        subClass.score = (subClass.score + trustFactorOutputObject.trustFactor.weight.integerValue);
                                         
                                         // Stored for debug purposes
                                         trustFactorOutputObject.appliedWeight = trustFactorOutputObject.trustFactor.weight.integerValue;
@@ -302,8 +304,15 @@
                                 
                                 
                                 
-                                // If no match found, regardless of TF type - they are added to whitelist
+                                // If no match found, regardless of TF type - they are added to whitelist if "whitelistable"
+                                
+                                if(trustFactorOutputObject.trustFactor.whitelistable.intValue == 1) {
+                                    
                                 [trustFactorsToWhitelistInClass addObject:trustFactorOutputObject];
+                                    
+                                }
+                                
+
                                 
                                 // If the computation method is 0 (subtractive scoring) (e.g., System classifications and User Policy)
                                 if([[class computationMethod] intValue]==0){
@@ -317,18 +326,18 @@
                                         // apply partial weight of TF
                                         double percent = [self weightPercentForTrustFactorOutputObject:trustFactorOutputObject];
                                         NSInteger partialWeight = (NSInteger)(percent * trustFactorOutputObject.trustFactor.weight.integerValue);
-                                        subClass.baseWeight = (subClass.baseWeight + partialWeight);
+                                        subClass.score = (subClass.score + partialWeight);
                                         
                                         // Stored for debug purposes
                                         trustFactorOutputObject.appliedWeight = partialWeight;
                                         trustFactorOutputObject.percentAppliedWeight = percent;
-
+                                        
                                         
                                         
                                     }else{
                                         
                                         // apply full weight of TF
-                                        subClass.baseWeight = (subClass.baseWeight + trustFactorOutputObject.trustFactor.weight.integerValue);
+                                        subClass.score = (subClass.score + trustFactorOutputObject.trustFactor.weight.integerValue);
                                         
                                         // Stored for debug purposes
                                         trustFactorOutputObject.appliedWeight = trustFactorOutputObject.trustFactor.weight.integerValue;
@@ -387,18 +396,18 @@
                             // Record messages AND apply modified DNE penalty (SYSTEM classes only)
                             else if([[class computationMethod] intValue]==0)
                             {
-                            
+                                
                                 // Do not penalize for WiFi rules that did not run within system-based classifications
                                 // This is because WiFi is considered dangerous from a system perspective and should not penalize
                                 if ([[class type] intValue]!=0 && ![subClass.name isEqualToString:@"WiFi"]) {
-                                
+                                    
                                     [self addSuggestionsAndCalcWeightForClass:class withSubClass:subClass withPolicy:policy withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
                                 }
-
+                                
                                 
                             }
                         }
-
+                        
                         
                         // Add TrustFactor to classification
                         [trustFactorsInClass addObject:trustFactorOutputObject.trustFactor];
@@ -409,7 +418,7 @@
                     }
                     // End if ForComputation
                     
-
+                    
                     
                 }
                 // End trustfactors loop
@@ -468,11 +477,12 @@
                     
                 }
                 
-                // Set the penalty weight for the subclass
-                subClass.totalWeight = (subClass.baseWeight * (1-(0.1 * subClass.weight.integerValue)) );
                 
                 // Add the subclass total weight to the classification's base weight
-                class.score = class.score + subClass.totalWeight;
+                class.score = class.score +  (subClass.score * [subClass.weight integerValue]);
+                
+                
+                //subClass.totalWeight = (subClass.baseWeight * (1-(0.1 * subClass.weight.integerValue)) );
                 
                 // Add trustFactors to the list of trusfactors in a subclass
                 [subClass setTrustFactors:trustFactorsInSubClass];
@@ -923,7 +933,7 @@
     NSInteger weight = (trustFactorOutputObject.trustFactor.weight.integerValue * penaltyMod);
     
     // Apply DNE percent to the TFs normal penalty to reduce it (penaltyMode of 0 negates the rule completely)
-    subClass.baseWeight = subClass.baseWeight + weight;
+    subClass.score = subClass.score + weight;
     
     // For debug;
     trustFactorOutputObject.appliedWeight = weight;
