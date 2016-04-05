@@ -126,7 +126,6 @@
             if (error || error != nil) {
                 // Error
                 
-                // TODO: Remove log statements
                 // Log it
                 NSLog(@"Error found in TrustFactor: sizeChange, Error: %@", error.localizedDescription);
                 

@@ -246,6 +246,12 @@ enum {
     // Error performing core detection result analysis
     SACannotPerformAnalysis                         = 43,
     
+    // Invalid From Time - Days Between Dates
+    SAInvalidFromTimeDaysBetweenDates               = 3203,
+    
+    // Invalid To Time - Days Between Dates
+    SAInvalidToTimeDaysBetweenDates                 = 3204
+    
 };
 
 
@@ -423,6 +429,9 @@ enum {
 enum {
     // Unable to create new user key and master key
     SAUnableToCreateNewUserAndMasterKey             = 55,
+    
+    // Unable to get Transparent Key for TrustFactor Output
+    SAUnableToGetTransparentKeyTrustFactor          = 56
 };
 
 #endif

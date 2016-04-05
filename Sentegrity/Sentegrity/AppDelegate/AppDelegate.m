@@ -138,8 +138,6 @@
 //
 //                            // Check if it's equal to the current version
 //                            if([@"version" isEqualToString:[NSString stringWithString:firmwareDicts]]){
-//
-//                                // TODO: What is this doing?
 //                            }
 //                        }
 //
