@@ -10,7 +10,6 @@
 @interface Sentegrity_Subclassification (Computation)
 
 @property (nonatomic,retain) NSArray *trustFactors;
-@property (nonatomic) NSInteger totalWeight;
-@property (nonatomic) NSInteger baseWeight;
+@property (nonatomic) NSInteger score;
 
 @end

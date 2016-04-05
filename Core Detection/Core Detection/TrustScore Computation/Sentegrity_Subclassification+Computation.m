@@ -11,34 +11,20 @@
 #import <objc/runtime.h>
 
 @implementation Sentegrity_Subclassification (Computation)
-
-NSString const *baseWeightKey = @"Sentegrity.baseWeight";
-NSString const *totalWeightKey = @"Sentegrity.totalWeight";
+NSString const *totalScoreKey = @"Sentegrity.score";
 NSString const *subClassificationsKey = @"Sentegrity.subClassifications";
 NSString const *trustFactorsKey = @"Sentegrity.trustFactors";
 
-// Base Weight
+// Subclass Score
 
-- (void)setBaseWeight:(NSInteger)baseWeight {
-    NSNumber *baseWeightNumber = [NSNumber numberWithInteger:baseWeight];
-    objc_setAssociatedObject(self, &baseWeightKey, baseWeightNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setScore:(NSInteger)score {
+    NSNumber *totalScore = [NSNumber numberWithInteger:score];
+    objc_setAssociatedObject(self, &totalScoreKey, totalScore, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSInteger)baseWeight {
-    NSNumber *baseWeightNumber = objc_getAssociatedObject(self, &baseWeightKey);
-    return [baseWeightNumber integerValue];
-}
-
-// Total Weight
-
-- (void)setTotalWeight:(NSInteger)totalWeight {
-    NSNumber *totalWeightNumber = [NSNumber numberWithInteger:totalWeight];
-    objc_setAssociatedObject(self, &totalWeightKey, totalWeightNumber, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSInteger)totalWeight {
-    NSNumber *totalWeightNumber = objc_getAssociatedObject(self, &totalWeightKey);
-    return [totalWeightNumber integerValue];
+- (NSInteger)score {
+    NSNumber *totalScore = objc_getAssociatedObject(self, &totalScoreKey);
+    return [totalScore integerValue];
 }
 
 // TrustFactors

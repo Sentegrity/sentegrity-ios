@@ -5,6 +5,8 @@
 //  Copyright (c) 2015 Sentegrity. All rights reserved.
 //
 
+#import "AppDelegate.h"
+
 #import "CoreDetection.h"
 
 // TrustFactor Datasets
@@ -46,6 +48,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 #pragma mark - Protect Mode Analysis
 
 // Start Core Detection
+// ** REMEMBER ** This can be called repeatedly without closing the app, therefore you must wipe datasets prior to each run of core detection
 - (void)performCoreDetectionWithCallback:(coreDetectionBlock)callback {
     
     // Create the error to use
@@ -76,6 +79,14 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     
     // Set the callback block to be the block definition
     coreDetectionBlockCallBack = callback;
+    
+    // Flush the policy in the event it was updated inbetween runs
+    // This forces it to re-parse
+    [[Sentegrity_Policy_Parser sharedPolicy] setCurrentPolicy:nil];
+    
+    
+    // Start Activities (must be called from app delegate (main thread) otherwise location won't work)
+    //[[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] runCoreDetectionActivities];
     
     // Get the policy
     Sentegrity_Policy * policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
