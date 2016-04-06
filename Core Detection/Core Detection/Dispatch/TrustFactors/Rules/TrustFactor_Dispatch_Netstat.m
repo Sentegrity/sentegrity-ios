@@ -194,7 +194,7 @@
 // New service
 + (Sentegrity_TrustFactor_Output_Object *)newService:(NSArray *)payload {
     
-    // TODO: Leak here - Create the trustfactor output object
+    // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
     // Set the default status code to OK (default = DNEStatus_ok)

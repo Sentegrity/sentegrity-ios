@@ -166,19 +166,19 @@
      */
     NSData *deviceSaltData = [[Sentegrity_Crypto sharedCrypto] generateSalt256];
     [self.currentStartupStore setDeviceSaltString:[[Sentegrity_Crypto sharedCrypto] convertDataToHexString:deviceSaltData withError:error]];
-    
+    // TODO: Utilize Error
     /*
      * Set the user key salt
      */
     NSData *userKeySaltData = [[Sentegrity_Crypto sharedCrypto] generateSalt256];
     [self.currentStartupStore setUserKeySaltString:[[Sentegrity_Crypto sharedCrypto] convertDataToHexString:userKeySaltData withError:error]];
-    
+    // TODO: Utilize Error
     /*
      * Set the transparent auth global PBKDF2 salt (used for all PBKDF2 transparent key hashes)
      */
     NSData *transparentAuthGlobalPBKDF2Salt = [[Sentegrity_Crypto sharedCrypto] generateSalt256];
     [self.currentStartupStore setTransparentAuthGlobalPBKDF2SaltString:[[Sentegrity_Crypto sharedCrypto] convertDataToHexString:transparentAuthGlobalPBKDF2Salt withError:error]];
-    
+    // TODO: Utilize Error
     /*
      * Set the transparent auth global PBKDF2 round estimate
      */

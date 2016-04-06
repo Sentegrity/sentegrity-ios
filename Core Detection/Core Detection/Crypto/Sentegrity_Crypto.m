@@ -28,19 +28,96 @@
 // This function generates a transparent key from a trustfactor output
 - (NSData *)getTransparentKeyForTrustFactorOutput:(NSString *)ouput withError:(NSError **)error {
     
-    // TODO: Utilize Error
+    // Check the output
+    if (!ouput || ouput == nil || ouput.length < 1) {
+        
+        // Check if we have a pointer to the error
+        if (error != NULL) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error Getting Transparent Key for TrustFactor Output", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No TrustFactor output provided", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Provide a valid TrustFactor output", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetTransparentKeyTrustFactor userInfo:errorDetails];
+            
+        } // Done checking for error
+        
+        // Return nil
+        return nil;
+        
+    } // Done checking the output
     
     // Get the current startup store
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
     
     // Get user salt from startup object
-    NSData *transparentKeySaltData = [self convertHexStringToData:[startup transparentAuthGlobalPBKDF2SaltString] withError:error];
+    NSError *convertHexStringError;
+    NSData *transparentKeySaltData = [self convertHexStringToData:[startup transparentAuthGlobalPBKDF2SaltString] withError:&convertHexStringError];
+    
+    // Check the data
+    if (!transparentKeySaltData || transparentKeySaltData == nil) {
+        
+        // Check if we received an error
+        if (convertHexStringError || convertHexStringError != nil) {
+            
+            // Check if error pointer is valid
+            if (error != NULL) {
+                
+                // Set the error details
+                NSDictionary *errorDetails = @{
+                                               NSLocalizedDescriptionKey: NSLocalizedString(@"Error Getting Transparent Key for TrustFactor Output", nil),
+                                               NSLocalizedFailureReasonErrorKey: convertHexStringError.localizedFailureReason,
+                                               NSLocalizedRecoverySuggestionErrorKey: convertHexStringError.localizedRecoverySuggestion
+                                               };
+                
+                // Set the error
+                *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetTransparentKeyTrustFactor userInfo:errorDetails];
+                
+            }
+        }
+        
+        // Invalid key salt data
+        return nil;
+        
+    }
     
     // Get the number of rounds to be used to derive key
     int transparentRounds = [startup transparentAuthPBKDF2rounds];
     
     // Derive key
-    NSData *derivedTransparentKey = [self createPBKDF2KeyFromString:ouput withSaltData:transparentKeySaltData withRounds:transparentRounds withError:error];
+    NSError *derivedKeyError;
+    NSData *derivedTransparentKey = [self createPBKDF2KeyFromString:ouput withSaltData:transparentKeySaltData withRounds:transparentRounds withError:&derivedKeyError];
+    
+    // Check the data
+    if (!derivedTransparentKey || derivedTransparentKey == nil) {
+        
+        // Check if we received an error
+        if (derivedKeyError || derivedKeyError != nil) {
+            
+            // Check if error pointer is valid
+            if (error != NULL) {
+                
+                // Set the error details
+                NSDictionary *errorDetails = @{
+                                               NSLocalizedDescriptionKey: NSLocalizedString(@"Error Getting Transparent Key for TrustFactor Output", nil),
+                                               NSLocalizedFailureReasonErrorKey: derivedKeyError.localizedFailureReason,
+                                               NSLocalizedRecoverySuggestionErrorKey: derivedKeyError.localizedRecoverySuggestion
+                                               };
+                
+                // Set the error
+                *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetTransparentKeyTrustFactor userInfo:errorDetails];
+                
+            }
+        }
+        
+        // Invalid derived transparent key
+        return nil;
+        
+    }
     
     // Return the derived key
     return derivedTransparentKey;

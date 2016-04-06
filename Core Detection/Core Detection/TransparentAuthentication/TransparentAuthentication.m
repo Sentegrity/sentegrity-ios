@@ -19,11 +19,10 @@
     return sharedTransparentAuthentication;
 }
 
-
+// Attempt Transparent Authentication for Computation
 -  (Sentegrity_TrustScore_Computation *)attemptTransparentAuthenticationForComputation:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:policy withError:(NSError **)error {
     
-
-      // Validate no errors
+    // Validate no errors
     if (!computationResults.transparentAuthenticationTrustFactorOutputObjects || computationResults.transparentAuthenticationTrustFactorOutputObjects == nil) {
         
         NSDictionary *errorDetails = @{
@@ -91,29 +90,47 @@
         return computationResults;
         
     }
-
-
+    
+    
     // Generate the PBKDF2 raw key from concatinated output and set it, salt is created once at startup and used for all PBKDF2 of
     // transparent auth keys - a different salt is used for encryption of the master key by each transparent key
+    NSError *transparentKeyError;
+    computationResults.candidateTransparentKey = [[Sentegrity_Crypto sharedCrypto] getTransparentKeyForTrustFactorOutput:candidateTransparentKeyRawOutputString withError:&transparentKeyError];
     
-    computationResults.candidateTransparentKey = [[Sentegrity_Crypto sharedCrypto] getTransparentKeyForTrustFactorOutput:candidateTransparentKeyRawOutputString withError:error];
-    
-    // TODO: Utilize Error
-
-    // Validate no errors
+    // Validate return value
     if (!computationResults.candidateTransparentKey || computationResults.candidateTransparentKey == nil) {
         
-        NSDictionary *errorDetails = @{
-                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Error during transparent auth PBKDF2 of candidate transparent key", nil),
-                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No trustfactor output or missing salt", nil),
-                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
-                                       };
+        // Invalid return value
         
-        // Set the error
-        *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidPBKDF2TransparentKeyDerivation userInfo:errorDetails];
+        // Check if we received an error
+        if (transparentKeyError || transparentKeyError != nil) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error during transparent auth PBKDF2 of candidate transparent key", nil),
+                                           NSLocalizedFailureReasonErrorKey: transparentKeyError.localizedFailureReason,
+                                           NSLocalizedRecoverySuggestionErrorKey: transparentKeyError.localizedRecoverySuggestion
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:sentegrityDomain code:SAInvalidPBKDF2TransparentKeyDerivation userInfo:errorDetails];
+            
+        } else {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error during transparent auth PBKDF2 of candidate transparent key", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No trustfactor output or missing salt", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:sentegrityDomain code:SAInvalidPBKDF2TransparentKeyDerivation userInfo:errorDetails];
+            
+        } // Done checking if we received an error
         
         // Log Error
-        NSLog(@"Failed to derive key for transparent authentication candidate using  trustfactor output: %@", errorDetails);
+        NSLog(@"Failed to derive key for transparent authentication candidate using  trustfactor output: %@", [*error debugDescription]);
         
         // We stil return computationResults instead of nil so that we can continue even if transparent auth fails
         // A transparent auth failure is not catastrophic
@@ -126,6 +143,8 @@
     
     // Create SHA1 hash of PBKDF2 raw key to perform search on and save for later in the event we dont find a match and
     // it is used to create a new key completely
+    NSError *shaHashError = nil;
+    computationResults.candidateTransparentKeyHashString = [[Sentegrity_Crypto sharedCrypto] createSHA1HashOfData:computationResults.candidateTransparentKey withError:&shaHashError];
     
 
     
@@ -154,7 +173,7 @@
         {
             
             if([[storedTransparentAuthObject transparentKeyPBKDF2HashString] isEqualToString:computationResults.candidateTransparentKeyHashString]){
-            
+                
                 
                 computationResults.foundTransparentMatch=YES;
                 
@@ -166,7 +185,7 @@
                 
                 // update last hit time
                 [storedTransparentAuthObject setLastTime:[NSNumber numberWithInteger:[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch]]];
-            
+                
                 
                 // Store the matching transparentAuth Object in computation results
                 computationResults.matchingTransparentAuthenticationObject = storedTransparentAuthObject;
@@ -208,10 +227,10 @@
         computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
         computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertionsAndCreateTransparentKey;
     }
-
+    
     return computationResults;
     
-
+    
 }
 
 // Metric based decay function

@@ -26,7 +26,7 @@
 
 // Retrieve stored assertions
 + (NSArray *)performBaselineAnalysisUsing:(NSArray *)trustFactorOutputObjects forPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
-
+    
     // Create a bool to check if the assertion store exists
     BOOL exists = NO;
     
@@ -51,7 +51,7 @@
         
         // Don't return anything
         return nil;
-
+        
     }
     
     // Get our startup file
@@ -90,7 +90,7 @@
         
         // Write the new startup os version
         [startup setLastOSVersion:[[UIDevice currentDevice] systemVersion]];
-
+        
     }
     
     // Create the mutable array to hold the storedTrustFactoObjects for each trustFactorOutputObject
@@ -119,26 +119,30 @@
             NSLog(@"Failed to Add trustFactorOutputObject: %@", errorDetails);
             
             // Don't return anything
-            if(policy.continueOnError.intValue == 1){
+            if (policy.continueOnError.intValue == 1) {
+                
+                // TODO: This fixes the leak - probably by autoreleasing the trustfactoroutputobject
+                updatedTrustFactorOutputObject = [self performBaselineAnalysisUsing:trustFactorOutputObject withError:error];
+                
                 // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
                 continue;
-            }
-            else{
+                
+            } else {
+                
+                // Don't return anything
                 return nil;
+                
             }
-
-            
             
         }
         
         // Find the matching stored assertion object for the trustfactor
         storedTrustFactorObject = [assertionStore getStoredTrustFactorObjectWithFactorID:trustFactorOutputObject.trustFactor.identification doesExist:&exists withError:error];
         
-        
         // If we could not find an existing stored assertion in the local store create it
         if (exists == NO || !storedTrustFactorObject || storedTrustFactorObject == nil) {
             
-            //  Create new stored assertion in the local store with error
+            // Create new stored assertion in the local store with error
             storedTrustFactorObject = [assertionStore createStoredTrustFactorObjectFromTrustFactorOutput:trustFactorOutputObject withError:error];
             
             NSLog(@"Could not find storedTrustFactorObject in local store, creating new");
@@ -160,14 +164,17 @@
                 NSLog(@"No trustFactorOutputObject were able to be added: %@", errorDetails);
                 
                 // Don't return anything
-                if(policy.continueOnError.intValue == 1){
+                if (policy.continueOnError.intValue == 1) {
+                    
                     // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
                     continue;
-                }
-                else{
+                    
+                } else {
+                    
                     return nil;
+                    
                 }
-
+                
             }
             
             // Add the created storedTrustFactorObject to the current trustFactorOutputObject
@@ -193,14 +200,17 @@
                 NSLog(@"Failed to Compare: %@", errorDetails);
                 
                 // Don't return anything
-                if(policy.continueOnError.intValue == 1){
+                if (policy.continueOnError.intValue == 1) {
+                    
                     // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
                     continue;
-                }
-                else{
+                    
+                } else {
+                    
                     return nil;
+                    
                 }
-
+                
             }
             
             // Add the new storedTrustFactorObject to the runtime local store, to be written later
@@ -220,14 +230,17 @@
                 NSLog(@"Failed to Add storedTrustFactorObjects: %@", errorDetails);
                 
                 // Don't return anything
-                if(policy.continueOnError.intValue == 1){
+                if (policy.continueOnError.intValue == 1) {
+                    
                     // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
                     continue;
-                }
-                else{
+                    
+                } else {
+                    
                     return nil;
+                    
                 }
-
+                
             }
             
         } else {
@@ -263,14 +276,17 @@
                     NSLog(@"Failed to Perform: %@", errorDetails);
                     
                     // Don't return anything
-                    if(policy.continueOnError.intValue == 1){
+                    if (policy.continueOnError.intValue == 1) {
+                        
                         // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
                         continue;
-                    }
-                    else{
+                        
+                    } else {
+                        
                         return nil;
+                        
                     }
-
+                    
                 }
                 
                 // Replace existing in the local store
@@ -288,16 +304,19 @@
                     
                     // Log Error
                     NSLog(@"No trustFactorOutputObject were able to be added: %@", errorDetails);
-            
+                    
                     // Don't return anything
-                    if(policy.continueOnError.intValue == 1){
+                    if (policy.continueOnError.intValue == 1) {
+                        
                         // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
                         continue;
-                    }
-                    else{
+                        
+                    } else {
+                        
                         return nil;
+                        
                     }
-
+                    
                 }
                 
                 
@@ -328,14 +347,17 @@
                     NSLog(@"Failed to Perform: %@", errorDetails);
                     
                     // Don't return anything
-                    if(policy.continueOnError.intValue == 1){
+                    if (policy.continueOnError.intValue == 1) {
+                        
                         // Skip the entire trustfactor, this will remove it from the next step (computation)... This provides high availability but can introduce security vulnerabilities if the app is tampered
                         continue;
-                    }
-                    else{
+                        
+                    } else {
+                        
                         return nil;
+                        
                     }
-
+                    
                 }
                 
                 // Since we modified, replace existing in the local store
@@ -396,18 +418,18 @@
         
         // Log Error
         NSLog(@"Failed, no trustFactorOutputObjects found: %@", errorDetails);
-    
+        
         // Don't return anything
         return nil;
     }
     
     // Check if decay is enabled for this TrustFactor
     if(trustFactorOutputObject.trustFactor.decayMode.intValue == 1) {
-            
+        
         // Metric based decay where hitcounts are divided by time since last the stored assertion was hit
-            
+        
         trustFactorOutputObject = [self performMetricBasedDecay:trustFactorOutputObject withError:error];
-
+        
     }
     
     // Check learning
@@ -432,13 +454,13 @@
             
             
         }
-
+        
     }
     
     
     // Check if trustFactorOutputObject was found
     if (!updatedTrustFactorOutputObject) {
-    
+        
         // Failed, no trustFactorOutputObject found
         NSDictionary *errorDetails = @{
                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Failed, no trustFactorOutputObjects found.", nil),
@@ -451,7 +473,7 @@
         
         // Log Error
         NSLog(@"Failed, no trustFactorOutputObjects found: %@", errorDetails);
-    
+        
         // Don't return anything
         return nil;
     }
@@ -468,7 +490,7 @@
     NSMutableArray *candidateAssertionToWhitelist;
     NSMutableArray *storedAssertionObjectsMatched;
     BOOL currentCandidateMatch=NO;
-
+    
     // List of individual candidates that should be whitelisted in the TF if/when it goes into protect mode
     candidateAssertionToWhitelist = [[NSMutableArray alloc]init];
     
@@ -488,7 +510,7 @@
             
             // Search for a match in the stored objetcs
             if([[candidate assertionHash] isEqualToString:[stored assertionHash]]) {
-
+                
                 // increment matching stored assertions hitcount & check threshold
                 origHitCount = [stored hitCount];
                 newHitCount = [NSNumber numberWithInt:[origHitCount intValue]+1];
@@ -501,7 +523,7 @@
                 
                 // store assertion objects matched
                 [storedAssertionObjectsMatched addObject:stored];
-            
+                
                 break;
             }
         } // Completed iterating through all stored assertions for current candidate
@@ -515,11 +537,11 @@
                 //Add non matching assertion to whitelist for TF
                 [candidateAssertionToWhitelist addObject:candidate];
             }
-        // End notfound/found if/else
+            // End notfound/found if/else
         }
-    // End next candidate assertion
+        // End next candidate assertion
     }
-
+    
     
     // Set the assertions objects not match to the mutable array using during runtime
     [trustFactorOutputObject setCandidateAssertionObjectsForWhitelisting:candidateAssertionToWhitelist];
@@ -546,7 +568,7 @@
         
         // Days since the assertion was created
         daysSinceCreation = ((double)[[Sentegrity_TrustFactor_Datasets sharedDatasets] runTimeEpoch] - [storedAssertion.created doubleValue]) / secondsInADay;
-
+        
         // Check when last time it was created
         if(daysSinceCreation < 1){
             
@@ -562,25 +584,25 @@
         
         // If the stored assertions (days / hits) metric exceeds the policy keep it
         if([storedAssertion decayMetric] > trustFactorOutputObject.trustFactor.decayMetric.floatValue) {
-                
+            
             [assertionObjectsToKeep addObject:storedAssertion];
         }
     }
     
-        // Sort what we're keeping by decay metric, this should help performance, highest at top (in theory, the most frequently used)
-        // Highest at top prevents from having to search long for a common match
-        NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"decayMetric"
-                                                     ascending:NO];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-        
-        NSArray *sortedArray;
-        
-        // Sort the array
-        sortedArray = [assertionObjectsToKeep sortedArrayUsingDescriptors:sortDescriptors];
-        
-        // Set the sorted version of what we're keeping
-        trustFactorOutputObject.storedTrustFactorObject.assertionObjects = sortedArray;
+    // Sort what we're keeping by decay metric, this should help performance, highest at top (in theory, the most frequently used)
+    // Highest at top prevents from having to search long for a common match
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"decayMetric"
+                                                 ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    NSArray *sortedArray;
+    
+    // Sort the array
+    sortedArray = [assertionObjectsToKeep sortedArrayUsingDescriptors:sortDescriptors];
+    
+    // Set the sorted version of what we're keeping
+    trustFactorOutputObject.storedTrustFactorObject.assertionObjects = sortedArray;
     
     // Return TrustFactor object
     return trustFactorOutputObject;
@@ -596,16 +618,18 @@
     // Determine which kind of learning mode the trustfactor has (i.e., in what conditions do we add the candidates to the stored assertion list)
     switch (trustFactorOutputObject.trustFactor.learnMode.integerValue) {
             
-        // No learning performed
-        case 0:
+            // No learning performed
+        case 0: {
             
             // Set learned to YES
             trustFactorOutputObject.storedTrustFactorObject.learned = YES;
             
             break;
-
-        // Learn Mode 1: Only needs the TrustFactor to run once, generally to monitor values of something in the payload for a change or use baseline assertion
-        case 1:
+            
+        }
+            
+            // Learn Mode 1: Only needs the TrustFactor to run once, generally to monitor values of something in the payload for a change or use baseline assertion
+        case 1: {
             
             // Add learned assertions to storedTrustFactorOutputObject
             [self addLearnedAssertions:trustFactorOutputObject];
@@ -615,8 +639,10 @@
             
             break;
             
-        // Learn Mode 2: Checks the number of runs and date since first run of TrustFactor
-        case 2:
+        }
+            
+            // Learn Mode 2: Checks the number of runs and date since first run of TrustFactor
+        case 2: {
             
             // Add learned assertions to storedTrustFactorOutputObject
             [self addLearnedAssertions:trustFactorOutputObject];
@@ -627,11 +653,21 @@
                 // This TrustFactor has run enough times to be learned
                 
                 // Now check the time since first run  (in days)
-                if ([self daysBetweenDate:trustFactorOutputObject.storedTrustFactorObject.firstRun andDate:[NSDate date]] >= trustFactorOutputObject.trustFactor.learnTime.integerValue) {
+                NSError *daysError = nil;
+                if ([self daysBetweenDate:trustFactorOutputObject.storedTrustFactorObject.firstRun andDate:[NSDate date] withError:&daysError] >= trustFactorOutputObject.trustFactor.learnTime.integerValue) {
                     
                     // Far enough apart in days to be learned, set to YES
                     trustFactorOutputObject.storedTrustFactorObject.learned = YES;
+                    
                 } else {
+                    
+                    // Check for errors
+                    if (daysError != nil) {
+                        
+                        // Log the error
+                        NSLog(@"Received an error finding the number of days between dates: %@", daysError.debugDescription);
+                        
+                    }
                     
                     // Not run far enough apart in days to be learned, set to NO
                     trustFactorOutputObject.storedTrustFactorObject.learned = NO;
@@ -641,16 +677,20 @@
                 // Not run enough times to be learned, set to NO and never check time
                 trustFactorOutputObject.storedTrustFactorObject.learned = NO;
             }
+            
             break;
             
-        // Learn Mode 3: Checks the number of assertions we have and the date since first run of TrustFactor (not currently used by anything)
-        case 3:
+        }
+            
+            // Learn Mode 3: Checks the number of assertions we have and the date since first run of TrustFactor (not currently used by anything)
+        case 3: {
             
             // Add learned assertions to storedTrustFactorOutputObject
             [self addLearnedAssertions:trustFactorOutputObject];
             
             // Check the time since first run (in days)
-            if ([self daysBetweenDate:trustFactorOutputObject.storedTrustFactorObject.firstRun andDate:[NSDate date]] >= trustFactorOutputObject.trustFactor.learnTime.integerValue) {
+            NSError *daysError = nil;
+            if ([self daysBetweenDate:trustFactorOutputObject.storedTrustFactorObject.firstRun andDate:[NSDate date] withError:&daysError] >= trustFactorOutputObject.trustFactor.learnTime.integerValue) {
                 
                 // Far enough apart in days
                 
@@ -664,17 +704,29 @@
                     // Not enough assertions to be learned, set to NO
                     trustFactorOutputObject.storedTrustFactorObject.learned = NO;
                 }
+                
             } else {
+                
+                // Check for errors
+                if (daysError != nil) {
+                    
+                    // Log the error
+                    NSLog(@"Received an error finding the number of days between dates: %@", daysError.debugDescription);
+                    
+                }
                 
                 // Not run far enough apart in days to be learned, set to NO
                 trustFactorOutputObject.storedTrustFactorObject.learned = NO;
+                
             }
             break;
+        }
             
-        // Default case
-        default:
+            // Default case
+        default: {
             return nil;
             break;
+        }
     }
     
     // Return TrustFactor object
@@ -698,8 +750,8 @@
         
         // Empty assertions, must be the first run, set it to the candidates
         [trustFactorOutputObject.storedTrustFactorObject setAssertionObjects:[trustFactorOutputObject candidateAssertionObjects]];
-    
-    // Does contain assertions, must walk through and find anything new to add
+        
+        // Does contain assertions, must walk through and find anything new to add
     } else {
         
         // Go through each candidate in assertion objects
@@ -735,9 +787,9 @@
                 //add it to the storedAssertions
                 [storedAssertions addObject:candidate];
             }
-        // End next candidate assertion
+            // End next candidate assertion
         }
-    // End if/else does it contain any stored assertions
+        // End if/else does it contain any stored assertions
     }
 }
 
@@ -757,24 +809,74 @@
 
 // Include date helper method to determine number of days between two dates
 // http://stackoverflow.com/questions/4739483/number-of-days-between-two-nsdates
-+ (NSInteger)daysBetweenDate:(NSDate *)fromDateTime andDate:(NSDate *)toDateTime {
++ (NSInteger)daysBetweenDate:(NSDate *)fromDateTime andDate:(NSDate *)toDateTime withError:(NSError **)error {
     
-    // TODO: Validate the input dates - otherwise there will be issues
-    // Currently, I'm not aware of any way to validate dates
+    // Check the from time
+    if (!fromDateTime || fromDateTime == nil) {
+        
+        // Validate the error pointer
+        if (error != NULL) {
+            
+            // Did not receive from time
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Unable to get days between dates", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"An invalid from date was provided", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid from date", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAInvalidFromTimeDaysBetweenDates userInfo:errorDetails];
+            
+        } // Done validating error pointer
+        
+        
+        // Return negative one
+        return -1;
+        
+    }
     
-    NSDate *fromDate;
-    NSDate *toDate;
+    // Check the to time
+    if (!toDateTime || toDateTime == nil) {
+        
+        // Validate the error pointer
+        if (error != NULL) {
+            
+            // Did not receive from time
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Unable to get days between dates", nil),
+                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"An invalid to date was provided", nil),
+                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try passing a valid to date", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAInvalidToTimeDaysBetweenDates userInfo:errorDetails];
+            
+        } // Done validating error pointer
+        
+        
+        // Return negative one
+        return -1;
+        
+    }
     
+    // Create the from and to date variables
+    NSDate *fromDate = nil;
+    NSDate *toDate = nil;
+    
+    // Get the current calendar
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
+    // Get the number of days between the days
     [calendar rangeOfUnit:NSCalendarUnitDay startDate:&fromDate
                  interval:NULL forDate:fromDateTime];
     [calendar rangeOfUnit:NSCalendarUnitDay startDate:&toDate
                  interval:NULL forDate:toDateTime];
     
+    // Compare the days between the days
     NSDateComponents *difference = [calendar components:NSCalendarUnitDay
                                                fromDate:fromDate toDate:toDate options:0];
     
+    // Return the number of days
     return [difference day];
 }
 
