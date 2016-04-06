@@ -134,10 +134,7 @@
     NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
     
     NSString *state= [[Sentegrity_TrustFactor_Datasets sharedDatasets] getBatteryState];
-    
-    if([state isEqualToString:@"pluggedCharging"]){
-        [outputArray addObject:state];
-    }
+
     
     // Create assertion
     [outputArray addObject: state];

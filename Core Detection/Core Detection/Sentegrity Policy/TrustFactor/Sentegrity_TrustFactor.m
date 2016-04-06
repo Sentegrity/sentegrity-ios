@@ -59,6 +59,12 @@
     _name = name;
 }
 
+
+// Transparent Eligibile
+- (void)setTransparentEligible:(NSNumber *)transparentEligible{
+    _transparentEligible = transparentEligible;
+}
+
 // Partial weight
 - (void)setPartialWeight:(NSNumber *)partialWeight{
     _partialWeight = partialWeight;

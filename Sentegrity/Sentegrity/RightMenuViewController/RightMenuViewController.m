@@ -17,6 +17,9 @@
 // Computation Info View Controller
 #import "ComputationInfoViewController.h"
 
+// Transparent Auth View Controller
+#import "TransparentDebugViewController.h"
+
 // Get the trustfactor storage class
 #import "Sentegrity_TrustFactor_Storage.h"
 
@@ -89,6 +92,26 @@
             break;
         }
         case 1: {
+            // Transparent Auth
+            
+            // Get the storyboard
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            // Create the user debug view controller
+            TransparentDebugViewController *transparentDebugController = [mainStoryboard instantiateViewControllerWithIdentifier:@"transparentdebugviewcontroller"];
+            
+            // Present it
+            [self presentViewController:transparentDebugController animated:YES completion:^{
+                // Done presenting
+                
+                // Hide the side menu
+                //[self.sideMenuViewController hideMenuViewController];
+            }];
+            
+            // Done
+            break;
+        }
+        case 2: {
             // System Debug
             
             // Get the storyboard
@@ -108,7 +131,7 @@
             
             break;
         }
-        case 2: {
+        case 3: {
             // Computation Info
             
             // Get the storyboard
@@ -127,7 +150,7 @@
             
             break;
         }
-        case 3: {
+        case 4: {
             // Reset Stores
             
             // Setup login box
@@ -203,7 +226,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
     // Number of rows
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -223,7 +246,7 @@
     
     // Titles of our rows
     
-    NSArray *titles = @[@"User Debug", @"System Debug", @"Score Debug", @"Wipe Profile"];
+    NSArray *titles = @[@"User Debug", @"Transparent Debug", @"System Debug", @"Score Debug", @"Wipe Profile"];
     cell.textLabel.text = titles[indexPath.row];
     cell.textLabel.textAlignment = NSTextAlignmentRight;
     

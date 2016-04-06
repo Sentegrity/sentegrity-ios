@@ -234,8 +234,7 @@
                                 // If the computation method is 1 (additive score) (e.g., User anomaly)
                                 if([[class computationMethod] intValue]==1){
                                     
-                                    //Add TF to transparent auth list
-                                    [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
+
                                     
                                     //Add  TF to attributing list
                                     [trustFactorsAttributingToScoreInClass addObject:trustFactorOutputObject];
@@ -280,8 +279,22 @@
                                                 }
                                             }
                                         }
+                                        else{
+                                            // Avoids making transparent keys that are sledom to be hit again
+                                            // Add TF to transparent auth list
+                                            if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
+                                            [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
+                                            }
+                                        }
                                         
                                     }else{
+                                        
+                                        // This is not a partial weighted rule, always add these to transparent auth
+                                        // Avoids making transparent keys that are sledom to be hit again
+                                        // Add TF to transparent auth list
+                                        if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
+                                            [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
+                                        }
                                         
                                         // apply full weight of TF
                                         subClass.score = (subClass.score + trustFactorOutputObject.trustFactor.weight.integerValue);

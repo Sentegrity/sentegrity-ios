@@ -232,7 +232,7 @@
     NSString *userMovement = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getUserMovement];
 
     //Combine into tuple
-    NSString *motionTuple = [NSString stringWithFormat:@"gripMovement_%d,device_Movement%@",movementBlock,userMovement];
+    NSString *motionTuple = [NSString stringWithFormat:@"gripMovement_%d_device_Movement%@",movementBlock,userMovement];
     
     [outputArray addObject:motionTuple];
     

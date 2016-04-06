@@ -51,6 +51,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
 // ** REMEMBER ** This can be called repeatedly without closing the app, therefore you must wipe datasets prior to each run of core detection
 - (void)performCoreDetectionWithCallback:(coreDetectionBlock)callback {
     
+    self.computationResults = nil;
     // Create the error to use
     NSError *error = nil;
     

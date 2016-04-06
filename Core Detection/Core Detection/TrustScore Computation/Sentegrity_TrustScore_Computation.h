@@ -175,6 +175,9 @@
 // Should attempt transparent authentication
 @property (nonatomic) BOOL  shouldAttemptTransparentAuthentication;
 
+// Found a matching stored transparent key
+@property (nonatomic) BOOL  foundTransparentMatch;
+
 // Identified matching transparent auth master key data to be decrypted later (only present if transparent auth was attempted)
 
 @property (nonatomic) Sentegrity_TransparentAuth_Object* matchingTransparentAuthenticationObject;

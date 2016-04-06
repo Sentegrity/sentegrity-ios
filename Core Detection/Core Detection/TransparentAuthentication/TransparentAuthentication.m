@@ -47,7 +47,7 @@
         
     }
     
-    NSString * candidateTransparentKeyRawOutputString;
+    NSString *candidateTransparentKeyRawOutputString=@"";
     
     // Concat all transparent auth realted TrustFactor output data to comprise the transparent key
     for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.transparentAuthenticationTrustFactorOutputObjects) {
@@ -55,7 +55,7 @@
         // Iterate through all output returned by TrustFactor
         for(NSString *output in trustFactorOutputObject.output) {
             
-           candidateTransparentKeyRawOutputString = [candidateTransparentKeyRawOutputString stringByAppendingString:output];
+           candidateTransparentKeyRawOutputString = [candidateTransparentKeyRawOutputString stringByAppendingFormat:@",%@",output];
         }
         
         
@@ -127,12 +127,18 @@
     // Create SHA1 hash of PBKDF2 raw key to perform search on and save for later in the event we dont find a match and
     // it is used to create a new key completely
     
+
+    
     computationResults.candidateTransparentKeyHashString = [[Sentegrity_Crypto sharedCrypto] createSHA1HashOfData:computationResults.candidateTransparentKey withError:error];
+    
+    //Temporary for debugging purposes (add on plaintext)
+    computationResults.candidateTransparentKeyHashString = [computationResults.candidateTransparentKeyHashString stringByAppendingFormat:@"-%@",candidateTransparentKeyRawOutputString];
+    
     
     // TODO: Utilize Error
     
     // Defaults
-    BOOL foundMatch=NO;
+    computationResults.foundTransparentMatch=NO;
     
     // Perform transparent authentication decay
     NSArray * currentTransparentAuthKeyObjects = [startup transparentAuthKeyObjects];
@@ -150,7 +156,7 @@
             if([[storedTransparentAuthObject transparentKeyPBKDF2HashString] isEqualToString:computationResults.candidateTransparentKeyHashString]){
             
                 
-                foundMatch=YES;
+                computationResults.foundTransparentMatch=YES;
                 
                 // Update decay information
                 
@@ -192,7 +198,7 @@
     // In those conditions (violationActionCode and authenticationActionCodes are pulled striaght from that classifications
     // policy declerations
     
-    if(computationResults.coreDetectionResult != CoreDetectionResult_TransparentAuthSuccess && computationResults.coreDetectionResult != CoreDetectionResult_TransparentAuthError && foundMatch==NO){
+    if(computationResults.coreDetectionResult != CoreDetectionResult_TransparentAuthSuccess && computationResults.coreDetectionResult != CoreDetectionResult_TransparentAuthError && computationResults.foundTransparentMatch==NO){
         
         // If we made it this far there were no errors but we didnt find a match otherwise TransparentAuthSuccess would be present
         // checking for foundMatch is purely a sanity check as under normal operation if we make it this far and TransparentAuthSuccess

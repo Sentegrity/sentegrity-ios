@@ -114,6 +114,7 @@
 		969CD07C1B7E7DEC00254F45 /* SCLAlertViewStyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0741B7E7DEC00254F45 /* SCLAlertViewStyleKit.m */; };
 		969CD07D1B7E7DEC00254F45 /* SCLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0761B7E7DEC00254F45 /* SCLButton.m */; };
 		969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */; };
+		96A93B481CB58DF40090D83C /* TransparentDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A93B471CB58DF40090D83C /* TransparentDebugViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -360,6 +361,8 @@
 		969CD0771B7E7DEC00254F45 /* SCLMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLMacros.h; sourceTree = "<group>"; };
 		969CD0781B7E7DEC00254F45 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		96A93B461CB58DF40090D83C /* TransparentDebugViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentDebugViewController.h; sourceTree = "<group>"; };
+		96A93B471CB58DF40090D83C /* TransparentDebugViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentDebugViewController.m; sourceTree = "<group>"; };
 		A861559935991A5C1535CE5A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F48570A0D36F3F3E38C7B515 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -386,6 +389,8 @@
 		0427EFF41B7908CC000658AB /* DebugViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				96A93B461CB58DF40090D83C /* TransparentDebugViewController.h */,
+				96A93B471CB58DF40090D83C /* TransparentDebugViewController.m */,
 				0427EFF51B7908FE000658AB /* UserDebugViewController.h */,
 				0427EFF61B7908FE000658AB /* UserDebugViewController.m */,
 				0427EFF91B792037000658AB /* SystemDebugViewController.h */,
@@ -1244,6 +1249,7 @@
 				4C2D0E4E1CAF4192003BD75E /* TrustFactor_Dispatch_Process.m in Sources */,
 				4C22C0021B7B986800EFFD7D /* UserInformationViewController.m in Sources */,
 				4C2D0E361CAF4192003BD75E /* ActiveConnection.m in Sources */,
+				96A93B481CB58DF40090D83C /* TransparentDebugViewController.m in Sources */,
 				4C2D0E681CAF4192003BD75E /* TransparentAuthentication.m in Sources */,
 				4C2D0E521CAF4192003BD75E /* TrustFactor_Dispatch_Time.m in Sources */,
 				4C2D0E3E1CAF4192003BD75E /* Sentegrity_TrustFactor_Dataset_Netstat.m in Sources */,

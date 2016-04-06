@@ -963,12 +963,14 @@ static dispatch_once_t onceToken;
         //Nope, wait for devices
         CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
         CFAbsoluteTime currentTime = startTime;
+        
+        //If we don't wait long enough we may never find the same device twice in a row
         float waitTime = 0.25;
         
         while ((currentTime-startTime) < waitTime) {
             
-            // If its greater than 0 return
-            if(self.discoveredBLEDevices.count > 0){
+            // If its greater than 10 return, otherwise we always wait
+            if(self.discoveredBLEDevices.count > 10){
                 NSLog(@"Got discovered BLE devices after waiting..");
                 
                 // Return the BLE devices

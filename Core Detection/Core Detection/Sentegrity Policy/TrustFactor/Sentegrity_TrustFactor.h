@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSNumber *classID;
 @property (nonatomic, retain) NSNumber *subClassID;
 @property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSNumber *transparentEligible;
 @property (nonatomic, retain) NSNumber *partialWeight;
 @property (nonatomic, retain) NSNumber *weight;
 @property (nonatomic, retain) NSNumber *dnePenalty;

@@ -1602,6 +1602,88 @@ Anomaly</string>
             </objects>
             <point key="canvasLocation" x="2542.5" y="1025.5"/>
         </scene>
+        <!--Transparent Debug View Controller-->
+        <scene sceneID="8gl-AZ-8NC">
+            <objects>
+                <viewController storyboardIdentifier="transparentdebugviewcontroller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jmV-zO-mbe" customClass="TransparentDebugViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Mg7-Yb-bZv"/>
+                        <viewControllerLayoutGuide type="bottom" id="Bni-b6-EeW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="usO-NI-Bw7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="System Debug View Controller" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ls-pr-pIe" userLabel="Transparent Debug View Controller">
+                                <rect key="frame" x="70" y="174" width="234" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="brZ-AJ-oUZ" customClass="JTHamburgerButton">
+                                <rect key="frame" x="309" y="25" width="40" height="33"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="0Yw-d3-i9G"/>
+                                    <constraint firstAttribute="height" constant="33" id="1p6-g9-zqW"/>
+                                    <constraint firstAttribute="width" constant="50" id="EOg-UO-zVn"/>
+                                    <constraint firstAttribute="width" constant="40" id="Jhu-CK-Ayk"/>
+                                    <constraint firstAttribute="width" constant="50" id="NtL-nd-UpA"/>
+                                    <constraint firstAttribute="height" constant="30" id="cM8-sL-zwK"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="e27-tV-Gmy"/>
+                                    <constraint firstAttribute="width" constant="30" id="he5-f9-WbA"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="oVK-t9-tku"/>
+                                    <constraint firstAttribute="width" constant="30" id="zDO-zg-S3d"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="EOg-UO-zVn"/>
+                                        <exclude reference="Jhu-CK-Ayk"/>
+                                        <exclude reference="cM8-sL-zwK"/>
+                                        <exclude reference="oVK-t9-tku"/>
+                                        <exclude reference="0Yw-d3-i9G"/>
+                                        <exclude reference="NtL-nd-UpA"/>
+                                        <exclude reference="he5-f9-WbA"/>
+                                        <exclude reference="zDO-zg-S3d"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="No debug output to display" translatesAutoresizingMaskIntoConstraints="NO" id="xLR-5c-OgJ" userLabel="Transparent Debug Output">
+                                <rect key="frame" x="16" y="106" width="343" height="561"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Transparent Auth Debug" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Fw-nR-KfX">
+                                <rect key="frame" x="81" y="66" width="213" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="brZ-AJ-oUZ" firstAttribute="top" secondItem="usO-NI-Bw7" secondAttribute="topMargin" constant="25" id="B45-sB-hn7"/>
+                            <constraint firstItem="2Fw-nR-KfX" firstAttribute="top" secondItem="Mg7-Yb-bZv" secondAttribute="bottom" constant="47" id="BXU-C4-7kn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="xLR-5c-OgJ" secondAttribute="trailing" id="DKV-Yy-BZp"/>
+                            <constraint firstItem="Bni-b6-EeW" firstAttribute="top" secondItem="xLR-5c-OgJ" secondAttribute="bottom" id="Kd9-a7-0bw"/>
+                            <constraint firstItem="xLR-5c-OgJ" firstAttribute="leading" secondItem="usO-NI-Bw7" secondAttribute="leadingMargin" id="MBn-VY-ZX4"/>
+                            <constraint firstItem="xLR-5c-OgJ" firstAttribute="top" secondItem="2Fw-nR-KfX" secondAttribute="bottom" constant="18" id="gl2-Vh-BKw"/>
+                            <constraint firstItem="2Fw-nR-KfX" firstAttribute="centerX" secondItem="usO-NI-Bw7" secondAttribute="centerX" id="kmp-Xn-gH1"/>
+                            <constraint firstItem="xLR-5c-OgJ" firstAttribute="centerX" secondItem="usO-NI-Bw7" secondAttribute="centerX" id="oge-ms-WGe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="brZ-AJ-oUZ" secondAttribute="trailing" constant="10" id="rdg-zy-LJW"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="menuButton" destination="brZ-AJ-oUZ" id="rR8-yJ-HlE"/>
+                        <outlet property="transparentDebugOutput" destination="xLR-5c-OgJ" id="SzB-tu-KDK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l2d-Gh-Mo8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3628.5" y="266.5"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Error_yellow" width="144" height="144"/>

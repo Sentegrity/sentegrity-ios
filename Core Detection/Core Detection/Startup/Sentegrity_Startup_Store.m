@@ -249,7 +249,7 @@
 - (BOOL)setStartupStoreWithError:(NSError **)error {
     
     // Zero out the error
-    *error = nil;
+    error = nil;
     
     // Make sure the class is valid
     if (!self.currentStartupStore || self.currentStartupStore == nil) {
