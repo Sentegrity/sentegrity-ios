@@ -146,9 +146,23 @@
     NSError *shaHashError = nil;
     computationResults.candidateTransparentKeyHashString = [[Sentegrity_Crypto sharedCrypto] createSHA1HashOfData:computationResults.candidateTransparentKey withError:&shaHashError];
     
-
-    
-    computationResults.candidateTransparentKeyHashString = [[Sentegrity_Crypto sharedCrypto] createSHA1HashOfData:computationResults.candidateTransparentKey withError:error];
+    // Check if the candidate transparent key hash string was received
+    if (!computationResults.candidateTransparentKeyHashString || computationResults.candidateTransparentKeyHashString == nil || computationResults.candidateTransparentKey.length < 1) {
+        
+        // Check if we received an error
+        if (shaHashError || shaHashError != nil) {
+            
+            // Log the error
+            NSLog(@"%@", shaHashError.debugDescription);
+            
+        } else {
+            
+            // Did not get a value for the candidate transparent key hash string
+            NSLog(@"Did not get a value for the candidateTransparentKeyHashString");
+            
+        } // Done checking if error is valid
+        
+    } // Done checking candidateTransparentKeyHashString
     
     //Temporary for debugging purposes (add on plaintext)
     computationResults.candidateTransparentKeyHashString = [computationResults.candidateTransparentKeyHashString stringByAppendingFormat:@"-%@",candidateTransparentKeyRawOutputString];
@@ -173,7 +187,6 @@
         {
             
             if([[storedTransparentAuthObject transparentKeyPBKDF2HashString] isEqualToString:computationResults.candidateTransparentKeyHashString]){
-                
                 
                 computationResults.foundTransparentMatch=YES;
                 
