@@ -57,6 +57,9 @@ static MBProgressHUD *HUD;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    // Log the start time
+    NSDate *methodStart = [NSDate date];
+    
     /** START SENTEGRITY CODE **/
     
     // Wipe out all previous datasets (in the event this is not the first run)
@@ -167,6 +170,15 @@ static MBProgressHUD *HUD;
             
         });
     }
+    
+    // Log the finish time
+    NSDate *methodFinish = [NSDate date];
+    
+    // Get the execution Time
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+    
+    // Log the TrustFactor Execution Time
+    NSLog(@"Core Detection Kickoff - Execution Time = %f seconds", executionTime);
     
 }
 
