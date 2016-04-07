@@ -2,8 +2,8 @@
   "policyID": 1,
   "appID": "default",
   "revision": 1,
-  "userThreshold": 80,
-  "systemThreshold": 30,
+  "userThreshold": 75,
+  "systemThreshold": 50,
   "continueOnError": 1,
   "timeout": 2,
   "contactPhone": "18005556666",
@@ -427,7 +427,7 @@
       "whitelistable": 0,
       "privateAPI": 0,
       "payload": [
-        "9.2"
+        "9.3"
       ]
     },
     {
@@ -1179,8 +1179,8 @@
       "privateAPI": 0,
       "payload": [
         {
-          "pitchBlockSize": 0.1,
-          "rollBlockSize": 0.04,
+          "pitchBlockSize": 0.2,
+          "rollBlockSize": 0.05,
         }
       ]
     },
@@ -1210,7 +1210,7 @@
       "privateAPI": 0,
       "payload": [
         {
-          "movementBlockSize": 0.1
+          "movementBlockSize": 0.2
         }
       ]
     },

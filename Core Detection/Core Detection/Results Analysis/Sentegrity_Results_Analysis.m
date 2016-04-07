@@ -121,6 +121,10 @@
         // USER_POLICY is attributing
         if (computationResults.userPolicyScore <= computationResults.userAnomalyScore) {
             
+            // Set dashboard and detailed user view info
+            computationResults.userGUIIconID = [computationResults.userPolicyClass.identification intValue];
+            computationResults.userGUIIconText = computationResults.userPolicyClass.desc;
+            
             // Check if the system is trusted before setting this classification as attributing
             if (computationResults.systemTrusted) {
                 
@@ -138,16 +142,16 @@
             }
             else{
                 
-                // else we dont override the system attributing classIDs, etc. but we do update the user GUI info
-                
-                // Set dashboard and detailed user view info
-                computationResults.userGUIIconID = [computationResults.userPolicyClass.identification intValue];
-                computationResults.userGUIIconText = computationResults.userPolicyClass.desc;
+                // else we dont override the system attributing classIDs, etc.
                 
             }
             
             //USER_ANOMALY is attributing
         } else {
+            
+            // Set dashboard and detailed user view info
+            computationResults.userGUIIconID = [computationResults.userAnomalyClass.identification intValue];
+            computationResults.userGUIIconText = computationResults.userAnomalyClass.desc;
             
             // Set protect mode action to the class specified action ONLY if system did not already
             if (computationResults.systemTrusted) {
@@ -168,9 +172,6 @@
                 
                 // else we dont override the system attributing classIDs, etc. but we do update the user GUI info
                 
-                // Set dashboard and detailed user view info
-                computationResults.userGUIIconID = [computationResults.userAnomalyClass.identification intValue];
-                computationResults.userGUIIconText = computationResults.userAnomalyClass.desc;
                 
             }
             
