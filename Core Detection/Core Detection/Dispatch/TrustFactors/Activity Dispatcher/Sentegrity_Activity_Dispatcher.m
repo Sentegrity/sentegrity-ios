@@ -83,6 +83,9 @@
 // ** GET NETSTAT DATA **
 - (void)startNetstat {
     
+    // Log the start time
+    NSDate *methodStart = [NSDate date];
+    
     // Declare the block variable
     void (^getNetstat)(void);
     
@@ -102,6 +105,15 @@
     
     // Call the block
     getNetstat();
+    
+    // Log the finish time
+    NSDate *methodFinish = [NSDate date];
+    
+    // Get the execution Time
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+    
+    // Log the TrustFactor Execution Time
+    NSLog(@"Netstat Activity Dispatcher - Execution Time = %f seconds", executionTime);
 }
 
 // ** GET LOCATION DATA **
@@ -296,6 +308,9 @@
 
 // ** GET MOTION PITCH/ROLL, MOVEMENT, ORIENTATION DATA **
 - (void)startMotion {
+    
+    // Log the start time
+    NSDate *methodStart = [NSDate date];
     
     // ** GET GRIP DATA **
     
@@ -501,10 +516,22 @@
                 }
         }];
     }
+    
+    // Log the finish time
+    NSDate *methodFinish = [NSDate date];
+    
+    // Get the execution Time
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+    
+    // Log the TrustFactor Execution Time
+    NSLog(@"Motion Acitivy Dispatcher - Execution Time = %f seconds", executionTime);
 }
 
 // ** BLUETOOTH 4.0 SCANNING **
 - (void)startBluetoothBLE {
+    
+    // Log the start time
+    NSDate *methodStart = [NSDate date];
     
     // Set the start time
     startTime = CFAbsoluteTimeGetCurrent();
@@ -514,6 +541,15 @@
     
     // Start the manager
     mgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:options];
+    
+    // Log the finish time
+    NSDate *methodFinish = [NSDate date];
+    
+    // Get the execution Time
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+    
+    // Log the TrustFactor Execution Time
+    NSLog(@"Bluetooth Activity Dispatcher - Execution Time = %f seconds", executionTime);
 }
 
 // ** BLUETOOTH CLASSIC **
