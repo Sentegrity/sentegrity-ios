@@ -127,19 +127,66 @@
 // This function generates a user key from a user password
 - (NSData *)getUserKeyForPassword:(NSString *)password withError:(NSError **)error {
     
-    // TODO: Utilize Error
+    // TODO: Utilize Error - Done, but testing
     
     // Get the current startup store
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
     
     // Get user salt from startup object
-    NSData *userKeySaltData = [self convertHexStringToData:[startup userKeySaltString] withError:error];
+    NSError *userKeySaltError;
+    NSData *userKeySaltData = [self convertHexStringToData:[startup userKeySaltString] withError:&userKeySaltError];
+    
+    // Check if we received an error
+    if (userKeySaltError || userKeySaltError != nil) {
+        
+        // Check if error pointer is valid
+        if (error != NULL) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error Getting User Salt From Startup Object", nil),
+                                           NSLocalizedFailureReasonErrorKey: userKeySaltError.localizedFailureReason,
+                                           NSLocalizedRecoverySuggestionErrorKey: userKeySaltError.localizedRecoverySuggestion
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetUserSaltKeyData userInfo:errorDetails];
+            
+        }
+        
+        // Invalid user salt from startup object
+        return nil;
+    }
     
     // Get the number of rounds to be used to derive key
     int userRounds = [startup userKeyPBKDF2rounds];
     
+    // Derived user key error
+    NSError *derivedUserKeyError;
+    
     // Derive key
-    NSData *derivedUserKey = [self createPBKDF2KeyFromString:password withSaltData:userKeySaltData withRounds:userRounds withError:error];
+    NSData *derivedUserKey = [self createPBKDF2KeyFromString:password withSaltData:userKeySaltData withRounds:userRounds withError:&derivedUserKeyError];
+    
+    // Check if we recieved an error
+    if (derivedUserKeyError || derivedUserKeyError != NULL) {
+        
+        // Check if error pointer is valid
+        if (error != NULL) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error Getting User Derived Key", nil),
+                                           NSLocalizedFailureReasonErrorKey:derivedUserKeyError.localizedFailureReason,
+                                           NSLocalizedRecoverySuggestionErrorKey:userKeySaltError.localizedRecoverySuggestion
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetUserDerivedKey userInfo:errorDetails];
+        }
+        
+        // Invalide user derived key
+        return nil;
+    }
     
     // Return the derived key
     return derivedUserKey;
@@ -177,7 +224,7 @@
 
 - (NSData *)decryptMasterKeyUsingTransparentAuthenticationWithError:(NSError **)error {
     
-    // TODO: Utilize Error
+    // TODO: Utilize Error, Done but testing
     
     // attempt to decrypt master using stored transparent auth object inside computationResults
     // Get last computation results
@@ -186,8 +233,34 @@
     NSString *masterKeyBlobString = [computationResults.matchingTransparentAuthenticationObject transparentKeyEncryptedMasterKeyBlobString];
     NSString *masterKeyBlobSaltString = [computationResults.matchingTransparentAuthenticationObject transparentKeyEncryptedMasterKeySaltString];
     
-    NSData *decryptedMasterKey = [self decryptString:masterKeyBlobString withDerivedKeyData:computationResults.candidateTransparentKey withSaltString:masterKeyBlobSaltString withError:error];
+    // Decrypted Master Key Error
+    NSError *decryptedMasterKeyError;
     
+    // Decrypted Master Key
+    NSData *decryptedMasterKey = [self decryptString:masterKeyBlobString withDerivedKeyData:computationResults.candidateTransparentKey withSaltString:masterKeyBlobSaltString withError:&decryptedMasterKeyError];
+    
+    // Check if we recieved an error
+    if (decryptedMasterKeyError || decryptedMasterKeyError != NULL) {
+        
+        // Check if error pointer is valid
+        if (error != NULL) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error Getting Decrypted Master Key", nil),
+                                           NSLocalizedFailureReasonErrorKey:decryptedMasterKeyError.localizedFailureReason,
+                                           NSLocalizedRecoverySuggestionErrorKey:decryptedMasterKeyError.localizedRecoverySuggestion
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetDecryptedMasterKey userInfo:errorDetails];
+        }
+        
+        // Invalid decrypted master key
+        return nil;
+    }
+    
+    // Return decrypted master key
     return decryptedMasterKey;
 }
 
@@ -213,9 +286,32 @@
         return nil;
     }
     
+    // Transparent key master key salt error
+    NSError *transparentKeyMasterKeySaltError;
     
     // Convert the salt used during encryption to string for store
-    NSString *transparentKeyMasterKeySaltString = [self convertDataToHexString:transparentKeyMasterKeySaltData withError:error];
+    NSString *transparentKeyMasterKeySaltString = [self convertDataToHexString:transparentKeyMasterKeySaltData withError:&transparentKeyMasterKeySaltError];
+    
+    // Check if we recieved an error
+    if (transparentKeyMasterKeySaltError || transparentKeyMasterKeySaltError != NULL) {
+        
+        // Check if error pointer is valid
+        if (error != NULL) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting Transparent Key Master Key Salt String", nil),
+                                           NSLocalizedFailureReasonErrorKey: transparentKeyMasterKeySaltError.localizedFailureReason,
+                                           NSLocalizedRecoverySuggestionErrorKey:transparentKeyMasterKeySaltError.localizedRecoverySuggestion
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetTransparentKeyMasterKeySalt userInfo:errorDetails];
+        }
+        
+        // Invalid transparent key master salt string
+        return nil;
+    }
     
     // Create a new Sentegrity_TransparentAuth_Object
     Sentegrity_TransparentAuth_Object *newTransparentObject = [[Sentegrity_TransparentAuth_Object alloc] init];

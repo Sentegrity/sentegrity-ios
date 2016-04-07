@@ -431,7 +431,19 @@ enum {
     SAUnableToCreateNewUserAndMasterKey             = 55,
     
     // Unable to get Transparent Key for TrustFactor Output
-    SAUnableToGetTransparentKeyTrustFactor          = 56
+    SAUnableToGetTransparentKeyTrustFactor          = 56,
+    
+    // Unable to get User Salt Key Data
+    SAUnableToGetUserSaltKeyData                    = 57,
+    
+    // Unable to get User Derived Key
+    SAUnableToGetUserDerivedKey                     = 58,
+    
+    // Unable to get decrypted master key
+    SAUnableToGetDecryptedMasterKey                 = 59,
+    
+    // Unable to get transparent key master key salt string
+    SAUnableToGetTransparentKeyMasterKeySalt        = 60
 };
 
 #endif
