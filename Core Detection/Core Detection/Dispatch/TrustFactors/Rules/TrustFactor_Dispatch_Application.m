@@ -28,7 +28,7 @@
     NSString *appName;
     
     // Get the current list of user apps
-    NSArray *userApps = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getInstalledAppInfo];
+    NSArray *userApps = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getInstalledAppInfo] copy];
 
     // Check the array
     if (!userApps || userApps == nil || userApps.count < 1) {

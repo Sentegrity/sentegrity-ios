@@ -75,7 +75,7 @@
     NSArray *pitchRoll;
     
     // Attempt to get motion data
-    pitchRoll = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroPitchInfo];
+    pitchRoll = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroPitchInfo] copy];
     
     // Check motion dataset has something
     if (!pitchRoll || pitchRoll == nil ) {

@@ -367,7 +367,7 @@
         }
 
         NSArray *headings;
-        headings = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getMagneticHeadingsInfo];
+        headings = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getMagneticHeadingsInfo] copy];
         
         if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] magneticHeadingDNEStatus] == DNEStatus_ok ){
             

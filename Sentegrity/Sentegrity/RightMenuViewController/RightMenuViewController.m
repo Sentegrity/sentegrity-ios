@@ -23,6 +23,9 @@
 // Get the trustfactor storage class
 #import "Sentegrity_TrustFactor_Storage.h"
 
+// Get the startup store class
+#import "Sentegrity_Startup_Store.h"
+
 // RESideMenu
 #import "RESideMenu.h"
 
@@ -158,47 +161,61 @@
             alert.backgroundType = Transparent;
             [alert removeTopCircle];
 
-            
-
             // Use Blocks for the reset button
             [alert addButton:@"Reset" actionBlock:^{
                 
                 // handle successful validation here
-                NSLog(@"Chose to reset the stores");
+                NSLog(@"Chose to reset the store and the startup file");
                 
                 // Create an error
                 NSError *error;
                 
-                // Get the documents path and list all the files in it
-                NSArray * dirContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[Sentegrity_TrustFactor_Storage sharedStorage] storePath] error:&error];
+                // Check if the store file exists
+                BOOL storeFileExists = [[NSFileManager defaultManager] fileExistsAtPath:[[Sentegrity_TrustFactor_Storage sharedStorage] assertionStoreFilePath]];
+                
+                // Check for an error
+                if (!storeFileExists) {
+                    
+                    // No store to remove
+                    NSLog(@"No store to remove");
+                    
+                    // Error out
+                    return;
+                    
+                }
+                
+                // Remove the store
+                NSLog(@"Store Path: %@", [[Sentegrity_TrustFactor_Storage sharedStorage] assertionStoreFilePath]);
+                [[NSFileManager defaultManager] removeItemAtPath:[[Sentegrity_TrustFactor_Storage sharedStorage] assertionStoreFilePath] error:&error];
                 
                 // Check for an error
                 if (error != nil) {
-                    NSLog(@"Error getting contents of directory: %@", error.debugDescription);
+                    
+                    // Unable to remove the store
+                    NSLog(@"Error unable to remove the store: %@", error.debugDescription);
+                    
                     // Error out
                     return;
+                    
                 }
                 
-                // Create a predicate to get only the .store files
-                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self ENDSWITH '.store'"];
+                // Get the startup store
+                [[Sentegrity_Startup_Store sharedStartupStore] setCurrentStartupStore:[[Sentegrity_Startup alloc] init]];
                 
-                // List only the .store files
-                NSArray *storageFiles = [dirContents filteredArrayUsingPredicate:predicate];
+                // Write the new startup store to disk
+                [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:&error];
                 
-                // Remove the files
-                for (NSString *store in storageFiles) {
-                    NSLog(@"Removing Store: %@", store);
+                // Check for an error
+                if (error != nil) {
                     
-                    // Remove each store
-                    [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/%@", [[Sentegrity_TrustFactor_Storage sharedStorage] storePath], store] error:&error];
+                    // Unable to remove the store
+                    NSLog(@"Error unable to write the new startup store: %@", error.debugDescription);
                     
-                    // Check for an error
-                    if (error != nil) {
-                        NSLog(@"Error getting contents of directory: %@", error.debugDescription);
-                        // Error out
-                        return;
-                    }
+                    // Error out
+                    return;
+                    
                 }
+                
             }];
             
             // Show the alert

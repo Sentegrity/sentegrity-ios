@@ -15,7 +15,7 @@
     
     //Determine if device is moving during grip check
     
-     NSArray *gyroRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo];
+     NSArray *gyroRads = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getGyroRadsInfo] copy];
      
 //     float xThreshold = 0.5;
 //     float yThreshold = 0.5;
@@ -33,6 +33,7 @@
     int measurementCount = 0;
      
      // Run through all the samples we collected prior to stopping motion
+    
      for (NSDictionary *sample in gyroRads) {
          
          float x = [[sample objectForKey:@"x"] floatValue];
@@ -235,7 +236,7 @@
     } else {
         
         // Use custom mechanism for increased accuracy (the non-motion API is designed for GUIs not user auth)
-        NSArray *gryoRads = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getAccelRadsInfo];
+        NSArray *gryoRads = [[[Sentegrity_TrustFactor_Datasets sharedDatasets] getAccelRadsInfo] copy];
         
         float xAverage;
         float yAverage;
