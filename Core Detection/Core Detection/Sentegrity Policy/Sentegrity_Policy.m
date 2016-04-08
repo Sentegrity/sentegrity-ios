@@ -91,4 +91,15 @@
     _trustFactors = trustFactors;
 }
 
+// Status Upload Run Frequency
+- (void) setStatusUploadRunFrequency:(NSNumber *)statusUploadRunFrequency {
+    _statusUploadRunFrequency = statusUploadRunFrequency;
+}
+
+// Status Upload Time Frequency
+- (void) setStatusUploadTimeFrequency:(NSNumber *)statusUploadTimeFrequency {
+    _statusUploadTimeFrequency = statusUploadTimeFrequency;
+}
+
+
 @end

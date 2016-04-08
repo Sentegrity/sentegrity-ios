@@ -50,6 +50,32 @@ static MBProgressHUD *HUD;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib
     
+    
+    // upload run history (if necessary) and download new policy
+    [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL success, BOOL uploaded, BOOL newPolicyDownloaded, NSError *error) {
+        
+        if (!success) {
+            NSLog(@"Error unable to upload run history: %@", error.debugDescription);
+
+        }
+        
+        if (success && uploaded) {
+            [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:&error];
+            
+            // Check for an error
+            if (error != nil) {
+                
+                // Unable to remove the store
+                NSLog(@"Error unable to update startup store: %@", error.debugDescription);
+                
+                // Error out
+                return;
+                
+            }
+        }
+        
+    }];
+    
 }
 
 

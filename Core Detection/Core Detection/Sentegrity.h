@@ -66,4 +66,7 @@
 // Activity Dispatcher
 #import "Sentegrity_Activity_Dispatcher.h"
 
+//Networking
+#import "Sentegrity_Network_Manager.h"
+
 #endif

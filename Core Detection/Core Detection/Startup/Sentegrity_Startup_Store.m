@@ -239,6 +239,9 @@
     NSArray *empty = [[NSArray alloc]init];
     [self.currentStartupStore setRunHistoryObjects:empty];
     [self.currentStartupStore setTransparentAuthKeyObjects:empty];
+    self.currentStartupStore.runCount = 0;
+    self.currentStartupStore.runCountAtLastUpload = 0;
+    self.currentStartupStore.dateTimeOfLastUpload = 0.0;
     
     // Save the store
     [self setStartupStoreWithError:error];
@@ -449,6 +452,10 @@
         [startup setRunHistoryObjects:historyArray];
         
     }
+    
+    // increment run count
+    startup.runCount = startup.runCount+1;
+    
     
     // Save all updates to the startup file, this includes version check during baseline analysis, any transparent auth changes, run history
     if (![[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:error]) {

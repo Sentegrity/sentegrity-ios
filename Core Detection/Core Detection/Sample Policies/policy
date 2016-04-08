@@ -11,6 +11,8 @@
   "contactEmail": "help@application.com",
   "transparentAuthEnabled": 1,
   "transparentAuthDecayMetric": 0.07,
+  "statusUploadRunFrequency": 5,
+  "statusUploadTimeFrequency": 7,
   "DNEModifiers": {
     "unauthorized": 0.5,
     "unsupported": 0,
