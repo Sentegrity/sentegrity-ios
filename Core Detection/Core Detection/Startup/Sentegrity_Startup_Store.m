@@ -453,10 +453,6 @@
         
     }
     
-    // increment run count
-    startup.runCount = startup.runCount+1;
-    
-    
     // Save all updates to the startup file, this includes version check during baseline analysis, any transparent auth changes, run history
     if (![[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:error]) {
         

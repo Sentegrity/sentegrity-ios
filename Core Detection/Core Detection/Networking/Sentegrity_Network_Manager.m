@@ -103,8 +103,8 @@
         [dic setObject:currentPolicy.policyID forKey:@"policyID"];
         [dic setObject:currentPolicy.revision forKey:@"policyRevision"];
         
-        //device salt (converted from hex string to number)
-        [dic setObject:[self numberFromHexString:currentStartup.deviceSaltString] forKey:@"deviceSalt"];
+        //device salt
+        [dic setObject:currentStartup.deviceSaltString forKey:@"deviceSalt"];
 
         //email
         NSString *email = currentStartup.email;
@@ -150,17 +150,6 @@
         callback (YES, NO, NO, nil);
     }
 }
-
-- (NSNumber *) numberFromHexString: (NSString *) hexString{
-    unsigned long long result = 0;
-    NSScanner *scanner = [NSScanner scannerWithString:hexString];
-    
-    [scanner setScanLocation:0];
-    [scanner scanHexLongLong:&result];
-    
-    return [NSNumber numberWithUnsignedLongLong:result];
-}
-
 
 - (void) removeOldRunHistoryObjects: (NSArray *) oldRunHistoryObjects fromStartup: (Sentegrity_Startup *) startup  {
     

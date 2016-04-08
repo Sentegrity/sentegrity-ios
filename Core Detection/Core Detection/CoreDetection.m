@@ -150,6 +150,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         
     }
     
+    // increment run count
+    startup.runCount = startup.runCount+1;
+
     // Set the current state of Core Detection
     [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Starting Core Detection"];
     
