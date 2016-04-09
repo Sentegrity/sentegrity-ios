@@ -28,6 +28,9 @@
 @property (nonatomic,retain) NSArray *classifications;
 @property (nonatomic,retain) NSArray *subclassifications;
 @property (nonatomic,retain) NSArray *trustFactors;
+@property (nonatomic,retain) NSNumber *statusUploadRunFrequency;
+@property (nonatomic,retain) NSNumber *statusUploadTimeFrequency;
+
 
 
 @end

@@ -50,6 +50,7 @@ static MBProgressHUD *HUD;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib
     
+    
 }
 
 
@@ -184,6 +185,31 @@ static MBProgressHUD *HUD;
 
 // Perform Core Detection
 - (void)performCoreDetection:(id)sender {
+    
+    
+    // upload run history (if necessary) and check for new policy
+    [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error) {
+        
+        if (!successfullyExecuted) {
+            NSLog(@"Error unable to run Network Manager:\n %@", error.debugDescription);
+        }
+        
+        if (successfullyExecuted && successfullyUploaded) {
+            
+            //save modified startup
+            [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:&error];
+            
+            // Check for an error
+            if (error != nil) {
+                
+                // Unable to remove the store
+                NSLog(@"Error unable to update startup store: %@", error.debugDescription);
+                
+            }
+        }
+    }];
+    
+    
     
     /* Perform Core Detection */
     

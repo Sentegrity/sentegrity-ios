@@ -239,6 +239,9 @@
     NSArray *empty = [[NSArray alloc]init];
     [self.currentStartupStore setRunHistoryObjects:empty];
     [self.currentStartupStore setTransparentAuthKeyObjects:empty];
+    self.currentStartupStore.runCount = 0;
+    self.currentStartupStore.runCountAtLastUpload = 0;
+    self.currentStartupStore.dateTimeOfLastUpload = 0.0;
     
     // Save the store
     [self setStartupStoreWithError:error];

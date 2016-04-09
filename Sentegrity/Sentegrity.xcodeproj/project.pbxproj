@@ -115,6 +115,8 @@
 		969CD07D1B7E7DEC00254F45 /* SCLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0761B7E7DEC00254F45 /* SCLButton.m */; };
 		969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */; };
 		96A93B481CB58DF40090D83C /* TransparentDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A93B471CB58DF40090D83C /* TransparentDebugViewController.m */; };
+		D7E816C91CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E816C61CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m */; };
+		D7E816CA1CB8750D0044A23C /* Sentegrity_Network_Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E816C81CB8750D0044A23C /* Sentegrity_Network_Manager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -364,6 +366,10 @@
 		96A93B461CB58DF40090D83C /* TransparentDebugViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentDebugViewController.h; sourceTree = "<group>"; };
 		96A93B471CB58DF40090D83C /* TransparentDebugViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentDebugViewController.m; sourceTree = "<group>"; };
 		A861559935991A5C1535CE5A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		D7E816C51CB8750D0044A23C /* Sentegrity_HTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_HTTPSessionManager.h; sourceTree = "<group>"; };
+		D7E816C61CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_HTTPSessionManager.m; sourceTree = "<group>"; };
+		D7E816C71CB8750D0044A23C /* Sentegrity_Network_Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Network_Manager.h; sourceTree = "<group>"; };
+		D7E816C81CB8750D0044A23C /* Sentegrity_Network_Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Network_Manager.m; sourceTree = "<group>"; };
 		F48570A0D36F3F3E38C7B515 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -512,6 +518,7 @@
 				4C2D0D771CAF4192003BD75E /* Crypto */,
 				4C2D0D7A1CAF4192003BD75E /* Dispatch */,
 				4C2D0DF21CAF4192003BD75E /* Login Action */,
+				D7E816C41CB8750D0044A23C /* Networking */,
 				4C2D0DF71CAF4192003BD75E /* Parser */,
 				4C2D0DF81CAF4192003BD75E /* Results Analysis */,
 				4C2D0DFB1CAF4192003BD75E /* Sample Policies */,
@@ -1014,6 +1021,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D7E816C41CB8750D0044A23C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				D7E816C51CB8750D0044A23C /* Sentegrity_HTTPSessionManager.h */,
+				D7E816C61CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m */,
+				D7E816C71CB8750D0044A23C /* Sentegrity_Network_Manager.h */,
+				D7E816C81CB8750D0044A23C /* Sentegrity_Network_Manager.m */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1217,6 +1235,7 @@
 				969CD07A1B7E7DEC00254F45 /* SCLAlertView.m in Sources */,
 				4C2D0E611CAF4192003BD75E /* Sentegrity_Policy_Parser.m in Sources */,
 				4C2D0E381CAF4192003BD75E /* ActiveRoute.m in Sources */,
+				D7E816CA1CB8750D0044A23C /* Sentegrity_Network_Manager.m in Sources */,
 				0427EFFF1B79361E000658AB /* ComputationInfoViewController.m in Sources */,
 				4C2D0E621CAF4192003BD75E /* Sentegrity_Subclassification.m in Sources */,
 				4C2D0E4C1CAF4192003BD75E /* TrustFactor_Dispatch_Platform.m in Sources */,
@@ -1227,6 +1246,7 @@
 				4C2D0E2B1CAF4192003BD75E /* Sentegrity_Stored_Assertion.m in Sources */,
 				4C2D0E351CAF4192003BD75E /* MDBluetoothManager.m in Sources */,
 				4C2D0E461CAF4192003BD75E /* TrustFactor_Dispatch_Celluar.m in Sources */,
+				D7E816C91CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m in Sources */,
 				4C2D0E2A1CAF4192003BD75E /* Sentegrity_Assertion_Store.m in Sources */,
 				969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */,
 				0427EFFB1B792037000658AB /* SystemDebugViewController.m in Sources */,

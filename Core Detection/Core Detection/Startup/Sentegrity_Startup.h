@@ -20,6 +20,9 @@
 // Device Salt (used for TrustFactor assertion generation)
 @property (nonatomic, strong) NSString  *deviceSaltString;
 
+@property (nonatomic, strong) NSString *email;
+
+
 // ** UPDATED DURING EACH RUN **
 
 // Last OS Version
@@ -30,6 +33,16 @@
 
 // Run History array of objects
 @property (nonatomic, strong) NSArray   *runHistoryObjects;
+
+// Sentegrity's runCount
+@property (nonatomic) NSInteger runCount;
+
+// RunCount when last upload was done
+@property (nonatomic) NSInteger runCountAtLastUpload;
+
+// Timestamp during last upload was done
+@property (nonatomic) NSTimeInterval dateTimeOfLastUpload;
+
 
 
 /*
