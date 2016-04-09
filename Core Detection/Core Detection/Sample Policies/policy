@@ -239,7 +239,7 @@
       "dneExpired": "",
       "dneInvalid": "Device position invalid",
       "weight": 1
-    },
+    }
   ],
   "trustFactors": [
     {
@@ -1235,7 +1235,7 @@
       "payload": [
         {
           "pitchBlockSize": 0.3,
-          "rollBlockSize": 0.1,
+          "rollBlockSize": 0.1
         }
       ]
     },
