@@ -30,6 +30,27 @@
  - X - decayMeter of the chosen assertion
  */
 
+
+/* To understand why we are adding all trustfactoroutputobjects to the transparent key
+ * regardless of whether they actually matched something think about the process that takes place
+ * during transparent auth:
+ *
+ *  1) TrustScore is high so candidate transparent key is constructed
+ *  2) On the following successful login by user we get access to MASTER_KEY
+ *  3) we now actually create the transparent key AND all the trustfactors that were not
+ *      matching when we created the canidate key are now whitelisted
+ *  4) this is where a problem can reside, our cadidate key now does not include
+ *      trustfactors that we just whitelisted, this means once those trustfactor assertions
+ *      match the next time, the previously created transparent key will not work
+ *
+ *  As a result, we add all user trustfactors, regardless of match to the candidate key
+ *  this prevents that situation and also allows us opportunity to add system trustfactors
+ *  adding system trustfactors adds security as it ensures that if the system changes (such as compromise)
+ *  the transparent keys will no longer work. We're not currently doing this because it complicates
+ *  debugging transparent auth for performance reasons. Currently its just user.
+ *
+ */
+
 + (double) weightPercentForTrustFactorOutputObject: (Sentegrity_TrustFactor_Output_Object *) trustFactorOutputObject  {
     // Partial penalities work well for TrustFactors that are likely to exhaust all possiblities, this allows us
     // to apply a relative weight based on the other stored assertions. For TrustFactors that will never exhaust
@@ -165,6 +186,7 @@
     // Determining errors
     NSMutableArray *subClassDNECodes;
     
+    
     // For each classification in the policy
     for (Sentegrity_Classification *class in policy.classifications) {
         
@@ -172,6 +194,8 @@
         trustFactorsInClass = [NSMutableArray array];
         subClassesInClass = [NSMutableArray array];
         trustFactorsToWhitelistInClass = [NSMutableArray array];
+        
+        // Transparent auth
         trustFactorsForTransparentAuthInClass = [NSMutableArray array];
         
         // DEBUG
@@ -231,7 +255,7 @@
                             
                             if(trustFactorOutputObject.matchFound==YES){
                                 
-                                // If the computation method is 1 (additive score) (e.g., User anomaly)
+                                // If the computation method is 1 (additive score) (e.g., only User anomaly uses this)
                                 if([[class computationMethod] intValue]==1){
                                     
 
@@ -279,21 +303,34 @@
                                                 }
                                             }
                                         }
-                                        else{
-                                            // Avoids making transparent keys that are sledom to be hit again
-                                            // Add TF to transparent auth list
-                                            if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
-                                            [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
+                                        
+                                        /* 
+                                         * Transparent Auth Elections
+                                         */
+                                        
+                                        if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
+                                            
+                                            if(partialWeight >= (trustFactorOutputObject.trustFactor.weight.integerValue * 0.3)){
+                                                // Avoids making transparent keys from values that may be sledom hit again
+                                                // Add TF to transparent auth list
+                                                [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
                                             }
                                         }
-                                        
+  
+
                                     }else{
+                                        
+                                        
+                                        /*
+                                         * Transparent Auth Elections
+                                         */
                                         
                                         // This is not a partial weighted rule, always add these to transparent auth
                                         // Avoids making transparent keys that are sledom to be hit again
                                         // Add TF to transparent auth list
                                         if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
                                             [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
+                                            
                                         }
                                         
                                         // apply full weight of TF
@@ -303,6 +340,9 @@
                                         trustFactorOutputObject.appliedWeight = trustFactorOutputObject.trustFactor.weight.integerValue;
                                         trustFactorOutputObject.percentAppliedWeight = 1;
                                     }
+                                    
+                                    
+                                    
                                 }else{
                                     
                                     // Computation method of 0 (subtractive score) does nothing when a match is found
@@ -564,7 +604,7 @@
     NSMutableArray *userTrustFactorsToWhitelist = [[NSMutableArray alloc] init];
     
     // Transparent authentication
-    NSMutableArray *userTrustFactorsForTransparentAuthentication = [[NSMutableArray alloc] init];
+    NSMutableArray *allTrustFactorsForTransparentAuthentication = [[NSMutableArray alloc] init];
     
     int systemTrustScoreSum = 0;
     
@@ -634,6 +674,9 @@
             // Add whitelists together
             [systemTrustFactorsToWhitelist addObjectsFromArray:[class trustFactorsToWhitelist]];
             
+            // Add all transparent authentication trustfactors together
+            [allTrustFactorsForTransparentAuthentication addObjectsFromArray:[class trustFactorsForTransparentAuthentication]];
+            
             // When it's a user class
         } else {
             
@@ -687,7 +730,7 @@
             [userTrustFactorsToWhitelist addObjectsFromArray:[class trustFactorsToWhitelist]];
             
             // Add all transparent authentication trustfactors together
-            [userTrustFactorsForTransparentAuthentication addObjectsFromArray:[class trustFactorsForTransparentAuthentication]];
+            [allTrustFactorsForTransparentAuthentication addObjectsFromArray:[class trustFactorsForTransparentAuthentication]];
         }
     }
     
@@ -702,7 +745,7 @@
     computationResults.userAnalysisResults = [userSubClassStatuses allObjects];
     
     // Set transparent authentication list
-    computationResults.transparentAuthenticationTrustFactorOutputObjects = userTrustFactorsForTransparentAuthentication;
+    computationResults.transparentAuthenticationTrustFactorOutputObjects = allTrustFactorsForTransparentAuthentication;
     
     // Set whitelists for system/user domains
     computationResults.userTrustFactorWhitelist = userTrustFactorsToWhitelist;

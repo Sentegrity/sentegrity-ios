@@ -172,6 +172,9 @@
 // Transparent authentication result
 @property (nonatomic) NSInteger  transparentAuthenticationAction;
 
+// Transparent authentication high entropy rule count
+@property (nonatomic) NSInteger  entropyCount;
+
 // Should attempt transparent authentication
 @property (nonatomic) BOOL  shouldAttemptTransparentAuthentication;
 

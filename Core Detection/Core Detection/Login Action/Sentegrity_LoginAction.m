@@ -519,9 +519,93 @@
             
         } // Done postAuthenticationAction_whitelistUserAssertionsAndCreateTransparentKey
             
-        default: {
+        case postAuthenticationAction_createTransparentKey: {
             
-            // We only care aboute whitelisting here, anything else, such as show suggestions or doNothing is handled outside of this
+            // No whitelisting
+            
+            // Now create a new transparent key
+            Sentegrity_TransparentAuth_Object *newTransparentObject = [[Sentegrity_Crypto sharedCrypto] createNewTransparentAuthKeyObjectWithError:(NSError **)error];
+            
+            // TODO: Utilize Error Checking
+            
+            // Check for error
+            if (!newTransparentObject || newTransparentObject == nil) {
+                
+                // Unable to whitelist attributing TrustFactor Output Objects
+                
+                // Set the error if it's not set
+                if (!*error) {
+                    
+                    // Set the error details
+                    NSDictionary *errorDetails = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to create new transparent key", nil),
+                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Faile to create new object for whitelisting", nil),
+                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Check transparent object parameters", nil)
+                                                   };
+                    
+                    // Set the error
+                    *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToCreateNewTransparentKey userInfo:errorDetails];
+                    
+                    // Log it
+                    NSLog(@"New transparent auth object store failed: %@", errorDetails);
+                    
+                } // Done checking for errors
+                
+                // Return NO
+                return NO;
+                
+            } // Done Checking for newTransparent object errors
+            
+            // Get the current Transparent objects from the startup file and re-set the file
+            
+            //NSError *startupError;
+            Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
+            
+            // Validate no errors
+            if (!startup || startup == nil) {
+                
+                // Error out, no trustFactorOutputObject were able to be added
+                NSDictionary *errorDetails = @{
+                                               NSLocalizedDescriptionKey: NSLocalizedString(@"Failed to get startup file during whitelisting", nil),
+                                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No startup file received", nil),
+                                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try validating the startup file", nil)
+                                               };
+                
+                // Set the error
+                *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStartupInstance userInfo:errorDetails];
+                
+                // Log Error
+                NSLog(@"Failed to get startup file during transparent auth: %@", errorDetails);
+                
+                // Return no
+                return NO;
+                
+            } // Done checking for errors
+            
+            // Create the currentTransparentAuthKeyObjects array
+            NSMutableArray *currentTransparentAuthKeyObjects = [[startup transparentAuthKeyObjects] mutableCopy];
+            [currentTransparentAuthKeyObjects addObject:newTransparentObject];
+            
+            // Set the Transparent Auth Key Objects
+            [startup setTransparentAuthKeyObjects:currentTransparentAuthKeyObjects];
+            
+            // Return YES - no errors
+            return YES;
+            
+            // Break
+            break;
+            
+        } // Done postAuthenticationAction_createTransparentKey
+            
+        case postAuthenticationAction_DoNothing: {
+            
+            // Really only used for when transparent auth is happening
+        
+            return YES;
+            break;
+        }
+            
+        default: {
             
             // Return NO
             return NO;

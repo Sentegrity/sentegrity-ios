@@ -46,5 +46,10 @@
 - (Sentegrity_TrustScore_Computation *)attemptTransparentAuthenticationForComputation:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:policy withError:(NSError **)error;
 
 
+/*!
+ *  Analyzes the eligible transparent auth objects and prioritizes the best authenticators to avoid making weak or uncommon keys
+ */
+- (BOOL)analyzeEligibleTransparentAuthObjects:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error;
+
 
 @end

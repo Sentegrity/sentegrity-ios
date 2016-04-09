@@ -17,6 +17,7 @@
 @property (nonatomic,retain) NSNumber *revision;
 @property (nonatomic,retain) NSNumber *userThreshold;
 @property (nonatomic,retain) NSNumber *systemThreshold;
+@property (nonatomic,retain) NSNumber *minimumTransparentAuthEntropy;
 @property (nonatomic,retain) NSNumber *continueOnError;
 @property (nonatomic,retain) NSNumber *timeout;
 @property (nonatomic,retain) NSString *contactURL;

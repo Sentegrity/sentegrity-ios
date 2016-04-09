@@ -47,6 +47,26 @@
         computationResults.shouldAttemptTransparentAuthentication = NO;
     }
     
+    // If it still makes sense to attempt transparent auth
+    if(computationResults.shouldAttemptTransparentAuthentication==YES){
+        
+        // Determine if we should attempt transparent auth based on the current potential TrustFactors
+        // Check entropy and prioritize high entropy trustfactors
+        BOOL entropyRequirementsMeetForTransparentAuth;
+        entropyRequirementsMeetForTransparentAuth = [[TransparentAuthentication sharedTransparentAuth] analyzeEligibleTransparentAuthObjects:computationResults withPolicy:policy withError:error];
+        
+        // If there is not enough entropy don't even attempt transparent
+        if (entropyRequirementsMeetForTransparentAuth==NO){
+            computationResults.shouldAttemptTransparentAuthentication = NO;
+            computationResults.coreDetectionResult = CoreDetectionResult_TransparentAuthEntropyLow;
+            computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
+            computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
+            // Make sure we set action codes because we won't be executing transparent auth module
+            
+        }
+    }
+
+    
     
     // Check if the system is trusted, with highest attributing first, only one classification can be attributing and
     // indicate which actions to take
