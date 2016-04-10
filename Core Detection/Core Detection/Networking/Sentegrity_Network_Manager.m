@@ -47,7 +47,8 @@
     
     //if any error, stop it
     if (error) {
-        callback(NO, NO, NO, error);
+        if (callback)
+            callback(NO, NO, NO, error);
         return;
     }
     
@@ -56,13 +57,15 @@
     
     //if any error, stop it
     if (error) {
-        callback(NO, NO, NO, error);
+        if (callback)
+            callback(NO, NO, NO, error);
         return;
     }
     
     //check if any runHistoryObjects exists (for example, it will be 0 if running app for the first time)
     if (currentStartup.runHistoryObjects.count == 0) {
-        callback(YES, NO, NO, nil);
+        if (callback)
+            callback(YES, NO, NO, nil);
         return;
     }
     
@@ -118,7 +121,8 @@
         [self.sessionManager uploadReport:dic withCallback:^(BOOL success, NSDictionary *responseObject, NSError *error) {
             if (!success) {
                 //request failed
-                callback (NO, NO, NO, error);
+                if (callback)
+                    callback (NO, NO, NO, error);
             }
             else {
                 //succesfully uploaded, need to update status variables
@@ -135,18 +139,21 @@
                     
                     
                     //everything succesfull
-                    callback (YES, YES, YES, nil);
+                    if (callback)
+                        callback (YES, YES, YES, nil);
                 }
                 else {
                     //succesfully uploaded, but there is no new policy
-                    callback (YES, YES, NO, nil);
+                    if (callback)
+                        callback (YES, YES, NO, nil);
                 }
             }
         }];
     }
     else {
         // do not need to upload
-        callback (YES, NO, NO, nil);
+        if (callback)
+            callback (YES, NO, NO, nil);
     }
 }
 
