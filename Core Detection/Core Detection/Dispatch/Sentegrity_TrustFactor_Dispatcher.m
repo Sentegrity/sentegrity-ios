@@ -341,7 +341,7 @@
         Sentegrity_TrustFactor_Output_Object *trustFactorOutput = [[Sentegrity_TrustFactor_Output_Object alloc] init];
         
         // Set the DNE Status Code
-        [trustFactorOutput setStatusCode:DNEStatus_unsupported];
+        [trustFactorOutput setStatusCode:DNEStatus_error];
         
         // Return the assertion
         return trustFactorOutput;

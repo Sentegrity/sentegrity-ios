@@ -65,6 +65,11 @@
     _transparentEligible = transparentEligible;
 }
 
+// High entropy authentication
+- (void)setHighEntropyAuthenticator:(NSNumber *)highEntropyAuthenticator{
+    _highEntropyAuthenticator = highEntropyAuthenticator;
+}
+
 // Partial weight
 - (void)setPartialWeight:(NSNumber *)partialWeight{
     _partialWeight = partialWeight;

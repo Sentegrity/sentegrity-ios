@@ -211,8 +211,9 @@ static dispatch_once_t onceToken;
 // Time information
 - (NSString *)getTimeDateStringWithHourBlockSize:(NSInteger)blockSize withDayOfWeek:(BOOL)day {
     
+    
     // If dataset isn't populated
-    if(!self.hourOfDay) {
+    if(!self.hourOfDay || !self.dayOfWeek) {
         
         // Get day of week
         NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -247,36 +248,61 @@ static dispatch_once_t onceToken;
             self.hourOfDay = 1;
         }
         
-        // Hours partitioned by dividing by block size, adjust accordingly but it does impact multiple rules
-        int hourBlock = ceilf((float)self.hourOfDay / (float)blockSize);
-        
-        // If day is provided
-        if(day == YES) {
+        // Only return day of week
+        if(blockSize==0 && day==YES){
             
             // Return formatted with day of week and time
-            return [NSString stringWithFormat:@"DAY_%ld_HOUR_%ld",(long)weekDay,(long)hourBlock];
+            return [NSString stringWithFormat:@"DAY_%ld",(long)self.dayOfWeek];
             
-        } else {
-            
-            // Return just time
-            return [NSString stringWithFormat:@"HOUR_%ld",(long)hourBlock];
         }
+        else{ // return only hour or hour + day of week
+            
+            // Hours partitioned by dividing by block size, adjust accordingly but it does impact multiple rules
+            int hourBlock = ceilf((float)self.hourOfDay / (float)blockSize);
+            
+            // If day is provided
+            if(day == YES) {
+                
+                // Return formatted with day of week and time
+                return [NSString stringWithFormat:@"DAY_%ld_HOUR_%ld",(long)self.dayOfWeek,(long)hourBlock];
+                
+            } else {
+                
+                // Return just time
+                return [NSString stringWithFormat:@"HOUR_%ld",(long)hourBlock];
+            }
+
+            
+        }
+        
         
     } else {
         
-        // Hours partitioned across 24, adjust accordingly but it does impact multiple rules
-        int hourBlock = ceilf((float)self.hourOfDay / (float)blockSize);
-        
-        // If day is provided
-        if(day == YES) {
+        // Only return day of week
+        if(blockSize==0 && day==YES){
             
             // Return formatted with day of week and time
-            return [NSString stringWithFormat:@"D%ld-H%ld",(long)self.dayOfWeek,(long)hourBlock];
+            return [NSString stringWithFormat:@"DAY_%ld",(long)self.dayOfWeek];
             
-        } else {
+        }
+        else{ // return only hour or hour + day of week
             
-            // Return just time
-            return [NSString stringWithFormat:@"H%ld",(long)hourBlock];
+            // Hours partitioned by dividing by block size, adjust accordingly but it does impact multiple rules
+            int hourBlock = ceilf((float)self.hourOfDay / (float)blockSize);
+            
+            // If day is provided
+            if(day == YES) {
+                
+                // Return formatted with day of week and time
+                return [NSString stringWithFormat:@"DAY_%ld_HOUR_%ld",(long)self.dayOfWeek,(long)hourBlock];
+                
+            } else {
+                
+                // Return just time
+                return [NSString stringWithFormat:@"HOUR_%ld",(long)hourBlock];
+            }
+            
+            
         }
     }
 }
@@ -950,7 +976,7 @@ static dispatch_once_t onceToken;
 - (NSArray *)getDiscoveredBLEInfo {
     
     //Do we any devices yet?
-    if(self.discoveredBLEDevices == nil || self.discoveredBLEDevices.count < 10) {
+    if(self.discoveredBLEDevices == nil) {
         
         // If the dataset expired during a previous TF attempt, don't wait again, just exit.
         // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
@@ -969,8 +995,10 @@ static dispatch_once_t onceToken;
         
         while ((currentTime-startTime) < waitTime) {
             
+            // Mandatory wait because BLE scan is funky
+            
             // If its greater than 10 return, otherwise we always wait
-            if(self.discoveredBLEDevices.count > 10){
+            if(self.discoveredBLEDevices.count > 0){
                 NSLog(@"Got discovered BLE devices after waiting..");
                 
                 // Return the BLE devices
@@ -985,8 +1013,10 @@ static dispatch_once_t onceToken;
         
         // Timer expires, for BT don't set to expired as we don't want a penaly, just noData
         NSLog(@"Discovered BLE devices timer expired");
-        [self setDiscoveredBLESDNEStatus:DNEStatus_nodata];
-        
+        if(self.discoveredBLEDevices.count<1){
+                 [self setDiscoveredBLESDNEStatus:DNEStatus_nodata];
+        }
+
         // Return the BLE devices
         return self.discoveredBLEDevices;
     }

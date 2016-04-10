@@ -117,6 +117,7 @@
 		96A93B481CB58DF40090D83C /* TransparentDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A93B471CB58DF40090D83C /* TransparentDebugViewController.m */; };
 		D7E816C91CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E816C61CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m */; };
 		D7E816CA1CB8750D0044A23C /* Sentegrity_Network_Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E816C81CB8750D0044A23C /* Sentegrity_Network_Manager.m */; };
+		D7FC9BD01CBA672D000A2B75 /* Sentegrity_JSONResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FC9BCF1CBA672D000A2B75 /* Sentegrity_JSONResponseSerializer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -370,6 +371,9 @@
 		D7E816C61CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_HTTPSessionManager.m; sourceTree = "<group>"; };
 		D7E816C71CB8750D0044A23C /* Sentegrity_Network_Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Network_Manager.h; sourceTree = "<group>"; };
 		D7E816C81CB8750D0044A23C /* Sentegrity_Network_Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Network_Manager.m; sourceTree = "<group>"; };
+		D7FC9BCE1CBA672D000A2B75 /* Sentegrity_JSONResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_JSONResponseSerializer.h; sourceTree = "<group>"; };
+		D7FC9BCF1CBA672D000A2B75 /* Sentegrity_JSONResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_JSONResponseSerializer.m; sourceTree = "<group>"; };
+		D7FC9BD31CBA7947000A2B75 /* cloud.sentegrity.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = cloud.sentegrity.com.cer; sourceTree = "<group>"; };
 		F48570A0D36F3F3E38C7B515 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -511,6 +515,7 @@
 		4C2D0D641CAF4192003BD75E /* Core Detection */ = {
 			isa = PBXGroup;
 			children = (
+				D7FC9BD31CBA7947000A2B75 /* cloud.sentegrity.com.cer */,
 				4C2D0D651CAF4192003BD75E /* Assertion Storage */,
 				4C2D0D721CAF4192003BD75E /* Baseline Analysis */,
 				4C2D0D751CAF4192003BD75E /* CoreDetection.h */,
@@ -1024,6 +1029,8 @@
 		D7E816C41CB8750D0044A23C /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				D7FC9BCE1CBA672D000A2B75 /* Sentegrity_JSONResponseSerializer.h */,
+				D7FC9BCF1CBA672D000A2B75 /* Sentegrity_JSONResponseSerializer.m */,
 				D7E816C51CB8750D0044A23C /* Sentegrity_HTTPSessionManager.h */,
 				D7E816C61CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m */,
 				D7E816C71CB8750D0044A23C /* Sentegrity_Network_Manager.h */,
@@ -1294,6 +1301,7 @@
 				4C2D0E391CAF4192003BD75E /* Sentegrity_TrustFactor_Dataset_Application.m in Sources */,
 				4C2D0E2E1CAF4192003BD75E /* Sentegrity_TrustFactor_Storage.m in Sources */,
 				4C2D0E6B1CAF4192003BD75E /* Sentegrity_TrustScore_Computation.m in Sources */,
+				D7FC9BD01CBA672D000A2B75 /* Sentegrity_JSONResponseSerializer.m in Sources */,
 				04A248FF1B266AC2007D9460 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

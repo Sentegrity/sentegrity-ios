@@ -115,7 +115,6 @@
         
         [dic setObject:email forKey:@"email"];
 
-        
         [self.sessionManager uploadReport:dic withCallback:^(BOOL success, NSDictionary *responseObject, NSError *error) {
             if (!success) {
                 //request failed

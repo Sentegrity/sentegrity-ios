@@ -41,6 +41,9 @@
 #define kDefaultDeviceSalt              @"sdkfljasdf89dsjd"
 #define kDefaultUserSalt                @"faklsjfads8sadjd8d"
 
+// Base URL for networking
+#define kBaseURLstring                  @"https://cloud.sentegrity.com/app_dev.php/"
+
 #pragma mark - Assertion Storage
 
 #define kStoredTrustFactorObjectMapping @"storedTrustFactorObjects"
@@ -130,6 +133,7 @@ typedef enum {
     CoreDetectionResult_CoreDetectionError                     = 6,
     CoreDetectionResult_TransparentAuthError                   = 7,
     CoreDetectionResult_DeviceCompromise                       = 8,
+    CoreDetectionResult_TransparentAuthEntropyLow              = 9,
     
 } CoreDetectionResultCode;
 
@@ -163,6 +167,7 @@ typedef enum {
     postAuthenticationAction_DoNothing                                          = 4,
     postAuthenticationAction_showSuggestions                                    = 5,
     postAuthenticationAction_whitelistUserAssertionsAndCreateTransparentKey     = 6,
+    postAuthenticationAction_createTransparentKey                               = 7
 
 } postAuthenticationAction;
 

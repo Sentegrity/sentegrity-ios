@@ -101,7 +101,7 @@
     NSArray *bluetoothDevices = [[Sentegrity_TrustFactor_Datasets sharedDatasets]  getDiscoveredBLEInfo];
     
     // Check if error was determined after call to dataset helper (e.g., timer expired)
-    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus] != 0 ){
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus] != DNEStatus_ok){
         
         // Set the DNE status code to what was previously determined
         [trustFactorOutputObject setStatusCode:[[Sentegrity_TrustFactor_Datasets sharedDatasets]  discoveredBLESDNEStatus]];
@@ -126,6 +126,10 @@
         
         [outputArray addObject:deviceUUID];
     }
+
+    
+    // Modified to only use the first one as this is likely the fastest responder all the time
+    //[outputArray addObject:[bluetoothDevices objectAtIndex:0]];
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];
