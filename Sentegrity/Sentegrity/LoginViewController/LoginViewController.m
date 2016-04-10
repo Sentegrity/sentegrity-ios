@@ -191,21 +191,25 @@ static MBProgressHUD *HUD;
     [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error) {
         
         if (!successfullyExecuted) {
+            // something went wrong somewhere (uploading, or new policy)
             NSLog(@"Error unable to run Network Manager:\n %@", error.debugDescription);
         }
         
-        if (successfullyExecuted && successfullyUploaded) {
-            
-            //save modified startup
+        if (successfullyUploaded) {
+            //error maybe occured on policy download, but it succesfully uploaded runHistoryObjects report
             [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:&error];
             
             // Check for an error
             if (error != nil) {
-                
                 // Unable to remove the store
                 NSLog(@"Error unable to update startup store: %@", error.debugDescription);
-                
             }
+            else {
+                NSLog(@"Network manager: Succesfully uploaded runHistoryObjects.");
+            }
+        }
+        if (newPolicyDownloaded) {
+            NSLog(@"Network manager: New policy downloaded and stored for the next run.");
         }
     }];
     
