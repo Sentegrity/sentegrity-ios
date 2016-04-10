@@ -41,6 +41,9 @@
 #define kDefaultDeviceSalt              @"sdkfljasdf89dsjd"
 #define kDefaultUserSalt                @"faklsjfads8sadjd8d"
 
+// Base URL for networking
+#define kBaseURLstring                  @"https://cloud.sentegrity.com/app_dev.php/"
+
 #pragma mark - Assertion Storage
 
 #define kStoredTrustFactorObjectMapping @"storedTrustFactorObjects"
