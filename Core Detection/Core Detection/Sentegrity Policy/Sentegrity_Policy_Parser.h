@@ -22,12 +22,15 @@
 @property (atomic,retain) Sentegrity_Policy *currentPolicy;
 
 /* Getter */
-// Get the startup file
+// Get the policy file
 - (Sentegrity_Policy *)getPolicy:(NSError **)error;
 
-/* Helper */
-// Parse a policy json with a valid path
-- (Sentegrity_Policy *)parsePolicyJSONWithError:(NSError **)error;
+/* Setter */
+// Set new policy file to be ready for next run
+- (BOOL)saveNewPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error;
 
+/* Helper */
+// Parse a policy jsonObject
+- (Sentegrity_Policy *)parsePolicyJSONobject:(NSDictionary *) jsonParsed withError:(NSError **)error;
 
 @end

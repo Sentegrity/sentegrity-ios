@@ -135,8 +135,28 @@
                 
                 NSDictionary *newPolicy = responseObject[@"data"][@"newPolicy"];
                 if (newPolicy && ![newPolicy isEqual:[NSNull null]]) {
-                    //TODO: new policy exists, need to replace old policy with this one
                     
+                    // new policy exists, need to replace old policy with this one
+                    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] parsePolicyJSONobject:newPolicy withError:&error];
+                    
+                    if (error) {
+                        //something went wrong...
+                        if (callback)
+                            callback (NO, YES, NO, error);
+                        
+                        return;
+                    }
+                    
+                    // save new policy
+                    [[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policy withError:&error];
+                    
+                    if (error) {
+                        //something went wrong...
+                        if (callback)
+                            callback (NO, YES, NO, error);
+                        
+                        return;
+                    }
                     
                     //everything succesfull
                     if (callback)

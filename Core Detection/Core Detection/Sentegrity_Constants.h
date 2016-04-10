@@ -230,6 +230,12 @@ enum {
     // Invalid Startup Instance
     SAInvalidStartupInstance                        = 323,
     
+    // Invalid Policy File
+    SAInvalidPolicyFile                             = 324,
+    
+    // Invalid Policy Instance
+    SAInvalidPolicyInstance                         = 325,
+    
     // No TrustFactor output objects provided from dispatcher
     SANoTrustFactorOutputObjectsFromDispatcher      = 4,
     
