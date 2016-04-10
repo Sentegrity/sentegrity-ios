@@ -448,7 +448,28 @@ enum {
     SAUnableToGetDecryptedMasterKey                 = 59,
     
     // Unable to get transparent key master key salt string
-    SAUnableToGetTransparentKeyMasterKeySalt        = 60
+    SAUnableToGetTransparentKeyMasterKeySalt        = 60,
+    
+    // Unable to get user salt data
+    SAUnableToGetUserSaltData                       = 61,
+    
+    // Unable to get user key data
+    SAUnableToGetUserKeyData                        = 62,
+    
+    // Unable to get user key PBKDF2 hash string
+    SAUnableToGetUserKeyPBKDF2HashString            = 63,
+    
+    // Unable to get user key encrypted master key blob string
+    SAUnableToGetUserKeyEncryptedMasterKeyBlobString = 64,
+    
+    // Unable to get encrypted data
+    SAUnableToGetEncryptedData                      = 65,
+    
+    // Unable to get decrypted data
+    SAUnableToGetDecyptedData                       = 66,
+    
+    // Unable to get encrypted data string
+    SAUnableToGetEncryptedDataString                = 67
 };
 
 #endif
