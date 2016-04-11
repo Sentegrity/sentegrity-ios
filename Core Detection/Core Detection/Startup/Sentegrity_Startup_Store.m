@@ -414,13 +414,22 @@
     // Create a run history object for this run
     Sentegrity_History_Object *runHistoryObject = [[Sentegrity_History_Object alloc] init];
     
+    // Date
+    [runHistoryObject setTimestamp:[NSDate date]];
+    
+    // Results and status codes
+    [runHistoryObject setCoreDetectionResult:computationResults.coreDetectionResult];
+    [runHistoryObject setPreAuthenticationAction:computationResults.preAuthenticationAction];
+    [runHistoryObject setPostAuthenticationAction:computationResults.postAuthenticationAction];
+    [runHistoryObject setAuthenticationResult:computationResults.authenticationResult];
+    
     // Scores
     [runHistoryObject setDeviceScore:computationResults.systemScore];
     [runHistoryObject setTrustScore:computationResults.deviceScore];
     [runHistoryObject setUserScore:computationResults.userScore];
-    [runHistoryObject setTimestamp:[NSDate date]];
+
     
-    // Text issues from GUI
+    // Issues from GUI
     [runHistoryObject setSystemIssues:computationResults.systemIssues];
     [runHistoryObject setUserIssues:computationResults.userIssues];
     
@@ -428,11 +437,7 @@
     [runHistoryObject setSystemAnalysisResults:computationResults.systemAnalysisResults];
     [runHistoryObject setUserAnalysisResults:computationResults.userAnalysisResults];
     
-    // Results and status codes
-    [runHistoryObject setCoreDetectionResult:computationResults.coreDetectionResult];
-    [runHistoryObject setPreAuthenticationAction:computationResults.preAuthenticationAction];
-    [runHistoryObject setPostAuthenticationAction:computationResults.postAuthenticationAction];
-    [runHistoryObject setAuthenticationResult:computationResults.authenticationResult];
+
     
     // Check if the startup file already has an array of history objects
     if (!startup.runHistoryObjects || startup.runHistoryObjects.count < 1) {

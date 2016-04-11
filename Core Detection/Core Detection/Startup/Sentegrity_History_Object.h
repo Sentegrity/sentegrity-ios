@@ -9,15 +9,6 @@
 
 @interface Sentegrity_History_Object : NSObject
 
-// Device Score
-@property (nonatomic, assign) NSInteger deviceScore;
-
-// Trust Score
-@property (nonatomic, assign) NSInteger trustScore;
-
-// User Score
-@property (nonatomic, assign) NSInteger userScore;
-
 // Timestamp
 @property (nonatomic, copy  ) NSDate    *timestamp;
 
@@ -32,6 +23,15 @@
 
 // Core Detection Result
 @property (nonatomic, assign) NSInteger authenticationResult;
+
+// Device Score
+@property (nonatomic, assign) NSInteger deviceScore;
+
+// Trust Score
+@property (nonatomic, assign) NSInteger trustScore;
+
+// User Score
+@property (nonatomic, assign) NSInteger userScore;
 
 // User Issues
 @property (nonatomic, strong) NSArray<NSString  *> *userIssues;
