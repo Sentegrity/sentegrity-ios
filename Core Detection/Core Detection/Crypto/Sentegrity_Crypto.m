@@ -379,7 +379,7 @@
         }
         
         // Invalid user salt data
-        return nil;
+        return NO;
     }
     
     // User key data error
@@ -406,7 +406,7 @@
         }
         
         // Invalid user key data
-        return nil;
+        return NO;
     }
     
     // User key hash string error
@@ -433,7 +433,7 @@
         }
         
         // Invalid user key PBKDF2 hash string
-        return nil;
+        return NO;
     }
     
     // Set user key pbkdf2 hash string
@@ -466,7 +466,7 @@
         }
         
         // Invalid user key encrypted master key blob string
-        return nil;
+        return NO;
     }
     
     // Store the encrypted key blob
@@ -513,7 +513,7 @@
         }
         
         // Invalid user key  data
-        return nil;
+        return NO;
     }
     
     // PBKDF2 hash string error
@@ -539,7 +539,7 @@
         }
         
         // Invalid PBKDF hash string
-        return nil;
+        return NO;
     }
     
     // Set user key pbkdf2 hash string
@@ -569,7 +569,7 @@
         }
         
         // Invalid user key encrypted master key blob string
-        return nil;
+        return NO;
     }
     
     // Store the encrypted key blob
