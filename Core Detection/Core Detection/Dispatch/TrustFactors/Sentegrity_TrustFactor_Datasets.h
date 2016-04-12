@@ -86,6 +86,8 @@
 // Bluetooth BLE 
 @property (atomic, retain) NSArray *discoveredBLEDevices;
 @property (atomic) int discoveredBLESDNEStatus;
+@property (atomic, retain) NSArray *connectedBLEDevices;
+@property (atomic) int connectedBLESDNEStatus;
 
 // Bluetooth Classic
 @property (atomic, retain) NSArray *connectedClassicBTDevices;
@@ -199,6 +201,7 @@
 
 // ** BLUETOOTH **
 - (NSArray *)getDiscoveredBLEInfo;
+- (NSArray *)getConnectedBLEInfo;
 - (NSArray *)getClassicBTInfo;
 
 @end

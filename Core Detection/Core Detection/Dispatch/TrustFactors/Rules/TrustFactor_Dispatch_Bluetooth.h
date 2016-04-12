@@ -18,6 +18,9 @@
 // Discovered BLE devices
 + (Sentegrity_TrustFactor_Output_Object *)discoveredBLEDevice:(NSArray *)payload;
 
+// Connected BLE devices
++ (Sentegrity_TrustFactor_Output_Object *)connectedBLEDevice:(NSArray *)payload;
+
 // Connected classic bluetooth devices
 + (Sentegrity_TrustFactor_Output_Object *)connectedClassicDevice:(NSArray *)payload;
 
