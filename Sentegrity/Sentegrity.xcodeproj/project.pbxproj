@@ -115,6 +115,7 @@
 		969CD07D1B7E7DEC00254F45 /* SCLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0761B7E7DEC00254F45 /* SCLButton.m */; };
 		969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */; };
 		96A93B481CB58DF40090D83C /* TransparentDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A93B471CB58DF40090D83C /* TransparentDebugViewController.m */; };
+		D7C747D21CBDB56A00EA4319 /* bluetooth_services.list in Resources */ = {isa = PBXBuildFile; fileRef = D7C747D11CBDB56A00EA4319 /* bluetooth_services.list */; };
 		D7E816C91CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E816C61CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m */; };
 		D7E816CA1CB8750D0044A23C /* Sentegrity_Network_Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E816C81CB8750D0044A23C /* Sentegrity_Network_Manager.m */; };
 		D7FC9BD01CBA672D000A2B75 /* Sentegrity_JSONResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FC9BCF1CBA672D000A2B75 /* Sentegrity_JSONResponseSerializer.m */; };
@@ -367,6 +368,7 @@
 		96A93B461CB58DF40090D83C /* TransparentDebugViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentDebugViewController.h; sourceTree = "<group>"; };
 		96A93B471CB58DF40090D83C /* TransparentDebugViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentDebugViewController.m; sourceTree = "<group>"; };
 		A861559935991A5C1535CE5A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		D7C747D11CBDB56A00EA4319 /* bluetooth_services.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bluetooth_services.list; sourceTree = "<group>"; };
 		D7E816C51CB8750D0044A23C /* Sentegrity_HTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_HTTPSessionManager.h; sourceTree = "<group>"; };
 		D7E816C61CB8750D0044A23C /* Sentegrity_HTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_HTTPSessionManager.m; sourceTree = "<group>"; };
 		D7E816C71CB8750D0044A23C /* Sentegrity_Network_Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Network_Manager.h; sourceTree = "<group>"; };
@@ -808,6 +810,7 @@
 		4C2D0DFB1CAF4192003BD75E /* Sample Policies */ = {
 			isa = PBXGroup;
 			children = (
+				D7C747D11CBDB56A00EA4319 /* bluetooth_services.list */,
 				4C2D0DFC1CAF4192003BD75E /* default_ssids.list */,
 				4C2D0DFD1CAF4192003BD75E /* hotspot_ssids.list */,
 				4C2D0DFE1CAF4192003BD75E /* Old */,
@@ -1146,6 +1149,7 @@
 				4C2D0E591CAF4192003BD75E /* hotspot_ssids.list in Resources */,
 				04E403241B307A1500A1705E /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				04E403251B307A1500A1705E /* OpenSans-Italic.ttf in Resources */,
+				D7C747D21CBDB56A00EA4319 /* bluetooth_services.list in Resources */,
 				04E403261B307A1500A1705E /* OpenSans-Light.ttf in Resources */,
 				04E403271B307A1500A1705E /* OpenSans-LightItalic.ttf in Resources */,
 				4C2D0E5A1CAF4192003BD75E /* Default_Policy.plist in Resources */,

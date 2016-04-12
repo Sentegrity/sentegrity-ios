@@ -550,6 +550,8 @@
     
     // Log the TrustFactor Execution Time
     NSLog(@"Bluetooth Activity Dispatcher - Execution Time = %f seconds", executionTime);
+    
+
 }
 
 // ** BLUETOOTH CLASSIC **
@@ -562,20 +564,39 @@ static BOOL bluetoothObservingStarted;
     if (bluetoothObservingStarted) {
         // Called startBluetoothClassic for the first time, lets start our BluetoothManager
         NSArray *array = [[MDBluetoothManager sharedInstance] connectedDevices];
-        NSMutableArray *arrayM = [NSMutableArray array];
+        connectedClassicBTDevices = [NSMutableArray array];
         
         // Add devices to array
         for (MDBluetoothDevice *device in array) {
-            [arrayM addObject:[NSString stringWithFormat:@"%@", device.address]];
+            [connectedClassicBTDevices addObject:[NSString stringWithFormat:@"%@", device.address]];
         }
         
         // Set which classic bluetooth devices are set.
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:[NSArray arrayWithArray:arrayM]];
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:[NSArray arrayWithArray:connectedClassicBTDevices]];
         
     } else {
         [[MDBluetoothManager sharedInstance] registerObserver:self];
     }
 }
+
+
+
+// ** BLUETOOTH 4.0 CONNECTED DEVICES **
+
+- (void) retrieveListOfConnectedBLEdevices {
+    
+    connectedBLEDevices = [NSMutableArray array];
+    
+    NSArray<CBPeripheral *> *arrayOfPheripherals = [mgr retrieveConnectedPeripheralsWithServices:[self servicesArray]];
+    
+    for (CBPeripheral *peripheral in arrayOfPheripherals) {
+        [connectedBLEDevices addObject:[NSString stringWithFormat:@"%@", peripheral.identifier.UUIDString]];
+    }
+    
+    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLEDevices:[NSArray arrayWithArray:connectedBLEDevices]];
+}
+
+
 
 // ** BLUETOOTH 4.0 DISCOVERED DEVICES **
 
@@ -583,6 +604,7 @@ static BOOL bluetoothObservingStarted;
     
     // Add the device dictionary to the list
     [discoveredBLEDevices addObject:[NSString stringWithFormat:@"%@", peripheral.identifier.UUIDString]];
+    
     
     // Update the datasets
     [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLEDevices:discoveredBLEDevices];
@@ -598,6 +620,7 @@ static BOOL bluetoothObservingStarted;
         [mgr stopScan];
     }
 }
+
 
 // ** BLUETOOTH 4.0 STATE UPDATE **
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
@@ -628,7 +651,8 @@ static BOOL bluetoothObservingStarted;
         {
             
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_unsupported];
-            
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLESDNEStatus:DNEStatus_unsupported];
+
             // We also set classic here since it uses private API this is more reliable
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_unsupported];
             
@@ -642,6 +666,7 @@ static BOOL bluetoothObservingStarted;
             
             // Update the dataset to unauthorized
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_unauthorized];
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLESDNEStatus:DNEStatus_unauthorized];
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_unauthorized];
             
             break;
@@ -654,6 +679,7 @@ static BOOL bluetoothObservingStarted;
             
             // Update the dataset to disabled
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setDiscoveredBLESDNEStatus:DNEStatus_disabled];
+            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedBLESDNEStatus:DNEStatus_disabled];
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicDNEStatus:DNEStatus_disabled];
             break;
         }
@@ -668,10 +694,13 @@ static BOOL bluetoothObservingStarted;
             startTime = CFAbsoluteTimeGetCurrent();
             
             // Start scanning for any peripheral bluetooth devices
-            [mgr scanForPeripheralsWithServices:nil options:nil];
+            [mgr scanForPeripheralsWithServices:[self servicesArray] options:nil];
             
             // Also start classic BT
             [self startBluetoothClassic];
+            
+            //Also get list of connected BLE devices
+            [self retrieveListOfConnectedBLEdevices];
             
             // Done
             break;
@@ -687,5 +716,36 @@ static BOOL bluetoothObservingStarted;
     [[MDBluetoothManager sharedInstance] unregisterObserver:self];
     [self startBluetoothClassic];
 }
+
+#pragma mark - helpers
+
+- (NSArray <CBUUID *> *) servicesArray {
+    NSArray *arrayOfStrings;
+    
+    // Look for our bluetooth services list
+    NSString* ouiListPath = [[NSBundle mainBundle] pathForResource:@"bluetooth_services" ofType:@"list"];
+    
+    NSString* fileContents =
+    [NSString stringWithContentsOfFile:ouiListPath
+                              encoding:NSUTF8StringEncoding error:nil];
+    
+    arrayOfStrings = [fileContents componentsSeparatedByCharactersInSet: [NSCharacterSet newlineCharacterSet]];
+
+    NSMutableArray *servicesArray = [NSMutableArray array];
+    
+    for (NSString *string in arrayOfStrings) {
+        NSRange range = [string rangeOfString:@" --"];
+        NSString *substring = [string substringToIndex:range.location];
+        
+        //create CBUUID for each service
+        CBUUID *service = [CBUUID UUIDWithString:substring];
+        [servicesArray addObject:service];
+    }
+    
+    return [NSArray arrayWithArray:servicesArray];
+}
+
+
+
 
 @end

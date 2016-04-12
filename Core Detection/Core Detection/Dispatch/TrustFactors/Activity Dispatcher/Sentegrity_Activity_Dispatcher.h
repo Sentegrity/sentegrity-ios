@@ -33,11 +33,12 @@
     
     // Bluetooth Manager
     CBCentralManager *mgr;
-    NSMutableArray *discoveredBLEDevices;
     CFAbsoluteTime startTime;
     
     // Bluetooth Devices
-    NSMutableArray *connectedBTDevices;
+    NSMutableArray *discoveredBLEDevices;
+    NSMutableArray *connectedBLEDevices;
+    NSMutableArray *connectedClassicBTDevices;
     
     // complete motion object (because we need lot of data from inside)
     NSMutableArray *motionArray;
