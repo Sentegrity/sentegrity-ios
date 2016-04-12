@@ -381,35 +381,54 @@
          
          // THIS ORDER OF COMBINING ARRAYS IS IMPORTANT
          
-         // If bluetooth authenticator is present use it (first priority)
-         [transparentAuthHighEntropyObjects addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
-         
-         // If wifi authenticator is present use it (second priority)
-         [transparentAuthHighEntropyObjects addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
-         
-         // If location authenticator is present use it (third priority)
-         [transparentAuthHighEntropyObjects addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
-         
-         // If motion authenticator is present use it (fourth priority)
-         [transparentAuthHighEntropyObjects addObjectsFromArray:gripAuthenticationTrustFactorOutputObjects];
-    
-         
-         // Sanity check
-         if (transparentAuthObjectsToKeep.count < policy.minimumTransparentAuthEntropy.integerValue){
-             return NO;
-         }
-         else{
-             // Only use the first X (minimumTransparentAuthEntropy) trustfactors (best ones) from the high entropy array
+         // IF we have a bluetooth authenticator we dont need anything else
+         if(bluetoothAuthenticator==YES){
              
-             NSArray *transparentAuthHighEntropyObjectsTrimmed = [transparentAuthHighEntropyObjects subarrayWithRange:NSMakeRange(0, policy.minimumTransparentAuthEntropy.integerValue)];
              
-             // Add to rest of non high entropy, yet eligible, transparent auth objects back together
-             [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthHighEntropyObjectsTrimmed];
+             // If bluetooth authenticator is present use it (first priority)
+             [transparentAuthObjectsToKeep addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
              
              // Set back the computation results array
              computationResults.transparentAuthenticationTrustFactorOutputObjects = transparentAuthObjectsToKeep;
              return YES;
+             
          }
+         else{
+            
+             // No bluetooth, walk the priority
+
+             
+             // If wifi authenticator is present use it (second priority)
+             [transparentAuthHighEntropyObjects addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
+             
+             // If location authenticator is present use it (third priority)
+             [transparentAuthHighEntropyObjects addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
+             
+             // If motion authenticator is present use it (fourth priority)
+             [transparentAuthHighEntropyObjects addObjectsFromArray:gripAuthenticationTrustFactorOutputObjects];
+             
+             
+             // Sanity check
+             if (transparentAuthObjectsToKeep.count < policy.minimumTransparentAuthEntropy.integerValue){
+                 return NO;
+             }
+             else{
+                 // Only use the first X (minimumTransparentAuthEntropy) trustfactors (best ones) from the high entropy array
+                 
+                 NSArray *transparentAuthHighEntropyObjectsTrimmed = [transparentAuthHighEntropyObjects subarrayWithRange:NSMakeRange(0, policy.minimumTransparentAuthEntropy.integerValue)];
+                 
+                 // Add to rest of non high entropy, yet eligible, transparent auth objects back together
+                 [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthHighEntropyObjectsTrimmed];
+                 
+                 // Set back the computation results array
+                 computationResults.transparentAuthenticationTrustFactorOutputObjects = transparentAuthObjectsToKeep;
+                 return YES;
+             }
+
+             
+             
+         }
+         
     
 
      }
