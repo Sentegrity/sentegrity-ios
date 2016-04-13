@@ -28,11 +28,11 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>test</string>
+	<string>Sentegrity does not always require your location. You can safely set location services to "While Using the App"</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Gimme location</string>
+	<string>Sentegrity uses your rough location to boost your TrustScore and reduce password frequency, location data is removed from the device.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Sentegrity uses location data to boost your Trust Score, no data is removed from the device.</string>
+	<string>Sentegrity uses your rough location to boost your TrustScore and reduce password frequency, location data is removed from the device.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DINPro-Bold.otf</string>

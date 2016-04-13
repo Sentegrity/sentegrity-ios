@@ -331,6 +331,10 @@
     BOOL gripAuthenticator=NO;
     NSMutableArray *gripAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
     
+    // time subclass, in the future there may be multiple so we use an array
+    BOOL timeAuthenticator=NO;
+    NSMutableArray *timeAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
+    
     // Run through all eligible trustfactors to ensure entropy against policy minimum and identify what type of high entropy ones exist for prioritization during candidate key creation. We don't want more than we need because it will cause the transparent key to change often resulting in more password prompts. Only want to keep the best, strongest, most frequent TFs available to reach the minimum entropy requirement
     
     for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.transparentAuthenticationTrustFactorOutputObjects) {
@@ -359,6 +363,11 @@
                     [bluetoothAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
                     highEntropyCount++;
                     break;
+                case 5: //Time
+                    timeAuthenticator=YES;
+                    [timeAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
+                    highEntropyCount++;
+                    break;
                 default:
                     // Keep all the rest
                     [transparentAuthObjectsToKeep addObject:trustFactorOutputObject];
@@ -368,20 +377,13 @@
 
         
     }
-    
-    // Check if we obviously don't meet the policy entropy requirement
-     if (highEntropyCount < policy.minimumTransparentAuthEntropy.integerValue){
-         
-         // Don't perform transparent auth
-         return NO;
-     }
-     else{ // We do meet it
+
          
          // Combine all of our authenticator arrays in order of priority (based on what has most enropy and consistent)
          
          // THIS ORDER OF COMBINING ARRAYS IS IMPORTANT
          
-         // IF we have a bluetooth authenticator we dont need anything else
+         // IF we have a bluetooth authenticator we dont need anything else, override minimum entropy requirement
          if(bluetoothAuthenticator==YES){
              
              
@@ -393,19 +395,30 @@
              return YES;
              
          }
+         else if(wifiAuthenticator==YES){
+             
+             
+             // If wifi authenticator is present use it (2nd priority)
+             [transparentAuthObjectsToKeep addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
+             
+             // Set back the computation results array
+             computationResults.transparentAuthenticationTrustFactorOutputObjects = transparentAuthObjectsToKeep;
+             return YES;
+             
+         }
          else{
             
-             // No bluetooth, walk the priority
-
-             
-             // If wifi authenticator is present use it (second priority)
-             [transparentAuthHighEntropyObjects addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
+             // No bluetooth or wifi, walk the priority - we don't know exactly what the entropy total is here so we go by count
              
              // If location authenticator is present use it (third priority)
              [transparentAuthHighEntropyObjects addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
              
              // If motion authenticator is present use it (fourth priority)
              [transparentAuthHighEntropyObjects addObjectsFromArray:gripAuthenticationTrustFactorOutputObjects];
+             
+             // If time authenticator is present use it (fourth priority)
+             [transparentAuthHighEntropyObjects addObjectsFromArray:timeAuthenticationTrustFactorOutputObjects];
+             
              
              
              // Sanity check
@@ -429,9 +442,7 @@
              
          }
          
-    
 
-     }
     
 
 }

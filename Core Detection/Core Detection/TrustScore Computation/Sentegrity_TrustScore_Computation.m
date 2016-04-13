@@ -312,7 +312,7 @@
                                         
                                         if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
                                             
-                                            if(partialWeight >= (trustFactorOutputObject.trustFactor.weight.integerValue * 0.3)){
+                                            if(partialWeight >= (trustFactorOutputObject.trustFactor.weight.integerValue * 0.25)){
                                                 
                                                 // Avoids making transparent keys from values that may be sledom hit again
                                                 // Add TF to transparent auth list

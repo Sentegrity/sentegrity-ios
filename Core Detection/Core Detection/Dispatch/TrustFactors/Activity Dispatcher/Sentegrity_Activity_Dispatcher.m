@@ -613,7 +613,7 @@ static BOOL bluetoothObservingStarted;
     CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
     
     // Stop scanning after 2 seconds (this has no bearing on CD execution time)
-    if ((currentTime-startTime) > 2.0){
+    if ((currentTime-startTime) > 1.0){
         
         // Scanning stopped
         NSLog(@"Bluetooth scanning stopped");
@@ -694,7 +694,11 @@ static BOOL bluetoothObservingStarted;
             startTime = CFAbsoluteTimeGetCurrent();
             
             // Start scanning for any peripheral bluetooth devices
-            [mgr scanForPeripheralsWithServices:[self servicesArray] options:nil];
+            
+            // For whatever reason, using a services list here does not work well
+            //[mgr scanForPeripheralsWithServices:[self servicesArray] options:nil];
+            
+            [mgr scanForPeripheralsWithServices:nil options:nil];
             
             // Also start classic BT
             [self startBluetoothClassic];

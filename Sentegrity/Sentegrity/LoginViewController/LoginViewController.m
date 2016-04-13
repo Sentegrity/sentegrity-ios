@@ -65,9 +65,7 @@ static MBProgressHUD *HUD;
     
     // Wipe out all previous datasets (in the event this is not the first run)
     [Sentegrity_TrustFactor_Datasets selfDestruct];
-    
-    // Start Motion
-    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startMotion];
+
     
     // Start Netstat
     [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startNetstat];
@@ -90,6 +88,9 @@ static MBProgressHUD *HUD;
             [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemarkDNEStatus:DNEStatus_unauthorized];
         }
         
+        // Start Motion (must be after location since it uses the locationDNE to decide which magnetometer to use)
+        [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startMotion];
+        
         if([permissionActivity permissionState] != ISHPermissionStateAuthorized) {
             
             // The app isn't authorized to use motion activity support.
@@ -102,6 +103,8 @@ static MBProgressHUD *HUD;
         
         // Create the view controller
         ISHPermissionsViewController *vc = [ISHPermissionsViewController  permissionsViewControllerWithCategories:permissions dataSource:self];
+        
+        
         
         // Check the permission view controller is valid
         if (vc) {
@@ -145,6 +148,9 @@ static MBProgressHUD *HUD;
         
         // Start the activity activity
         [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startActivity];
+        
+        // Start Motion (must be after locaation since it uses the locationDNE to decide which magnetometer to use)
+        [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startMotion];
         
     }
     

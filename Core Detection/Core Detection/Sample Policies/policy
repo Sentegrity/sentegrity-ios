@@ -1052,7 +1052,7 @@
 "classID": 5,
 "subClassID": 5,
 "name": "access time day",
-"transparentEligible": 0,
+"transparentEligible": 1,
 "partialWeight": 1,
 "weight": 10,
 "learnMode": 0,
