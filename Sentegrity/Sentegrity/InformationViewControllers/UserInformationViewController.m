@@ -105,17 +105,16 @@
         NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.userStatusLabel.font.fontName size:16.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
       
         // Check if there are any GUI authenticators in use
-        /* DEPRECATED
-        if (self.computationResults.userGUIAuthenticators.count > 0 && self.computationResults.userGUIAuthenticators != nil) {
+        if (self.computationResults.userDynamicTwoFactors.count > 0 && self.computationResults.userDynamicTwoFactors != nil) {
             
             // Set the issues section
-            NSAttributedString *authenticatorSection = [[NSAttributedString alloc] initWithString:@"Dynamic Two Factor\n" attributes:sectionStringDict];
+            NSAttributedString *dynamicTwoFactorsSection = [[NSAttributedString alloc] initWithString:@"Dynamic Two Factor\n" attributes:sectionStringDict];
             
             // Append the section
-            [userAttributedString appendAttributedString:authenticatorSection];
+            [userAttributedString appendAttributedString:dynamicTwoFactorsSection];
             
             // Run through all the user GUI authenticators
-            for (NSString *string in self.computationResults.userGUIAuthenticators) {
+            for (NSString *string in self.computationResults.userDynamicTwoFactors) {
                 
                 // Create the checkmark image in the string
                 NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
@@ -137,7 +136,7 @@
             // Append a newline
             [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         }
-        */
+        
 
         
         // Check if there are any GUI issues

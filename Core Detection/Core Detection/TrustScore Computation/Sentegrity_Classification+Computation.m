@@ -31,7 +31,7 @@ NSString const *trustFactorsWithErrorsKey = @"Sentegrity.trustFactorsWithErrors"
 NSString const *issuesKey = @"Sentegrity.issues";
 NSString const *suggestionsKey = @"Sentegrity.suggestions";
 NSString const *statusKey = @"Sentegrity.status";
-NSString const *authenticatorsKey = @"Sentegrity.authenticators";
+NSString const *dynamicTwoFactorsKey = @"Sentegrity.dynamicTwoFactors";
 
 
 // Classification score
@@ -141,12 +141,12 @@ NSString const *authenticatorsKey = @"Sentegrity.authenticators";
 }
 
 // Authenticators
-- (void)setAuthenticators:(NSArray *)authenticators{
-    objc_setAssociatedObject(self, &authenticatorsKey, authenticators, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setDynamicTwoFactors:(NSArray *)dynamicTwoFactors{
+    objc_setAssociatedObject(self, &dynamicTwoFactorsKey, dynamicTwoFactors, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSArray *)authenticators {
-    return objc_getAssociatedObject(self, &authenticatorsKey);
+- (NSArray *)dynamicTwoFactors {
+    return objc_getAssociatedObject(self, &dynamicTwoFactorsKey);
 }
 
 @end

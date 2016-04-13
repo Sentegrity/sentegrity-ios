@@ -182,6 +182,7 @@
     NSMutableArray *statusInClass;
     NSMutableArray *issuesInClass;
     NSMutableArray *suggestionsInClass;
+    NSMutableArray *dynamicTwoFactorsInClass; // for user classes only
     
     // Determining errors
     NSMutableArray *subClassDNECodes;
@@ -207,6 +208,7 @@
         statusInClass = [NSMutableArray array];
         issuesInClass = [NSMutableArray array];
         suggestionsInClass = [NSMutableArray array];
+        dynamicTwoFactorsInClass = [NSMutableArray array];
         
         // Run through all the subclassifications that are in the policy
         for (Sentegrity_Subclassification *subClass in policy.subclassifications) {
@@ -311,9 +313,40 @@
                                         if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
                                             
                                             if(partialWeight >= (trustFactorOutputObject.trustFactor.weight.integerValue * 0.3)){
+                                                
                                                 // Avoids making transparent keys from values that may be sledom hit again
                                                 // Add TF to transparent auth list
                                                 [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
+                                                
+                                                // If this is a bluetooth or wifi add it to dynamic two factor GUI list
+                                                // 2 = WiFi, 8=Bluetooth
+                                                if(trustFactorOutputObject.trustFactor.subClassID.integerValue == 2 || trustFactorOutputObject.trustFactor.subClassID.integerValue == 8){
+                                                    
+                                                    // Use the dispatch name to avoid subclass lookup
+                                                    NSString *name = [trustFactorOutputObject.trustFactor.dispatch stringByAppendingString:@" authentication"];
+                                                    
+                                                    // Check if the we already have the dynamicTwoFactor in our list
+                                                    
+                                                    if (![dynamicTwoFactorsInClass containsObject:name]) {
+                                                        
+                                                        // Make sure the array is not nil!
+                                                        if (!dynamicTwoFactorsInClass || dynamicTwoFactorsInClass.count < 1) {
+                                                            
+                                                            // Add it to the array and instantiate the array
+                                                            dynamicTwoFactorsInClass = [NSMutableArray arrayWithObject:name];
+                                                            
+                                                        } else {
+                                                            
+                                                            // Add it to the array
+                                                            [dynamicTwoFactorsInClass addObject:name];
+                                                        }
+                                                        
+                                                    }
+                                                    
+                                                } // End if WiFi or Bluetooth dynamicTwoFactor
+
+                                                   
+                                                   
                                             }
                                         }
   
@@ -330,6 +363,33 @@
                                         // Add TF to transparent auth list
                                         if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
                                             [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
+                                            
+                                            // If this is a bluetooth or wifi add it to dynamic two factor GUI list
+                                            // 2 = WiFi, 8=Bluetooth
+                                            if(trustFactorOutputObject.trustFactor.subClassID.integerValue == 2 || trustFactorOutputObject.trustFactor.subClassID.integerValue == 8){
+                                                
+                                                // Use the dispatch name to avoid subclass lookup
+                                                NSString *name = [trustFactorOutputObject.trustFactor.dispatch stringByAppendingString:@" authentication"];
+                                                
+                                                // Check if the we already have the dynamicTwoFactor in our list
+                                                
+                                                if (![dynamicTwoFactorsInClass containsObject:name]) {
+                                                    
+                                                    // Make sure the array is not nil!
+                                                    if (!dynamicTwoFactorsInClass || dynamicTwoFactorsInClass.count < 1) {
+                                                        
+                                                        // Add it to the array and instantiate the array
+                                                        dynamicTwoFactorsInClass = [NSMutableArray arrayWithObject:name];
+                                                        
+                                                    } else {
+                                                        
+                                                        // Add it to the array
+                                                        [dynamicTwoFactorsInClass addObject:name];
+                                                    }
+                                                    
+                                                }
+                                                
+                                            } // End if WiFi or Bluetooth dynamicTwoFactor
                                             
                                         }
                                         
@@ -563,6 +623,7 @@
         [class setStatus: statusInClass];
         [class setIssues: issuesInClass];
         [class setSuggestions: suggestionsInClass];
+        [class setDynamicTwoFactors:dynamicTwoFactorsInClass];
         
         // Set debug elements
         [class setTrustFactorsNotLearned:trustFactorsNotLearnedInClass];
@@ -588,6 +649,7 @@
     NSMutableSet *userIssues = [[NSMutableSet alloc] init];
     NSMutableSet *userSuggestions = [[NSMutableSet alloc] init];
     NSMutableSet *userSubClassStatuses = [[NSMutableSet alloc] init];
+    NSMutableSet *userDynamicTwoFactors = [[NSMutableSet alloc] init];
     
     // TrustFactor Sorting - System
     NSMutableArray *systemTrustFactorsAttributingToScore = [[NSMutableArray alloc] init];
@@ -719,6 +781,7 @@
             [userIssues addObjectsFromArray:[class issues]];
             [userSuggestions addObjectsFromArray:[class suggestions]];
             [userSubClassStatuses addObjectsFromArray:[class status]];
+            [userDynamicTwoFactors addObjectsFromArray:[class dynamicTwoFactors]];
             
             // Tally user debug data
             [userTrustFactorsAttributingToScore addObjectsFromArray:[class trustFactorsTriggered]];
@@ -743,6 +806,7 @@
     computationResults.userIssues = [userIssues allObjects];
     computationResults.userSuggestions = [userSuggestions allObjects];
     computationResults.userAnalysisResults = [userSubClassStatuses allObjects];
+    computationResults.userDynamicTwoFactors = [userDynamicTwoFactors allObjects];
     
     // Set transparent authentication list
     computationResults.transparentAuthenticationTrustFactorOutputObjects = allTrustFactorsForTransparentAuthentication;

@@ -114,6 +114,8 @@
 // User detailed view: Analysis Messages
 @property (nonatomic) NSArray *userAnalysisResults;
 
+// User detailed view: Dynamic Two Factors
+@property (nonatomic) NSArray *userDynamicTwoFactors;
 
 
 #pragma mark - Composite Device Score
