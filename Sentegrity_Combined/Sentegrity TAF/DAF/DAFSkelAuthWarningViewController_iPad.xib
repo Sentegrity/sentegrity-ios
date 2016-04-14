@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6751" systemVersion="14D136" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DAFSkelAuthWarningViewController">
+            <connections>
+                <outlet property="cancelButton" destination="LT0-KV-8Kw" id="TO1-9k-RVC"/>
+                <outlet property="goodLogo" destination="vgo-0M-Ei9" id="77O-qm-hEe"/>
+                <outlet property="okButton" destination="UuA-nO-ohN" id="63M-Ch-CoA"/>
+                <outlet property="optionsLabel" destination="upO-2t-R7M" id="nsk-iR-tCr"/>
+                <outlet property="view" destination="F9W-8n-aVb" id="GrO-VE-ehO"/>
+                <outlet property="warningIcon" destination="2f1-ly-2SN" id="ing-yQ-UCc"/>
+                <outlet property="warningMessage" destination="O21-Vd-san" id="HrB-sv-3DZ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="F9W-8n-aVb">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LT0-KV-8Kw">
+                    <rect key="frame" x="320" y="322" width="128" height="27"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <state key="normal" title="Cancel [Action]">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onCancel:" destination="-1" eventType="touchUpInside" id="J2U-9H-uKM"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="568" placeholderIntrinsicHeight="15" text="Press on one of your unlock options for [App Name] to continue" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="upO-2t-R7M">
+                    <rect key="frame" x="8" y="224" width="752" height="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" verticalHuggingPriority="1000" placeholderIntrinsicWidth="568" placeholderIntrinsicHeight="152" restorationIdentifier="RequestingAppHolderView" translatesAutoresizingMaskIntoConstraints="NO" id="PCB-HE-nlb">
+                    <rect key="frame" x="8" y="28" width="568" height="152"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" placeholderIntrinsicWidth="563" placeholderIntrinsicHeight="69" translatesAutoresizingMaskIntoConstraints="NO" id="cwQ-iy-ghe" userLabel="RequestingAppContainer">
+                            <rect key="frame" x="5" y="83" width="563" height="69"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" placeholderIntrinsicWidth="505" placeholderIntrinsicHeight="50" text="[App_Name] is requesting set up." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="O21-Vd-san">
+                                    <rect key="frame" x="58" y="10" width="505" height="50"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="2f1-ly-2SN" userLabel="RequestingAppImageView">
+                                    <rect key="frame" x="0.0" y="10" width="50" height="50"/>
+                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="2f1-ly-2SN" secondAttribute="height" multiplier="1:1" id="2t9-KN-dGE"/>
+                                        <constraint firstAttribute="height" constant="50" id="cIN-Hg-VVf"/>
+                                        <constraint firstAttribute="width" constant="50" id="gFG-r9-QPh"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="centerY" secondItem="2f1-ly-2SN" secondAttribute="centerY" id="AhJ-rN-zKf"/>
+                                <constraint firstAttribute="trailing" secondItem="O21-Vd-san" secondAttribute="trailing" id="aGt-Zt-1ZQ"/>
+                                <constraint firstItem="O21-Vd-san" firstAttribute="leading" secondItem="2f1-ly-2SN" secondAttribute="trailing" constant="8" id="jFs-qT-gSj"/>
+                                <constraint firstAttribute="centerY" secondItem="O21-Vd-san" secondAttribute="centerY" id="tqd-Nq-RxY"/>
+                                <constraint firstAttribute="leading" secondItem="2f1-ly-2SN" secondAttribute="leading" id="y5m-xT-iRN"/>
+                            </constraints>
+                        </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" placeholderIntrinsicWidth="40" placeholderIntrinsicHeight="25" translatesAutoresizingMaskIntoConstraints="NO" id="vgo-0M-Ei9" userLabel="GoodLogoImageView">
+                            <rect key="frame" x="5" y="8" width="40" height="25"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="cwQ-iy-ghe" firstAttribute="leading" secondItem="PCB-HE-nlb" secondAttribute="leading" constant="5" id="0gt-H6-0Fv"/>
+                        <constraint firstItem="vgo-0M-Ei9" firstAttribute="leading" secondItem="cwQ-iy-ghe" secondAttribute="leading" id="29c-TI-Ouf"/>
+                        <constraint firstItem="cwQ-iy-ghe" firstAttribute="top" secondItem="vgo-0M-Ei9" secondAttribute="bottom" constant="50" id="3Yb-Gc-UVm"/>
+                        <constraint firstItem="vgo-0M-Ei9" firstAttribute="top" secondItem="PCB-HE-nlb" secondAttribute="top" constant="8" id="Ijf-3L-OTk"/>
+                        <constraint firstItem="vgo-0M-Ei9" firstAttribute="leading" secondItem="PCB-HE-nlb" secondAttribute="leading" constant="5" id="iGr-6y-2RA"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UuA-nO-ohN">
+                    <rect key="frame" x="314" y="267" width="140" height="27"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <state key="normal" title="Continue [Action]">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onContinueEasyActivation:" destination="-1" eventType="touchUpInside" id="JxT-rt-xUd"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="upO-2t-R7M" firstAttribute="top" secondItem="cwQ-iy-ghe" secondAttribute="bottom" constant="44" id="FdQ-kh-lXD"/>
+                <constraint firstItem="PCB-HE-nlb" firstAttribute="leading" secondItem="F9W-8n-aVb" secondAttribute="leadingMargin" id="OzS-GO-UFk"/>
+                <constraint firstAttribute="centerX" secondItem="UuA-nO-ohN" secondAttribute="centerX" id="PjI-HT-wjS"/>
+                <constraint firstItem="PCB-HE-nlb" firstAttribute="top" secondItem="F9W-8n-aVb" secondAttribute="top" constant="28" id="S44-84-3Q7"/>
+                <constraint firstItem="UuA-nO-ohN" firstAttribute="top" secondItem="upO-2t-R7M" secondAttribute="bottom" constant="28" id="STc-v4-xSP"/>
+                <constraint firstAttribute="centerX" secondItem="LT0-KV-8Kw" secondAttribute="centerX" id="Uc5-qy-YLg"/>
+                <constraint firstItem="LT0-KV-8Kw" firstAttribute="top" secondItem="UuA-nO-ohN" secondAttribute="bottom" constant="28" id="Wn5-1T-EuX"/>
+                <constraint firstItem="upO-2t-R7M" firstAttribute="leading" secondItem="F9W-8n-aVb" secondAttribute="leadingMargin" id="eg0-gT-v4o"/>
+                <constraint firstItem="upO-2t-R7M" firstAttribute="trailing" secondItem="F9W-8n-aVb" secondAttribute="trailingMargin" id="ipM-FQ-aJw"/>
+            </constraints>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>

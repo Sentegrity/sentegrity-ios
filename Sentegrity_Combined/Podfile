@@ -1,0 +1,96 @@
+# Platform
+platform :ios, '7.0'
+
+# Workspace
+workspace 'Sentegrity'
+
+# Sentegrity
+target :Sentegrity do
+    
+    # Sentegrity Project
+    xcodeproj 'Sentegrity'
+    
+    # GUI
+    pod 'CircleProgressBar', '~> 0.21'
+    pod 'MBProgressHUD', '~> 0.9.1'
+    pod 'JTHamburgerButton', '~> 1.0'
+    pod 'ChameleonFramework', '~> 1.2'
+    pod 'RESideMenu', '~> 4.0'
+    pod 'Facade', '~> 0.2'
+    #pod 'SCLAlertView-Objective-C', '~> 0.7.4'
+    pod 'IIDelayedAction', '~> 1.0'
+    pod 'DateTools', '~> 1.6'
+    
+    # Permissions Kit
+    pod 'ISHPermissionKit', '~> 0.8'
+    
+    # Core Detection
+    pod 'DCKeyValueObjectMapping', '~> 1.4'
+    pod 'NSObject-ObjectMap', '~> 2.0'
+    pod 'NSString-Hashes', '~> 1.2'
+    
+    # Bluetooth
+    pod "LGBluetooth", "~> 1.1.5"
+    # Transparent Auth
+    pod "MIHCrypto", "~> 0.4.1"
+    
+    # Networking
+    pod 'AFNetworking', '~> 3.0'
+
+end
+
+# Sentegrity
+target 'Sentegrity TAF' do
+    
+    # Sentegrity Project
+    xcodeproj 'Sentegrity'
+    
+    # GUI
+    pod 'CircleProgressBar', '~> 0.21'
+    pod 'MBProgressHUD', '~> 0.9.1'
+    pod 'JTHamburgerButton', '~> 1.0'
+    pod 'ChameleonFramework', '~> 1.2'
+    pod 'RESideMenu', '~> 4.0'
+    pod 'Facade', '~> 0.2'
+    #pod 'SCLAlertView-Objective-C', '~> 0.7.4'
+    pod 'IIDelayedAction', '~> 1.0'
+    pod 'DateTools', '~> 1.6'
+    
+    # Permissions Kit
+    pod 'ISHPermissionKit', '~> 0.8'
+    
+    # Core Detection
+    pod 'DCKeyValueObjectMapping', '~> 1.4'
+    pod 'NSObject-ObjectMap', '~> 2.0'
+    pod 'NSString-Hashes', '~> 1.2'
+    
+    # Bluetooth
+    pod "LGBluetooth", "~> 1.1.5"
+    # Transparent Auth
+    pod "MIHCrypto", "~> 0.4.1"
+    
+    # Networking
+    pod 'AFNetworking', '~> 3.0'
+    
+end
+
+# Core Detection
+target "Core Detection" do
+    
+    # Core Detection Project
+    xcodeproj 'Core Detection'
+    
+    # Core Detection
+    pod 'DCKeyValueObjectMapping', '~> 1.4'
+    pod 'NSObject-ObjectMap', '~> 2.0'
+    pod 'NSString-Hashes', '~> 1.2'
+    
+    # Bluetooth
+    pod "LGBluetooth", "~> 1.1.5"
+    # Transparent Auth
+    pod "MIHCrypto", "~> 0.4.1"
+    
+    # Networking
+    pod 'AFNetworking', '~> 3.0'
+
+end
