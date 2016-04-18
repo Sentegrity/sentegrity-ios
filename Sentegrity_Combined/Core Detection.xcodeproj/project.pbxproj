@@ -1295,6 +1295,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4A420956F3DC29DFDCE275E /* Pods-Core Detection.release.xcconfig */;
 			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
@@ -1348,6 +1349,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 38CF88B0709C6E5FB3F60064 /* Pods-Core Detection.debug.xcconfig */;
 			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",

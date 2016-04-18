@@ -72,7 +72,7 @@
             [self setAssertionStoreWithError:error];
             
             // Check for errors
-            if (*error || *error != nil) {
+            if (error || error != nil) {
                 
                 // Encountered an error saving the file
                 return nil;
