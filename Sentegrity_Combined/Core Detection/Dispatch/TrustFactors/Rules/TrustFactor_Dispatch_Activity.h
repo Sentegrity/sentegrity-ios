@@ -19,5 +19,7 @@
 // Get the user's previous activities as in if they are moving, stationary, etc.
 + (Sentegrity_TrustFactor_Output_Object *)previous:(NSArray *)payload;
 
+// Get device state while Sentegrity running
++ (Sentegrity_TrustFactor_Output_Object *) state: (NSArray *) payload;
 
 @end

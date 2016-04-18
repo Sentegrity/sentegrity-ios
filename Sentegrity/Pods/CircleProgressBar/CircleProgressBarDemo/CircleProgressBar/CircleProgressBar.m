@@ -66,6 +66,10 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
     AttributedStringGenerationBlock _hintAttributedTextGenerationBlock;
 }
 
+- (BOOL)isAnimating {
+    return _animationTimer != nil;
+}
+
 - (void)setProgress:(CGFloat)progress animated:(BOOL)animated {
     [self setProgress:progress animated:animated duration:AnimationChangeTimeDuration];
 }
@@ -85,6 +89,17 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
         _progress = progress;
         [self setNeedsDisplay];
     }
+}
+
+- (void)stopAnimation {
+    if (!self.isAnimating) {
+        return;
+    }
+    
+    [_animationTimer invalidate];
+    _animationTimer = nil;
+    _progress = _endProgress;
+    [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -278,6 +293,7 @@ const CGFloat AnimationChangeTimeStep = 0.01f;
     _animationProgressStep = (_endProgress - _startProgress) * AnimationChangeTimeStep / duration;
     
     _animationTimer = [NSTimer scheduledTimerWithTimeInterval:AnimationChangeTimeStep target:self selector:@selector(updateProgressBarForAnimation) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:_animationTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)updateProgressBarForAnimation {

@@ -20,8 +20,5 @@ pod "LGBluetooth", "~> 1.1.5"
 # Permissions Kit
 pod 'ISHPermissionKit', '~> 0.8'
 
-# Transparent Auth
-pod "MIHCrypto", "~> 0.4.1"
-
 # Networking
 pod 'AFNetworking', '~> 3.0'

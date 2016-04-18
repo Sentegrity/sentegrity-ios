@@ -168,4 +168,69 @@
     return trustFactorOutputObject;
 }
 
+
+// get device state
++ (Sentegrity_TrustFactor_Output_Object *) state: (NSArray *) payload {
+    
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] init];
+    
+    // Get the status Bar
+    NSDictionary *statusBar = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getStatusBar];
+    
+    // Check the dic
+    if (!statusBar || statusBar == nil) {
+        
+        // Set the DNE status code to NODATA
+        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+    }
+    
+    
+    // This string gets built by combination of the states available
+    NSMutableString *anomalyString = [[NSMutableString alloc] init];
+    
+    if ([statusBar[@"isBackingUp"] intValue])
+        [anomalyString appendString:@"backingUp_"];
+    if ([statusBar[@"isOnCall"] intValue])
+        [anomalyString appendString:@"onCall_"];
+    if ([statusBar[@"isNavigating"] intValue])
+        [anomalyString appendString:@"navigating_"];
+    if ([statusBar[@"isUsingYourLocation"] intValue])
+        [anomalyString appendString:@"usingLocation_"];
+    if ([statusBar[@"doNotDisturb"] intValue])
+        [anomalyString appendString:@"doNotDisturb_"];
+    if ([statusBar[@"orientationLock"] intValue])
+        [anomalyString appendString:@"orientationLock_"];
+    if ([statusBar[@"isTethering"] intValue])
+        [anomalyString appendString:@"tethering_"];
+    
+    //TODO: There is already separate trustfactor for airPlaneMode
+    if (statusBar[@"isAirplaneMode"])
+        [anomalyString appendString:@"airplane_"];
+    
+    
+    
+    //if nothing
+    if ([anomalyString isEqualToString:@""]) {
+        [anomalyString appendString:@"none_"];
+    }
+    
+    [outputArray addObject:anomalyString];
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+}
+
 @end

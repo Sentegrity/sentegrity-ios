@@ -8,6 +8,3 @@ pod 'ISHPermissionKit', '~> 0.8'
 
 # Bluetooth
 pod "LGBluetooth", "~> 1.1.5"
-
-# Transparent Auth
-pod "MIHCrypto", "~> 0.4.1"

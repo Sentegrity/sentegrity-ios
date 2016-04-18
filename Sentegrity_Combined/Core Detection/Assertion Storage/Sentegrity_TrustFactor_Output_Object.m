@@ -7,6 +7,7 @@
 
 #import "Sentegrity_TrustFactor_Output_Object.h"
 #import "Sentegrity_Constants.h"
+#import "Sentegrity_Startup_Store.h"
 
 // Pod for hashing
 #import "NSString+Hashes.h"
@@ -15,11 +16,18 @@
 
 
 // Set assertion objects from output
-- (void)setAssertionObjectsFromOutput {
+- (void)setAssertionObjectsFromOutputWithError: (NSError **) error {
     
     // Temporary mutable array to hold Sentegrity_Stored_Assertion objects
     NSMutableArray *assertionObjects = [[NSMutableArray alloc]init];
     
+    //get startup file to
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:error];
+    if (*error != nil) {
+        //found error in reading startup file, stop it
+        return;
+    }
+
     // Create the assertions by iterating through trustfactor output
     for (NSString *trustFactorOutput in self.output) {
         
@@ -27,7 +35,7 @@
         Sentegrity_Stored_Assertion *new = [[Sentegrity_Stored_Assertion alloc]init];
         
         // Create the hash
-        NSString *hash = [[[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID, trustFactorOutput] sha1]stringByAppendingString:[NSString stringWithFormat:@"-%@",trustFactorOutput]];
+        NSString *hash = [[[NSString stringWithFormat:@"%@%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID, startup.deviceSaltString, trustFactorOutput] sha1]stringByAppendingString:[NSString stringWithFormat:@"-%@",trustFactorOutput]];
         
         // Get EPOCH
         NSDate *now = [NSDate date];

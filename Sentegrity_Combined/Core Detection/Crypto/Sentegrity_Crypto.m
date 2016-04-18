@@ -19,9 +19,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedCrypto = [[self alloc] init];
-        // TODO: Undo this
-        //sharedCrypto.MIHSecurehasher = [[MIHSecureHashAlgorithm alloc]init];
-        //sharedCrypto.MIHAES = [MIHAESKey alloc];
     });
     return sharedCrypto;
 }
@@ -589,8 +586,11 @@
     return [NSData dataWithBytes:salt length:32];
 }
 
+
+
 // Helper decrypt
 - (NSData *)decryptString:(NSString *)encryptedDataString withDerivedKeyData:(NSData *)keyData withSaltString:(NSString *)saltString withError:(NSError **)error {
+    
     
     // Encrypted data data error
     NSError *encryptedDataDataError;
@@ -645,71 +645,27 @@
         // Invalid salt data
         return nil;
     }
-    
-    // Init AES with key and salt
-    // TODO: Undo this
-    //self.MIHAES = [self.MIHAES initWithKey:keyData iv:saltData];
-    
-    // Encryption Error
-    NSError *decryptedDataError;
-    
-    // Perform decryption of master key blob
-    // TODO: Undo this
-    //NSData *decryptedData = [self.MIHAES decrypt:encryptedDataData error:&decryptedDataError];
-    NSData *decryptedData = nil;
-    
-    // Check if we received the error
-    // TODO: Check if decryptedData is nil first
-    if (decryptedDataError || decryptedDataError != nil) {
-        
-        // Check if the error pointer is valid
-        if (error != NULL) {
-            
-            // Set the error details
-            NSDictionary *errorDetails = @{
-                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting User Key Encrypted Master Key Blob String", nil),
-                                           NSLocalizedFailureReasonErrorKey:decryptedDataError.localizedFailureReason,
-                                           NSLocalizedRecoverySuggestionErrorKey:decryptedDataError.localizedRecoverySuggestion
-                                           };
-            
-            // Set the error
-            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetDecyptedData userInfo:errorDetails];
-        }
-        
-        // Invalid decrypted data
-        return nil;
-    }
-    
-    return decryptedData;
-    
-}
 
-- (NSString *)encryptData:(NSData *)plaintextData withDerivedKey:(NSData *)keyData withSaltData:(NSData *)saltData withError:(NSError **)error {
     
-    // Init AES with key and salt
-    // TODO: Undo this
-    //self.MIHAES = [self.MIHAES initWithKey:keyData iv:saltData];
+    NSMutableData *decryptedData = [NSMutableData dataWithLength:kCCKeySizeAES128+encryptedDataData.length];
+    size_t myOut;
     
-    // Encryption error
-    NSError *encryptionError;
+    CCCryptorStatus result = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
+                                     keyData.bytes, keyData.length, saltData.bytes,
+                                     encryptedDataData.bytes, encryptedDataData.length,
+                                     decryptedData.mutableBytes, decryptedData.length, &myOut);
     
-    // Perform encryption of master key blob
-    // TODO: Undo this
-    //NSData *encryptedData = [self.MIHAES encrypt:plaintextData error:&encryptionError];
-    NSData *encryptedData = nil;
     
-    // Check if we received an error
-    // TODO: Check if encrypted data is nil before checking error
-    if (encryptionError || encryptionError != nil) {
-        
+    if (result == kCCSuccess) {
+        decryptedData.length = myOut;
+    }
+    else {
         // Check if the error pointer is valid
         if (error != NULL) {
             
             // Set the error details
             NSDictionary *errorDetails = @{
-                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting Encryption Data", nil),
-                                           NSLocalizedFailureReasonErrorKey:encryptionError.localizedFailureReason,
-                                           NSLocalizedRecoverySuggestionErrorKey:encryptionError.localizedRecoverySuggestion
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting Decrypted Data", nil)
                                            };
             
             // Set the error
@@ -720,11 +676,48 @@
         return nil;
     }
     
+    return decryptedData;
+    
+}
+
+
+- (NSString *)encryptData:(NSData *)plaintextData withDerivedKey:(NSData *)keyData withSaltData:(NSData *)saltData withError:(NSError **)error {
+    
+    NSMutableData *cipherData = [NSMutableData dataWithLength:kCCKeySizeAES128+plaintextData.length];
+    size_t myOut;
+    
+    CCCryptorStatus result = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
+                                     keyData.bytes, keyData.length, saltData.bytes,
+                                     plaintextData.bytes, plaintextData.length,
+                                     cipherData.mutableBytes, cipherData.length, &myOut);
+    
+    
+    if (result == kCCSuccess) {
+        cipherData.length = myOut;
+    }
+    else {
+        // Check if the error pointer is valid
+        if (error != NULL) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting Encryption Data", nil)
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetUserKeyEncryptedMasterKeyBlobString userInfo:errorDetails];
+        }
+        
+        // Invalid encryption data
+        return nil;
+    }
+    
+  
     // Encryption Data String Error
     NSError *encryptedDataStringError;
     
     // Encryption Data String
-    NSString *encryptedDataString = [self convertDataToHexString:encryptedData withError:&encryptedDataStringError];
+    NSString *encryptedDataString = [self convertDataToHexString:cipherData withError:&encryptedDataStringError];
     
     // Check if we received the error
     if (encryptedDataStringError || encryptedDataStringError != nil) {
@@ -734,9 +727,7 @@
             
             // Set the error details
             NSDictionary *errorDetails = @{
-                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting Encrypted Data String", nil),
-                                           NSLocalizedFailureReasonErrorKey:encryptedDataStringError.localizedFailureReason,
-                                           NSLocalizedRecoverySuggestionErrorKey:encryptedDataStringError.localizedRecoverySuggestion
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting Encrypted Data String", nil)
                                            };
             
             // Set the error
@@ -751,10 +742,20 @@
 }
 
 - (NSString *)createSHA1HashOfData:(NSData *)inputData withError:(NSError **)error {
-    // TODO: Undo this
-    //NSString *output = [[self.MIHSecurehasher hashValueOfData:inputData] MIH_hexadecimalString];
-    //return output;
-    return nil;
+    
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
+    
+    CC_SHA1(inputData.bytes, (int)inputData.length, digest);
+    
+    NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++){
+        [output appendFormat:@"%02x", digest[i]];
+    }
+    
+    return output;
+    
+    
 }
 
 - (NSString *)createSHA1HashofString:(NSString *)inputString withError:(NSError **)error {
@@ -766,17 +767,38 @@
 }
 
 - (NSString *)convertDataToHexString:(NSData *)inputData withError:(NSError **)error {
-    // TODO: Undo this
-    //NSString *hexString = [inputData MIH_hexadecimalString];
-    //return hexString;
-    return nil;
+    
+    const unsigned char *dataBuffer = (const unsigned char *) [inputData bytes];
+    
+    if (!dataBuffer) {
+        return [NSString string];
+    }
+    
+    NSUInteger dataLength = [inputData length];
+    NSMutableString *hexString = [NSMutableString stringWithCapacity:(dataLength * 2)];
+    
+    for (int i = 0; i < dataLength; ++i) {
+        [hexString appendString:[NSString stringWithFormat:@"%02lx", (unsigned long) dataBuffer[i]]];
+    }
+    
+    return [NSString stringWithString:hexString];
+    
 }
 
 - (NSData *)convertHexStringToData:(NSString *)inputString withError:(NSError **)error {
-    // TODO: Undo this
-    //NSData *data = [inputString MIH_dataFromHexadecimal];
-    //return data;
-    return nil;
+    
+    NSMutableData *data = [NSMutableData data];
+    int idx;
+    for (idx = 0; idx + 2 <= inputString.length; idx += 2) {
+        NSRange range = NSMakeRange(idx, 2);
+        NSString *hexStr = [inputString substringWithRange:range];
+        NSScanner *scanner = [NSScanner scannerWithString:hexStr];
+        unsigned int intValue;
+        [scanner scanHexInt:&intValue];
+        [data appendBytes:&intValue length:1];
+    }
+    return data;
+    
 }
 
 - (NSData *)createPBKDF2KeyFromString:(NSString *)plaintextString withSaltData:(NSData *)saltData withRounds:(int)rounds withError:(NSError **)error {

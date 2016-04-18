@@ -50,7 +50,7 @@
 @property (nonatomic) double percentAppliedWeight;
 
 
-- (void)setAssertionObjectsFromOutput;
+- (void)setAssertionObjectsFromOutputWithError: (NSError **) error;
 
 //TODO: Unused: - (void)setAssertionObjectsToDefault;
 

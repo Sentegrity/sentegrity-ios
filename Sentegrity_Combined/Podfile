@@ -31,8 +31,6 @@ target :Sentegrity do
     
     # Bluetooth
     pod "LGBluetooth", "~> 1.1.5"
-    # Transparent Auth
-    #pod "MIHCrypto", "~> 0.4.1"
     
     # Networking
     pod 'AFNetworking', '~> 3.0'
@@ -66,8 +64,6 @@ target 'Sentegrity TAF' do
     
     # Bluetooth
     pod "LGBluetooth", "~> 1.1.5"
-    # Transparent Auth
-    #pod "MIHCrypto", "~> 0.4.1"
     
     # Networking
     pod 'AFNetworking', '~> 3.0'
@@ -87,8 +83,6 @@ target "Core Detection" do
     
     # Bluetooth
     pod "LGBluetooth", "~> 1.1.5"
-    # Transparent Auth
-    #pod "MIHCrypto", "~> 0.4.1"
     
     # Networking
     pod 'AFNetworking', '~> 3.0'
