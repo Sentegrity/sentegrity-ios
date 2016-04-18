@@ -217,7 +217,7 @@
 
     if(trustFactorOutputObject.output.count > 0){
         
-        [trustFactorOutputObject setAssertionObjectsFromOutput];
+        [trustFactorOutputObject setAssertionObjectsFromOutputWithError:error];
     }
 
     
