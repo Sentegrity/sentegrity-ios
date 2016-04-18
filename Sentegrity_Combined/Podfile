@@ -32,7 +32,7 @@ target :Sentegrity do
     # Bluetooth
     pod "LGBluetooth", "~> 1.1.5"
     # Transparent Auth
-    pod "MIHCrypto", "~> 0.4.1"
+    #pod "MIHCrypto", "~> 0.4.1"
     
     # Networking
     pod 'AFNetworking', '~> 3.0'
@@ -67,7 +67,7 @@ target 'Sentegrity TAF' do
     # Bluetooth
     pod "LGBluetooth", "~> 1.1.5"
     # Transparent Auth
-    pod "MIHCrypto", "~> 0.4.1"
+    #pod "MIHCrypto", "~> 0.4.1"
     
     # Networking
     pod 'AFNetworking', '~> 3.0'
@@ -88,9 +88,18 @@ target "Core Detection" do
     # Bluetooth
     pod "LGBluetooth", "~> 1.1.5"
     # Transparent Auth
-    pod "MIHCrypto", "~> 0.4.1"
+    #pod "MIHCrypto", "~> 0.4.1"
     
     # Networking
     pod 'AFNetworking', '~> 3.0'
 
+end
+
+# Additional Config - Set Active Architecture Only to NO
+post_install do |installer_representation|
+    installer_representation.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
+        end
+    end
 end

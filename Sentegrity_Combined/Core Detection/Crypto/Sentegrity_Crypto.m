@@ -19,8 +19,9 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedCrypto = [[self alloc] init];
-        sharedCrypto.MIHSecurehasher = [[MIHSecureHashAlgorithm alloc]init];
-        sharedCrypto.MIHAES = [MIHAESKey alloc];
+        // TODO: Undo this
+        //sharedCrypto.MIHSecurehasher = [[MIHSecureHashAlgorithm alloc]init];
+        //sharedCrypto.MIHAES = [MIHAESKey alloc];
     });
     return sharedCrypto;
 }
@@ -646,15 +647,19 @@
     }
     
     // Init AES with key and salt
-    self.MIHAES = [self.MIHAES initWithKey:keyData iv:saltData];
+    // TODO: Undo this
+    //self.MIHAES = [self.MIHAES initWithKey:keyData iv:saltData];
     
     // Encryption Error
     NSError *decryptedDataError;
     
     // Perform decryption of master key blob
-    NSData *decryptedData = [self.MIHAES decrypt:encryptedDataData error:&decryptedDataError];
+    // TODO: Undo this
+    //NSData *decryptedData = [self.MIHAES decrypt:encryptedDataData error:&decryptedDataError];
+    NSData *decryptedData = nil;
     
     // Check if we received the error
+    // TODO: Check if decryptedData is nil first
     if (decryptedDataError || decryptedDataError != nil) {
         
         // Check if the error pointer is valid
@@ -682,15 +687,19 @@
 - (NSString *)encryptData:(NSData *)plaintextData withDerivedKey:(NSData *)keyData withSaltData:(NSData *)saltData withError:(NSError **)error {
     
     // Init AES with key and salt
-    self.MIHAES = [self.MIHAES initWithKey:keyData iv:saltData];
+    // TODO: Undo this
+    //self.MIHAES = [self.MIHAES initWithKey:keyData iv:saltData];
     
     // Encryption error
     NSError *encryptionError;
     
     // Perform encryption of master key blob
-    NSData *encryptedData = [self.MIHAES encrypt:plaintextData error:&encryptionError];
+    // TODO: Undo this
+    //NSData *encryptedData = [self.MIHAES encrypt:plaintextData error:&encryptionError];
+    NSData *encryptedData = nil;
     
-    // Check if we received the error
+    // Check if we received an error
+    // TODO: Check if encrypted data is nil before checking error
     if (encryptionError || encryptionError != nil) {
         
         // Check if the error pointer is valid
@@ -742,10 +751,10 @@
 }
 
 - (NSString *)createSHA1HashOfData:(NSData *)inputData withError:(NSError **)error {
-    
-    NSString *output = [[self.MIHSecurehasher hashValueOfData:inputData] MIH_hexadecimalString];
-    return output;
-    
+    // TODO: Undo this
+    //NSString *output = [[self.MIHSecurehasher hashValueOfData:inputData] MIH_hexadecimalString];
+    //return output;
+    return nil;
 }
 
 - (NSString *)createSHA1HashofString:(NSString *)inputString withError:(NSError **)error {
@@ -757,17 +766,17 @@
 }
 
 - (NSString *)convertDataToHexString:(NSData *)inputData withError:(NSError **)error {
-    
-    NSString *hexString = [inputData MIH_hexadecimalString];
-    return hexString;
-    
+    // TODO: Undo this
+    //NSString *hexString = [inputData MIH_hexadecimalString];
+    //return hexString;
+    return nil;
 }
 
 - (NSData *)convertHexStringToData:(NSString *)inputString withError:(NSError **)error {
-    
-    NSData *data = [inputString MIH_dataFromHexadecimal];
-    return data;
-    
+    // TODO: Undo this
+    //NSData *data = [inputString MIH_dataFromHexadecimal];
+    //return data;
+    return nil;
 }
 
 - (NSData *)createPBKDF2KeyFromString:(NSString *)plaintextString withSaltData:(NSData *)saltData withRounds:(int)rounds withError:(NSError **)error {

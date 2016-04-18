@@ -20,13 +20,13 @@
 #import "Sentegrity_TransparentAuth_Object.h"
 
 // Pod for openSSL AES
-#import "NSData+MIHConversion.h"
-#import "NSString+MIHConversion.h"
-#import "MIHAESKey.h"
+//#import "NSData+MIHConversion.h"
+//#import "NSString+MIHConversion.h"
+//#import "MIHAESKey.h"
 
 // Pod for SHA1
-#import "MIHSecureHashAlgorithm.h"
-#import "NSData+MIHConversion.h"
+//#import "MIHSecureHashAlgorithm.h"
+//#import "NSData+MIHConversion.h"
 
 // Common Crypto
 #import <CommonCrypto/CommonKeyDerivation.h>
@@ -43,8 +43,9 @@
 /*!
  *  AES POD properties defined to reduce multiple alloc/init for repeated encrypt/decrypt/hashing
  */
-@property (nonatomic, retain) MIHSecureHashAlgorithm *MIHSecurehasher;
-@property (nonatomic, retain) MIHAESKey *MIHAES;
+// TODO: Undo this
+//@property (nonatomic, retain) MIHSecureHashAlgorithm *MIHSecurehasher;
+//@property (nonatomic, retain) MIHAESKey *MIHAES;
 
 // User Derivation Functions
 - (NSData *)getUserKeyForPassword:(NSString *)password withError:(NSError **)error;

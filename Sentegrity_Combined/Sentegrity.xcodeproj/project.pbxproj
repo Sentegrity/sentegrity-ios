@@ -256,6 +256,8 @@
 		4C2667931CC0421800F10DC0 /* SentegrityTAF_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_main.m; sourceTree = "<group>"; };
 		4C5393841B2F965D00EA4484 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		4C5393861B2F966700EA4484 /* loadingWhite.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loadingWhite.gif; sourceTree = "<group>"; };
+		4C5773001CC139190073BB65 /* SentegrityTAFConfig.debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SentegrityTAFConfig.debug.xcconfig; sourceTree = "<group>"; };
+		4C5773021CC1392B0073BB65 /* SentegrityTAFConfig.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SentegrityTAFConfig.release.xcconfig; sourceTree = "<group>"; };
 		4C7D98241CC0049F00E9CC97 /* libCore Detection.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCore Detection.a"; path = "../../../Library/Developer/Xcode/DerivedData/Sentegrity-brnroyitimccbfcvoduacppkrpaj/Build/Products/Debug-iphonesimulator/libCore Detection.a"; sourceTree = "<group>"; };
 		4C9EBE191B2B5B58003ED356 /* RightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightMenuViewController.h; sourceTree = "<group>"; };
 		4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightMenuViewController.m; sourceTree = "<group>"; };
@@ -537,6 +539,8 @@
 				4C2667531CC03AE800F10DC0 /* DAF Bundles */,
 				4C26675B1CC03BA700F10DC0 /* SentegrityTAF_Info.plist */,
 				4C2667931CC0421800F10DC0 /* SentegrityTAF_main.m */,
+				4C5773001CC139190073BB65 /* SentegrityTAFConfig.debug.xcconfig */,
+				4C5773021CC1392B0073BB65 /* SentegrityTAFConfig.release.xcconfig */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1283,7 +1287,7 @@
 		};
 		4C2667261CC0369000F10DC0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A57A38F2AD3A013454171E37 /* Pods-Sentegrity TAF.debug.xcconfig */;
+			baseConfigurationReference = 4C5773001CC139190073BB65 /* SentegrityTAFConfig.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1327,7 +1331,7 @@
 		};
 		4C2667271CC0369000F10DC0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EC09FE4FC0790F7A16625A66 /* Pods-Sentegrity TAF.release.xcconfig */;
+			baseConfigurationReference = 4C5773021CC1392B0073BB65 /* SentegrityTAFConfig.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

@@ -26,31 +26,8 @@ PODS:
   - JTHamburgerButton (1.0.5)
   - LGBluetooth (1.1.5)
   - MBProgressHUD (0.9.2)
-  - MIHCrypto (0.4.1):
-    - MIHCrypto/AES (= 0.4.1)
-    - MIHCrypto/Core (= 0.4.1)
-    - MIHCrypto/DES (= 0.4.1)
-    - MIHCrypto/Mathematics (= 0.4.1)
-    - MIHCrypto/MD5 (= 0.4.1)
-    - MIHCrypto/RSA (= 0.4.1)
-    - MIHCrypto/SHA (= 0.4.1)
-  - MIHCrypto/AES (0.4.1):
-    - MIHCrypto/Core
-  - MIHCrypto/Core (0.4.1):
-    - OpenSSL-Universal (~> 1.0.1.18)
-  - MIHCrypto/DES (0.4.1):
-    - MIHCrypto/Core
-  - MIHCrypto/Mathematics (0.4.1):
-    - MIHCrypto/Core
-  - MIHCrypto/MD5 (0.4.1):
-    - MIHCrypto/Core
-  - MIHCrypto/RSA (0.4.1):
-    - MIHCrypto/Core
-  - MIHCrypto/SHA (0.4.1):
-    - MIHCrypto/Core
   - NSObject-ObjectMap (2.3.1)
   - NSString-Hashes (1.2.2)
-  - OpenSSL-Universal (1.0.1.18)
   - RESideMenu (4.0.7)
 
 DEPENDENCIES:
@@ -65,7 +42,6 @@ DEPENDENCIES:
   - JTHamburgerButton (~> 1.0)
   - LGBluetooth (~> 1.1.5)
   - MBProgressHUD (~> 0.9.1)
-  - MIHCrypto (~> 0.4.1)
   - NSObject-ObjectMap (~> 2.0)
   - NSString-Hashes (~> 1.2)
   - RESideMenu (~> 4.0)
@@ -82,12 +58,10 @@ SPEC CHECKSUMS:
   JTHamburgerButton: 9a41c7d051c72590a9d2c18416d84d1b912f12e3
   LGBluetooth: 8407d2de27bcbd4a9e11243290b928293ffa8881
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  MIHCrypto: 9c83cf35a3c218928847df8faf1ba080975a0bf2
   NSObject-ObjectMap: 3223c0c994a8e3de44ccb74ddf3e63c86821c015
   NSString-Hashes: c3848d809e92650e4fb17db5d8cc4bd2aa1eaddd
-  OpenSSL-Universal: 79fd751a7b4db41f5b430e767c9bbf681b5c8330
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
 
-PODFILE CHECKSUM: f982e1bb3bfd3b5fc6cf83dae09926a50b2934dd
+PODFILE CHECKSUM: 39cd08f164e5eff6f5584ad14863a1d783377ac3
 
 COCOAPODS: 1.0.0.beta.6
