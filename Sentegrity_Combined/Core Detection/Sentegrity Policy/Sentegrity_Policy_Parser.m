@@ -37,9 +37,6 @@
 // Get the policy file
 - (Sentegrity_Policy *)getPolicy:(NSError **)error {
     
-    // Zero out the error
-    *error = nil;
-    
     
     // Did we already create a policy store instance of the object?
     if(self.currentPolicy == nil || !self.currentPolicy){
@@ -178,9 +175,6 @@
 - (BOOL)saveNewPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error;
  {
     
-    // Zero out the error
-    error = nil;
-
     // Make sure the class is valid
     if (!policy || policy == nil) {
         

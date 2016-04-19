@@ -50,9 +50,6 @@
     
     // Check if the assertion file exists
     
-    // Zero out the error
-    error = nil;
-    
     // Print out the assertion file path
     //NSLog(@"Assertion File Path: %@", filePath);
     
@@ -72,7 +69,7 @@
             [self setAssertionStoreWithError:error];
             
             // Check for errors
-            if (error || error != nil) {
+            if (*error || *error != nil) {
                 
                 // Encountered an error saving the file
                 return nil;
@@ -177,9 +174,6 @@
     
 // Set the assertion file
 - (void)setAssertionStoreWithError:(NSError **)error {
-    
-    // Zero out the error
-    error = nil;
     
     // Make sure the class is valid
     if (!self.currentStore || self.currentStore == nil) {
