@@ -4,22 +4,22 @@
  */
 
 //
-//  DAFSkelUnlockViewController.m
+//  SentegrityTAF_UnlockViewController.m
 //  Skeleton
 //
 //  Created by Ian Harvey on 17/03/2014.
 //
 
-#import "DAFSkelUnlockViewController.h"
+#import "SentegrityTAF_UnlockViewController.h"
 #import "DAFSupport/DAFAppBase.h"
 #import "DAFSupport/DAFAuthState.h"
 
-@interface DAFSkelUnlockViewController ()
+@interface SentegrityTAF_UnlockViewController ()
 
 @end
 
 
-@implementation DAFSkelUnlockViewController
+@implementation SentegrityTAF_UnlockViewController
 
 @synthesize result;
 
@@ -50,9 +50,9 @@
     {
         // Idle Lock (or other lock event) happened during change-passphrase sequence
         // Ensure this VC is dismissed if it's showing
-        NSLog(@"DAFSkelUnlockViewController: cancelling change password");
+        NSLog(@"SentegrityTAF_UnlockViewController: cancelling change password");
         [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
+            [result setError:[NSError errorWithDomain:@"SentegrityTAF_UnlockViewController"
                                                  code:101
                                              userInfo:@{NSLocalizedDescriptionKey:@"Change password cancelled"} ]];
             result = nil;
@@ -60,9 +60,9 @@
     }
     else if (event==GetPasswordCancelled  && result != nil) {
         
-        NSLog(@"DAFSkelUnlockViewController: cancelling unlock");
+        NSLog(@"SentegrityTAF_UnlockViewController: cancelling unlock");
         [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
+            [result setError:[NSError errorWithDomain:@"SentegrityTAF_UnlockViewController"
                                                  code:102
                                              userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
             result = nil;
@@ -70,9 +70,9 @@
     }
     else if (event == AuthenticateWithWarnStarted)
     {
-        NSLog(@"DAFSkelUnlockViewController: starting authenticateWithWarn");
+        NSLog(@"SentegrityTAF_UnlockViewController: starting authenticateWithWarn");
         [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
+            [result setError:[NSError errorWithDomain:@"SentegrityTAF_UnlockViewController"
                                                  code:103
                                              userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
             result = nil;
@@ -82,20 +82,20 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    NSLog(@"DAFSkelUnlockViewController: viewDidAppear");
+    NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];
     
     // For demonstration purposes, retrieve startup data stored by FirstTimeViewController
     NSString *startupData = [DAFAuthState getInstance].vendorState;
-    NSLog(@"DAFSkelUnlockViewController: startup data = <%@>", startupData);
+    NSLog(@"SentegrityTAF_UnlockViewController: startup data = <%@>", startupData);
 }
 
 - (IBAction)onContinuePressed:(id)sender
 {
-    NSLog(@"DAFSkelUnlockViewController: onContinuePressed");
+    NSLog(@"SentegrityTAF_UnlockViewController: onContinuePressed");
     
     [self dismissViewControllerAnimated:NO completion: ^{
-        NSLog(@"DAFSkelUnlockViewController: delivering auth token");
+        NSLog(@"SentegrityTAF_UnlockViewController: delivering auth token");
         NSData *authToken = [NSData dataWithBytes:"dummy" length:5];
         [result setResult:authToken];
         result = nil;
@@ -104,10 +104,10 @@
 
 - (IBAction)onTempUnlockPressed:(id)sender
 {
-    NSLog(@"DAFSkelUnlockViewController: onTempUnlockPressed");
+    NSLog(@"SentegrityTAF_UnlockViewController: onTempUnlockPressed");
     
     [self dismissViewControllerAnimated:NO completion: ^{
-        NSLog(@"DAFSkelUnlockViewController: requesting temporary unlock");
+        NSLog(@"SentegrityTAF_UnlockViewController: requesting temporary unlock");
         [[DAFAppBase getInstance] requestRecovery:result];
         result = nil;
     }];

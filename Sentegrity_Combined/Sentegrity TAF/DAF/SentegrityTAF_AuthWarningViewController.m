@@ -2,11 +2,11 @@
  * (c) 2015 Good Technology Corporation. All rights reserved.
  */
 
-#import "DAFSkelAuthWarningViewController.h"
+#import "SentegrityTAF_AuthWarningViewController.h"
 #import "DAFSupport/DAFAppBase.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface DAFSkelAuthWarningViewController ()
+@interface SentegrityTAF_AuthWarningViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *goodLogo;
 @property (weak, nonatomic) IBOutlet UIImageView *warningIcon;
@@ -17,7 +17,7 @@
 
 @end
 
-@implementation DAFSkelAuthWarningViewController
+@implementation SentegrityTAF_AuthWarningViewController
 
 @synthesize result;
 
@@ -90,7 +90,7 @@
 
     if (warning == nil)
     {
-        NSLog(@"DAFSkelAuthWarningViewController: invoked when no warning available!");
+        NSLog(@"SentegrityTAF_AuthWarningViewController: invoked when no warning available!");
         return;
     }
 
@@ -107,18 +107,17 @@
 
 - (IBAction)onContinueEasyActivation:(id)sender
 {
-    NSLog(@"DAFSkelEAUnlockViewController: onContinueEasyActivation");
+    NSLog(@"SentegrityTAF_UnlockViewController: onContinueEasyActivation");
     
     [self dismissViewControllerAnimated:NO completion: ^{
-        NSLog(@"DAFSkelUnlockViewController: delivering auth token");
+        NSLog(@"SentegrityTAF_UnlockViewController: delivering auth token");
         NSData *authToken = [NSData dataWithBytes:"dummy" length:5];
         [result setResult:authToken];
         result = nil;
     }];
 }
 
--(IBAction)onCancel:(id)sender
-{
+- (IBAction)onCancel:(id)sender {
     [self dismissViewControllerAnimated:NO completion: ^{
         [[DAFAppBase getInstance] cancelAuthenticateWithWarn:result];
         result = nil;

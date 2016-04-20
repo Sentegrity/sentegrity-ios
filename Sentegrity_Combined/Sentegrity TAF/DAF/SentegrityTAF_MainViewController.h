@@ -4,7 +4,7 @@
  */
 
 //
-//  DAFSkelViewController.h
+//  SentegrityTAF_ViewController.h
 //  Skeleton
 //
 //  Created by Ian Harvey on 14/03/2014.
@@ -13,9 +13,9 @@
 #import <UIKit/UIKit.h>
 #import <DAFSupport/DAFEventTypes.h>
 
-@interface DAFSkelMainViewController : UIViewController
+@interface SentegrityTAF_MainViewController : UIViewController
 
-// Called by DAFSkelAppDelegate
+// Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
 

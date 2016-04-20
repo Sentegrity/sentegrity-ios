@@ -4,7 +4,7 @@
  */
 
 //
-//  DAFSkelFirstTimeViewController.h
+//  SentegrityTAF_UnlockViewController.h
 //  Skeleton
 //
 //  Created by Ian Harvey on 17/03/2014.
@@ -15,14 +15,15 @@
 #import "DAFSupport/DAFWaitableResult.h"
 #import "DAFSupport/DAFEventTypes.h"
 
-@interface DAFSkelFirstTimeViewController : UIViewController
+@interface SentegrityTAF_UnlockViewController : UIViewController
 
 @property (weak, nonatomic) DAFWaitableResult *result;
 
-// Called by DAFSkelAppDelegate
+// Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
 // UI elements
 - (IBAction)onContinuePressed:(id)sender;
 
+- (IBAction)onTempUnlockPressed:(id)sender;
 @end

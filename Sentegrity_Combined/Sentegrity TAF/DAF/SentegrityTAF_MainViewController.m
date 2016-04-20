@@ -4,24 +4,23 @@
  */
 
 //
-//  DAFSkelViewController.m
+//  SentegrityTAF_ViewController.m
 //  Skeleton
 //
 //  Created by Ian Harvey on 14/03/2014.
 //
 
-#import "DAFSkelMainViewController.h"
+#import "SentegrityTAF_MainViewController.h"
 #import "DAFSupport/DAFAppBase.h"
 
-@interface DAFSkelMainViewController ()
+@interface SentegrityTAF_MainViewController ()
 
 @end
 
-@implementation DAFSkelMainViewController
+@implementation SentegrityTAF_MainViewController
 
-- (void)viewDidLoad
-{
-    NSLog(@"DAFSkelViewController: viewDidLoad");
+// View Did Load
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     // Start with Lock and Change Password buttons disabled.
@@ -30,15 +29,14 @@
     [self.changePasswordButton setHidden:YES];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)updateUIForNotification:(enum DAFUINotification)event
-{
-    NSLog(@"DAFSkelViewController: updateUIForNotification: %d", event);
+// Update the UI for Notification
+- (void)updateUIForNotification:(enum DAFUINotification)event {
+    NSLog(@"SentegrityTAF_ViewController: updateUIForNotification: %d", event);
     switch (event)
     {
         case AuthorizationSucceeded:
@@ -62,15 +60,13 @@
     }
 }
 
-- (IBAction)onLockPressed:(id)sender
-{
-    NSLog(@"DAFSkelViewController: onLockPressed:");
+- (IBAction)onLockPressed:(id)sender {
+    NSLog(@"SentegrityTAF_ViewController: onLockPressed:");
     [[DAFAppBase getInstance] deauthorize:@"User requested lock"];
 }
 
-- (IBAction)onChangePasswordPressed:(id)sender
-{
-    NSLog(@"DAFSkelViewController: onChangePasswordPressed:");
+- (IBAction)onChangePasswordPressed:(id)sender {
+    NSLog(@"SentegrityTAF_ViewController: onChangePasswordPressed:");
     if ( [[DAFAppBase getInstance] requestChangePassphrase] )
     {
         [self.changePasswordButton setHidden:NO];
@@ -78,7 +74,7 @@
     }
     else
     {
-        NSLog(@"DAFSkelViewController: change password rejected");
+        NSLog(@"SentegrityTAF_ViewController: change password rejected");
     }
 }
 
