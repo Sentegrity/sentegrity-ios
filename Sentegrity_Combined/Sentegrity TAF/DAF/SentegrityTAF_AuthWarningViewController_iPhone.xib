@@ -7,7 +7,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DAFSkelAuthWarningViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SentegrityTAF_AuthWarningViewController">
             <connections>
                 <outlet property="cancelButton" destination="FsG-1t-chU" id="zab-Qi-2zJ"/>
                 <outlet property="goodLogo" destination="aEi-Zf-QRx" id="kev-Df-8IL"/>

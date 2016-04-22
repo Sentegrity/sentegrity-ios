@@ -11,27 +11,25 @@
 // DAF Support
 #import "DAFSupport/DAFAppBase.h"
 
-#import "DAFSkelMainViewController.h"
-#import "DAFSkelFirstTimeViewController.h"
-#import "DAFSkelUnlockViewController.h"
-#import "DAFSkelAuthWarningViewController.h"
+// DAF View Controllers
+#import "SentegrityTAF_MainViewController.h"
+#import "SentegrityTAF_FirstTimeViewController.h"
+#import "SentegrityTAF_UnlockViewController.h"
+#import "SentegrityTAF_AuthWarningViewController.h"
 
 // Activity Dispatcher
 #import "Sentegrity_Activity_Dispatcher.h"
 
 @interface SentegrityTAF_AppDelegate : DAFAppBase
 
-// Window
-//@property (strong, nonatomic) UIWindow *window;
-
 // Activity Dispatcher
 @property (strong, atomic) Sentegrity_Activity_Dispatcher *activityDispatcher;
 
-// TODO: Change these DAF View Controllers
-@property (strong, nonatomic) DAFSkelMainViewController *mainViewController;
-@property (strong, nonatomic) DAFSkelFirstTimeViewController *firstTimeViewController;
-@property (strong, nonatomic) DAFSkelUnlockViewController *unlockViewController;
-@property (strong, nonatomic) DAFSkelAuthWarningViewController *easyActivationViewController;
+// View Controllers
+@property (strong, nonatomic) SentegrityTAF_MainViewController *mainViewController;
+@property (strong, nonatomic) SentegrityTAF_FirstTimeViewController *firstTimeViewController;
+@property (strong, nonatomic) SentegrityTAF_UnlockViewController *unlockViewController;
+@property (strong, nonatomic) SentegrityTAF_AuthWarningViewController *easyActivationViewController;
 
 @end
 

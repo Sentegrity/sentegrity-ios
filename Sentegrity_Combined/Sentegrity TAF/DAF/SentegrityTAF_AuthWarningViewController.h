@@ -3,14 +3,15 @@
  */
 
 #import <UIKit/UIKit.h>
+
 #import "DAFSupport/DAFWaitableResult.h"
 #import "DAFSupport/DAFEventTypes.h"
 
-@interface DAFSkelAuthWarningViewController : UIViewController
+@interface SentegrityTAF_AuthWarningViewController : UIViewController
 
 @property (weak, nonatomic) DAFWaitableResult *result;
 
-// Called by DAFSkelAppDelegate
+// Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
 @end

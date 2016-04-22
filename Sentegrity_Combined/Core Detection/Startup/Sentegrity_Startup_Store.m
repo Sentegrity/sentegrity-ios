@@ -40,9 +40,6 @@
     
     // Check if the startup file exists
     
-    // Zero out the error
-    *error = nil;
-    
     // Print out the startup file path
     //NSLog(@"Startup File Path: %@", filePath);
     
@@ -237,8 +234,6 @@
 // Set the startup file
 - (BOOL)setStartupStoreWithError:(NSError **)error {
     
-    // Zero out the error
-    error = nil;
     
     // Make sure the class is valid
     if (!self.currentStartupStore || self.currentStartupStore == nil) {

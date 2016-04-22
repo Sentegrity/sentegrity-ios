@@ -4,22 +4,21 @@
  */
 
 //
-//  DAFSkelFirstTimeViewController.m
+//  SentegrityTAF_FirstTimeViewController.m
 //  Skeleton
 //
 //  Created by Ian Harvey on 17/03/2014.
 //
 
-#import "DAFSkelFirstTimeViewController.h"
+#import "SentegrityTAF_FirstTimeViewController.h"
 
 #import "DAFSupport/DAFAuthState.h"
 
-@interface DAFSkelFirstTimeViewController ()
+@interface SentegrityTAF_FirstTimeViewController ()
 
 @end
 
-
-@implementation DAFSkelFirstTimeViewController
+@implementation SentegrityTAF_FirstTimeViewController
 
 @synthesize result;
 
@@ -48,19 +47,19 @@
 {
     // We don't expect this VC to be active during a change-password
     // sequence. If this becomes a valid situation, fix this code to dismiss
-    // this VC (see DAFSkelUnlockViewController).
+    // this VC (see SentegrityTAF_UnlockViewController).
     NSAssert( !(event == ChangePasswordCancelled && result != nil), @"Unexpected ChangePasswordCancelled");
 }
 
 - (IBAction)onContinuePressed:(id)sender
 {
-    NSLog(@"DAFSkelFirstTimeViewController: onContinuePressed");
+    NSLog(@"SentegrityTAF_FirstTimeViewController: onContinuePressed");
     
     // Typically we'll record some startup data here
     [[DAFAuthState getInstance] setVendorState:@"example startup data"];
     
     [self dismissViewControllerAnimated:NO completion: ^{
-        NSLog(@"DAFSkelFirstTimeViewController: delivering auth token");
+        NSLog(@"SentegrityTAF_FirstTimeViewController: delivering auth token");
         NSData *authToken = [NSData dataWithBytes:"dummy" length:5];
         [result setResult:authToken];
         result = nil;
