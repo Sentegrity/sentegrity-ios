@@ -20,6 +20,6 @@
 + (Sentegrity_TrustFactor_Output_Object *)previous:(NSArray *)payload;
 
 // Get device state while Sentegrity running
-+ (Sentegrity_TrustFactor_Output_Object *) state: (NSArray *) payload;
++ (Sentegrity_TrustFactor_Output_Object *) deviceState: (NSArray *) payload;
 
 @end

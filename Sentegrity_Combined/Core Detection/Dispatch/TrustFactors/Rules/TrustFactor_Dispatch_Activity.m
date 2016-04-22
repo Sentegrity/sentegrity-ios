@@ -170,7 +170,7 @@
 
 
 // get device state
-+ (Sentegrity_TrustFactor_Output_Object *) state: (NSArray *) payload {
++ (Sentegrity_TrustFactor_Output_Object *) deviceState: (NSArray *) payload {
     
     // Create the trustfactor output object
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
@@ -198,23 +198,26 @@
     // This string gets built by combination of the states available
     NSMutableString *anomalyString = [[NSMutableString alloc] init];
     
-    if ([statusBar[@"isBackingUp"] intValue])
+    if ([statusBar[@"isBackingUp"] intValue]==1)
         [anomalyString appendString:@"backingUp_"];
-    if ([statusBar[@"isOnCall"] intValue])
+    if ([statusBar[@"isOnCall"] intValue]==1)
         [anomalyString appendString:@"onCall_"];
-    if ([statusBar[@"isNavigating"] intValue])
+    if ([statusBar[@"isNavigating"] intValue]==1)
         [anomalyString appendString:@"navigating_"];
-    if ([statusBar[@"isUsingYourLocation"] intValue])
+    if ([statusBar[@"isUsingYourLocation"] intValue]==1)
         [anomalyString appendString:@"usingLocation_"];
-    if ([statusBar[@"doNotDisturb"] intValue])
+    if ([statusBar[@"doNotDisturb"] intValue]==1)
         [anomalyString appendString:@"doNotDisturb_"];
-    if ([statusBar[@"orientationLock"] intValue])
+    if ([statusBar[@"orientationLock"] intValue]==1)
         [anomalyString appendString:@"orientationLock_"];
-    if ([statusBar[@"isTethering"] intValue])
+    if ([statusBar[@"isTethering"] intValue]==1)
         [anomalyString appendString:@"tethering_"];
+    if (![statusBar[@"lastApp"] isEqualToString:@""])
+        [anomalyString appendFormat:@"lastApp_%@",[statusBar valueForKey:@"lastApp"]];
     
+         
     //TODO: There is already separate trustfactor for airPlaneMode
-    if (statusBar[@"isAirplaneMode"])
+    if ([statusBar[@"isAirplaneMode"] intValue]==1)
         [anomalyString appendString:@"airplane_"];
     
     

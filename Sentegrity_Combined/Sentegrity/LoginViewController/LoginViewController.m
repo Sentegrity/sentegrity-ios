@@ -221,9 +221,18 @@ static MBProgressHUD *HUD;
     
     
     /* Startup File */
-    NSError *error;
-    NSString *dummyPassword = @"asdf";
-    NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] populateNewStartupFileWithUserPassword:dummyPassword withError:error];
+    // Check if the startup file exists, if not we will create a new one
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[[Sentegrity_Startup_Store sharedStartupStore] startupFilePath]]) {
+        
+        NSError *error;
+        NSString *dummyPassword = @"asdf";
+        NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] populateNewStartupFileWithUserPassword:dummyPassword withError:&error];
+        
+    }
+    
+        
+ 
+
     
     /* Perform Core Detection */
     

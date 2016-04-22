@@ -1,7 +1,7 @@
 {
 "policyID": 1,
 "appID": "default",
-"revision": 8,
+"revision": 10,
 "userThreshold": 75,
 "systemThreshold": 30,
 "minimumTransparentAuthEntropy": 2,
@@ -135,10 +135,10 @@
 {
 "id": 6,
 "name": "Location",
-"dneUnauthorized": "Authorize location services",
+"dneUnauthorized": "",
 "dneUnsupported": "Location service unsupported",
 "dneUnavailable": "",
-"dneDisabled": "Enable location services",
+"dneDisabled": "Enabled location services",
 "dneNoData": "",
 "dneExpired": "",
 "dneInvalid": "",
@@ -147,7 +147,7 @@
 {
 "id": 7,
 "name": "Movement",
-"dneUnauthorized": "Authorize motion services",
+"dneUnauthorized": "",
 "dneUnsupported": "Device does not support motion",
 "dneUnavailable": "Motion data unavailable",
 "dneDisabled": "Enable motion services",
@@ -183,7 +183,7 @@
 {
 "id": 10,
 "name": "Activity",
-"dneUnauthorized": "Authorize activity data",
+"dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
 "dneDisabled": "Enabled activity data",
@@ -742,31 +742,6 @@
 "payload": []
 },
 {
-"id": 17,
-"notFoundIssueMessage": "State changed",
-"notFoundSuggestionMessage": "",
-"lowConfidenceIssueMessage": "",
-"lowConfidenceSuggestionMessage": "",
-"revision": 1,
-"classID": 5,
-"subClassID": 9,
-"name": "State", 
-"partialWeight": 1,
-"weight": 10, 
-"learnMode": 0,
-"learnTime": 0,
-"learnAssertionCount": 0,
-"learnRunCount": 0,
-"decayMode": 1,
-"decayMetric": 0.28,
-"wipeOnUpdate": 0,
-"dispatch": "Activity",
-"implementation": "state:", 
-"whitelistable": 1,
-"privateAPI": 1,
-"payload": []
-},
-{
 "id": 18,
 "notFoundIssueMessage": "Unknown WiFi connection",
 "notFoundSuggestionMessage": "Use familiar WiFi",
@@ -1179,6 +1154,31 @@
 },
 {
 "id": 32,
+"notFoundIssueMessage": "Unknown device state",
+"notFoundSuggestionMessage": "",
+"lowConfidenceIssueMessage": "Uncommon device state",
+"lowConfidenceSuggestionMessage": "",
+"revision": 1,
+"classID": 5,
+"subClassID": 9,
+"name": "Device state",
+"partialWeight": 1,
+"weight": 10,
+"learnMode": 0,
+"learnTime": 0,
+"learnAssertionCount": 0,
+"learnRunCount": 0,
+"decayMode": 1,
+"decayMetric": 0.28,
+"wipeOnUpdate": 0,
+"dispatch": "Activity",
+"implementation": "deviceState:",
+"whitelistable": 1,
+"privateAPI": 1,
+"payload": []
+},
+{
+"id": 33,
 "notFoundIssueMessage": "Unknown device orientation",
 "notFoundSuggestionMessage": "",
 "lowConfidenceIssueMessage": "Uncommon device orientation",
@@ -1204,10 +1204,10 @@
 "payload": []
 },
 {
-"id": 33,
+"id": 34,
 "notFoundIssueMessage": "Unknown previous activity",
 "notFoundSuggestionMessage": "",
-"lowConfidenceIssueMessage": "Low confidence user activity",
+"lowConfidenceIssueMessage": "Uncommon user activity",
 "lowConfidenceSuggestionMessage": "",
 "revision": 1,
 "classID": 5,
@@ -1234,10 +1234,10 @@
 ]
 },
 {
-"id": 34,
+"id": 35,
 "notFoundIssueMessage": "Unknown device grip",
 "notFoundSuggestionMessage": "Hold device normally",
-"lowConfidenceIssueMessage": "Low confidence device grip",
+"lowConfidenceIssueMessage": "Uncommon device grip",
 "lowConfidenceSuggestionMessage": "",
 "revision": 1,
 "classID": 5,
@@ -1265,10 +1265,10 @@
 ]
 },
 {
-"id": 35,
+"id": 36,
 "notFoundIssueMessage": "Unknown device movement",
 "notFoundSuggestionMessage": "",
-"lowConfidenceIssueMessage": "Low confidence device movement",
+"lowConfidenceIssueMessage": "Uncommon device movement",
 "lowConfidenceSuggestionMessage": "",
 "revision": 1,
 "classID": 5,
@@ -1295,10 +1295,10 @@
 ]
 },
 {
-"id": 36,
+"id": 37,
 "notFoundIssueMessage": "Unknown Area",
 "notFoundSuggestionMessage": "",
-"lowConfidenceIssueMessage": "Low confidence area",
+"lowConfidenceIssueMessage": "Uncommon area",
 "lowConfidenceSuggestionMessage": "Access area frequently",
 "revision": 1,
 "classID": 5,
@@ -1323,19 +1323,19 @@
 "brightnessBlocksizeWithLocation" : 3,
 "brightnessBlocksizeNoLocation" : 4,
 "locationRounding" : 2,
-"magneticBlockSize" : 40,
-"cellSignalBlocksizeNoLocation" : 3,
+"magneticBlockSize" : 25,
+"cellSignalBlocksizeNoLocation" : 5,
 "cellSignalBlocksizeWithLocation" : 6,
-"wifiSignalBlocksizeNoLocation" : 10,
+"wifiSignalBlocksizeNoLocation" : 14,
 "wifiSignalBlocksizeWithLocation" : 15
 }
 ]
 },
 {
-"id": 37,
+"id": 38,
 "notFoundIssueMessage": "Unknown location",
 "notFoundSuggestionMessage": "",
-"lowConfidenceIssueMessage": "Low confidence location",
+"lowConfidenceIssueMessage": "Uncommon location",
 "lowConfidenceSuggestionMessage": "Access location frequently",
 "revision": 1,
 "classID": 5,
@@ -1363,7 +1363,7 @@
 ]
 },
 {
-"id": 38,
+"id": 39,
 "notFoundIssueMessage": "",
 "notFoundSuggestionMessage": "Pair a Bluetooth device",
 "lowConfidenceIssueMessage": "",
@@ -1389,7 +1389,7 @@
 "payload": []
 },
 {
-"id": 39,
+"id": 40,
 "notFoundIssueMessage": "",
 "notFoundSuggestionMessage": "Pair a Bluetooth device",
 "lowConfidenceIssueMessage": "",
@@ -1415,7 +1415,7 @@
 "payload": []
 },
 {
-"id": 40,
+"id": 41,
 "notFoundIssueMessage": "No Bluetooth scan devices found",
 "notFoundSuggestionMessage": "",
 "lowConfidenceIssueMessage": "",
