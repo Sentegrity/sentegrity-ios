@@ -1199,6 +1199,38 @@
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"ChameleonFramework\"",
+					"-l\"CircleProgressBar\"",
+					"-l\"DCKeyValueObjectMapping\"",
+					"-l\"DateTools\"",
+					"-l\"Facade\"",
+					"-l\"IIDelayedAction\"",
+					"-l\"ISHPermissionKit\"",
+					"-l\"JTHamburgerButton\"",
+					"-l\"LGBluetooth\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"NSObject-ObjectMap\"",
+					"-l\"NSString-Hashes\"",
+					"-l\"RESideMenu\"",
+					"-framework",
+					"\"CoreBluetooth\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1323,6 +1355,38 @@
 				INFOPLIST_FILE = "Sentegrity TAF/Supporting Files/SentegrityTAF_Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"ChameleonFramework\"",
+					"-l\"CircleProgressBar\"",
+					"-l\"DCKeyValueObjectMapping\"",
+					"-l\"DateTools\"",
+					"-l\"Facade\"",
+					"-l\"IIDelayedAction\"",
+					"-l\"ISHPermissionKit\"",
+					"-l\"JTHamburgerButton\"",
+					"-l\"LGBluetooth\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"NSObject-ObjectMap\"",
+					"-l\"NSString-Hashes\"",
+					"-l\"RESideMenu\"",
+					"-framework",
+					"\"CoreBluetooth\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1368,6 +1432,38 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"ChameleonFramework\"",
+					"-l\"CircleProgressBar\"",
+					"-l\"DCKeyValueObjectMapping\"",
+					"-l\"DateTools\"",
+					"-l\"Facade\"",
+					"-l\"IIDelayedAction\"",
+					"-l\"ISHPermissionKit\"",
+					"-l\"JTHamburgerButton\"",
+					"-l\"LGBluetooth\"",
+					"-l\"MBProgressHUD\"",
+					"-l\"NSObject-ObjectMap\"",
+					"-l\"NSString-Hashes\"",
+					"-l\"RESideMenu\"",
+					"-framework",
+					"\"CoreBluetooth\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

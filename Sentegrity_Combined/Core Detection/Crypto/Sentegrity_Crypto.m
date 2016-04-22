@@ -340,7 +340,9 @@
     
 }
 
-- (BOOL)provisionNewUserKeyAndCreateMasterKeyWithPassword:(NSString *)userPassword withError:(NSError **)error {
+- (NSString *)provisionNewUserKeyAndCreateMasterKeyWithPassword:(NSString *)userPassword withError:(NSError **)error {
+    
+    NSString *newMasterKeyString;
     
     // Get startup store of current transparent authentication key hashes
     
@@ -350,7 +352,7 @@
     // Validate no errors
     if (!startup || startup == nil) {
         
-        return NO;
+        return newMasterKeyString;
     }
     
     // User salt data error
@@ -377,7 +379,7 @@
         }
         
         // Invalid user salt data
-        return NO;
+        return newMasterKeyString;
     }
     
     // User key data error
@@ -404,7 +406,7 @@
         }
         
         // Invalid user key data
-        return NO;
+        return newMasterKeyString;
     }
     
     // User key hash string error
@@ -431,7 +433,7 @@
         }
         
         // Invalid user key PBKDF2 hash string
-        return NO;
+        return newMasterKeyString;
     }
     
     // Set user key pbkdf2 hash string
@@ -464,13 +466,16 @@
         }
         
         // Invalid user key encrypted master key blob string
-        return NO;
+        return newMasterKeyString;
     }
     
     // Store the encrypted key blob
     [startup setUserKeyEncryptedMasterKeyBlobString:userKeyEncryptedMasterKeyBlobString];
     
-    return YES;
+    // Convert to string and return
+    newMasterKeyString = [self convertDataToHexString:newMasterKey withError:error];
+    
+    return newMasterKeyString;
 }
 
 - (BOOL)updateUserKeyForExistingMasterKeyWithPassword:(NSString *)userPassword withDecryptedMasterKey:(NSData *)masterKey withError:(NSError **)error {

@@ -220,6 +220,10 @@ static MBProgressHUD *HUD;
     }];
     
     
+    /* Startup File */
+    NSError *error;
+    NSString *dummyPassword = @"asdf";
+    NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] populateNewStartupFileWithUserPassword:dummyPassword withError:error];
     
     /* Perform Core Detection */
     

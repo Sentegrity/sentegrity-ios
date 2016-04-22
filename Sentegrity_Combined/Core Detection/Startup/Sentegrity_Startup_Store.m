@@ -56,22 +56,8 @@
         if (![[NSFileManager defaultManager] fileExistsAtPath:[self startupFilePath]]) {
         
             
-            // Set the current store
-            [self populateNewStatupFileWithError:error];
-            
-            // Save the file
-            //[self setStartupStoreWithError:error];
-            
-            // Check for errors
-            if (*error || *error != nil) {
-                
-                // Encountered an error saving the file
-                return nil;
-                
-            }
-            
-            // Saved the file, no errors, return the reference
-            return self.currentStartupStore;
+            return nil;
+
             
         } else {
             
@@ -152,8 +138,8 @@
 }
 
 
-// Create a new startup file
-- (void)populateNewStatupFileWithError:(NSError **)error {
+// Create a new startup file and return master key as a string
+- (NSString *)populateNewStartupFileWithUserPassword:(NSString *)password withError:(NSError **)error {
     
     
     /*
@@ -212,15 +198,13 @@
      * Store user key encrypter master key blob
      */
     
-    // Prompt for password (simulated for demo)
-    NSString *userPassword = @"user";
-    
+
     // Generate and store user key hash and user key encrypted master key blob
-    BOOL createdUserAndMasterKey = [[Sentegrity_Crypto sharedCrypto] provisionNewUserKeyAndCreateMasterKeyWithPassword:userPassword withError:error];
+    NSString *masterKeyString = [[Sentegrity_Crypto sharedCrypto] provisionNewUserKeyAndCreateMasterKeyWithPassword:password withError:error];
     
     // TODO: Utilize Error
     
-    if (!createdUserAndMasterKey || createdUserAndMasterKey==NO){
+    if (!masterKeyString || masterKeyString==Nil){
         // No valid startup provided
         NSDictionary *errorDetails = @{
                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Error creating new user and master key", nil),
@@ -234,6 +218,7 @@
 
     }
     
+    
     // Default values
     [self.currentStartupStore setLastState:@""];
     NSArray *empty = [[NSArray alloc]init];
@@ -246,6 +231,7 @@
     // Save the store
     [self setStartupStoreWithError:error];
     
+    return masterKeyString;
 }
 
 // Set the startup file

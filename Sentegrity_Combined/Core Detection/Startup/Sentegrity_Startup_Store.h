@@ -52,4 +52,8 @@
 // Startup File Path
 - (NSString *)startupFilePath;
 
+// Create a new startup file (first time)
+- (NSString *)populateNewStartupFileWithUserPassword:(NSString *)password withError:(NSError **)error;
+
+
 @end
