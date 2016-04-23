@@ -22,8 +22,6 @@
 // Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
-// UI elements
-- (IBAction)onContinuePressed:(id)sender;
 
-- (IBAction)onTempUnlockPressed:(id)sender;
+
 @end

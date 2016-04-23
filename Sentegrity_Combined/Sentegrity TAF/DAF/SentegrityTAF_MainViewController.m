@@ -22,11 +22,6 @@
 // View Did Load
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Start with Lock and Change Password buttons disabled.
-    // They are enabled when the app becomes Authorized
-    [self.lockButton setHidden:YES];
-    [self.changePasswordButton setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,19 +35,23 @@
     switch (event)
     {
         case AuthorizationSucceeded:
-            [self.lockButton setHidden:NO];
-            [self.changePasswordButton setHidden:NO];
+            // Authorization succeeded
             break;
             
         case AuthorizationFailed:
+            // Authorization failed
+            break;
+            
         case IdleLocked:
-            [self.lockButton setHidden:YES];
-            [self.changePasswordButton setHidden:YES];
+            // Locked from idle timeout
             break;
             
         case ChangePasswordSucceeded:
+            // Change password succeeded
+            break;
+            
         case ChangePasswordFailed:
-            [self.changePasswordButton setHidden:NO];
+            // Change password failed
             break;
             
         default:
@@ -60,22 +59,5 @@
     }
 }
 
-- (IBAction)onLockPressed:(id)sender {
-    NSLog(@"SentegrityTAF_ViewController: onLockPressed:");
-    [[DAFAppBase getInstance] deauthorize:@"User requested lock"];
-}
-
-- (IBAction)onChangePasswordPressed:(id)sender {
-    NSLog(@"SentegrityTAF_ViewController: onChangePasswordPressed:");
-    if ( [[DAFAppBase getInstance] requestChangePassphrase] )
-    {
-        [self.changePasswordButton setHidden:NO];
-        // We'll un-hide it on completion
-    }
-    else
-    {
-        NSLog(@"SentegrityTAF_ViewController: change password rejected");
-    }
-}
 
 @end

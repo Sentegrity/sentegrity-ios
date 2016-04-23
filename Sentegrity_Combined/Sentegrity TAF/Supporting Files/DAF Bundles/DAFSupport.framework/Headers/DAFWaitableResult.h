@@ -26,6 +26,7 @@
  * The result passed from B to A is a generic NSObject. When thread A
  * creates the object is specifies a class to be expected.
  */
+
 @interface DAFWaitableResult : NSObject
 
 /** \brief Create object

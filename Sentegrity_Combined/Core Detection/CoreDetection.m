@@ -83,10 +83,6 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     // This forces it to re-parse
     [[Sentegrity_Policy_Parser sharedPolicy] setCurrentPolicy:nil];
     
-    
-    // Start Activities (must be called from app delegate (main thread) otherwise location won't work)
-    //[[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] runCoreDetectionActivities];
-    
     // Get the policy
     Sentegrity_Policy * policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
     

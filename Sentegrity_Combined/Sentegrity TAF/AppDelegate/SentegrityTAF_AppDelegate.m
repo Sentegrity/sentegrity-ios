@@ -8,6 +8,24 @@
 
 #import "SentegrityTAF_AppDelegate.h"
 
+// Permissions
+#import "ISHPermissionKit.h"
+#import "LocationPermissionViewController.h"
+#import "ActivityPermissionViewController.h"
+
+// Animated Progress Alerts
+#import "MBProgressHUD.h"
+
+// Sentegrity
+#import "Sentegrity.h"
+
+// Private
+@interface SentegrityTAF_AppDelegate (private) <ISHPermissionsViewControllerDataSource>
+
+// Progress HUD
+@property (nonatomic,strong) MBProgressHUD *hud;
+
+@end
 
 @implementation SentegrityTAF_AppDelegate
 
@@ -18,42 +36,35 @@
     
     // Get the nib for the device
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.mainViewController = [[SentegrityTAF_MainViewController alloc]
-                                   initWithNibName:@"SentegrityTAF_MainViewController_iPhone"
-                                   bundle:nil];
-        self.firstTimeViewController = [[SentegrityTAF_FirstTimeViewController alloc]
-                                        initWithNibName:@"SentegrityTAF_FirstTimeViewController_iPhone"
-                                        bundle:nil];
-        self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc]
-                                     initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone"
-                                     bundle:nil];
-        self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc]
-                                             initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPhone"
-                                             bundle:nil];
+        
+        // iPhone View Controllers
+        
+        self.mainViewController = [[SentegrityTAF_MainViewController alloc] initWithNibName:@"SentegrityTAF_MainViewController_iPhone" bundle:nil];
+        self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
+        self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPhone" bundle:nil];
+        self.passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController_iPhone" bundle:nil];
         
     } else {
-        self.mainViewController = [[SentegrityTAF_MainViewController alloc]
-                                   initWithNibName:@"SentegrityTAF_MainViewController_iPad"
-                                   bundle:nil];
-        self.firstTimeViewController = [[SentegrityTAF_FirstTimeViewController alloc]
-                                        initWithNibName:@"SentegrityTAF_FirstTimeViewController_iPad"
-                                        bundle:nil];
-        self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc]
-                                     initWithNibName:@"SentegrityTAF_UnlockViewController_iPad"
-                                     bundle:nil];
-        self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc]
-                                             initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPad"
-                                             bundle:nil];
+        
+        // iPad View Controllers
+        
+        self.mainViewController = [[SentegrityTAF_MainViewController alloc] initWithNibName:@"SentegrityTAF_MainViewController_iPad" bundle:nil];
+        self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
+        self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPad" bundle:nil];
+        self.passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController_iPad" bundle:nil];
+        
     }
+    
 }
 
 // This is our override of the super class showUIForAction.
 - (void)showUIForAction:(enum DAFUIAction)action withResult:(DAFWaitableResult *)result
 {
     NSLog(@"DAFSkelAppDelegate: showUIForAction (%d)", action);
-    switch (action)
-    {
-        case AppStartup:
+    switch (action) {
+            
+        case AppStartup: {
+            
             // Occurs on each application startup (foreground as well)
             
             /* SENTEGRITY:
@@ -66,45 +77,127 @@
              * actions (such as 'lock application', 'change password') to be initiated.
              */
             
+            // Wipe out all previous datasets (in the event this is not the first run)
+            [Sentegrity_TrustFactor_Datasets selfDestruct];
+            
+            // Create the activity dispatcher
+            if (!_activityDispatcher) {
+                // Allocate the activity dispatcher
+                _activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
+            }
+            
+            // Start Netstat
+            [_activityDispatcher startNetstat];
+            
+            // Start Bluetooth as soon as possible
+            [_activityDispatcher startBluetoothBLE];
+            
+            // Check if the application has permissions to run the different activities
+            ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
+            ISHPermissionRequest *permissionActivity = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
+            
+            // Get permissions
+            NSMutableArray *permissions = [[NSMutableArray alloc] initWithCapacity:2];
+            
+            // Check if location permissions are authorized
+            if ([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized) {
+                
+                // Location not allowed
+                
+                // Set location error
+                [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
+                
+                // Set placemark error
+                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemarkDNEStatus:DNEStatus_unauthorized];
+                
+                // Add the permission
+                [permissions addObject:@(ISHPermissionCategoryLocationWhenInUse)];
+                
+            } else {
+                
+                // Location Authorized
+                
+                // Start Motion (must be after location since it uses the locationDNE to decide which magnetometer to use)
+                [_activityDispatcher startMotion];
+                
+            } // Done location permissions
+            
+            // Check if activity permissions are authorized
+            if ([permissionActivity permissionState] != ISHPermissionStateAuthorized) {
+                
+                // Activity not allowed
+                
+                // The app isn't authorized to use motion activity support.
+                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unauthorized];
+                
+                // Add the permission
+                [permissions addObject:@(ISHPermissionCategoryActivity)];
+                
+            } else {
+                
+                // Activity Authorized
+                [_activityDispatcher startActivity];
+                
+            } // Done activity permissions
+            
+            // Check if we need to prompt for permission
+            if (permissions && permissions.count > 0) {
+                
+                // Create the permissions view controller
+                ISHPermissionsViewController *vc = [ISHPermissionsViewController permissionsViewControllerWithCategories:permissions dataSource:self];
+                
+                // Check the permission view controller is valid
+                if (vc && vc != nil) {
+                    
+                    // Present the permissions kit view controller
+                    [self.mainViewController presentViewController:vc animated:YES completion:nil];
+                    
+                    // Completion Block
+                    [vc setCompletionBlock:^{
+                        
+                        // Permissions view controller finished
+                        
+                        // Check if permissions were granted
+                        
+                        // Location
+                        if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse] permissionState] == ISHPermissionStateAuthorized) {
+                            
+                            // Location allowed
+                            
+                            // Start the location activity
+                            [_activityDispatcher startLocation];
+                            
+                        }
+                        
+                        // Activity
+                        if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryActivity] permissionState] == ISHPermissionStateAuthorized) {
+                            
+                            // Activity allowed
+                            
+                            // Start the activity activity
+                            [_activityDispatcher startActivity];
+                        }
+                        
+                    }]; // Done permissions view controller
+                    
+                } // Done checking permissions array
+                
+            } // Done permissions kit
+            
+            // Setup the nibs
             [self setupNibs];
+            
+            // Show the main view controller
             [self.gdWindow setRootViewController:self.mainViewController];
             [self.gdWindow makeKeyAndVisible];
+            
+            // Done
             break;
             
-        case GetAuthToken_FirstTime:
-            // Used to connect to a hardware device for the first time ever
-            // Sentegrity doesn't use this, just pass it back
-            
-            /* DESCRIPTION FROM API DOCS:
-             * Occurs when DAF is about to call DADevice::createSession during the initial
-             * application setup sequence. If user interaction is required to choose a device
-             * and/or assist with its initial connection, a suitable view should be shown in response to this event.
-             */
-            
-            NSLog(@"DAFSkelAppDelegate: starting activation UI");
-            [super showUIForAction:action withResult:result];
-            //[self.firstTimeViewController setResult:result];
-            //[self.mainViewController presentViewController:self.firstTimeViewController animated:NO completion:nil];
-            break;
-            
-        case GetAuthToken:
-            // This is used to connect to a hardware device and establish a "session"
-            // Sentegrity doesn't use this, just pass this back
-            
-            /* DESCRIPTION FROM API DOCS:
-             * Occurs when DAF is about to call DADevice::createSession to reconnect to the device used
-             * for authentication. This may be used to prompt the user to activate the device, give a status report, and so on.
-             */
-            
-            NSLog(@"DAFSkelAppDelegate: starting unlock UI");
-            [super showUIForAction:action withResult:result];
-            
-            //[self.unlockViewController setResult:result];
-            //[self.mainViewController presentViewController:self.unlockViewController animated:NO completion:nil];
-            break;
+        }
             
         case GetAuthToken_WithWarning:
-            // If a warning is present it will be showed here prior to starting the authetnication process
+            // If a warning is present it will be shown here prior to starting the authetnication process
             // These are warnings that come from the GD runtime such as "easy activation" when other Good apps are present
             // Sentegrity doesn't use this, let the default view controllers handle it
             
@@ -123,6 +216,8 @@
             // We can call the default view controllers here, but don't pass it back to "[super showUIForAction:action withResult:result];"
             [self.easyActivationViewController setResult:result];
             [self.mainViewController presentViewController:self.easyActivationViewController animated:NO completion:nil];
+            
+            // Done
             break;
             
         case GetPassword_FirstTime:
@@ -131,14 +226,14 @@
             /* SENTEGRITY:
              * We are "layering" over the existing password mechanism by passing in our MASTER_KEY
              * instead of what would normally be the user's password. Here we will generate the Core Detection startup file
-             * we will show Ivo's creat password view controller and once a password is accepted
-             * call the startup file to create a new one using this password. 
+             * we will show Ivo's create password view controller and once a password is accepted
+             * call the startup file to create a new one using this password.
              
              * NSString *masterKeyString = [[Sentegrity_Startup_Store sharedStartupStore] populateNewStartupFileWithUserPassword:password withError:error];
              
              * In response, the startup file will be created and will return a masterKey a string, this MASTER_KEY can be used
              * to setResult here and complete the first time setup process.
-
+             
              
              
              * DESCRIPTION FROM API DOCS:
@@ -148,10 +243,13 @@
              * DAFAppBase::passwordViewController provides a simple (built in) implementation of this function.
              */
             
-            // REMOVED THIS SUPER CALL ONCE IMPLEMENT SENTEGRITY VIEWCONTROLLER (IT SHOWS THE DEFAULT)
-            [super showUIForAction:action withResult:result];
+            // Show the password creation view controller
+            [self.passwordCreationViewController setResult:result];
+            [self.mainViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
             
+            // Done
             break;
+            
         case GetPassword:
             // Prompts for user password/authentication
             
@@ -178,9 +276,12 @@
              * DAFAppBase::passwordViewController provides a simple implementation of this function.
              */
             
+            
+            
             // REMOVED THIS SUPER CALL ONCE IMPLEMENT SENTEGRITY VIEWCONTROLLER (IT SHOWS THE DEFAULT)
             [super showUIForAction:action withResult:result];
             break;
+            
         case GetOldPassword:
             // setResult to string containing old password during password change
             // NA (NOT IMPLEMENTED YET IN SENTEGRITY)
@@ -190,7 +291,12 @@
              * DAFAppBase::passwordViewController provides a simple implementation of this function.
              */
             
+            // Super
+            [super showUIForAction:action withResult:result];
+            
+            // Done
             break;
+            
         case GetNewPassword:
             // setResult to string containing new password during password change
             // NA (NOT IMPLEMENTED YET IN SENTEGRITY)
@@ -200,7 +306,12 @@
              * DAFAppBase::passwordViewController provides a simple implementation of this function.
              */
             
+            // Super
+            [super showUIForAction:action withResult:result];
+            
+            // Done
             break;
+            
         default:
             
             // Pass on all other requests (and any actions added in future)
@@ -213,14 +324,43 @@
 
 - (void)eventNotification:(enum DAFUINotification)event withMessage:(NSString *)msg
 {
-    NSLog(@"DAFSkelAppDelegate: we got an event notification, type=%d message='%@'", event, msg);
+    NSLog(@"SentegrityTAF_AppDelegate: we got an event notification, type=%d message='%@'", event, msg);
     [super eventNotification:event withMessage:msg];
     
     // Pass the message to all of the view controllers
     [self.mainViewController updateUIForNotification:event];
-    [self.firstTimeViewController updateUIForNotification:event];
     [self.unlockViewController updateUIForNotification:event];
     [self.easyActivationViewController updateUIForNotification:event];
+}
+
+#pragma mark - ISHPermissionKit
+
+// Set the datasource method
+- (ISHPermissionRequestViewController *)permissionsViewController:(ISHPermissionsViewController *)vc requestViewControllerForCategory:(ISHPermissionCategory)category {
+    
+    // Check which category
+    if (category == ISHPermissionCategoryLocationWhenInUse) {
+        // Get the storyboard
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        // Create the location permission view controller
+        LocationPermissionViewController *locationPermission = [mainStoryboard instantiateViewControllerWithIdentifier:@"LocationPermissionViewController"];
+        
+        // Return Location Permission View Controller
+        return locationPermission;
+    } else if (category == ISHPermissionCategoryActivity) {
+        // Get the storyboard
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        // Create the activity permission view controller
+        ActivityPermissionViewController *activityPermission = [mainStoryboard instantiateViewControllerWithIdentifier:@"ActivityPermissionViewController"];
+        
+        // Return Activity Permission View Controller
+        return activityPermission;
+    }
+    
+    // Don't know
+    return nil;
 }
 
 @end

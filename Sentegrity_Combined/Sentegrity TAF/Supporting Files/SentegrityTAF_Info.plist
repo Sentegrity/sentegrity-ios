@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>Sentegrity</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -95,7 +95,6 @@
 	<array>
 		<string>armv7</string>
 		<string>location-services</string>
-		<string>gps</string>
 	</array>
 	<key>UIRequiresFullScreen</key>
 	<true/>

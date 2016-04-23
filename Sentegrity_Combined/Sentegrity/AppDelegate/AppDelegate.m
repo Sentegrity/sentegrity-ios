@@ -46,7 +46,7 @@
     }
     
     // Run the activites from the dispatcher ASAP
-    //[_activityDispatcher runCoreDetectionActivities];
+    [_activityDispatcher runCoreDetectionActivities];
     
     // Set up the navigation controller
     controller = [[UINavigationController alloc] initWithRootViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"loginviewcontroller"]];

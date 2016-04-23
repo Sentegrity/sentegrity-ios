@@ -18,12 +18,4 @@
 // Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
-
-// UI elements
-@property (weak, nonatomic) IBOutlet UIButton *changePasswordButton;
-- (IBAction)onChangePasswordPressed:(id)sender;
-
-@property (weak, nonatomic) IBOutlet UIButton *lockButton;
-- (IBAction)onLockPressed:(id)sender;
-
 @end
