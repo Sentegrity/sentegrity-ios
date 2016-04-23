@@ -41,6 +41,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSError *error;
+    NSString *masterKey=@"asdf";
+               // NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithUserPassword:@"asdf" withError:&error];
     
     // generate lines with one pixel (on all iOS devices)
     for (NSLayoutConstraint *constraint in self.onePixelConstraintsCollection) {
@@ -126,7 +129,7 @@
             
             // Populate the startup file
             NSError *error;
-            NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] populateNewStartupFileWithUserPassword:pass1 withError:&error];
+            NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithUserPassword:pass1 withError:&error];
             
             // TODO: Check for errors
             

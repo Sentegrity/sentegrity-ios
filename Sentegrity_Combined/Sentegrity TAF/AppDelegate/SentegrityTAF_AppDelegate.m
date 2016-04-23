@@ -87,7 +87,7 @@
             }
             
             // Start Netstat
-            [_activityDispatcher startNetstat];
+            //[_activityDispatcher startNetstat];
             
             // Start Bluetooth as soon as possible
             [_activityDispatcher startBluetoothBLE];

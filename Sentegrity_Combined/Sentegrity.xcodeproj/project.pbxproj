@@ -1417,6 +1417,7 @@
 					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",

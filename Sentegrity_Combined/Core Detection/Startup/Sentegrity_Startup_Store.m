@@ -136,8 +136,11 @@
 
 
 // Create a new startup file and return master key as a string
-- (NSString *)populateNewStartupFileWithUserPassword:(NSString *)password withError:(NSError **)error {
+- (NSString *)createNewStartupFileWithUserPassword:(NSString *)password withError:(NSError **)error {
     
+    // Alloc the startup file
+    Sentegrity_Startup *startup = [[Sentegrity_Startup alloc] init];
+    self.currentStartupStore = startup;
     
     /*
      * Set first time defaults for the application
