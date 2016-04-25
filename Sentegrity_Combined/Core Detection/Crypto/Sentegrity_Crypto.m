@@ -208,7 +208,7 @@
     NSError *decryptedMasterKeyError;
     
     // Decrypted Master Key
-    NSData *decryptedMasterKey =[self decryptString:userKeyEncryptedMasterKeyBlobString withDerivedKeyData:userPBKDF2Key withSaltString:userKeyEncryptedMasterKeySaltString withError:&decryptedMasterKeyError];
+    NSData *decryptedMasterKey = [self decryptString:userKeyEncryptedMasterKeyBlobString withDerivedKeyData:userPBKDF2Key withSaltString:userKeyEncryptedMasterKeySaltString withError:&decryptedMasterKeyError];
     
     // Check if we received the error
     if (decryptedMasterKeyError || decryptedMasterKeyError != nil) {

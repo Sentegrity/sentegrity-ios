@@ -111,10 +111,11 @@
 
 
 
-- (Sentegrity_Policy *) loadPolicyFromMainBundle: (NSError **) error {
+- (Sentegrity_Policy *)loadPolicyFromMainBundle:(NSError **) error {
 
-    
+    // Get the policy path
     NSURL *policyPath = [self policyFilePathInMainBundle];
+    
     // Validate the policy path provided
     if (!policyPath || policyPath == nil) {
         // Invalid policy path provided
@@ -132,6 +133,7 @@
         // Log it
         NSLog(@"Parse Policy Failed: %@", errorDetails);
         
+        // Return nil
         return nil;
     }
     
@@ -258,15 +260,20 @@
 // Policy File Path
 - (NSURL *)policyFilePathInMainBundle {
     
+    // Get the bundle
     NSBundle *bundle = [NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:kCoreDetectionBundle withExtension:kCoreDetectionBundleExtension]];
-    NSURL *policyPath = [NSURL URLWithString:[bundle pathForResource:kCDBPolicy ofType:@""]];
+
+    // Get the file URL path
+    NSURL *policyPath = [NSURL fileURLWithPath:[bundle pathForResource:kCDBPolicy ofType:@""]];
     
     // Validate the policy path provided
     if (![[NSFileManager defaultManager] fileExistsAtPath:[policyPath path]]) {
-        
+        // Unable to find the policy path
+        NSLog(@"Unable to find the policy path!");
         return nil;
     }
     
+    // Return the policy path
     return policyPath;
 }
 

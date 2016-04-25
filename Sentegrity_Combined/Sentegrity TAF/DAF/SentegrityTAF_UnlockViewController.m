@@ -341,9 +341,10 @@
                     
                     // Now we can pass the key to the GD runtime
                     NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+                    NSString *decryptedMasterKeyString = [NSString stringWithUTF8String:[decryptedMasterKey bytes]];
                     
                     // Use the decrypted master key
-                    [result setResult:decryptedMasterKey];
+                    [result setResult:decryptedMasterKeyString];
                     result = nil;
                     
                     // Dismiss the view
@@ -436,9 +437,10 @@
                     
                     // Now we can pass the key to the GD runtime
                     NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+                    NSString *decryptedMasterKeyString = [NSString stringWithUTF8String:[decryptedMasterKey bytes]];
                     
                     // Use the decrypted master key
-                    [result setResult:decryptedMasterKey];
+                    [result setResult:decryptedMasterKeyString];
                     result = nil;
                     
                     // Dismiss the view
@@ -511,9 +513,10 @@
                     
                     // Now we can pass the key to the GD runtime
                     NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+                    NSString *decryptedMasterKeyString = [NSString stringWithUTF8String:[decryptedMasterKey bytes]];
                     
                     // Use the decrypted master key
-                    [result setResult:decryptedMasterKey];
+                    [result setResult:decryptedMasterKeyString];
                     result = nil;
                     
                     // Dismiss the view
