@@ -10,7 +10,6 @@
 		4C2666E51CC0295600F10DC0 /* bluetooth_services.list in Resources */ = {isa = PBXBuildFile; fileRef = 4C7D974E1CC0010E00E9CC97 /* bluetooth_services.list */; };
 		4C2666E61CC0295600F10DC0 /* default_ssids.list in Resources */ = {isa = PBXBuildFile; fileRef = 4C7D974F1CC0010E00E9CC97 /* default_ssids.list */; };
 		4C2666E71CC0295600F10DC0 /* hotspot_ssids.list in Resources */ = {isa = PBXBuildFile; fileRef = 4C7D97501CC0010E00E9CC97 /* hotspot_ssids.list */; };
-		4C2666E81CC0295600F10DC0 /* Default_Policy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C7D97521CC0010E00E9CC97 /* Default_Policy.plist */; };
 		4C2666E91CC0295600F10DC0 /* oui.list in Resources */ = {isa = PBXBuildFile; fileRef = 4C7D97531CC0010E00E9CC97 /* oui.list */; };
 		4C2666EA1CC0295600F10DC0 /* oui_all.list in Resources */ = {isa = PBXBuildFile; fileRef = 4C7D97541CC0010E00E9CC97 /* oui_all.list */; };
 		4C2666EB1CC0295600F10DC0 /* policy in Resources */ = {isa = PBXBuildFile; fileRef = 4C7D97551CC0010E00E9CC97 /* policy */; };
@@ -1086,7 +1085,6 @@
 				4C2666E51CC0295600F10DC0 /* bluetooth_services.list in Resources */,
 				4C2666E61CC0295600F10DC0 /* default_ssids.list in Resources */,
 				4C2666E71CC0295600F10DC0 /* hotspot_ssids.list in Resources */,
-				4C2666E81CC0295600F10DC0 /* Default_Policy.plist in Resources */,
 				4C2666E91CC0295600F10DC0 /* oui.list in Resources */,
 				4C2666EA1CC0295600F10DC0 /* oui_all.list in Resources */,
 				4C2666EB1CC0295600F10DC0 /* policy in Resources */,

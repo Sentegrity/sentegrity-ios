@@ -28,12 +28,30 @@
 // Dashboard View Controller
 #import "DashboardViewController.h"
 
-@interface SentegrityTAF_UnlockViewController ()
+@interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate>
+
+@property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *onePixelConstraintsCollection;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomFooterConstraint;
+
+
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+@property (weak, nonatomic) IBOutlet UITextField *textFieldPassword;
+@property (weak, nonatomic) IBOutlet UIView *viewFooter;
+@property (weak, nonatomic) IBOutlet UIView *inputContainer;
+
+
+@property (weak, nonatomic) IBOutlet UIButton *buttonInfo;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSentegrity;
+
+- (IBAction)pressedSentegrityLogo:(id)sender;
+- (IBAction)pressedInfoButton:(id)sender;
 
 // Progress HUD
 @property (nonatomic,strong) MBProgressHUD *hud;
 
 @end
+
 
 
 @implementation SentegrityTAF_UnlockViewController
@@ -49,10 +67,35 @@
     return self;
 }
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    // generate lines with one pixel (on all iOS devices)
+    for (NSLayoutConstraint *constraint in self.onePixelConstraintsCollection) {
+        constraint.constant = 1.0 / [UIScreen mainScreen].scale;
+    }
+    
+    //notifications for keyboard
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+    //scroll inset
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.viewFooter.frame.size.height, 0);
+    self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
 }
 
 - (void)didReceiveMemoryWarning
@@ -97,8 +140,89 @@
     }
 }
 
+
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    [self confirm];
+    return NO;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    // Workaround for the jumping text bug in iOS.
+    [textField resignFirstResponder];
+    [textField layoutIfNeeded];
+}
+
+
+- (void) confirm {
+    NSLog(@"Confirmed");
+    [self showAlertWithTitle:@"Demo over" andMessage:nil];
+}
+
+
+- (void) showInput {
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.buttonInfo.alpha = 0.0;
+        self.inputContainer.alpha = 1.0;
+        self.buttonSentegrity.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+- (IBAction)pressedSentegrityLogo:(id)sender {
+    //show dashboard
+}
+
+- (IBAction)pressedInfoButton:(id)sender {
+    //Report a problem
+    
+}
+
+
+
+-(void) keyboardWillShow:(NSNotification *)note{
+    // get keyboard size and location
+    CGRect keyboardBounds;
+    [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    
+    // Need to translate the bounds to account for rotation.
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+    
+    //do animation
+    [UIView animateWithDuration:[duration doubleValue] delay:0 options:UIViewAnimationOptionBeginFromCurrentState | [curve intValue] animations:^{
+        self.bottomFooterConstraint.constant = (keyboardBounds.size.height);
+        [self.view setNeedsLayout];
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+}
+
+-(void) keyboardWillHide:(NSNotification *)note{
+    NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    
+    //do animation
+    [UIView animateWithDuration:[duration doubleValue] delay:0 options:UIViewAnimationOptionBeginFromCurrentState | [curve intValue] animations:^{
+        self.bottomFooterConstraint.constant = 50;
+        [self.view setNeedsLayout];
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+}
+
+
 - (void)viewDidAppear:(BOOL)animated
 {
+    
     NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];
     

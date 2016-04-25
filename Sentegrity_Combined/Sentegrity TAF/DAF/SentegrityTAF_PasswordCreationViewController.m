@@ -41,9 +41,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSError *error;
-    NSString *masterKey=@"asdf";
-               // NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithUserPassword:@"asdf" withError:&error];
+   // NSError *error;
+ 
+   // NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithUserPassword:@"asdf" withError:&error];
     
     // generate lines with one pixel (on all iOS devices)
     for (NSLayoutConstraint *constraint in self.onePixelConstraintsCollection) {
@@ -133,12 +133,19 @@
             
             // TODO: Check for errors
             
+            [self dismissViewControllerAnimated:NO completion: ^{
+                NSLog(@"DAFSkelUnlockViewController: delivering auth token");
+                NSData *authToken = [NSData dataWithBytes:"dummy" length:5];
+                [result setResult:authToken];
+                result = nil;
+            }];
+            
             // Set the result to the master key
             [result setResult:masterKey];
             result = nil;
             
             // Dismiss the view
-            //[self dismissViewControllerAnimated:NO completion:nil];
+            [self dismissViewControllerAnimated:NO completion:nil];
             
         } else {
             

@@ -15,7 +15,10 @@
 #import "DAFSupport/DAFWaitableResult.h"
 #import "DAFSupport/DAFEventTypes.h"
 
-@interface SentegrityTAF_UnlockViewController : UIViewController
+#import "SentegrityTAF_BaseViewController.h"
+
+
+@interface SentegrityTAF_UnlockViewController : SentegrityTAF_BaseViewController
 
 @property (weak, nonatomic) DAFWaitableResult *result;
 

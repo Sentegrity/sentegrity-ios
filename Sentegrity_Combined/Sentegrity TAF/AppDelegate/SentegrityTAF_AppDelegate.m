@@ -276,10 +276,13 @@
              * DAFAppBase::passwordViewController provides a simple implementation of this function.
              */
             
+            // Show the password unlock view controller
+            [self.unlockViewController setResult:result];
+            [self.mainViewController presentViewController:self.unlockViewController animated:NO completion:nil];
             
-            
+            //[result setResult:@"asdf"];
             // REMOVED THIS SUPER CALL ONCE IMPLEMENT SENTEGRITY VIEWCONTROLLER (IT SHOWS THE DEFAULT)
-            [super showUIForAction:action withResult:result];
+            //[super showUIForAction:action withResult:result];
             break;
             
         case GetOldPassword:
