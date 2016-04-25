@@ -84,7 +84,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     [[Sentegrity_Policy_Parser sharedPolicy] setCurrentPolicy:nil];
     
     // Get the policy
-    Sentegrity_Policy * policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
     
     // Validate the policy.trustFactors
     if (!policy || policy.trustFactors.count < 1 || !policy.trustFactors) {
