@@ -58,17 +58,21 @@
 
 @synthesize result;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
+
 
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    //hide nav bar if neccesary
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)viewDidLoad
@@ -98,10 +102,17 @@
     self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
 }
 
-- (void)didReceiveMemoryWarning
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    [self confirm];
+    return NO;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    // Workaround for the jumping text bug in iOS.
+    [textField resignFirstResponder];
+    [textField layoutIfNeeded];
 }
 
 - (void)updateUIForNotification:(enum DAFUINotification)event
@@ -142,24 +153,63 @@
 
 
 
-- (BOOL) textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    [self confirm];
-    return NO;
-}
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    // Workaround for the jumping text bug in iOS.
-    [textField resignFirstResponder];
-    [textField layoutIfNeeded];
-}
 
 
 - (void) confirm {
-    NSLog(@"Confirmed");
-    [self showAlertWithTitle:@"Demo over" andMessage:nil];
-}
+    
+    //Get password
+    NSString *passwordAttempt = self.textFieldPassword.text;
+    NSError *error;
+    
+    // Get last computation results
+    Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+    
+    if(computationResults.preAuthenticationAction == preAuthenticationAction_PromptForUserPassword || computationResults.preAuthenticationAction ==preAuthenticationAction_PromptForUserPasswordAndWarn)
+    {
+        
+        Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithUserInput:passwordAttempt andError:&error];
+        
+        // Set the authentication response code
+        computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
+        
+        // Set history now, we already have all the info we need
+        [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:&error];
+        
+        // Success and recoverable errors operate the same since we still managed to get a decrypted master key
+        if(computationResults.authenticationResult == authenticationResult_Success || computationResults.authenticationResult == authenticationResult_recoverableError ) {
+            
+            // Now we can pass the key to the GD runtime
+            NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+            
+            NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:&error];
+            
+            // Use the decrypted master key
+            [result setResult:decryptedMasterKeyString];
+            result = nil;
+            
+            // We're done so dismiss
+            // Dismiss the view
+            [self dismissViewControllerAnimated:NO completion:nil];
+            
+            
+        } else if(computationResults.authenticationResult == authenticationResult_incorrectLogin) {
+            
+            // Show alert window
+            [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
+
+            
+        } else if (computationResults.authenticationResult == authenticationResult_irrecoverableError) {
+            
+            // Show alert window
+            [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
+            
+        }
+        
+        
+        // Done
+    }
+  }
 
 
 - (void) showInput {
@@ -218,6 +268,7 @@
     }];
     
 }
+
 
 
 - (void)viewDidAppear:(BOOL)animated
@@ -299,6 +350,7 @@
                 
                 [self analyzePreAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
+                [self showInput];
                 
             });
             
@@ -322,6 +374,8 @@
     // Get last computation results
     Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
+    
+    // The only preAuthenticationActions handled here are transparent, blockAndWarn,
     switch (computationResults.preAuthenticationAction) {
         case preAuthenticationAction_TransparentlyAuthenticate:
         {
@@ -341,14 +395,16 @@
                     
                     // Now we can pass the key to the GD runtime
                     NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
-                    NSString *decryptedMasterKeyString = [NSString stringWithUTF8String:[decryptedMasterKey bytes]];
+                    
+                    NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:error];
                     
                     // Use the decrypted master key
                     [result setResult:decryptedMasterKeyString];
                     result = nil;
                     
+                    // We're done so dismiss
                     // Dismiss the view
-                    //[self dismissViewControllerAnimated:NO completion:nil];
+                    [self dismissViewControllerAnimated:NO completion:nil];
                     
                     // Done
                     break;
@@ -362,8 +418,6 @@
                     
                     computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
                     computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
-                    
-                    [self analyzePreAuthenticationActionsWithError:error];
                     
                     // Done
                     break;
@@ -389,23 +443,8 @@
             // Set history now, we already have all the info we need
             [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:error];
             
-            SCLAlertView *blocked = [[SCLAlertView alloc] init];
-            blocked.backgroundType = Shadow;
-            [blocked removeTopCircle];
-            
-            [blocked addButton:@"TrustScore Details" actionBlock:^(void) {
-                
-                // Get the storyboard
-                UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                
-                // Create the main view controller
-                DashboardViewController *mainViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-                
-                [self.navigationController pushViewController:mainViewController animated:NO];
-                
-            }];
-            
-            [blocked showCustom:self image:nil color:[UIColor grayColor] title:loginResponseObject.responseLoginTitle subTitle:loginResponseObject.responseLoginDescription closeButtonTitle:nil duration:0.0f];
+            // TODO: Change to show denied view instead of popup box
+            [self showAlertWithTitle:@"Access Denied" andMessage:@"This device is high risk or in violation of policy, this access attempt has been denied."];
             
             // Done
             break;
@@ -414,155 +453,19 @@
             
         case preAuthenticationAction_PromptForUserPassword:
         {
-            
-            SCLAlertView *userInput = [[SCLAlertView alloc] init];
-            userInput.backgroundType = Transparent;
-            userInput.showAnimationType = SlideInFromBottom;
-            [userInput removeTopCircle];
-            
-            UITextField *userText = [userInput addTextField:@"Password"];
-            
-            [userInput addButton:@"Login" actionBlock:^(void) {
                 
-                Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithUserInput:userText.text andError:error];
-                
-                // Set the authentication response code
-                computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
-                
-                // Set history now, we already have all the info we need
-                [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:error];
-                
-                // Success and recoverable errors operate the same since we still managed to get a decrypted master key
-                if(computationResults.authenticationResult == authenticationResult_Success || computationResults.authenticationResult == authenticationResult_recoverableError ) {
-                    
-                    // Now we can pass the key to the GD runtime
-                    NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
-                    NSString *decryptedMasterKeyString = [NSString stringWithUTF8String:[decryptedMasterKey bytes]];
-                    
-                    // Use the decrypted master key
-                    [result setResult:decryptedMasterKeyString];
-                    result = nil;
-                    
-                    // Dismiss the view
-                    //[self dismissViewControllerAnimated:NO completion:nil];
-                    
-                    
-                } else if(computationResults.authenticationResult == authenticationResult_incorrectLogin) {
-                    
-                    // Show alert window
-                    SCLAlertView *incorrect = [[SCLAlertView alloc] init];
-                    incorrect.backgroundType = Shadow;
-                    [incorrect removeTopCircle];
-                    
-                    [incorrect addButton:@"Retry" actionBlock:^(void) {
-                        
-                        // Call this function again
-                        [self analyzePreAuthenticationActionsWithError:error];
-                        
-                    }];
-                    
-                    [incorrect showCustom:self image:nil color:[UIColor grayColor] title:loginResponseObject.responseLoginTitle subTitle:loginResponseObject.responseLoginDescription closeButtonTitle:nil duration:0.0f];
-                    
-                } else if (computationResults.authenticationResult == authenticationResult_irrecoverableError) {
-                    
-                    // Show alert window
-                    SCLAlertView *error = [[SCLAlertView alloc] init];
-                    error.backgroundType = Shadow;
-                    [error removeTopCircle];
-                    
-                    [error addButton:@"Retry" actionBlock:^(void) {
-                        
-                        // Reload the view
-                        [self viewDidAppear:NO];
-                        
-                    }];
-                    
-                    [error showCustom:self image:nil color:[UIColor grayColor] title:loginResponseObject.responseLoginTitle subTitle:loginResponseObject.responseLoginDescription closeButtonTitle:nil duration:0.0f];
-                    
-                }
-                
-            }];
             
-            [userInput showCustom:self image:nil color:[UIColor grayColor] title:@"User Login" subTitle:@"Enter user password" closeButtonTitle:nil duration:0.0f];
+            // Do nothing, show login screen
             
-            // Done
             break;
         }
             
         case preAuthenticationAction_PromptForUserPasswordAndWarn:
         {
-            SCLAlertView *userInput = [[SCLAlertView alloc] init];
-            userInput.backgroundType = Transparent;
-            userInput.showAnimationType = SlideInFromBottom;
-            [userInput removeTopCircle];
             
-            UITextField *userText = [userInput addTextField:@"Password"];
+            // Show warning message then show login prompt
+            [self showAlertWithTitle:@"Warning" andMessage:@"This device is high risk or in violation of policy, this access attempt will be reported."];
             
-            [userInput addButton:@"Login" actionBlock:^(void) {
-                
-                Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithUserInput:userText.text andError:error];
-                
-                // Set the authentication response code
-                computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
-                
-                // Set history now, we already have all the info we need
-                [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:error];
-                
-                // Success and recoverable errors operate the same since we still managed to get a decrypted master key
-                if (computationResults.authenticationResult == authenticationResult_Success || computationResults.authenticationResult == authenticationResult_recoverableError) {
-                    
-                    // Now we can pass the key to the GD runtime
-                    NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
-                    NSString *decryptedMasterKeyString = [NSString stringWithUTF8String:[decryptedMasterKey bytes]];
-                    
-                    // Use the decrypted master key
-                    [result setResult:decryptedMasterKeyString];
-                    result = nil;
-                    
-                    // Dismiss the view
-                    //[self dismissViewControllerAnimated:NO completion:nil];
-                    
-                    
-                } else if (computationResults.authenticationResult == authenticationResult_incorrectLogin) {
-                    
-                    // Show alert window
-                    SCLAlertView *incorrect = [[SCLAlertView alloc] init];
-                    incorrect.backgroundType = Shadow;
-                    [incorrect removeTopCircle];
-                    
-                    [incorrect addButton:@"Retry" actionBlock:^(void) {
-                        
-                        // Call this function again
-                        [self analyzePreAuthenticationActionsWithError:error];
-                        
-                    }];
-                    
-                    [incorrect showCustom:self image:nil color:[UIColor grayColor] title:loginResponseObject.responseLoginTitle subTitle:loginResponseObject.responseLoginDescription closeButtonTitle:nil duration:0.0f];
-                    
-                } else if (computationResults.authenticationResult == authenticationResult_irrecoverableError) {
-                    
-                    // Show alert window
-                    SCLAlertView *error = [[SCLAlertView alloc] init];
-                    error.backgroundType = Shadow;
-                    [error removeTopCircle];
-                    
-                    [error addButton:@"Retry" actionBlock:^(void) {
-                        
-                        // Reload the view
-                        [self viewDidAppear:NO];
-                        
-                    }];
-                    
-                    [error showCustom:self image:nil color:[UIColor grayColor] title:loginResponseObject.responseLoginTitle subTitle:loginResponseObject.responseLoginDescription closeButtonTitle:nil duration:0.0f];
-                    
-                }
-                
-            }];
-            
-            // Show the warning
-            [userInput showCustom:self image:nil color:[UIColor grayColor] title:@"Warning" subTitle:@"This device is high risk or in violation of policy, this access attempt will be reported." closeButtonTitle:nil duration:0.0f];
-            
-            // Done
             break;
         }
             

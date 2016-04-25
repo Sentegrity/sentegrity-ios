@@ -17,6 +17,8 @@
 
 #import "SentegrityTAF_BaseViewController.h"
 
+#import "Sentegrity_Crypto.h"
+
 
 @interface SentegrityTAF_UnlockViewController : SentegrityTAF_BaseViewController
 

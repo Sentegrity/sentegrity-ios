@@ -33,7 +33,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GRK-0i-yWQ" userLabel="Container">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="142"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="good_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="z9M-Jf-1r0">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="good_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="z9M-Jf-1r0">
                                             <rect key="frame" x="25" y="40" width="82" height="26"/>
                                         </imageView>
                                         <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Bs-Hi-7Q3" userLabel="Input Container">
