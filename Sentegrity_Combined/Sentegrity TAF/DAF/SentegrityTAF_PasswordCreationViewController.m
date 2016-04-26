@@ -100,6 +100,8 @@
     // Get the passwords
     NSString *pass1 = self.textFieldNewPassword.text;
     NSString *pass2 = self.textFieldConfirmPassword.text;
+    
+    [self securityPolicy];
 
     // Check if the passwords meet the criteria
     if (![pass1 isEqualToString:pass2]) {
@@ -159,6 +161,56 @@
 }
 
 
+// TBD
+-(bool) checkPasswordRequirements:(NSString *)password{
+    int numberofCharacters = 0;
+    BOOL lowerCaseLetter,upperCaseLetter,digit,specialCharacter = 0;
+    if([password length] >= 10)
+    {
+        for (int i = 0; i < [password length]; i++)
+        {
+            unichar c = [password characterAtIndex:i];
+            if(!lowerCaseLetter)
+            {
+                lowerCaseLetter = [[NSCharacterSet lowercaseLetterCharacterSet] characterIsMember:c];
+            }
+            if(!upperCaseLetter)
+            {
+                upperCaseLetter = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:c];
+            }
+            if(!digit)
+            {
+                digit = [[NSCharacterSet decimalDigitCharacterSet] characterIsMember:c];
+            }
+            if(!specialCharacter)
+            {
+                specialCharacter = [[NSCharacterSet symbolCharacterSet] characterIsMember:c];
+            }
+        }
+        
+        if(specialCharacter && digit && lowerCaseLetter && upperCaseLetter)
+        {
+            //do what u want
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:@"Please Ensure that you have at least one lower case letter, one upper case letter, one digit and one special character"
+                                                           delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:@"Please Enter at least 10 password"
+                                                       delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    return true;
+}
 
 -(void) keyboardWillShow:(NSNotification *)note{
     // get keyboard size and location

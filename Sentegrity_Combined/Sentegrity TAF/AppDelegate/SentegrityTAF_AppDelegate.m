@@ -29,6 +29,45 @@
 
 @implementation SentegrityTAF_AppDelegate
 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    
+    if([launchOptions objectForKey:UIApplicationLaunchOptionsURLKey]){
+        // we were launched by another good app, dont show dashboard
+    }
+    
+    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+    
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    // we were launched by another good app, dont show dashboard on mainview controller
+    
+    return [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
+
+/*
+ 
+ This throws an error when trying to call super? but it works to detect when we are being called via URI and not user
+ trying to see the dashboard
+ 
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString *,id> *)options {
+    
+    // we were launched by another good app, dont show dashboard on mainview controller
+ 
+    return [super application:app openURL:url options:options];
+}
+ */
+
+-(BOOL) application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    
+    // we were launched by another good app, dont show dashboard on mainview controller
+
+    return [super application:application handleOpenURL:url];
+}
 #pragma mark - Good DAF
 
 // Setup NIBS
@@ -87,7 +126,7 @@
             }
             
             // Start Netstat
-            //[_activityDispatcher startNetstat];
+            [_activityDispatcher startNetstat];
             
             // Start Bluetooth as soon as possible
             [_activityDispatcher startBluetoothBLE];
@@ -150,7 +189,7 @@
                 if (vc && vc != nil) {
                     
                     // Present the permissions kit view controller
-                    [self.mainViewController presentViewController:vc animated:YES completion:nil];
+                    [self.mainViewController presentViewController:vc animated:NO completion:nil];
                     
                     // Completion Block
                     [vc setCompletionBlock:^{
@@ -188,7 +227,7 @@
             [self setupNibs];
             
             // Show the main view controller
-            [self.gdWindow setRootViewController:self.mainViewController];
+            [self.gdWindow setRootViewController:self.mainViewController ];
             [self.gdWindow makeKeyAndVisible];
             
             // Done
@@ -243,6 +282,9 @@
              * DAFAppBase::passwordViewController provides a simple (built in) implementation of this function.
              */
             
+            // Set the security policy provided by Good so we can enforce it during password creation
+            [self.passwordCreationViewController setSecurityPolicy:[self.gdTrust securityPolicy]];
+            
             // Show the password creation view controller
             [self.passwordCreationViewController setResult:result];
             [self.mainViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
@@ -278,6 +320,8 @@
             
             // Show the password unlock view controller
             [self.unlockViewController setResult:result];
+            
+            
             [self.mainViewController presentViewController:self.unlockViewController animated:NO completion:nil];
             
             // Done
@@ -312,6 +356,7 @@
             
             // Done
             break;
+
             
         default:
             
@@ -327,6 +372,8 @@
 {
     NSLog(@"SentegrityTAF_AppDelegate: we got an event notification, type=%d message='%@'", event, msg);
     [super eventNotification:event withMessage:msg];
+    
+    //If == AuthorizationSucceeded, don't show Sentegrity Dashboard
     
     // Pass the message to all of the view controllers
     [self.mainViewController updateUIForNotification:event];

@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashScreen" translatesAutoresizingMaskIntoConstraints="NO" id="yPq-EK-UjU">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash_iphone_HD5.5_PT.png" translatesAutoresizingMaskIntoConstraints="NO" id="yPq-EK-UjU">
                     <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                 </imageView>
             </subviews>
@@ -30,6 +30,6 @@
         </view>
     </objects>
     <resources>
-        <image name="SplashScreen" width="640" height="960"/>
+        <image name="Splash_iphone_HD5.5_PT.png" width="414" height="736"/>
     </resources>
 </document>

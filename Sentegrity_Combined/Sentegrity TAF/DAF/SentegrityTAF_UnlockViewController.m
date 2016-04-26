@@ -58,6 +58,16 @@
 
 @synthesize result;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -139,6 +149,8 @@
             result = nil;
         }];
     }
+    // removed below in the event 
+    /*
     else if (event == AuthenticateWithWarnStarted)
     {
         NSLog(@"SentegrityTAF_UnlockViewController: starting authenticateWithWarn");
@@ -149,6 +161,8 @@
             result = nil;
         }];
     }
+     */
+    
 }
 
 

@@ -36,6 +36,7 @@
     {
         case AuthorizationSucceeded:
             // Authorization succeeded
+            
             break;
             
         case AuthorizationFailed:

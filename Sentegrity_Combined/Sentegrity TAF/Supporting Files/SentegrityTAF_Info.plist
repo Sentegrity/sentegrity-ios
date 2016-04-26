@@ -110,5 +110,10 @@
 	</array>
 	<key>com.apple.developer.ubiquity-container-identifiers</key>
 	<string>$(TeamIdentifierPrefix).$(CFBundleIdentifier)</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 </dict>
 </plist>

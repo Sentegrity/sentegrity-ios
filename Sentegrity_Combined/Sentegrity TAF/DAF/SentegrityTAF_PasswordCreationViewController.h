@@ -18,6 +18,9 @@
 // Result
 @property (weak, nonatomic) DAFWaitableResult *result;
 
+// Result
+@property (weak, nonatomic) NSDictionary *securityPolicy;
+
 // Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
