@@ -390,12 +390,12 @@
 			isa = PBXGroup;
 			children = (
 				4CF20B271CC01F3600F44FB8 /* Core Detection.xcodeproj */,
-				4A3429CBBD5FF34D6202962E /* Frameworks */,
-				BCE0E0550A85C5B5C27375E3 /* Pods */,
-				04A248FA1B266AC2007D9460 /* Products */,
 				04A248FB1B266AC2007D9460 /* Sentegrity */,
 				4C26672E1CC0396600F10DC0 /* Sentegrity TAF */,
 				04A249151B266AC2007D9460 /* SentegrityTests */,
+				4A3429CBBD5FF34D6202962E /* Frameworks */,
+				BCE0E0550A85C5B5C27375E3 /* Pods */,
+				04A248FA1B266AC2007D9460 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -531,8 +531,6 @@
 		4C2667331CC03AB900F10DC0 /* DAF */ = {
 			isa = PBXGroup;
 			children = (
-				96C5BCE11CCE66600009B3A6 /* SentegrityTAF_UnlockViewController_iPad.xib */,
-				96C5BCE21CCE66600009B3A6 /* SentegrityTAF_UnlockViewController_iPhone.xib */,
 				4CDE3C9D1CCA96C100D23E66 /* DAFSkelDriver.cpp */,
 				4CDE3C9E1CCA96C100D23E66 /* DAFSkelDriver.h */,
 				4C6F39531CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.h */,
@@ -547,6 +545,8 @@
 				4C26673F1CC03ACA00F10DC0 /* SentegrityTAF_MainViewController_iPhone.xib */,
 				4C2667441CC03ACA00F10DC0 /* SentegrityTAF_UnlockViewController.h */,
 				4C2667451CC03ACA00F10DC0 /* SentegrityTAF_UnlockViewController.m */,
+				96C5BCE11CCE66600009B3A6 /* SentegrityTAF_UnlockViewController_iPad.xib */,
+				96C5BCE21CCE66600009B3A6 /* SentegrityTAF_UnlockViewController_iPhone.xib */,
 				4C6F39551CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.h */,
 				4C6F39561CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.m */,
 				4C6F39571CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController_iPhone.xib */,

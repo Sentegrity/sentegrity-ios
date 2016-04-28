@@ -40,6 +40,9 @@
 // Sentegrity Button - Top Left
 @property (strong, nonatomic) IBOutlet UIButton *sentegrityButton;
 
+// Back Button - Top Right
+@property (strong, nonatomic) IBOutlet UIButton *backButton;
+
 /* Score Labels */
 
 // Device View
@@ -82,12 +85,14 @@
 // Reload
 - (IBAction)reload:(id)sender;
 
+// Go Back
+- (IBAction)goBack:(id)sender;
+
 // Update the last update label
 - (void)updateLastUpdateLabel:(id)sender;
 
 /* Perform Core Detection */
 - (void)updateComputationResults:(id)sender;
-
 
 @end
 
