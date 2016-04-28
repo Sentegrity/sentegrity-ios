@@ -284,6 +284,7 @@
             
             // Set the security policy provided by Good so we can enforce it during password creation
             [self.passwordCreationViewController setSecurityPolicy:[self.gdTrust securityPolicy]];
+            [self.passwordCreationViewController setEnterprisePolicy:[self.gdlib getApplicationConfig]];
             
             // Show the password creation view controller
             [self.passwordCreationViewController setResult:result];
