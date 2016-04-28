@@ -13,6 +13,9 @@
 #import "SentegrityTAF_MainViewController.h"
 #import "DAFSupport/DAFAppBase.h"
 
+// Dashboard View Controller
+#import "DashboardViewController.h"
+
 @interface SentegrityTAF_MainViewController ()
 
 @end
@@ -22,6 +25,48 @@
 // View Did Load
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    
+    // Show the landing page since we've been transparently authenticated
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    // Create the main view controller
+    DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+    
+    // Hide the dashboard view controller
+    [dashboardViewController.menuButton setHidden:YES];
+    
+    // Set the last-updated text and reload button hidden
+    [dashboardViewController.reloadButton setHidden:YES];
+    [dashboardViewController.lastUpdateLabel setHidden:YES];
+    [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+    
+    // Navigation Controller
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
+    [navController setNavigationBarHidden:YES];
+    
+    // Present the view controller
+    [self presentViewController:navController animated:YES completion:^{
+        
+        // Completed presenting
+        
+        // Hide the dashboard view controller
+        [dashboardViewController.menuButton setHidden:YES];
+        
+        // Set the last-updated text and reload button hidden
+        [dashboardViewController.reloadButton setHidden:YES];
+        [dashboardViewController.lastUpdateLabel setHidden:YES];
+        [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+        
+        // Un-Hide the back button
+        [dashboardViewController.backButton setHidden:NO];
+        
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning {
