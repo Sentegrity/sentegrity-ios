@@ -79,9 +79,8 @@
 
 - (void)setupOptionsLabel
 {
-    NSString* currentAppName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-    self.optionsLabel.text = [self.optionsLabel.text stringByReplacingOccurrencesOfString:@"[App Name]"
-                                                                               withString:currentAppName];
+    NSString* currentAppName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];;
+    self.optionsLabel.text = [self.optionsLabel.text stringByReplacingOccurrencesOfString:@"[App Name]" withString:currentAppName];
 }
 
 - (void)updateWarningLabels

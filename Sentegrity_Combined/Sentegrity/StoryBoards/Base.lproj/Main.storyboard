@@ -116,6 +116,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button hidden="YES" opaque="NO" alpha="0.20000000298023224" contentMode="redraw" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U11-99-U0M">
+                                <rect key="frame" x="309" y="25" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="27" id="KIm-gg-cWg"/>
+                                    <constraint firstAttribute="width" constant="40" id="QOI-xi-g9E"/>
+                                    <constraint firstAttribute="width" constant="27" id="UAk-wE-TGY"/>
+                                    <constraint firstAttribute="height" constant="40" id="VH1-aG-zqI"/>
+                                </constraints>
+                                <state key="normal" image="Close">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="UAk-wE-TGY"/>
+                                        <exclude reference="KIm-gg-cWg"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="goBack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gHl-mH-Eeb"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EMX-d1-ZQf" customClass="CircleProgressBar">
                                 <rect key="frame" x="62" y="65" width="250" height="250"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -511,7 +532,9 @@ Anomaly</string>
                             <constraint firstItem="ziL-ad-E3R" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="E39-hA-EIG"/>
                             <constraint firstItem="ziL-ad-E3R" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="10" id="ED7-x8-UlK"/>
                             <constraint firstItem="Myw-L9-ttt" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="13" id="Evs-4o-Aen"/>
+                            <constraint firstAttribute="trailing" secondItem="U11-99-U0M" secondAttribute="trailing" constant="26" id="F3H-85-C96"/>
                             <constraint firstItem="eBi-Rx-SA9" firstAttribute="width" secondItem="31J-OM-r0W" secondAttribute="width" id="FAz-K8-tPf"/>
+                            <constraint firstItem="U11-99-U0M" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="25" id="Gzf-hz-TMx"/>
                             <constraint firstAttribute="trailingMargin" secondItem="L9x-Hr-dxC" secondAttribute="trailing" constant="119" id="HH3-VZ-Trf"/>
                             <constraint firstItem="M4l-RB-881" firstAttribute="width" secondItem="9lc-wB-uhH" secondAttribute="width" id="Has-an-JYM"/>
                             <constraint firstItem="S5B-Fj-azv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="108" id="IqE-Ak-HX7"/>
@@ -537,6 +560,7 @@ Anomaly</string>
                             <constraint firstItem="EMX-d1-ZQf" firstAttribute="centerY" secondItem="S5B-Fj-azv" secondAttribute="centerY" constant="-36.5" id="XWK-9J-Elt"/>
                             <constraint firstItem="L9x-Hr-dxC" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="122" id="XWn-2O-E4R"/>
                             <constraint firstItem="rJj-9o-D9L" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="bottom" id="Xrn-bj-tjC"/>
+                            <constraint firstItem="U11-99-U0M" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="5" id="Y1H-Nk-JMu"/>
                             <constraint firstItem="eBi-Rx-SA9" firstAttribute="height" secondItem="31J-OM-r0W" secondAttribute="height" id="YbL-uP-fad"/>
                             <constraint firstItem="EMX-d1-ZQf" firstAttribute="centerX" secondItem="L9x-Hr-dxC" secondAttribute="centerX" id="YdF-wo-TIv"/>
                             <constraint firstItem="L9x-Hr-dxC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="118" id="bde-FY-g33"/>
@@ -619,6 +643,7 @@ Anomaly</string>
                                 <exclude reference="enp-s4-jEp"/>
                                 <exclude reference="guc-fu-VVJ"/>
                                 <exclude reference="kat-sB-kO2"/>
+                                <exclude reference="Y1H-Nk-JMu"/>
                                 <exclude reference="PrE-72-YC7"/>
                                 <exclude reference="gTH-Z4-cP5"/>
                                 <exclude reference="54d-xr-omE"/>
@@ -635,6 +660,7 @@ Anomaly</string>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="backButton" destination="U11-99-U0M" id="b7d-wV-1Me"/>
                         <outlet property="deviceImageView" destination="BBe-13-nsN" id="gf2-Tk-OkM"/>
                         <outlet property="deviceStatusImageView" destination="PJv-nt-m1r" id="KOc-lS-kFr"/>
                         <outlet property="deviceStatusLabel" destination="9lc-wB-uhH" id="rvX-03-1ak"/>
@@ -1688,6 +1714,7 @@ Anomaly</string>
         </scene>
     </scenes>
     <resources>
+        <image name="Close" width="24" height="24"/>
         <image name="Error_yellow" width="144" height="144"/>
         <image name="Mobile_Grey" width="64" height="64"/>
         <image name="Refresh" width="48" height="48"/>

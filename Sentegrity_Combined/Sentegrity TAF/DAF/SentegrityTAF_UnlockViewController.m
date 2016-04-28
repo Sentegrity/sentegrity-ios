@@ -28,7 +28,10 @@
 // Dashboard View Controller
 #import "DashboardViewController.h"
 
-@interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate>
+// Message UI
+#import <MessageUI/MessageUI.h>
+
+@interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *onePixelConstraintsCollection;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomFooterConstraint;
@@ -236,12 +239,68 @@
     }];
 }
 
+// Show the TAF Dashboard
 - (IBAction)pressedSentegrityLogo:(id)sender {
-    //show dashboard
+
+    // Show the landing page since we've been transparently authenticated
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    // Create the main view controller
+    DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+    
+    // Hide the dashboard view controller
+    [dashboardViewController.menuButton setHidden:YES];
+    
+    // Set the last-updated text and reload button hidden
+    [dashboardViewController.reloadButton setHidden:YES];
+    [dashboardViewController.lastUpdateLabel setHidden:YES];
+    [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+    
+    // Navigation Controller
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
+    [navController setNavigationBarHidden:YES];
+    
+    // Present the view controller
+    [self presentViewController:navController animated:YES completion:^{
+        
+        // Completed presenting
+        
+        // Hide the dashboard view controller
+        [dashboardViewController.menuButton setHidden:YES];
+        
+        // Set the last-updated text and reload button hidden
+        [dashboardViewController.reloadButton setHidden:YES];
+        [dashboardViewController.lastUpdateLabel setHidden:YES];
+        [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+        
+        // Un-Hide the back button
+        [dashboardViewController.backButton setHidden:NO];
+        
+    }];
+    
 }
 
+// Report a problem
 - (IBAction)pressedInfoButton:(id)sender {
-    //Report a problem
+    
+    // Report a problem - Email
+    
+    // Email Subject
+    NSString *emailTitle = @"Sentegrity: Report a Problem";
+    // Email Content
+    NSString *messageBody = @"I encountered an error running Sentegrity";
+    // To address
+    NSArray *toRecipents = [NSArray arrayWithObject:@"jsinchak@sentegrity.com"];
+    
+    // Create the mail compose view controller
+    MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+    mailComposeViewController.mailComposeDelegate = self;
+    [mailComposeViewController setSubject:emailTitle];
+    [mailComposeViewController setMessageBody:messageBody isHTML:NO];
+    [mailComposeViewController setToRecipients:toRecipents];
+    
+    // Present mail view controller on screen
+    [self presentViewController:mailComposeViewController animated:YES completion:NULL];
     
 }
 
@@ -488,6 +547,38 @@
             
     } // Done switch preauthentication action
     
+}
+
+#pragma mark - Mail Compose Delegate
+
+// Mail compose view controller finished
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)mailResult error:(NSError *)error {
+    
+    // Check what the mail output was
+    switch (mailResult) {
+            
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail Cancelled");
+            break;
+            
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail Saved");
+            break;
+            
+        case MFMailComposeResultSent:
+            NSLog(@"Mail Sent");
+            break;
+            
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail Sent Failure: %@", [error localizedDescription]);
+            break;
+            
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end

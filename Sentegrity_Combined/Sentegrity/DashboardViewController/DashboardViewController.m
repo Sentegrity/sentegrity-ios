@@ -168,6 +168,10 @@ static MBProgressHUD *HUD;
     UITapGestureRecognizer *userTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                 action:@selector(userInformationPressed:)];
     [self.userView addGestureRecognizer:userTap];
+    
+    // Setup Back button
+    [self.backButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentFill];
+    [self.backButton setContentVerticalAlignment:UIControlContentVerticalAlignmentFill];
 
     // Update the last update label
     [self updateLastUpdateLabel:self];
@@ -267,6 +271,14 @@ static MBProgressHUD *HUD;
     
 
 } // End of Core Detection Function
+
+// Go back
+- (IBAction)goBack:(id)sender {
+    
+    // Go back
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
+}
 
 // Layout subviews
 - (void)viewDidLayoutSubviews {

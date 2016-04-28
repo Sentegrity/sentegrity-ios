@@ -68,6 +68,7 @@
 
     return [super application:application handleOpenURL:url];
 }
+
 #pragma mark - Good DAF
 
 // Setup NIBS
@@ -320,7 +321,6 @@
             
             // Show the password unlock view controller
             [self.unlockViewController setResult:result];
-            
             
             [self.mainViewController presentViewController:self.unlockViewController animated:NO completion:nil];
             
