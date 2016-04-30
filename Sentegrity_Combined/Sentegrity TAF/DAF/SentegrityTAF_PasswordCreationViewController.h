@@ -13,6 +13,9 @@
 #import "DAFSupport/DAFWaitableResult.h"
 #import "DAFSupport/DAFEventTypes.h"
 
+// General GD runtime
+#import <GD/GDiOS.h>
+
 @interface SentegrityTAF_PasswordCreationViewController : SentegrityTAF_BaseViewController
 
 // Result

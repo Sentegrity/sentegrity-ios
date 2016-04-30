@@ -261,7 +261,7 @@
     [navController setNavigationBarHidden:YES];
     
     // Present the view controller
-    [self presentViewController:navController animated:YES completion:^{
+    [self presentViewController:navController animated:NO completion:^{
         
         // Completed presenting
         
@@ -423,7 +423,10 @@
                 
                 [self analyzePreAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
-                [self showInput];
+                if(computationResults.deviceTrusted==NO){
+                    [self showInput];
+                }
+
                 
             });
             

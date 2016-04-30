@@ -55,5 +55,7 @@
 // Create a new startup file (first time)
 - (NSString *)createNewStartupFileWithUserPassword:(NSString *)password withError:(NSError **)error;
 
+- (void)updateStartupFileWithEmail:(NSString *)email withError:(NSError **)error;
+
 
 @end

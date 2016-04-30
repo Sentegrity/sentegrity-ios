@@ -16,6 +16,17 @@
 // Dashboard View Controller
 #import "DashboardViewController.h"
 
+#import <UIKit/UIKit.h>
+
+// Sentegrity
+#import "Sentegrity.h"
+
+// Animated Progress Alerts
+#import "MBProgressHUD.h"
+
+// Custom Alert View
+#import "SCLAlertView.h"
+
 @interface SentegrityTAF_MainViewController ()
 
 @end
@@ -29,30 +40,49 @@
 
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+// Setup NIBS
+- (void)setupNibs {
     
-    // Show the landing page since we've been transparently authenticated
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    // Create the main view controller
-    DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-    
-    // Hide the dashboard view controller
-    [dashboardViewController.menuButton setHidden:YES];
-    
-    // Set the last-updated text and reload button hidden
-    [dashboardViewController.reloadButton setHidden:YES];
-    [dashboardViewController.lastUpdateLabel setHidden:YES];
-    [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
-    
-    // Navigation Controller
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
-    [navController setNavigationBarHidden:YES];
-    
-    // Present the view controller
-    [self presentViewController:navController animated:YES completion:^{
+    // Get the nib for the device
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
-        // Completed presenting
+        // iPhone View Controllers
+        self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
+       
+        
+    } else {
+        
+        // iPad View Controllers
+
+        self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
+
+        
+    }
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    
+    // Don't show anything unless we've already created password and activated
+    if(self.firstTime==NO){
+        
+        // If we have no results to display, run detection, otherwise we will keep the last ones
+        if([[CoreDetection sharedDetection] getLastComputationResults] == nil)
+        {
+            [self setupNibs];
+            [self dismissViewControllerAnimated:NO completion:nil];
+            
+            [self.unlockViewController setResult:self.result];
+            [self presentViewController:self.unlockViewController animated:NO completion:nil];
+            
+        }
+        else{
+        
+        // Show the landing page since we've been transparently authenticated
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        // Create the main view controller
+        DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
         
         // Hide the dashboard view controller
         [dashboardViewController.menuButton setHidden:YES];
@@ -62,10 +92,34 @@
         [dashboardViewController.lastUpdateLabel setHidden:YES];
         [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
         
-        // Un-Hide the back button
-        [dashboardViewController.backButton setHidden:NO];
+        // Navigation Controller
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
+        [navController setNavigationBarHidden:YES];
         
-    }];
+        // Present the view controller
+        [self presentViewController:navController animated:NO completion:^{
+            
+            
+            
+            // Hide the dashboard view controller
+            [dashboardViewController.menuButton setHidden:YES];
+            
+            // Set the last-updated text and reload button hidden
+            [dashboardViewController.reloadButton setHidden:YES];
+            [dashboardViewController.lastUpdateLabel setHidden:YES];
+            [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+            
+            // Un-Hide the back button
+            [dashboardViewController.backButton setHidden:NO];
+            
+        }];
+        
+        }
+        
+    }
+    
+    
+
     
 }
 
@@ -81,6 +135,19 @@
     {
         case AuthorizationSucceeded:
             // Authorization succeeded
+            
+            if(self.firstTime==YES){
+                
+                NSError *error;
+                NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];
+                
+                // Update the startup file with the email
+                
+                [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:email withError:&error];
+                
+                // Set firsttime to NO such that after password creation the user will see the trustscore screen
+                self.firstTime=NO;
+            }
             
             break;
             
@@ -101,6 +168,7 @@
             break;
             
         default:
+            
             break;
     }
 }

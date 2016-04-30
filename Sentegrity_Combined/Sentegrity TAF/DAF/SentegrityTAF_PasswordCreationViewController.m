@@ -101,53 +101,58 @@
     NSString *pass1 = self.textFieldNewPassword.text;
     NSString *pass2 = self.textFieldConfirmPassword.text;
     
-    [self securityPolicy];
 
+    // Password requirements:
+    int passworthLength = 4;
+    BOOL isAlphaNum = NO;
+    BOOL isMixedCase = NO;
+    
     // Check if the passwords meet the criteria
     if (![pass1 isEqualToString:pass2]) {
         
         // passwords do not match
         [self showAlertWithTitle:@"Passwords do not match!" andMessage:@"Please try again."];
         
-    } else if (pass1.length < 4) {
+    } else if (pass1.length < 4) { // Ivo, change this to do the password verification check using the above parameters (passwordLength, isAlphaNum, isMixedCase - modify the checkPasswordRequirements below to do this
         
         // password too short
         [self showAlertWithTitle:@"Password is too short." andMessage:@"Please try with a longer password."];
         
     }
     
-    // TODO: If needed, add additional password checks
-    
     else {
         
-        //just for testing
+        
         
         /* Startup File */
-        // Check if the startup file exists, if not we will create a new one
-        if (![[NSFileManager defaultManager] fileExistsAtPath:[[Sentegrity_Startup_Store sharedStartupStore] startupFilePath]]) {
+        // Check if the startup file exists, if it does delete it and the assertion store so we start  clean
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[[Sentegrity_Startup_Store sharedStartupStore] startupFilePath]]) {
             
-            // Populate the startup file
-            NSError *error;
-            NSString *masterKeyString = [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithUserPassword:pass1 withError:&error];
-            
-           
-            // TODO: Check for errors
-            
-            // Set the result to the master key
-            [result setResult:masterKeyString];
-            result = nil;
-            
-            // Dismiss the view
-            [self dismissViewControllerAnimated:NO completion:nil];
-            
-            
-        } else {
-            
-            // TODO: Startup file already exists?
-            NSLog(@"Startup file already exists!");
-            [self showAlertWithTitle:@"Startup File already exists" andMessage:@"Major error"];
             
         }
+        
+        // Start with a clean startup file
+        // Populate the startup file
+        NSError *error;
+        
+        //Get the email address from the enterprise policy
+       // NSString *email = [self.enterprisePolicy objectForKey:GDAppConfigKeyUserId];
+        
+        NSString *masterKeyString = [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithUserPassword:pass1  withError:&error];
+            
+           
+        // TODO: Check for errors
+            
+        // Set the result to the master key
+        [result setResult:masterKeyString];
+        result = nil;
+            
+        // Dismiss the view
+        [self dismissViewControllerAnimated:NO completion:nil];
+        
+        
+            
+            
     }
 }
 

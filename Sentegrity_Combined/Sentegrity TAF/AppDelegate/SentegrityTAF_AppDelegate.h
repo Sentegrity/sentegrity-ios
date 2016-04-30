@@ -11,6 +11,10 @@
 // DAF Support
 #import "DAFSupport/DAFAppBase.h"
 
+// General GD runtime
+#import <GD/GDiOS.h>
+
+
 // DAF View Controllers
 #import "SentegrityTAF_MainViewController.h"
 #import "SentegrityTAF_UnlockViewController.h"
@@ -20,10 +24,14 @@
 // Activity Dispatcher
 #import "Sentegrity_Activity_Dispatcher.h"
 
-@interface SentegrityTAF_AppDelegate : DAFAppBase
+// Implement the DAFAppBase delegate and conform to GDiOSDelegate protocol
+
+@interface SentegrityTAF_AppDelegate : DAFAppBase 
 
 // Activity Dispatcher
 @property (strong, atomic) Sentegrity_Activity_Dispatcher *activityDispatcher;
+
+@property (atomic) BOOL firstTime;
 
 // View Controllers
 @property (strong, nonatomic) SentegrityTAF_MainViewController *mainViewController;

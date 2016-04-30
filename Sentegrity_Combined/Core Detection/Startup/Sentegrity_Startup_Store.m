@@ -221,6 +221,7 @@
     
     // Default values
     [self.currentStartupStore setLastState:@""];
+    [self.currentStartupStore setEmail:@"emailnotprovided"];
     NSArray *empty = [[NSArray alloc]init];
     [self.currentStartupStore setRunHistoryObjects:empty];
     [self.currentStartupStore setTransparentAuthKeyObjects:empty];
@@ -232,6 +233,19 @@
     [self setStartupStoreWithError:error];
     
     return masterKeyString;
+}
+
+
+// Create a new startup file and return master key as a string
+- (void)updateStartupFileWithEmail:(NSString *)email withError:(NSError **)error {
+    
+    // Alloc the startup file
+    // Get our startup file
+    self.currentStartupStore.email = email;
+    
+    // Save the store
+    [self setStartupStoreWithError:error];
+
 }
 
 // Set the startup file

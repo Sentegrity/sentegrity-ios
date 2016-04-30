@@ -19,6 +19,8 @@
 // Sentegrity
 #import "Sentegrity.h"
 
+
+
 // Private
 @interface SentegrityTAF_AppDelegate (private) <ISHPermissionsViewControllerDataSource>
 
@@ -31,42 +33,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    // Override point for customization after application launch.
     
-    if([launchOptions objectForKey:UIApplicationLaunchOptionsURLKey]){
-        // we were launched by another good app, dont show dashboard
-    }
+    // Set default bool attribute for first time
+    self.firstTime = NO;
     
+    // set it in the mainviewcontroller so we can update the startup email once the policy is available
+    [self.mainViewController setFirstTime:NO];
+    
+    // Call DAF superclass to handle rest of startup process
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
     
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    // we were launched by another good app, dont show dashboard on mainview controller
-    
-    return [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-}
-
-/*
- 
- This throws an error when trying to call super? but it works to detect when we are being called via URI and not user
- trying to see the dashboard
- 
-- (BOOL)application:(UIApplication *)app
-            openURL:(NSURL *)url
-            options:(NSDictionary<NSString *,id> *)options {
-    
-    // we were launched by another good app, dont show dashboard on mainview controller
- 
-    return [super application:app openURL:url options:options];
-}
- */
-
--(BOOL) application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    
-    // we were launched by another good app, dont show dashboard on mainview controller
-
-    return [super application:application handleOpenURL:url];
 }
 
 #pragma mark - Good DAF
@@ -101,9 +78,12 @@
 - (void)showUIForAction:(enum DAFUIAction)action withResult:(DAFWaitableResult *)result
 {
     NSLog(@"DAFSkelAppDelegate: showUIForAction (%d)", action);
+    
     switch (action) {
             
         case AppStartup: {
+ 
+
             
             // Occurs on each application startup (foreground as well)
             
@@ -228,8 +208,14 @@
             [self setupNibs];
             
             // Show the main view controller
-            [self.gdWindow setRootViewController:self.mainViewController ];
-            [self.gdWindow makeKeyAndVisible];
+            //[self.gdWindow setRootViewController:self.mainViewController ];
+            //[self.gdWindow makeKeyAndVisible];
+            
+            NSDictionary *launchOptions = [[GDiOS sharedInstance] launchOptions];
+            
+            
+            
+             NSLog(@"options: %@", [[GDiOS sharedInstance] launchOptions]);
             
             // Done
             break;
@@ -254,6 +240,11 @@
              */
             
             // We can call the default view controllers here, but don't pass it back to "[super showUIForAction:action withResult:result];"
+            
+            // Show main
+            [self.gdWindow setRootViewController:self.mainViewController ];
+            [self.gdWindow makeKeyAndVisible];
+            
             [self.easyActivationViewController setResult:result];
             [self.mainViewController presentViewController:self.easyActivationViewController animated:NO completion:nil];
             
@@ -261,6 +252,14 @@
             break;
             
         case GetPassword_FirstTime:
+            
+            // set property
+            self.firstTime = YES;
+            
+            // set it in the mainviewcontroller so we can update the startup email once the policy is available
+            [self.mainViewController setFirstTime:YES];
+            
+            
             // Prompts for user to create password
             
             /* SENTEGRITY:
@@ -284,12 +283,18 @@
              */
             
             // Set the security policy provided by Good so we can enforce it during password creation
-            [self.passwordCreationViewController setSecurityPolicy:[self.gdTrust securityPolicy]];
-            [self.passwordCreationViewController setEnterprisePolicy:[self.gdlib getApplicationConfig]];
+            //[self.passwordCreationViewController setSecurityPolicy:[self.gdTrust securityPolicy]];
+            
+            // Show main
+            [self.gdWindow setRootViewController:self.mainViewController];
+            [self.gdWindow makeKeyAndVisible];
             
             // Show the password creation view controller
             [self.passwordCreationViewController setResult:result];
             [self.mainViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
+            
+            // Update the startup file with the email
+            //[[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:[[gdLibrary getApplicationConfig] objectForKey:GDAppConfigKeyUserId] withError:nil];
             
             // Done
             break;
@@ -320,10 +325,17 @@
              * DAFAppBase::passwordViewController provides a simple implementation of this function.
              */
             
-            // Show the password unlock view controller
-            [self.unlockViewController setResult:result];
+            // Show main
+            [self.gdWindow setRootViewController:self.mainViewController ];
+            [self.gdWindow makeKeyAndVisible];
             
-            [self.mainViewController presentViewController:self.unlockViewController animated:NO completion:nil];
+            // Set result so when unlock is invoked from within we can pass it on
+            [self.mainViewController setResult:result];
+            
+            // Show the password unlock view controller
+            //[self.unlockViewController setResult:result];
+
+            //[self.mainViewController presentViewController:self.unlockViewController animated:NO completion:nil];
             
             // Done
             break;

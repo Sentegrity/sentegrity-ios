@@ -15,11 +15,10 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="68CE87F4-FF9C-416C-B43D-AE27B6E75318" translatesAutoresizingMaskIntoConstraints="NO" id="eeZ-dH-AN4">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CD727A58-0694-419A-9E3C-C4D4CE24BD58" translatesAutoresizingMaskIntoConstraints="NO" id="eeZ-dH-AN4">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="eeZ-dH-AN4" secondAttribute="bottom" id="LwR-ND-PW8"/>
                 <constraint firstItem="eeZ-dH-AN4" firstAttribute="top" secondItem="6" secondAttribute="top" id="eeK-Kl-gG4"/>
@@ -30,7 +29,7 @@
         </view>
     </objects>
     <resources>
-        <image name="68CE87F4-FF9C-416C-B43D-AE27B6E75318" width="82" height="26">
+        <image name="CD727A58-0694-419A-9E3C-C4D4CE24BD58" width="82" height="26">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
 GR4fJSYsLzU4VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz

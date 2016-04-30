@@ -13,9 +13,26 @@
 #import <UIKit/UIKit.h>
 #import <DAFSupport/DAFEventTypes.h>
 
+// DAF View Controllers
+#import "SentegrityTAF_UnlockViewController.h"
+
+// General GD runtime
+#import <GD/GDiOS.h>
+
+
 @interface SentegrityTAF_MainViewController : UIViewController
 
 // Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
+
+// View Controllers
+
+@property (strong, nonatomic) SentegrityTAF_UnlockViewController *unlockViewController;
+
+@property (atomic) BOOL firstTime;
+
+@property (weak, nonatomic) DAFWaitableResult *result;
+
+
 
 @end
