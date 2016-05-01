@@ -35,6 +35,35 @@
     return sharedStore;
 }
 
+// remove startup file
+- (void) resetStartupStoreWithError: (NSError **) error {
+    
+    //Check if the startup file exists, if it does delete it
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[self startupFilePath]]) {
+        
+        //remove startup file
+        BOOL success = [[NSFileManager defaultManager] removeItemAtPath:[self startupFilePath] error:error];
+        
+        if (!success) {
+            NSLog(@"Startup Store Error: store file cannot be deleted.");
+
+            if (*error) {
+                return;
+            }
+            else {
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain
+                                             code:NSFileReadCorruptFileError
+                                         userInfo:@{@"More Information": @"Startup File JSON cannot be deleted."}];
+                return;
+            }
+        }
+    }
+    
+    self.currentStartupStore = nil;
+}
+
+
+
 // Get the startup file
 - (Sentegrity_Startup *)getStartupStore:(NSError **)error {
     

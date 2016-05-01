@@ -28,6 +28,31 @@
     return sharedStorage;
 }
 
+// reset assertion store
+- (void) resetAssertionStoreWithError: (NSError **) error {
+    //Check if the startup file exists, if it does delete it
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[self assertionStoreFilePath]]) {
+        
+        //remove startup file
+        BOOL success = [[NSFileManager defaultManager] removeItemAtPath:[self assertionStoreFilePath] error:error];
+        
+        if (!success) {
+            NSLog(@"Assertion Store Error: assertion file cannot be deleted.");
+            
+            if (*error) {
+                return;
+            }
+            else {
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain
+                                             code:NSFileReadCorruptFileError
+                                         userInfo:@{@"More Information": @"Assertion Store File JSON cannot be deleted."}];
+                return;
+            }
+        }
+    }
+    
+    self.currentStore = nil;
+}
 
 
 // Assertion Store File Path
