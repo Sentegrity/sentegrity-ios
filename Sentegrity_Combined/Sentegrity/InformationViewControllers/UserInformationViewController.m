@@ -258,6 +258,11 @@
     }
     
     // Set the menu button
+    
+    // Hidden for pilot
+    [self.menuButton setHidden:YES];
+    
+    /*
     [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
     [self.menuButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
     [self.menuButton setLineWidth:40.0f];
@@ -266,6 +271,7 @@
     [self.menuButton setShowsTouchWhenHighlighted:YES];
     [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.menuButton updateAppearance];
+     */
     
     // Set the back button
     [self.backButton setCurrentMode:JTHamburgerButtonModeArrow];
