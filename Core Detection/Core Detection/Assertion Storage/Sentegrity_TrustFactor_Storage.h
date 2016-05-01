@@ -24,6 +24,8 @@
 // Assertion Store File Path
 - (NSString *)assertionStoreFilePath;
 
+- (void) resetAssertionStoreWithError: (NSError **) error;
+
 // Store Path
 @property (atomic,strong) NSString *storePath;
 

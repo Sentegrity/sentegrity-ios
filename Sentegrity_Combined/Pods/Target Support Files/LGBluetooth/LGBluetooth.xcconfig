@@ -1,8 +1,5 @@
-CONFIGURATION_BUILD_DIR = $PODS_SHARED_BUILD_DIR/LGBluetooth
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/LGBluetooth" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/ChameleonFramework" "${PODS_ROOT}/Headers/Public/CircleProgressBar" "${PODS_ROOT}/Headers/Public/DCKeyValueObjectMapping" "${PODS_ROOT}/Headers/Public/DateTools" "${PODS_ROOT}/Headers/Public/Facade" "${PODS_ROOT}/Headers/Public/IIDelayedAction" "${PODS_ROOT}/Headers/Public/ISHPermissionKit" "${PODS_ROOT}/Headers/Public/JTHamburgerButton" "${PODS_ROOT}/Headers/Public/LGBluetooth" "${PODS_ROOT}/Headers/Public/MBProgressHUD" "${PODS_ROOT}/Headers/Public/NSObject-ObjectMap" "${PODS_ROOT}/Headers/Public/NSString-Hashes" "${PODS_ROOT}/Headers/Public/RESideMenu"
 OTHER_LDFLAGS = -framework "CoreBluetooth"
 PODS_ROOT = ${SRCROOT}
-PODS_SHARED_BUILD_DIR = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
-PRODUCT_BUNDLE_IDENTIFIER = org.cocoapods.${PRODUCT_NAME:rfc1034identifier}
 SKIP_INSTALL = YES

@@ -57,5 +57,6 @@
 
 - (void)updateStartupFileWithEmail:(NSString *)email withError:(NSError **)error;
 
+- (void) resetStartupStoreWithError: (NSError **) error;
 
 @end
