@@ -4,6 +4,9 @@ platform :ios, '7.0'
 # Workspace
 workspace 'Sentegrity'
 
+# Project
+xcodeproj 'Sentegrity'
+
 # Sentegrity
 target :Sentegrity do
     
