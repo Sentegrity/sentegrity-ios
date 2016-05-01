@@ -57,5 +57,8 @@
 
 - (void)updateStartupFileWithEmail:(NSString *)email withError:(NSError **)error;
 
+// Reset Startup Store (remove startup file if exists, reset local attributes)
+- (void) resetStartupStoreWithError: (NSError **) error;
+
 
 @end

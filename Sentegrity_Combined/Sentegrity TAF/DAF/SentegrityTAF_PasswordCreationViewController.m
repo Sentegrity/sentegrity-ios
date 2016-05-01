@@ -8,6 +8,7 @@
 
 #import "SentegrityTAF_PasswordCreationViewController.h"
 #import "LoginViewController.h"
+#import "Sentegrity_TrustFactor_Storage.h"
 
 @interface SentegrityTAF_PasswordCreationViewController () <UITextFieldDelegate>
 
@@ -103,57 +104,74 @@
     
 
     // Password requirements:
-    int passworthLength = 4;
-    BOOL isAlphaNum = NO;
-    BOOL isMixedCase = NO;
+    NSDictionary *passwordRequirements = @{
+                                           @"minPasswordLenght" : @(4),
+                                           @"isAlphaNumeric" : @(YES),
+                                           @"isMixedCase" : @(YES),
+                                           @"specialCharacter" : @(NO)
+                                           };
+    
     
     // Check if the passwords meet the criteria
     if (![pass1 isEqualToString:pass2]) {
         
         // passwords do not match
         [self showAlertWithTitle:@"Passwords do not match!" andMessage:@"Please try again."];
+        return;
         
-    } else if (pass1.length < 4) { // Ivo, change this to do the password verification check using the above parameters (passwordLength, isAlphaNum, isMixedCase - modify the checkPasswordRequirements below to do this
+    } else if (![self checkPassword:pass1 withRequirements:passwordRequirements]) {
         
-        // password too short
-        [self showAlertWithTitle:@"Password is too short." andMessage:@"Please try with a longer password."];
-        
+        // password is not valid
+        return;
     }
     
-    else {
-        
-        
-        
-        /* Startup File */
-        // Check if the startup file exists, if it does delete it and the assertion store so we start  clean
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[[Sentegrity_Startup_Store sharedStartupStore] startupFilePath]]) {
-            
-            
-        }
-        
-        // Start with a clean startup file
-        // Populate the startup file
-        NSError *error;
-        
-        //Get the email address from the enterprise policy
-       // NSString *email = [self.enterprisePolicy objectForKey:GDAppConfigKeyUserId];
-        
-        NSString *masterKeyString = [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithUserPassword:pass1  withError:&error];
-            
-           
-        // TODO: Check for errors
-            
-        // Set the result to the master key
-        [result setResult:masterKeyString];
-        result = nil;
-            
-        // Dismiss the view
-        [self dismissViewControllerAnimated:NO completion:nil];
-        
-        
-            
-            
+    
+    
+    NSError *error;
+
+    //Reset Startup Store (remove store file)
+    [[Sentegrity_Startup_Store sharedStartupStore] resetStartupStoreWithError:&error];
+    
+    if (error) {
+        //TODO: error message for user
+        [self showAlertWithTitle:@"Error" andMessage:@"Unknown error"];
+        return;
     }
+    
+    //reset assertion store (remove assertion file)
+    [[Sentegrity_TrustFactor_Storage sharedStorage] resetAssertionStoreWithError:&error];
+    
+    if (error) {
+        //TODO: error message for user
+        [self showAlertWithTitle:@"Error" andMessage:@"Unknown error"];
+        return;
+    }
+
+    
+    // Start with a clean startup file
+    // Populate the startup file
+    
+    
+    
+    //Get the email address from the enterprise policy
+    // NSString *email = [self.enterprisePolicy objectForKey:GDAppConfigKeyUserId];
+    
+    NSString *masterKeyString = [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithUserPassword:pass1  withError:&error];
+    
+    
+    if (error) {
+        //TODO: error message for user
+        [self showAlertWithTitle:@"Error" andMessage:@"Unknown error"];
+        return;
+    }
+    
+    // Set the result to the master key
+    [result setResult:masterKeyString];
+    result = nil;
+    
+    // Dismiss the view
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
 }
 
 - (IBAction)pressedInfoButton:(id)sender {
@@ -167,10 +185,29 @@
 
 
 // TBD
--(bool) checkPasswordRequirements:(NSString *)password{
-    int numberofCharacters = 0;
-    BOOL lowerCaseLetter,upperCaseLetter,digit,specialCharacter = 0;
-    if([password length] >= 10)
+- (BOOL) checkPassword: (NSString *) password withRequirements:(NSDictionary *) requirements {
+
+    BOOL lowerCaseLetter = NO;
+    BOOL upperCaseLetter = NO;
+    BOOL digit = NO;
+    BOOL character = NO;
+    BOOL specialCharacter = NO;
+    
+    if (![requirements[@"isMixedCase"] boolValue]) {
+        lowerCaseLetter = YES;
+        upperCaseLetter = YES;
+    }
+    
+    if (![requirements[@"isAlphaNumeric"] boolValue]) {
+        digit = YES;
+        character = YES;
+    }
+    
+    if (![requirements[@"specialCharacter"] boolValue]) {
+        specialCharacter = YES;
+    }
+    
+    if([password length] >= [requirements[@"minPasswordLenght"] boolValue])
     {
         for (int i = 0; i < [password length]; i++)
         {
@@ -187,34 +224,50 @@
             {
                 digit = [[NSCharacterSet decimalDigitCharacterSet] characterIsMember:c];
             }
+            if(!character)
+            {
+                character = [[NSCharacterSet letterCharacterSet] characterIsMember:c];
+            }
             if(!specialCharacter)
             {
                 specialCharacter = [[NSCharacterSet symbolCharacterSet] characterIsMember:c];
             }
         }
         
-        if(specialCharacter && digit && lowerCaseLetter && upperCaseLetter)
+        if(digit && lowerCaseLetter && upperCaseLetter && character && specialCharacter)
         {
-            //do what u want
+            //password is valid for given requirements
+            return YES;
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:@"Please Ensure that you have at least one lower case letter, one upper case letter, one digit and one special character"
-                                                           delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
+            
+            NSMutableString *stringM = [[NSMutableString alloc] init];
+            [stringM appendString:@"Please ensure that you have at least"];
+            if (!lowerCaseLetter || !upperCaseLetter) {
+                [stringM appendString:@"one lower case letter and one upper case letter."];
+            }
+            else if (!digit) {
+                [stringM appendString:@"one digit."];
+            }
+            else if (!character) {
+                [stringM appendString:@"one character."];
+            }
+            else if (!specialCharacter) {
+                [stringM appendString:@"one special character."];
+            }
+            
+            [self showAlertWithTitle:@"Error" andMessage:stringM];
         }
         
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:@"Please Enter at least 10 password"
-                                                       delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+        [self showAlertWithTitle:@"Error" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", [requirements[@"minPasswordLenght"] integerValue]]];
+        
     }
     
-    return true;
+    return NO;
 }
 
 -(void) keyboardWillShow:(NSNotification *)note{
