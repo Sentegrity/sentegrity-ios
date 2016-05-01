@@ -243,7 +243,7 @@
         {
             
             NSMutableString *stringM = [[NSMutableString alloc] init];
-            [stringM appendString:@"Please ensure that you have at least"];
+            [stringM appendString:@"Please ensure that you have at least "];
             if (!lowerCaseLetter || !upperCaseLetter) {
                 [stringM appendString:@"one lower case letter and one upper case letter."];
             }
