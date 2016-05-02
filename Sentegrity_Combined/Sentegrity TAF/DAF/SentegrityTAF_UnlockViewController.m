@@ -423,10 +423,7 @@
                 
                 [self analyzePreAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
-                if(computationResults.deviceTrusted==NO){
-                    [self showInput];
-                }
-
+                [self showInput];
                 
             });
             
