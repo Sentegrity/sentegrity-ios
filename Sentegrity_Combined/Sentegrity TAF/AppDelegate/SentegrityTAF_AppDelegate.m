@@ -22,7 +22,7 @@
 
 
 // Private
-@interface SentegrityTAF_AppDelegate (private) <ISHPermissionsViewControllerDataSource>
+@interface SentegrityTAF_AppDelegate (private) <ISHPermissionsViewControllerDataSource, ISHPermissionsViewControllerDelegate>
 
 // Progress HUD
 @property (nonatomic,strong) MBProgressHUD *hud;
@@ -112,97 +112,8 @@
             // Start Bluetooth as soon as possible
             [_activityDispatcher startBluetoothBLE];
             
-            // Check if the application has permissions to run the different activities
-            ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
-            ISHPermissionRequest *permissionActivity = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
-            
-            // Get permissions
-            NSMutableArray *permissions = [[NSMutableArray alloc] initWithCapacity:2];
-            
-            // Check if location permissions are authorized
-            if ([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized) {
-                
-                // Location not allowed
-                
-                // Set location error
-                [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
-                
-                // Set placemark error
-                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemarkDNEStatus:DNEStatus_unauthorized];
-                
-                // Add the permission
-                [permissions addObject:@(ISHPermissionCategoryLocationWhenInUse)];
-                
-            } else {
-                
-                // Location Authorized
-                
-                // Start Motion (must be after location since it uses the locationDNE to decide which magnetometer to use)
-                [_activityDispatcher startMotion];
-                
-            } // Done location permissions
-            
-            // Check if activity permissions are authorized
-            if ([permissionActivity permissionState] != ISHPermissionStateAuthorized) {
-                
-                // Activity not allowed
-                
-                // The app isn't authorized to use motion activity support.
-                [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unauthorized];
-                
-                // Add the permission
-                [permissions addObject:@(ISHPermissionCategoryActivity)];
-                
-            } else {
-                
-                // Activity Authorized
-                [_activityDispatcher startActivity];
-                
-            } // Done activity permissions
-            
-            // Check if we need to prompt for permission
-            if (permissions && permissions.count > 0) {
-                
-                // Create the permissions view controller
-                ISHPermissionsViewController *vc = [ISHPermissionsViewController permissionsViewControllerWithCategories:permissions dataSource:self];
-                
-                // Check the permission view controller is valid
-                if (vc && vc != nil) {
-                    
-                    // Present the permissions kit view controller
-                    [self.mainViewController presentViewController:vc animated:NO completion:nil];
-                    
-                    // Completion Block
-                    [vc setCompletionBlock:^{
-                        
-                        // Permissions view controller finished
-                        
-                        // Check if permissions were granted
-                        
-                        // Location
-                        if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse] permissionState] == ISHPermissionStateAuthorized) {
-                            
-                            // Location allowed
-                            
-                            // Start the location activity
-                            [_activityDispatcher startLocation];
-                            
-                        }
-                        
-                        // Activity
-                        if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryActivity] permissionState] == ISHPermissionStateAuthorized) {
-                            
-                            // Activity allowed
-                            
-                            // Start the activity activity
-                            [_activityDispatcher startActivity];
-                        }
-                        
-                    }]; // Done permissions view controller
-                    
-                } // Done checking permissions array
-                
-            } // Done permissions kit
+            //Check application's permissions to run the different activities and set DNE status
+            [self checkApplicationPermission];
             
             // Setup the nibs
             [self setupNibs];
@@ -289,9 +200,67 @@
             [self.gdWindow setRootViewController:self.mainViewController];
             [self.gdWindow makeKeyAndVisible];
             
-            // Show the password creation view controller
+            // prepare password creation view controller
             [self.passwordCreationViewController setResult:result];
-            [self.mainViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
+            
+            
+        
+            //we need to ask for permissions before password creation
+            {
+                //if there is permissions, show permissions view controllers
+                NSArray *permissions = [self checkApplicationPermission];
+                
+                // Check if we need to prompt for permission
+                if (permissions && permissions.count > 0) {
+                    
+                    // Create the permissions view controller
+                    ISHPermissionsViewController *vc = [ISHPermissionsViewController permissionsViewControllerWithCategories:permissions dataSource:self];
+                    vc.delegate = self;
+                    
+                    // Check the permission view controller is valid
+                    if (vc && vc != nil) {
+                        
+                        // Present the permissions kit view controller
+                        [self.mainViewController presentViewController:vc animated:YES completion:nil];
+                        
+                        // Completion Block
+                        [vc setCompletionBlock:^{
+                            
+                            // Permissions view controller finished
+                            
+                            // Check if permissions were granted
+                            
+                            // Location
+                            if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse] permissionState] == ISHPermissionStateAuthorized) {
+                                
+                                // Location allowed
+                                
+                                // Start the location activity
+                                [_activityDispatcher startLocation];
+                                
+                            }
+                            
+                            // Activity
+                            if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryActivity] permissionState] == ISHPermissionStateAuthorized) {
+                                
+                                // Activity allowed
+                                
+                                // Start the activity activity
+                                [_activityDispatcher startActivity];
+                            }
+                            
+                        }]; // Done permissions view controller
+                        
+                    } // Done checking permissions array
+                    
+                } // Done permissions kit
+                else {
+                    //no permissions, just show password creation screen
+                    [self.mainViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
+                }
+            }
+
+            
             
             // Update the startup file with the email
             //[[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:[[gdLibrary getApplicationConfig] objectForKey:GDAppConfigKeyUserId] withError:nil];
@@ -326,7 +295,7 @@
              */
             
             // Show main
-            [self.gdWindow setRootViewController:self.mainViewController ];
+            [self.gdWindow setRootViewController:self.mainViewController];
             [self.gdWindow makeKeyAndVisible];
             
             // Set result so when unlock is invoked from within we can pass it on
@@ -394,27 +363,93 @@
     [self.easyActivationViewController updateUIForNotification:event];
 }
 
+
+
 #pragma mark - ISHPermissionKit
+
+
+
+
+// Check if the application has permissions to run the different activities, set DNE status and return list of permission
+- (NSArray *) checkApplicationPermission {
+    ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
+    ISHPermissionRequest *permissionActivity = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
+    
+    // Get permissions
+    NSMutableArray *permissions = [[NSMutableArray alloc] initWithCapacity:2];
+    
+    // Check if location permissions are authorized
+    if ([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized) {
+        
+        // Location not allowed
+        
+        // Set location error
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
+        
+        // Set placemark error
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemarkDNEStatus:DNEStatus_unauthorized];
+        
+        // Add the permission
+        [permissions addObject:@(ISHPermissionCategoryLocationWhenInUse)];
+        
+    } else {
+        
+        // Location Authorized
+        
+        // Start Motion (must be after location since it uses the locationDNE to decide which magnetometer to use)
+        [_activityDispatcher startMotion];
+        
+    } // Done location permissions
+    
+    // Check if activity permissions are authorized
+    if ([permissionActivity permissionState] != ISHPermissionStateAuthorized) {
+        
+        // Activity not allowed
+        
+        // The app isn't authorized to use motion activity support.
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unauthorized];
+        
+        // Add the permission
+        [permissions addObject:@(ISHPermissionCategoryActivity)];
+        
+    } else {
+        
+        // Activity Authorized
+        [_activityDispatcher startActivity];
+        
+    } // Done activity permissions
+    
+    return permissions;
+}
+
+
+- (void)permissionsViewControllerDidComplete:(ISHPermissionsViewController *)vc {
+    
+    //after location/activity permissions are finished, show password creation screen
+    [self.mainViewController dismissViewControllerAnimated:YES
+                                                completion:^{
+                                                    [self.mainViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
+
+                                                }];
+    
+}
+
 
 // Set the datasource method
 - (ISHPermissionRequestViewController *)permissionsViewController:(ISHPermissionsViewController *)vc requestViewControllerForCategory:(ISHPermissionCategory)category {
     
     // Check which category
     if (category == ISHPermissionCategoryLocationWhenInUse) {
-        // Get the storyboard
-        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
+
         // Create the location permission view controller
-        LocationPermissionViewController *locationPermission = [mainStoryboard instantiateViewControllerWithIdentifier:@"LocationPermissionViewController"];
+        LocationPermissionViewController *locationPermission = [[LocationPermissionViewController alloc] initWithNibName:@"LocationPermissionViewController" bundle:nil];
         
         // Return Location Permission View Controller
         return locationPermission;
     } else if (category == ISHPermissionCategoryActivity) {
-        // Get the storyboard
-        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
         // Create the activity permission view controller
-        ActivityPermissionViewController *activityPermission = [mainStoryboard instantiateViewControllerWithIdentifier:@"ActivityPermissionViewController"];
+        ActivityPermissionViewController *activityPermission = [[ActivityPermissionViewController alloc] initWithNibName:@"ActivityPermissionViewController" bundle:nil];
         
         // Return Activity Permission View Controller
         return activityPermission;
