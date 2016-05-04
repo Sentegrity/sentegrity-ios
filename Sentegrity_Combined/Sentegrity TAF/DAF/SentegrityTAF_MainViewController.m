@@ -36,6 +36,7 @@
 // View Did Load
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     
 
 }
@@ -98,8 +99,6 @@
         
         // Present the view controller
         [self presentViewController:navController animated:NO completion:^{
-            
-            
             
             // Hide the dashboard view controller
             [dashboardViewController.menuButton setHidden:YES];
