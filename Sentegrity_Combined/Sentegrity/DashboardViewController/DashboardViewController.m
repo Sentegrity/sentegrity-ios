@@ -217,8 +217,8 @@ static MBProgressHUD *HUD;
         // Sentegrity Gold
         [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
         
-        [self.sentegrityButton setImage:[UIImage imageNamed:@"Sentegrity_Logo"] forState:UIControlStateNormal];
-        [self.sentegrityButton setAlpha:1];
+       // [self.sentegrityButton setImage:[UIImage imageNamed:@"Sentegrity_Logo"] forState:UIControlStateNormal];
+       // [self.sentegrityButton setAlpha:1];
 
     }
     else{
@@ -228,8 +228,8 @@ static MBProgressHUD *HUD;
         // Sentegrity Gold
         [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
 
-        [self.sentegrityButton setImage:[UIImage imageNamed:@"Sentegrity_Logo"] forState:UIControlStateNormal];
-        [self.sentegrityButton setAlpha:1];
+       // [self.sentegrityButton setImage:[UIImage imageNamed:@"Sentegrity_Logo"] forState:UIControlStateNormal];
+       // [self.sentegrityButton setAlpha:1];
     }
     
     // Trust Score

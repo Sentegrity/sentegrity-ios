@@ -211,11 +211,11 @@
             //[self.gdWindow setRootViewController:self.mainViewController ];
             //[self.gdWindow makeKeyAndVisible];
             
-            NSDictionary *launchOptions = [[GDiOS sharedInstance] launchOptions];
+           // NSDictionary *launchOptions = [[GDiOS sharedInstance] launchOptions];
             
             
             
-             NSLog(@"options: %@", [[GDiOS sharedInstance] launchOptions]);
+             //NSLog(@"options: %@", [[GDiOS sharedInstance] launchOptions]);
             
             // Done
             break;

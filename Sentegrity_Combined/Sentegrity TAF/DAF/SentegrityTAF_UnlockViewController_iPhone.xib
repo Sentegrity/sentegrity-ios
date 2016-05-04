@@ -131,10 +131,6 @@
                                         <constraint firstAttribute="height" constant="4" id="DLn-Yz-G7T"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4d8-SI-a62" customClass="GradientView">
-                                    <rect key="frame" x="0.0" y="-10" width="375" height="39"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
                                 <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N31-8B-0Pu">
                                     <rect key="frame" x="137" y="0.0" width="101" height="33"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
@@ -145,6 +141,10 @@
                                         <action selector="pressedInfoButton:" destination="-1" eventType="touchUpInside" id="qXg-FD-NV4"/>
                                     </connections>
                                 </button>
+                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4d8-SI-a62" customClass="GradientView">
+                                    <rect key="frame" x="0.0" y="-6" width="375" height="39"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>

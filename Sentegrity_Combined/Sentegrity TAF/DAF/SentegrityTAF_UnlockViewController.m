@@ -423,7 +423,13 @@
                 
                 [self analyzePreAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
-                if(computationResults.deviceTrusted==NO){
+                
+                //Don't show input if we successfully transparently authenticated
+                if(computationResults.deviceTrusted==YES && computationResults.preAuthenticationAction ==preAuthenticationAction_TransparentlyAuthenticate){
+                    
+                    // Don't show input as this screen will be
+                }
+                else{
                     [self showInput];
                 }
 
