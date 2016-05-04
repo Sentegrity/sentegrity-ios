@@ -300,6 +300,7 @@
             
             // Set result so when unlock is invoked from within we can pass it on
             [self.mainViewController setResult:result];
+            [self.unlockViewController setResult:result];
             
             // Show the password unlock view controller
             //[self.unlockViewController setResult:result];
@@ -340,6 +341,37 @@
             break;
 
             
+        case GetAuthToken:
+            /* SENTEGRITY:
+             * Start ACTIVITY DISPATCHER here prior to GetPassword running
+             (gets a head start for async function when the app is already running)
+             
+             * DESCRIPTION FROM API DOCS
+             * Occurs after the GD runtime is initialized, and before GD's 'authorize' is called.
+             * The app should set a root view controller for DAFAppBase::gdWindow . Other views
+             * (e.g. password entry) will appear over it. Typically the root view will allow maintenance
+             * actions (such as 'lock application', 'change password') to be initiated.
+             */
+            
+            // Wipe out all previous datasets (in the event this is not the first run)
+            [Sentegrity_TrustFactor_Datasets selfDestruct];
+            
+            // Create the activity dispatcher
+            if (!_activityDispatcher) {
+                // Allocate the activity dispatcher
+                _activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
+            }
+            
+            // Start Netstat
+            [_activityDispatcher startNetstat];
+            
+            // Start Bluetooth as soon as possible
+            [_activityDispatcher startBluetoothBLE];
+            
+            // Super
+            [super showUIForAction:action withResult:result];
+            
+            break;
         default:
             
             // Pass on all other requests (and any actions added in future)
@@ -352,7 +384,7 @@
 
 - (void)eventNotification:(enum DAFUINotification)event withMessage:(NSString *)msg
 {
-    NSLog(@"SentegrityTAF_AppDelegate: we got an event notification, type=%d message='%@'", event, msg);
+    //NSLog(@"SentegrityTAF_AppDelegate: we got an event notification, type=%d message='%@'", event, msg);
     [super eventNotification:event withMessage:msg];
     
     //If == AuthorizationSucceeded, don't show Sentegrity Dashboard

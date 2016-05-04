@@ -103,6 +103,9 @@ static MBProgressHUD *HUD;
     
     // Set the status bar color to white
     [self setNeedsStatusBarAppearanceUpdate];
+    
+    //BOOL doesContain = [self.view.subviews containsObject:pageShadowView];
+    
 }
 
 // Set up the customizations for the view
@@ -112,7 +115,7 @@ static MBProgressHUD *HUD;
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     // Set the background color Good
-     //[self.view setBackgroundColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+    // [self.view setBackgroundColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
     
     // Set the TrustScore progress bar
     
@@ -127,6 +130,8 @@ static MBProgressHUD *HUD;
     
     [self.trustScoreProgressBar setProgressBarTrackColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
     
+    //[self.trustScoreProgressBar setProgressBarTrackColor:[UIColor whiteColor]];
+    
     //[self.progressBar setProgressBarTrackColor:[UIColor colorWithGradientStyle:UIGradientStyleLeftToRight withFrame:self.progressBar.frame andColors:@[[UIColor flatWhiteColorDark], [UIColor flatGrayColor]]]];
     [self.trustScoreProgressBar setBackgroundColor:[UIColor clearColor]];
     [self.trustScoreProgressBar setStartAngle:90.0f];
@@ -134,14 +139,30 @@ static MBProgressHUD *HUD;
     [self.trustScoreProgressBar setProgressBarWidth:18.0f];
     
     // Set the menu button
-    [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
-    [self.menuButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
-    [self.menuButton setLineWidth:40.0f];
-    [self.menuButton setLineHeight:4.0f];
-    [self.menuButton setLineSpacing:7.0f];
-    [self.menuButton setShowsTouchWhenHighlighted:YES];
-    [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [self.menuButton updateAppearance];
+    //Default to hidden and allow other VCs to change it (e.g., unlock)
+    //[self.menuButton setHidden:YES];
+    
+    //Only show menu button if the user actively entered the dashboard, this allows them to go back
+    //If you keep this here when there is no "back" screen it will just flash and try to run core detection again
+    if(self.userClicked==NO){
+
+        [self.menuButton setHidden:YES];
+    }
+    else{
+        [self.menuButton setHidden:NO];
+        [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
+        [self.menuButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
+        [self.menuButton setLineWidth:40.0f];
+        [self.menuButton setLineHeight:4.0f];
+        [self.menuButton setLineSpacing:7.0f];
+        [self.menuButton setShowsTouchWhenHighlighted:YES];
+        [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.menuButton updateAppearance];
+    }
+
+
+    //Reset user clicked for next time
+    self.userClicked=NO;
     
     // Set the trustscore holding label
     [self.trustScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];
@@ -209,13 +230,14 @@ static MBProgressHUD *HUD;
     /* Set the label and progress bar */
     
     // Set color red of progress bar based on trust
+    /*
     if (self.computationResults.deviceTrusted==NO){
         
         //Red (Good color)
         //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
         
         // Sentegrity Gold
-        [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+        //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
         
        // [self.sentegrityButton setImage:[UIImage imageNamed:@"Sentegrity_Logo"] forState:UIControlStateNormal];
        // [self.sentegrityButton setAlpha:1];
@@ -226,12 +248,12 @@ static MBProgressHUD *HUD;
         //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithWhite:0.7f alpha:1.0f]];
         
         // Sentegrity Gold
-        [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+        //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
 
        // [self.sentegrityButton setImage:[UIImage imageNamed:@"Sentegrity_Logo"] forState:UIControlStateNormal];
        // [self.sentegrityButton setAlpha:1];
     }
-    
+    */
     // Trust Score
     CGFloat trustScore = self.computationResults.deviceScore;
     
@@ -259,13 +281,14 @@ static MBProgressHUD *HUD;
     }
     
     // Remove animations from the reload button after a delay
+    
     [IIDelayedAction delayedAction:^{
         // Remove all reload button animations
         [self.reloadButton.layer removeAllAnimations];
     } withDelay:1.0];
     
     // Update the last update label
-    [self updateLastUpdateLabel:self];
+    //[self updateLastUpdateLabel:self];
     
 
     
@@ -381,6 +404,7 @@ static MBProgressHUD *HUD;
 }
 
 - (IBAction)reload:(id)sender {
+    
     
     // Animate the reload button
     CABasicAnimation *rotationAnimation;

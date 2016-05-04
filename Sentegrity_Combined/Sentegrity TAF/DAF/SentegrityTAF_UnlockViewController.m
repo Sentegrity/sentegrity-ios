@@ -81,6 +81,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+
+
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -92,6 +94,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     // generate lines with one pixel (on all iOS devices)
     for (NSLayoutConstraint *constraint in self.onePixelConstraintsCollection) {
@@ -113,6 +117,11 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.viewFooter.frame.size.height, 0);
     self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
+}
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+   
+  
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
@@ -143,7 +152,8 @@
         }];
     }
     else if (event==GetPasswordCancelled  && result != nil) {
-        
+       
+        /*
         NSLog(@"SentegrityTAF_UnlockViewController: cancelling unlock");
         [self dismissViewControllerAnimated:NO completion: ^{
             [result setError:[NSError errorWithDomain:@"SentegrityTAF_UnlockViewController"
@@ -151,6 +161,43 @@
                                              userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
             result = nil;
         }];
+         */
+        
+        //Re-run core detection
+        //result = nil;
+        
+        // Show Animation
+        /*
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        self.hud.labelText = @"Analyzing";
+        self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
+        
+        self.hud.detailsLabelText = @"Mobile Security Posture";
+        self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
+        
+        // Kick off Core Detection
+        @autoreleasepool {
+            
+            dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
+            
+            dispatch_async(myQueue, ^{
+                
+                // Perform Core Detection
+                [self performCoreDetection:self];
+                
+            });
+        }
+        
+        [self dismissViewControllerAnimated:NO completion:nil];
+         */
+
+    }
+    else if(event == AuthorizationSucceeded){
+        
+        // We're showing the dashboard if we succeeded so lets remove the "X" button
+        [self.dashboardViewController.menuButton setHidden:YES];
+        
     }
     // removed below in the event 
     /*
@@ -246,18 +293,20 @@
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     // Create the main view controller
-    DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+     self.dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+    
+    self.dashboardViewController.userClicked = YES;
     
     // Hide the dashboard view controller
-    [dashboardViewController.menuButton setHidden:YES];
+    //[self.dashboardViewController.menuButton setHidden:NO];
     
     // Set the last-updated text and reload button hidden
-    [dashboardViewController.reloadButton setHidden:YES];
-    [dashboardViewController.lastUpdateLabel setHidden:YES];
-    [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+    [self.dashboardViewController.reloadButton setHidden:YES];
+    [self.dashboardViewController.lastUpdateLabel setHidden:YES];
+    [self.dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
     
     // Navigation Controller
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.dashboardViewController];
     [navController setNavigationBarHidden:YES];
     
     // Present the view controller
@@ -266,15 +315,15 @@
         // Completed presenting
         
         // Hide the dashboard view controller
-        [dashboardViewController.menuButton setHidden:YES];
+        //[self.dashboardViewController.menuButton setHidden:YES];
         
         // Set the last-updated text and reload button hidden
-        [dashboardViewController.reloadButton setHidden:YES];
-        [dashboardViewController.lastUpdateLabel setHidden:YES];
-        [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+        [self.dashboardViewController.reloadButton setHidden:YES];
+        [self.dashboardViewController.lastUpdateLabel setHidden:YES];
+        [self.dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
         
         // Un-Hide the back button
-        [dashboardViewController.backButton setHidden:NO];
+        [self.dashboardViewController.backButton setHidden:NO];
         
     }];
     
@@ -350,7 +399,7 @@
     NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];
     
-    // For demonstration purposes, retrieve startup data stored by FirstTimeViewController
+     // For demonstration purposes, retrieve startup data stored by FirstTimeViewController
     NSString *startupData = [DAFAuthState getInstance].vendorState;
     NSLog(@"SentegrityTAF_UnlockViewController: startup data = <%@>", startupData);
     
@@ -377,6 +426,7 @@
             
         });
     }
+    
 }
 
 #pragma mark - Core Detection
@@ -423,7 +473,8 @@
                 
                 [self analyzePreAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
-                
+                [self showInput];
+                /*
                 //Don't show input if we successfully transparently authenticated
                 if(computationResults.deviceTrusted==YES && computationResults.preAuthenticationAction ==preAuthenticationAction_TransparentlyAuthenticate){
                     
@@ -432,6 +483,7 @@
                 else{
                     [self showInput];
                 }
+                 */
 
                 
             });

@@ -41,6 +41,8 @@
 
 }
 
+
+
 // Setup NIBS
 - (void)setupNibs {
     
@@ -165,6 +167,17 @@
         case ChangePasswordFailed:
             // Change password failed
             break;
+            
+        case GetPasswordCancelled:
+            // Means that an app requested our services but we are/were already showing the password screen
+            // We should re-run core detection to get new data when this is the case
+            // Therefore, re-request the unlock screen
+            
+            //[self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
+            //[self.unlockViewController setResult:self.result];
+            //[self presentViewController:self.unlockViewController animated:NO completion:nil];
+            break;
+            
             
         default:
             

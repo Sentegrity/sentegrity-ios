@@ -21,6 +21,9 @@
 
 /** Properties **/
 
+@property (nonatomic) BOOL userClicked;
+
+
 /* Main Progress Bar */
 
 // Main Progress Bar - middle

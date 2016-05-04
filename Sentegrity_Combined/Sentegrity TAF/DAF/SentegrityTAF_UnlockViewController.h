@@ -19,10 +19,14 @@
 
 #import "Sentegrity_Crypto.h"
 
+#import "DashboardViewController.h"
+
 
 @interface SentegrityTAF_UnlockViewController : SentegrityTAF_BaseViewController
 
 @property (weak, nonatomic) DAFWaitableResult *result;
+
+@property (nonatomic) DashboardViewController *dashboardViewController;
 
 // Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
