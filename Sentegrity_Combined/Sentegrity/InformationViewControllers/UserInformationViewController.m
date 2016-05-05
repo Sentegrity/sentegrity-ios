@@ -337,6 +337,7 @@
 #pragma mark - Overrides
 
 // Layout subviews
+/*
 - (void)viewDidLayoutSubviews {
     // Call SuperClass
     [super viewDidLayoutSubviews];
@@ -368,11 +369,12 @@
     }
 }
 
+
 // Set the status bar to white
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
-
+ */
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

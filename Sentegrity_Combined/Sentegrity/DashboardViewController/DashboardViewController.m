@@ -316,6 +316,7 @@ static MBProgressHUD *HUD;
 }
 
 // Layout subviews
+/*
 - (void)viewDidLayoutSubviews {
     // Call SuperClass
     [super viewDidLayoutSubviews];
@@ -342,6 +343,7 @@ static MBProgressHUD *HUD;
     }
     
 }
+ */
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -452,9 +454,10 @@ static MBProgressHUD *HUD;
 
 #pragma mark - Status Bar Appearance
 
+/*
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
-
+*/
 
 @end
