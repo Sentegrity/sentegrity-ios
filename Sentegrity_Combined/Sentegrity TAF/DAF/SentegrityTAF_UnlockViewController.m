@@ -118,10 +118,6 @@
     self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
 }
 
-- (void)applicationWillEnterForeground:(NSNotification *)notification {
-   
-  
-}
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
@@ -192,14 +188,12 @@
         
         [self dismissViewControllerAnimated:NO completion:nil];
          */
-        
+        [self dismissViewControllerAnimated:NO completion:nil];
          
 
     }
     else if(event == AuthorizationSucceeded){
         
-        // We're showing the dashboard if we succeeded so lets remove the "X" button
-        [self.dashboardViewController.menuButton setHidden:YES];
         
     }
     // removed below in the event 
@@ -298,15 +292,16 @@
     // Create the main view controller
      self.dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
     
-    self.dashboardViewController.userClicked = YES;
+    //self.dashboardViewController.userClicked = YES;
     
     // Hide the dashboard view controller
     [self.dashboardViewController.menuButton setHidden:YES];
     
+    // We want the user to be able to go back from here
+    [self.dashboardViewController.backButton setHidden:NO];
+    
     // Set the last-updated text and reload button hidden
     [self.dashboardViewController.reloadButton setHidden:YES];
-    [self.dashboardViewController.lastUpdateLabel setHidden:NO];
-    [self.dashboardViewController.lastUpdateHoldingLabel setHidden:NO];
     
     // Navigation Controller
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.dashboardViewController];
@@ -322,8 +317,6 @@
         
         // Set the last-updated text and reload button hidden
         [self.dashboardViewController.reloadButton setHidden:YES];
-        [self.dashboardViewController.lastUpdateLabel setHidden:NO];
-        [self.dashboardViewController.lastUpdateHoldingLabel setHidden:NO];
         
         // Un-Hide the back button
         [self.dashboardViewController.backButton setHidden:NO];
@@ -402,33 +395,42 @@
     NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];
     
-     // For demonstration purposes, retrieve startup data stored by FirstTimeViewController
-    //NSString *startupData = [DAFAuthState getInstance].firstTime;
-    //NSLog(@"SentegrityTAF_UnlockViewController: startup data = <%@>", startupData);
-    
-    // Run Core Detection
-    
-    // Show Animation
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    self.hud.labelText = @"Analyzing";
-    self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
-    
-    self.hud.detailsLabelText = @"Mobile Security Posture";
-    self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
-    
-    // Kick off Core Detection
-    @autoreleasepool {
+    // Don't run core detection again if the user is simply coming back from the dashboard
+    if([self.dashboardViewController userClickedBack] == NO){
         
-        dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
+        // For demonstration purposes, retrieve startup data stored by FirstTimeViewController
+        //NSString *startupData = [DAFAuthState getInstance].firstTime;
+        //NSLog(@"SentegrityTAF_UnlockViewController: startup data = <%@>", startupData);
         
-        dispatch_async(myQueue, ^{
+        // Run Core Detection
+        
+        // Show Animation
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        self.hud.labelText = @"Analyzing";
+        self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
+        
+        self.hud.detailsLabelText = @"Mobile Security Posture";
+        self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
+        
+        // Kick off Core Detection
+        @autoreleasepool {
             
-            // Perform Core Detection
-            [self performCoreDetection:self];
+            dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
             
-        });
+            dispatch_async(myQueue, ^{
+                
+                // Perform Core Detection
+                [self performCoreDetection:self];
+                
+            });
+        }
+        
     }
+    
+    // Reset it
+    [self.dashboardViewController setUserClickedBack:NO];
+   
     
 }
 

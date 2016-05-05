@@ -92,8 +92,6 @@ static MBProgressHUD *HUD;
     
     // Customize the view
     [self customizeView];
-
-    
 }
 
 // View did appear
@@ -109,7 +107,7 @@ static MBProgressHUD *HUD;
     [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Dashboard"];
     
     // Set the side menu delegate
-    //[self.sideMenuViewController setDelegate:self];
+    [self.sideMenuViewController setDelegate:self];
     
     // Set the status bar color to white
     [self setNeedsStatusBarAppearanceUpdate];
@@ -121,6 +119,8 @@ static MBProgressHUD *HUD;
 // Set up the customizations for the view
 - (void)customizeView {
 
+    // Default the back bool
+    self.userClickedBack=NO;
     // Set the background color
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
@@ -150,31 +150,31 @@ static MBProgressHUD *HUD;
     
     // Set the menu button
     //Default to hidden and allow other VCs to change it (e.g., unlock)
-    //[self.menuButton setHidden:YES];
+    [self.menuButton setHidden:YES];
+    /*
+     [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
+     [self.menuButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
+     [self.menuButton setLineWidth:40.0f];
+     [self.menuButton setLineHeight:4.0f];
+     [self.menuButton setLineSpacing:7.0f];
+     [self.menuButton setShowsTouchWhenHighlighted:YES];
+     [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+     [self.menuButton updateAppearance];
+     */
     
     //Only show menu button if the user actively entered the dashboard, this allows them to go back
     //If you keep this here when there is no "back" screen it will just flash and try to run core detection again
+    
+
+    /*
     if(self.userClicked==NO){
-
-        [self.menuButton setHidden:YES];
-        [self.menuButton setLineWidth:0.0];
-        [self.menuButton setLineHeight:0.0f];
-    }
-    else{
-        [self.menuButton setHidden:NO];
-        [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
-        [self.menuButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
-        [self.menuButton setLineWidth:40.0f];
-        [self.menuButton setLineHeight:4.0f];
-        [self.menuButton setLineSpacing:7.0f];
-        [self.menuButton setShowsTouchWhenHighlighted:YES];
-        [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self.menuButton updateAppearance];
+        [self.backButton setHidden:YES];
     }
 
 
-    //Reset user clicked for next time
+    //Reset user clicked for next time unlock screen is shown
     self.userClicked=NO;
+     */
     
     // Set the trustscore holding label
     [self.trustScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];
@@ -237,6 +237,7 @@ static MBProgressHUD *HUD;
     /* Perform Core Detection */
     
     // Computation results here!
+    // Moved to unlock screen
     //[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
     
     /* Set the label and progress bar */
@@ -293,12 +294,13 @@ static MBProgressHUD *HUD;
     }
     
     // Remove animations from the reload button after a delay
-    
+    /*
     [IIDelayedAction delayedAction:^{
         // Remove all reload button animations
         [self.reloadButton.layer removeAllAnimations];
     } withDelay:1.0];
     
+     */
     // Update the last update label
     //[self updateLastUpdateLabel:self];
     
@@ -310,6 +312,7 @@ static MBProgressHUD *HUD;
 // Go back
 - (IBAction)goBack:(id)sender {
     
+    self.userClickedBack = YES;
     // Go back
     [self dismissViewControllerAnimated:NO completion:nil];
     
@@ -417,6 +420,7 @@ static MBProgressHUD *HUD;
     
 }
 
+/*
 - (IBAction)reload:(id)sender {
     
     
@@ -451,6 +455,7 @@ static MBProgressHUD *HUD;
     [untrusted showCustom:self image:nil color:[UIColor grayColor] title:@"Refresh" subTitle:@"Do you want to run detection again and update the score?" closeButtonTitle:@"Cancel" duration:0.0f];
 
 }
+ */
 
 #pragma mark - Status Bar Appearance
 
