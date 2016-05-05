@@ -91,6 +91,8 @@
         
         // Hide the dashboard view controller
         [dashboardViewController.menuButton setHidden:YES];
+            [dashboardViewController.menuButton setLineHeight:0];
+            [dashboardViewController.menuButton  setLineWidth:0];
         
         // Set the last-updated text and reload button hidden
         [dashboardViewController.reloadButton setHidden:YES];
@@ -106,6 +108,8 @@
             
             // Hide the dashboard view controller
             [dashboardViewController.menuButton setHidden:YES];
+            [dashboardViewController.menuButton setLineHeight:0];
+            [dashboardViewController.menuButton  setLineWidth:0];
             
             // Set the last-updated text and reload button hidden
             [dashboardViewController.reloadButton setHidden:YES];

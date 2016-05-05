@@ -255,7 +255,7 @@
             [result setResult:decryptedMasterKeyString];
             result = nil;
             
-            // We're done so dismiss
+            // We're done so dismiss and have main show the dashboard
             // Dismiss the view
             [self dismissViewControllerAnimated:NO completion:nil];
             
@@ -540,7 +540,7 @@
                     [result setResult:decryptedMasterKeyString];
                     result = nil;
                     
-                    // We're done so dismiss
+                    // We're done so dismiss the unlock view and show the dashboard behind it (called by mainviewcontroller)
                     // Dismiss the view
                     [self dismissViewControllerAnimated:NO completion:nil];
                     

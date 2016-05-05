@@ -92,22 +92,7 @@ static MBProgressHUD *HUD;
     
     // Customize the view
     [self customizeView];
-    
-    if(self.userClicked==NO){
-        
-        [self.menuButton setHidden:YES];
-    }
-    else{
-        [self.menuButton setHidden:NO];
-        [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
-        [self.menuButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
-        [self.menuButton setLineWidth:40.0f];
-        [self.menuButton setLineHeight:4.0f];
-        [self.menuButton setLineSpacing:7.0f];
-        [self.menuButton setShowsTouchWhenHighlighted:YES];
-        [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self.menuButton updateAppearance];
-    }
+
     
 }
 
@@ -124,7 +109,7 @@ static MBProgressHUD *HUD;
     [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Dashboard"];
     
     // Set the side menu delegate
-    [self.sideMenuViewController setDelegate:self];
+    //[self.sideMenuViewController setDelegate:self];
     
     // Set the status bar color to white
     [self setNeedsStatusBarAppearanceUpdate];
@@ -172,6 +157,8 @@ static MBProgressHUD *HUD;
     if(self.userClicked==NO){
 
         [self.menuButton setHidden:YES];
+        [self.menuButton setLineWidth:0.0];
+        [self.menuButton setLineHeight:0.0f];
     }
     else{
         [self.menuButton setHidden:NO];
