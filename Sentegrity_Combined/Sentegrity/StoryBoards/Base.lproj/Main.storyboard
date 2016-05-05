@@ -427,7 +427,7 @@ Anomaly</string>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="7Ko-Of-Ux4"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="CUW-H6-m2l"/>
+                                    <constraint firstAttribute="width" constant="40" id="CUW-H6-m2l"/>
                                     <constraint firstAttribute="width" constant="30" id="Ptv-Uj-Say"/>
                                     <constraint firstAttribute="height" constant="33" id="dKN-9x-BbN"/>
                                     <constraint firstAttribute="width" constant="50" id="hFx-aE-Bfg"/>
@@ -683,7 +683,7 @@ Anomaly</string>
                                     <constraint firstAttribute="height" constant="33" id="gdA-QZ-xqv"/>
                                     <constraint firstAttribute="width" constant="30" id="jfq-97-Rw2"/>
                                     <constraint firstAttribute="width" constant="30" id="lEf-UK-Pmx"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="rxy-Dk-stS"/>
+                                    <constraint firstAttribute="width" constant="40" id="rxy-Dk-stS"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -931,16 +931,16 @@ Anomaly</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mqI-iN-ezn" customClass="JTHamburgerButton">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mqI-iN-ezn" customClass="JTHamburgerButton">
                                 <rect key="frame" x="309" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="3vd-ZM-65h"/>
+                                    <constraint firstAttribute="width" constant="40" id="3vd-ZM-65h"/>
                                     <constraint firstAttribute="height" constant="33" id="BSU-ON-gVG"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="DuT-9O-sdt"/>
                                     <constraint firstAttribute="width" constant="50" id="Qwz-Hn-KNl"/>
                                     <constraint firstAttribute="width" constant="30" id="Uhx-Vl-FgN"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="33" id="XZG-UA-ANq"/>
+                                    <constraint firstAttribute="height" constant="33" id="XZG-UA-ANq"/>
                                     <constraint firstAttribute="height" constant="30" id="hNh-sB-bWb"/>
                                     <constraint firstAttribute="height" constant="33" id="jQv-V0-Nra"/>
                                     <constraint firstAttribute="width" constant="40" id="l2j-pq-RVO"/>
@@ -1015,7 +1015,7 @@ Anomaly</string>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eMw-2a-uLB" customClass="JTHamburgerButton">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eMw-2a-uLB" customClass="JTHamburgerButton">
                                 <rect key="frame" x="309" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1024,7 +1024,7 @@ Anomaly</string>
                                     <constraint firstAttribute="height" constant="30" id="8OE-Hw-W5k"/>
                                     <constraint firstAttribute="height" constant="33" id="cJd-AB-UmQ"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="e3f-zu-DgO"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="htU-fq-eaI"/>
+                                    <constraint firstAttribute="width" constant="40" id="htU-fq-eaI"/>
                                     <constraint firstAttribute="height" constant="33" id="jci-Z5-8pM"/>
                                     <constraint firstAttribute="width" constant="50" id="mjP-ee-2LI"/>
                                     <constraint firstAttribute="width" constant="30" id="ph4-5U-COh"/>
@@ -1217,7 +1217,7 @@ Anomaly</string>
                                 <rect key="frame" x="26" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="6qx-Xe-Eeu"/>
+                                    <constraint firstAttribute="width" constant="40" id="6qx-Xe-Eeu"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="FMj-OJ-2SP"/>
                                     <constraint firstAttribute="height" constant="30" id="KIv-92-s7j"/>
                                     <constraint firstAttribute="width" constant="30" id="NQb-Ls-N09"/>
@@ -1242,20 +1242,20 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="udX-sP-GkB" customClass="CircleProgressBar">
-                                <rect key="frame" x="110" y="28" width="155" height="155"/>
+                                <rect key="frame" x="95" y="25" width="185" height="185"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d2t-of-9wM">
-                                        <rect key="frame" x="0.0" y="37" width="155" height="60"/>
+                                        <rect key="frame" x="0.0" y="34" width="185" height="79"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="81" id="0hv-T2-P1Y"/>
                                             <constraint firstAttribute="height" constant="90" id="BOU-cj-RFf"/>
-                                            <constraint firstAttribute="height" constant="60" id="FjO-Nu-h4p"/>
+                                            <constraint firstAttribute="height" constant="79" id="FjO-Nu-h4p"/>
                                             <constraint firstAttribute="width" constant="106" id="S6Y-bb-6Gx"/>
                                             <constraint firstAttribute="height" constant="81" id="jFl-7v-Bp0"/>
                                             <constraint firstAttribute="width" constant="106" id="nch-zf-ih6"/>
                                             <constraint firstAttribute="width" constant="120" id="xz9-81-ACQ"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="DINPro-Bold" family="DINPro" pointSize="72"/>
+                                        <fontDescription key="fontDescription" name="DINPro-Bold" family="DINPro" pointSize="90"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
@@ -1270,7 +1270,7 @@ Anomaly</string>
                                         </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserScore" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hcf-6p-PCv">
-                                        <rect key="frame" x="0.0" y="97" width="155" height="25"/>
+                                        <rect key="frame" x="0.0" y="113" width="185" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="CVp-KD-wHd"/>
                                             <constraint firstAttribute="height" constant="25" id="abm-P3-JcS"/>
@@ -1278,7 +1278,7 @@ Anomaly</string>
                                             <constraint firstAttribute="width" constant="127" id="kZi-gE-dg8"/>
                                             <constraint firstAttribute="width" constant="127" id="y7v-Db-wN1"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="22"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="25"/>
                                         <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
@@ -1294,17 +1294,17 @@ Anomaly</string>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Hcf-6p-PCv" firstAttribute="top" secondItem="d2t-of-9wM" secondAttribute="bottom" id="0iB-LR-i6i"/>
-                                    <constraint firstAttribute="width" constant="155" id="4qY-56-PW7"/>
+                                    <constraint firstAttribute="width" constant="185" id="4qY-56-PW7"/>
                                     <constraint firstItem="d2t-of-9wM" firstAttribute="width" secondItem="udX-sP-GkB" secondAttribute="width" id="6v7-7o-Ik9"/>
                                     <constraint firstAttribute="centerX" secondItem="Hcf-6p-PCv" secondAttribute="centerX" id="BdC-K7-Ux5"/>
-                                    <constraint firstItem="d2t-of-9wM" firstAttribute="top" secondItem="udX-sP-GkB" secondAttribute="top" constant="37" id="KuL-So-PfL"/>
+                                    <constraint firstItem="d2t-of-9wM" firstAttribute="top" secondItem="udX-sP-GkB" secondAttribute="top" constant="34" id="KuL-So-PfL"/>
                                     <constraint firstItem="Hcf-6p-PCv" firstAttribute="width" secondItem="udX-sP-GkB" secondAttribute="width" id="TMS-vo-clV"/>
-                                    <constraint firstAttribute="height" constant="155" id="bCS-eY-7VC"/>
+                                    <constraint firstAttribute="height" constant="185" id="bCS-eY-7VC"/>
                                     <constraint firstAttribute="centerX" secondItem="d2t-of-9wM" secondAttribute="centerX" id="nup-62-TiT"/>
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2lE-6s-aXN">
-                                <rect key="frame" x="26" y="342" width="323" height="305"/>
+                                <rect key="frame" x="26" y="369" width="323" height="278"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="323" id="YDK-tc-jHK"/>
@@ -1313,7 +1313,7 @@ Anomaly</string>
                                 <textInputTraits key="textInputTraits"/>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLP-Zw-LO9">
-                                <rect key="frame" x="36" y="227" width="303" height="88"/>
+                                <rect key="frame" x="36" y="254" width="303" height="88"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="User_Grey" translatesAutoresizingMaskIntoConstraints="NO" id="GKb-XS-wAn">
                                         <rect key="frame" x="28" y="0.0" width="90" height="88"/>
@@ -1395,7 +1395,7 @@ Anomaly</string>
                             <constraint firstItem="udX-sP-GkB" firstAttribute="top" secondItem="eL3-Yh-UKS" secondAttribute="bottom" constant="-4" id="YtB-5u-7hO"/>
                             <constraint firstAttribute="centerX" secondItem="zLP-Zw-LO9" secondAttribute="centerX" id="ZnB-9N-UME"/>
                             <constraint firstAttribute="bottomMargin" secondItem="2lE-6s-aXN" secondAttribute="bottom" constant="20" id="acr-NF-0RH"/>
-                            <constraint firstItem="udX-sP-GkB" firstAttribute="top" secondItem="ouR-zn-99o" secondAttribute="topMargin" constant="28" id="bpC-Tg-CiB"/>
+                            <constraint firstItem="udX-sP-GkB" firstAttribute="top" secondItem="ouR-zn-99o" secondAttribute="topMargin" constant="25" id="bpC-Tg-CiB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zLP-Zw-LO9" secondAttribute="trailing" constant="20" id="pjl-Aq-Rlu"/>
                             <constraint firstItem="bBN-Eo-DFm" firstAttribute="top" secondItem="ouR-zn-99o" secondAttribute="topMargin" constant="25" id="w7a-Fj-Yed"/>
                         </constraints>
@@ -1595,7 +1595,7 @@ Anomaly</string>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="brZ-AJ-oUZ" customClass="JTHamburgerButton">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="brZ-AJ-oUZ" customClass="JTHamburgerButton">
                                 <rect key="frame" x="309" y="25" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1605,7 +1605,7 @@ Anomaly</string>
                                     <constraint firstAttribute="width" constant="40" id="Jhu-CK-Ayk"/>
                                     <constraint firstAttribute="width" constant="50" id="NtL-nd-UpA"/>
                                     <constraint firstAttribute="height" constant="30" id="cM8-sL-zwK"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="e27-tV-Gmy"/>
+                                    <constraint firstAttribute="width" constant="40" id="e27-tV-Gmy"/>
                                     <constraint firstAttribute="width" constant="30" id="he5-f9-WbA"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="oVK-t9-tku"/>
                                     <constraint firstAttribute="width" constant="30" id="zDO-zg-S3d"/>
