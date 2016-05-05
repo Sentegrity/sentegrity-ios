@@ -12,6 +12,7 @@
 
 #import "SentegrityTAF_MainViewController.h"
 #import "DAFSupport/DAFAppBase.h"
+#import "DAFSupport/DAFAuthState.h"
 
 // Dashboard View Controller
 #import "DashboardViewController.h"
@@ -67,6 +68,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     
     // Don't show anything unless we've already created password and activated
+     self.firstTime = [DAFAuthState getInstance].firstTime;
     if(self.firstTime==NO){
         
         // If we have no results to display, run detection, otherwise we will keep the last ones
@@ -92,8 +94,8 @@
         
         // Set the last-updated text and reload button hidden
         [dashboardViewController.reloadButton setHidden:YES];
-        [dashboardViewController.lastUpdateLabel setHidden:YES];
-        [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+        [dashboardViewController.lastUpdateLabel setHidden:NO];
+        [dashboardViewController.lastUpdateHoldingLabel setHidden:NO];
         
         // Navigation Controller
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
@@ -107,8 +109,8 @@
             
             // Set the last-updated text and reload button hidden
             [dashboardViewController.reloadButton setHidden:YES];
-            [dashboardViewController.lastUpdateLabel setHidden:YES];
-            [dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+            [dashboardViewController.lastUpdateLabel setHidden:NO];
+            [dashboardViewController.lastUpdateHoldingLabel setHidden:NO];
             
             // Un-Hide the back button
             [dashboardViewController.backButton setHidden:NO];
@@ -118,9 +120,6 @@
         }
         
     }
-    
-    
-
     
 }
 

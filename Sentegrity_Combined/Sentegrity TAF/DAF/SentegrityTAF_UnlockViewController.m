@@ -95,7 +95,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     // generate lines with one pixel (on all iOS devices)
     for (NSLayoutConstraint *constraint in self.onePixelConstraintsCollection) {
@@ -153,7 +152,7 @@
     }
     else if (event==GetPasswordCancelled  && result != nil) {
        
-        /*
+        
         NSLog(@"SentegrityTAF_UnlockViewController: cancelling unlock");
         [self dismissViewControllerAnimated:NO completion: ^{
             [result setError:[NSError errorWithDomain:@"SentegrityTAF_UnlockViewController"
@@ -161,19 +160,21 @@
                                              userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
             result = nil;
         }];
-         */
+         
         
         //Re-run core detection
         //result = nil;
         
         // Show Animation
+        //[self.view setNeedsDisplay];
         /*
+        
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-        self.hud.labelText = @"Analyzing";
+        self.hud.labelText = @"Verifying";
         self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
         
-        self.hud.detailsLabelText = @"Mobile Security Posture";
+        self.hud.detailsLabelText = @"Mobile Device Security";
         self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
         
         // Kick off Core Detection
@@ -191,6 +192,8 @@
         
         [self dismissViewControllerAnimated:NO completion:nil];
          */
+        
+         
 
     }
     else if(event == AuthorizationSucceeded){
@@ -298,12 +301,12 @@
     self.dashboardViewController.userClicked = YES;
     
     // Hide the dashboard view controller
-    //[self.dashboardViewController.menuButton setHidden:NO];
+    [self.dashboardViewController.menuButton setHidden:YES];
     
     // Set the last-updated text and reload button hidden
     [self.dashboardViewController.reloadButton setHidden:YES];
-    [self.dashboardViewController.lastUpdateLabel setHidden:YES];
-    [self.dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+    [self.dashboardViewController.lastUpdateLabel setHidden:NO];
+    [self.dashboardViewController.lastUpdateHoldingLabel setHidden:NO];
     
     // Navigation Controller
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.dashboardViewController];
@@ -315,12 +318,12 @@
         // Completed presenting
         
         // Hide the dashboard view controller
-        //[self.dashboardViewController.menuButton setHidden:YES];
+        [self.dashboardViewController.menuButton setHidden:YES];
         
         // Set the last-updated text and reload button hidden
         [self.dashboardViewController.reloadButton setHidden:YES];
-        [self.dashboardViewController.lastUpdateLabel setHidden:YES];
-        [self.dashboardViewController.lastUpdateHoldingLabel setHidden:YES];
+        [self.dashboardViewController.lastUpdateLabel setHidden:NO];
+        [self.dashboardViewController.lastUpdateHoldingLabel setHidden:NO];
         
         // Un-Hide the back button
         [self.dashboardViewController.backButton setHidden:NO];
@@ -400,8 +403,8 @@
     [super viewDidAppear:animated];
     
      // For demonstration purposes, retrieve startup data stored by FirstTimeViewController
-    NSString *startupData = [DAFAuthState getInstance].vendorState;
-    NSLog(@"SentegrityTAF_UnlockViewController: startup data = <%@>", startupData);
+    //NSString *startupData = [DAFAuthState getInstance].firstTime;
+    //NSLog(@"SentegrityTAF_UnlockViewController: startup data = <%@>", startupData);
     
     // Run Core Detection
     
@@ -474,6 +477,7 @@
                 [self analyzePreAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
                 [self showInput];
+                [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
                 /*
                 //Don't show input if we successfully transparently authenticated
                 if(computationResults.deviceTrusted==YES && computationResults.preAuthenticationAction ==preAuthenticationAction_TransparentlyAuthenticate){

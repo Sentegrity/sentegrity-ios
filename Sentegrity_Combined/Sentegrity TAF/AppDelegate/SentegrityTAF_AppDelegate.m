@@ -35,12 +35,6 @@
     
     // Override point for customization after application launch.
     
-    // Set default bool attribute for first time
-    self.firstTime = NO;
-    
-    // set it in the mainviewcontroller so we can update the startup email once the policy is available
-    [self.mainViewController setFirstTime:NO];
-    
     // Call DAF superclass to handle rest of startup process
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
     
@@ -83,8 +77,6 @@
             
         case AppStartup: {
  
-
-            
             // Occurs on each application startup (foreground as well)
             
             /* SENTEGRITY:
@@ -163,12 +155,6 @@
             break;
             
         case GetPassword_FirstTime:
-            
-            // set property
-            self.firstTime = YES;
-            
-            // set it in the mainviewcontroller so we can update the startup email once the policy is available
-            [self.mainViewController setFirstTime:YES];
             
             
             // Prompts for user to create password

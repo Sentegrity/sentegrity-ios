@@ -82,8 +82,33 @@ static MBProgressHUD *HUD;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
     // Customize the view
     [self customizeView];
+}
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    
+    // Customize the view
+    [self customizeView];
+    
+    if(self.userClicked==NO){
+        
+        [self.menuButton setHidden:YES];
+    }
+    else{
+        [self.menuButton setHidden:NO];
+        [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
+        [self.menuButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
+        [self.menuButton setLineWidth:40.0f];
+        [self.menuButton setLineHeight:4.0f];
+        [self.menuButton setLineSpacing:7.0f];
+        [self.menuButton setShowsTouchWhenHighlighted:YES];
+        [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.menuButton updateAppearance];
+    }
+    
 }
 
 // View did appear
@@ -225,7 +250,7 @@ static MBProgressHUD *HUD;
     /* Perform Core Detection */
     
     // Computation results here!
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
+    //[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
     
     /* Set the label and progress bar */
     

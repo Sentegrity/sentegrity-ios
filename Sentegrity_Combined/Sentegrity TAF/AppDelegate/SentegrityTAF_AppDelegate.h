@@ -31,8 +31,6 @@
 // Activity Dispatcher
 @property (strong, atomic) Sentegrity_Activity_Dispatcher *activityDispatcher;
 
-@property (atomic) BOOL firstTime;
-
 // View Controllers
 @property (strong, nonatomic) SentegrityTAF_MainViewController *mainViewController;
 @property (strong, nonatomic) SentegrityTAF_UnlockViewController *unlockViewController;
