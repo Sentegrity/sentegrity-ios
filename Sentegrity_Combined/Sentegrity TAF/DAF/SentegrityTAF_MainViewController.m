@@ -39,6 +39,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
+    [self.containerView setCurrentViewController:self];
 }
 
 
@@ -83,51 +84,51 @@
             
         }
         else{
-        
-        // Show the landing page since we've been transparently authenticated
-        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
-        // Create the main view controller
-        self.dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-            
-            //self.dashboardViewController.userClicked = YES;
-            
-            // Hide the dashboard view controller
-            [self.dashboardViewController.menuButton setHidden:YES];
-            
-            // We want the user to be able to go back from here
-            [self.dashboardViewController.backButton setHidden:YES];
-            
-            // Set the last-updated text and reload button hidden
-            [self.dashboardViewController.reloadButton setHidden:YES];
-            
-            // Navigation Controller
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.dashboardViewController];
-            [navController setNavigationBarHidden:YES];
-            
-            // Present the view controller
-            [self presentViewController:navController animated:NO completion:^{
-                
-                // Completed presenting
-                
-                // Hide the dashboard view controller
-                [self.dashboardViewController.menuButton setHidden:YES];
-                
-                // We want the user to be able to go back from here
-                [self.dashboardViewController.backButton setHidden:YES];
-                
-                // Set the last-updated text and reload button hidden
-                [self.dashboardViewController.reloadButton setHidden:YES];
-                
-                
-            }];
+            [self showNewDashboardViewController];
         }
     }
-    
     //reset
-    
-    
 }
+
+- (void) showNewDashboardViewController {
+    
+    //remove any old view controller
+    [self.containerView setChildViewController:nil];
+    
+    // Show the landing page since we've been transparently authenticated
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    // Create the main view controller
+    self.dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+    
+    //self.dashboardViewController.userClicked = YES;
+    
+    // Hide the dashboard view controller
+    [self.dashboardViewController.menuButton setHidden:YES];
+    
+    // We want the user to be able to go back from here
+    [self.dashboardViewController.backButton setHidden:YES];
+    
+    // Set the last-updated text and reload button hidden
+    [self.dashboardViewController.reloadButton setHidden:YES];
+    
+    // Navigation Controller
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.dashboardViewController];
+    [navController setNavigationBarHidden:YES];
+    
+    [self.containerView setChildViewController:navController];
+    
+    // Hide the dashboard view controller
+    [self.dashboardViewController.menuButton setHidden:YES];
+    
+    // We want the user to be able to go back from here
+    [self.dashboardViewController.backButton setHidden:YES];
+    
+    // Set the last-updated text and reload button hidden
+    [self.dashboardViewController.reloadButton setHidden:YES];
+
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

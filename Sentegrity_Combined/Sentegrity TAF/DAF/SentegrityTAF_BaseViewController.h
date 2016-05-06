@@ -8,9 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol SentegrityTAF_basicProtocol <NSObject>
+
+- (void) dismiss:(UIViewController *) vc;
+
+@end
+
 @interface SentegrityTAF_BaseViewController : UIViewController
 
+@property (nonatomic, weak) id <SentegrityTAF_basicProtocol> delegate;
 // Show an alert
 - (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
+
 
 @end

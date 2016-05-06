@@ -170,7 +170,7 @@
     result = nil;
     
     // Dismiss the view
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self.delegate dismiss:self];
     
 }
 
@@ -315,32 +315,28 @@
         // Idle Lock (or other lock event) happened during change-passphrase sequence
         // Ensure this VC is dismissed if it's showing
         NSLog(@"SentegrityTAF_PasswordCreationViewController: cancelling change password");
-        [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"SentegrityTAF_PasswordCreationViewController"
-                                                 code:101
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Change password cancelled"} ]];
-            result = nil;
-        }];
+       
+        [self.delegate dismiss:self];
+        [result setError:[NSError errorWithDomain:@"SentegrityTAF_PasswordCreationViewController"
+                                             code:101
+                                         userInfo:@{NSLocalizedDescriptionKey:@"Change password cancelled"} ]];
+        
     }
     else if (event==GetPasswordCancelled  && result != nil) {
         
         NSLog(@"SentegrityTAF_PasswordCreationViewController: cancelling unlock");
-        [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"SentegrityTAF_PasswordCreationViewController"
-                                                 code:102
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
-            result = nil;
-        }];
+        [self.delegate dismiss:self];
+        [result setError:[NSError errorWithDomain:@"SentegrityTAF_PasswordCreationViewController"
+                                             code:102
+                                         userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
     }
     else if (event == AuthenticateWithWarnStarted)
     {
         NSLog(@"SentegrityTAF_PasswordCreationViewController: starting authenticateWithWarn");
-        [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"SentegrityTAF_PasswordCreationViewController"
-                                                 code:103
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
-            result = nil;
-        }];
+        [self.delegate dismiss:self];
+        [result setError:[NSError errorWithDomain:@"SentegrityTAF_PasswordCreationViewController"
+                                             code:103
+                                         userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
     }
 }
 

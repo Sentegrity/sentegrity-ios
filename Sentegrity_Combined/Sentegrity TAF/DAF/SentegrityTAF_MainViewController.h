@@ -19,6 +19,8 @@
 // General GD runtime
 #import <GD/GDiOS.h>
 
+#import "ILContainerView.h"
+
 
 @interface SentegrityTAF_MainViewController : UIViewController
 
@@ -39,6 +41,7 @@
 
 @property (weak, nonatomic) DAFWaitableResult *result;
 
+@property (weak, nonatomic) IBOutlet ILContainerView *containerView;
 
 
 @end

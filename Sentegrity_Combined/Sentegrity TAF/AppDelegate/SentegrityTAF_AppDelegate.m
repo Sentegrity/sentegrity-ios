@@ -47,32 +47,7 @@
 // Setup NIBS
 - (void)setupNibs {
     
-    // Show the landing page since we've been transparently authenticated
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    // Create the main view controller
-    self.dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-    
-    // Get the nib for the device
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        // iPhone View Controllers
-        
-        self.mainViewController = [[SentegrityTAF_MainViewController alloc] initWithNibName:@"SentegrityTAF_MainViewController_iPhone" bundle:nil];
-        self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
-        self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPhone" bundle:nil];
-        self.passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController_iPhone" bundle:nil];
-        
-    } else {
-        
-        // iPad View Controllers
-        
-        self.mainViewController = [[SentegrityTAF_MainViewController alloc] initWithNibName:@"SentegrityTAF_MainViewController_iPad" bundle:nil];
-        self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
-        self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPad" bundle:nil];
-        self.passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController_iPad" bundle:nil];
-        
-    }
+    self.main2ViewController = [[SentegrityTAF_Main2ViewController alloc] initWithNibName:@"SentegrityTAF_Main2ViewController" bundle:nil];
     
 }
 
@@ -162,12 +137,11 @@
             // [self.dashboardViewController dismissViewControllerAnimated:NO completion:nil];
             
             // Show main
-            [self.gdWindow setRootViewController:self.mainViewController ];
+            [self.gdWindow setRootViewController:self.main2ViewController];
             [self.gdWindow makeKeyAndVisible];
             
-            [self.easyActivationViewController setResult:result];
-            [self.mainViewController presentViewController:self.easyActivationViewController animated:NO completion:nil];
-            
+            [self.main2ViewController showAuthWarningWithResult:result];
+         
             // Done
             break;
             
@@ -200,20 +174,10 @@
             //[self.passwordCreationViewController setSecurityPolicy:[self.gdTrust securityPolicy]];
             
             // Show main
-            [self.gdWindow setRootViewController:self.mainViewController];
+            [self.gdWindow setRootViewController:self.main2ViewController];
             [self.gdWindow makeKeyAndVisible];
             
-            // prepare password creation view controller
-            [self.passwordCreationViewController setResult:result];
-            
-            
-            //show welcome screen
-            {
-                SentegrityTAF_WelcomeViewController *welcome = [[SentegrityTAF_WelcomeViewController alloc] init];
-                welcome.delegate = self;
-                [self.mainViewController presentViewController:welcome animated:YES completion:nil];
-            }
-            
+            [self.main2ViewController showWelcomePermissionAndPassWordCreationWithResult:result];
             
             // Update the startup file with the email
             //[[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:[[gdLibrary getApplicationConfig] objectForKey:GDAppConfigKeyUserId] withError:nil];
@@ -250,24 +214,23 @@
             // Reset easy activation var set when easy activation is attempted, this prevents main from showing the dashboard when it re-appears
 
             // Show main
-            [self.gdWindow setRootViewController:self.mainViewController];
+            [self.gdWindow setRootViewController:self.main2ViewController];
             [self.gdWindow makeKeyAndVisible];
             
             // Set result so when unlock is invoked from within we can pass it on
-            [self.mainViewController setResult:result];
+            [self.main2ViewController setResult:result];
             [self.unlockViewController setResult:result];
             
             // Show the password unlock view controller
             //[self.unlockViewController setResult:result];
 
             // Below is required for easy activation to work
-            if([self.mainViewController easyActivation] == YES){
-                [self.mainViewController presentViewController:self.unlockViewController animated:NO completion:nil];
-                
+            if([self.main2ViewController easyActivation] == YES){
+                [self.main2ViewController showUnlockWithResult:result];
             }
             // Reset values
-            [self.mainViewController setEasyActivation:NO];
-            [self.mainViewController setGetPasswordCancelled:NO];
+            [self.main2ViewController setEasyActivation:NO];
+            [self.main2ViewController setGetPasswordCancelled:NO];
             
             // Done
             break;
@@ -353,20 +316,15 @@
     
     //If == AuthorizationSucceeded, don't show Sentegrity Dashboard
     
-    // Pass the message to all of the view controllers
-    [self.dashboardViewController updateUIForNotification:event];
-    
-    [self.unlockViewController updateUIForNotification:event];
-    [self.mainViewController updateUIForNotification:event];
+    [self.main2ViewController updateUIForNotification:event];
 
-    [self.easyActivationViewController updateUIForNotification:event];
 }
 
 
 
 #pragma mark - ISHPermissionKit
 
-
+/*
 - (void) welcomeFinished {
     
     //if there is permissions, show permissions view controllers
@@ -515,5 +473,6 @@
     // Don't know
     return nil;
 }
+ */
 
 @end
