@@ -77,6 +77,7 @@
             [self setupNibs];
             [self dismissViewControllerAnimated:NO completion:nil];
             
+            // we run core detection again by sending to the unlock vc
             [self.unlockViewController setResult:self.result];
             [self presentViewController:self.unlockViewController animated:NO completion:nil];
             
@@ -89,36 +90,42 @@
         // Create the main view controller
         DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
         
-        // Hide the dashboard view controller
-        [dashboardViewController.menuButton setHidden:YES];
-        
-        // Set the last-updated text and reload button hidden
-        [dashboardViewController.reloadButton setHidden:YES];
-        [dashboardViewController.lastUpdateLabel setHidden:NO];
-        [dashboardViewController.lastUpdateHoldingLabel setHidden:NO];
-        
-        // Navigation Controller
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
-        [navController setNavigationBarHidden:YES];
-        
-        // Present the view controller
-        [self presentViewController:navController animated:NO completion:^{
+            
+            // Create the main view controller
+            dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+            
+            //self.dashboardViewController.userClicked = YES;
             
             // Hide the dashboard view controller
             [dashboardViewController.menuButton setHidden:YES];
             
+            // We want the user to be able to go back from here
+            [dashboardViewController.backButton setHidden:YES];
+            
             // Set the last-updated text and reload button hidden
             [dashboardViewController.reloadButton setHidden:YES];
-            [dashboardViewController.lastUpdateLabel setHidden:NO];
-            [dashboardViewController.lastUpdateHoldingLabel setHidden:NO];
             
-            // Un-Hide the back button
-            [dashboardViewController.backButton setHidden:NO];
+            // Navigation Controller
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
+            [navController setNavigationBarHidden:YES];
             
-        }];
-        
+            // Present the view controller
+            [self presentViewController:navController animated:NO completion:^{
+                
+                // Completed presenting
+                
+                // Hide the dashboard view controller
+                [dashboardViewController.menuButton setHidden:YES];
+                
+                // We want the user to be able to go back from here
+                [dashboardViewController.backButton setHidden:YES];
+                
+                // Set the last-updated text and reload button hidden
+                [dashboardViewController.reloadButton setHidden:YES];
+                
+                
+            }];
         }
-        
     }
     
 }
@@ -172,9 +179,9 @@
             // We should re-run core detection to get new data when this is the case
             // Therefore, re-request the unlock screen
             
-            //[self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
-            //[self.unlockViewController setResult:self.result];
-            //[self presentViewController:self.unlockViewController animated:NO completion:nil];
+            [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
+            [self.unlockViewController setResult:self.result];
+            [self presentViewController:self.unlockViewController animated:NO completion:nil];
             break;
             
             

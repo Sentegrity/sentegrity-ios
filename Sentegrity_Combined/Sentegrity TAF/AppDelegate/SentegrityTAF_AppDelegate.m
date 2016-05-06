@@ -328,8 +328,8 @@
     //If == AuthorizationSucceeded, don't show Sentegrity Dashboard
     
     // Pass the message to all of the view controllers
-    [self.mainViewController updateUIForNotification:event];
     [self.unlockViewController updateUIForNotification:event];
+    [self.mainViewController updateUIForNotification:event];
     [self.easyActivationViewController updateUIForNotification:event];
 }
 

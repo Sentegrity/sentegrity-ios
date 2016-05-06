@@ -21,7 +21,7 @@
 
 /** Properties **/
 
-@property (nonatomic) BOOL userClicked;
+@property (nonatomic) BOOL userClickedBack;
 
 
 /* Main Progress Bar */
@@ -86,7 +86,7 @@
 /** Actions **/
 
 // Reload
-- (IBAction)reload:(id)sender;
+//- (IBAction)reload:(id)sender;
 
 // Go Back
 - (IBAction)goBack:(id)sender;
