@@ -138,83 +138,37 @@
     {
         // Idle Lock (or other lock event) happened during change-passphrase sequence
         // Ensure this VC is dismissed if it's showing
-        NSLog(@"SentegrityTAF_UnlockViewController: cancelling change password");
+        NSLog(@"DAFSkelUnlockViewController: cancelling change password");
         [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"SentegrityTAF_UnlockViewController"
+            [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
                                                  code:101
                                              userInfo:@{NSLocalizedDescriptionKey:@"Change password cancelled"} ]];
             result = nil;
         }];
     }
     else if (event==GetPasswordCancelled  && result != nil) {
-       
         
-        NSLog(@"SentegrityTAF_UnlockViewController: cancelling unlock");
+        NSLog(@"DAFSkelUnlockViewController: cancelling unlock");
         [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"SentegrityTAF_UnlockViewController"
+            [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
                                                  code:102
                                              userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
             result = nil;
         }];
-         
-        
-        //Re-run core detection
-        //result = nil;
-        
-        // Show Animation
-        //[self.view setNeedsDisplay];
-        /*
-        
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
-        self.hud.labelText = @"Verifying";
-        self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
-        
-        self.hud.detailsLabelText = @"Mobile Device Security";
-        self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
-        
-        // Kick off Core Detection
-        @autoreleasepool {
-            
-            dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
-            
-            dispatch_async(myQueue, ^{
-                
-                // Perform Core Detection
-                [self performCoreDetection:self];
-                
-            });
-        }
         
         [self dismissViewControllerAnimated:NO completion:nil];
-         */
-        [self dismissViewControllerAnimated:NO completion:nil];
-         
-
     }
-    else if(event == AuthorizationSucceeded){
-        
-        
-    }
-    // removed below in the event 
-    /*
     else if (event == AuthenticateWithWarnStarted)
     {
-        NSLog(@"SentegrityTAF_UnlockViewController: starting authenticateWithWarn");
+        NSLog(@"DAFSkelUnlockViewController: starting authenticateWithWarn");
         [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"SentegrityTAF_UnlockViewController"
+            [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
                                                  code:103
                                              userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
             result = nil;
         }];
     }
-     */
-    
 }
-
-
-
-
 
 
 - (void) confirm {
@@ -421,7 +375,20 @@
             dispatch_async(myQueue, ^{
                 
                 // Perform Core Detection
-                [self performCoreDetection:self];
+                @try {
+                    
+                     [self performCoreDetection:self];
+                    
+                } @catch (NSException *exception) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        [self coreDetectionerrorRecovery];
+                        
+                    });
+
+                }
+               
                 
             });
         }
@@ -431,6 +398,67 @@
     // Reset it
     [self.dashboardViewController setUserClickedBack:NO];
    
+    
+}
+
+- (void)coreDetectionerrorRecovery {
+ 
+    
+    [MBProgressHUD hideHUDForView:self.view animated:NO];
+    
+    // We avoid analyzePreAuthenticationActions
+    
+    // Create  dummy computation results object that forces user login
+    Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc]init];
+    
+    // Set the pre authetnication action
+    computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPasswordAndWarn;
+    
+    // Set to breach class
+    computationResults.attributingClassID = 1;
+    
+    // Set GUI manually
+    computationResults.systemGUIIconID = 1;
+    computationResults.systemGUIIconText = @"Unknown Risk";
+    
+    computationResults.userGUIIconID = 1;
+    computationResults.userGUIIconText = @"Unknown Risk";
+    
+    // Set the core detection result to error
+    computationResults.coreDetectionResult = CoreDetectionResult_CoreDetectionError;
+    
+    // Set the post authentication action, we cant whitelist because we have no assertions
+    computationResults.postAuthenticationAction = postAuthenticationAction_DoNothing;
+    
+    // Populate data for dashboard
+    // Scores
+
+    computationResults.deviceTrusted = NO;
+    computationResults.userTrusted = NO;
+    computationResults.systemTrusted = NO;
+    computationResults.systemScore = 0;
+    computationResults.deviceScore=0;
+    computationResults.userScore=0;
+    
+    // Set GUI messages (system)
+    computationResults.systemIssues = [NSArray arrayWithObjects: @"Device error detected", nil];
+    computationResults.systemSuggestions = [NSArray arrayWithObjects: @"Restart device", nil];
+    computationResults.systemAnalysisResults = [NSArray arrayWithObjects: @"Analysis incomplete",  @"Unknown risks present",  nil];
+    
+    // Set GUI messages (user)
+    computationResults.userIssues = [NSArray arrayWithObjects: @"User error detected", nil];
+    computationResults.userSuggestions = [NSArray arrayWithObjects: @"Restart device", nil];
+    computationResults.userAnalysisResults = [NSArray arrayWithObjects: @"Analysis incomplete", @"Unknown risks present", nil];
+    
+    
+    // Set the last computation results manually so that confirm() can use it
+    [[CoreDetection sharedDetection] setComputationResults:computationResults];
+    
+    // Call the normal stuff
+    [self showInput];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
+    
     
 }
 

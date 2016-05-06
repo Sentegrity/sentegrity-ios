@@ -90,8 +90,15 @@ static MBProgressHUD *HUD;
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
     
+    self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+    
+    [self updateComputationResults:self];
+
     // Customize the view
     [self customizeView];
+    
+    
+    
 }
 
 // View did appear
