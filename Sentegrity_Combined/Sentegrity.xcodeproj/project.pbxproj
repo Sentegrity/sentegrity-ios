@@ -147,6 +147,7 @@
 		D7BE76F11CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BE76F01CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */; };
 		D7E020AD1CD94A8900112E63 /* LocationPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7E020AC1CD94A8900112E63 /* LocationPermissionViewController.xib */; };
 		D7E020AF1CD94F2000112E63 /* ActivityPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */; };
+		D7FE9F1C1CDD37A600FACA04 /* ILContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FE9F1B1CDD37A600FACA04 /* ILContainerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -329,6 +330,8 @@
 		D7BE76F01CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_PasswordCreationViewController_iPad.xib; sourceTree = "<group>"; };
 		D7E020AC1CD94A8900112E63 /* LocationPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationPermissionViewController.xib; sourceTree = "<group>"; };
 		D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityPermissionViewController.xib; sourceTree = "<group>"; };
+		D7FE9F1A1CDD37A600FACA04 /* ILContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILContainerView.h; sourceTree = "<group>"; };
+		D7FE9F1B1CDD37A600FACA04 /* ILContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILContainerView.m; sourceTree = "<group>"; };
 		EC09FE4FC0790F7A16625A66 /* Pods-Sentegrity TAF.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity TAF.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity TAF/Pods-Sentegrity TAF.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -540,6 +543,8 @@
 		4C2667331CC03AB900F10DC0 /* DAF */ = {
 			isa = PBXGroup;
 			children = (
+				D7FE9F1A1CDD37A600FACA04 /* ILContainerView.h */,
+				D7FE9F1B1CDD37A600FACA04 /* ILContainerView.m */,
 				D7BE76EB1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.h */,
 				D7BE76EC1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m */,
 				D7BE76ED1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.xib */,
@@ -1139,6 +1144,7 @@
 				4C2666FC1CC0369000F10DC0 /* UIImage+ImageEffects.m in Sources */,
 				D7BE76EE1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m in Sources */,
 				4C2666FD1CC0369000F10DC0 /* SystemDebugViewController.m in Sources */,
+				D7FE9F1C1CDD37A600FACA04 /* ILContainerView.m in Sources */,
 				4C2666FF1CC0369000F10DC0 /* ActivityPermissionViewController.m in Sources */,
 				4C6F39591CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.m in Sources */,
 				4C2667001CC0369000F10DC0 /* UserDebugViewController.m in Sources */,

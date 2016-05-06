@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SentegrityTAF_MainViewController">
             <connections>
+                <outlet property="containerView" destination="4br-zO-pQY" id="cCh-Cc-BCe"/>
                 <outlet property="view" destination="6" id="7"/>
             </connections>
         </placeholder>
@@ -15,21 +16,30 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CD727A58-0694-419A-9E3C-C4D4CE24BD58" translatesAutoresizingMaskIntoConstraints="NO" id="eeZ-dH-AN4">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DA69E20A-9996-4DBD-908C-953DDD14F16F" translatesAutoresizingMaskIntoConstraints="NO" id="eeZ-dH-AN4">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4br-zO-pQY" customClass="ILContainerView">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="4br-zO-pQY" secondAttribute="trailing" id="EEL-aq-to7"/>
                 <constraint firstAttribute="bottom" secondItem="eeZ-dH-AN4" secondAttribute="bottom" id="LwR-ND-PW8"/>
+                <constraint firstItem="4br-zO-pQY" firstAttribute="top" secondItem="6" secondAttribute="top" id="Os9-Ok-yiz"/>
                 <constraint firstItem="eeZ-dH-AN4" firstAttribute="top" secondItem="6" secondAttribute="top" id="eeK-Kl-gG4"/>
                 <constraint firstItem="eeZ-dH-AN4" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="jx6-Dc-f4w"/>
                 <constraint firstAttribute="trailing" secondItem="eeZ-dH-AN4" secondAttribute="trailing" id="psP-31-pKo"/>
+                <constraint firstAttribute="bottom" secondItem="4br-zO-pQY" secondAttribute="bottom" id="sts-Ct-lmv"/>
+                <constraint firstItem="4br-zO-pQY" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="x2G-Zv-DHN"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <point key="canvasLocation" x="14.5" y="353.5"/>
         </view>
     </objects>
     <resources>
-        <image name="CD727A58-0694-419A-9E3C-C4D4CE24BD58" width="82" height="26">
+        <image name="DA69E20A-9996-4DBD-908C-953DDD14F16F" width="82" height="26">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
 GR4fJSYsLzU4VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
