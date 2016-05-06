@@ -110,7 +110,6 @@
 		4C6F39581CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C6F39541CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m */; };
 		4C6F39591CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C6F39561CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.m */; };
 		4C6F395A1CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C6F39571CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController_iPhone.xib */; };
-		4C6F395D1CCAD2F10059F0B1 /* SentegrityTAF_PasswordCreationViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C6F395C1CCAD2F10059F0B1 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */; };
 		4C7D98251CC0049F00E9CC97 /* libCore Detection.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7D98241CC0049F00E9CC97 /* libCore Detection.a */; };
 		4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */; };
 		4CDE3C9F1CCA96C100D23E66 /* DAFSkelDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CDE3C9D1CCA96C100D23E66 /* DAFSkelDriver.cpp */; };
@@ -143,6 +142,9 @@
 		96C5BCFF1CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF11CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png */; };
 		96C5BD001CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF21CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png */; };
 		96C5BD011CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */; };
+		D7BE76EE1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BE76EC1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m */; };
+		D7BE76EF1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BE76ED1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.xib */; };
+		D7BE76F11CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BE76F01CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */; };
 		D7E020AD1CD94A8900112E63 /* LocationPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7E020AC1CD94A8900112E63 /* LocationPermissionViewController.xib */; };
 		D7E020AF1CD94F2000112E63 /* ActivityPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */; };
 /* End PBXBuildFile section */
@@ -272,7 +274,6 @@
 		4C6F39551CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_PasswordCreationViewController.h; sourceTree = "<group>"; };
 		4C6F39561CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_PasswordCreationViewController.m; sourceTree = "<group>"; };
 		4C6F39571CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_PasswordCreationViewController_iPhone.xib; sourceTree = "<group>"; };
-		4C6F395C1CCAD2F10059F0B1 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_PasswordCreationViewController_iPad.xib; sourceTree = "<group>"; };
 		4C7D98241CC0049F00E9CC97 /* libCore Detection.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCore Detection.a"; path = "../../../Library/Developer/Xcode/DerivedData/Sentegrity-brnroyitimccbfcvoduacppkrpaj/Build/Products/Debug-iphonesimulator/libCore Detection.a"; sourceTree = "<group>"; };
 		4C9EBE191B2B5B58003ED356 /* RightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightMenuViewController.h; sourceTree = "<group>"; };
 		4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightMenuViewController.m; sourceTree = "<group>"; };
@@ -322,6 +323,10 @@
 		96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash_iphone_HD5.5_PT@3x.png"; sourceTree = "<group>"; };
 		A57A38F2AD3A013454171E37 /* Pods-Sentegrity TAF.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity TAF.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity TAF/Pods-Sentegrity TAF.debug.xcconfig"; sourceTree = "<group>"; };
 		C05694064344BB4205E08D99 /* libPods-Sentegrity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sentegrity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7BE76EB1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_WelcomeViewController.h; sourceTree = "<group>"; };
+		D7BE76EC1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_WelcomeViewController.m; sourceTree = "<group>"; };
+		D7BE76ED1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_WelcomeViewController.xib; sourceTree = "<group>"; };
+		D7BE76F01CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_PasswordCreationViewController_iPad.xib; sourceTree = "<group>"; };
 		D7E020AC1CD94A8900112E63 /* LocationPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationPermissionViewController.xib; sourceTree = "<group>"; };
 		D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityPermissionViewController.xib; sourceTree = "<group>"; };
 		EC09FE4FC0790F7A16625A66 /* Pods-Sentegrity TAF.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity TAF.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity TAF/Pods-Sentegrity TAF.release.xcconfig"; sourceTree = "<group>"; };
@@ -535,6 +540,9 @@
 		4C2667331CC03AB900F10DC0 /* DAF */ = {
 			isa = PBXGroup;
 			children = (
+				D7BE76EB1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.h */,
+				D7BE76EC1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m */,
+				D7BE76ED1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.xib */,
 				D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */,
 				D7E020AC1CD94A8900112E63 /* LocationPermissionViewController.xib */,
 				4CDE3C9D1CCA96C100D23E66 /* DAFSkelDriver.cpp */,
@@ -556,7 +564,7 @@
 				4C6F39551CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.h */,
 				4C6F39561CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.m */,
 				4C6F39571CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController_iPhone.xib */,
-				4C6F395C1CCAD2F10059F0B1 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */,
+				D7BE76F01CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */,
 			);
 			path = DAF;
 			sourceTree = "<group>";
@@ -912,9 +920,9 @@
 				4C2667101CC0369000F10DC0 /* DINPro-Bold.otf in Resources */,
 				4C26674D1CC03ACA00F10DC0 /* SentegrityTAF_MainViewController_iPad.xib in Resources */,
 				4C2667111CC0369000F10DC0 /* DINPro-Black.otf in Resources */,
-				4C6F395D1CCAD2F10059F0B1 /* SentegrityTAF_PasswordCreationViewController_iPad.xib in Resources */,
 				96C5BCFC1CD014540009B3A6 /* Splash.png in Resources */,
 				96C5BCF81CD014540009B3A6 /* Splash-Landscape@2x~ipad.png in Resources */,
+				D7BE76EF1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.xib in Resources */,
 				96C5BCF41CD014540009B3A6 /* Splash-568h@2x.png in Resources */,
 				4C2667121CC0369000F10DC0 /* DINPro-CondBold.otf in Resources */,
 				4C2667471CC03ACA00F10DC0 /* SentegrityTAF_AuthWarningViewController_iPhone.xib in Resources */,
@@ -942,6 +950,7 @@
 				96C5BCF61CD014540009B3A6 /* Splash-Landscape.png in Resources */,
 				4C26671A1CC0369000F10DC0 /* OpenSans-Italic.ttf in Resources */,
 				D7E020AD1CD94A8900112E63 /* LocationPermissionViewController.xib in Resources */,
+				D7BE76F11CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib in Resources */,
 				4C26671B1CC0369000F10DC0 /* OpenSans-Light.ttf in Resources */,
 				4C26671C1CC0369000F10DC0 /* OpenSans-LightItalic.ttf in Resources */,
 				4C26671D1CC0369000F10DC0 /* OpenSans-Regular.ttf in Resources */,
@@ -1128,6 +1137,7 @@
 				4C2667521CC03ACA00F10DC0 /* SentegrityTAF_UnlockViewController.m in Sources */,
 				4C2666FB1CC0369000F10DC0 /* LocationPermissionViewController.m in Sources */,
 				4C2666FC1CC0369000F10DC0 /* UIImage+ImageEffects.m in Sources */,
+				D7BE76EE1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m in Sources */,
 				4C2666FD1CC0369000F10DC0 /* SystemDebugViewController.m in Sources */,
 				4C2666FF1CC0369000F10DC0 /* ActivityPermissionViewController.m in Sources */,
 				4C6F39591CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.m in Sources */,
@@ -1431,7 +1441,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4C5773001CC139190073BB65 /* SentegrityTAFConfig.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1507,7 +1517,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4C5773021CC1392B0073BB65 /* SentegrityTAFConfig.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";

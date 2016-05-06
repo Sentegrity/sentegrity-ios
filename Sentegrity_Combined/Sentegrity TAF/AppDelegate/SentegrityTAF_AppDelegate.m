@@ -12,6 +12,8 @@
 #import "ISHPermissionKit.h"
 #import "LocationPermissionViewController.h"
 #import "ActivityPermissionViewController.h"
+#import "SentegrityTAF_WelcomeViewController.h"
+
 
 // Animated Progress Alerts
 #import "MBProgressHUD.h"
@@ -22,7 +24,7 @@
 
 
 // Private
-@interface SentegrityTAF_AppDelegate (private) <ISHPermissionsViewControllerDataSource, ISHPermissionsViewControllerDelegate>
+@interface SentegrityTAF_AppDelegate (private) <ISHPermissionsViewControllerDataSource, ISHPermissionsViewControllerDelegate, WelcomeViewControllerDelegate>
 
 // Progress HUD
 @property (nonatomic,strong) MBProgressHUD *hud;
@@ -190,62 +192,12 @@
             [self.passwordCreationViewController setResult:result];
             
             
-        
-            //we need to ask for permissions before password creation
+            //show welcome screen
             {
-                //if there is permissions, show permissions view controllers
-                NSArray *permissions = [self checkApplicationPermission];
-                
-                // Check if we need to prompt for permission
-                if (permissions && permissions.count > 0) {
-                    
-                    // Create the permissions view controller
-                    ISHPermissionsViewController *vc = [ISHPermissionsViewController permissionsViewControllerWithCategories:permissions dataSource:self];
-                    vc.delegate = self;
-                    
-                    // Check the permission view controller is valid
-                    if (vc && vc != nil) {
-                        
-                        // Present the permissions kit view controller
-                        [self.mainViewController presentViewController:vc animated:YES completion:nil];
-                        
-                        // Completion Block
-                        [vc setCompletionBlock:^{
-                            
-                            // Permissions view controller finished
-                            
-                            // Check if permissions were granted
-                            
-                            // Location
-                            if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse] permissionState] == ISHPermissionStateAuthorized) {
-                                
-                                // Location allowed
-                                
-                                // Start the location activity
-                                [_activityDispatcher startLocation];
-                                
-                            }
-                            
-                            // Activity
-                            if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryActivity] permissionState] == ISHPermissionStateAuthorized) {
-                                
-                                // Activity allowed
-                                
-                                // Start the activity activity
-                                [_activityDispatcher startActivity];
-                            }
-                            
-                        }]; // Done permissions view controller
-                        
-                    } // Done checking permissions array
-                    
-                } // Done permissions kit
-                else {
-                    //no permissions, just show password creation screen
-                    [self.mainViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
-                }
+                SentegrityTAF_WelcomeViewController *welcome = [[SentegrityTAF_WelcomeViewController alloc] init];
+                welcome.delegate = self;
+                [self.mainViewController presentViewController:welcome animated:YES completion:nil];
             }
-
             
             
             // Update the startup file with the email
@@ -386,6 +338,64 @@
 #pragma mark - ISHPermissionKit
 
 
+- (void) welcomeFinished {
+    
+    //if there is permissions, show permissions view controllers
+    NSArray *permissions = [self checkApplicationPermission];
+    
+    // Check if we need to prompt for permission
+    if (permissions && permissions.count > 0) {
+        
+        // Create the permissions view controller
+        ISHPermissionsViewController *vc = [ISHPermissionsViewController permissionsViewControllerWithCategories:permissions dataSource:self];
+        vc.delegate = self;
+        
+        // Check the permission view controller is valid
+        if (vc && vc != nil) {
+            
+            // Dismiss welcome and Present the permissions kit view controller
+            [self.mainViewController dismissViewControllerAnimated:YES completion:^{
+                [self.mainViewController presentViewController:vc animated:YES completion:nil];
+            }];
+            
+            // Completion Block
+            [vc setCompletionBlock:^{
+                
+                // Permissions view controller finished
+                
+                // Check if permissions were granted
+                
+                // Location
+                if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse] permissionState] == ISHPermissionStateAuthorized) {
+                    
+                    // Location allowed
+                    
+                    // Start the location activity
+                    [_activityDispatcher startLocation];
+                    
+                }
+                
+                // Activity
+                if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryActivity] permissionState] == ISHPermissionStateAuthorized) {
+                    
+                    // Activity allowed
+                    
+                    // Start the activity activity
+                    [_activityDispatcher startActivity];
+                }
+                
+            }]; // Done permissions view controller
+            
+        } // Done checking permissions array
+        
+    } // Done permissions kit
+    else {
+        //no permissions, just show password creation screen
+        [self.mainViewController dismissViewControllerAnimated:YES completion:^{
+            [self.mainViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
+        }];
+    }
+}
 
 
 // Check if the application has permissions to run the different activities, set DNE status and return list of permission
