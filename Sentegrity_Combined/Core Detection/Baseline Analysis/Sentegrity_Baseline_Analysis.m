@@ -30,7 +30,7 @@
     // Create a bool to check if the assertion store exists
     BOOL exists = NO;
     
-    [NSException raise:@"Invalid foo value" format:@"foo of %d is invalid", nil];
+    //[NSException raise:@"Invalid foo value" format:@"foo of %d is invalid", nil];
     
     // Attempt to get our assertion store
     Sentegrity_Assertion_Store *assertionStore = [[Sentegrity_TrustFactor_Storage sharedStorage] getAssertionStoreWithError:error];

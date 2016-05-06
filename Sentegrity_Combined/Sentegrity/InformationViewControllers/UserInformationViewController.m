@@ -40,29 +40,34 @@
     // Set the TrustScore progress bar
     // ORIG: [self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:205.0f/255.0f green:205.0f/255.0f blue:205.0f/255.0f alpha:1.0f]];
     // Set color red of progress bar based on trust
-    if (self.computationResults.userTrusted==NO){
+    // Set color red of progress bar based on trust
+    if (self.computationResults.systemTrusted==NO){
         
         // Set to red (Good color)
-        //[self.self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+        [self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
         
-        //Gold
-        [self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+        // Gold
+        //[self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+        
         
     }
     else{
         
-        //Grey
-        //[self.self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithWhite:0.7f alpha:1.0f]];
+        // Set to red (Good color)
+        [self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
         
-        //Gold
-        [self.userScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+        //Grey
+        //[self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithWhite:0.7f alpha:1.0f]];
+        
+        // Gold
+        //[self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
     }
     
     [self.userScoreProgressBar setProgressBarTrackColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
     [self.userScoreProgressBar setBackgroundColor:[UIColor clearColor]];
     [self.userScoreProgressBar setStartAngle:90.0f];
     [self.userScoreProgressBar setHintHidden:YES];
-    [self.userScoreProgressBar setProgressBarWidth:12.0f];
+    [self.userScoreProgressBar setProgressBarWidth:10.0f];
     
     // Set the trustscore holding label
     [self.userScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];

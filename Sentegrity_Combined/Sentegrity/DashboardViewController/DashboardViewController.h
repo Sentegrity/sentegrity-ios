@@ -15,9 +15,15 @@
 // Hamburger Button
 #import <JTHamburgerButton.h>
 
+#import "DAFSupport/DAFAppBase.h"
+#import "DAFSupport/DAFAuthState.h"
+
 
 @interface DashboardViewController : UIViewController
 
+
+// Called by SentegrityTAF_AppDelegate
+- (void)updateUIForNotification:(enum DAFUINotification)event;
 
 /** Properties **/
 

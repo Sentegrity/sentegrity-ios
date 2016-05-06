@@ -49,6 +49,8 @@
 #import "SCLAlertView.h"
 
 
+
+
 @interface DashboardViewController () <RESideMenuDelegate>
 
 /* Properties */
@@ -89,6 +91,8 @@ static MBProgressHUD *HUD;
 }
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
+    
+    //[self dismissViewControllerAnimated:NO completion:nil];
     
     self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
@@ -137,10 +141,10 @@ static MBProgressHUD *HUD;
     // Set the TrustScore progress bar
     
     // Sentegrity Gold
-    [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+    //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
     
     // Red (Good For Enterprise) color
-    //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+    [self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
 
     //Gradient
     //[self.trustScoreProgressBar setProgressBarProgressColor:[UIColor colorWithGradientStyle:UIGradientStyleLeftToRight withFrame:self.trustScoreProgressBar.frame andColors:@[[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f], [UIColor flatOrangeColor]]]];
@@ -153,7 +157,7 @@ static MBProgressHUD *HUD;
     [self.trustScoreProgressBar setBackgroundColor:[UIColor clearColor]];
     [self.trustScoreProgressBar setStartAngle:90.0f];
     [self.trustScoreProgressBar setHintHidden:YES];
-    [self.trustScoreProgressBar setProgressBarWidth:18.0f];
+    [self.trustScoreProgressBar setProgressBarWidth:12.0f];
     
     // Set the menu button
     //Default to hidden and allow other VCs to change it (e.g., unlock)
@@ -471,5 +475,61 @@ static MBProgressHUD *HUD;
     return UIStatusBarStyleLightContent;
 }
 */
+
+// Update the UI for Notification
+- (void)updateUIForNotification:(enum DAFUINotification)event {
+    NSLog(@"SentegrityTAF_ViewController: updateUIForNotification: %d", event);
+    
+    
+    switch (event)
+    {
+        case AuthorizationSucceeded:
+            // Authorization succeeded
+            
+            
+            break;
+            
+        case AuthorizationFailed:
+            // Authorization failed
+            break;
+            
+        case IdleLocked:
+            // Locked from idle timeout
+            
+             [self dismissViewControllerAnimated:NO completion:nil];
+    
+            break;
+            
+        case ChangePasswordSucceeded:
+            // Change password succeeded
+            break;
+            
+        case ChangePasswordFailed:
+            // Change password failed
+            break;
+            
+        case GetPasswordCancelled:
+            // Means that an app requested our services but we are/were already showing the password screen
+            // We should re-run core detection to get new data when this is the case
+            // Therefore, re-request the unlock screen
+            
+             [self dismissViewControllerAnimated:NO completion:nil];
+            
+            break;
+            
+        case AuthenticateWithWarnStarted:
+            
+             [self dismissViewControllerAnimated:NO completion:nil];
+            
+            break;
+            
+            
+            
+        default:
+            
+            break;
+    }
+}
+
 
 @end

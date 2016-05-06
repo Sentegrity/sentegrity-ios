@@ -47,6 +47,12 @@
 // Setup NIBS
 - (void)setupNibs {
     
+    // Show the landing page since we've been transparently authenticated
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    // Create the main view controller
+    self.dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+    
     // Get the nib for the device
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         
@@ -74,6 +80,8 @@
 - (void)showUIForAction:(enum DAFUIAction)action withResult:(DAFWaitableResult *)result
 {
     NSLog(@"DAFSkelAppDelegate: showUIForAction (%d)", action);
+    
+    //self.dashboardViewController dismissViewControllerAnimated:NO completion:nil];
     
     switch (action) {
             
@@ -145,6 +153,13 @@
              */
             
             // We can call the default view controllers here, but don't pass it back to "[super showUIForAction:action withResult:result];"
+            // Close dashboard regardless
+            
+            // Tell mainview controller that easyActivation is happening
+            //[self.mainViewController setEasyActivation:YES];
+            
+            // Dismess any existing
+            // [self.dashboardViewController dismissViewControllerAnimated:NO completion:nil];
             
             // Show main
             [self.gdWindow setRootViewController:self.mainViewController ];
@@ -232,6 +247,8 @@
              * DAFAppBase::passwordViewController provides a simple implementation of this function.
              */
             
+            // Reset easy activation var set when easy activation is attempted, this prevents main from showing the dashboard when it re-appears
+
             // Show main
             [self.gdWindow setRootViewController:self.mainViewController];
             [self.gdWindow makeKeyAndVisible];
@@ -243,7 +260,14 @@
             // Show the password unlock view controller
             //[self.unlockViewController setResult:result];
 
-            //[self.mainViewController presentViewController:self.unlockViewController animated:NO completion:nil];
+            // Below is required for easy activation to work
+            if([self.mainViewController easyActivation] == YES){
+                [self.mainViewController presentViewController:self.unlockViewController animated:NO completion:nil];
+                
+            }
+            // Reset values
+            [self.mainViewController setEasyActivation:NO];
+            [self.mainViewController setGetPasswordCancelled:NO];
             
             // Done
             break;
@@ -300,6 +324,8 @@
                 _activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
             }
             
+            // Need to add dispatcher for "Route"
+            
             // Start Netstat
             [_activityDispatcher startNetstat];
             
@@ -328,8 +354,11 @@
     //If == AuthorizationSucceeded, don't show Sentegrity Dashboard
     
     // Pass the message to all of the view controllers
+    [self.dashboardViewController updateUIForNotification:event];
+    
     [self.unlockViewController updateUIForNotification:event];
     [self.mainViewController updateUIForNotification:event];
+
     [self.easyActivationViewController updateUIForNotification:event];
 }
 

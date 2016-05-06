@@ -27,9 +27,15 @@
 
 // View Controllers
 
+@property (strong, nonatomic) DashboardViewController *dashboardViewController;
+
+
 @property (strong, nonatomic) SentegrityTAF_UnlockViewController *unlockViewController;
 
 @property (atomic) BOOL firstTime;
+
+@property (atomic) BOOL easyActivation;
+@property (atomic) BOOL getPasswordCancelled;
 
 @property (weak, nonatomic) DAFWaitableResult *result;
 

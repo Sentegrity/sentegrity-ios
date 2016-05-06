@@ -1,4 +1,4 @@
-/*
+  /*
  * This file contains Good Sample Code subject to the Good Dynamics SDK Terms and Conditions.
  * (c) 2014 Good Technology Corporation. All rights reserved.
  */
@@ -69,13 +69,13 @@
     
     // Don't show anything unless we've already created password and activated
      self.firstTime = [DAFAuthState getInstance].firstTime;
-    if(self.firstTime==NO){
+    if(self.firstTime==NO && self.easyActivation==NO && self.getPasswordCancelled==NO){
         
         // If we have no results to display, run detection, otherwise we will keep the last ones
         if([[CoreDetection sharedDetection] getLastComputationResults] == nil)
         {
             [self setupNibs];
-            [self dismissViewControllerAnimated:NO completion:nil];
+            //[self dismissViewControllerAnimated:NO completion:nil];
             
             // we run core detection again by sending to the unlock vc
             [self.unlockViewController setResult:self.result];
@@ -88,25 +88,21 @@
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
         // Create the main view controller
-        DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-        
-            
-            // Create the main view controller
-            dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+        self.dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
             
             //self.dashboardViewController.userClicked = YES;
             
             // Hide the dashboard view controller
-            [dashboardViewController.menuButton setHidden:YES];
+            [self.dashboardViewController.menuButton setHidden:YES];
             
             // We want the user to be able to go back from here
-            [dashboardViewController.backButton setHidden:YES];
+            [self.dashboardViewController.backButton setHidden:YES];
             
             // Set the last-updated text and reload button hidden
-            [dashboardViewController.reloadButton setHidden:YES];
+            [self.dashboardViewController.reloadButton setHidden:YES];
             
             // Navigation Controller
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.dashboardViewController];
             [navController setNavigationBarHidden:YES];
             
             // Present the view controller
@@ -115,18 +111,21 @@
                 // Completed presenting
                 
                 // Hide the dashboard view controller
-                [dashboardViewController.menuButton setHidden:YES];
+                [self.dashboardViewController.menuButton setHidden:YES];
                 
                 // We want the user to be able to go back from here
-                [dashboardViewController.backButton setHidden:YES];
+                [self.dashboardViewController.backButton setHidden:YES];
                 
                 // Set the last-updated text and reload button hidden
-                [dashboardViewController.reloadButton setHidden:YES];
+                [self.dashboardViewController.reloadButton setHidden:YES];
                 
                 
             }];
         }
     }
+    
+    //reset
+    
     
 }
 
@@ -138,10 +137,18 @@
 // Update the UI for Notification
 - (void)updateUIForNotification:(enum DAFUINotification)event {
     NSLog(@"SentegrityTAF_ViewController: updateUIForNotification: %d", event);
+    
+    // Close dashboard if shown
+    [self.dashboardViewController dismissViewControllerAnimated:NO completion:nil];
+    
     switch (event)
     {
         case AuthorizationSucceeded:
             // Authorization succeeded
+            
+            //Reset
+            self.getPasswordCancelled=NO;
+            self.easyActivation=NO;
             
             if(self.firstTime==YES){
                 
@@ -164,6 +171,12 @@
             
         case IdleLocked:
             // Locked from idle timeout
+            
+            // Present unlock
+           // [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
+           // [self.unlockViewController setResult:self.result];
+           // [self presentViewController:self.unlockViewController animated:NO completion:nil];
+            
             break;
             
         case ChangePasswordSucceeded:
@@ -179,11 +192,33 @@
             // We should re-run core detection to get new data when this is the case
             // Therefore, re-request the unlock screen
             
+          //  if(self.result!=nil){
+          //      self.result=nil;
+           // }
+            // Present unlock
+            //if(self.result !=nil){
+                [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
+                [self.unlockViewController setResult:self.result];
+                [self presentViewController:self.unlockViewController animated:NO completion:nil];
+          //  }
+            //[[self presentingViewController] dismissViewControllerAnimated:NO completion:nil];
+            self.getPasswordCancelled=YES;
+
+            break;
+            
+        case AuthenticateWithWarnStarted:
+            /*
+            [self dismissViewControllerAnimated:NO completion:nil];
             [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
             [self.unlockViewController setResult:self.result];
             [self presentViewController:self.unlockViewController animated:NO completion:nil];
-            break;
+             
+             */
             
+            self.easyActivation=YES;
+            break;
+        
+        
             
         default:
             

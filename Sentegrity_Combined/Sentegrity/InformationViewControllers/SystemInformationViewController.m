@@ -44,27 +44,30 @@
     if (self.computationResults.systemTrusted==NO){
         
         // Set to red (Good color)
-        //[self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+        [self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
         
         // Gold
-        [self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+        //[self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
         
         
     }
     else{
         
+        // Set to red (Good color)
+        [self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:213.0f/255.0f green:44.0f/255.0f blue:38.0f/255.0f alpha:1.0f]];
+        
         //Grey
         //[self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithWhite:0.7f alpha:1.0f]];
         
         // Gold
-        [self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
+        //[self.systemScoreProgressBar setProgressBarProgressColor:[UIColor colorWithRed:249.0f/255.0f green:191.0f/255.0f blue:48.0f/255.0f alpha:1.0f]];
     }
     
     [self.systemScoreProgressBar setProgressBarTrackColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
     [self.systemScoreProgressBar setBackgroundColor:[UIColor clearColor]];
     [self.systemScoreProgressBar setStartAngle:90.0f];
     [self.systemScoreProgressBar setHintHidden:YES];
-    [self.systemScoreProgressBar setProgressBarWidth:12.0f];
+    [self.systemScoreProgressBar setProgressBarWidth:10.0f];
     
     // Set the trustscore holding label
     [self.systemScoreHoldingLabel setTextColor:[UIColor flatWhiteColorDark]];

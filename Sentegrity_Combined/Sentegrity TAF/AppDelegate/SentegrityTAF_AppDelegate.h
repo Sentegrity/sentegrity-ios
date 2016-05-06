@@ -32,6 +32,8 @@
 @property (strong, atomic) Sentegrity_Activity_Dispatcher *activityDispatcher;
 
 // View Controllers
+@property (strong, nonatomic) DashboardViewController *dashboardViewController;
+
 @property (strong, nonatomic) SentegrityTAF_MainViewController *mainViewController;
 @property (strong, nonatomic) SentegrityTAF_UnlockViewController *unlockViewController;
 @property (strong, nonatomic) SentegrityTAF_AuthWarningViewController *easyActivationViewController;

@@ -144,7 +144,7 @@
                                     <constraint firstAttribute="width" constant="250" id="enX-Oi-5Xg"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9x-Hr-dxC">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9x-Hr-dxC">
                                 <rect key="frame" x="62" y="99" width="250" height="133"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="106" id="K8c-ji-1Pf"/>
@@ -189,10 +189,10 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUh-7Z-2E7">
-                                <rect key="frame" x="36" y="572" width="303" height="90"/>
+                                <rect key="frame" x="187.5" y="568" width="0.0" height="94"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 hours 12 minutes ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63z-UG-ePO">
-                                        <rect key="frame" x="122" y="30" width="176" height="20"/>
+                                        <rect key="frame" x="-196" y="52" width="176" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="ZyC-vz-xwh"/>
                                             <constraint firstAttribute="width" constant="125.5" id="d9A-Xs-L2S"/>
@@ -208,7 +208,7 @@
                                         </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last update" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dA2-DQ-LSt">
-                                        <rect key="frame" x="8" y="30" width="96" height="20"/>
+                                        <rect key="frame" x="-196" y="30" width="176" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="61" id="5b0-L2-xJ0"/>
                                             <constraint firstAttribute="height" constant="15" id="blA-R3-YvQ"/>
@@ -291,7 +291,7 @@ Anomaly</string>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="Cci-sx-jte">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_red" translatesAutoresizingMaskIntoConstraints="NO" id="Cci-sx-jte">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -365,7 +365,7 @@ Anomaly</string>
                                             </mask>
                                         </variation>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-nt-m1r">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_red" translatesAutoresizingMaskIntoConstraints="NO" id="PJv-nt-m1r">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -405,14 +405,14 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <button opaque="NO" contentMode="redraw" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziL-ad-E3R">
-                                <rect key="frame" x="26" y="25" width="40" height="40"/>
+                                <rect key="frame" x="16" y="38" width="82" height="26"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="27" id="NX4-be-0Yx"/>
-                                    <constraint firstAttribute="height" constant="40" id="XVe-7Q-Udu"/>
-                                    <constraint firstAttribute="height" constant="27" id="myA-C3-8mR"/>
-                                    <constraint firstAttribute="width" constant="40" id="oaS-tk-Ajs"/>
+                                    <constraint firstAttribute="width" constant="82" id="NX4-be-0Yx"/>
+                                    <constraint firstAttribute="height" constant="26" id="XVe-7Q-Udu"/>
+                                    <constraint firstAttribute="height" constant="26" id="myA-C3-8mR"/>
+                                    <constraint firstAttribute="width" constant="82" id="oaS-tk-Ajs"/>
                                 </constraints>
-                                <state key="normal" image="sentegrity_logo_black">
+                                <state key="normal" image="good_small_logo">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="default">
@@ -455,7 +455,7 @@ Anomaly</string>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="ziL-ad-E3R" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="25" id="0M8-Ph-3KY"/>
+                            <constraint firstItem="ziL-ad-E3R" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="38" id="0M8-Ph-3KY"/>
                             <constraint firstItem="ziL-ad-E3R" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="5" id="1fR-u9-4dk"/>
                             <constraint firstItem="ziL-ad-E3R" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="2MB-QZ-tZg"/>
                             <constraint firstItem="EMX-d1-ZQf" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="45" id="2nV-Wp-tod"/>
@@ -463,7 +463,7 @@ Anomaly</string>
                             <constraint firstAttribute="trailingMargin" secondItem="Myw-L9-ttt" secondAttribute="trailing" constant="10" id="3SY-q7-9zZ"/>
                             <constraint firstItem="Myw-L9-ttt" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="50c-Xo-BYR"/>
                             <constraint firstItem="rJj-9o-D9L" firstAttribute="top" secondItem="S5B-Fj-azv" secondAttribute="bottom" constant="421" id="54d-xr-omE"/>
-                            <constraint firstItem="ziL-ad-E3R" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="5C9-Y6-12S"/>
+                            <constraint firstItem="ziL-ad-E3R" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="5C9-Y6-12S"/>
                             <constraint firstAttribute="trailingMargin" secondItem="S5B-Fj-azv" secondAttribute="trailing" constant="108" id="5fU-AA-RP4"/>
                             <constraint firstAttribute="centerX" secondItem="31J-OM-r0W" secondAttribute="centerX" id="6Sl-tK-tDn"/>
                             <constraint firstItem="L9x-Hr-dxC" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="116" id="6p5-9R-117"/>
@@ -671,7 +671,7 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wzM-wR-gdZ" customClass="JTHamburgerButton">
-                                <rect key="frame" x="26" y="25" width="40" height="33"/>
+                                <rect key="frame" x="26" y="45" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="0nk-6K-YKg"/>
@@ -699,9 +699,9 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V3x-rg-kDN" customClass="CircleProgressBar">
-                                <rect key="frame" x="95" y="25" width="185" height="185"/>
+                                <rect key="frame" x="95" y="45" width="185" height="185"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcZ-Wu-yfc">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcZ-Wu-yfc">
                                         <rect key="frame" x="0.0" y="34" width="185" height="79"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="81" id="2TC-rF-HOa"/>
@@ -761,7 +761,7 @@ Anomaly</string>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78c-3F-PVy">
-                                <rect key="frame" x="36" y="254" width="303" height="88"/>
+                                <rect key="frame" x="36" y="270" width="303" height="88"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mobile_Grey" translatesAutoresizingMaskIntoConstraints="NO" id="jEA-hK-T2r">
                                         <rect key="frame" x="28" y="0.0" width="90" height="88"/>
@@ -799,7 +799,7 @@ Anomaly</string>
                                             </mask>
                                         </variation>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="BHa-vS-aqU">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_red" translatesAutoresizingMaskIntoConstraints="NO" id="BHa-vS-aqU">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -840,10 +840,10 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GUl-6x-yYP">
-                                <rect key="frame" x="26" y="369" width="323" height="278"/>
+                                <rect key="frame" x="37.5" y="385" width="300" height="262"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="323" id="xiT-Nz-ZJ0"/>
+                                    <constraint firstAttribute="width" constant="300" id="xiT-Nz-ZJ0"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="332" id="zhf-Xp-e1u"/>
                                 </constraints>
                                 <attributedString key="attributedText"/>
@@ -861,13 +861,13 @@ Anomaly</string>
                             <constraint firstItem="GUl-6x-yYP" firstAttribute="top" secondItem="78c-3F-PVy" secondAttribute="bottom" constant="29" id="1sK-pX-HKY"/>
                             <constraint firstItem="GUl-6x-yYP" firstAttribute="top" secondItem="78c-3F-PVy" secondAttribute="bottom" constant="29" id="6c3-ZD-nx0"/>
                             <constraint firstItem="GUl-6x-yYP" firstAttribute="top" secondItem="78c-3F-PVy" secondAttribute="bottom" constant="27" id="86T-4o-cK6"/>
-                            <constraint firstItem="wzM-wR-gdZ" firstAttribute="top" secondItem="8hX-pI-reH" secondAttribute="topMargin" constant="25" id="9AJ-qO-v1M"/>
+                            <constraint firstItem="wzM-wR-gdZ" firstAttribute="top" secondItem="8hX-pI-reH" secondAttribute="topMargin" constant="45" id="9AJ-qO-v1M"/>
                             <constraint firstItem="78c-3F-PVy" firstAttribute="leading" secondItem="8hX-pI-reH" secondAttribute="leadingMargin" constant="20" id="GPr-A7-kDe"/>
                             <constraint firstAttribute="bottomMargin" secondItem="GUl-6x-yYP" secondAttribute="bottom" constant="20" id="Pgh-IL-cdx"/>
                             <constraint firstAttribute="trailingMargin" secondItem="78c-3F-PVy" secondAttribute="trailing" constant="20" id="Tcp-nY-uX2"/>
                             <constraint firstItem="UXn-IR-7jR" firstAttribute="top" secondItem="8hX-pI-reH" secondAttribute="topMargin" constant="25" id="Tm9-bi-aBk"/>
-                            <constraint firstItem="78c-3F-PVy" firstAttribute="top" secondItem="V3x-rg-kDN" secondAttribute="bottom" constant="44" id="XMq-UP-hOv"/>
-                            <constraint firstItem="V3x-rg-kDN" firstAttribute="top" secondItem="8hX-pI-reH" secondAttribute="topMargin" constant="25" id="a4v-la-s15"/>
+                            <constraint firstItem="78c-3F-PVy" firstAttribute="top" secondItem="V3x-rg-kDN" secondAttribute="bottom" constant="40" id="XMq-UP-hOv"/>
+                            <constraint firstItem="V3x-rg-kDN" firstAttribute="top" secondItem="8hX-pI-reH" secondAttribute="topMargin" constant="45" id="a4v-la-s15"/>
                             <constraint firstAttribute="centerX" secondItem="78c-3F-PVy" secondAttribute="centerX" id="eBg-dm-J3C"/>
                             <constraint firstItem="GUl-6x-yYP" firstAttribute="width" secondItem="78c-3F-PVy" secondAttribute="width" id="euA-4J-AGK"/>
                             <constraint firstAttribute="centerX" secondItem="GUl-6x-yYP" secondAttribute="centerX" id="fNz-lp-jfs"/>
@@ -1214,7 +1214,7 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bBN-Eo-DFm" customClass="JTHamburgerButton">
-                                <rect key="frame" x="26" y="25" width="40" height="33"/>
+                                <rect key="frame" x="26" y="45" width="40" height="33"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="6qx-Xe-Eeu"/>
@@ -1242,9 +1242,9 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="udX-sP-GkB" customClass="CircleProgressBar">
-                                <rect key="frame" x="95" y="25" width="185" height="185"/>
+                                <rect key="frame" x="95" y="45" width="185" height="185"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d2t-of-9wM">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d2t-of-9wM">
                                         <rect key="frame" x="0.0" y="34" width="185" height="79"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="81" id="0hv-T2-P1Y"/>
@@ -1304,16 +1304,16 @@ Anomaly</string>
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2lE-6s-aXN">
-                                <rect key="frame" x="26" y="369" width="323" height="278"/>
+                                <rect key="frame" x="37.5" y="385" width="300" height="262"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="323" id="YDK-tc-jHK"/>
+                                    <constraint firstAttribute="width" constant="300" id="YDK-tc-jHK"/>
                                 </constraints>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLP-Zw-LO9">
-                                <rect key="frame" x="36" y="254" width="303" height="88"/>
+                                <rect key="frame" x="36" y="270" width="303" height="88"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="User_Grey" translatesAutoresizingMaskIntoConstraints="NO" id="GKb-XS-wAn">
                                         <rect key="frame" x="28" y="0.0" width="90" height="88"/>
@@ -1345,7 +1345,7 @@ Anomaly</string>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-nU-Jl9">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_red" translatesAutoresizingMaskIntoConstraints="NO" id="nzo-nU-Jl9">
                                         <rect key="frame" x="65" y="18" width="70" height="70"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -1386,7 +1386,7 @@ Anomaly</string>
                         <constraints>
                             <constraint firstItem="T2D-cu-zcA" firstAttribute="top" secondItem="ouR-zn-99o" secondAttribute="topMargin" constant="25" id="6KF-a8-lYC"/>
                             <constraint firstItem="2lE-6s-aXN" firstAttribute="top" secondItem="zLP-Zw-LO9" secondAttribute="bottom" constant="27" id="6nf-t2-bjl"/>
-                            <constraint firstItem="zLP-Zw-LO9" firstAttribute="top" secondItem="udX-sP-GkB" secondAttribute="bottom" constant="44" id="Hw2-Ac-qdo"/>
+                            <constraint firstItem="zLP-Zw-LO9" firstAttribute="top" secondItem="udX-sP-GkB" secondAttribute="bottom" constant="40" id="Hw2-Ac-qdo"/>
                             <constraint firstAttribute="trailingMargin" secondItem="T2D-cu-zcA" secondAttribute="trailing" constant="10" id="L3W-qo-TeA"/>
                             <constraint firstItem="bBN-Eo-DFm" firstAttribute="leading" secondItem="ouR-zn-99o" secondAttribute="leadingMargin" constant="10" id="Ns3-nZ-02e"/>
                             <constraint firstItem="zLP-Zw-LO9" firstAttribute="leading" secondItem="ouR-zn-99o" secondAttribute="leadingMargin" constant="20" id="SyU-Rb-7zw"/>
@@ -1395,9 +1395,9 @@ Anomaly</string>
                             <constraint firstItem="udX-sP-GkB" firstAttribute="top" secondItem="eL3-Yh-UKS" secondAttribute="bottom" constant="-4" id="YtB-5u-7hO"/>
                             <constraint firstAttribute="centerX" secondItem="zLP-Zw-LO9" secondAttribute="centerX" id="ZnB-9N-UME"/>
                             <constraint firstAttribute="bottomMargin" secondItem="2lE-6s-aXN" secondAttribute="bottom" constant="20" id="acr-NF-0RH"/>
-                            <constraint firstItem="udX-sP-GkB" firstAttribute="top" secondItem="ouR-zn-99o" secondAttribute="topMargin" constant="25" id="bpC-Tg-CiB"/>
+                            <constraint firstItem="udX-sP-GkB" firstAttribute="top" secondItem="ouR-zn-99o" secondAttribute="topMargin" constant="45" id="bpC-Tg-CiB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zLP-Zw-LO9" secondAttribute="trailing" constant="20" id="pjl-Aq-Rlu"/>
-                            <constraint firstItem="bBN-Eo-DFm" firstAttribute="top" secondItem="ouR-zn-99o" secondAttribute="topMargin" constant="25" id="w7a-Fj-Yed"/>
+                            <constraint firstItem="bBN-Eo-DFm" firstAttribute="top" secondItem="ouR-zn-99o" secondAttribute="topMargin" constant="45" id="w7a-Fj-Yed"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -1662,10 +1662,10 @@ Anomaly</string>
     </scenes>
     <resources>
         <image name="Close" width="24" height="24"/>
-        <image name="Error_yellow" width="144" height="144"/>
+        <image name="Error_red" width="144" height="144"/>
         <image name="Mobile_Grey" width="64" height="64"/>
         <image name="SplashScreen" width="640" height="960"/>
         <image name="User_Grey" width="128" height="128"/>
-        <image name="sentegrity_logo_black" width="155" height="164"/>
+        <image name="good_small_logo" width="82" height="26"/>
     </resources>
 </document>

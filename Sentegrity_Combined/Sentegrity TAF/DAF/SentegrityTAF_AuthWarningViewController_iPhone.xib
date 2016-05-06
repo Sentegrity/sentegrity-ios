@@ -23,9 +23,9 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Frk-gy-rBO">
-                    <rect key="frame" x="90" y="267" width="141" height="27"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Frk-gy-rBO">
+                    <rect key="frame" x="77" y="267" width="168" height="27"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                     <state key="normal" title="Continue Easy Activation">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -33,9 +33,9 @@
                         <action selector="onContinueEasyActivation:" destination="-1" eventType="touchUpInside" id="pU8-Nn-iJR"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="568" placeholderIntrinsicHeight="15" text="Press on one of your unlock options for [App Name] to continue" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="2sy-OG-Rux">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="568" placeholderIntrinsicHeight="15" text="Press on one of your unlock options below for [App Name] to authorization this activation." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="2sy-OG-Rux">
                     <rect key="frame" x="8" y="224" width="304" height="15"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -47,7 +47,7 @@
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" placeholderIntrinsicWidth="505" placeholderIntrinsicHeight="50" text="[App_Name] is requesting set up." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="aZW-Q4-Z1K">
                                     <rect key="frame" x="58" y="10" width="505" height="50"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -84,9 +84,9 @@
                         <constraint firstItem="aEi-Zf-QRx" firstAttribute="leading" secondItem="lTJ-5F-jEV" secondAttribute="leading" constant="5" id="wuL-te-IEi"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FsG-1t-chU">
-                    <rect key="frame" x="96" y="322" width="129" height="27"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FsG-1t-chU">
+                    <rect key="frame" x="90" y="322" width="141" height="27"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                     <state key="normal" title="Cancel Easy Activation">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>

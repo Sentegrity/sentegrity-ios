@@ -134,6 +134,10 @@
 
 - (void)updateUIForNotification:(enum DAFUINotification)event
 {
+    
+    
+    
+    
     if (event==ChangePasswordCancelled  && result != nil)
     {
         // Idle Lock (or other lock event) happened during change-passphrase sequence
@@ -156,7 +160,7 @@
             result = nil;
         }];
         
-        [self dismissViewControllerAnimated:NO completion:nil];
+  
     }
     else if (event == AuthenticateWithWarnStarted)
     {
@@ -361,7 +365,7 @@
         // Show Animation
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-        self.hud.labelText = @"Analyzing";
+        self.hud.labelText = @"Assessing";
         self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
         
         self.hud.detailsLabelText = @"Mobile Security Posture";
