@@ -244,6 +244,11 @@
 // Show the TAF Dashboard
 - (IBAction)pressedSentegrityLogo:(id)sender {
 
+    /*
+    // We're done so dismiss the unlock view and show the dashboard behind it (called by mainviewcontroller)
+    // Dismiss the view
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
     // Show the landing page since we've been transparently authenticated
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
@@ -280,6 +285,7 @@
         [self.dashboardViewController.backButton setHidden:NO];
         
     }];
+     */
     
 }
 
@@ -353,9 +359,7 @@
     NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];
     
-    // Don't run core detection again if the user is simply coming back from the dashboard
-    if([self.dashboardViewController userClickedBack] == NO){
-        
+    
         // For demonstration purposes, retrieve startup data stored by FirstTimeViewController
         //NSString *startupData = [DAFAuthState getInstance].firstTime;
         //NSLog(@"SentegrityTAF_UnlockViewController: startup data = <%@>", startupData);
@@ -397,10 +401,8 @@
             });
         }
         
-    }
-    
-    // Reset it
-    [self.dashboardViewController setUserClickedBack:NO];
+
+
    
     
 }

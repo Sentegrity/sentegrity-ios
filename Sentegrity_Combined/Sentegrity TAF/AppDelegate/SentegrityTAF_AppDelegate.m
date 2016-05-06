@@ -58,7 +58,7 @@
         
         // iPhone View Controllers
         
-        self.mainViewController = [[SentegrityTAF_MainViewController alloc] initWithNibName:@"SentegrityTAF_MainViewController_iPhone" bundle:nil];
+        //self.mainViewController = [[SentegrityTAF_MainViewController alloc] initWithNibName:@"SentegrityTAF_MainViewController_iPhone" bundle:nil];
         self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
         self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPhone" bundle:nil];
         self.passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController_iPhone" bundle:nil];
@@ -67,12 +67,14 @@
         
         // iPad View Controllers
         
-        self.mainViewController = [[SentegrityTAF_MainViewController alloc] initWithNibName:@"SentegrityTAF_MainViewController_iPad" bundle:nil];
+        //self.mainViewController = [[SentegrityTAF_MainViewController alloc] initWithNibName:@"SentegrityTAF_MainViewController_iPad" bundle:nil];
         self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
         self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPad" bundle:nil];
         self.passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController_iPad" bundle:nil];
         
     }
+    
+
     
 }
 
@@ -82,12 +84,20 @@
     NSLog(@"DAFSkelAppDelegate: showUIForAction (%d)", action);
     
     //self.dashboardViewController dismissViewControllerAnimated:NO completion:nil];
+
+    
     
     switch (action) {
             
         case AppStartup: {
  
             // Occurs on each application startup (foreground as well)
+            [self setupNibs];
+            [self.gdWindow setRootViewController:self.dashboardViewController];
+            [self.gdWindow makeKeyAndVisible];
+
+            
+            
             
             /* SENTEGRITY:
              * Start ACTIVITY DISPATCHER here
@@ -117,13 +127,6 @@
             //Check application's permissions to run the different activities and set DNE status
             [self checkApplicationPermission];
             
-            // Setup the nibs
-            [self setupNibs];
-            
-            // Show the main view controller
-            //[self.gdWindow setRootViewController:self.mainViewController ];
-            //[self.gdWindow makeKeyAndVisible];
-            
            // NSDictionary *launchOptions = [[GDiOS sharedInstance] launchOptions];
             
             
@@ -134,8 +137,9 @@
             break;
             
         }
-            
-        case GetAuthToken_WithWarning:
+          
+           
+        //case GetAuthToken_WithWarning:
             // If a warning is present it will be shown here prior to starting the authetnication process
             // These are warnings that come from the GD runtime such as "easy activation" when other Good apps are present
             // Sentegrity doesn't use this, let the default view controllers handle it
@@ -161,19 +165,16 @@
             // Dismess any existing
             // [self.dashboardViewController dismissViewControllerAnimated:NO completion:nil];
             
-            // Show main
-            [self.gdWindow setRootViewController:self.mainViewController ];
-            [self.gdWindow makeKeyAndVisible];
-            
-            [self.easyActivationViewController setResult:result];
-            [self.mainViewController presentViewController:self.easyActivationViewController animated:NO completion:nil];
+            //[self.easyActivationViewController setResult:result];
+           // [self.mainViewController presentViewController:self.easyActivationViewController animated:NO completion:nil];
             
             // Done
-            break;
+            //break;
+            
             
         case GetPassword_FirstTime:
             
-            
+
             // Prompts for user to create password
             
             /* SENTEGRITY:
@@ -199,19 +200,17 @@
             // Set the security policy provided by Good so we can enforce it during password creation
             //[self.passwordCreationViewController setSecurityPolicy:[self.gdTrust securityPolicy]];
             
-            // Show main
-            [self.gdWindow setRootViewController:self.mainViewController];
-            [self.gdWindow makeKeyAndVisible];
+
             
             // prepare password creation view controller
             [self.passwordCreationViewController setResult:result];
-            
+            //[self.dashboardViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
             
             //show welcome screen
             {
                 SentegrityTAF_WelcomeViewController *welcome = [[SentegrityTAF_WelcomeViewController alloc] init];
                 welcome.delegate = self;
-                [self.mainViewController presentViewController:welcome animated:YES completion:nil];
+                [self.dashboardViewController presentViewController:welcome animated:YES completion:nil];
             }
             
             
@@ -250,24 +249,25 @@
             // Reset easy activation var set when easy activation is attempted, this prevents main from showing the dashboard when it re-appears
 
             // Show main
-            [self.gdWindow setRootViewController:self.mainViewController];
-            [self.gdWindow makeKeyAndVisible];
-            
             // Set result so when unlock is invoked from within we can pass it on
-            [self.mainViewController setResult:result];
+            //[self.mainViewController setResult:result];
             [self.unlockViewController setResult:result];
             
             // Show the password unlock view controller
             //[self.unlockViewController setResult:result];
 
             // Below is required for easy activation to work
+            /*
             if([self.mainViewController easyActivation] == YES){
                 [self.mainViewController presentViewController:self.unlockViewController animated:NO completion:nil];
                 
             }
+             */
+            
+            [self.dashboardViewController presentViewController:self.unlockViewController animated:NO completion:nil];
             // Reset values
-            [self.mainViewController setEasyActivation:NO];
-            [self.mainViewController setGetPasswordCancelled:NO];
+           // [self.mainViewController setEasyActivation:NO];
+           // [self.mainViewController setGetPasswordCancelled:NO];
             
             // Done
             break;
@@ -349,16 +349,13 @@
 - (void)eventNotification:(enum DAFUINotification)event withMessage:(NSString *)msg
 {
     //NSLog(@"SentegrityTAF_AppDelegate: we got an event notification, type=%d message='%@'", event, msg);
-    [super eventNotification:event withMessage:msg];
+    //[super eventNotification:event withMessage:msg];
     
     //If == AuthorizationSucceeded, don't show Sentegrity Dashboard
     
     // Pass the message to all of the view controllers
     [self.dashboardViewController updateUIForNotification:event];
-    
     [self.unlockViewController updateUIForNotification:event];
-    [self.mainViewController updateUIForNotification:event];
-
     [self.easyActivationViewController updateUIForNotification:event];
 }
 
@@ -383,8 +380,8 @@
         if (vc && vc != nil) {
             
             // Dismiss welcome and Present the permissions kit view controller
-            [self.mainViewController dismissViewControllerAnimated:YES completion:^{
-                [self.mainViewController presentViewController:vc animated:YES completion:nil];
+            [self.dashboardViewController dismissViewControllerAnimated:YES completion:^{
+                [self.dashboardViewController presentViewController:vc animated:YES completion:nil];
             }];
             
             // Completion Block
@@ -420,8 +417,8 @@
     } // Done permissions kit
     else {
         //no permissions, just show password creation screen
-        [self.mainViewController dismissViewControllerAnimated:YES completion:^{
-            [self.mainViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
+        [self.dashboardViewController dismissViewControllerAnimated:YES completion:^{
+            [self.dashboardViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
         }];
     }
 }
@@ -483,9 +480,9 @@
 - (void)permissionsViewControllerDidComplete:(ISHPermissionsViewController *)vc {
     
     //after location/activity permissions are finished, show password creation screen
-    [self.mainViewController dismissViewControllerAnimated:YES
+    [self.dashboardViewController dismissViewControllerAnimated:YES
                                                 completion:^{
-                                                    [self.mainViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
+                                                    [self.dashboardViewController presentViewController:self.passwordCreationViewController animated:NO completion:nil];
 
                                                 }];
     

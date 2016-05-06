@@ -105,25 +105,84 @@ static MBProgressHUD *HUD;
     
 }
 
+// Setup NIBS
+- (void)setupNibs {
+    
+    // Get the nib for the device
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        
+        // iPhone View Controllers
+        self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
+        
+        
+    } else {
+        
+        // iPad View Controllers
+        
+        self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
+        
+        
+    }
+    
+}
+
 // View did appear
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    // Set last computation
-    self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+    self.firstTime = [DAFAuthState getInstance].firstTime;
     
-    [self updateComputationResults:self];
-    
-    // Set the current state in the startup file
-    [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Dashboard"];
-    
-    // Set the side menu delegate
-    [self.sideMenuViewController setDelegate:self];
-    
-    // Set the status bar color to white
-    [self setNeedsStatusBarAppearanceUpdate];
-    
-    //BOOL doesContain = [self.view.subviews containsObject:pageShadowView];
+    // If we have no results to display, run detection, otherwise we will keep the last ones
+    if([[CoreDetection sharedDetection] getLastComputationResults] == nil)
+    {
+        [self setupNibs];
+        //[self dismissViewControllerAnimated:NO completion:nil];
+        
+        // we run core detection again by sending to the unlock vc
+        [self.unlockViewController setResult:self.result];
+        [self presentViewController:self.unlockViewController animated:NO completion:nil];
+        
+    }
+    else{
+        
+        
+        // Hide the dashboard view controller
+        [self.menuButton setHidden:YES];
+        
+        // We want the user to be able to go back from here
+        [self.backButton setHidden:YES];
+        
+        // Set the last-updated text and reload button hidden
+        [self.reloadButton setHidden:YES];
+        
+        self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+        
+        [self updateComputationResults:self];
+        
+        // Navigation Controller
+        /*
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self];
+        [navController setNavigationBarHidden:YES];
+        
+        // Present the view controller
+        [self presentViewController:navController animated:NO completion:^{
+            
+            // Completed presenting
+            
+            // Hide the dashboard view controller
+            [self.menuButton setHidden:YES];
+            
+            // We want the user to be able to go back from here
+            [self.backButton setHidden:YES];
+            
+            // Set the last-updated text and reload button hidden
+            [self.reloadButton setHidden:YES];
+            
+            
+        }];
+         */
+    }
+
     
 }
 
@@ -476,6 +535,108 @@ static MBProgressHUD *HUD;
 }
 */
 
+
+// Update the UI for Notification
+- (void)updateUIForNotification:(enum DAFUINotification)event {
+    NSLog(@"SentegrityTAF_ViewController: updateUIForNotification: %d", event);
+    
+    // Close dashboard if shown
+    //[self. dismissViewControllerAnimated:NO completion:nil];
+    
+    switch (event)
+    {
+        case AuthorizationSucceeded:
+            // Authorization succeeded
+            
+            //Reset
+           // self.getPasswordCancelled=NO;
+           // self.easyActivation=NO;
+            
+            if(self.firstTime==YES){
+                
+                NSError *error;
+                NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];
+                
+                // Update the startup file with the email
+                
+                [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:email withError:&error];
+                
+                // Set firsttime to NO such that after password creation the user will see the trustscore screen
+                self.firstTime=NO;
+            }
+            
+            break;
+            
+        case AuthorizationFailed:
+            // Authorization failed
+            break;
+            
+        case IdleLocked:
+            // Locked from idle timeout
+            
+            // Present unlock
+            // [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
+            // [self.unlockViewController setResult:self.result];
+            // [self presentViewController:self.unlockViewController animated:NO completion:nil];
+            
+            break;
+            
+        case ChangePasswordSucceeded:
+            // Change password succeeded
+            break;
+            
+        case ChangePasswordFailed:
+            // Change password failed
+            break;
+            
+        case GetPasswordCancelled:
+            // Means that an app requested our services but we are/were already showing the password screen
+            // We should re-run core detection to get new data when this is the case
+            // Therefore, re-request the unlock screen
+            
+            //  if(self.result!=nil){
+            //      self.result=nil;
+            // }
+            // Present unlock
+            //if(self.result !=nil){
+        {
+            //[self.unlockViewController dismissViewControllerAnimated:NO completion:^{
+            
+            [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
+                [self.unlockViewController setResult:self.result];
+                [self presentViewController:self.unlockViewController animated:NO completion:nil];
+            
+           // }];
+        }
+          
+            //  }
+            //[[self presentingViewController] dismissViewControllerAnimated:NO completion:nil];
+            //self.getPasswordCancelled=YES;
+            
+            break;
+            
+        case AuthenticateWithWarnStarted:
+            /*
+             [self dismissViewControllerAnimated:NO completion:nil];
+             [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
+             [self.unlockViewController setResult:self.result];
+             [self presentViewController:self.unlockViewController animated:NO completion:nil];
+             
+             */
+            
+           // self.easyActivation=YES;
+            break;
+            
+            
+            
+        default:
+            
+            break;
+    }
+}
+
+/*
+ OLD
 // Update the UI for Notification
 - (void)updateUIForNotification:(enum DAFUINotification)event {
     NSLog(@"SentegrityTAF_ViewController: updateUIForNotification: %d", event);
@@ -530,6 +691,6 @@ static MBProgressHUD *HUD;
             break;
     }
 }
-
+*/
 
 @end

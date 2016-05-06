@@ -17,12 +17,29 @@
 
 #import "DAFSupport/DAFAppBase.h"
 #import "DAFSupport/DAFAuthState.h"
+#import <DAFSupport/DAFEventTypes.h>
 
+// DAF View Controllers
+#import "SentegrityTAF_UnlockViewController.h"
+
+// General GD runtime
+#import <GD/GDiOS.h>
+
+// DAF View Controllers
+#import "SentegrityTAF_UnlockViewController.h"
+
+@class SentegrityTAF_UnlockViewController;
 
 @interface DashboardViewController : UIViewController
 
 
-// Called by SentegrityTAF_AppDelegate
+@property (strong, nonatomic) SentegrityTAF_UnlockViewController *unlockViewController;
+
+@property (weak, nonatomic) DAFWaitableResult *result;
+
+@property (atomic) BOOL firstTime;
+
+// Good properties
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
 /** Properties **/

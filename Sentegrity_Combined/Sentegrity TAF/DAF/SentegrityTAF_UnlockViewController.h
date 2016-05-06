@@ -26,7 +26,6 @@
 
 @property (weak, nonatomic) DAFWaitableResult *result;
 
-@property (nonatomic) DashboardViewController *dashboardViewController;
 
 // Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
