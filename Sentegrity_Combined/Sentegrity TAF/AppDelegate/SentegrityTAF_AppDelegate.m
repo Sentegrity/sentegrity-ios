@@ -33,7 +33,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //create mainViewController
-    self.main2ViewController = [[SentegrityTAF_Main2ViewController alloc] initWithNibName:@"SentegrityTAF_Main2ViewController" bundle:nil];
+    self.mainViewController = [[SentegrityTAF_MainViewController alloc] initWithNibName:@"SentegrityTAF_MainViewController" bundle:nil];
 
     
     // Override point for customization after application launch.
@@ -75,7 +75,7 @@
             // Wipe out all previous datasets (in the event this is not the first run)
             [Sentegrity_TrustFactor_Datasets selfDestruct];
             
-            activityDispatcher = self.main2ViewController.activityDispatcher;
+            activityDispatcher = self.mainViewController.activityDispatcher;
             
             // Create the activity dispatcher
             if (!activityDispatcher) {
@@ -90,10 +90,10 @@
             [activityDispatcher startBluetoothBLE];
             
             //set new activity dispatcher
-            self.main2ViewController.activityDispatcher = activityDispatcher;
+            self.mainViewController.activityDispatcher = activityDispatcher;
             
             //Check application's permissions to run the different activities and set DNE status
-            [self.main2ViewController checkApplicationPermission];
+            [self.mainViewController checkApplicationPermission];
             
             // Show the main view controller
             //[self.gdWindow setRootViewController:self.mainViewController ];
@@ -135,10 +135,10 @@
             // [self.dashboardViewController dismissViewControllerAnimated:NO completion:nil];
             
             // Show main
-            [self.gdWindow setRootViewController:self.main2ViewController];
+            [self.gdWindow setRootViewController:self.mainViewController];
             [self.gdWindow makeKeyAndVisible];
             
-            [self.main2ViewController showAuthWarningWithResult:result];
+            [self.mainViewController showAuthWarningWithResult:result];
          
             // Done
             break;
@@ -172,10 +172,10 @@
             //[self.passwordCreationViewController setSecurityPolicy:[self.gdTrust securityPolicy]];
             
             // Show main
-            [self.gdWindow setRootViewController:self.main2ViewController];
+            [self.gdWindow setRootViewController:self.mainViewController];
             [self.gdWindow makeKeyAndVisible];
             
-            [self.main2ViewController showWelcomePermissionAndPassWordCreationWithResult:result];
+            [self.mainViewController showWelcomePermissionAndPassWordCreationWithResult:result];
             
             // Update the startup file with the email
             //[[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:[[gdLibrary getApplicationConfig] objectForKey:GDAppConfigKeyUserId] withError:nil];
@@ -212,23 +212,23 @@
             // Reset easy activation var set when easy activation is attempted, this prevents main from showing the dashboard when it re-appears
 
             // Show main
-            [self.gdWindow setRootViewController:self.main2ViewController];
+            [self.gdWindow setRootViewController:self.mainViewController];
             [self.gdWindow makeKeyAndVisible];
             
             // Set result so when unlock is invoked from within we can pass it on
-            [self.main2ViewController setResult:result];
+            [self.mainViewController setResult:result];
             
             // Show the password unlock view controller
-            //[self.main2ViewController showUnlockWithResult:result];
+            //[self.mainViewController showUnlockWithResult:result];
 
             // Below is required for easy activation to work
-            if([self.main2ViewController easyActivation] == YES){
-                [self.main2ViewController showUnlockWithResult:result];
+            if([self.mainViewController easyActivation] == YES){
+                [self.mainViewController showUnlockWithResult:result];
             }
             
             // Reset values
-            [self.main2ViewController setEasyActivation:NO];
-            [self.main2ViewController setGetPasswordCancelled:NO];
+            [self.mainViewController setEasyActivation:NO];
+            [self.mainViewController setGetPasswordCancelled:NO];
             
             // Done
             break;
@@ -279,7 +279,7 @@
             // Wipe out all previous datasets (in the event this is not the first run)
             [Sentegrity_TrustFactor_Datasets selfDestruct];
             
-            activityDispatcher = [self.main2ViewController activityDispatcher];
+            activityDispatcher = [self.mainViewController activityDispatcher];
             
             // Create the activity dispatcher
             if (!activityDispatcher) {
@@ -296,7 +296,7 @@
             [activityDispatcher startBluetoothBLE];
             
             //set new activity dispatcher
-            self.main2ViewController.activityDispatcher = activityDispatcher;
+            self.mainViewController.activityDispatcher = activityDispatcher;
             
             // Super
             [super showUIForAction:action withResult:result];
@@ -319,7 +319,7 @@
     
     //If == AuthorizationSucceeded, don't show Sentegrity Dashboard
     
-    [self.main2ViewController updateUIForNotification:event];
+    [self.mainViewController updateUIForNotification:event];
 
 }
 
