@@ -135,42 +135,28 @@
 - (void)updateUIForNotification:(enum DAFUINotification)event
 {
     
-    
-    
-    
     if (event==ChangePasswordCancelled  && result != nil)
     {
         // Idle Lock (or other lock event) happened during change-passphrase sequence
         // Ensure this VC is dismissed if it's showing
         NSLog(@"DAFSkelUnlockViewController: cancelling change password");
-        [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
-                                                 code:101
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Change password cancelled"} ]];
-            result = nil;
-        }];
+        [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
+                                             code:101
+                                         userInfo:@{NSLocalizedDescriptionKey:@"Change password cancelled"} ]];
     }
     else if (event==GetPasswordCancelled  && result != nil) {
         
         NSLog(@"DAFSkelUnlockViewController: cancelling unlock");
-        [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
-                                                 code:102
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
-            result = nil;
-        }];
-        
-  
+        [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
+                                             code:102
+                                         userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
     }
     else if (event == AuthenticateWithWarnStarted)
     {
         NSLog(@"DAFSkelUnlockViewController: starting authenticateWithWarn");
-        [self dismissViewControllerAnimated:NO completion: ^{
-            [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
-                                                 code:103
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
-            result = nil;
-        }];
+        [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
+                                             code:103
+                                         userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
     }
 }
 
@@ -209,7 +195,7 @@
             
             // We're done so dismiss and have main show the dashboard
             // Dismiss the view
-            [self dismissViewControllerAnimated:NO completion:nil];
+            [self.delegate dismissSuccesfullyFinishedViewController:self];
             
             
         } else if(computationResults.authenticationResult == authenticationResult_incorrectLogin) {
@@ -576,7 +562,7 @@
                     
                     // We're done so dismiss the unlock view and show the dashboard behind it (called by mainviewcontroller)
                     // Dismiss the view
-                    [self dismissViewControllerAnimated:NO completion:nil];
+                    [self.delegate dismissSuccesfullyFinishedViewController:self];
                     
                     // Done
                     break;

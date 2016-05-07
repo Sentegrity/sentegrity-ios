@@ -36,6 +36,6 @@
 */
 
 - (IBAction)pressedContinue:(id)sender {
-    [self.delegate welcomeFinished];
+    [self.delegate dismissSuccesfullyFinishedViewController:self];
 }
 @end

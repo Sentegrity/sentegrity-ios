@@ -6,8 +6,9 @@
 
 #import "DAFSupport/DAFWaitableResult.h"
 #import "DAFSupport/DAFEventTypes.h"
+#import "SentegrityTAF_BaseViewController.h"
 
-@interface SentegrityTAF_AuthWarningViewController : UIViewController
+@interface SentegrityTAF_AuthWarningViewController : SentegrityTAF_BaseViewController
 
 @property (weak, nonatomic) DAFWaitableResult *result;
 

@@ -13,7 +13,11 @@
 #import "SentegrityTAF_UnlockViewController.h"
 #import "SentegrityTAF_PasswordCreationViewController.h"
 #import "SentegrityTAF_AuthWarningViewController.h"
+#import "SentegrityTAF_WelcomeViewController.h"
+#import "SentegrityTAF_AskPermissionsViewController.h"
 
+// Activity Dispatcher
+#import "Sentegrity_Activity_Dispatcher.h"
 
 // General GD runtime
 #import <GD/GDiOS.h>
@@ -21,12 +25,14 @@
 #import "ILContainerView.h"
 
 typedef enum {
-    CurrentStateTypeWelcome = 0,
-    CurrentStateTypePasswordCreation,
-    CurrentStateTypeUnlock,
-    CurrentStateTypeAuthWarning,
+    CurrentStateUnknown = 0,
+    CurrentStateWelcome,
+    CurrentStateAskingPermissions,
+    CurrentStatePasswordCreation,
+    CurrentStateUnlock,
+    CurrentStateAuthWarning,
     CurrentStateDashboard
-} CurrentStateType;
+} CurrentState;
 
 
 
@@ -36,14 +42,23 @@ typedef enum {
 // Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
-@property (nonatomic) CurrentStateType stateType;
+// Activity Dispatcher
+@property (strong, atomic) Sentegrity_Activity_Dispatcher *activityDispatcher;
 
-// View Controllers
+// this viewController will be automatically showed on the screen
+@property (nonatomic, strong) UIViewController *currentViewController;
 
-@property (strong, nonatomic) DashboardViewController *dashboardViewController;
-@property (strong, nonatomic) SentegrityTAF_UnlockViewController *unlockViewController;
-@property (strong, nonatomic) SentegrityTAF_PasswordCreationViewController *passwordCreationViewController;
-@property (strong, nonatomic) SentegrityTAF_AuthWarningViewController *easyActivationViewController;
+//all viewControllers are weak -> will be destroyed as soon as another viewController is presented
+@property (weak, nonatomic) DashboardViewController *dashboardViewController;
+@property (weak, nonatomic) SentegrityTAF_UnlockViewController *unlockViewController;
+@property (weak, nonatomic) SentegrityTAF_PasswordCreationViewController *passwordCreationViewController;
+@property (weak, nonatomic) SentegrityTAF_AuthWarningViewController *easyActivationViewController;
+@property (weak, nonatomic) SentegrityTAF_AskPermissionsViewController *askPermissionsViewController;
+@property (weak, nonatomic) SentegrityTAF_WelcomeViewController *welcomeViewController;
+
+//current Sentegrity state
+@property (nonatomic) CurrentState currentState;
+
 
 
 @property (atomic) BOOL firstTime;
@@ -57,9 +72,11 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet ILContainerView *containerView;
 
 
-//methods
+//public methods
+- (NSArray *) checkApplicationPermission;
 - (void) showAuthWarningWithResult: (DAFWaitableResult *)result;
 - (void) showWelcomePermissionAndPassWordCreationWithResult:(DAFWaitableResult *)result;
 - (void) showUnlockWithResult: (DAFWaitableResult *)result;
+- (void) showDashboard;
 
 @end
