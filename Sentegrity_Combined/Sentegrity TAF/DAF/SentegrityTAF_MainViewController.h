@@ -1,5 +1,5 @@
 //
-//  SentegrityTAF_Main2ViewController.h
+//  SentegrityTAF_MainViewController.h
 //  Sentegrity
 //
 //  Created by Ivo Leko on 06/05/16.
@@ -36,7 +36,7 @@ typedef enum {
 
 
 
-@interface SentegrityTAF_Main2ViewController : UIViewController
+@interface SentegrityTAF_MainViewController : UIViewController
 
 
 // Called by SentegrityTAF_AppDelegate

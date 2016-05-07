@@ -15,7 +15,7 @@
 #import <GD/GDiOS.h>
 
 // Root View Controller
-#import "SentegrityTAF_Main2ViewController.h"
+#import "SentegrityTAF_MainViewController.h"
 
 // Activity Dispatcher
 #import "Sentegrity_Activity_Dispatcher.h"
@@ -26,7 +26,7 @@
 
 
 // root view controller
-@property (strong, nonatomic) SentegrityTAF_Main2ViewController *main2ViewController;
+@property (strong, nonatomic) SentegrityTAF_MainViewController *mainViewController;
 
 @end
 

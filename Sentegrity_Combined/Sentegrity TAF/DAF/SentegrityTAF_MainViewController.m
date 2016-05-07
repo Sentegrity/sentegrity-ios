@@ -1,5 +1,5 @@
 //
-//  SentegrityTAF_Main2ViewController.m
+//  SentegrityTAF_MainViewController.m
 //  Sentegrity
 //
 //  Created by Ivo Leko on 06/05/16.
@@ -9,17 +9,17 @@
 //permissions
 #import "ISHPermissionKit.h"
 
-#import "SentegrityTAF_Main2ViewController.h"
+#import "SentegrityTAF_MainViewController.h"
 
 
-@interface SentegrityTAF_Main2ViewController () <SentegrityTAF_basicProtocol>
+@interface SentegrityTAF_MainViewController () <SentegrityTAF_basicProtocol>
 {
     BOOL once;
 }
 
 @end
 
-@implementation SentegrityTAF_Main2ViewController
+@implementation SentegrityTAF_MainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,7 +76,9 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (!once)
+    
+    //if nothing is on the screen, try to show dashboard/unlock
+    if (!once && self.currentState == CurrentStateUnknown)
         [self dismissSuccesfullyFinishedViewController:nil];
     
     once = YES;
