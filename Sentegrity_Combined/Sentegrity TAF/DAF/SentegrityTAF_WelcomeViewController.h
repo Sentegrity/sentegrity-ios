@@ -7,16 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@protocol WelcomeViewControllerDelegate <NSObject>
-
-- (void) welcomeFinished;
-
-@end
+#import "SentegrityTAF_BaseViewController.h"
 
 
-@interface SentegrityTAF_WelcomeViewController : UIViewController
 
-@property (nonatomic, weak) id <WelcomeViewControllerDelegate> delegate;
+@interface SentegrityTAF_WelcomeViewController : SentegrityTAF_BaseViewController
 
 @end

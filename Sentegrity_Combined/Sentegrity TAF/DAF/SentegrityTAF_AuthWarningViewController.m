@@ -101,26 +101,21 @@
 
 - (void)updateUIForNotification:(enum DAFUINotification)event
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self.delegate dismissSuccesfullyFinishedViewController:self];
 }
 
 - (IBAction)onContinueEasyActivation:(id)sender
 {
     NSLog(@"SentegrityTAF_UnlockViewController: onContinueEasyActivation");
-    
-    [self dismissViewControllerAnimated:NO completion: ^{
-        NSLog(@"SentegrityTAF_UnlockViewController: delivering auth token");
-        NSData *authToken = [NSData dataWithBytes:"dummy" length:5];
-        [result setResult:authToken];
-        result = nil;
-    }];
+    NSLog(@"SentegrityTAF_UnlockViewController: delivering auth token");
+    NSData *authToken = [NSData dataWithBytes:"dummy" length:5];
+    [result setResult:authToken];
+    [self.delegate dismissSuccesfullyFinishedViewController:self];
 }
 
 - (IBAction)onCancel:(id)sender {
-    [self dismissViewControllerAnimated:NO completion: ^{
-        [[DAFAppBase getInstance] cancelAuthenticateWithWarn:result];
-        result = nil;
-    }];
+    [[DAFAppBase getInstance] cancelAuthenticateWithWarn:result];
+    [self.delegate dismissSuccesfullyFinishedViewController:self];
 }
 
 @end
