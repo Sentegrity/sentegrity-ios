@@ -204,6 +204,9 @@
             if([self.mainViewController easyActivation] == YES){
                 [self.mainViewController showUnlockWithResult:result];
             }
+            else if([self.mainViewController getPasswordCancelled] == YES){
+                [self.mainViewController showUnlockWithResult:result];
+            }
             
             // Reset values
             [self.mainViewController setEasyActivation:NO];
@@ -277,8 +280,6 @@
             // run all async activities
             [activityDispatcher runCoreDetectionActivities];
             
-            
-
             
             // Super
             [super showUIForAction:action withResult:result];
