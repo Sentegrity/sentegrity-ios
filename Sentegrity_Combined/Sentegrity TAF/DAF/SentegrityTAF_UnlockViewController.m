@@ -78,6 +78,11 @@
 
 
 - (void) dealloc {
+    
+    //remove dashboard
+    if (self.dashboardViewController)
+        [self.dashboardViewController dismissViewControllerAnimated:NO completion:nil];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
