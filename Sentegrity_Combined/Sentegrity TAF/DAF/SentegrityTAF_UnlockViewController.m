@@ -357,6 +357,9 @@
         self.hud.detailsLabelText = @"Mobile Security Posture";
         self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
         
+        
+        __weak SentegrityTAF_UnlockViewController *weakSelf = self;
+        
         // Kick off Core Detection
         @autoreleasepool {
             
@@ -367,13 +370,13 @@
                 // Perform Core Detection
                 @try {
                     
-                     [self performCoreDetection:self];
+                     [weakSelf performCoreDetection:weakSelf];
                     
                 } @catch (NSException *exception) {
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
-                        [self coreDetectionerrorRecovery];
+                        [weakSelf coreDetectionerrorRecovery];
                         
                     });
 
@@ -484,6 +487,7 @@
     }];
     
     /* Perform Core Detection */
+    __weak SentegrityTAF_UnlockViewController *weakSelf = self;
     
     // Run Core Detection
     [[CoreDetection sharedDetection] performCoreDetectionWithCallback:^(BOOL success, Sentegrity_TrustScore_Computation *computationResults, NSError **error) {
@@ -494,9 +498,9 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 
-                [self analyzePreAuthenticationActionsWithError:error];
-                [MBProgressHUD hideHUDForView:self.view animated:NO];
-                [self showInput];
+                [weakSelf analyzePreAuthenticationActionsWithError:error];
+                [MBProgressHUD hideHUDForView:weakSelf.view animated:NO];
+                [weakSelf showInput];
                 [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
                 /*
                 //Don't show input if we successfully transparently authenticated
