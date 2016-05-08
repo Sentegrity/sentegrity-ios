@@ -181,10 +181,10 @@
 #pragma mark - setters
 
 - (void) setCurrentViewController:(UIViewController *)currentViewController {
-    _currentViewController = currentViewController;
     
     //show currentViewController on the screen
     [self.containerView setChildViewController:currentViewController];
+    _currentViewController = currentViewController;
 }
 
 
