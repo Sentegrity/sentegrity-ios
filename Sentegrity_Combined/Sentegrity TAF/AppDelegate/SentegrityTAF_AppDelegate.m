@@ -72,28 +72,7 @@
              * actions (such as 'lock application', 'change password') to be initiated.
              */
             
-            // Wipe out all previous datasets (in the event this is not the first run)
-            [Sentegrity_TrustFactor_Datasets selfDestruct];
-            
-            activityDispatcher = self.mainViewController.activityDispatcher;
-            
-            // Create the activity dispatcher
-            if (!activityDispatcher) {
-                // Allocate the activity dispatcher
-                activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
-            }
-            
-            // Start Netstat
-            [activityDispatcher startNetstat];
-            
-            // Start Bluetooth as soon as possible
-            [activityDispatcher startBluetoothBLE];
-            
-            //set new activity dispatcher
-            self.mainViewController.activityDispatcher = activityDispatcher;
-            
-            //Check application's permissions to run the different activities and set DNE status
-            [self.mainViewController checkApplicationPermission];
+
             
             // Show the main view controller
             //[self.gdWindow setRootViewController:self.mainViewController ];
@@ -276,27 +255,30 @@
              * actions (such as 'lock application', 'change password') to be initiated.
              */
             
+            // This is called prior to GetPassword
+            
             // Wipe out all previous datasets (in the event this is not the first run)
             [Sentegrity_TrustFactor_Datasets selfDestruct];
             
-            activityDispatcher = [self.mainViewController activityDispatcher];
+            //Check application's permissions to run the different activities and set DNE status
+            [self.mainViewController checkApplicationPermission];
+            
+            activityDispatcher = self.mainViewController.activityDispatcher;
             
             // Create the activity dispatcher
             if (!activityDispatcher) {
                 // Allocate the activity dispatcher
                 activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
+                
+                //set new activity dispatcher
+                self.mainViewController.activityDispatcher = activityDispatcher;
             }
             
-            // Need to add dispatcher for "Route"
+            // run all async activities
+            [activityDispatcher runCoreDetectionActivities];
             
-            // Start Netstat
-            [activityDispatcher startNetstat];
             
-            // Start Bluetooth as soon as possible
-            [activityDispatcher startBluetoothBLE];
-            
-            //set new activity dispatcher
-            self.mainViewController.activityDispatcher = activityDispatcher;
+
             
             // Super
             [super showUIForAction:action withResult:result];

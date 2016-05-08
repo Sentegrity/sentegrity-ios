@@ -154,7 +154,9 @@
             // }
             // Present unlock
             //if(self.result !=nil){
-            [self showUnlockWithResult:self.result];
+            
+            // Temp removed for testing of unlock otherwise it may run core detection twice
+            //[self showUnlockWithResult:self.result];
             self.getPasswordCancelled=YES;
             
             break;
@@ -363,14 +365,7 @@
         // Add the permission
         [permissions addObject:@(ISHPermissionCategoryLocationWhenInUse)];
         
-    } else {
-        
-        // Location Authorized
-        
-        // Start Motion (must be after location since it uses the locationDNE to decide which magnetometer to use)
-        [_activityDispatcher startMotion];
-        
-    } // Done location permissions
+    } 
     
     // Check if activity permissions are authorized
     if ([permissionActivity permissionState] != ISHPermissionStateAuthorized) {
@@ -383,12 +378,7 @@
         // Add the permission
         [permissions addObject:@(ISHPermissionCategoryActivity)];
         
-    } else {
-        
-        // Activity Authorized
-        [_activityDispatcher startActivity];
-        
-    } // Done activity permissions
+    }
     
     return permissions;
 }

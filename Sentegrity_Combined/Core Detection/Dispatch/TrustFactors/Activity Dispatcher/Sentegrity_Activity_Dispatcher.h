@@ -52,7 +52,7 @@
 - (void)runCoreDetectionActivities;
 
 // Start Bluetooth
-- (void)startBluetoothBLE;
+- (void)startBluetooth;
 
 // Start location
 - (void)startLocation;

@@ -71,7 +71,7 @@ static MBProgressHUD *HUD;
     [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startNetstat];
     
     // Start Bluetooth as soon as possible
-    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startBluetoothBLE];
+    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startBluetooth];
     
     // Check if the application has permissions to run the different activities
     ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];

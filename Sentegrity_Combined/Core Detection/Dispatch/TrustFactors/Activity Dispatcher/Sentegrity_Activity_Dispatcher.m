@@ -29,46 +29,24 @@
 // Run the Core Detection Activites
 - (void)runCoreDetectionActivities {
     
-    // Start Netstat
+    // Start Netstat block
     [self startNetstat];
     
-    // Start Bluetooth as soon as possible
-    [self startBluetoothBLE]; // Also starts classic
+    // Start Bluetooth as soon as possible, this starts bluetooth classic, bluetooth BLE paired, and Bluetooth BLE scanned
+    [self startBluetooth];
     
-    // Check if the application has permissions to run the different activities
-    ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
-    ISHPermissionRequest *permissionActivity = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
-    
-    // Check if permissions are authorized
-    if ([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized || [permissionActivity permissionState] != ISHPermissionStateAuthorized) {
-        
-        // If permission isn't authorized
-        if([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized) {
-            // Set location error
-            [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
-            
-        } else {
-            // Start location
-            [self startLocation];
-        }
-        
-        // If motion activity isn't authorized
-        if([permissionActivity permissionState] != ISHPermissionStateAuthorized) {
-            
-            // The app isn't authorized to use motion activity support.
-            [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unauthorized];
-            
-        } else {
-            // Start Activity
-            [self startActivity];
-        }
-        
-    } else {
+      // If location is not unauthorized
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] locationDNEStatus]  != DNEStatus_unauthorized){
         
         // Start location
         [self startLocation];
         
-        // Start Activity
+    }
+    
+    // If activity is not unauthorized
+    if ([[Sentegrity_TrustFactor_Datasets sharedDatasets] activityDNEStatus]  != DNEStatus_unauthorized){
+        
+        // Start location
         [self startActivity];
         
     }
@@ -528,7 +506,7 @@
 }
 
 // ** BLUETOOTH 4.0 SCANNING **
-- (void)startBluetoothBLE {
+- (void)startBluetooth {
     
     // Log the start time
     NSDate *methodStart = [NSDate date];

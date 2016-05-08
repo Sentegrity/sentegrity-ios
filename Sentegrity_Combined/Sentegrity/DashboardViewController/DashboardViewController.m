@@ -99,7 +99,7 @@ static MBProgressHUD *HUD;
     [self updateComputationResults:self];
 
     // Customize the view
-    [self customizeView];
+    //[self customizeView];
     
     
     
@@ -217,8 +217,7 @@ static MBProgressHUD *HUD;
     [self.backButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentFill];
     [self.backButton setContentVerticalAlignment:UIControlContentVerticalAlignmentFill];
 
-    // Update the last update label
-    [self updateLastUpdateLabel:self];
+
 }
 
 // Update the last update label
@@ -278,6 +277,10 @@ static MBProgressHUD *HUD;
        // [self.sentegrityButton setAlpha:1];
     }
     */
+    
+    // Update the last update label
+    [self updateLastUpdateLabel:self];
+    
     // Trust Score
     CGFloat trustScore = self.computationResults.deviceScore;
     
