@@ -49,7 +49,7 @@
 // This is our override of the super class showUIForAction.
 - (void)showUIForAction:(enum DAFUIAction)action withResult:(DAFWaitableResult *)result
 {
-    NSLog(@"DAFSkelAppDelegate: showUIForAction (%d)", action);
+    NSLog(@"DAFSkelAppDelegate: showUIForActiobn (%d)", action);
     
     //self.dashboardViewController dismissViewControllerAnimated:NO completion:nil];
     
@@ -188,6 +188,27 @@
              * DAFAppBase::passwordViewController provides a simple implementation of this function.
              */
             
+            
+            // Wipe out all previous datasets (in the event this is not the first run)
+            [Sentegrity_TrustFactor_Datasets selfDestruct];
+            
+            //Check application's permissions to run the different activities and set DNE status
+            [self.mainViewController checkApplicationPermission];
+            
+            activityDispatcher = self.mainViewController.activityDispatcher;
+            
+            // Create the activity dispatcher
+            if (!activityDispatcher) {
+                // Allocate the activity dispatcher
+                activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
+                
+                //set new activity dispatcher
+                self.mainViewController.activityDispatcher = activityDispatcher;
+            }
+            
+            // run all async activities
+            [activityDispatcher runCoreDetectionActivities];
+            
             // Reset easy activation var set when easy activation is attempted, this prevents main from showing the dashboard when it re-appears
 
             // Show main
@@ -260,25 +281,7 @@
             
             // This is called prior to GetPassword
             
-            // Wipe out all previous datasets (in the event this is not the first run)
-            [Sentegrity_TrustFactor_Datasets selfDestruct];
-            
-            //Check application's permissions to run the different activities and set DNE status
-            [self.mainViewController checkApplicationPermission];
-            
-            activityDispatcher = self.mainViewController.activityDispatcher;
-            
-            // Create the activity dispatcher
-            if (!activityDispatcher) {
-                // Allocate the activity dispatcher
-                activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
-                
-                //set new activity dispatcher
-                self.mainViewController.activityDispatcher = activityDispatcher;
-            }
-            
-            // run all async activities
-            [activityDispatcher runCoreDetectionActivities];
+
             
             
             // Super

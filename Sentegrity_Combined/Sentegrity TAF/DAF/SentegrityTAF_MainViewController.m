@@ -129,6 +129,15 @@
         case IdleLocked:
             // Locked from idle timeout
             
+            // Jason Added:
+            // Need to show unlock screen here since its an idle lock
+            // We don't have a valid result object but just want to show the unlock screen
+            // this prevents someone unauthorized from viewing  dashboard
+        {
+            DAFWaitableResult *result = nil;
+            [self showUnlockWithResult:result];
+        }
+            
             // Present unlock
             // [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
             // [self.unlockViewController setResult:self.result];
@@ -158,6 +167,8 @@
             // Temp removed for testing of unlock otherwise it may run core detection twice
             //[self showUnlockWithResult:self.result];
             self.getPasswordCancelled=YES;
+            
+            //Jason Added
             
             break;
             
@@ -306,7 +317,7 @@
 - (void) showDashboard {
     
     
-    // Show the landing page since we've been transparently authenticated
+   
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];

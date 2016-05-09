@@ -499,6 +499,9 @@ static MBProgressHUD *HUD;
         case IdleLocked:
             // Locked from idle timeout
             
+            // Jason added this, to dismiss when Sentegrity is in foreground and receives an idle lock
+            // We should stop displaying the dashboard when an idle lock is received because its a security risk
+            
              [self dismissViewControllerAnimated:NO completion:nil];
     
             break;
@@ -526,7 +529,17 @@ static MBProgressHUD *HUD;
             
             break;
             
+        case AuthenticateWithWarnSucceeded:
             
+            [self dismissViewControllerAnimated:NO completion:nil];
+            
+            break;
+            
+        case AuthenticateWithWarnCancelled:
+            
+            [self dismissViewControllerAnimated:NO completion:nil];
+            
+            break;
             
         default:
             
