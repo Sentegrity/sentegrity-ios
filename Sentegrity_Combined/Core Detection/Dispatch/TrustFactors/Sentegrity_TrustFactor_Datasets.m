@@ -1031,7 +1031,7 @@ static dispatch_once_t onceToken;
 - (NSArray *)getDiscoveredBLEInfo {
     
     //Do we any devices yet?
-    if(self.discoveredBLEDevices == nil || self.discoveredBLEDevices.count < 1) {
+    if(self.discoveredBLEDevices == nil || self.discoveredBLEDevices.count < 5) {
         
         // If the dataset expired during a previous TF attempt, don't wait again, just exit.
         // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
@@ -1046,7 +1046,7 @@ static dispatch_once_t onceToken;
         CFAbsoluteTime currentTime = startTime;
         
         //If we don't wait long enough we may never find the same device twice in a row
-        float waitTime = 0.15;
+        float waitTime = 0.5;
         
         while ((currentTime-startTime) < waitTime) {
             

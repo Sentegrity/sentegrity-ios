@@ -131,7 +131,7 @@ static MBProgressHUD *HUD;
 - (void)customizeView {
 
     // Default the back bool
-    self.userClickedBack=NO;
+    //self.userClickedBack=NO;
     // Set the background color
     [self.view setBackgroundColor:[UIColor whiteColor]];
     

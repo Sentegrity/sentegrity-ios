@@ -1,4 +1,4 @@
-/*
+ /*
  * This file contains Good Sample Code subject to the Good Dynamics SDK Terms and Conditions.
  * (c) 2014 Good Technology Corporation. All rights reserved.
  */
@@ -163,6 +163,7 @@
                                              code:103
                                          userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
     }
+    
 }
 
 
@@ -340,6 +341,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    
     
     NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];

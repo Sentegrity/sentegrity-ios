@@ -91,6 +91,28 @@
 - (void)updateUIForNotification:(enum DAFUINotification)event {
     NSLog(@"SentegrityTAF_ViewController: updateUIForNotification: %d", event);
     
+    
+    /* Jason added to prevent double run of core detection in a row when GetPasswordCancelled is issued twice in a 
+       row This happens when Sentegrity is not logged in and it receives a auth request from another app
+       For some reason runtime sends two GetPAsswordCancelled back to back which results in Core Dtection fashing
+       twice on the screen
+     */
+    
+    if(event==GetPasswordCancelled){
+        self.getPasswordCancelledCount++;
+    }
+    else{
+        // reset it if its anything else
+        self.getPasswordCancelledCount=0;
+    }
+    
+    // If we received two back to back skip the second
+    if(self.getPasswordCancelledCount >1){
+        return;
+    }
+     
+     
+    
     //if any of below viewController is currenlty active, forward this event to update result
     [self.dashboardViewController updateUIForNotification:event];
     [self.unlockViewController updateUIForNotification:event];
@@ -133,10 +155,16 @@
             // Need to show unlock screen here since its an idle lock
             // We don't have a valid result object but just want to show the unlock screen
             // this prevents someone unauthorized from viewing  dashboard
-        {
+            
+            //Deauthorize, this will restart the runtime process
+            [[DAFAppBase getInstance] deauthorize:@"Result object empty when showing unlockViewController"];
+            
+            /*
+            {
             DAFWaitableResult *result = nil;
             [self showUnlockWithResult:result];
-        }
+            }
+             */
             
             // Present unlock
             // [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
@@ -166,6 +194,7 @@
             
             // Temp removed for testing of unlock otherwise it may run core detection twice
             //[self showUnlockWithResult:self.result];
+            
             self.getPasswordCancelled=YES;
             
             //Jason Added
@@ -261,28 +290,38 @@
 
 - (void) showUnlockWithResult: (DAFWaitableResult *)result {
     
-    
-    SentegrityTAF_UnlockViewController *unlockViewController;
-    
-    // Get the nib for the device
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        // iPhone View Controllers
-        unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
-        
-    } else {
-        
-        // iPad View Controllers
-        unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
+    // Don't show the unlock if we don't have a result as nothing will happen once user enters password
+    if(result==nil){
+        [[DAFAppBase getInstance] deauthorize:@"Result object empty when showing unlockViewController"];
     }
+    else{
+        
+        SentegrityTAF_UnlockViewController *unlockViewController;
+        
+        // Get the nib for the device
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            
+            // iPhone View Controllers
+            unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
+            
+        } else {
+            
+            // iPad View Controllers
+            unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
+        }
+        
+        unlockViewController.delegate = self;
+        [unlockViewController setResult:result];
+        
+        //set new screen and state
+        self.currentState = CurrentStateUnlock;
+        self.unlockViewController = unlockViewController;
+        self.currentViewController = unlockViewController;
+        
+    }
+
     
-    unlockViewController.delegate = self;
-    [unlockViewController setResult:result];
-    
-    //set new screen and state
-    self.currentState = CurrentStateUnlock;
-    self.unlockViewController = unlockViewController;
-    self.currentViewController = unlockViewController;
+ 
 }
 
 
