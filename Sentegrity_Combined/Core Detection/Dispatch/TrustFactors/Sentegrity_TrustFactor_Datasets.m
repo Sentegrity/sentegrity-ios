@@ -1012,7 +1012,7 @@ static dispatch_once_t onceToken;
         // Timer expires, for BT don't set to expired as we don't want a penaly, just noData
         NSLog(@"Connected BLE devices timer expired");
         if(self.connectedBLEDevices.count<1){
-            [self setConnectedBLESDNEStatus:DNEStatus_nodata];
+            [self setConnectedBLESDNEStatus:DNEStatus_expired];
         }
         
         // Return the BLE devices
@@ -1031,7 +1031,7 @@ static dispatch_once_t onceToken;
 - (NSArray *)getDiscoveredBLEInfo {
     
     //Do we any devices yet?
-    if(self.discoveredBLEDevices == nil || self.discoveredBLEDevices.count < 5) {
+    if(self.discoveredBLEDevices == nil || self.discoveredBLEDevices.count < 2) {
         
         // If the dataset expired during a previous TF attempt, don't wait again, just exit.
         // This ensures that we still try if TFs later in the policy require the data and perhaps its populated by then
@@ -1069,7 +1069,7 @@ static dispatch_once_t onceToken;
         // Timer expires, for BT don't set to expired as we don't want a penaly, just noData
         NSLog(@"Discovered BLE devices timer expired");
         if(self.discoveredBLEDevices.count<1){
-                 [self setDiscoveredBLESDNEStatus:DNEStatus_nodata];
+                 [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
         }
 
         // Return the BLE devices
@@ -1120,7 +1120,7 @@ static dispatch_once_t onceToken;
         
         // Timer expires, for BT don't set to expired as we don't want a penaly, just noData
         NSLog(@"Connected classic BT device timer expired");
-        [self setConnectedClassicDNEStatus:DNEStatus_nodata];
+        [self setConnectedClassicDNEStatus:DNEStatus_expired];
         
         // Return connected BT devices
         return self.connectedClassicBTDevices;
