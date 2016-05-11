@@ -31,7 +31,9 @@
 // Message UI
 #import <MessageUI/MessageUI.h>
 
-@interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate>
+@interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate> {
+    BOOL once;
+}
 
 @property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *onePixelConstraintsCollection;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomFooterConstraint;
@@ -122,13 +124,14 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.viewFooter.frame.size.height, 0);
     self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
+    
+    
+    //start core detection
 }
 
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
     
-    // reset this and wait for app delegate to set it to YES
-    self.runCoreDetection=NO;
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
@@ -358,65 +361,70 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    
-    
+
     NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];
     
-    // Don't run core detection again if the user is simply coming back from the dashboard
-    if(self.runCoreDetection == YES){
-        
-        // For demonstration purposes, retrieve startup data stored by FirstTimeViewController
-        //NSString *startupData = [DAFAuthState getInstance].firstTime;
-        //NSLog(@"SentegrityTAF_UnlockViewController: startup data = <%@>", startupData);
-        
-        // Run Core Detection
-        
-        // Show Animation
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
-        self.hud.labelText = @"Assessing";
-        self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
-        
-        self.hud.detailsLabelText = @"Mobile Security Posture";
-        self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
-        
-        
-        __weak SentegrityTAF_UnlockViewController *weakSelf = self;
-        
-        // Kick off Core Detection
-        @autoreleasepool {
-            
-            dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
-            
-            dispatch_async(myQueue, ^{
-                
-                // Perform Core Detection
-                @try {
-                    
-                     [weakSelf performCoreDetection:weakSelf];
-                    
-                } @catch (NSException *exception) {
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        [weakSelf coreDetectionerrorRecovery];
-                        
-                    });
+    //run core detection only once (when screen is loaded)
+    if (!once)
+        [self runCoreDetection];
 
-                }
-               
-                
-            });
-        }
-        
-    }
+    once = YES;
     
     // Reset it
     [self.dashboardViewController setUserClickedBack:NO];
    
     
 }
+
+
+
+- (void) runCoreDetection {
+    // For demonstration purposes, retrieve startup data stored by FirstTimeViewController
+    //NSString *startupData = [DAFAuthState getInstance].firstTime;
+    //NSLog(@"SentegrityTAF_UnlockViewController: startup data = <%@>", startupData);
+    
+    // Run Core Detection
+    
+    // Show Animation
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    self.hud.labelText = @"Assessing";
+    self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
+    
+    self.hud.detailsLabelText = @"Mobile Security Posture";
+    self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
+    
+    
+    __weak SentegrityTAF_UnlockViewController *weakSelf = self;
+    
+    // Kick off Core Detection
+    @autoreleasepool {
+        
+        dispatch_queue_t myQueue = dispatch_queue_create("Core_Detection_Queue",NULL);
+        
+        dispatch_async(myQueue, ^{
+            
+            // Perform Core Detection
+            @try {
+                
+                [weakSelf performCoreDetection:weakSelf];
+                
+            } @catch (NSException *exception) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [weakSelf coreDetectionerrorRecovery];
+                    
+                });
+                
+            }
+            
+            
+        });
+    }
+}
+
 
 - (void)coreDetectionerrorRecovery {
  

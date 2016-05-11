@@ -43,6 +43,8 @@
     
 }
 
+
+
 #pragma mark - Good DAF
 
 
@@ -81,6 +83,7 @@
            // NSDictionary *launchOptions = [[GDiOS sharedInstance] launchOptions];
         
              //NSLog(@"options: %@", [[GDiOS sharedInstance] launchOptions]);
+            
             
             // Done
             break;
@@ -226,7 +229,14 @@
                 [self.mainViewController showUnlockWithResult:result];
             }
             else if([self.mainViewController getPasswordCancelled] == YES){
-                [self.mainViewController showUnlockWithResult:result];
+                
+                //if unlock is already showed, do not redraw it, just forward new result
+                if (self.mainViewController.currentState == CurrentStateUnlock) {
+                    self.mainViewController.unlockViewController.result = result;
+                }
+                else
+                    [self.mainViewController showUnlockWithResult:result];
+                
             }
             
             // Reset values
@@ -304,7 +314,7 @@
     [super eventNotification:event withMessage:msg];
     
     //If == AuthorizationSucceeded, don't show Sentegrity Dashboard
-    
+  
     [self.mainViewController updateUIForNotification:event];
 
 }

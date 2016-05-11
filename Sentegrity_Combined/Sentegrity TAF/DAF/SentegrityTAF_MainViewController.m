@@ -218,7 +218,7 @@
                 }
                  */
                 self.getPasswordCancelled=YES;
-     
+                     
                 break;
                 
             case AuthenticateWithWarnStarted:
@@ -335,16 +335,13 @@
         
         unlockViewController.delegate = self;
         [unlockViewController setResult:result];
-        [unlockViewController setRunCoreDetection:YES];
-        
+    
         //set new screen and state
         self.currentState = CurrentStateUnlock;
         self.unlockViewController = unlockViewController;
         self.currentViewController = unlockViewController;
         
     //}
-
-    
  
 }
 

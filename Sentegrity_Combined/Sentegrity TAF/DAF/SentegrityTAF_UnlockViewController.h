@@ -26,8 +26,6 @@
 
 @property (weak, nonatomic) DAFWaitableResult *result;
 
-@property (nonatomic) BOOL runCoreDetection;
-
 @property (nonatomic) DashboardViewController *dashboardViewController;
 
 // Called by SentegrityTAF_AppDelegate
