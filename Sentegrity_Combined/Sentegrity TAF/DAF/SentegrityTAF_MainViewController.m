@@ -311,7 +311,7 @@
 }
 
 
-- (void) showUnlockWithResult: (DAFWaitableResult *)result {
+- (void) showUnlockWithResult: (DAFWaitableResult *)result{
     
     // Don't show the unlock if we don't have a result as nothing will happen once user enters password
    // if(result==nil){
@@ -335,6 +335,7 @@
         
         unlockViewController.delegate = self;
         [unlockViewController setResult:result];
+        [unlockViewController setRunCoreDetection:YES];
         
         //set new screen and state
         self.currentState = CurrentStateUnlock;

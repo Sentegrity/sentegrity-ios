@@ -100,6 +100,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     // generate lines with one pixel (on all iOS devices)
     for (NSLayoutConstraint *constraint in self.onePixelConstraintsCollection) {
@@ -123,6 +124,12 @@
     self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
 }
 
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    
+    // reset this and wait for app delegate to set it to YES
+    self.runCoreDetection=NO;
+}
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
@@ -357,7 +364,7 @@
     [super viewDidAppear:animated];
     
     // Don't run core detection again if the user is simply coming back from the dashboard
-    if([self.dashboardViewController userClickedBack] == NO){
+    if(self.runCoreDetection == YES){
         
         // For demonstration purposes, retrieve startup data stored by FirstTimeViewController
         //NSString *startupData = [DAFAuthState getInstance].firstTime;
