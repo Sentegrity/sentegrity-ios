@@ -250,7 +250,9 @@
     
     // Default values
     [self.currentStartupStore setLastState:@""];
-    [self.currentStartupStore setEmail:@"emailnotprovided"];
+    // We set a dummy email here becaue we dont have access to the GD enterprise policy yet to provide the true email
+    
+    [self.currentStartupStore setEmail:@"email@notfound.com"];
     NSArray *empty = [[NSArray alloc]init];
     [self.currentStartupStore setRunHistoryObjects:empty];
     [self.currentStartupStore setTransparentAuthKeyObjects:empty];
@@ -272,7 +274,8 @@
     // Get our startup file
     self.currentStartupStore.email = email;
     
-    // Save the store
+    // Save the store because it was written once earlier during password creation and we
+    // were not able to update the email until afterwards
     [self setStartupStoreWithError:error];
 
 }

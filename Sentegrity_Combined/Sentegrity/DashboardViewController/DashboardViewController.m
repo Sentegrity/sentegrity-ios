@@ -51,6 +51,7 @@
 
 
 
+
 @interface DashboardViewController () <RESideMenuDelegate>
 
 /* Properties */
@@ -71,6 +72,8 @@
 
 // User Information Press
 - (void)userInformationPressed:(UITapGestureRecognizer *)sender;
+
+
 
 @end
 
@@ -97,11 +100,13 @@ static MBProgressHUD *HUD;
     self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
     [self updateComputationResults:self];
-
+    
+    // Reset if this foreground is called and not main, prevents loop inside main when deauthorizing=YES from the last time (and authorizationSuccess was not called)
+    self.deauthorizing=NO;
+    
     // Customize the view
     //[self customizeView];
-    
-    
+
     
 }
 
@@ -162,7 +167,8 @@ static MBProgressHUD *HUD;
     // Set the menu button
     //Default to hidden and allow other VCs to change it (e.g., unlock)
     [self.menuButton setHidden:YES];
-    /*
+    
+    
      [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
      [self.menuButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
      [self.menuButton setLineWidth:40.0f];
@@ -171,7 +177,7 @@ static MBProgressHUD *HUD;
      [self.menuButton setShowsTouchWhenHighlighted:YES];
      [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
      [self.menuButton updateAppearance];
-     */
+    
     
     //Only show menu button if the user actively entered the dashboard, this allows them to go back
     //If you keep this here when there is no "back" screen it will just flash and try to run core detection again

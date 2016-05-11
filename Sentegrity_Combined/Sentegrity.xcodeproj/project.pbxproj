@@ -410,7 +410,6 @@
 				04A249151B266AC2007D9460 /* SentegrityTests */,
 				4A3429CBBD5FF34D6202962E /* Frameworks */,
 				BCE0E0550A85C5B5C27375E3 /* Pods */,
-				04A248FA1B266AC2007D9460 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -422,6 +421,7 @@
 				4C2667281CC0369000F10DC0 /* Sentegrity TAF.app */,
 			);
 			name = Products;
+			path = ../..;
 			sourceTree = "<group>";
 		};
 		04A248FB1B266AC2007D9460 /* Sentegrity */ = {
@@ -599,6 +599,7 @@
 				4C2667931CC0421800F10DC0 /* SentegrityTAF_main.m */,
 				4C5773001CC139190073BB65 /* SentegrityTAFConfig.debug.xcconfig */,
 				4C5773021CC1392B0073BB65 /* SentegrityTAFConfig.release.xcconfig */,
+				04A248FA1B266AC2007D9460 /* Products */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";

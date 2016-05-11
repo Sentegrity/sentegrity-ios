@@ -198,6 +198,13 @@
             // Use the decrypted master key
             [result setResult:decryptedMasterKeyString];
             result = nil;
+
+            
+            // Direct call outside of DAF, but fails
+            // NSError *error;
+            // GDTrust *trustObject = [[DAFAppBase getInstance] gdTrust];
+            // [trustObject unlockWithPassword:decryptedMasterKey error:&error];
+
             
             // We're done so dismiss and have main show the dashboard
             // Dismiss the view
@@ -493,6 +500,8 @@
         }
     }];
     
+
+    
     /* Perform Core Detection */
     __weak SentegrityTAF_UnlockViewController *weakSelf = self;
     
@@ -570,6 +579,13 @@
                     // Use the decrypted master key
                     [result setResult:decryptedMasterKeyString];
                     result = nil;
+                    
+                    
+                    // Direct call outside of DAF, but fails
+                    // NSError *error;
+                    // GDTrust *trustObject = [[DAFAppBase getInstance] gdTrust];
+                    // [trustObject unlockWithPassword:decryptedMasterKey error:&error];
+
                     
                     // We're done so dismiss the unlock view and show the dashboard behind it (called by mainviewcontroller)
                     // Dismiss the view

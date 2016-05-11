@@ -25,6 +25,14 @@
     [super viewDidLoad];
     [self.containerView setCurrentViewController:self];
     // Do any additional setup after loading the view from its nib.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    self.firstTime = [DAFAuthState getInstance].firstTime;
+}
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    self.deauthorizing=NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,7 +63,6 @@
     
     else {
         // Don't show anything unless we've already created password and activated
-        self.firstTime = [DAFAuthState getInstance].firstTime;
         if(self.firstTime==NO && self.easyActivation==NO && self.getPasswordCancelled==NO){
             
             // If we have no results to display, run detection, otherwise we will keep the last ones
@@ -91,132 +98,140 @@
 - (void)updateUIForNotification:(enum DAFUINotification)event {
     NSLog(@"SentegrityTAF_ViewController: updateUIForNotification: %d", event);
     
-    
-    /* Jason added to prevent double run of core detection in a row when GetPasswordCancelled is issued twice in a 
-       row This happens when Sentegrity is not logged in and it receives a auth request from another app
-       For some reason runtime sends two GetPAsswordCancelled back to back which results in Core Dtection fashing
-       twice on the screen
-     */
-    
-    if(event==GetPasswordCancelled){
-        self.getPasswordCancelledCount++;
-    }
-    else{
-        // reset it if its anything else
-        self.getPasswordCancelledCount=0;
-    }
-    
-    // If we received two back to back skip the second
-    if(self.getPasswordCancelledCount >1){
-        return;
-    }
+        //if any of below viewController is currenlty active, forward this event to update result
+        [self.dashboardViewController updateUIForNotification:event];
+        [self.unlockViewController updateUIForNotification:event];
+        [self.passwordCreationViewController updateUIForNotification:event];
+        [self.easyActivationViewController updateUIForNotification:event];
+        
+        
+        
+        
+        switch (event)
+        {
+            case AuthorizationSucceeded:
+                // Authorization succeeded
+                
+                //Reset
+                
+                // Don't allow getPasswordCancelled again until after we finish deauthorizing
+                self.deauthorizing=NO;
+                self.getPasswordCancelled=NO;
+                self.easyActivation=NO;
+                
+                // For some reason we only get this policy after activation
+                if(self.firstTime==YES){
+                    
+                    NSError *error;
+                    NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];
+                    
+                    // Update the startup file with the email
+                    
+                    [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:email withError:&error];
+                    
+                    // Set firsttime to NO such that after password creation the user will see the trustscore screen
+                    self.firstTime=NO;
+                }
+                
+                break;
+                
+            case AuthorizationFailed:
+                // Authorization failed
+                
+                self.deauthorizing=NO;
+                self.getPasswordCancelled=NO;
+                self.easyActivation=NO;
+                
+                break;
+                
+            case IdleLocked:
+                // Locked from idle timeout
+                
+                // Jason Added:
+                // Need to show unlock screen here since its an idle lock
+                // We don't have a valid result object but just want to show the unlock screen
+                // this prevents someone unauthorized from viewing  dashboard
+                
+                //Deauthorize, this will restart the runtime process
+                
+                // If we are already deauthorizing and receive another GetPasswordCancelled, ignore it to avoid a loop
+                // caused by GetPasswordCancelled constantly re-invoking deauthorization
+                if(self.deauthorizing!=YES){
+                    
+                    [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
+                    
+                    self.deauthorizing=YES;
+                }
+
+                
+                /*
+                 {
+                 DAFWaitableResult *result = nil;
+                 [self showUnlockWithResult:result];
+                 }
+                 */
+                
+                // Present unlock
+                // [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
+                // [self.unlockViewController setResult:self.result];
+                // [self presentViewController:self.unlockViewController animated:NO completion:nil];
+                
+                break;
+                
+            case ChangePasswordSucceeded:
+                // Change password succeeded
+                break;
+                
+            case ChangePasswordFailed:
+                // Change password failed
+                break;
+                
+            case GetPasswordCancelled:
+                // Means that an app requested our services but we are/were already showing the password screen
+                // We should re-run core detection to get new data when this is the case
+                // Therefore, re-request the unlock screen
+                
+                //  if(self.result!=nil){
+                //      self.result=nil;
+                // }
+                // Present unlock
+                //if(self.result !=nil){
+                
+                // Temp removed for testing of unlock otherwise it may run core detection twice
+                //[self showUnlockWithResult:self.result];
+                
+                // If we are already deauthorizing and receive another GetPasswordCancelled, ignore it to avoid a loop
+                // caused by GetPasswordCancelled constantly re-invoking deauthorization
+                if(self.deauthorizing!=YES){
+                    
+                    [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after cancell event"];
+                    
+                    self.deauthorizing=YES;
+                }
+
+                self.getPasswordCancelled=YES;
      
-     
+                break;
+                
+            case AuthenticateWithWarnStarted:
+                /*
+                 [self dismissViewControllerAnimated:NO completion:nil];
+                 [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
+                 [self.unlockViewController setResult:self.result];
+                 [self presentViewController:self.unlockViewController animated:NO completion:nil];
+                 
+                 */
+                
+                self.easyActivation=YES;
+                self.deauthorizing=NO;
+
+                break;
+                
+            default:
+                
+                break;
+        }
     
-    //if any of below viewController is currenlty active, forward this event to update result
-    [self.dashboardViewController updateUIForNotification:event];
-    [self.unlockViewController updateUIForNotification:event];
-    [self.passwordCreationViewController updateUIForNotification:event];
-    [self.easyActivationViewController updateUIForNotification:event];
-    
-    
-    switch (event)
-    {
-        case AuthorizationSucceeded:
-            // Authorization succeeded
-            
-            //Reset
-            self.getPasswordCancelled=NO;
-            self.easyActivation=NO;
-            
-            if(self.firstTime==YES){
-                
-                NSError *error;
-                NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];
-                
-                // Update the startup file with the email
-                
-                [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:email withError:&error];
-                
-                // Set firsttime to NO such that after password creation the user will see the trustscore screen
-                self.firstTime=NO;
-            }
-            
-            break;
-            
-        case AuthorizationFailed:
-            // Authorization failed
-            break;
-            
-        case IdleLocked:
-            // Locked from idle timeout
-            
-            // Jason Added:
-            // Need to show unlock screen here since its an idle lock
-            // We don't have a valid result object but just want to show the unlock screen
-            // this prevents someone unauthorized from viewing  dashboard
-            
-            //Deauthorize, this will restart the runtime process
-            [[DAFAppBase getInstance] deauthorize:@"Result object empty when showing unlockViewController"];
-            
-            /*
-            {
-            DAFWaitableResult *result = nil;
-            [self showUnlockWithResult:result];
-            }
-             */
-            
-            // Present unlock
-            // [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
-            // [self.unlockViewController setResult:self.result];
-            // [self presentViewController:self.unlockViewController animated:NO completion:nil];
-            
-            break;
-            
-        case ChangePasswordSucceeded:
-            // Change password succeeded
-            break;
-            
-        case ChangePasswordFailed:
-            // Change password failed
-            break;
-            
-        case GetPasswordCancelled:
-            // Means that an app requested our services but we are/were already showing the password screen
-            // We should re-run core detection to get new data when this is the case
-            // Therefore, re-request the unlock screen
-            
-            //  if(self.result!=nil){
-            //      self.result=nil;
-            // }
-            // Present unlock
-            //if(self.result !=nil){
-            
-            // Temp removed for testing of unlock otherwise it may run core detection twice
-            //[self showUnlockWithResult:self.result];
-            
-            self.getPasswordCancelled=YES;
-            
-            //Jason Added
-            
-            break;
-            
-        case AuthenticateWithWarnStarted:
-            /*
-             [self dismissViewControllerAnimated:NO completion:nil];
-             [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
-             [self.unlockViewController setResult:self.result];
-             [self presentViewController:self.unlockViewController animated:NO completion:nil];
-             
-             */
-            
-            self.easyActivation=YES;
-            break;
-            
-        default:
-            
-            break;
-    }
 }
 
 
@@ -291,10 +306,10 @@
 - (void) showUnlockWithResult: (DAFWaitableResult *)result {
     
     // Don't show the unlock if we don't have a result as nothing will happen once user enters password
-    if(result==nil){
-        [[DAFAppBase getInstance] deauthorize:@"Result object empty when showing unlockViewController"];
-    }
-    else{
+   // if(result==nil){
+        //[[DAFAppBase getInstance] deauthorize:@"Result object empty when showing unlockViewController"];
+   // }
+   // else{
         
         SentegrityTAF_UnlockViewController *unlockViewController;
         
@@ -318,7 +333,7 @@
         self.unlockViewController = unlockViewController;
         self.currentViewController = unlockViewController;
         
-    }
+    //}
 
     
  
@@ -361,7 +376,8 @@
     
     DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
     
-    //self.dashboardViewController.userClicked = YES;
+    //Allow dashboardViewController to reset deauthorizing if it's foreground is called when mainView is not
+    dashboardViewController.deauthorizing = self.deauthorizing;
     
     // Hide the dashboard view controller
     [dashboardViewController.menuButton setHidden:YES];
