@@ -189,70 +189,87 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUh-7Z-2E7">
-                                <rect key="frame" x="187.5" y="568" width="0.0" height="94"/>
+                                <rect key="frame" x="69" y="583" width="237" height="54"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 hours 12 minutes ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63z-UG-ePO">
-                                        <rect key="frame" x="-196" y="52" width="176" height="22"/>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3TG-fp-I4d">
+                                        <rect key="frame" x="0.0" y="0.0" width="51" height="54"/>
+                                        <state key="normal" image="sentegrity_logo_big_black"/>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lKi-Jt-8hz">
+                                        <rect key="frame" x="61" y="5" width="176" height="44"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last update" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dA2-DQ-LSt">
+                                                <rect key="frame" x="0.0" y="0.0" width="176" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="61" id="5b0-L2-xJ0"/>
+                                                    <constraint firstAttribute="height" constant="15" id="blA-R3-YvQ"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
+                                                <color key="textColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="5b0-L2-xJ0"/>
+                                                        <exclude reference="blA-R3-YvQ"/>
+                                                    </mask>
+                                                </variation>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 hours 12 minutes ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63z-UG-ePO">
+                                                <rect key="frame" x="0.0" y="22" width="176" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="15" id="ZyC-vz-xwh"/>
+                                                    <constraint firstAttribute="width" constant="125.5" id="d9A-Xs-L2S"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
+                                                <color key="textColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="ZyC-vz-xwh"/>
+                                                        <exclude reference="d9A-Xs-L2S"/>
+                                                    </mask>
+                                                </variation>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="15" id="ZyC-vz-xwh"/>
-                                            <constraint firstAttribute="width" constant="125.5" id="d9A-Xs-L2S"/>
+                                            <constraint firstItem="dA2-DQ-LSt" firstAttribute="leading" secondItem="lKi-Jt-8hz" secondAttribute="leading" id="5JT-He-bRe"/>
+                                            <constraint firstItem="dA2-DQ-LSt" firstAttribute="top" secondItem="lKi-Jt-8hz" secondAttribute="top" id="EdY-Ft-yOk"/>
+                                            <constraint firstAttribute="trailing" secondItem="63z-UG-ePO" secondAttribute="trailing" id="Rqd-fz-qLW"/>
+                                            <constraint firstItem="63z-UG-ePO" firstAttribute="leading" secondItem="lKi-Jt-8hz" secondAttribute="leading" id="TrT-hC-pXo"/>
+                                            <constraint firstItem="63z-UG-ePO" firstAttribute="top" secondItem="dA2-DQ-LSt" secondAttribute="bottom" id="UXm-Ld-OMM"/>
+                                            <constraint firstAttribute="bottom" secondItem="63z-UG-ePO" secondAttribute="bottom" id="csd-fe-3JZ"/>
+                                            <constraint firstItem="63z-UG-ePO" firstAttribute="top" secondItem="lKi-Jt-8hz" secondAttribute="top" id="hJs-Kf-8ev"/>
+                                            <constraint firstAttribute="trailing" secondItem="dA2-DQ-LSt" secondAttribute="trailing" id="whu-3Z-lMo"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
-                                        <color key="textColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="ZyC-vz-xwh"/>
-                                                <exclude reference="d9A-Xs-L2S"/>
+                                                <exclude reference="hJs-Kf-8ev"/>
                                             </mask>
                                         </variation>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last update" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dA2-DQ-LSt">
-                                        <rect key="frame" x="-196" y="30" width="176" height="22"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="61" id="5b0-L2-xJ0"/>
-                                            <constraint firstAttribute="height" constant="15" id="blA-R3-YvQ"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
-                                        <color key="textColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="5b0-L2-xJ0"/>
-                                                <exclude reference="blA-R3-YvQ"/>
-                                            </mask>
-                                        </variation>
-                                    </label>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="3TG-fp-I4d" firstAttribute="leading" secondItem="bUh-7Z-2E7" secondAttribute="leading" id="1eI-DP-tTk"/>
+                                    <constraint firstItem="lKi-Jt-8hz" firstAttribute="leading" secondItem="3TG-fp-I4d" secondAttribute="trailing" constant="10" id="1pL-W2-1mT"/>
                                     <constraint firstAttribute="width" constant="203.5" id="95F-HP-l16"/>
-                                    <constraint firstItem="dA2-DQ-LSt" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="top" constant="35" id="Cfw-vN-XXw"/>
-                                    <constraint firstAttribute="bottom" secondItem="63z-UG-ePO" secondAttribute="bottom" constant="20" id="GtS-oM-Z8s"/>
-                                    <constraint firstItem="dA2-DQ-LSt" firstAttribute="height" secondItem="63z-UG-ePO" secondAttribute="height" id="Lzi-dP-TTx"/>
-                                    <constraint firstItem="dA2-DQ-LSt" firstAttribute="width" secondItem="63z-UG-ePO" secondAttribute="width" id="PjM-Q7-jj6"/>
-                                    <constraint firstAttribute="bottom" secondItem="63z-UG-ePO" secondAttribute="bottom" constant="35" id="Qhk-Kg-P0F"/>
+                                    <constraint firstAttribute="bottom" secondItem="3TG-fp-I4d" secondAttribute="bottom" id="NDn-ho-cpt"/>
+                                    <constraint firstAttribute="bottom" secondItem="lKi-Jt-8hz" secondAttribute="bottom" id="QRI-rZ-xdM"/>
                                     <constraint firstAttribute="height" constant="70" id="R85-yZ-dcb"/>
-                                    <constraint firstItem="dA2-DQ-LSt" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="top" constant="35" id="Sbk-Od-9gO"/>
-                                    <constraint firstAttribute="trailing" secondItem="63z-UG-ePO" secondAttribute="trailing" constant="70.5" id="UUg-ll-0FF"/>
-                                    <constraint firstItem="dA2-DQ-LSt" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="top" constant="30" id="akt-PF-zcK"/>
-                                    <constraint firstItem="63z-UG-ePO" firstAttribute="top" secondItem="dA2-DQ-LSt" secondAttribute="bottom" id="iU0-2Y-d1D"/>
-                                    <constraint firstAttribute="trailing" secondItem="63z-UG-ePO" secondAttribute="trailing" constant="20" id="lBv-GO-7n5"/>
-                                    <constraint firstAttribute="bottom" secondItem="63z-UG-ePO" secondAttribute="bottom" constant="35" id="szG-gd-F8d"/>
-                                    <constraint firstAttribute="trailing" secondItem="dA2-DQ-LSt" secondAttribute="trailing" constant="20" id="vAg-Nr-iIx"/>
-                                    <constraint firstItem="dA2-DQ-LSt" firstAttribute="centerX" secondItem="63z-UG-ePO" secondAttribute="centerX" id="vCt-ag-m6d"/>
-                                    <constraint firstItem="63z-UG-ePO" firstAttribute="top" secondItem="dA2-DQ-LSt" secondAttribute="bottom" id="xzT-B9-OPU"/>
+                                    <constraint firstAttribute="trailing" secondItem="lKi-Jt-8hz" secondAttribute="trailing" id="VlZ-IT-UA0"/>
+                                    <constraint firstItem="3TG-fp-I4d" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="top" id="haS-VX-e2V"/>
+                                    <constraint firstItem="3TG-fp-I4d" firstAttribute="leading" secondItem="lKi-Jt-8hz" secondAttribute="trailing" id="p8B-eM-NYL"/>
+                                    <constraint firstItem="lKi-Jt-8hz" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="top" id="zfn-hX-s4a"/>
+                                    <constraint firstItem="lKi-Jt-8hz" firstAttribute="centerY" secondItem="bUh-7Z-2E7" secondAttribute="centerY" id="zrL-sL-4h0"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="95F-HP-l16"/>
                                         <exclude reference="R85-yZ-dcb"/>
-                                        <exclude reference="Cfw-vN-XXw"/>
-                                        <exclude reference="Sbk-Od-9gO"/>
-                                        <exclude reference="Qhk-Kg-P0F"/>
-                                        <exclude reference="UUg-ll-0FF"/>
-                                        <exclude reference="szG-gd-F8d"/>
-                                        <exclude reference="xzT-B9-OPU"/>
+                                        <exclude reference="p8B-eM-NYL"/>
+                                        <exclude reference="QRI-rZ-xdM"/>
+                                        <exclude reference="zfn-hX-s4a"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -487,7 +504,7 @@ Anomaly</string>
                             <constraint firstItem="M4l-RB-881" firstAttribute="width" secondItem="9lc-wB-uhH" secondAttribute="width" id="Has-an-JYM"/>
                             <constraint firstItem="S5B-Fj-azv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="108" id="IqE-Ak-HX7"/>
                             <constraint firstItem="rJj-9o-D9L" firstAttribute="top" secondItem="L9x-Hr-dxC" secondAttribute="bottom" constant="435" id="J36-J1-t8O"/>
-                            <constraint firstItem="rJj-9o-D9L" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="bottom" constant="5" id="J5t-we-csI"/>
+                            <constraint firstItem="rJj-9o-D9L" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="bottom" constant="30" id="J5t-we-csI"/>
                             <constraint firstItem="Myw-L9-ttt" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="JKk-wk-GPY"/>
                             <constraint firstItem="L9x-Hr-dxC" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="116" id="JoC-vu-Lc7"/>
                             <constraint firstItem="Myw-L9-ttt" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="13" id="KaZ-82-M5s"/>
@@ -1667,5 +1684,6 @@ Anomaly</string>
         <image name="SplashScreen" width="640" height="960"/>
         <image name="User_Grey" width="128" height="128"/>
         <image name="good_small_logo" width="82" height="26"/>
+        <image name="sentegrity_logo_big_black" width="51" height="54"/>
     </resources>
 </document>
