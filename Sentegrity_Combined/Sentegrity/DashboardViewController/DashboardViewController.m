@@ -102,7 +102,7 @@ static MBProgressHUD *HUD;
     [self updateComputationResults:self];
     
     // Reset if this foreground is called and not main, prevents loop inside main when deauthorizing=YES from the last time (and authorizationSuccess was not called)
-    self.deauthorizing=NO;
+    self.deauthorizing= [NSNumber numberWithInteger:0];
     
     // Customize the view
     //[self customizeView];

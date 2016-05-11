@@ -32,7 +32,7 @@
 }
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
-    self.deauthorizing=NO;
+   self.deauthorizing= [NSNumber numberWithInteger:0];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,7 +115,7 @@
                 //Reset
                 
                 // Don't allow getPasswordCancelled again until after we finish deauthorizing
-                self.deauthorizing=NO;
+                self.deauthorizing= [NSNumber numberWithInteger:0];
                 self.getPasswordCancelled=NO;
                 self.easyActivation=NO;
                 
@@ -138,7 +138,7 @@
             case AuthorizationFailed:
                 // Authorization failed
                 
-                self.deauthorizing=NO;
+                self.deauthorizing= [NSNumber numberWithInteger:0];
                 self.getPasswordCancelled=NO;
                 self.easyActivation=NO;
                 
@@ -156,13 +156,17 @@
                 
                 // If we are already deauthorizing and receive another GetPasswordCancelled, ignore it to avoid a loop
                 // caused by GetPasswordCancelled constantly re-invoking deauthorization
-                if(self.deauthorizing!=YES){
+                
+                // Removed because it shouldnt be necessary to deauth here
+                /*
+                if(*self.deauthorizing==0){
                     
                     [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
                     
-                    self.deauthorizing=YES;
+                    *self.deauthorizing=1;
                 }
 
+                 */
                 
                 /*
                  {
@@ -202,13 +206,17 @@
                 
                 // If we are already deauthorizing and receive another GetPasswordCancelled, ignore it to avoid a loop
                 // caused by GetPasswordCancelled constantly re-invoking deauthorization
-                if(self.deauthorizing!=YES){
+                
+                // This may trigger the DAF to restart auth
+                self.result=nil;
+                /*
+                if([self.deauthorizing intValue]==0){
                     
                     [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after cancell event"];
                     
-                    self.deauthorizing=YES;
+                    self.deauthorizing=[NSNumber numberWithInteger:1];
                 }
-
+                 */
                 self.getPasswordCancelled=YES;
      
                 break;
@@ -223,7 +231,7 @@
                  */
                 
                 self.easyActivation=YES;
-                self.deauthorizing=NO;
+                self.deauthorizing= [NSNumber numberWithInteger:0];
 
                 break;
                 

@@ -148,6 +148,7 @@
         [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
                                              code:101
                                          userInfo:@{NSLocalizedDescriptionKey:@"Change password cancelled"} ]];
+        
     }
     else if (event==GetPasswordCancelled  && result != nil) {
         
@@ -155,6 +156,8 @@
         [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
                                              code:102
                                          userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
+        result=nil;
+        
     }
     else if (event == AuthenticateWithWarnStarted)
     {

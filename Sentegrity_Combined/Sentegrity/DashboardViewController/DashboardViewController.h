@@ -25,7 +25,7 @@
 // Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
-@property (atomic) BOOL deauthorizing;
+@property (atomic) NSNumber * deauthorizing;
 
 /** Properties **/
 
