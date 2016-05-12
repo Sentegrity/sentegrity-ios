@@ -166,7 +166,7 @@ static MBProgressHUD *HUD;
     
     // Set the menu button
     //Default to hidden and allow other VCs to change it (e.g., unlock)
-    [self.menuButton setHidden:YES];
+    [self.menuButton setHidden:NO];
     
     
      [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];

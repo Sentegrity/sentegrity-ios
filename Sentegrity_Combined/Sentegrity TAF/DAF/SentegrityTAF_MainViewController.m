@@ -11,6 +11,9 @@
 
 #import "SentegrityTAF_MainViewController.h"
 
+// Side Menu
+#import "RESideMenu.h"
+
 
 @interface SentegrityTAF_MainViewController () <SentegrityTAF_basicProtocol>
 {
@@ -400,10 +403,13 @@
     // Set the last-updated text and reload button hidden
     [dashboardViewController.reloadButton setHidden:YES];
     
+    //added to support right menu for debugging
+    RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:nil rightMenuViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"rightmenuviewcontroller"]];
+
     
     //set new screen and state
     self.currentState = CurrentStateDashboard;
-    self.currentViewController = navController;
+    self.currentViewController = sideMenuViewController;
     self.dashboardViewController = dashboardViewController;
 }
 
