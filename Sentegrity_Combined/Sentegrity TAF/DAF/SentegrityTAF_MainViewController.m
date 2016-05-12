@@ -158,15 +158,8 @@
                 // caused by GetPasswordCancelled constantly re-invoking deauthorization
                 
                 // Removed because it shouldnt be necessary to deauth here
-                /*
-                if(*self.deauthorizing==0){
-                    
-                    [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
-                    
-                    *self.deauthorizing=1;
-                }
 
-                 */
+                [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
                 
                 /*
                  {
