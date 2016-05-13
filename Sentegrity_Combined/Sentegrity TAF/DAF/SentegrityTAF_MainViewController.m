@@ -118,14 +118,21 @@
                 //Reset
                 
                 // Don't allow getPasswordCancelled again until after we finish deauthorizing
+            {
                 self.deauthorizing= NO;
                 self.getPasswordCancelled=NO;
                 self.easyActivation=NO;
                 
+                NSError *error;
+                
+                NSString *currentEmail = [[[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error] email];
+                
+                
                 // For some reason we only get this policy after activation
-                if(self.firstTime==YES){
+                // but check everytime if does not get set for whatever reason
+                if(self.firstTime==YES || [currentEmail isEqualToString:@"email@notset.com"])
+                {
                     
-                    NSError *error;
                     NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];
                     
                     // Update the startup file with the email
@@ -135,6 +142,7 @@
                     // Set firsttime to NO such that after password creation the user will see the trustscore screen
                     self.firstTime=NO;
                 }
+            }
                 
                 break;
                 

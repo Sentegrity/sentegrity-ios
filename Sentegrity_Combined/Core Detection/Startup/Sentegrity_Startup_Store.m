@@ -252,7 +252,7 @@
     [self.currentStartupStore setLastState:@""];
     // We set a dummy email here becaue we dont have access to the GD enterprise policy yet to provide the true email
     
-    [self.currentStartupStore setEmail:@"email@notfound.com"];
+    [self.currentStartupStore setEmail:@"email@notset.com"];
     NSArray *empty = [[NSArray alloc]init];
     [self.currentStartupStore setRunHistoryObjects:empty];
     [self.currentStartupStore setTransparentAuthKeyObjects:empty];
