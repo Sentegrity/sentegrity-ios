@@ -35,7 +35,7 @@
 }
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
-   self.deauthorizing= [NSNumber numberWithInteger:0];
+   self.deauthorizing=NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,7 +118,7 @@
                 //Reset
                 
                 // Don't allow getPasswordCancelled again until after we finish deauthorizing
-                self.deauthorizing= [NSNumber numberWithInteger:0];
+                self.deauthorizing= NO;
                 self.getPasswordCancelled=NO;
                 self.easyActivation=NO;
                 
@@ -141,7 +141,7 @@
             case AuthorizationFailed:
                 // Authorization failed
                 
-                self.deauthorizing= [NSNumber numberWithInteger:0];
+                self.deauthorizing=NO;
                 self.getPasswordCancelled=NO;
                 self.easyActivation=NO;
                 
@@ -161,8 +161,12 @@
                 // caused by GetPasswordCancelled constantly re-invoking deauthorization
                 
                 // Removed because it shouldnt be necessary to deauth here
-
-                [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
+                if(self.deauthorizing==NO){
+                    [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
+                    self.deauthorizing=YES;
+                }
+                
+                //self.result=nil;
                 
                 /*
                  {
@@ -176,14 +180,6 @@
                 // [self.unlockViewController setResult:self.result];
                 // [self presentViewController:self.unlockViewController animated:NO completion:nil];
                 
-                break;
-                
-            case ChangePasswordSucceeded:
-                // Change password succeeded
-                break;
-                
-            case ChangePasswordFailed:
-                // Change password failed
                 break;
                 
             case GetPasswordCancelled:
@@ -204,7 +200,12 @@
                 // caused by GetPasswordCancelled constantly re-invoking deauthorization
                 
                 // This may trigger the DAF to restart auth
-                self.result=nil;
+                if(self.result==nil && self.deauthorizing==NO){
+                    [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
+                    self.deauthorizing=YES;
+                }
+                //self.result=nil;
+                
                 /*
                 if([self.deauthorizing intValue]==0){
                     
@@ -225,9 +226,8 @@
                  [self presentViewController:self.unlockViewController animated:NO completion:nil];
                  
                  */
-                
                 self.easyActivation=YES;
-                self.deauthorizing= [NSNumber numberWithInteger:0];
+                self.deauthorizing=NO;
 
                 break;
                 
@@ -309,12 +309,8 @@
 
 - (void) showUnlockWithResult: (DAFWaitableResult *)result{
     
-    // Don't show the unlock if we don't have a result as nothing will happen once user enters password
-   // if(result==nil){
-        //[[DAFAppBase getInstance] deauthorize:@"Result object empty when showing unlockViewController"];
-   // }
-   // else{
-        
+    self.deauthorizing=NO;
+    
         SentegrityTAF_UnlockViewController *unlockViewController;
         
         // Get the nib for the device
@@ -379,7 +375,7 @@
     DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
     
     //Allow dashboardViewController to reset deauthorizing if it's foreground is called when mainView is not
-    dashboardViewController.deauthorizing = self.deauthorizing;
+    //dashboardViewController.deauthorizing = self.deauthorizing;
     
     // Hide the dashboard view controller
     [dashboardViewController.menuButton setHidden:YES];

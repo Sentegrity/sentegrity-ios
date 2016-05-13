@@ -247,7 +247,7 @@
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.buttonInfo.alpha = 0.0;
         self.inputContainer.alpha = 1.0;
-        self.buttonSentegrity.alpha = 1.0;
+        self.buttonSentegrity.alpha = 0.5;
     } completion:^(BOOL finished) {
         
     }];
@@ -256,13 +256,14 @@
 // Show the TAF Dashboard
 - (IBAction)pressedSentegrityLogo:(id)sender {
 
+    // removed for pilot
+    
+    /*
     // Show the landing page since we've been transparently authenticated
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     // Create the main view controller
      self.dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
-    
-    //self.dashboardViewController.userClicked = YES;
     
     // Hide the dashboard view controller
     [self.dashboardViewController.menuButton setHidden:YES];
@@ -292,6 +293,8 @@
         [self.dashboardViewController.backButton setHidden:NO];
         
     }];
+     
+     */
     
 }
 
@@ -371,9 +374,6 @@
 
     once = YES;
     
-    // Reset it
-    [self.dashboardViewController setUserClickedBack:NO];
-   
     
 }
 

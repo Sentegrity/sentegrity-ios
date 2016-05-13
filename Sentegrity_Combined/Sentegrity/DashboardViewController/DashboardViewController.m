@@ -101,8 +101,6 @@ static MBProgressHUD *HUD;
     
     [self updateComputationResults:self];
     
-    // Reset if this foreground is called and not main, prevents loop inside main when deauthorizing=YES from the last time (and authorizationSuccess was not called)
-    self.deauthorizing= [NSNumber numberWithInteger:0];
     
     // Customize the view
     //[self customizeView];
@@ -135,8 +133,6 @@ static MBProgressHUD *HUD;
 // Set up the customizations for the view
 - (void)customizeView {
 
-    // Default the back bool
-    //self.userClickedBack=NO;
     // Set the background color
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
@@ -332,7 +328,6 @@ static MBProgressHUD *HUD;
 // Go back
 - (IBAction)goBack:(id)sender {
     
-    self.userClickedBack = YES;
     // Go back
     [self dismissViewControllerAnimated:NO completion:nil];
     

@@ -189,9 +189,9 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUh-7Z-2E7">
-                                <rect key="frame" x="69" y="583" width="237" height="54"/>
+                                <rect key="frame" x="69" y="598" width="237" height="54"/>
                                 <subviews>
-                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3TG-fp-I4d">
+                                    <button opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3TG-fp-I4d">
                                         <rect key="frame" x="0.0" y="0.0" width="51" height="54"/>
                                         <state key="normal" image="sentegrity_logo_big_black"/>
                                     </button>
@@ -504,7 +504,7 @@ Anomaly</string>
                             <constraint firstItem="M4l-RB-881" firstAttribute="width" secondItem="9lc-wB-uhH" secondAttribute="width" id="Has-an-JYM"/>
                             <constraint firstItem="S5B-Fj-azv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="108" id="IqE-Ak-HX7"/>
                             <constraint firstItem="rJj-9o-D9L" firstAttribute="top" secondItem="L9x-Hr-dxC" secondAttribute="bottom" constant="435" id="J36-J1-t8O"/>
-                            <constraint firstItem="rJj-9o-D9L" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="bottom" constant="30" id="J5t-we-csI"/>
+                            <constraint firstItem="rJj-9o-D9L" firstAttribute="top" secondItem="bUh-7Z-2E7" secondAttribute="bottom" constant="15" id="J5t-we-csI"/>
                             <constraint firstItem="Myw-L9-ttt" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="JKk-wk-GPY"/>
                             <constraint firstItem="L9x-Hr-dxC" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="116" id="JoC-vu-Lc7"/>
                             <constraint firstItem="Myw-L9-ttt" firstAttribute="top" secondItem="jhk-cL-lJ9" secondAttribute="bottom" constant="13" id="KaZ-82-M5s"/>

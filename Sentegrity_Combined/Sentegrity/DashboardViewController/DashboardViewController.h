@@ -25,12 +25,6 @@
 // Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
-@property (atomic) NSNumber * deauthorizing;
-
-/** Properties **/
-
-@property (atomic) BOOL userClickedBack;
-
 
 /* Main Progress Bar */
 

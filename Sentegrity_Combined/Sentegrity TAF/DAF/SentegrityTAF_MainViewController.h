@@ -60,9 +60,9 @@ typedef enum {
 @property (nonatomic) CurrentState currentState;
 
 
-@property (atomic) NSNumber * deauthorizing;
+@property (atomic) BOOL deauthorizing;
 @property (atomic) BOOL firstTime;
-
+@property (atomic) BOOL idleLocked;
 @property (atomic) BOOL easyActivation;
 @property (atomic) BOOL getPasswordCancelled;
 
