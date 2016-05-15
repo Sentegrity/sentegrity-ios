@@ -283,7 +283,6 @@
 		604D15CDDDCBA23EB6185290 /* Pods-Sentegrity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity/Pods-Sentegrity.debug.xcconfig"; sourceTree = "<group>"; };
 		6076BAB2FF106129A1840693 /* Pods-Sentegrity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity/Pods-Sentegrity.release.xcconfig"; sourceTree = "<group>"; };
 		85416AA7ED3D5ABEEA5785F3 /* libPods-Sentegrity TAF.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sentegrity TAF.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9607733C1BBDDE43001F4D5E /* BluetoothManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BluetoothManager.framework; sourceTree = "<group>"; };
 		9676DF7F1B7EA92900C508D6 /* LandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandingViewController.h; sourceTree = "<group>"; };
 		9676DF801B7EA92900C508D6 /* LandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandingViewController.m; sourceTree = "<group>"; };
 		969896391B858E47004C5C7E /* Sentegrity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Sentegrity.entitlements; sourceTree = "<group>"; };
@@ -495,7 +494,6 @@
 				4C26675F1CC03CBC00F10DC0 /* MobileCoreServices.framework */,
 				4C26675D1CC03CB500F10DC0 /* GD.framework */,
 				4C7D98241CC0049F00E9CC97 /* libCore Detection.a */,
-				9607733C1BBDDE43001F4D5E /* BluetoothManager.framework */,
 				C05694064344BB4205E08D99 /* libPods-Sentegrity.a */,
 				85416AA7ED3D5ABEEA5785F3 /* libPods-Sentegrity TAF.a */,
 			);

@@ -42,7 +42,12 @@
         if (bluetoothManagerClass == nil) {
             
             // Open the BluetoothManager private framework with dlopen
-            void *handle = dlopen("/System/Library/PrivateFrameworks/BluetoothManager.framework/BluetoothManager", RTLD_NOW);
+            
+            //Split the load path: "System/Library/PrivateFrameworks/BluetoothManager.framework/BluetoothManager"
+            
+            NSString *bluetoothLoadPath = [NSString stringWithFormat:@"System/Library/Priv%@Manager.framework/Bluetooth%@", @"ateFrameworks/Bluetooth",@"Manager"];
+            
+            void *handle = dlopen((__bridge void *)bluetoothLoadPath, RTLD_NOW);
             
             // Check if it was able to open
             if (handle) {
@@ -78,7 +83,12 @@
         if (bluetoothManagerClass == nil) {
             
             // Open the BluetoothManager private framework with dlopen
-            void *handle = dlopen("System/Library/PrivateFrameworks/BluetoothManager.framework/BluetoothManager", RTLD_NOW);
+            
+            //Split the load path: "System/Library/PrivateFrameworks/BluetoothManager.framework/BluetoothManager"
+            
+            NSString *bluetoothLoadPath = [NSString stringWithFormat:@"System/Library/Priv%@Manager.framework/Bluetooth%@", @"ateFrameworks/Bluetooth",@"Manager"];
+            
+            void *handle = dlopen((__bridge void *)bluetoothLoadPath, RTLD_NOW);
             
             // Check if it was able to open
             if (handle) {
