@@ -539,6 +539,14 @@ static BOOL bluetoothObservingStarted;
 
 - (void)startBluetoothClassic {
     
+    //avoid calling bluetooth manager if it is still default policy
+    NSNumber *isDefault = [[NSUserDefaults standardUserDefaults] objectForKey:@"isDefault"];
+    if (isDefault == nil || isDefault.boolValue == YES) {
+        //set empty array and return
+        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:@[]];
+        return;
+    }
+    
     if (bluetoothObservingStarted) {
         // Called startBluetoothClassic for the first time, lets start our BluetoothManager
         NSArray *array = [[MDBluetoothManager sharedInstance] connectedDevices];
@@ -551,7 +559,7 @@ static BOOL bluetoothObservingStarted;
         
         // Set which classic bluetooth devices are set.
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:[NSArray arrayWithArray:connectedClassicBTDevices]];
-        
+
     } else {
         [[MDBluetoothManager sharedInstance] registerObserver:self];
     }
