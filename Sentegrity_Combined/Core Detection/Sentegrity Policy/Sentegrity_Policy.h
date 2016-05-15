@@ -11,7 +11,7 @@
 
 @interface Sentegrity_Policy : NSObject
 
-@property (nonatomic,retain) NSNumber *policyID;
+@property (nonatomic,retain) NSString *policyID;
 @property (nonatomic,retain) NSNumber *transparentAuthDecayMetric;
 @property (nonatomic,retain) NSNumber *transparentAuthEnabled;
 @property (nonatomic,retain) NSNumber *revision;
@@ -30,7 +30,6 @@
 @property (nonatomic,retain) NSArray *trustFactors;
 @property (nonatomic,retain) NSNumber *statusUploadRunFrequency;
 @property (nonatomic,retain) NSNumber *statusUploadTimeFrequency;
-
 
 
 @end

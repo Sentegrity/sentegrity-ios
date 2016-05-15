@@ -1,5 +1,5 @@
 {
-"policyID": 1,
+"policyID": "1",
 "appID": "default",
 "revision": 12,
 "userThreshold": 75,

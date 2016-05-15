@@ -13,8 +13,9 @@
 
 #pragma mark - Override setters
 
+
 // Policy ID
-- (void)setPolicyID:(NSNumber *)policyID{
+- (void)setPolicyID:(NSString *)policyID{
     _policyID = policyID;
 }
 
