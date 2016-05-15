@@ -110,29 +110,11 @@
         
         //policy information
         [dic setObject:currentPolicy.revision forKey:@"policyRevision"];
-        
-        //check if policy is number
-        BOOL isNumber;
-        NSCharacterSet *alphaNums = [NSCharacterSet decimalDigitCharacterSet];
-        NSCharacterSet *inStringSet = [NSCharacterSet characterSetWithCharactersInString:currentPolicy.policyID];
-        isNumber = [alphaNums isSupersetOfSet:inStringSet];
-        
-        if (isNumber) {
-            //policy contains only numbers, we need to append domain name
-            NSMutableString *policyID = [NSMutableString stringWithString:currentPolicy.policyID];
-            
-            //get domain name of email and insert it at the beginning of the string
-            NSArray *parts= [currentStartup.email componentsSeparatedByString: @"@"];
-            [policyID insertString:[NSString stringWithFormat:@"%@_", parts[1]] atIndex:0];
-            [dic setObject:policyID forKey:@"policyID"];
-        }
-        else {
-            [dic setObject:currentPolicy.policyID forKey:@"policyID"];
-        }
-        
-        //device salt and email
-        [dic setObject:currentStartup.deviceSaltString forKey:@"deviceSalt"];
+        [dic setObject:currentPolicy.policyID forKey:@"policyID"];
         [dic setObject:email forKey:@"email"];
+
+        //device salt
+        [dic setObject:currentStartup.deviceSaltString forKey:@"deviceSalt"];
 
         [self.sessionManager uploadReport:dic withCallback:^(BOOL success, NSDictionary *responseObject, NSError *error) {
             if (!success) {
