@@ -558,13 +558,13 @@
     
     NSString *carrierName = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionName];
     
-    if(!carrierName || carrierName==nil){
+    if(!carrierName || carrierName==nil || [carrierName isEqualToString:@""]){
         carrierName = @"None";
     }
     
     NSString *carrierConnectionSpeed = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getCarrierConnectionSpeed];
     
-    if(!carrierConnectionSpeed || carrierConnectionSpeed==nil){
+    if(!carrierConnectionSpeed || carrierConnectionSpeed==nil || [carrierName isEqualToString:@""]){
         carrierConnectionSpeed = @"None";
     }
     
@@ -585,7 +585,7 @@
     NSString *celluar;
     
     // Probably in airplane mode or no signal
-    if(signal==nil || !signal){
+    if(signal==nil || !signal || [signal intValue]==0){
         
         // First check airplanbe mode
         NSNumber *enabled = [[Sentegrity_TrustFactor_Datasets sharedDatasets] isAirplaneMode];

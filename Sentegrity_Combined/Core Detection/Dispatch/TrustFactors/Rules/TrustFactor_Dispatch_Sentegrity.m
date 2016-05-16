@@ -36,6 +36,9 @@ struct encryption_info_command
 // Provisioning (returns nothing if not found)
 + (Sentegrity_TrustFactor_Output_Object *)tamper:(NSArray *)payload {
     
+    // This will crash the app if its connected to a debugger
+    // [self denyAttach];
+    
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     
     // Set the default status code to OK (default = DNEStatus_ok)
@@ -156,7 +159,7 @@ struct encryption_info_command
  }
  
  //this is for testing, may use later
- //[self denyAttach];
+
  
  //check for P_TRACE
  

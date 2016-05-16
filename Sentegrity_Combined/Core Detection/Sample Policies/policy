@@ -1,6 +1,6 @@
 {
 "policyID": "default",
-"revision": 12,
+"revision": 1,
 "userThreshold": 75,
 "systemThreshold": 30,
 "minimumTransparentAuthEntropy": 2,
