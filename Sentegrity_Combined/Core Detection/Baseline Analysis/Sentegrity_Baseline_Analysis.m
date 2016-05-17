@@ -118,7 +118,7 @@
             *error = [NSError errorWithDomain:@"Sentegrity" code:SAInvalidStoredTrustFactorObjectsProvided userInfo:errorDetails];
             
             // Log Error
-            NSLog(@"Failed to Add trustFactorOutputObject: %@", errorDetails);
+            NSLog(@"Empty TrustFactor Object detected in baseline analysis %@", errorDetails);
             
             // Don't return anything
             if (policy.continueOnError.intValue == 1) {

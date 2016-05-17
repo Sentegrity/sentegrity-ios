@@ -11,6 +11,9 @@
 #import "Sentegrity_Constants.h"
 #import "CoreDetection.h"
 #import "Sentegrity_Startup_Store.h"
+// Parser
+#import "Sentegrity_Policy_Parser.h"
+#import "Sentegrity_Policy.h"
 
 // Import the objc runtime to get class by name
 #import <objc/runtime.h>
@@ -32,8 +35,11 @@
     // Create a bool for the timeout
     BOOL timeoutHit = NO;
     
-    // Set allowPrivateAPI
-    int allowPrivateAPIs = kAllowsPrivateAPIs;
+    
+    // Get the policy to set privateAPI
+    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:error];
+    
+    int allowPrivateAPIs = [policy.allowPrivateAPIs intValue];
     
     // Make an array to pass back
     NSMutableArray *processedTrustFactorArray = [NSMutableArray arrayWithCapacity:trustFactors.count];
@@ -125,6 +131,8 @@
         
         // Skip privateAPI TFs - if privateAPI is off
         if (allowPrivateAPIs == 0 && trustFactor.privateAPI.intValue == 1) {
+            
+            
             continue;
         }
         

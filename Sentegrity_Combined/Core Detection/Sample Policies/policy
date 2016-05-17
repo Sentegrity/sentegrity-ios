@@ -1,8 +1,9 @@
 {
 "policyID": "default",
-"revision": 1,
+"revision": 3,
 "userThreshold": 75,
 "systemThreshold": 30,
+"allowPrivateAPIs": 0,
 "minimumTransparentAuthEntropy": 2,
 "continueOnError": 1,
 "timeout": 3,
@@ -237,6 +238,18 @@
 "dneNoData": "",
 "dneExpired": "",
 "dneInvalid": "Device position invalid",
+"weight": 1
+},
+{
+"id": 15,
+"name": "Good NOC",
+"dneUnauthorized": "",
+"dneUnsupported": "",
+"dneUnavailable": "",
+"dneDisabled": "",
+"dneNoData": "",
+"dneExpired": "",
+"dneInvalid": "",
 "weight": 1
 }
 ],
@@ -1296,6 +1309,32 @@
 {
 "id": 37,
 "notFoundIssueMessage": "",
+"notFoundSuggestionMessage": "",
+"lowConfidenceIssueMessage": "",
+"lowConfidenceSuggestionMessage": "",
+"revision": 1,
+"classID": 3,
+"subClassID": 15,
+"name": "Good NOC",
+"transparentEligible": 0,
+"partialWeight": 0,
+"weight": 10,
+"learnMode": 0,
+"learnTime": 0,
+"learnAssertionCount": 0,
+"learnRunCount": 0,
+"decayMode": 1,
+"decayMetric": 0.9,
+"wipeOnUpdate": 0,
+"dispatch": "Netstat",
+"implementation": "goodDNS:",
+"whitelistable": 1,
+"privateAPI": 0,
+"payload": []
+},
+{
+"id": 38,
+"notFoundIssueMessage": "",
 "notFoundSuggestionMessage": "Pair a Bluetooth device",
 "lowConfidenceIssueMessage": "",
 "lowConfidenceSuggestionMessage": "Use Bluetooth device frequently",
@@ -1320,7 +1359,7 @@
 "payload": []
 },
 {
-"id": 38,
+"id": 39,
 "notFoundIssueMessage": "",
 "notFoundSuggestionMessage": "Pair a Bluetooth device",
 "lowConfidenceIssueMessage": "",
@@ -1346,7 +1385,7 @@
 "payload": []
 },
 {
-"id": 39,
+"id": 40,
 "notFoundIssueMessage": "Unknown Area",
 "notFoundSuggestionMessage": "Access area frequently",
 "lowConfidenceIssueMessage": "Uncommon area",
@@ -1368,7 +1407,7 @@
 "dispatch": "Location",
 "implementation": "locationApprox:",
 "whitelistable": 1,
-"privateAPI": 1,
+"privateAPI": 0,
 "payload": [
 {
 "brightnessBlocksizeWithLocation" : 3,
@@ -1383,7 +1422,7 @@
 ]
 },
 {
-"id": 40,
+"id": 41,
 "notFoundIssueMessage": "Unknown location",
 "notFoundSuggestionMessage": "Access location frequently",
 "lowConfidenceIssueMessage": "Uncommon location",
@@ -1414,7 +1453,7 @@
 ]
 },
 {
-"id": 41,
+"id": 42,
 "notFoundIssueMessage": "No Bluetooth scan devices found",
 "notFoundSuggestionMessage": "",
 "lowConfidenceIssueMessage": "",

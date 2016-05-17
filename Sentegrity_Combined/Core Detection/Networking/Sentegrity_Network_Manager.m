@@ -158,9 +158,9 @@
                     
                     //everything succesfull
                     if (callback) {
-                        //if we got new policy that is not default, set new flag to NSUserDefaults
-                        if (![policy.policyID isEqualToString:@"default"]) {
-                            [[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:@"isDefault"];
+                        //if we got new policy that specified we should use private APIs set new flag to NSUserDefaults
+                        if ([policy.allowPrivateAPIs intValue]==1) {
+                            [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"allowPrivate"];
                             [[NSUserDefaults standardUserDefaults] synchronize];
                         }
                         

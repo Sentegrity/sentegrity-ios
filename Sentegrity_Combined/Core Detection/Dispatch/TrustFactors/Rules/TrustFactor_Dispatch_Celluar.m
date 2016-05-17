@@ -28,7 +28,8 @@
     if (!carrierConnectionInfo || carrierConnectionInfo == nil || carrierConnectionInfo.length < 1) {
         
         // Set the DNE status code to NODATA
-        [trustFactorOutputObject setStatusCode:DNEStatus_error];
+        // this avoids showing "error" when using default policy and the statusbar checks are not run
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
         
         // Return with the blank output object
         return trustFactorOutputObject;

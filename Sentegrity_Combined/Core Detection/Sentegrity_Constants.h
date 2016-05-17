@@ -19,8 +19,6 @@
 // TODO: Beta only
 #define kUniqueDeviceID                 @"1234567890"
 
-// Allows Private API's?
-#define kAllowsPrivateAPIs              1
 
 #pragma mark - Defaults
 

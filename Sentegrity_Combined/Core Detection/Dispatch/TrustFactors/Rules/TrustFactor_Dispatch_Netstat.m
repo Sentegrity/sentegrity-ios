@@ -262,6 +262,36 @@
     
 }
 
+
+// Data Exfiltration
++ (Sentegrity_TrustFactor_Output_Object *)goodDNS:(NSArray *)payload {
+    
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] initWithCapacity:payload.count];
+    
+    //gdentgw.good.com
+    //gdrelay.good.com
+    //gdweb.good.com
+    //gdmdc.good.com
+    //bxenroll.good.com
+    //bxcheckin.good.com
+    
+    
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+    
+}
+
 // Data Exfiltration
 + (Sentegrity_TrustFactor_Output_Object *)dataExfiltration:(NSArray *)payload {
     

@@ -539,9 +539,9 @@ static BOOL bluetoothObservingStarted;
 
 - (void)startBluetoothClassic {
     
-    //avoid calling bluetooth manager if it is still default policy
-    NSNumber *isDefault = [[NSUserDefaults standardUserDefaults] objectForKey:@"isDefault"];
-    if (isDefault == nil || isDefault.boolValue == YES) {
+    //avoid calling bluetooth manager if we dont allow private APIs
+    NSNumber *allowPrivate = [[NSUserDefaults standardUserDefaults] objectForKey:@"allowPrivate"];
+    if (allowPrivate == nil || allowPrivate.boolValue == NO) {
         //set empty array and return
         [[Sentegrity_TrustFactor_Datasets sharedDatasets] setConnectedClassicBTDevices:@[]];
         return;

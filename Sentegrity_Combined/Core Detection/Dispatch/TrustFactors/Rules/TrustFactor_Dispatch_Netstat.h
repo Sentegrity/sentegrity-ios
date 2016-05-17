@@ -28,4 +28,7 @@
 // Unencrypted traffic
 + (Sentegrity_TrustFactor_Output_Object *)unencryptedTraffic:(NSArray *)payload;
 
+// Good NOC (TBD)
++ (Sentegrity_TrustFactor_Output_Object *)goodDNS:(NSArray *)payload;
+
 @end

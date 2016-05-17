@@ -31,9 +31,9 @@
             NSNumber *doNotDisturb = [NSNumber numberWithInt:0];
             NSNumber *orientationLock = [NSNumber numberWithInt:0];
 
-            //avoid calling status bar if policy is default
-            NSNumber *isDefault = [[NSUserDefaults standardUserDefaults] objectForKey:@"isDefault"];
-            if (isDefault == nil || isDefault.boolValue == YES) {
+            //avoid calling status bar if were not allowing private APIs
+            NSNumber *allowPrivate = [[NSUserDefaults standardUserDefaults] objectForKey:@"allowPrivate"];
+            if (allowPrivate == nil || allowPrivate.boolValue == NO) {
                 //do nothing
             }
             else {

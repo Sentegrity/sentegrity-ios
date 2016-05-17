@@ -1,4 +1,4 @@
-//
+ //
 //  Sentegrity_TrustFactor_Dataset_Application.m
 //  Sentegrity
 //
@@ -29,7 +29,11 @@
             
             _ApplicationType appType = $_LSUserApplicationType;
             
-            NSArray* apps = [[objc_getClass("LSApplicationWorkspace") defaultWorkspace] applicationsOfType:appType];
+            //This originally objc_getClass() LSApplicationWorkspace
+            //I broke up the string and added (__bridge void *) but now the API call returns nothing
+            
+            NSString *appClass = [NSString stringWithFormat:@"%@%@%@", @"LSA", @"pplication", @"Workspace"];
+            NSArray* apps = [[objc_getClass((__bridge void *)appClass) defaultWorkspace] applicationsOfType:appType];
             apps = [apps filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(LSApplicationProxy *evaluatedObject, NSDictionary *bindings)
                 {
                         return [evaluatedObject localizedShortName].length > 0;
