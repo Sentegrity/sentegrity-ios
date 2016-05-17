@@ -1460,7 +1460,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 					"$(PROJECT_DIR)",
 					"/Good\\ Technology/Good.platform/Frameworks/",
 					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
@@ -1484,7 +1483,7 @@
 					"../**",
 				);
 				INFOPLIST_FILE = "Sentegrity TAF/Supporting Files/SentegrityTAF_Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1521,6 +1520,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1536,7 +1536,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 					"$(PROJECT_DIR)",
 					"/Good\\ Technology/Good.platform/Frameworks/",
 					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
@@ -1561,7 +1560,7 @@
 					"../**",
 				);
 				INFOPLIST_FILE = "Sentegrity TAF/Supporting Files/SentegrityTAF_Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1599,6 +1598,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
