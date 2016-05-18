@@ -146,7 +146,7 @@
         if (self.computationResults.systemSuggestions.count > 0 && self.computationResults.systemSuggestions != nil) {
             
             // Set the suggestions section
-            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"User Suggestions\n" attributes:sectionStringDict];
+            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Device Suggestions\n" attributes:sectionStringDict];
             
             // Append the section
             [systemAttributedString appendAttributedString:section];

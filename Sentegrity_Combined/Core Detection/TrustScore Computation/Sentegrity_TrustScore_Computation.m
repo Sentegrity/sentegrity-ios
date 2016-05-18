@@ -543,49 +543,49 @@
                 
                 // No errors, update analysis message with subclass complete
                 if(!subClassAnalysisIncomplete) {
-                    [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"assessment complete"]];
+                    [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check complete"]];
                     
                     // Subclass contains TFs with issues, identify which, if there are multiple the first (higher priority one is used)
                 } else {
                     
                     if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_disabled]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"assessment disabled"]];
+                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check disabled"]];
                         
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_nodata]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"assessment complete"]];
+                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check complete"]];
                         
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_unauthorized]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"assessment unauthorized"]];
+                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check unauthorized"]];
                         
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_expired]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"assessment expired"]];
+                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check expired"]];
                         
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_unsupported]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"assessment unsupported"]];
+                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check unsupported"]];
                         
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_unavailable]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"assessment unavailable"]];
+                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check unavailable"]];
                         
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_invalid]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"assessment invalid"]];
+                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check invalid"]];
                         
                     }
                     else{
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"assessment error"]];
+                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check error"]];
                     }
                     
                 }

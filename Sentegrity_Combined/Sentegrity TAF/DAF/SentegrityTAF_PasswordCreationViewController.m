@@ -105,7 +105,7 @@
 
     // Password requirements:
     NSDictionary *passwordRequirements = @{
-                                           @"minPasswordLenght" : @(6),
+                                           @"minPasswordLength" : @(6),
                                            @"isAlphaNumeric" : @(YES),
                                            @"isMixedCase" : @(NO),
                                            @"specialCharacter" : @(NO)
@@ -190,6 +190,7 @@
     BOOL digit = NO;
     BOOL character = NO;
     BOOL specialCharacter = NO;
+
     
     if (![requirements[@"isMixedCase"] boolValue]) {
         lowerCaseLetter = YES;
@@ -205,7 +206,7 @@
         specialCharacter = YES;
     }
     
-    if([password length] >= [requirements[@"minPasswordLenght"] boolValue])
+    if([password length] >= [requirements[@"minPasswordLength"] integerValue])
     {
         for (int i = 0; i < [password length]; i++)
         {
@@ -255,13 +256,13 @@
                 [stringM appendString:@"one special character."];
             }
             
-            [self showAlertWithTitle:@"Error" andMessage:stringM];
+            [self showAlertWithTitle:@"Password Requirements" andMessage:stringM];
         }
         
     }
     else
     {
-        [self showAlertWithTitle:@"Error" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", [requirements[@"minPasswordLenght"] integerValue]]];
+        [self showAlertWithTitle:@"Password Requirements" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", [requirements[@"minPasswordLength"] integerValue]]];
         
     }
     

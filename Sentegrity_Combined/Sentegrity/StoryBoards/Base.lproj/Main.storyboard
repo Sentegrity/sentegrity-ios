@@ -857,10 +857,10 @@ Anomaly</string>
                                 </variation>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GUl-6x-yYP">
-                                <rect key="frame" x="37.5" y="385" width="300" height="262"/>
+                                <rect key="frame" x="70" y="385" width="250" height="262"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="xiT-Nz-ZJ0"/>
+                                    <constraint firstAttribute="width" constant="250" id="xiT-Nz-ZJ0"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="332" id="zhf-Xp-e1u"/>
                                 </constraints>
                                 <attributedString key="attributedText"/>
@@ -1321,10 +1321,10 @@ Anomaly</string>
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2lE-6s-aXN">
-                                <rect key="frame" x="37.5" y="385" width="300" height="262"/>
+                                <rect key="frame" x="62.5" y="385" width="250" height="262"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="YDK-tc-jHK"/>
+                                    <constraint firstAttribute="width" constant="250" id="YDK-tc-jHK"/>
                                 </constraints>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits"/>
