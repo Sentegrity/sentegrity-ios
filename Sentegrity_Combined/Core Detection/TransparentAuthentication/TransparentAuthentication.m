@@ -165,7 +165,7 @@
     } // Done checking candidateTransparentKeyHashString
     
     //Temporary for debugging purposes (add on plaintext)
-    computationResults.candidateTransparentKeyHashString = [computationResults.candidateTransparentKeyHashString stringByAppendingFormat:@"-%@",candidateTransparentKeyRawOutputString];
+    //computationResults.candidateTransparentKeyHashString = [computationResults.candidateTransparentKeyHashString stringByAppendingFormat:@"-%@",candidateTransparentKeyRawOutputString];
     
     
     // TODO: Utilize Error

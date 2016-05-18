@@ -105,9 +105,9 @@
 
     // Password requirements:
     NSDictionary *passwordRequirements = @{
-                                           @"minPasswordLenght" : @(4),
+                                           @"minPasswordLenght" : @(6),
                                            @"isAlphaNumeric" : @(YES),
-                                           @"isMixedCase" : @(YES),
+                                           @"isMixedCase" : @(NO),
                                            @"specialCharacter" : @(NO)
                                            };
     
@@ -175,11 +175,10 @@
 
 - (IBAction)pressedInfoButton:(id)sender {
     //Show alert
-    [self showAlertWithTitle:   @"Password requirements!"
+    [self showAlertWithTitle:   @"Password requirements"
                   andMessage:   @"Your password must have:\n"
-                                @"- At least 4 characters\n"
-                                @"- No more than 3 of any character\n"
-                                @"- No personal information"];
+                                @"- At least 6 characters\n"
+                                @"- Alphanumeric"];
 }
 
 

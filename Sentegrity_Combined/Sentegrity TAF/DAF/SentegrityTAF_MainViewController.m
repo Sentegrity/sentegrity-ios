@@ -130,7 +130,7 @@
                 
                 // For some reason we only get this policy after activation
                 // but check everytime if does not get set for whatever reason
-                if(self.firstTime==YES || [currentEmail isEqualToString:@"email@notset.com"])
+                if(self.firstTime==YES || !currentEmail)
                 {
                     
                     NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];

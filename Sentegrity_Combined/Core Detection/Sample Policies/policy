@@ -1355,7 +1355,7 @@
 "dispatch": "Bluetooth",
 "implementation": "connectedClassicDevice:",
 "whitelistable": 1,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": []
 },
 {

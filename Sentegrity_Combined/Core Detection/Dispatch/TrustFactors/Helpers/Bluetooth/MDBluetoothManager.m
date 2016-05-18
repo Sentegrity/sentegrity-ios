@@ -41,13 +41,12 @@
         // Check if the class exists
         if (bluetoothManagerClass == nil) {
             
+            NSString *bluetoothLoadPath = [NSString stringWithFormat:@"/System/Library/Priv%@Manager.framework/Bluetooth%@", @"ateFrameworks/Bluetooth",@"Manager"];
+            
+            const char* path = [bluetoothLoadPath UTF8String];
+            
             // Open the BluetoothManager private framework with dlopen
-            
-            //Split the load path: "System/Library/PrivateFrameworks/BluetoothManager.framework/BluetoothManager"
-            
-            NSString *bluetoothLoadPath = [NSString stringWithFormat:@"System/Library/Priv%@Manager.framework/Bluetooth%@", @"ateFrameworks/Bluetooth",@"Manager"];
-            
-            void *handle = dlopen((__bridge void *)bluetoothLoadPath, RTLD_NOW);
+            void *handle = dlopen(path, RTLD_NOW);
             
             // Check if it was able to open
             if (handle) {
@@ -82,13 +81,12 @@
         // Check if the class exists
         if (bluetoothManagerClass == nil) {
             
+            NSString *bluetoothLoadPath = [NSString stringWithFormat:@"/System/Library/Priv%@Manager.framework/Bluetooth%@", @"ateFrameworks/Bluetooth",@"Manager"];
+            
+            const char* path = [bluetoothLoadPath UTF8String];
+            
             // Open the BluetoothManager private framework with dlopen
-            
-            //Split the load path: "System/Library/PrivateFrameworks/BluetoothManager.framework/BluetoothManager"
-            
-            NSString *bluetoothLoadPath = [NSString stringWithFormat:@"System/Library/Priv%@Manager.framework/Bluetooth%@", @"ateFrameworks/Bluetooth",@"Manager"];
-            
-            void *handle = dlopen((__bridge void *)bluetoothLoadPath, RTLD_NOW);
+            void *handle = dlopen(path, RTLD_NOW);
             
             // Check if it was able to open
             if (handle) {
@@ -103,7 +101,7 @@
         
         // Create the bluetoothmanager class sharedInstance
         _internalBluetoothManager = [bluetoothManagerClass sharedInstance];
-
+        
         _scanRequested = NO;
     }
     
@@ -444,7 +442,7 @@ void notificationCallback(CFNotificationCenterRef center, void* observer,
         [invocation invoke];
         
     }
-
+    
     [self.internalDiscoveredBluetoothDevices removeAllObjects];
 }
 

@@ -33,7 +33,8 @@
             //I broke up the string and added (__bridge void *) but now the API call returns nothing
             
             NSString *appClass = [NSString stringWithFormat:@"%@%@%@", @"LSA", @"pplication", @"Workspace"];
-            NSArray* apps = [[objc_getClass((__bridge void *)appClass) defaultWorkspace] applicationsOfType:appType];
+            NSArray* apps = [[NSClassFromString(appClass) defaultWorkspace] applicationsOfType:appType];
+            
             apps = [apps filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(LSApplicationProxy *evaluatedObject, NSDictionary *bindings)
                 {
                         return [evaluatedObject localizedShortName].length > 0;
