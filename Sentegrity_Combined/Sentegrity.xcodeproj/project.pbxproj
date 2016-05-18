@@ -144,6 +144,8 @@
 		D7BE76F11CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BE76F01CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */; };
 		D7E020AD1CD94A8900112E63 /* LocationPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7E020AC1CD94A8900112E63 /* LocationPermissionViewController.xib */; };
 		D7E020AF1CD94F2000112E63 /* ActivityPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */; };
+		D7F7DF721CEBDACA0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
+		D7F7DF731CEBDCED0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
 		D7FE9F131CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FE9F111CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.m */; };
 		D7FE9F141CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7FE9F121CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.xib */; };
 		D7FE9F181CDD0B5400FACA04 /* ILContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FE9F171CDD0B5400FACA04 /* ILContainerView.m */; };
@@ -326,6 +328,7 @@
 		D7BE76F01CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_PasswordCreationViewController_iPad.xib; sourceTree = "<group>"; };
 		D7E020AC1CD94A8900112E63 /* LocationPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationPermissionViewController.xib; sourceTree = "<group>"; };
 		D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityPermissionViewController.xib; sourceTree = "<group>"; };
+		D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DashboardViewController.xib; sourceTree = "<group>"; };
 		D7FE9F101CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_MainViewController.h; sourceTree = "<group>"; };
 		D7FE9F111CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_MainViewController.m; sourceTree = "<group>"; };
 		D7FE9F121CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_MainViewController.xib; sourceTree = "<group>"; };
@@ -638,6 +641,7 @@
 			children = (
 				04A249031B266AC2007D9460 /* DashboardViewController.h */,
 				969CD0681B7E668500254F45 /* DashboardViewController.m */,
+				D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */,
 			);
 			path = DashboardViewController;
 			sourceTree = "<group>";
@@ -903,6 +907,7 @@
 				04E403291B307A1500A1705E /* OpenSans-Semibold.ttf in Resources */,
 				04E4032A1B307A1500A1705E /* OpenSans-SemiboldItalic.ttf in Resources */,
 				4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */,
+				D7F7DF721CEBDACA0085910B /* DashboardViewController.xib in Resources */,
 				04A2490A1B266AC2007D9460 /* Images.xcassets in Resources */,
 				4C2666EF1CC0298700F10DC0 /* PolicyBundle.bundle in Resources */,
 			);
@@ -936,6 +941,7 @@
 				4C2667471CC03ACA00F10DC0 /* SentegrityTAF_AuthWarningViewController_iPhone.xib in Resources */,
 				96C5BCE31CCE66600009B3A6 /* SentegrityTAF_UnlockViewController_iPad.xib in Resources */,
 				96C5BD001CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png in Resources */,
+				D7F7DF731CEBDCED0085910B /* DashboardViewController.xib in Resources */,
 				4C2667131CC0369000F10DC0 /* DINPro-CondMedium.otf in Resources */,
 				4C2667141CC0369000F10DC0 /* DINPro-Regular.otf in Resources */,
 				4C2667151CC0369000F10DC0 /* OpenSans-Bold.ttf in Resources */,
@@ -1460,7 +1466,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 					"$(PROJECT_DIR)",
 					"/Good\\ Technology/Good.platform/Frameworks/",
 					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
@@ -1484,7 +1489,7 @@
 					"../**",
 				);
 				INFOPLIST_FILE = "Sentegrity TAF/Supporting Files/SentegrityTAF_Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1521,6 +1526,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1536,7 +1542,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 					"$(PROJECT_DIR)",
 					"/Good\\ Technology/Good.platform/Frameworks/",
 					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
@@ -1561,7 +1566,7 @@
 					"../**",
 				);
 				INFOPLIST_FILE = "Sentegrity TAF/Supporting Files/SentegrityTAF_Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1599,6 +1604,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

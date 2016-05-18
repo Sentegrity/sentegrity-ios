@@ -380,7 +380,7 @@
    
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    DashboardViewController *dashboardViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"dashboardviewcontroller"];
+    DashboardViewController *dashboardViewController = [[DashboardViewController alloc] initWithNibName:@"DashboardViewController" bundle:nil];
     
     //Allow dashboardViewController to reset deauthorizing if it's foreground is called when mainView is not
     //dashboardViewController.deauthorizing = self.deauthorizing;
