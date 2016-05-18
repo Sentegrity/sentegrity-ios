@@ -102,16 +102,18 @@
         NSMutableAttributedString *systemAttributedString = [[NSMutableAttributedString alloc] init];
         
         // Create an attributed string dictionary for section info
-        NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0f]};
+        //NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0f]};
+        
+                NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
         
         // Create an attributed string dictionary for content
-        NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.systemStatusLabel.font.fontName size:20.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
+        NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.systemStatusLabel.font.fontName size:20.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0f]};
         
         // Check if there are any GUI issues
         if (self.computationResults.systemIssues.count > 0 && self.computationResults.systemIssues != nil) {
             
             // Set the issues section
-            NSAttributedString *issueSection = [[NSAttributedString alloc] initWithString:@"Issues\n" attributes:sectionStringDict];
+            NSAttributedString *issueSection = [[NSAttributedString alloc] initWithString:@"Issues Found\n" attributes:sectionStringDict];
             
             // Append the section
             [systemAttributedString appendAttributedString:issueSection];
@@ -144,7 +146,7 @@
         if (self.computationResults.systemSuggestions.count > 0 && self.computationResults.systemSuggestions != nil) {
             
             // Set the suggestions section
-            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Suggestions\n" attributes:sectionStringDict];
+            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"User Suggestions\n" attributes:sectionStringDict];
             
             // Append the section
             [systemAttributedString appendAttributedString:section];
@@ -177,7 +179,7 @@
         if (self.computationResults.systemAnalysisResults.count > 0 && self.computationResults.systemAnalysisResults != nil) {
             
             // Set the suggestions section
-            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Analysis\n" attributes:sectionStringDict];
+            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Assessment Status\n" attributes:sectionStringDict];
             
             // Append the section
             [systemAttributedString appendAttributedString:section];

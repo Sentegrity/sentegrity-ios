@@ -104,11 +104,52 @@
         NSMutableAttributedString *userAttributedString = [[NSMutableAttributedString alloc] init];
         
         // Create an attributed string dictionary for section info
-        NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:205.0f/255.0f green:205.0f/255.0f blue:205.0f/255.0f alpha:1.0f]};
+        //NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0f]};
+        
+        NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
         
         // Create an attributed string dictionary for content
-        NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.userStatusLabel.font.fontName size:16.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
+        NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.userStatusLabel.font.fontName size:20.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0f]};
+        
       
+
+        
+
+        
+        // Check if there are any GUI issues
+        if (self.computationResults.userIssues.count > 0 && self.computationResults.userIssues != nil) {
+            
+            // Set the issues section
+            NSAttributedString *issueSection = [[NSAttributedString alloc] initWithString:@"TrustScore Issues\n" attributes:sectionStringDict];
+            
+            // Append the section
+            [userAttributedString appendAttributedString:issueSection];
+            
+            // Run through all the user GUI issues
+            for (NSString *string in self.computationResults.userIssues) {
+                
+                // Create the X image in the string
+                NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+                textAttachment.image = [UIImage imageNamed:@"Close"];
+                textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+                
+                NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+                
+                // Append the string
+                [userAttributedString appendAttributedString:attrStringWithImage];
+                
+                // Create the issue string
+                NSAttributedString *issue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", string] attributes:contentStringDict];
+                
+                // Append the string
+                [userAttributedString appendAttributedString:issue];
+            }
+            
+            // Append a newline
+            [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+        }
+        
+
         // Check if there are any GUI authenticators in use
         if (self.computationResults.userDynamicTwoFactors.count > 0 && self.computationResults.userDynamicTwoFactors != nil) {
             
@@ -142,48 +183,11 @@
             [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         }
         
-
-        
-        // Check if there are any GUI issues
-        if (self.computationResults.userIssues.count > 0 && self.computationResults.userIssues != nil) {
-            
-            // Set the issues section
-            NSAttributedString *issueSection = [[NSAttributedString alloc] initWithString:@"Issues\n" attributes:sectionStringDict];
-            
-            // Append the section
-            [userAttributedString appendAttributedString:issueSection];
-            
-            // Run through all the user GUI issues
-            for (NSString *string in self.computationResults.userIssues) {
-                
-                // Create the X image in the string
-                NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-                textAttachment.image = [UIImage imageNamed:@"Close"];
-                textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
-                
-                NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-                
-                // Append the string
-                [userAttributedString appendAttributedString:attrStringWithImage];
-                
-                // Create the issue string
-                NSAttributedString *issue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", string] attributes:contentStringDict];
-                
-                // Append the string
-                [userAttributedString appendAttributedString:issue];
-            }
-            
-            // Append a newline
-            [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-        }
-        
-
-        
         // Check if there are any GUI suggestions
         if (self.computationResults.userSuggestions.count > 0 && self.computationResults.userSuggestions != nil) {
             
             // Set the suggestions section
-            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Suggestions\n" attributes:sectionStringDict];
+            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"User Suggestions\n" attributes:sectionStringDict];
             
             // Append the section
             [userAttributedString appendAttributedString:section];
@@ -218,7 +222,7 @@
         if (self.computationResults.userAnalysisResults.count > 0 && self.computationResults.userAnalysisResults != nil) {
             
             // Set the suggestions section
-            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Analysis\n" attributes:sectionStringDict];
+            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Assessment Status\n" attributes:sectionStringDict];
             
             // Append the section
             [userAttributedString appendAttributedString:section];

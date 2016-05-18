@@ -29,7 +29,7 @@
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kv6-kH-ZBc">
                                             <rect key="frame" x="16" y="138" width="343" height="183.5"/>
-                                            <mutableString key="text">Sentegrity uses activity data collected by your device to aid profiling and increase confidence.  For example, Sentegrity can identify if you are still, walking, or running prior to BYOD access. No raw data is stored and all values are tokenized for 100% local use.   If you choose to disallow motion services the TrustScore will be negatively impacted, resulting in increased interactive login (password use).</mutableString>
+                                            <string key="text">Sentegrity uses activity data collected by your device to aid profiling and increase confidence.  For example, Sentegrity can identify if you are still, walking, or running prior to BYOD access. No raw data is stored and all values are tokenized for 100% local use.   If you choose to disallow motion services the TrustScore will be negatively impacted, resulting in increased interactive login (password use).</string>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>

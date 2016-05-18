@@ -283,6 +283,25 @@
     //bxenroll.good.com
     //bxcheckin.good.com
     
+    /*
+     if (result == TRUE) {
+     NSMutableArray *tempDNS = [[NSMutableArray alloc] init];
+     for(int i = 0; i < CFArrayGetCount(addresses); i++){
+     struct sockaddr_in* remoteAddr;
+     CFDataRef saData = (CFDataRef)CFArrayGetValueAtIndex(addresses, i);
+     remoteAddr = (struct sockaddr_in*)CFDataGetBytePtr(saData);
+     
+     if(remoteAddr != NULL){
+     // Extract the ip address
+     //const char *strIP41 = inet_ntoa(remoteAddr->sin_addr);
+     NSString *strDNS =[NSString stringWithCString:inet_ntoa(remoteAddr->sin_addr) encoding:NSASCIIStringEncoding];
+     NSLog(@"RESOLVED %d:<%@>", i, strDNS);
+     [tempDNS addObject:strDNS];
+     }
+     }
+     }
+     */
+    
     
     // Set the trustfactor output to the output array (regardless if empty)
     [trustFactorOutputObject setOutput:outputArray];

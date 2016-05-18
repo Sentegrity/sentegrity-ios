@@ -44,31 +44,36 @@
 	<key>GDPermissions</key>
 	<array>
 		<dict>
-			<key>Signature</key>
-			<string>0f5c19e41d8b20a702bb451f993f621fe5567e9eec21b3ce635c0aa8b3e2148a411874cd3b95c6c6c86af461b951c218961a5616dcf5e2cb418ba6dfca325cfa0abcf1a125036b1eb0f302a0153a7ae859c8894e089b67bf34ec99e980bb1670e539f3988287e4999268ed35af9300dceda96487bd4fce33c04267dc057b3318</string>
-			<key>SignatureScheme</key>
-			<string>RSAv1</string>
 			<key>Permission</key>
 			<dict>
-				<key>nativeApplicationId</key>
-				<string>com.sentegrity.ios</string>
 				<key>GDApplicationId</key>
 				<string>com.sentegrity.daf</string>
 				<key>TAAPIPermission</key>
 				<string>1</string>
+				<key>nativeApplicationId</key>
+				<string>com.sentegrity.ios</string>
 			</dict>
+			<key>Signature</key>
+			<string>0f5c19e41d8b20a702bb451f993f621fe5567e9eec21b3ce635c0aa8b3e2148a411874cd3b95c6c6c86af461b951c218961a5616dcf5e2cb418ba6dfca325cfa0abcf1a125036b1eb0f302a0153a7ae859c8894e089b67bf34ec99e980bb1670e539f3988287e4999268ed35af9300dceda96487bd4fce33c04267dc057b3318</string>
+			<key>SignatureScheme</key>
+			<string>RSAv1</string>
 		</dict>
 	</array>
 	<key>GDTrustedAuthenticator</key>
 	<true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>test</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Gimme location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Sentegrity uses location data to boost your Trust Score, no data is removed from the device.</string>
+	<string>Sentegrity analyzes location data to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow location services Sentegrity may require you to enter passwords more often.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DINPro-Bold.otf</string>
@@ -110,10 +115,5 @@
 	</array>
 	<key>com.apple.developer.ubiquity-container-identifiers</key>
 	<string>$(TeamIdentifierPrefix).$(CFBundleIdentifier)</string>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
 </dict>
 </plist>
