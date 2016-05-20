@@ -220,7 +220,7 @@
     }
     
     // Write the data out to the path
-    BOOL outFileWrite = [data writeToFile:[self policyFilePathInDocumentsFolder] options:kNilOptions error:error];
+    BOOL outFileWrite = [data writeToFile:[self policyFilePathInDocumentsFolder] options:NSDataWritingFileProtectionComplete error:error];
     
     // Validate that the write was successful
     if (!outFileWrite ) {
