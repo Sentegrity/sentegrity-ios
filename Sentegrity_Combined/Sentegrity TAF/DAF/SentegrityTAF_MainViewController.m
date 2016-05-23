@@ -169,6 +169,7 @@
                 // caused by GetPasswordCancelled constantly re-invoking deauthorization
                 
                 // Removed because it shouldnt be necessary to deauth here
+                [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
                 if(self.deauthorizing==NO){
                     [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
                     self.deauthorizing=YES;
@@ -208,11 +209,12 @@
                 // caused by GetPasswordCancelled constantly re-invoking deauthorization
                 
                 // This may trigger the DAF to restart auth
+                self.result=nil;
                 if(self.result==nil && self.deauthorizing==NO){
                     [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
                     self.deauthorizing=YES;
                 }
-                //self.result=nil;
+                
                 
                 /*
                 if([self.deauthorizing intValue]==0){
