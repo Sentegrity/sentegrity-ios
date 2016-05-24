@@ -194,7 +194,7 @@
 },
 {
 "id": 11,
-"name": "Configuration",
+"name": "Config",
 "dneUnauthorized": "",
 "dneUnsupported": "",
 "dneUnavailable": "",
@@ -277,7 +277,7 @@
 "dispatch": "File",
 "implementation": "blacklisted:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": [
 "/bin/bash",
 "/bin/sh",
@@ -348,7 +348,7 @@
 "dispatch": "Netstat",
 "implementation": "badDst:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": [
 "appaddict.org",
 "hackndev.org",
@@ -380,7 +380,7 @@
 "dispatch": "Netstat",
 "implementation": "priviledgedPort:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": [
 22,
 80,
@@ -410,7 +410,7 @@
 "dispatch": "Sandbox",
 "implementation": "integrity:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": []
 },
 {
@@ -436,7 +436,7 @@
 "dispatch": "Sentegrity",
 "implementation": "tamper:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": [
 "MobileSubstrate"
 ]
@@ -492,7 +492,7 @@
 "dispatch": "File",
 "implementation": "sizeChange:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": [
 "/etc/passwd",
 "/bin/usr",
@@ -522,7 +522,7 @@
 "dispatch": "Netstat",
 "implementation": "newService:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": []
 },
 {
@@ -548,7 +548,7 @@
 "dispatch": "Netstat",
 "implementation": "dataExfiltration:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": [
 {
 "secondsInterval" : 3600,
@@ -579,7 +579,7 @@
 "dispatch": "Netstat",
 "implementation": "unencryptedTraffic:",
 "whitelistable": 1,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": [
 80,
 8080
@@ -660,7 +660,7 @@
 "dispatch": "Route",
 "implementation": "vpnUp:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": [
 "ppp",
 "utun"
@@ -689,7 +689,7 @@
 "dispatch": "Wifi",
 "implementation": "hotspot:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": []
 },
 {
@@ -920,7 +920,7 @@
 "dispatch": "Platform",
 "implementation": "vulnerableVersion:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": [
 "4.0-4.0.2",
 "4.1-4.2.1",
@@ -993,7 +993,7 @@
 "dispatch": "Configuration",
 "implementation": "backupEnabled:",
 "whitelistable": 0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": [
 "backupd"
 ]
@@ -1104,7 +1104,7 @@
 "dispatch": "Power",
 "implementation": "pluggedIn:",
 "whitelistable":0,
-"privateAPI": 0,
+"privateAPI": 1,
 "payload": []
 },
 {

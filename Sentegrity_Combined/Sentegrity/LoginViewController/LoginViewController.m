@@ -160,10 +160,10 @@ static MBProgressHUD *HUD;
     HUD =  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    HUD.labelText = @"Assessing";
+    HUD.labelText = @"Evaluating";
     HUD.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
     
-    HUD.detailsLabelText = @"Mobile Security Posture";
+    HUD.detailsLabelText = @"Mobile Device Posture";
     HUD.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
     
     @autoreleasepool {

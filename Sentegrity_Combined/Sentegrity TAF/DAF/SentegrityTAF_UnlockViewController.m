@@ -389,10 +389,10 @@
     // Show Animation
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    self.hud.labelText = @"Assessing";
+    self.hud.labelText = @"Evaluating";
     self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
     
-    self.hud.detailsLabelText = @"Mobile Security Posture";
+    self.hud.detailsLabelText = @"Mobile Device Posture";
     self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
     
     
