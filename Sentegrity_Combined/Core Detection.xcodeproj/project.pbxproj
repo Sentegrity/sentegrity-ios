@@ -70,8 +70,6 @@
 		4C7D97B21CC0010E00E9CC97 /* socketvar.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C7D96F01CC0010E00E9CC97 /* socketvar.h */; };
 		4C7D97B31CC0010E00E9CC97 /* thread_call.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C7D96F11CC0010E00E9CC97 /* thread_call.h */; };
 		4C7D97B41CC0010E00E9CC97 /* otherConnectionHeaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C7D96F21CC0010E00E9CC97 /* otherConnectionHeaders.h */; };
-		4C7D97B51CC0010E00E9CC97 /* LSApplicationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C7D96F41CC0010E00E9CC97 /* LSApplicationProxy.h */; };
-		4C7D97B61CC0010E00E9CC97 /* LSApplicationWorkspace.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C7D96F51CC0010E00E9CC97 /* LSApplicationWorkspace.h */; };
 		4C7D97B71CC0010E00E9CC97 /* MDBluetoothDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C7D96F81CC0010E00E9CC97 /* MDBluetoothDevice.h */; };
 		4C7D97B81CC0010E00E9CC97 /* MDBluetoothDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7D96F91CC0010E00E9CC97 /* MDBluetoothDevice.m */; };
 		4C7D97B91CC0010E00E9CC97 /* MDBluetoothManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C7D96FA1CC0010E00E9CC97 /* MDBluetoothManager.h */; };
@@ -278,8 +276,6 @@
 		4C7D96F01CC0010E00E9CC97 /* socketvar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socketvar.h; sourceTree = "<group>"; };
 		4C7D96F11CC0010E00E9CC97 /* thread_call.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread_call.h; sourceTree = "<group>"; };
 		4C7D96F21CC0010E00E9CC97 /* otherConnectionHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = otherConnectionHeaders.h; sourceTree = "<group>"; };
-		4C7D96F41CC0010E00E9CC97 /* LSApplicationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSApplicationProxy.h; sourceTree = "<group>"; };
-		4C7D96F51CC0010E00E9CC97 /* LSApplicationWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSApplicationWorkspace.h; sourceTree = "<group>"; };
 		4C7D96F81CC0010E00E9CC97 /* MDBluetoothDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDBluetoothDevice.h; sourceTree = "<group>"; };
 		4C7D96F91CC0010E00E9CC97 /* MDBluetoothDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDBluetoothDevice.m; sourceTree = "<group>"; };
 		4C7D96FA1CC0010E00E9CC97 /* MDBluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDBluetoothManager.h; sourceTree = "<group>"; };
@@ -546,7 +542,6 @@
 			children = (
 				4C7D96CD1CC0010E00E9CC97 /* bluetooth */,
 				4C7D96CF1CC0010E00E9CC97 /* kernel includes */,
-				4C7D96F31CC0010E00E9CC97 /* private */,
 				4C7D96CE1CC0010E00E9CC97 /* bsd_var.h */,
 				4C7D96F21CC0010E00E9CC97 /* otherConnectionHeaders.h */,
 			);
@@ -606,15 +601,6 @@
 				4C7D96ED1CC0010E00E9CC97 /* udp_var.h */,
 			);
 			path = netinet;
-			sourceTree = "<group>";
-		};
-		4C7D96F31CC0010E00E9CC97 /* private */ = {
-			isa = PBXGroup;
-			children = (
-				4C7D96F41CC0010E00E9CC97 /* LSApplicationProxy.h */,
-				4C7D96F51CC0010E00E9CC97 /* LSApplicationWorkspace.h */,
-			);
-			path = private;
 			sourceTree = "<group>";
 		};
 		4C7D96F61CC0010E00E9CC97 /* Helpers */ = {
@@ -887,7 +873,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C7D981A1CC0010E00E9CC97 /* Sentegrity_TransparentAuth_Object.h in Headers */,
-				4C7D97B61CC0010E00E9CC97 /* LSApplicationWorkspace.h in Headers */,
 				4C7D981C1CC0010E00E9CC97 /* TransparentAuthentication.h in Headers */,
 				4C7D97CA1CC0010E00E9CC97 /* Sentegrity_TrustFactor_Dataset_Motion.h in Headers */,
 				4C7D98141CC0010E00E9CC97 /* Sentegrity_History_Object.h in Headers */,
@@ -922,7 +907,6 @@
 				4C7D97A01CC0010E00E9CC97 /* in_systm.h in Headers */,
 				4C7D97CC1CC0010E00E9CC97 /* Sentegrity_TrustFactor_Dataset_Netstat.h in Headers */,
 				4C7D97DC1CC0010E00E9CC97 /* TrustFactor_Dispatch_Celluar.h in Headers */,
-				4C7D97B51CC0010E00E9CC97 /* LSApplicationProxy.h in Headers */,
 				4C7D98021CC0010E00E9CC97 /* Sentegrity_Network_Manager.h in Headers */,
 				4C7D97A71CC0010E00E9CC97 /* kpi_ipfilter.h in Headers */,
 				4C7D97BC1CC0010E00E9CC97 /* ActiveConnection.h in Headers */,

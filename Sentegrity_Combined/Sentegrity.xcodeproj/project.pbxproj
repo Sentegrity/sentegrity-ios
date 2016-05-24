@@ -64,7 +64,6 @@
 		4C2667151CC0369000F10DC0 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403131B307A1500A1705E /* OpenSans-Bold.ttf */; };
 		4C2667161CC0369000F10DC0 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403141B307A1500A1705E /* OpenSans-BoldItalic.ttf */; };
 		4C2667171CC0369000F10DC0 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403151B307A1500A1705E /* OpenSans-ExtraBold.ttf */; };
-		4C2667181CC0369000F10DC0 /* 3rd Party Library Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */; };
 		4C2667191CC0369000F10DC0 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403161B307A1500A1705E /* OpenSans-ExtraBoldItalic.ttf */; };
 		4C26671A1CC0369000F10DC0 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403171B307A1500A1705E /* OpenSans-Italic.ttf */; };
 		4C26671B1CC0369000F10DC0 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04E403181B307A1500A1705E /* OpenSans-Light.ttf */; };
@@ -111,7 +110,6 @@
 		4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */; };
 		4CDE3C9F1CCA96C100D23E66 /* DAFSkelDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CDE3C9D1CCA96C100D23E66 /* DAFSkelDriver.cpp */; };
 		4CE9D8071B2FA606006D43D8 /* DINPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D8061B2FA606006D43D8 /* DINPro-Bold.otf */; };
-		4CE9D80D1B323847006D43D8 /* 3rd Party Library Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */; };
 		7DB8ACB0AEB31197C604414C /* libPods-Sentegrity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C05694064344BB4205E08D99 /* libPods-Sentegrity.a */; };
 		81AF003BEAD87EF1FFE72C10 /* libPods-Sentegrity TAF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85416AA7ED3D5ABEEA5785F3 /* libPods-Sentegrity TAF.a */; };
 		9676DF811B7EA92900C508D6 /* LandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9676DF801B7EA92900C508D6 /* LandingViewController.m */; };
@@ -901,7 +899,6 @@
 				04E403211B307A1500A1705E /* OpenSans-Bold.ttf in Resources */,
 				04E403221B307A1500A1705E /* OpenSans-BoldItalic.ttf in Resources */,
 				04E403231B307A1500A1705E /* OpenSans-ExtraBold.ttf in Resources */,
-				4CE9D80D1B323847006D43D8 /* 3rd Party Library Notes.rtf in Resources */,
 				04E403241B307A1500A1705E /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				04E403251B307A1500A1705E /* OpenSans-Italic.ttf in Resources */,
 				04E403261B307A1500A1705E /* OpenSans-Light.ttf in Resources */,
@@ -957,7 +954,6 @@
 				4C2667591CC03AF400F10DC0 /* MockGDiOSResources.bundle in Resources */,
 				96C5BCF51CD014540009B3A6 /* Splash-Landscape-568h@2x.png in Resources */,
 				96C5BCFE1CD014540009B3A6 /* Splash_iphone_HD4.7_LS@2x.png in Resources */,
-				4C2667181CC0369000F10DC0 /* 3rd Party Library Notes.rtf in Resources */,
 				4C2667581CC03AF400F10DC0 /* GDAssets.bundle in Resources */,
 				D7E020AF1CD94F2000112E63 /* ActivityPermissionViewController.xib in Resources */,
 				96C5BCFA1CD014540009B3A6 /* Splash-Portrait@2x~ipad.png in Resources */,
