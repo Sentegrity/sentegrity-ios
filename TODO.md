@@ -1,14 +1,33 @@
 
-### Sentegrity For Good - Production User Interface
+### Sentegrity For Good - Production User Interface Changes
 
 - [ ] iPad support
 
 
-### Sentegrity For Good - Production Security Features
+### Sentegrity For Good - Production Features Additions
   
+- [ ] Create new trustfactor for unencrypted wifi networks 
+
+Now that we have the NetworkExtension/Hotspot entitlment from Apple, we need to add it as a TF. This means add it to the policy (under "system security" classification and sublcass of "WiFi"). We can just call it "unencrypted wifi". The TF will then use the NetworkExtension API and perform the following call to detect if the current connection is "secured" or not. This is all we are able to tell, I don't know that we can tell if its WPA/WEP, etc - just that it is secured.  The following is how I think this call works:
+
+<NetworkExtension/NetworkExtension.h>
+for(NEHotspotNetwork *hotspotNetwork in [NEHotspotHelper supportedNetworkInterfaces]) {
+NSString *ssid = hotspotNetwork.SSID;
+NSString *bssid = hotspotNetwork.BSSID;
+BOOL secure = hotspotNetwork.secure;
+BOOL autoJoined = hotspotNetwork.autoJoined;
+double signalStrength = hotspotNetwork.signalStrength;
+}
+
+- [ ] Modify application tamper rule 
+
+Include functionality that triggers this rule if CFNetworking fails because the certificate returned from the server did not match the pinned certificate. CFNetworking run history uploads don't happen everytime, therefore this condition cannot be checked everytime.
+
 - [ ] Employ policies encrypted with device salt
 
-The web service will use the device salt sent in the first upload attempt to encrypt future policy downloads. The app will then decrypt them using the store device salt.
+The web service will use the device salt sent in the first upload attempt to encrypt future policy downloads. The app will then decrypt them using the stored device salt. The original policy distributed within the bundle (the policy which is used by the app momentarily, prior to first update) will remain unencrypted. After the first policy update, the web service will receive the device salt in the requeust and be able to use that to encrypt any policies that are returned in the response. The app will then write this encrypted policy to disk. We will need to make a slight change prior to policy parsing where the app decrypts it first using the device salt stored in the startup file.
+  
+  ### Sentegrity For Good - Future Security Features (not ready for implementation)
   
 - [ ] Employ encrypted memory for user password and transparent authentication keys
 
