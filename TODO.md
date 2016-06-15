@@ -22,8 +22,7 @@ double signalStrength = hotspotNetwork.signalStrength;
 }
 
 
-  
-  ### Sentegrity For Good - Production Security Features (not ready for implementation)
+### Sentegrity For Good - Production Security Features (not ready for implementation)
   
 - [ ] Modify application tamper rule 
 
