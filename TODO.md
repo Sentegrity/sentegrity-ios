@@ -21,6 +21,9 @@ BOOL autoJoined = hotspotNetwork.autoJoined;
 double signalStrength = hotspotNetwork.signalStrength;
 }
 
+- [ ] Perform a policy update right when Good activation completes (prior to first run if possible)
+
+Currently, the bundled policy will run a few times because we don't make an attempt to do an update out of the gate. We should probably try to do an update right when the user finished creating their password. This way, we may never run the bundled policy. This is also an issue because the bundled policy gets outdated quick (as it pertains to things like OS version checks)
 
 ### Sentegrity For Good - Production Security Features (not ready for implementation)
   
