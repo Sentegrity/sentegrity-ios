@@ -3,6 +3,8 @@
 
 - [ ] iPad support
 
+Does this already exist or work? Can make sure the GUI looks OK? 
+
 
 ### Sentegrity For Good - Production Features Additions
   
@@ -19,6 +21,10 @@ BOOL autoJoined = hotspotNetwork.autoJoined;
 double signalStrength = hotspotNetwork.signalStrength;
 }
 
+
+  
+  ### Sentegrity For Good - Production Security Features (not ready for implementation)
+  
 - [ ] Modify application tamper rule 
 
 Include functionality that triggers this rule if CFNetworking fails because the certificate returned from the server did not match the pinned certificate. CFNetworking run history uploads don't happen everytime, therefore this condition cannot be checked everytime.
@@ -26,9 +32,7 @@ Include functionality that triggers this rule if CFNetworking fails because the 
 - [ ] Employ policies encrypted with device salt
 
 The web service will use the device salt sent in the first upload attempt to encrypt future policy downloads. The app will then decrypt them using the stored device salt. The original policy distributed within the bundle (the policy which is used by the app momentarily, prior to first update) will remain unencrypted. After the first policy update, the web service will receive the device salt in the requeust and be able to use that to encrypt any policies that are returned in the response. The app will then write this encrypted policy to disk. We will need to make a slight change prior to policy parsing where the app decrypts it first using the device salt stored in the startup file.
-  
-  ### Sentegrity For Good - Future Security Features (not ready for implementation)
-  
+
 - [ ] Employ encrypted memory for user password and transparent authentication keys
 
   https://github.com/project-imas/memory-security
