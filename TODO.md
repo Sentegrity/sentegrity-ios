@@ -25,6 +25,16 @@ double signalStrength = hotspotNetwork.signalStrength;
 
 Currently, the bundled policy will run a few times because we don't make an attempt to do an update out of the gate. We should probably try to do an update right when the user finished creating their password. This way, we may never run the bundled policy. This is also an issue because the bundled policy gets outdated quick (as it pertains to things like OS version checks)
 
+- [ ] Move password requirements to policy instead of hardcoded
+
+These are the values like length, requireUpper, requireComplex, requireAlpha
+
+- [ ] Create watchdog to monitor the core detection thread that runs analysis inside Good
+
+I've been experiencing a lot of "never extending analysis" where it just won't finish. None of our internal core detection time/expiration will work if an individual TF hangs (because it won't return). Therefore, we need some mechanism from outside of the Core Detection threat to monitor if analysis is taking longer than say 5 seconds. If this is the case then we return the default Core Detection results (look at the try/catch for core detection and how it returns dummy results that just prompt for a password)
+
+
+
 ### Sentegrity For Good - Production Security Features (not ready for implementation)
   
 - [ ] Modify application tamper rule 
