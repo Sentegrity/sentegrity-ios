@@ -556,6 +556,11 @@
         } else {
             // Core Detection Failed
             NSLog(@"Failed to run Core Detection: %@", [*error localizedDescription] ); // Here's why
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //handling error by calling recovery
+                [weakSelf coreDetectionerrorRecovery];
+            });
         }
         
     }]; // End of the Core Detection Block
