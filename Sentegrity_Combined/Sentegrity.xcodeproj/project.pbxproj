@@ -137,7 +137,6 @@
 		96C5BCFF1CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF11CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png */; };
 		96C5BD001CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF21CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png */; };
 		96C5BD011CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */; };
-		D7351DFE1D295D520068070B /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7351DFD1D295D520068070B /* NetworkExtension.framework */; };
 		D7BE76EE1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BE76EC1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m */; };
 		D7BE76EF1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BE76ED1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.xib */; };
 		D7BE76F11CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BE76F01CDC1E3A00C1F6B7 /* SentegrityTAF_PasswordCreationViewController_iPad.xib */; };
@@ -321,7 +320,6 @@
 		96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash_iphone_HD5.5_PT@3x.png"; sourceTree = "<group>"; };
 		A57A38F2AD3A013454171E37 /* Pods-Sentegrity TAF.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity TAF.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity TAF/Pods-Sentegrity TAF.debug.xcconfig"; sourceTree = "<group>"; };
 		C05694064344BB4205E08D99 /* libPods-Sentegrity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sentegrity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D7351DFD1D295D520068070B /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		D7BE76EB1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_WelcomeViewController.h; sourceTree = "<group>"; };
 		D7BE76EC1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_WelcomeViewController.m; sourceTree = "<group>"; };
 		D7BE76ED1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_WelcomeViewController.xib; sourceTree = "<group>"; };
@@ -361,7 +359,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7351DFE1D295D520068070B /* NetworkExtension.framework in Frameworks */,
 				4C2667821CC03D5A00F10DC0 /* DAFSupport.framework in Frameworks */,
 				4C26677E1CC03D2E00F10DC0 /* libz.tbd in Frameworks */,
 				4C26677C1CC03D2600F10DC0 /* libstdc++.tbd in Frameworks */,
@@ -479,7 +476,6 @@
 		4A3429CBBD5FF34D6202962E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D7351DFD1D295D520068070B /* NetworkExtension.framework */,
 				4C26677F1CC03D4B00F10DC0 /* DAFSupport.framework */,
 				4C26677D1CC03D2E00F10DC0 /* libz.tbd */,
 				4C26677B1CC03D2600F10DC0 /* libstdc++.tbd */,
@@ -841,6 +837,11 @@
 					};
 					4C2666F11CC0369000F10DC0 = {
 						DevelopmentTeam = 86G3K7BVQY;
+						SystemCapabilities = {
+							com.apple.VPNLite = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -1464,7 +1465,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
-				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jason Sinchak (BQXNSAY7KH)";
 				ENABLE_BITCODE = NO;
@@ -1541,7 +1541,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
-				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trusted Mobile, LLC (86G3K7BVQY)";
 				ENABLE_BITCODE = NO;
