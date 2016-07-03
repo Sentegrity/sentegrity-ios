@@ -434,6 +434,67 @@
     
 }
 
+// Determine if the connected access point is unencrypted using Network Extension API and entitlement provided by Apple
++ (Sentegrity_TrustFactor_Output_Object *)unencryptedWifi:(NSArray *)payload {
+    
+    // Create the trustfactor output object
+    Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
+    
+    // Set the default status code to OK (default = DNEStatus_ok)
+    [trustFactorOutputObject setStatusCode:DNEStatus_ok];
+    
+    // Create the output array
+    NSMutableArray *outputArray = [[NSMutableArray alloc] init];
+    
+    // Check if WiFi is disabled
+    if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isWifiEnabled] intValue]==0){
+        
+        //Not enabled, set DNE and return (penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_disabled];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
+    }    // If we're enabled, still check if we're tethering and set as unavaialble if we are
+    else if([[[Sentegrity_TrustFactor_Datasets sharedDatasets] isTethering] intValue]==1){
+        
+        //Not enabled, set DNE and return (penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_unavailable];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
+    }
+    
+
+    NSArray *wifiEncryption = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getWifiEncryption];
+    
+    // Check for a connection
+    if (wifiEncryption == nil || wifiEncryption.count == 0){
+        
+        // WiFi is enabled but there is no connection (don't penalize)
+        [trustFactorOutputObject setStatusCode:DNEStatus_nodata];
+        
+        // Return with the blank output object
+        return trustFactorOutputObject;
+        
+    }
+    
+    // Get ssids of unsecure networks, and save them into output array
+    for (NSDictionary *dic in wifiEncryption) {
+        if (![dic[@"secure"] boolValue]) {
+            [outputArray addObject:dic[@"ssid"]];
+        }
+    }
+    
+
+    // Set the trustfactor output to the output array (regardless if empty)
+    [trustFactorOutputObject setOutput:outputArray];
+    
+    // Return the trustfactor output object
+    return trustFactorOutputObject;
+}
+
 
 
 /* Old/Archived

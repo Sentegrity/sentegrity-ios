@@ -943,6 +943,36 @@ static dispatch_once_t onceToken;
     }
 }
 
+//wifi encryption status
+- (NSArray *) getWifiEncryption {
+    // If dataset is not populated
+    if(!self.wifiEncryption || self.wifiEncryption == nil) {
+        
+        // Try for
+        @try {
+            
+            // Get wifi encryption and set it
+            self.wifiEncryption = [Wifi_Info getWifiEncryption];
+            
+            // Return wifi data
+            return self.wifiEncryption;
+        }
+        
+        @catch (NSException * ex) {
+            // Error
+            return nil;
+        }
+        
+        // If it is already populated
+    } else {
+        
+        // Return wifi data
+        return self.wifiEncryption;
+    }
+
+}
+
+
 // Wifi enabled
 -(NSNumber *)isWifiEnabled {
     

@@ -9,6 +9,9 @@
 
 #import "Sentegrity_TrustFactor_Dataset_Wifi.h"
 #import "ActiveRoute.h"
+#import <NetworkExtension/NetworkExtension.h>
+
+
 
 @implementation Wifi_Info
 
@@ -400,5 +403,44 @@
         return true;
     }
 }
+
+// check if connected to unencrypted wifi
++ (NSArray *) getWifiEncryption {
+    
+    
+    NSMutableArray *arrayM = [NSMutableArray array];
+    
+    @autoreleasepool {
+        //it is necessary to call registerWithOptions: queue: handler: method before supportedNetworkInterfaces (to avoid getting nil instead of array
+        dispatch_queue_t myQueue = dispatch_queue_create("HotSpotHelperQueue",NULL);
+        [NEHotspotHelper registerWithOptions:nil queue:myQueue handler:^(NEHotspotHelperCommand * _Nonnull cmd) {
+    
+        }];
+    }
+    
+    for(NEHotspotNetwork *hotspotNetwork in [NEHotspotHelper supportedNetworkInterfaces])
+    {
+        NSString *ssid = hotspotNetwork.SSID;
+        NSString *bssid = hotspotNetwork.BSSID;
+        BOOL secure = hotspotNetwork.secure;
+        BOOL autoJoined = hotspotNetwork.autoJoined;
+        double signalStrength = hotspotNetwork.signalStrength;
+        
+        
+        NSDictionary *dic = @{
+                              @"ssid"           : ssid,
+                              @"bssid"          : bssid,
+                              @"autoJoined"     : @(autoJoined),
+                              @"signalStrength" : @(signalStrength),
+                              @"secure"         : @(secure)
+                              };
+        [arrayM addObject:dic];
+    }
+
+
+    return [NSArray arrayWithArray: arrayM];
+
+}
+
 
 @end

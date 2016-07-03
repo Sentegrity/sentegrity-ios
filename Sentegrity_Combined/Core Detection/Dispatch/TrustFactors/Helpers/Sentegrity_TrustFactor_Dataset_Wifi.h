@@ -34,5 +34,8 @@
 // Check if tethering
 + (NSNumber *)isTethering;
 
+// check if connected to unencrypted wifi
++ (NSArray *) getWifiEncryption;
+
 @end
 

@@ -98,6 +98,8 @@
 @property (atomic, retain) NSDictionary *wifiData;
 @property (atomic) int wifiConnected;
 @property (atomic, retain) NSNumber *wifiSignal;
+@property (atomic, retain) NSArray *wifiEncryption;
+
 
 //Celluar
 @property (atomic, retain) NSNumber *celluarSignalRaw;
@@ -166,6 +168,7 @@
 - (NSNumber *)isWifiEnabled;
 - (NSNumber *) getWifiSignal;
 - (NSNumber *)isTethering;
+- (NSArray *) getWifiEncryption;
 
 // ** CELLUAR **
 - (NSNumber *) getCelluarSignalRaw;

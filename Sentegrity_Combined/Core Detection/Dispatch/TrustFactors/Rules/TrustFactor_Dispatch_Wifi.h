@@ -17,6 +17,8 @@
 
 + (Sentegrity_TrustFactor_Output_Object *)defaultSSID:(NSArray *)payload;
 
++ (Sentegrity_TrustFactor_Output_Object *)unencryptedWifi:(NSArray *)payload;
+
 /* Old/Archived
 //+ (Sentegrity_TrustFactor_Output_Object *)captivePortal:(NSArray *)payload;
  */
