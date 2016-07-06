@@ -33,6 +33,10 @@ These are the values like length, requireUpper, requireComplex, requireAlpha
 
 I've been experiencing a lot of "never extending analysis" where it just won't finish. None of our internal core detection time/expiration will work if an individual TF hangs (because it won't return). Therefore, we need some mechanism from outside of the Core Detection threat to monitor if analysis is taking longer than say 5 seconds. If this is the case then we return the default Core Detection results (look at the try/catch for core detection and how it returns dummy results that just prompt for a password)
 
+- [ ] Upload suggestion information in addition to issues
+
+Currently, only issues are uploaded. It's come to our realization that we also need suggestions to be uploaded as part of the JSON policy update process. This should be a small tweak.
+
 
 
 ### Sentegrity For Good - Production Security Features (not ready for implementation)
