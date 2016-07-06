@@ -37,6 +37,9 @@ I've been experiencing a lot of "never extending analysis" where it just won't f
 
 Currently, only issues are uploaded. It's come to our realization that we also need suggestions to be uploaded as part of the JSON policy update process. This should be a small tweak.
 
+- [x] Put routing information into a block
+
+Similiar to netstat, the syscal used for routing information should be put into a block and called within the activity dispatcher. Look at how Sentegrity_Activity_Dispatcher.m calls its startNetstat() function that ultimatly calls the sharedDataset function for NetStat_Info getTCPConnections inside of a block.  getTCPConnections is what makes the syscall and it appears that if we call these syscalls inside a block it may prevent the hang. I'm looking to do the same with the routing dataset that also used syscalls.
 
 
 ### Sentegrity For Good - Production Security Features (not ready for implementation)
