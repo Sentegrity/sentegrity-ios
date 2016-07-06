@@ -8,7 +8,7 @@ Does this already exist or work? Can make sure the GUI looks OK?
 
 ### Sentegrity For Good - Production Features Additions
   
-- [ ] Create new trustfactor for unencrypted wifi networks 
+- [x] Create new trustfactor for unencrypted wifi networks 
 
 Now that we have the NetworkExtension/Hotspot entitlment from Apple, we need to add it as a TF. This means add it to the policy (under "system security" classification and sublcass of "WiFi"). We can just call it "unencrypted wifi". The TF will then use the NetworkExtension API and perform the following call to detect if the current connection is "secured" or not. This is all we are able to tell, I don't know that we can tell if its WPA/WEP, etc - just that it is secured.  The following is how I think this call works:
 
@@ -21,11 +21,11 @@ BOOL autoJoined = hotspotNetwork.autoJoined;
 double signalStrength = hotspotNetwork.signalStrength;
 }
 
-- [ ] Perform a policy update right when Good activation completes (prior to first run if possible)
+- [x] Perform a policy update right when Good activation completes (prior to first run if possible)
 
 Currently, the bundled policy will run a few times because we don't make an attempt to do an update out of the gate. We should probably try to do an update right when the user finished creating their password. This way, we may never run the bundled policy. This is also an issue because the bundled policy gets outdated quick (as it pertains to things like OS version checks)
 
-- [ ] Move password requirements to policy instead of hardcoded
+- [x] Move password requirements to policy instead of hardcoded
 
 These are the values like length, requireUpper, requireComplex, requireAlpha
 
