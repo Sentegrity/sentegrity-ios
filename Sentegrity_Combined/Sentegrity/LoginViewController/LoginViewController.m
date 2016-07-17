@@ -226,7 +226,8 @@ static MBProgressHUD *HUD;
         
         NSError *error;
         NSString *dummyPassword = @"asdf";
-        NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithUserPassword:dummyPassword withError:&error];
+        [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithError:&error];
+        NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithPassoword:dummyPassword withError:&error];
         
     }
     

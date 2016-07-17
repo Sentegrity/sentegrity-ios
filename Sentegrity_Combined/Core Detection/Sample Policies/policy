@@ -1,6 +1,7 @@
 {
 "policyID": "default",
-"revision": 2,
+"applicationVersionID": "1.0.0",
+"revision": 1,
 "userThreshold": 75,
 "systemThreshold": 30,
 "allowPrivateAPIs": 0,
@@ -14,15 +15,21 @@
 "transparentAuthDecayMetric": 0.07,
 "statusUploadRunFrequency": 5,
 "statusUploadTimeFrequency": 1,
+"passwordRequirements" : {
+    "minLenght": 6,
+    "alphaNumeric": 1,
+    "mixedCase": 0,
+    "specialCharacter": 0
+},
 "DNEModifiers": {
-"unauthorized": 0.5,
-"unsupported": 0,
-"unavailable": 0.1,
-"disabled": 0.5,
-"noData": 0,
-"expired": 0.5,
-"error": 0,
-"invalid": 1
+    "unauthorized": 0.5,
+    "unsupported": 0,
+    "unavailable": 0.1,
+    "disabled": 0.5,
+    "noData": 0,
+    "expired": 0.5,
+    "error": 0,
+    "invalid": 1
 },
 "classifications": [
 {

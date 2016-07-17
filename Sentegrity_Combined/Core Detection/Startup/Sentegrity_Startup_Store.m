@@ -164,9 +164,9 @@
 }
 
 
-// Create a new startup file and return master key as a string
-- (NSString *)createNewStartupFileWithUserPassword:(NSString *)password withError:(NSError **)error {
-    
+
+
+- (void) createNewStartupFileWithError:(NSError **)error {
     // Alloc the startup file
     Sentegrity_Startup *startup = [[Sentegrity_Startup alloc] init];
     self.currentStartupStore = startup;
@@ -203,7 +203,8 @@
     int transparentAuthEstimateRounds = [[Sentegrity_Crypto sharedCrypto] benchmarkPBKDF2UsingExampleString:testTransparentAuthOutput forTimeInMS:10 withError:error];
     // TODO: Utilize Error
     [self.currentStartupStore setTransparentAuthPBKDF2rounds:transparentAuthEstimateRounds];
-    
+
+
     /*
      * Set the user auth PBKDF2 round estimate
      */
@@ -219,6 +220,32 @@
      */
     [self.currentStartupStore setLastOSVersion:[[UIDevice currentDevice] systemVersion]];
     
+    
+    // Default values
+    [self.currentStartupStore setLastState:@""];
+
+    
+    // We set a dummy email here becaue we dont have access to the GD enterprise policy yet to provide the true email
+    //[self.currentStartupStore setEmail:@"email@notset.com"];
+    NSArray *empty = [[NSArray alloc]init];
+    [self.currentStartupStore setRunHistoryObjects:empty];
+    [self.currentStartupStore setTransparentAuthKeyObjects:empty];
+    self.currentStartupStore.runCount = 0;
+    self.currentStartupStore.runCountAtLastUpload = 0;
+    self.currentStartupStore.dateTimeOfLastUpload = 0.0;
+    
+    // Save the store
+    [self setStartupStoreWithError:error];
+}
+
+- (NSString *) updateStartupFileWithPassoword: (NSString *)password withError:(NSError **)error {
+
+    //load startup file
+    [self getStartupStore:error];
+    if (*error)
+        return nil;
+
+    
     /*
      * First time user provisoning:
      * Prompt for user password (simulated for demo)
@@ -227,7 +254,7 @@
      * Store user key encrypter master key blob
      */
     
-
+    
     // Generate and store user key hash and user key encrypted master key blob
     NSString *masterKeyString = [[Sentegrity_Crypto sharedCrypto] provisionNewUserKeyAndCreateMasterKeyWithPassword:password withError:error];
     
@@ -244,27 +271,17 @@
         // Set the error
         *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToCreateNewUserAndMasterKey userInfo:errorDetails];
         
-
+        
     }
     
     
-    // Default values
-    [self.currentStartupStore setLastState:@""];
-    // We set a dummy email here becaue we dont have access to the GD enterprise policy yet to provide the true email
-    
-    //[self.currentStartupStore setEmail:@"email@notset.com"];
-    NSArray *empty = [[NSArray alloc]init];
-    [self.currentStartupStore setRunHistoryObjects:empty];
-    [self.currentStartupStore setTransparentAuthKeyObjects:empty];
-    self.currentStartupStore.runCount = 0;
-    self.currentStartupStore.runCountAtLastUpload = 0;
-    self.currentStartupStore.dateTimeOfLastUpload = 0.0;
-    
+   
     // Save the store
     [self setStartupStoreWithError:error];
     
     return masterKeyString;
 }
+
 
 
 // Create a new startup file and return master key as a string

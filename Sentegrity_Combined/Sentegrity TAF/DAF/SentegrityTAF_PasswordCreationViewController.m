@@ -9,6 +9,7 @@
 #import "SentegrityTAF_PasswordCreationViewController.h"
 #import "LoginViewController.h"
 #import "Sentegrity_TrustFactor_Storage.h"
+#import "Sentegrity_Policy_Parser.h"
 
 @interface SentegrityTAF_PasswordCreationViewController () <UITextFieldDelegate>
 
@@ -95,22 +96,55 @@
     [textField layoutIfNeeded];
 }
 
+
+
+
+- (NSDictionary *) getPasswordRequirements: (NSError **) error {
+    
+    //get new policy
+    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:error];
+    
+    if (!policy || error) {
+        //some strange error occured
+        return nil;
+    }
+    
+    
+    // get password requirements from policy
+    NSDictionary *passwordRequirements = policy.passwordRequirements;
+    
+    //if there is no passwordRequirements defined in the policy, use default values (to support older policies)
+    if (passwordRequirements == nil) {
+        passwordRequirements =  @{
+                                  @"minLength" : @(6),
+                                  @"alphaNumeric" : @(YES),
+                                  @"mixedCase" : @(NO),
+                                  @"specialCharacter" : @(NO)
+                                  };
+    }
+
+    
+    return passwordRequirements;
+
+}
+
+
 // Validate the passwords
 - (void)confirm {
+    
+    NSError *error;
     
     // Get the passwords
     NSString *pass1 = self.textFieldNewPassword.text;
     NSString *pass2 = self.textFieldConfirmPassword.text;
-    
 
-    // Password requirements:
-    NSDictionary *passwordRequirements = @{
-                                           @"minPasswordLength" : @(6),
-                                           @"isAlphaNumeric" : @(YES),
-                                           @"isMixedCase" : @(NO),
-                                           @"specialCharacter" : @(NO)
-                                           };
+    //get password requirements from policies
+    NSDictionary *passwordRequirements = [self getPasswordRequirements:&error];
     
+    if (error) {
+        [self showAlertWithTitle:@"Unknown error" andMessage:error.localizedDescription];
+        return;
+    }
     
     // Check if the passwords meet the criteria
     if (![pass1 isEqualToString:pass2]) {
@@ -125,28 +159,26 @@
         return;
     }
     
-    
-    
-    NSError *error;
-
+    /*
     //Reset Startup Store (remove store file)
     [[Sentegrity_Startup_Store sharedStartupStore] resetStartupStoreWithError:&error];
     
     if (error) {
         //TODO: error message for user
-        [self showAlertWithTitle:@"Error" andMessage:@"Unknown error"];
+        [self showAlertWithTitle:@"Unknown error" andMessage:error.localizedDescription];
         return;
     }
+     */
     
     //reset assertion store (remove assertion file)
     [[Sentegrity_TrustFactor_Storage sharedStorage] resetAssertionStoreWithError:&error];
     
     if (error) {
         //TODO: error message for user
-        [self showAlertWithTitle:@"Error" andMessage:@"Unknown error"];
+        [self showAlertWithTitle:@"Unknown error" andMessage:error.localizedDescription];
         return;
     }
-
+    
     
     // Start with a clean startup file
     // Populate the startup file
@@ -156,12 +188,15 @@
     //Get the email address from the enterprise policy
     // NSString *email = [self.enterprisePolicy objectForKey:GDAppConfigKeyUserId];
     
-    NSString *masterKeyString = [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithUserPassword:pass1  withError:&error];
+    
+    //new startup is already created in welcome screen, just update it with new password
+    //[[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithError:&error];
+    NSString *masterKeyString = [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithPassoword:pass1 withError:&error];
     
     
     if (error) {
         //TODO: error message for user
-        [self showAlertWithTitle:@"Error" andMessage:@"Unknown error"];
+        [self showAlertWithTitle:@"Unknown error" andMessage:error.localizedDescription];
         return;
     }
     
@@ -175,10 +210,38 @@
 
 - (IBAction)pressedInfoButton:(id)sender {
     //Show alert
+    
+    NSError *error;
+    
+    NSDictionary *dic = [self getPasswordRequirements:&error];
+    if (error) {
+        [self showAlertWithTitle:@"Unknown Error" andMessage:error.localizedDescription];
+        return;
+    }
+    
+    
+    NSMutableString *stringM = [NSMutableString string];
+    [stringM appendString:@"Your password must have:\n"];
+    [stringM appendFormat:@"- At least %ld characters", [dic[@"minLength"] integerValue]];
+    
+    if ([dic[@"alphaNumeric"] boolValue]) {
+        [stringM appendFormat:@"\n"];
+        [stringM appendFormat:@"- Alphanumeric"];
+    }
+    
+    if ([dic[@"mixedCase"] boolValue]) {
+        [stringM appendFormat:@"\n"];
+        [stringM appendFormat:@"- Mixed case"];
+    }
+    
+    if ([dic[@"specialCharacter"] boolValue]) {
+        [stringM appendFormat:@"\n"];
+        [stringM appendFormat:@"- Special character"];
+    }
+
+    
     [self showAlertWithTitle:   @"Password requirements"
-                  andMessage:   @"Your password must have:\n"
-                                @"- At least 6 characters\n"
-                                @"- Alphanumeric"];
+                  andMessage:   stringM];
 }
 
 
@@ -192,12 +255,12 @@
     BOOL specialCharacter = NO;
 
     
-    if (![requirements[@"isMixedCase"] boolValue]) {
+    if (![requirements[@"mixedCase"] boolValue]) {
         lowerCaseLetter = YES;
         upperCaseLetter = YES;
     }
     
-    if (![requirements[@"isAlphaNumeric"] boolValue]) {
+    if (![requirements[@"alphaNumeric"] boolValue]) {
         digit = YES;
         character = YES;
     }
@@ -206,7 +269,7 @@
         specialCharacter = YES;
     }
     
-    if([password length] >= [requirements[@"minPasswordLength"] integerValue])
+    if([password length] >= [requirements[@"minLength"] integerValue])
     {
         for (int i = 0; i < [password length]; i++)
         {
@@ -262,7 +325,7 @@
     }
     else
     {
-        [self showAlertWithTitle:@"Password Requirements" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", [requirements[@"minPasswordLength"] integerValue]]];
+        [self showAlertWithTitle:@"Password Requirements" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", [requirements[@"minLength"] integerValue]]];
         
     }
     

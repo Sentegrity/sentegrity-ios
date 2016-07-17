@@ -53,9 +53,12 @@
 - (NSString *)startupFilePath;
 
 // Create a new startup file (first time)
-- (NSString *)createNewStartupFileWithUserPassword:(NSString *)password withError:(NSError **)error;
+- (void) createNewStartupFileWithError:(NSError **)error;
 
-- (void)updateStartupFileWithEmail:(NSString *)email withError:(NSError **)error;
+// first update startup with password, returns masterKeyString
+- (NSString *) updateStartupFileWithPassoword: (NSString *)password withError:(NSError **)error;
+
+- (void) updateStartupFileWithEmail:(NSString *)email withError:(NSError **)error;
 
 // Reset Startup Store (remove startup file if exists, reset local attributes)
 - (void) resetStartupStoreWithError: (NSError **) error;

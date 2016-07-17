@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef void (^RunHistoryBlock)(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error);
+typedef void (^CheckPolicyBlock)(BOOL successfullyExecuted, BOOL newPolicyDownloaded, NSError *error);
 
 
 @interface Sentegrity_Network_Manager : NSObject
@@ -16,5 +17,6 @@ typedef void (^RunHistoryBlock)(BOOL successfullyExecuted, BOOL successfullyUplo
 + (Sentegrity_Network_Manager *) shared;
 
 - (void) uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback: (RunHistoryBlock) callback;
+- (void) checkForNewPolicyWithEmail: (NSString *) email  withCallback: (CheckPolicyBlock) callback;
 
 @end
