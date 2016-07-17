@@ -37,6 +37,96 @@
 }
 
 
+- (void) checkForNewPolicyWithEmail: (NSString *) email withCallback: (CheckPolicyBlock) callback {
+    NSError *error;
+    
+    //get current startup
+    Sentegrity_Startup *currentStartup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
+    
+    //if any error, stop it
+    if (error) {
+        if (callback)
+            callback(NO, NO, error);
+        return;
+    }
+
+    
+    //get current policy
+    Sentegrity_Policy *currentPolicy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+    
+    //if any error, stop it
+    if (error) {
+        if (callback)
+            callback(NO, NO, error);
+        return;
+    }
+    
+    // prepare dictionary (JSON) for sending
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    
+    //set empty array for run history objects
+    [dic setObject:@[] forKey:@"runHistoryObjects"];
+    
+    //policy information
+    [dic setObject:currentPolicy.revision forKey:@"policyRevision"];
+    [dic setObject:currentPolicy.policyID forKey:@"policyID"];
+    [dic setObject:currentPolicy.applicationVersionID forKey:@"applicationVersionID"];
+    [dic setObject:email forKey:@"email"];
+    
+    //device salt
+    [dic setObject:currentStartup.deviceSaltString forKey:@"deviceSalt"];
+    
+     [self.sessionManager uploadReport:dic withCallback:^(BOOL success, id responseObject, NSError *error) {
+         if (error) {
+             callback (NO, NO, error);
+         }
+         else {
+             NSDictionary *newPolicy = responseObject[@"data"][@"newPolicy"];
+             if (newPolicy && ![newPolicy isEqual:[NSNull null]]) {
+                 
+                 // new policy exists, need to replace old policy with this one
+                 Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] parsePolicyJSONobject:newPolicy withError:&error];
+                 
+                 if (error) {
+                     //something went wrong...
+                     if (callback)
+                         callback (NO, NO, error);
+                     
+                     return;
+                 }
+                 
+                 // save new policy
+                 [[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policy withError:&error];
+                 
+                 if (error) {
+                     //something went wrong...
+                     if (callback)
+                         callback (NO, NO, error);
+                     
+                     return;
+                 }
+                 
+                 //everything succesfull
+                 if (callback) {
+                     //we can use private api
+                     if ([policy.allowPrivateAPIs intValue]==1) {
+                         [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"allowPrivate"];
+                         [[NSUserDefaults standardUserDefaults] synchronize];
+                     }
+                     
+                     callback (YES, YES, nil);
+                 }
+                 
+             }
+             else {
+                 //no new policy
+                 callback (YES, NO, nil);
+             
+             }
+         }
+     }];
+}
+
 
 - (void) uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback: (RunHistoryBlock) callback {
     
@@ -111,6 +201,7 @@
         //policy information
         [dic setObject:currentPolicy.revision forKey:@"policyRevision"];
         [dic setObject:currentPolicy.policyID forKey:@"policyID"];
+        [dic setObject:currentPolicy.applicationVersionID forKey:@"applicationVersionID"];
         [dic setObject:email forKey:@"email"];
 
         //device salt

@@ -30,6 +30,8 @@
 @property (nonatomic,retain) NSArray *trustFactors;
 @property (nonatomic,retain) NSNumber *statusUploadRunFrequency;
 @property (nonatomic,retain) NSNumber *statusUploadTimeFrequency;
+@property (nonatomic,retain) NSDictionary *passwordRequirements;
+@property (nonatomic,retain) NSString *applicationVersionID;
 
 
 @end

@@ -102,5 +102,15 @@
     _statusUploadTimeFrequency = statusUploadTimeFrequency;
 }
 
+//password requirements
+- (void) setPasswordRequirements:(NSDictionary *)passwordRequirements {
+    _passwordRequirements = passwordRequirements;
+}
+
+//application version ID
+- (void) setApplicationVersionID:(NSString *)applicationVersionID {
+    _applicationVersionID = applicationVersionID;
+}
+
 
 @end
