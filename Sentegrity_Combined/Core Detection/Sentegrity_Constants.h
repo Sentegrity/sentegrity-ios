@@ -37,7 +37,7 @@
 #define kDefaultUserSalt                @"faklsjfads8sadjd8d"
 
 // Base URL for networking
-#define kBaseURLstring                  @"https://cloud.sentegrity.com/app_dev.php/"
+#define kBaseURLstring                  @"https://sentegrity-staging-lb-163070367.us-west-2.elb.amazonaws.com/app.php/"
 
 #pragma mark - Assertion Storage
 

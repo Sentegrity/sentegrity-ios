@@ -12,6 +12,7 @@
 #import "Sentegrity_Policy_Parser.h"
 #import "Sentegrity_Startup.h"
 #import "NSObject+ObjectMap.h"
+#import <sys/utsname.h>
 
 
 @interface Sentegrity_Network_Manager()
@@ -34,6 +35,14 @@
     });
     
     return _sharedSentegrity_Network_Manager;
+}
+
+- (NSString *) deviceName {
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    return [NSString stringWithCString:systemInfo.machine
+                              encoding:NSUTF8StringEncoding];
 }
 
 
@@ -64,18 +73,19 @@
     // prepare dictionary (JSON) for sending
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     
-    //set empty array for run history objects
-    [dic setObject:@[] forKey:@"runHistoryObjects"];
     
-    //policy information
-    [dic setObject:currentPolicy.revision forKey:@"policyRevision"];
-    [dic setObject:currentPolicy.policyID forKey:@"policyID"];
-    [dic setObject:currentPolicy.applicationVersionID forKey:@"applicationVersionID"];
-    [dic setObject:email forKey:@"email"];
-    
-    //device salt
-    [dic setObject:currentStartup.deviceSaltString forKey:@"deviceSalt"];
-    
+    /*
+     Prepare POST parameters
+     */
+    [dic setObject:currentPolicy.policyID forKey:@"current_policy_id"];
+    [dic setObject:currentPolicy.revision forKey:@"current_policy_revision"];
+    [dic setObject:@"" forKey:@"platform"];
+    [dic setObject:email forKey:@"user_activation_id"];
+    [dic setObject:@[] forKey:@"run_history_objects"]; //empty array
+    [dic setObject:currentStartup.deviceSaltString forKey:@"device_salt"];
+    [dic setObject:[self deviceName] forKey:@"phone_model"];
+    [dic setObject:currentPolicy.applicationVersionID forKey:@"app_version"];
+
      [self.sessionManager uploadReport:dic withCallback:^(BOOL success, id responseObject, NSError *error) {
          if (error) {
              callback (NO, NO, error);
@@ -188,9 +198,6 @@
         
         //need to add history objects
         NSArray *oldRunHistoryObjects = [NSArray arrayWithArray: currentStartup.runHistoryObjects];
-    
-        //get runHistoryObjects as array of dictionary (for succesful transition to JSON)
-        [dic setObject:currentStartupJSONobject[@"runHistoryObjects"] forKey:@"runHistoryObjects"];
         
         
         //get email
@@ -198,14 +205,19 @@
         if (!email)
             email = @"";
         
-        //policy information
-        [dic setObject:currentPolicy.revision forKey:@"policyRevision"];
-        [dic setObject:currentPolicy.policyID forKey:@"policyID"];
-        [dic setObject:currentPolicy.applicationVersionID forKey:@"applicationVersionID"];
-        [dic setObject:email forKey:@"email"];
-
-        //device salt
-        [dic setObject:currentStartup.deviceSaltString forKey:@"deviceSalt"];
+        
+        /*
+         Prepare POST parameters
+         */
+        
+        [dic setObject:currentPolicy.policyID forKey:@"current_policy_id"];
+        [dic setObject:currentPolicy.revision forKey:@"current_policy_revision"];
+        [dic setObject:@"" forKey:@"platform"];
+        [dic setObject:email forKey:@"user_activation_id"];
+        [dic setObject:currentStartupJSONobject[@"runHistoryObjects"] forKey:@"run_history_objects"];
+        [dic setObject:currentStartup.deviceSaltString forKey:@"device_salt"];
+        [dic setObject:[self deviceName] forKey:@"phone_model"];
+        [dic setObject:currentPolicy.applicationVersionID forKey:@"app_version"];
 
         [self.sessionManager uploadReport:dic withCallback:^(BOOL success, NSDictionary *responseObject, NSError *error) {
             if (!success) {

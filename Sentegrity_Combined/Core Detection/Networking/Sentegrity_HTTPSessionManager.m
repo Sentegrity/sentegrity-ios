@@ -115,7 +115,7 @@
     self.requestSerializer = [AFJSONRequestSerializer serializer];
 
     // relative path
-    NSString *apiCall = @"checkin";
+    NSString *apiCall = @"check-in";
     
     // currently POST (JSON), but posible to use PUT or any other HTTP method instead
     [self POST:apiCall parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
