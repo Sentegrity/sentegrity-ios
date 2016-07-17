@@ -39,6 +39,10 @@
     //initialise our manager
     self = [super initWithBaseURL:baseURL sessionConfiguration:sessionConfiguration];
     
+    //set our custom serialiser
+    [self setResponseSerializer:[Sentegrity_JSONResponseSerializer serializer]];
+    
+    
     if (self) {
         //call this to enable certificate pinning
         [self configureSecurityPolicy];
@@ -115,7 +119,7 @@
     self.requestSerializer = [AFJSONRequestSerializer serializer];
 
     // relative path
-    NSString *apiCall = @"check-in";
+    NSString *apiCall = @"api/check-in";
     
     // currently POST (JSON), but posible to use PUT or any other HTTP method instead
     [self POST:apiCall parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

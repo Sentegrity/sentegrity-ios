@@ -108,8 +108,7 @@
         [self.easyActivationViewController updateUIForNotification:event];
 
     
-    
-    
+
         switch (event)
         {
             case AuthorizationSucceeded:
