@@ -32,6 +32,8 @@
 @property (nonatomic,retain) NSNumber *statusUploadTimeFrequency;
 @property (nonatomic,retain) NSDictionary *passwordRequirements;
 @property (nonatomic,retain) NSString *applicationVersionID;
+@property (nonatomic,retain) NSString *platform;
+
 
 
 @end

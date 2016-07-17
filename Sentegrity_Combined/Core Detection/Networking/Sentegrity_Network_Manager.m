@@ -79,7 +79,7 @@
      */
     [dic setObject:currentPolicy.policyID forKey:@"current_policy_id"];
     [dic setObject:currentPolicy.revision forKey:@"current_policy_revision"];
-    [dic setObject:@"" forKey:@"platform"];
+    [dic setObject:currentPolicy.platform forKey:@"platform"];
     [dic setObject:email forKey:@"user_activation_id"];
     [dic setObject:@[] forKey:@"run_history_objects"]; //empty array
     [dic setObject:currentStartup.deviceSaltString forKey:@"device_salt"];
@@ -212,7 +212,7 @@
         
         [dic setObject:currentPolicy.policyID forKey:@"current_policy_id"];
         [dic setObject:currentPolicy.revision forKey:@"current_policy_revision"];
-        [dic setObject:@"" forKey:@"platform"];
+        [dic setObject:currentPolicy.platform forKey:@"platform"];
         [dic setObject:email forKey:@"user_activation_id"];
         [dic setObject:currentStartupJSONobject[@"runHistoryObjects"] forKey:@"run_history_objects"];
         [dic setObject:currentStartup.deviceSaltString forKey:@"device_salt"];

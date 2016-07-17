@@ -112,5 +112,9 @@
     _applicationVersionID = applicationVersionID;
 }
 
+//platform
+- (void) setPlatform:(NSString *)platform {
+    _platform = platform;
+}
 
 @end
