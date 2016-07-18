@@ -104,7 +104,7 @@
     //get new policy
     Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:error];
     
-    if (!policy || error) {
+    if (*error) {
         //some strange error occured
         return nil;
     }
@@ -116,7 +116,7 @@
     //if there is no passwordRequirements defined in the policy, use default values (to support older policies)
     if (passwordRequirements == nil) {
         passwordRequirements =  @{
-                                  @"minLength" : @(6),
+                                  @"minLenght" : @(6),
                                   @"alphaNumeric" : @(YES),
                                   @"mixedCase" : @(NO),
                                   @"specialCharacter" : @(NO)
@@ -222,16 +222,16 @@
     
     NSMutableString *stringM = [NSMutableString string];
     [stringM appendString:@"Your password must have:\n"];
-    [stringM appendFormat:@"- At least %ld characters", [dic[@"minLength"] integerValue]];
+    [stringM appendFormat:@"- At least %ld characters", [dic[@"minLenght"] integerValue]];
     
     if ([dic[@"alphaNumeric"] boolValue]) {
         [stringM appendFormat:@"\n"];
-        [stringM appendFormat:@"- Alphanumeric"];
+        [stringM appendFormat:@"- Alphanumeric characters"];
     }
     
     if ([dic[@"mixedCase"] boolValue]) {
         [stringM appendFormat:@"\n"];
-        [stringM appendFormat:@"- Mixed case"];
+        [stringM appendFormat:@"- Mixed case characters"];
     }
     
     if ([dic[@"specialCharacter"] boolValue]) {
@@ -325,7 +325,7 @@
     }
     else
     {
-        [self showAlertWithTitle:@"Password Requirements" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", [requirements[@"minLength"] integerValue]]];
+        [self showAlertWithTitle:@"Password Requirements" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", [requirements[@"minLenght"] integerValue]]];
         
     }
     
