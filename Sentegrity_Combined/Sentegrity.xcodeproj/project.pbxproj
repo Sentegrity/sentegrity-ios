@@ -243,7 +243,7 @@
 		4C2667551CC03AF400F10DC0 /* GDAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GDAssets.bundle; sourceTree = "<group>"; };
 		4C2667561CC03AF400F10DC0 /* MockGDiOSResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MockGDiOSResources.bundle; sourceTree = "<group>"; };
 		4C26675B1CC03BA700F10DC0 /* SentegrityTAF_Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SentegrityTAF_Info.plist; sourceTree = "<group>"; };
-		4C26675D1CC03CB500F10DC0 /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GD.framework; path = "../../../../Good Technology/Good.platform/Frameworks/GD.framework"; sourceTree = "<group>"; };
+		4C26675D1CC03CB500F10DC0 /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GD.framework; path = "/Good Technology/Good.platform/Frameworks/GD.framework"; sourceTree = "<absolute>"; };
 		4C26675F1CC03CBC00F10DC0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4C2667611CC03CC200F10DC0 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		4C2667631CC03CC900F10DC0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -260,7 +260,7 @@
 		4C2667791CC03D1C00F10DC0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		4C26677B1CC03D2600F10DC0 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		4C26677D1CC03D2E00F10DC0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		4C26677F1CC03D4B00F10DC0 /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DAFSupport.framework; path = "../../../../Good Technology/daf-sdk-ios-v2.0.173/Frameworks/DAFSupport.framework"; sourceTree = "<group>"; };
+		4C26677F1CC03D4B00F10DC0 /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DAFSupport.framework; path = "/Good Technology/daf-sdk-ios-v2.3.93/Frameworks/DAFSupport.framework"; sourceTree = "<absolute>"; };
 		4C2667811CC03D5A00F10DC0 /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DAFSupport.framework; sourceTree = "<group>"; };
 		4C2667931CC0421800F10DC0 /* SentegrityTAF_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_main.m; sourceTree = "<group>"; };
 		4C5393841B2F965D00EA4484 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
@@ -1464,6 +1464,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jason Sinchak (BQXNSAY7KH)";
@@ -1540,6 +1541,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trusted Mobile, LLC (86G3K7BVQY)";
