@@ -189,6 +189,9 @@
     // NSString *email = [self.enterprisePolicy objectForKey:GDAppConfigKeyUserId];
     
     
+    
+    //MasterKeyString will be provided as decrypted in UnlockViewController
+    /*
     //new startup is already created in welcome screen, just update it with new password
     //[[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithError:&error];
     NSString *masterKeyString = [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithPassoword:pass1 withError:&error];
@@ -202,7 +205,9 @@
     
     // Set the result to the master key
     [result setResult:masterKeyString];
-    
+    */
+     
+     
     // Dismiss the view
     [self.delegate dismissSuccesfullyFinishedViewController:self];
     
@@ -372,6 +377,7 @@
 
 - (void)updateUIForNotification:(enum DAFUINotification)event
 {
+    /*
     if (event==ChangePasswordCancelled  && result != nil)
     {
         // Idle Lock (or other lock event) happened during change-passphrase sequence
@@ -397,6 +403,8 @@
                                              code:103
                                          userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
     }
+    */
+    
 }
 
 @end

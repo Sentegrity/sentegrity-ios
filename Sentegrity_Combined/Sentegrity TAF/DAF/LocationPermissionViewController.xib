@@ -35,7 +35,7 @@
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kv6-kH-ZBc">
                                             <rect key="frame" x="16" y="138" width="343" height="183.5"/>
-                                            <mutableString key="text">Sentegrity uses location information to assist in user authentication. For example, Sentegrity can identify if you reside in a familiar (trusted) location and increase your TrustScore. Location information is only analyzed locally on this device and never stored or transmitted.   If you disallow location services your TrustScore will decrease and Sentegrity may require you to enter your password more often. </mutableString>
+                                            <string key="text">Sentegrity uses location information to assist in user authentication. For example, Sentegrity can identify if you reside in a familiar (trusted) location and increase your TrustScore. Location information is only analyzed locally on this device and never stored or transmitted.   If you disallow location services your TrustScore will decrease and Sentegrity may require you to enter your password more often. </string>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="yes"/>
                                         </textView>

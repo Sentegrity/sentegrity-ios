@@ -14,8 +14,12 @@
 // General GD runtime
 #import <GD/GDiOS.h>
 
-// Root View Controller
+// view controllers
 #import "SentegrityTAF_MainViewController.h"
+#import "SentegrityTAF_FirstTimeViewController.h"
+#import "SentegrityTAF_UnlockViewController.h"
+#import "SentegrityTAF_AuthWarningViewController.h"
+#import "SentegrityTAF_BlankAuthViewController.h"
 
 // Activity Dispatcher
 #import "Sentegrity_Activity_Dispatcher.h"
@@ -25,8 +29,13 @@
 @interface SentegrityTAF_AppDelegate : DAFAppBase 
 
 
-// root view controller
+@property (nonatomic, strong) SentegrityTAF_BlankAuthViewController *authFirstTimeViewController;
+@property (nonatomic, strong) SentegrityTAF_BlankAuthViewController *authViewController;
 @property (strong, nonatomic) SentegrityTAF_MainViewController *mainViewController;
+@property (nonatomic, strong) SentegrityTAF_FirstTimeViewController *firstTimeViewController;
+@property (nonatomic, strong) SentegrityTAF_UnlockViewController *unlockViewController;
+@property (nonatomic, strong) SentegrityTAF_AuthWarningViewController *easyActivationViewController;
+@property (nonatomic, strong) Sentegrity_Activity_Dispatcher *activityDispatcher;
 
 
 @end

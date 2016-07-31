@@ -28,11 +28,11 @@
                                             <rect key="frame" x="25" y="40" width="82" height="26"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Em4-dh-Nyy" userLabel="separator">
-                                            <rect key="frame" x="0.0" y="66" width="375" height="99.5"/>
+                                            <rect key="frame" x="0.0" y="66" width="375" height="88"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7JM-94-mrU">
-                                            <rect key="frame" x="25" y="165.5" width="325" height="282.5"/>
+                                            <rect key="frame" x="25" y="154" width="325" height="282.5"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_full" translatesAutoresizingMaskIntoConstraints="NO" id="JLG-fC-Ywi">
                                                     <rect key="frame" x="0.0" y="0.0" width="150" height="74"/>
@@ -74,11 +74,11 @@ Let's get set up.</string>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZaQ-1m-VTI" userLabel="separator">
-                                            <rect key="frame" x="0.0" y="448" width="375" height="99"/>
+                                            <rect key="frame" x="0.0" y="436.5" width="375" height="87.5"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YV-ax-a0L">
-                                            <rect key="frame" x="245" y="547" width="130" height="60"/>
+                                            <rect key="frame" x="245" y="524" width="130" height="60"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="60" id="jta-nA-jXk"/>
                                                 <constraint firstAttribute="width" constant="130" id="s2q-rJ-By3"/>
@@ -102,7 +102,7 @@ Let's get set up.</string>
                                         <constraint firstItem="ZaQ-1m-VTI" firstAttribute="height" secondItem="Em4-dh-Nyy" secondAttribute="height" id="Fok-YC-HQ3"/>
                                         <constraint firstAttribute="trailing" secondItem="8YV-ax-a0L" secondAttribute="trailing" id="HLt-G1-b5g"/>
                                         <constraint firstAttribute="trailing" secondItem="ZaQ-1m-VTI" secondAttribute="trailing" id="SXn-nf-VNs"/>
-                                        <constraint firstAttribute="bottom" secondItem="8YV-ax-a0L" secondAttribute="bottom" constant="10" id="UTb-ZS-hsx"/>
+                                        <constraint firstAttribute="bottom" secondItem="8YV-ax-a0L" secondAttribute="bottom" constant="33" id="UTb-ZS-hsx"/>
                                         <constraint firstAttribute="height" constant="500" id="XjR-Q4-cvH"/>
                                         <constraint firstItem="7JM-94-mrU" firstAttribute="leading" secondItem="QLo-uO-hGk" secondAttribute="leading" constant="25" id="bOT-cD-Qfo"/>
                                         <constraint firstAttribute="trailing" secondItem="Em4-dh-Nyy" secondAttribute="trailing" id="cUV-IA-tc1"/>
@@ -178,7 +178,7 @@ Let's get set up.</string>
                 <constraint firstAttribute="bottom" secondItem="NRC-V3-aA7" secondAttribute="bottom" id="i6S-bK-0Ez"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-            <point key="canvasLocation" x="244.5" y="220.5"/>
+            <point key="canvasLocation" x="315.5" y="220.5"/>
         </view>
     </objects>
     <resources>

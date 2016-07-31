@@ -65,6 +65,18 @@ public:
 
   /// RSASSA-PKCS1-v1.5 sha512WithRSAEncryption from RFC5754
   static DAMechanism sha512WithRSAEncryption() { return DAUtils::mkData("\x06\x09\x2a\x86\x48\x86\xf7\x0d\x01\x01\x0d"); }
+
+  /// dsa-with-SHA1 from RFC3370
+  static DAMechanism dsa_with_SHA1() { return DAUtils::mkData("\x06\x07\x2A\x86\x48\xCE\x38\x04\x03"); }
+
+  /// dsa-with-SHA224 from RFC5754
+  static DAMechanism dsa_with_SHA224() { return DAUtils::mkData("\x06\x09\x60\x86\x48\x01\x65\x03\x04\x03\x01"); }
+
+  /// dsa-with-SHA256 from RFC5754
+  static DAMechanism dsa_with_SHA256() { return DAUtils::mkData("\x06\x09\x60\x86\x48\x01\x65\x03\x04\x03\x02"); }
+  
+  /// ecdsa-with-SHA1 from RFC3279
+  static DAMechanism ecdsa_with_SHA1() { return DAUtils::mkData("\x06\x07\x2A\x86\x48\xCE\x3D\x04\x01"); }
   
   /// ecdsa-with-SHA224 from RFC5754
   static DAMechanism ecdsa_with_SHA224() { return DAUtils::mkData("\x06\x08\x2a\x86\x48\xce\x3d\x04\x03\x01"); }

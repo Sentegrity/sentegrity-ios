@@ -17,8 +17,32 @@
 #import "DAFWaitableResult.h"
 #import "DAFDefaultStartupViewController.h"
 #import "DAFDefaultPasswordViewController.h"
+#import "DAFDefaultUnhandledOperationController.h"
 #import "DAFPINEntryViewController.h"
 #import "DAFAuthenticationWarning.h"
+
+/** \brief Handler for DAF 'user operations'.
+ *
+ * 'User operations' are application functions which need a DAF Session
+ * to complete. DAFAppBase provides a method for creating a session
+ * (launching the UI to get an auth token if necessary), then calling back
+ * a user-supplied handler with it. The callback is made on the DAF 
+ * 'operations thread'; this allows blocking calls, and also ensures that
+ * only one DAF call will be threaded at any one time.
+ */
+
+struct DASession;
+
+@protocol DAFUserOperationHandler
+- (void)runWithSession:(struct DASession *)session;
+///< Performs the user operation, given a DASession object. The
+///  session is torn down when the handler returns.
+
+- (void)notifyFailure:(NSString *)message;
+///< Called instead of runWithSession: if session creation failed
+///  (or the operation was cancelled).
+@end
+
 
 /** \brief Base class for iOS DAF Applications
  *
@@ -32,10 +56,10 @@
  * The app will usually need to provide user interfaces for such things as
  * prompts during authentication, initial setup, and device maintenance. This 
  * is done by implementing a subclass of DAFAppBase which overrides the
- * \ref showUIForAction:withResult: and \ref eventNotification:withMessage: methods.
+ * \ref getUIForAction:withResult: and \ref eventNotification:withMessage: methods.
  * This subclass is used as the UIApplicationDelegate object for the application.
  *
- * Default implementations of showUIForAction:withResult: and eventNotification:withMessage:
+ * Default implementations of getUIForAction:withResult: and eventNotification:withMessage:
  * are provided which may be used if no customisation is required for a given action.
  *
  * On startup, DAFAppBase creates a thread (a DAFOperationsThread object) to 
@@ -47,13 +71,12 @@
  */
 @interface DAFAppBase : UIResponder <UIApplicationDelegate, GDiOSDelegate, GDTrustDelegate>
 
-/** \brief Get DAFAppBase instance.
++ (DAFAppBase *)getInstance;
+/**< \brief (static) Get DAFAppBase instance.
  *
  * \return Returns the instance of the \ref DAFAppBase object for this application.
  * This value gets recorded during the didFinishLaunchingWithOptions: method.
  */
-+ (DAFAppBase *)getInstance;
-
 
 /* Properties ---------------------------------- */
 
@@ -69,7 +92,7 @@
 /**< \brief Default view controller for startup actions.
  *
  *  This view controller is presented by the default implementation of \ref 
- *  showUIForAction:withResult: for the \ref AppStartup action. This presents an
+ *  getUIForAction:withResult: for the \ref AppStartup action. This presents an
  *  empty view and does not allow any user interaction. It is loaded by
  *  \ref loadDefaultViewControllers at app startup.
  */
@@ -77,10 +100,19 @@
 @property (strong, nonatomic) DAFDefaultPasswordViewController *passwordViewController;
 /**< \brief Default view controller for user password entry actions.
  *
- *   This is presented by the DAFAppBase's implementation of \ref showUIForAction:withResult: 
+ *   This is presented by the DAFAppBase's implementation of \ref getUIForAction:withResult:
  *   for password actions (\ref GetPassword_FirstTime etc). This controller presents
  *   basic, unbranded, password-entry screens which are suitable for basic TA apps. It
  *   is loaded by \ref loadDefaultViewControllers at app startup.
+ */
+
+@property (strong, nonatomic) DAFDefaultUnhandledOperationController *unhandledOperationController;
+/**< \brief Default view controller for unhandled operations.
+ *
+ *  This view controller is presented by the default implementation of \ref
+ *  getUIForAction:withResult: when an action needs to be implemented by the application
+ *  but its not. This presents a basic view displaying an unhandled operation message. 
+ *  It is loaded by \ref loadDefaultViewControllers at app startup.
  */
 
 @property (strong, nonatomic) DAFPINEntryViewController *pinEntryViewController;
@@ -117,7 +149,7 @@
  *
  * Note that the GD runtime will begin a new authorization (unlock)
  * sequence as soon as this is called. This will result in a callback
- * to \ref showUIForAction:withResult: for the \ref GetAuthToken action. If the
+ * to \ref getUIForAction:withResult: for the \ref GetAuthToken action. If the
  * app does not want to unlock at this time, it may delay the response
  * to GetAuthToken artibrarily.
  */
@@ -154,7 +186,7 @@
  * When this is done, a new GetAuthToken_FirstTime operation will
  * be requested, and a fresh authentication secret can be generated.
  *
- * \param authTokenResult 'result' parameter passed to showUIForAction.
+ * \param authTokenResult 'result' parameter passed to getUIForAction.
  *                This result will be cancelled.
  */
 - (void)requestRecovery:(DAFWaitableResult *)authTokenResult;
@@ -192,6 +224,10 @@
 
 - (void)opsChangePassphraseFailed:(NSString *)message;
 ///< Internal use: ops thread can call this during password-change sequence
+
+- (void)opsUserOperationDone:(id<DAFUserOperationHandler>)handler;
+///< Internal use: indicates operations thread is finished running a user operation
+
 #endif // !(DOXYGEN)
 
 - (void)loadDefaultViewControllers;
@@ -202,12 +238,23 @@
  * A subclass could override this to replace these with other VCs if desired.
  */
  
+- (BOOL)startUserOperation:(id<DAFUserOperationHandler>)handler withWarning:(DAFAuthenticationWarning *)warning;
+/**< Begins a generic 'user operation' sequence
+  *
+  *  This launches the GetAuthToken_WithWarning UI to get 'auth token' data,
+  *  then creates a DASession object with it. The session is passed to the 
+  *  runWithSession: selector on the given 'handler' object.
+  *
+  *  Returns NO if the UI is unable to launch a session at this time, and
+  *  YES if the sequence has been started.
+  */
+
 // Device-specific methods -----------------------------
 
-- (void)showUIForAction:(enum DAFUIAction)action withResult:(DAFWaitableResult *)result;
-/**< \brief Launch a UI screen for various actions.
+- (UIViewController *)getUIForAction:(enum DAFUIAction)action withResult:(DAFWaitableResult *)result;
+/**< \brief Get a UI screen for various actions.
  *
- * A subclass of DAFAppBase may override this method to show a device-type-specific
+ * A subclass of DAFAppBase may override this method to specify a device-type-specific
  * user interface for various system actions.
  * \param action the action for which UI is being requested.
  * \param result the DAFWaitableResult object which is used to signal completion 

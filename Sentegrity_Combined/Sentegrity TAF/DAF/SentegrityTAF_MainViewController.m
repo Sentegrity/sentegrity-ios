@@ -20,6 +20,13 @@
     BOOL once;
 }
 
+@property (nonatomic) BOOL firstTime;
+
+@property (weak, nonatomic) IBOutlet ILContainerView *containerView;
+@property (strong, nonatomic) DashboardViewController *dashboardViewController;
+@property (nonatomic, strong) UIViewController *currentViewController;
+
+
 @end
 
 @implementation SentegrityTAF_MainViewController
@@ -27,228 +34,71 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.containerView setCurrentViewController:self];
-    // Do any additional setup after loading the view from its nib.
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     self.firstTime = [DAFAuthState getInstance].firstTime;
+    // Do any additional setup after loading the view from its nib.
+    
 }
 
-- (void)applicationWillEnterForeground:(NSNotification *)notification {
-   self.deauthorizing=NO;
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void) dismissSuccesfullyFinishedViewController:(UIViewController *)vc {
-    
-    //clear current state
-    CurrentState lastCurrentState = _currentState;
-    _currentState = CurrentStateUnknown;
-    
-    //after welcome screen, we need to show permission screen
-    if (lastCurrentState == CurrentStateWelcome) {
-        [self showAskingForPermissions];
-    }
-    
-    //after permission screen, we need to show password creation screen
-    else  if (lastCurrentState == CurrentStateAskingPermissions) {
-        [self showPasswordCreationWithResult:self.result];
-    }
-    
-    //after password creation screen, we need to show unlock
-    else  if (lastCurrentState == CurrentStatePasswordCreation) {
-        [self showUnlockWithResult:self.result];
-    }
-    
-    else {
-        // Don't show anything unless we've already created password and activated
-        if(self.firstTime==NO && self.easyActivation==NO && self.getPasswordCancelled==NO){
+
+
+- (void)updateUIForNotification:(enum DAFUINotification)event
+{
+    NSLog(@"SentegrityTAF_MainViewController: updateUIForNotification: %d", event);
+    switch (event)
+    {
+        case AuthorizationSucceeded: {
+            NSError *error;
             
-            // If we have no results to display, run detection, otherwise we will keep the last ones
-            if([[CoreDetection sharedDetection] getLastComputationResults] == nil)
+            NSString *currentEmail = [[[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error] email];
+            
+            // For some reason we only get this policy after activation
+            // but check everytime if does not get set for whatever reason
+            if(self.firstTime==YES || !currentEmail)
             {
-                //[self dismissViewControllerAnimated:NO completion:nil];
                 
-                // we run core detection again by sending to the unlock vc
-                [self showUnlockWithResult:self.result];
+                NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];
+                
+                // Update the startup file with the email
+                
+                [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:email withError:&error];
+                
+                // Set firsttime to NO such that after password creation the user will see the trustscore screen
+                self.firstTime=NO;
             }
-            else{
-                [self showDashboard];
-            }
+            
+            //show dashboard
+            [self showDashboard];
+            
+            break;
+            
         }
+        case AuthorizationFailed:
+        case IdleLocked:
+            //[self.lockButton setHidden:YES];
+            //[self.changePasswordButton setHidden:YES];
+            break;
+            
+        case ChangePasswordSucceeded:
+        case ChangePasswordFailed:
+           // [self.changePasswordButton setHidden:NO];
+            break;
+            
+        default:
+            break;
     }
 }
 
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    
-    //if nothing is on the screen, try to show dashboard/unlock
-    if (!once && self.currentState == CurrentStateUnknown)
-        [self dismissSuccesfullyFinishedViewController:nil];
-    
-    once = YES;
-}
-
-
-
-
-// Update the UI for Notification
-- (void)updateUIForNotification:(enum DAFUINotification)event {
-    NSLog(@"SentegrityTAF_ViewController: updateUIForNotification: %d", event);
-    
-        //if any of below viewController is currenlty active, forward this event to update result
-        [self.dashboardViewController updateUIForNotification:event];
-        [self.unlockViewController updateUIForNotification:event];
-        [self.passwordCreationViewController updateUIForNotification:event];
-        [self.easyActivationViewController updateUIForNotification:event];
-
-    
-
-        switch (event)
-        {
-            case AuthorizationSucceeded:
-                // Authorization succeeded
-                
-                //Reset
-                
-                // Don't allow getPasswordCancelled again until after we finish deauthorizing
-            {
-                self.deauthorizing= NO;
-                self.getPasswordCancelled=NO;
-                self.easyActivation=NO;
-                
-                NSError *error;
-                
-                NSString *currentEmail = [[[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error] email];
-                
-                
-                // For some reason we only get this policy after activation
-                // but check everytime if does not get set for whatever reason
-                if(self.firstTime==YES || !currentEmail)
-                {
-                    
-                    NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];
-                    
-                    // Update the startup file with the email
-                    
-                    [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:email withError:&error];
-                    
-                    // Set firsttime to NO such that after password creation the user will see the trustscore screen
-                    self.firstTime=NO;
-                }
-            }
-                
-                break;
-                
-            case AuthorizationFailed:
-                // Authorization failed
-                
-                self.deauthorizing=NO;
-                self.getPasswordCancelled=NO;
-                self.easyActivation=NO;
-                
-                break;
-                
-            case IdleLocked:
-                // Locked from idle timeout
-                
-                // Jason Added:
-                // Need to show unlock screen here since its an idle lock
-                // We don't have a valid result object but just want to show the unlock screen
-                // this prevents someone unauthorized from viewing  dashboard
-                
-                //Deauthorize, this will restart the runtime process
-                
-                // If we are already deauthorizing and receive another GetPasswordCancelled, ignore it to avoid a loop
-                // caused by GetPasswordCancelled constantly re-invoking deauthorization
-                
-                // Removed because it shouldnt be necessary to deauth here
-                [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
-                if(self.deauthorizing==NO){
-                    [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
-                    self.deauthorizing=YES;
-                }
-                
-                //self.result=nil;
-                
-                /*
-                 {
-                 DAFWaitableResult *result = nil;
-                 [self showUnlockWithResult:result];
-                 }
-                 */
-                
-                // Present unlock
-                // [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
-                // [self.unlockViewController setResult:self.result];
-                // [self presentViewController:self.unlockViewController animated:NO completion:nil];
-                
-                break;
-                
-            case GetPasswordCancelled:
-                // Means that an app requested our services but we are/were already showing the password screen
-                // We should re-run core detection to get new data when this is the case
-                // Therefore, re-request the unlock screen
-                
-                //  if(self.result!=nil){
-                //      self.result=nil;
-                // }
-                // Present unlock
-                //if(self.result !=nil){
-                
-                // Temp removed for testing of unlock otherwise it may run core detection twice
-                //[self showUnlockWithResult:self.result];
-                
-                // If we are already deauthorizing and receive another GetPasswordCancelled, ignore it to avoid a loop
-                // caused by GetPasswordCancelled constantly re-invoking deauthorization
-                
-                // This may trigger the DAF to restart auth
-                self.result=nil;
-                if(self.result==nil && self.deauthorizing==NO){
-                    [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after idleLock"];
-                    self.deauthorizing=YES;
-                }
-                
-                
-                /*
-                if([self.deauthorizing intValue]==0){
-                    
-                    [[DAFAppBase getInstance] deauthorize:@"Deauthorizing after cancell event"];
-                    
-                    self.deauthorizing=[NSNumber numberWithInteger:1];
-                }
-                 */
-                self.getPasswordCancelled=YES;
-                     
-                break;
-                
-            case AuthenticateWithWarnStarted:
-                /*
-                 [self dismissViewControllerAnimated:NO completion:nil];
-                 [self.unlockViewController dismissViewControllerAnimated:NO completion:nil];
-                 [self.unlockViewController setResult:self.result];
-                 [self presentViewController:self.unlockViewController animated:NO completion:nil];
-                 
-                 */
-                self.easyActivation=YES;
-                self.deauthorizing=NO;
-
-                break;
-                
-            default:
-                
-                break;
-        }
-    
-}
-
-
-#pragma mark - setters
 
 - (void) setCurrentViewController:(UIViewController *)currentViewController {
     
@@ -260,123 +110,7 @@
 }
 
 
-#pragma mark - public methods for show screen
-
-- (void) showWelcomePermissionAndPassWordCreationWithResult:(DAFWaitableResult *)result {
-    self.result = result;
-    [self showWelcome];
-}
-
-
-- (void) showWelcome {
-    SentegrityTAF_WelcomeViewController *welcome = [[SentegrityTAF_WelcomeViewController alloc] init];
-    welcome.delegate = self;
-    
-    //set new screen and state
-    self.currentState = CurrentStateWelcome;
-    self.welcomeViewController = welcome;
-    self.currentViewController = welcome;
-}
-
-- (void) showAskingForPermissions {
-    SentegrityTAF_AskPermissionsViewController *askingPermission = [[SentegrityTAF_AskPermissionsViewController alloc] init];
-    askingPermission.delegate = self;
-    askingPermission.permissions = [self checkApplicationPermission];
-    askingPermission.activityDispatcher = self.activityDispatcher;
-    
-    //set new screen and state
-    self.currentState = CurrentStateAskingPermissions;
-    self.askPermissionsViewController = askingPermission;
-    self.currentViewController = askingPermission;
-}
-
-- (void) showPasswordCreationWithResult: (DAFWaitableResult *)result {
-    
-    SentegrityTAF_PasswordCreationViewController *passwordCreationViewController;
-    
-    
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        // iPhone View Controllers
-        passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController_iPhone" bundle:nil];
-        
-    } else {
-        
-        // iPad View Controllers
-        passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController_iPad" bundle:nil];
-    }
-    
-    passwordCreationViewController.delegate = self;
-    [passwordCreationViewController setResult:result];
-    
-    //set new screen and state
-    self.currentState = CurrentStatePasswordCreation;
-    self.passwordCreationViewController = passwordCreationViewController;
-    self.currentViewController = passwordCreationViewController;
-}
-
-
-- (void) showUnlockWithResult: (DAFWaitableResult *)result{
-    
-    self.deauthorizing=NO;
-    
-        SentegrityTAF_UnlockViewController *unlockViewController;
-        
-        // Get the nib for the device
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            
-            // iPhone View Controllers
-            unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
-            
-        } else {
-            
-            // iPad View Controllers
-            unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
-        }
-        
-        unlockViewController.delegate = self;
-        [unlockViewController setResult:result];
-    
-        //set new screen and state
-        self.currentState = CurrentStateUnlock;
-        self.unlockViewController = unlockViewController;
-        self.currentViewController = unlockViewController;
-        
-    //}
- 
-}
-
-
-
-- (void) showAuthWarningWithResult: (DAFWaitableResult *)result {
-
-    SentegrityTAF_AuthWarningViewController *easyActivationViewController;
-
-    // Get the nib for the device
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        // iPhone View Controllers
-        easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPhone" bundle:nil];
-        
-        
-    } else {
-        
-        // iPad View Controllers
-        easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPad" bundle:nil];
-    }
-    
-
-    easyActivationViewController.delegate = self;
-    [easyActivationViewController setResult:result];
-    
-    //set new screen and state
-    self.currentState = CurrentStateAuthWarning;
-    self.currentViewController = easyActivationViewController;
-    self.easyActivationViewController = easyActivationViewController;
-}
-
 - (void) showDashboard {
-    
     
    
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -413,55 +147,9 @@
 
     
     //set new screen and state
-    self.currentState = CurrentStateDashboard;
     self.currentViewController = sideMenuViewController;
     self.dashboardViewController = dashboardViewController;
 }
-
-
-#pragma mark - permissions
-
-// Check if the application has permissions to run the different activities, set DNE status and return list of permission
-- (NSArray *) checkApplicationPermission {
-    ISHPermissionRequest *permissionLocationWhenInUse = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
-    ISHPermissionRequest *permissionActivity = [ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse];
-    
-    // Get permissions
-    NSMutableArray *permissions = [[NSMutableArray alloc] initWithCapacity:2];
-    
-    // Check if location permissions are authorized
-    if ([permissionLocationWhenInUse permissionState] != ISHPermissionStateAuthorized) {
-        
-        // Location not allowed
-        
-        // Set location error
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_unauthorized];
-        
-        // Set placemark error
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setPlacemarkDNEStatus:DNEStatus_unauthorized];
-        
-        // Add the permission
-        [permissions addObject:@(ISHPermissionCategoryLocationWhenInUse)];
-        
-    } 
-    
-    // Check if activity permissions are authorized
-    if ([permissionActivity permissionState] != ISHPermissionStateAuthorized) {
-        
-        // Activity not allowed
-        
-        // The app isn't authorized to use motion activity support.
-        [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_unauthorized];
-        
-        // Add the permission
-        [permissions addObject:@(ISHPermissionCategoryActivity)];
-        
-    }
-    
-    return permissions;
-}
-
-
 
 
 @end

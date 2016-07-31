@@ -97,6 +97,7 @@ public:
       NOT_IMPLEMENTED     = 12, ///< Method is not implemented
       BAD_PARAMETERS      = 13, ///< Missing or invalid parameters to method
       OS_ERROR            = 14, ///< Operating system call failed
+      UNSUPPORTED_HASH    = 15, ///< Requested hash function cannot be used here
     };
     // ... and so on. Derived classes will doubtless need their own.
   
@@ -145,7 +146,8 @@ public:
   F(DAError::VERIFY_FAILED, "Invalid signature or ciphertext") \
   F(DAError::NOT_IMPLEMENTED, "Function or method is not implemented") \
   F(DAError::BAD_PARAMETERS, "Missing or invalid parameters to method") \
-  F(DAError::OS_ERROR, "Operating system call failed")
+  F(DAError::OS_ERROR, "Operating system call failed") \
+  F(DAError::UNSUPPORTED_HASH, "Requested hash function cannot be used here")
 #endif
 
 /** \brief Interface to device object.
@@ -289,6 +291,10 @@ public:
     virtual bool verify(DAMessage &msg)=0;
 
     /** \brief Retrieve key data
+     *
+     * This is only called for class-0 and class-1 keys. Keys
+     * capable of cryptographic operation should not implement this.
+     *
      * Returns success = true
      */
     virtual bool getData(DAData &data)=0;
@@ -335,6 +341,26 @@ public:
      */
 };
 
+/** \brief Identification of hash algorithm used for signature. 
+ *
+ * For signatures using public-key algorithms, the caller may deliver
+ * the hash of a message instead of the message itself. The hash algorithm
+ * used is identified using a DADigestType enum.
+ */
+typedef enum
+{
+  DA_DIGEST_NONE = 0, ///< Message has not been hashed
+  
+  DA_DIGEST_SHA1 = 1,   ///< SHA-1 hash (20 bytes)
+  DA_DIGEST_SHA224 = 2, ///< SHA-224 hash (28 bytes)
+  DA_DIGEST_SHA256 = 3, ///< SHA-256 hash (32 bytes)
+  DA_DIGEST_SHA384 = 4, ///< SHA-384 hash (48 bytes)
+  DA_DIGEST_SHA512 = 5, ///< SHA-512 hash (64 bytes)
+  
+  DA_DIGEST_SSL3_MD5_SHA1 = 6, ///< 36-byte MD5+SHA1 dual hash, used by SSL3 and TLS 1.0-1.1
+}
+  DADigestType;
+
 /** \brief Encapsulates a message and various (optional) crypto parameters
  *
  * Keys operate on Messages.
@@ -352,13 +378,20 @@ public:
         , m_iv()
         , m_mech()
         , m_flags(0)
+        , m_digestType(DA_DIGEST_NONE)
     {}
 
     /* Default destructor, copy constructor and assignment operator
      * is OK. */
     
-    /** \brief Return Crypto Algorithm
+    /** \brief Return cryptographic mechanism identifier.
      *
+     * This is, in most cases, a value chosen from class CommonMech.
+     * It is set by the DAKey::sign() and DAKey::encrypt() methods, and
+     * must be set by the called before DAKey::verify() and DAKey::decrypt().
+     *
+     * \return true if a mechanism was set (and mech had a value assigned).
+     * Returns false if no mechanism is set.
      */
     bool getMechanism(DAMechanism &mech) const
     {
@@ -410,6 +443,14 @@ public:
         }
     }
 
+    /** \brief Gets digest (hash) type used for signature
+     * \return DA_DIGEST_NONE if message is not hashed
+     */
+    DADigestType getDigestType() const
+    {
+        return m_digestType;
+    }
+
     /** \brief Set Crypto Algorithm
      */
     void setMechanism(const DAMechanism &mech)
@@ -417,6 +458,36 @@ public:
         m_mech = mech;
         m_flags |= HAVE_MECH;
     }
+
+    /** \brief Set mechanism appropriately for RSA-SSA-PKCS1 signatures.
+     *
+     *   Chooses a suitable DAMechanism (see common_mechs.h) for the
+     *   hash algorithm identified by the m_digestType field, and sets
+     *   it as the m_mech field.
+     *
+     *   \return false if invalid mechanism in m_digestType.
+     */
+    bool setMechanismForRSAPkcs1Signature();
+
+    /** \brief Set mechanism appropriately for DSA algorithm.
+     *
+     *  Chooses a suitable DAMechanism (see common_mechs.h) for the 
+     *  hash algorithm identified by the m_digestType field, and sets
+     *  it as the m_mech field.
+     *
+     *  \return false if invalid mechanism in m_digestType.
+     */
+    bool setMechanismForDSA();
+    
+    /** \brief Set mechanism appropriately for ECDSA algorithm.
+     *
+     *  Chooses a suitable DAMechanism (see common_mechs.h) for the 
+     *  hash algorithm identified by the m_digestType field, and sets
+     *  it as the m_mech field.
+     *
+     *  \return false if invalid mechanism in m_digestType.
+     */
+    bool setMechanismForECDSA();
 
     /** \brief Set IV
      */
@@ -442,6 +513,13 @@ public:
         m_flags |= HAVE_CIPHERTEXT;
     }
 
+    /** \brief Set digest type
+     */
+    void setDigestType( DADigestType dtype )
+    {
+        m_digestType = dtype;
+    }
+    
     /** \brief Remove Crypto Algorithm */
     void unsetMechanism()
     {
@@ -470,12 +548,59 @@ public:
         m_flags &= ~HAVE_CIPHERTEXT;
     }
     
+    /** \brief Unset digestType */
+    void unsetDigestType()
+    {
+      setDigestType(DA_DIGEST_NONE);
+    }
+
+    /** \brief Ensure a DAMessage contains a message hash for signature.
+     *
+     * If the digest type (see getDigestType()) is not DA_DIGEST_NONE,
+     * leaves the message unchanged, and returns true.
+     *
+     * Otherwise, if the mechanism (see getMechanism()) has already been
+     * set, applies the hash algorithm appropriate to that mechanism. The
+     * message's plaintext field is replaced by the hash, and the digest
+     * type is set accordingly. This method will return true if the 
+     * operation succeeded, and false if the mechanism was not recognised.
+     *
+     * If the mechanism was not set, a default hash algorithm is chosen
+     * (in this release, SHA-256). The plaintext is replaced by its hash, 
+     * and the digest type field is set (to DA_DIGEST_SHA256). The method
+     * then returns true.
+     *
+     * \return true if operation succeeded, false if the mechanism was set
+     * on entry but not for a supported hash type.
+     */
+    bool applyDefaultDigest();
+    
+    /** \brief Create a byte string suitable for RSA PKCS#1 signature
+     *
+     *  \param msg Byte-block returned. This is the DER encoding of a SEQUENCE 
+     *     containing the OID of the hash function followed by the hash value.
+     *     See e.g. RFC 3447 section 9.2. This function will also apply a default
+     *     hash function if the message doesn't have a digest type set.
+     *
+     *  \return true if operation succeeded, false if the DAMessage is invalid/unsuitable.
+     */
+    bool getPkcs1SignatureData( DAData &msg );
+    
+    /** \brief Get hash type associated with a mechanism 
+     *
+     * \param mech  Specifier for an (asymmetric) signature mechanism
+     * 
+     * \return Digest type associated with this mechanism, or DA_DIGEST_NONE if it's unrecognised.
+     */ 
+    static DADigestType getDigestFromMech( const DAMechanism &mech );
+    
 protected:
     DAData       m_plaintext;	///< Plaintext bytes
     DAData       m_ciphertext;	///< Ciphertext bytes
     DAData       m_iv;		///< IV bytes
     DAMechanism  m_mech;	///< Mechanism (OID)
     unsigned     m_flags;	///< Flags (\ref HAVE_PLAINTEXT etc)
+    DADigestType m_digestType; ///< Digest used for signed message
 
     enum {
       HAVE_PLAINTEXT = 1,	///< m_plaintext has been set
@@ -489,8 +614,8 @@ protected:
  *
  * A DADevice object, and each DAKey object, has a number of attributes
  * to describe it. These are accessed via the DAMetaData interface provided
- * by the object. Attributes can be of string, flag (boolean) or data (byte
- * block) types.
+ * by the object. Attributes can be of string, flag (boolean), data (byte
+ * block) or size (integer) types.
  */
 typedef enum
 {
@@ -512,11 +637,17 @@ typedef enum
     DA_SYMM_SIGN        = 1107, ///< (flag) True if both sign() and verify() work
     
     DA_CERTIFICATE      = 2100, ///< (data) X.509 certificate for key
+
+    DA_SIGNATURE_SIZE   = 3000, ///< (size) Size of signature in bytes
+    DA_MAX_DECRYPT_SIZE = 3001, ///< (size) Max size of a decrypted plaintext (in bytes)
 } DAAttrib;
 
-/** \brief General Metadata interface
+/** \brief General metadata interface
  *
- * Used for both sessions and keys.
+ * All objects which can have attributes (see DAAttrib) provide an implementation
+ * of the DAMetaData interface (generally returned by that object's getInfo()
+ * method).
+ *
  */
 class DAMetaData
 {
@@ -528,19 +659,55 @@ public:
     
     /** \brief Get String attribute
      *
+     * \param which  Identifies the attribute to get
+     * \param data   On return, set to the value of the requested attribute.
+     *
+     * \return true if the key has the requested string attribute (and data
+     * has been set). false if the requested attribute is not present.
      */
     virtual bool getString(DAAttrib which, std::string &data) =0;
     
     /** \brief Get boolean attribute
      *
-     * 
+     * \param which identifies the flag value to query
+     *
+     * \return true if the requested flag attribute is present, false
+     * if the flag is not set / not present.
+     *
+     * Queries whether a particular flag is set. Note that there is
+     * no semantic difference between a flag being 'not set' and the
+     * flag attribute being 'not present'.
      */
     virtual bool getFlag(DAAttrib which) =0;
 
     /** \brief Get byteblock attribute
      *
+     * For DA_CERTIFICATE attributes, index is set to 0 to return
+     * the X.509 certificate for the key. If additional certificates
+     * are required to validate this, these should be provided for
+     * index=1, index=2, and so on. The caller can discover the certificate
+     * chain by enumerating successive index values, until the method
+     * returns false.
+     *
+     * \return true if the key has the requested attribute (and data
+     * has been set). false if the requested attribute is not present. 
      */
-    virtual bool getData(DAAttrib which, DAData &data) =0;
+    virtual bool getData(DAAttrib which, DAData &data, size_t index=0) =0;
+
+    /** \brief Get size attribute
+     *
+     * Used with DA_SIGNATURE_SIZE and DA_MAX_DECRYPT_SIZE attributes to
+     * return the sizes (in bytes) of signatures and decrypted data,
+     * respectively.
+     * Keys with DA_SMIME_SIGN or DA_TLS_CLIENT_AUTH flags set must
+     * also have a DA_SIGNATURE_SIZE attribute. Keys with DA_SMIME_DECRYPT
+     * must have DA_MAX_DECRYPT_SIZE.
+     *
+     * \return true if the key has the requested size attribute (and len_r
+     * must have been set), false if the requested attribute is not present. 
+     */
+    virtual bool getSize(DAAttrib which, size_t &len_r) =0; 
+
 };
 
 /** \brief Utility functions
@@ -579,6 +746,7 @@ public:
     {
         return mkData(str, strlen(str));
     }
+    
 };
 
 #endif

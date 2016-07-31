@@ -22,8 +22,6 @@
 @interface DashboardViewController : UIViewController
 
 
-// Called by SentegrityTAF_AppDelegate
-- (void)updateUIForNotification:(enum DAFUINotification)event;
 
 
 /* Main Progress Bar */

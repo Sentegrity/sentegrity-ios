@@ -8,7 +8,7 @@
  * \brief DAFSupport framework (iOS only): Event types used by DAFAppBase.h
  *
  * DAFAppBase notifies the device-type-specific user interface
- * of various events via the showUIForAction:withResult:
+ * of various events via the getUIForAction:withResult:
  * and eventNotification:withMessage: methods.
  *
  * The DAFUIAction events generally require a response of some 
@@ -22,7 +22,7 @@
 
 /** \brief User interface actions requested by DAFAppBase
  *
- * See the documentation for DAFAppBase::showUIForAction:withResult: for
+ * See the documentation for DAFAppBase::getUIForAction:withResult: for
  * more information. 
  */
 enum DAFUIAction
@@ -109,7 +109,7 @@ enum DAFUIAction
      * should be called. 
      *
      * The application should not ignore this request. Passing it back
-     * to the default DAFAppBase::showUIForAction:withResult: handler
+     * to the default DAFAppBase::getUIForAction:withResult: handler
      * will result in the authentication request being rejected. 
      */
     GetAuthToken_WithWarning,
@@ -124,14 +124,12 @@ enum DAFUINotification
     AuthorizationSucceeded,	///< GD app is now unlocked (authorized)
     AuthorizationFailed,    ///< GD app is still locked
     IdleLocked,	            ///< GD app has become locked (due to timeout or user request)
-    GetPasswordCancelled,   ///< Get-password sequence was cancelled
+    GetPasswordCancelled,   ///< Get-password sequence is being cancelled; app should close UI
     ChangePasswordSucceeded,///< Change-password sequence completed OK
     ChangePasswordFailed,	///< Change-password sequence failed
-    ChangePasswordCancelled,///< Change-password sequence was cancelled by idle lock
-    AuthenticateWithWarnStarted,
-    AuthenticateWithWarnSucceeded,
-    AuthenticateWithWarnFailed,
-    AuthenticateWithWarnCancelled,
+    ChangePasswordCancelled,///< Change-password sequence was cancelled; app should close UI
+    AuthWithWarnCancelled,  ///< Authenticate-with-warn sequence is being cancelled; app should close UI
+    AuthWithWarnFailed,     ///< Authenticate-with-warn sequence failed
 };
 
 #endif

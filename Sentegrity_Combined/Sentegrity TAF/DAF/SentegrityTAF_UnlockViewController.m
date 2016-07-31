@@ -35,6 +35,9 @@
     BOOL once;
 }
 
+@property (nonatomic) DashboardViewController *dashboardViewController;
+
+
 @property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *onePixelConstraintsCollection;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomFooterConstraint;
 
@@ -125,8 +128,6 @@
     self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.viewFooter.frame.size.height, 0);
     self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
     
-    
-    //start core detection
 }
 
 
@@ -150,33 +151,21 @@
 - (void)updateUIForNotification:(enum DAFUINotification)event
 {
     
-    if (event==ChangePasswordCancelled  && result != nil)
+    if (event==ChangePasswordCancelled || event==GetPasswordCancelled)
     {
-        // Idle Lock (or other lock event) happened during change-passphrase sequence
+        // We were interrupted by idle lock, Easy Activation request, etc.
         // Ensure this VC is dismissed if it's showing
-        NSLog(@"DAFSkelUnlockViewController: cancelling change password");
-        [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
-                                             code:101
-                                         userInfo:@{NSLocalizedDescriptionKey:@"Change password cancelled"} ]];
-        
+        NSLog(@"SentegrityTAF_UnlockViewController: cancelling change password");
+        [self dismissViewControllerAnimated:NO completion: ^{
+            if ( result != nil )
+            {
+                [result setError:[NSError errorWithDomain:@"SentegrityTAF_UnlockViewController"
+                                                     code:101
+                                                 userInfo:@{NSLocalizedDescriptionKey:@"Unlock VC interrupted"} ]];
+            }
+            result = nil;
+        }];
     }
-    else if (event==GetPasswordCancelled  && result != nil) {
-        
-        NSLog(@"DAFSkelUnlockViewController: cancelling unlock");
-        [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
-                                             code:102
-                                         userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
-        result=nil;
-        
-    }
-    else if (event == AuthenticateWithWarnStarted)
-    {
-        NSLog(@"DAFSkelUnlockViewController: starting authenticateWithWarn");
-        [result setError:[NSError errorWithDomain:@"DAFSkelUnlockViewController"
-                                             code:103
-                                         userInfo:@{NSLocalizedDescriptionKey:@"Unlock cancelled"} ]];
-    }
-    
 }
 
 
@@ -208,9 +197,7 @@
             
             NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:&error];
             
-            // Use the decrypted master key
-            [result setResult:decryptedMasterKeyString];
-            result = nil;
+           
 
             
             // Direct call outside of DAF, but fails
@@ -220,9 +207,18 @@
 
             
             // We're done so dismiss and have main show the dashboard
-            // Dismiss the view
-            [self.delegate dismissSuccesfullyFinishedViewController:self];
             
+            if (self.delegate) {
+                // Use the decrypted master key
+                [result setResult:decryptedMasterKeyString];
+                result = nil;
+                [self.delegate dismissSuccesfullyFinishedViewController:self];
+            }
+            else
+                [self dismissViewControllerAnimated:NO completion:^{
+                    [result setResult:decryptedMasterKeyString];
+                    result = nil;
+                }];
             
         } else if(computationResults.authenticationResult == authenticationResult_incorrectLogin) {
             
@@ -368,7 +364,7 @@
     NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];
     
-    //run core detection only once (when screen is loaded)
+    //run core detection only once (when screen is loaded and showed)
     if (!once)
         [self runCoreDetection];
 
@@ -599,11 +595,9 @@
                     
                     NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:error];
                     
-                    // Use the decrypted master key
-                    [result setResult:decryptedMasterKeyString];
-                    result = nil;
                     
                     
+    
                     // Direct call outside of DAF, but fails
                     // NSError *error;
                     // GDTrust *trustObject = [[DAFAppBase getInstance] gdTrust];
@@ -612,8 +606,18 @@
                     
                     // We're done so dismiss the unlock view and show the dashboard behind it (called by mainviewcontroller)
                     // Dismiss the view
-                    [self.delegate dismissSuccesfullyFinishedViewController:self];
-                    
+                    if (self.delegate) {
+                        // Use the decrypted master key
+                        [result setResult:decryptedMasterKeyString];
+                        result = nil;
+                        [self.delegate dismissSuccesfullyFinishedViewController:self];
+                    }
+                    else
+                        [self dismissViewControllerAnimated:NO completion:^{
+                            // Use the decrypted master key
+                            [result setResult:decryptedMasterKeyString];
+                            result = nil;
+                        }];
                     // Done
                     break;
                     

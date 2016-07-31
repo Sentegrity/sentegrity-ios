@@ -22,6 +22,6 @@
 
 - (void)doPassphraseChangeSequence;
 
-- (void)doAuthenticateWithWarnSequence;
+- (void)doUserOperation:(id<DAFUserOperationHandler>)handler;
 
 @end

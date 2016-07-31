@@ -101,21 +101,40 @@
 
 - (void)updateUIForNotification:(enum DAFUINotification)event
 {
-    //[self.delegate dismissSuccesfullyFinishedViewController:self];
+    if (event==AuthWithWarnCancelled)
+    {
+        // We were interrupted by another request
+        // Ensure this VC is dismissed if it's showing, and the result is cancelled
+        NSLog(@"SentegrityTAF_AuthWarningViewController: cancelling");
+        [self dismissViewControllerAnimated:NO completion: ^{
+            if ( result != nil )
+            {
+                [result setError:[NSError errorWithDomain:@"SentegrityTAF_AuthWarningViewController"
+                                                     code:101
+                                                 userInfo:@{NSLocalizedDescriptionKey:@"AuthWithWarn VC interrupted"} ]];
+            }
+            result = nil;
+        }];
+    }
 }
 
 - (IBAction)onContinueEasyActivation:(id)sender
 {
-    NSLog(@"SentegrityTAF_UnlockViewController: onContinueEasyActivation");
-    NSLog(@"SentegrityTAF_UnlockViewController: delivering auth token");
-    NSData *authToken = [NSData dataWithBytes:"dummy" length:5];
-    [result setResult:authToken];
-    [self.delegate dismissSuccesfullyFinishedViewController:self];
+    NSLog(@"SentegrityTAF_AuthWarningViewController: onContinueEasyActivation");
+    
+    [self dismissViewControllerAnimated:NO completion: ^{
+        NSLog(@"SentegrityTAF_AuthWarningViewController: delivering auth token");
+        NSData *authToken = [NSData dataWithBytes:"dummy" length:5];
+        [result setResult:authToken];
+        result = nil;
+    }];
 }
 
 - (IBAction)onCancel:(id)sender {
-    [[DAFAppBase getInstance] cancelAuthenticateWithWarn:result];
-    [self.delegate dismissSuccesfullyFinishedViewController:self];
+    [self dismissViewControllerAnimated:NO completion: ^{
+        [[DAFAppBase getInstance] cancelAuthenticateWithWarn:result];
+        result = nil;
+    }];
 }
 
 @end

@@ -24,10 +24,11 @@
  */
 typedef enum
 {
-    ActivationDelegation=1,
-    ///< Another application is requesting Easy Activation. The \ref message
-    /// property includes the requesting app's name, and the \ref icon property
-    /// is its icon.
+    ActivationDelegation = 1,
+    /**< Another application is requesting Easy Activation. The \ref message
+     *   property includes the requesting app's name, and the \ref icon property
+     *   is its icon.
+     */
 
 } DAFWarningReason;
 

@@ -45,6 +45,33 @@ typedef enum
     
 } GDTrustAction;
 
+/** Constants for GDTrustNotification type.
+ * This enumeration represents the type of a GDTrustNotification that is being
+ * sent. The parameter of a \link GDTrustDelegate::eventNotification:\endlink
+ * invocation will always take one of these values.
+ *
+ * Note: In the current release, there is only one type of notification.
+ */
+typedef enum
+{
+    AuthenticateWithWarningCancelled
+    /**< Authenticate and warn was cancelled implicitly.
+     * This notification is dispatched when an authenticate and warn request is
+     * implicitly cancelled. For example, implicit cancellation could take place
+     * if the user brings another application to the foreground when an
+     * authenticate and warn request is still being handled in the Trusted
+     * Authenticator application.
+     *
+     * Do not execute a \ref GDTrustActionRejectWarning action in response to
+     * this notification. The Good Dynamics Runtime detects implicit
+     * cancellation itself and executes the necessary processing.
+     *
+     * Handling for this notification could include, for example, dismissing any
+     * user interface shown in order to process an authenticate and warn
+     * request.
+     */
+} GDTrustNotification;
+
 /** \}
  */
 
@@ -118,7 +145,6 @@ extern NSInteger const GDTrustErrGeneral;
 
 @end
 
-
 /** Handler for implementation of Good Dynamics Trusted Authenticator
  * applications.
  * \copydetails ssGDTrustDelegate
@@ -136,6 +162,19 @@ extern NSInteger const GDTrustErrGeneral;
                         icon:(UIImage *)icon;
 /**< Authenticate and warn requested callback.
  * \copydetails ssGDTrustDelegateAuthenticateWithTrustWarn
+ */
+
+-(void)eventNotification:(GDTrustNotification)event;
+/**< Trust notification callback.
+ * This callback is invoked to notify the application of events that might
+ * require handling by the Trusted Authenticator application code.
+ *
+ * See the \ref GDTrustNotification documentation for details of the
+ * types of event that are dispatched through this interface, and of how they
+ * could be handled.
+ *
+ * \param event <TT>GDTrustNotification</TT> object that represents the type of
+ *              event being notified.
  */
 
 @optional
