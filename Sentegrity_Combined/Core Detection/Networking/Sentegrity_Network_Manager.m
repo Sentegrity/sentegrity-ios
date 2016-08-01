@@ -105,9 +105,8 @@
                      return;
                  }
                  
-#warning some error occured on server returning empty policy. Skip this for now.
                  // save new policy
-                 //[[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policy withError:&error];
+                 [[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policy withError:&error];
                  
                  if (error) {
                      //something went wrong...
@@ -249,9 +248,8 @@
                         return;
                     }
                     
-#warning some error occured on server returning empty policy. Skip this for now.
                     // save new policy
-                    //[[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policy withError:&error];
+                    [[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policy withError:&error];
                     
                     if (error) {
                         //something went wrong...

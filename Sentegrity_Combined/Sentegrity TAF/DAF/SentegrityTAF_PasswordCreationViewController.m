@@ -191,18 +191,20 @@
     
     
     //MasterKeyString will be provided as decrypted in UnlockViewController
-    /*
+    
     //new startup is already created in welcome screen, just update it with new password
     //[[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithError:&error];
     NSString *masterKeyString = [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithPassoword:pass1 withError:&error];
     
-    
+   
     if (error) {
         //TODO: error message for user
         [self showAlertWithTitle:@"Unknown error" andMessage:error.localizedDescription];
         return;
     }
     
+    //saving result will cause automatically calling for dashboard
+    /*
     // Set the result to the master key
     [result setResult:masterKeyString];
     */
