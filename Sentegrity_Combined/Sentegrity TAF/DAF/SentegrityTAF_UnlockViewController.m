@@ -75,6 +75,20 @@
     return self;
 }
 
+- (id) init {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        self =  [self initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
+    }
+    else {
+        self =  [self initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
+    }
+    
+    if (self) {
+        
+    }
+    return self;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

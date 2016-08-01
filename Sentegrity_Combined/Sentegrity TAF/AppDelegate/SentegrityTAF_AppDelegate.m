@@ -29,24 +29,6 @@
 
 @implementation SentegrityTAF_AppDelegate
 
-#pragma mark - getters
-
-- (SentegrityTAF_UnlockViewController *) unlockViewController {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return  [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
-    }
-    else {
-        return [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
-        }
-}
-
-- (SentegrityTAF_FirstTimeViewController *) firstTimeViewController {
-    return [[SentegrityTAF_FirstTimeViewController alloc] init];
-}
-
-
-
-
 
 #pragma mark - Good DAF
 
@@ -105,11 +87,12 @@
         case GetPassword_FirstTime:
             
         {
-            SentegrityTAF_FirstTimeViewController *firstTimeViewController = self.firstTimeViewController;
-            firstTimeViewController.result = result;
-            firstTimeViewController.applicationPermissions = [self checkApplicationPermission];
-            firstTimeViewController.activityDispatcher = self.activityDispatcher;
-            ret = firstTimeViewController;
+            //FirstTimeViewController contains multiple viewControllers, so we want a fresh instance if (for some reason) GetPassword_FirstTime is called twice
+            self.firstTimeViewController = [[SentegrityTAF_FirstTimeViewController alloc] init];
+            self.firstTimeViewController.result = result;
+            self.firstTimeViewController.applicationPermissions = [self checkApplicationPermission];
+            self.firstTimeViewController.activityDispatcher = self.activityDispatcher;
+            ret = self.firstTimeViewController;
         }
             
             break;
@@ -125,9 +108,10 @@
             [self.activityDispatcher runCoreDetectionActivities];
 
             {
-                SentegrityTAF_UnlockViewController *unlockViewController = self.unlockViewController;
-                unlockViewController.result = result;
-                ret = unlockViewController;
+                //we want a fresh instance of UnlockViewController because of Core Detection
+                self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] init];
+                self.unlockViewController.result = result;
+                ret = self.unlockViewController;
             }
             break;
             
@@ -144,12 +128,14 @@
 
 - (void)eventNotification:(enum DAFUINotification)event withMessage:(NSString *)msg
 {
-    NSLog(@"SentegrityTAF_AppDelegate: we got an event notification, type=%d message='%@'", event, msg);
+    NSLog(@";: we got an event notification, type=%d message='%@'", event, msg);
     
     [super eventNotification:event withMessage:msg];
     
     [self.mainViewController updateUIForNotification:event];
     [self.easyActivationViewController updateUIForNotification:event];
+    [self.unlockViewController updateUIForNotification:event];
+    [self.firstTimeViewController updateUIForNotification:event];
     
     if (event == ChangePasswordFailed ) {
         

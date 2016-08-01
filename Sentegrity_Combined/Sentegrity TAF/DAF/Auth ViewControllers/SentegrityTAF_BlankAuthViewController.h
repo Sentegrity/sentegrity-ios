@@ -17,5 +17,4 @@
 
 - (void)updateUIForNotification:(enum DAFUINotification)event;
 
-
 @end
