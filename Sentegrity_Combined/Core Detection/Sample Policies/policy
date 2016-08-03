@@ -2,7 +2,7 @@
 "policyID": "default",
 "revision": 1,
 "applicationVersionID": "1.0.0",
-"platform": "ios",
+"platform": 0,
 "userThreshold": 75,
 "systemThreshold": 30,
 "allowPrivateAPIs": 0,

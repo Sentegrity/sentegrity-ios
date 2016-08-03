@@ -85,6 +85,7 @@
     [dic setObject:currentStartup.deviceSaltString forKey:@"device_salt"];
     [dic setObject:[self deviceName] forKey:@"phone_model"];
     [dic setObject:currentPolicy.applicationVersionID forKey:@"app_version"];
+    
 
      [self.sessionManager uploadReport:dic withCallback:^(BOOL success, id responseObject, NSError *error) {
          if (error) {
@@ -218,6 +219,7 @@
         [dic setObject:currentStartup.deviceSaltString forKey:@"device_salt"];
         [dic setObject:[self deviceName] forKey:@"phone_model"];
         [dic setObject:currentPolicy.applicationVersionID forKey:@"app_version"];
+
 
         [self.sessionManager uploadReport:dic withCallback:^(BOOL success, NSDictionary *responseObject, NSError *error) {
             if (!success) {

@@ -113,7 +113,7 @@
 }
 
 //platform
-- (void) setPlatform:(NSString *)platform {
+- (void) setPlatform:(NSNumber *)platform {
     _platform = platform;
 }
 

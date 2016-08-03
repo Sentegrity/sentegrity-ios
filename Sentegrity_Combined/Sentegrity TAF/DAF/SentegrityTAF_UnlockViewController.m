@@ -31,6 +31,8 @@
 // Message UI
 #import <MessageUI/MessageUI.h>
 
+
+
 @interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate> {
     BOOL once;
 }
@@ -41,6 +43,7 @@
 @property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *onePixelConstraintsCollection;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomFooterConstraint;
 
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewSplash;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
@@ -84,7 +87,6 @@
     }
     
     if (self) {
-        
     }
     return self;
 }
@@ -119,8 +121,35 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
+    
+    //configure and hide splash image
+    self.imageViewSplash.alpha = 0;
+    if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ){
+        
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+        CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+        if( screenHeight < screenWidth ){
+            screenHeight = screenWidth;
+        }
+        
+        if (screenHeight <= 480){
+            self.imageViewSplash.image = [UIImage imageNamed:@"Splash_3.5"];
+            NSLog(@"iPhone 4/4s (3.5 inch)");
+        } else if ( screenHeight > 480 && screenHeight <= 568 ){
+            self.imageViewSplash.image = [UIImage imageNamed:@"Splash_4.0"];
+            NSLog(@"iPhone 5/5s/5c/SE (4.0 inch)");
+        } else if ( screenHeight > 568 && screenHeight <= 667 ){
+            self.imageViewSplash.image = [UIImage imageNamed:@"Splash_4.7"];
+            NSLog(@"iPhone 6/6s (4.7 inch)");
+        } else {
+            self.imageViewSplash.image = [UIImage imageNamed:@"Splash_5.5"];
+            NSLog(@"iPhone 6+/6s+ (5.5 inch)");
+        }
+    }
+    
+
     // generate lines with one pixel (on all iOS devices)
     for (NSLayoutConstraint *constraint in self.onePixelConstraintsCollection) {
         constraint.constant = 1.0 / [UIScreen mainScreen].scale;
@@ -146,7 +175,13 @@
 
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
+    self.imageViewSplash.alpha = 1.0;
     
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.3 animations:^{
+            self.imageViewSplash.alpha = 0.0;
+        }];
+    });
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
@@ -682,7 +717,6 @@
                 
             
             // Do nothing, show login screen
-            
             break;
         }
             
