@@ -373,6 +373,13 @@
         
     }
     
+    //check if current policy is outdated (from old version of the app) and set default values for new fields
+    if (!policy.platform)
+        policy.platform = @(0); // platform 0 represents iOS
+    if (!policy.applicationVersionID)
+        policy.applicationVersionID = @"0.1.0";
+    
+    
     // Return the object
     return policy;
 

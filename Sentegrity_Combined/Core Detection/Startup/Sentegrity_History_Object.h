@@ -37,7 +37,7 @@
 @property (nonatomic, strong) NSArray<NSString  *> *userIssues;
 
 // System Issues
-@property (nonatomic, strong) NSArray<NSString  *> *SystemIssues;
+@property (nonatomic, strong) NSArray<NSString  *> *systemIssues;
 
 // User Analysis Results
 @property (nonatomic, strong) NSArray<NSString  *> *userAnalysisResults;

@@ -1,7 +1,7 @@
 {
 "policyID": "default",
 "revision": 1,
-"applicationVersionID": "1.0.0",
+"applicationVersionID": "1.0.1",
 "platform": 0,
 "userThreshold": 75,
 "systemThreshold": 30,

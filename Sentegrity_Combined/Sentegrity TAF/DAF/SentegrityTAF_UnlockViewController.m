@@ -415,10 +415,57 @@
     
     //run core detection only once (when screen is loaded and showed)
     if (!once)
-        [self runCoreDetection];
+        [self checkForPolicyAndRunCoreDetection];
 
     once = YES;
     
+    
+}
+
+
+- (void) checkForPolicyAndRunCoreDetection {
+    
+    
+    NSError *error;
+    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+    NSString * currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+    
+    if (![policy.applicationVersionID isEqualToString:currentVersion]) {
+        
+        //if application version is not same as version in policy, we need to download new policy
+        
+        self.hud.labelText = @"Downloading new policy";
+        self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
+        
+        // Upload run history (if necessary) and check for new policy
+        [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error) {
+            
+            [MBProgressHUD hideHUDForView:self.view animated:NO];
+
+            if (newPolicyDownloaded) {
+                //new policy downloaded, run core detection
+                [self runCoreDetection];
+            }
+            else {
+                
+                //error occured, show error message and ask user for retry
+                UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                               message:error.localizedDescription
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction * action) {
+                                                                          [self checkForPolicyAndRunCoreDetection];
+                                                                      }];
+                [alert addAction:defaultAction];
+                [self presentViewController:alert animated:YES completion:nil];
+
+            }
+        }];
+    }
+    else {
+        [self runCoreDetection];
+    }
     
 }
 
