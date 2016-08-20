@@ -434,8 +434,8 @@
         
         //if application version is not same as version in policy, we need to download new policy
         
-        self.hud.labelText = @"Downloading new policy";
-        self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
         
         // Upload run history (if necessary) and check for new policy
         [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error) {
@@ -448,9 +448,15 @@
             }
             else {
                 
+                NSString *errorMessage;
+                if (error)
+                    errorMessage = error.localizedDescription;
+                else
+                    errorMessage = @"Could not download new policy.";
+                
                 //error occured, show error message and ask user for retry
                 UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                               message:error.localizedDescription
+                                                                               message:errorMessage
                                                                         preferredStyle:UIAlertControllerStyleAlert];
                 
                 UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
