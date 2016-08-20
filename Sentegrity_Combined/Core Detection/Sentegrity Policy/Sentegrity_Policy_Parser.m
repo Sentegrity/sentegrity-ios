@@ -377,7 +377,7 @@
     if (!policy.platform)
         policy.platform = @(0); // platform 0 represents iOS
     if (!policy.applicationVersionID)
-        policy.applicationVersionID = @"0.1.0";
+        policy.applicationVersionID = @"1.0.0";
     
     
     // Return the object
