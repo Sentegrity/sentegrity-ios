@@ -483,7 +483,11 @@
     // Sub category results (e.g., WiFi, Celluar, Motion, etc)
     [runHistoryObject setSystemAnalysisResults:computationResults.systemAnalysisResults];
     [runHistoryObject setUserAnalysisResults:computationResults.userAnalysisResults];
-    
+
+    // User suggestion messages
+    [runHistoryObject setSystemSuggestions:computationResults.systemSuggestions];
+    [runHistoryObject setUserSuggestions:computationResults.userSuggestions];
+
 
     
     // Check if the startup file already has an array of history objects

@@ -45,4 +45,11 @@
 // System Analysis Results
 @property (nonatomic, strong) NSArray<NSString  *> *systemAnalysisResults;
 
+// User Suggestions
+@property (nonatomic, strong) NSArray<NSString  *> *userSuggestions;
+
+// System Suggestions
+@property (nonatomic, strong) NSArray<NSString  *> *systemSuggestions;
+
+
 @end
