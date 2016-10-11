@@ -150,7 +150,7 @@
 		D7E020AF1CD94F2000112E63 /* ActivityPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */; };
 		D7F7DF721CEBDACA0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
 		D7F7DF731CEBDCED0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
-		D7FE415E1DADA64900151320 /* GD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7FE415D1DADA64900151320 /* GD.framework */; };
+		D7FE41601DADA6BE00151320 /* GD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7FE415F1DADA6BE00151320 /* GD.framework */; };
 		D7FE9F131CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FE9F111CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.m */; };
 		D7FE9F141CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7FE9F121CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.xib */; };
 		D7FE9F181CDD0B5400FACA04 /* ILContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FE9F171CDD0B5400FACA04 /* ILContainerView.m */; };
@@ -341,7 +341,7 @@
 		D7E020AC1CD94A8900112E63 /* LocationPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LocationPermissionViewController.xib; path = ../LocationPermissionViewController.xib; sourceTree = "<group>"; };
 		D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityPermissionViewController.xib; path = ../ActivityPermissionViewController.xib; sourceTree = "<group>"; };
 		D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DashboardViewController.xib; sourceTree = "<group>"; };
-		D7FE415D1DADA64900151320 /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GD.framework; path = "../../../../../../../../Good Technology/Good.platform/Frameworks/GD.framework"; sourceTree = "<group>"; };
+		D7FE415F1DADA6BE00151320 /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GD.framework; sourceTree = "<group>"; };
 		D7FE9F101CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SentegrityTAF_MainViewController.h; path = ../SentegrityTAF_MainViewController.h; sourceTree = "<group>"; };
 		D7FE9F111CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SentegrityTAF_MainViewController.m; path = ../SentegrityTAF_MainViewController.m; sourceTree = "<group>"; };
 		D7FE9F121CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SentegrityTAF_MainViewController.xib; path = ../SentegrityTAF_MainViewController.xib; sourceTree = "<group>"; };
@@ -385,7 +385,7 @@
 				4C2667701CC03CE900F10DC0 /* AdSupport.framework in Frameworks */,
 				4C26676E1CC03CE300F10DC0 /* CoreTelephony.framework in Frameworks */,
 				4C26676C1CC03CDE00F10DC0 /* SystemConfiguration.framework in Frameworks */,
-				D7FE415E1DADA64900151320 /* GD.framework in Frameworks */,
+				D7FE41601DADA6BE00151320 /* GD.framework in Frameworks */,
 				4C26676A1CC03CD700F10DC0 /* QuartzCore.framework in Frameworks */,
 				4C2667681CC03CD200F10DC0 /* CoreGraphics.framework in Frameworks */,
 				4C2667661CC03CCD00F10DC0 /* UIKit.framework in Frameworks */,
@@ -507,7 +507,7 @@
 				4C2667631CC03CC900F10DC0 /* Foundation.framework */,
 				4C2667611CC03CC200F10DC0 /* QuickLook.framework */,
 				4C7D98241CC0049F00E9CC97 /* libCore Detection.a */,
-				D7FE415D1DADA64900151320 /* GD.framework */,
+				D7FE415F1DADA6BE00151320 /* GD.framework */,
 				4C26675F1CC03CBC00F10DC0 /* MobileCoreServices.framework */,
 				C05694064344BB4205E08D99 /* libPods-Sentegrity.a */,
 				85416AA7ED3D5ABEEA5785F3 /* libPods-Sentegrity TAF.a */,

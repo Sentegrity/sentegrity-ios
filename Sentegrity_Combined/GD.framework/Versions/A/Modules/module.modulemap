@@ -1,0 +1,113 @@
+framework module GD {
+    requires objc
+    umbrella header "GD/GD.h"
+    
+    explicit module * {
+        export *
+    }
+    
+    explicit module Runtime {
+        requires objc
+        header "GD/GDiOS.h"
+        header "GD/GDAppResultCode.h"
+        header "GD/GDAppDetail.h"
+        header "GD/GDAppServer.h"
+        export *
+    }
+    
+    explicit module SecureStore {
+        
+        explicit module File {
+            requires objc
+            header "GD/GDFileManager.h"
+            header "GD/GDFileHandle.h"
+            header "GD/GDFileStat.h"
+            header "GD/GDFileSystem.h"
+            header "GD/GDSecureDocs.h"
+            header "GD/GDCReadStream.h"
+            header "GD/GDCWriteStream.h"
+            export *
+        }
+        
+        explicit module CoreData {
+            requires objc
+            header "GD/GDPersistentStoreCoordinator.h"
+            export *
+        }
+        
+        explicit module SQLite {
+            header "GD_C/sqlite3enc.h"
+            header "GD_C/sqlite3.h"
+            export *
+        }
+    }
+    
+    explicit module SecureCommunication {
+        requires objc
+        export URLLoadingSystem
+        export Utility
+        
+        header "GD/GDNETiOS.h"
+        header "GD/GDPKI.h"
+        export *
+        
+        explicit module URLLoadingSystem {
+            requires objc
+            header "GD/GDURLLoadingSystem.h"
+            header "GD/GDURLRequestConnectionDelegate.h"
+            header "GD/GDURLRequestDataDelegate.h"
+            header "GD/NSMutableURLRequest+GDNET.h"
+            header "GD/NSURLCredential+GDNET.h"
+            header "GD/UIWebView+GDNET.h"
+            export *
+        }
+        
+        explicit module Utility {
+            requires objc
+            header "GD/GDNetUtility.h"
+            header "GD/GDConnectivityManager.h"
+            header "GD/GDReachability.h"
+            export *
+        }
+        
+        explicit module PushChannel {
+            requires objc
+            header "GD/GDPushiOS.h"
+            export *
+        }
+    }
+    
+    
+    explicit module AuthenticationToken {
+        requires objc
+        header "GD/GDUtility.h"
+        export *
+    }
+    
+    explicit module AppKinetics {
+        requires objc
+        header "GD/GDServices.h"
+        header "GD/GDAppDetail.h"
+        header "GD/GDAppServer.h"
+        export *
+    }
+    
+}
+
+framework module GD_C {
+    
+    umbrella header "GD_C/GD_C.h"
+    explicit module * {
+        export *
+    }
+    
+}
+
+framework module GD_CPP {
+
+    requires cplusplus
+    header "GD_GSS/GDNegotiateScheme.h"
+    header "GD_GSS/GDKerberosAuthHandler.h"
+    export *
+    
+}
