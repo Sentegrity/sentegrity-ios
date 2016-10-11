@@ -43,9 +43,18 @@
 // User Decryption Functions
 - (NSData *)decryptMasterKeyUsingUserKey:(NSData *)userPBKDF2Key withError:(NSError **)error;
 
+// TouchID Decryption Functions
+- (NSData *)decryptMasterKeyUsingTouchIDKey:(NSData *)userPBKDF2Key withError:(NSError **)error;
+
+
+
 // User Creation Functions
 - (NSString *)provisionNewUserKeyAndCreateMasterKeyWithPassword:(NSString *)userPassword withError:(NSError **)error;
 - (BOOL)updateUserKeyForExistingMasterKeyWithPassword:(NSString *)userPassword withDecryptedMasterKey:(NSData *)masterKey withError:(NSError **)error;
+
+// touchID creations and update functions
+- (BOOL)updateTouchIDForExistingMasterKeyWithTouchIDPassword:(NSString *)touchIDPassword withDecryptedMasterKey:(NSData *)masterKey withError:(NSError **)error;
+
 
 // Transparent Derivation Function
 - (NSData *)getTransparentKeyForTrustFactorOutput:(NSString *)output withError:(NSError **)error;

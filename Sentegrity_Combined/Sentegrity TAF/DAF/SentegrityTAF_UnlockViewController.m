@@ -31,6 +31,7 @@
 // Message UI
 #import <MessageUI/MessageUI.h>
 
+#import "SentegrityTAF_TouchIDManager.h"
 
 
 @interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate> {
@@ -38,6 +39,8 @@
 }
 
 @property (nonatomic) DashboardViewController *dashboardViewController;
+
+@property (nonatomic, strong) SentegrityTAF_TouchIDManager *touchIDManager;
 
 
 @property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *onePixelConstraintsCollection;
@@ -122,6 +125,10 @@
     // Do any additional setup after loading the view from its nib.
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    //touchID manager
+    self.touchIDManager = [[SentegrityTAF_TouchIDManager alloc] init];
+
     
     
     //configure and hide splash image
@@ -246,28 +253,59 @@
             
             NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:&error];
             
-           
-
             
-            // Direct call outside of DAF, but fails
-            // NSError *error;
-            // GDTrust *trustObject = [[DAFAppBase getInstance] gdTrust];
-            // [trustObject unlockWithPassword:decryptedMasterKey error:&error];
-
+            NSError *error;
+            Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
             
-            // We're done so dismiss and have main show the dashboard
-            
-            if (self.delegate) {
-                // Use the decrypted master key
-                [result setResult:decryptedMasterKeyString];
-                result = nil;
-                [self.delegate dismissSuccesfullyFinishedViewController:self];
+            //user succesfully logged in with password, now check if user enabled touch ID for future login
+            if (![startup touchIDDisabledByUser]) {
+                
+                //touch ID enabled, check if touch ID is available on current device
+                
+                if ([self.touchIDManager checkIfTouchIDIsAvailableWithError:nil]) {
+                    
+                    //great, it is available, now check is touchID already configured, but item is invalidated
+                    if (self.touchIDManager.touchIDItemInvalidated) {
+                        [self createTouchIDWithDecryptedMasterKey:decryptedMasterKey]; //create again
+                        [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+                    }
+                    //if touch ID is already configured and active, that means that user probbably canceled TouchID auth, or failed with auth. In both cases, just ignore and continue.
+                    else if (startup.touchIDKeyEncryptedMasterKeyBlobString) {
+                        // do nothing
+                        [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+                    }
+                    
+                    else {
+                    
+                        //ask user to use touch ID for future login
+                        [self.touchIDManager checkForTouchIDAuthWithMessage:@"Enable TouchID as one of the options for authentication?" withCallback:^(TouchIDResultType resultType, NSError *error) {
+                            
+                            if (resultType == TouchIDResultType_Success) {
+                                [self createTouchIDWithDecryptedMasterKey:decryptedMasterKey]; // create touchID
+                            }
+                            else if (resultType == TouchIDResultType_UserCanceled) {
+                                //save an answer
+                                [startup setTouchIDDisabledByUser:YES];
+                                [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:nil];
+                            }
+                            else if (resultType == TouchIDResultType_FailedAuth) {
+                                [self showAlertWithTitle:@"Authentification Failed" andMessage:@"You can try again later."];
+                            }
+                            else {
+                                [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+                            }
+                            
+                            [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+                        }];
+                    }
+                }
+                else
+                    [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
             }
             else
-                [self dismissViewControllerAnimated:NO completion:^{
-                    [result setResult:decryptedMasterKeyString];
-                    result = nil;
-                }];
+                [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+        
+            
             
         } else if(computationResults.authenticationResult == authenticationResult_incorrectLogin) {
             
@@ -286,6 +324,31 @@
         // Done
     }
   }
+
+- (void) finishWithDecryptedMasterKey: (NSString *) decryptedMasterKeyString {
+    
+    // Direct call outside of DAF, but fails
+    // NSError *error;
+    // GDTrust *trustObject = [[DAFAppBase getInstance] gdTrust];
+    // [trustObject unlockWithPassword:decryptedMasterKey error:&error];
+    
+    // We're done so dismiss and have main show the dashboard
+
+    
+    
+    if (self.delegate) {
+        // Use the decrypted master key
+        [result setResult:decryptedMasterKeyString];
+        result = nil;
+        [self.delegate dismissSuccesfullyFinishedViewController:self];
+    }
+    else
+        [self dismissViewControllerAnimated:NO completion:^{
+            [result setResult:decryptedMasterKeyString];
+            result = nil;
+        }];
+
+}
 
 
 - (void) showInput {
@@ -767,9 +830,8 @@
             
         case preAuthenticationAction_PromptForUserPassword:
         {
-                
-            
-            // Do nothing, show login screen
+            // Do nothing, show login screen and try to login with TouchID
+            [self tryToLoginWithTouchID];
             break;
         }
             
@@ -788,6 +850,109 @@
     } // Done switch preauthentication action
     
 }
+
+
+#pragma mark - touchID
+
+
+- (void) tryToLoginWithTouchID {
+    NSError *error;
+
+    
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
+    if (error) {
+        //did not able to read startup file, break
+        return;
+    }
+    
+    
+    //if touchID is already configured
+    if (!startup.touchIDDisabledByUser && startup.touchIDKeyEncryptedMasterKeyBlobString) {
+        
+        [self.touchIDManager getTouchIDPasswordFromKeychainwithMessage:@"Login with TouchID" withCallback:^(TouchIDResultType resultType, NSString *password, NSError *error) {
+            if (resultType == TouchIDResultType_Success) {
+                
+                
+                Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+
+                Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithTouchIDpassword:password andError:&error];
+                
+                // Set the authentication response code
+                computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
+                
+                // Set history now, we already have all the info we need
+                [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:&error];
+                
+                // Success and recoverable errors operate the same since we still managed to get a decrypted master key
+                if(computationResults.authenticationResult == authenticationResult_Success || computationResults.authenticationResult == authenticationResult_recoverableError ) {
+                    
+                    // Now we can pass the key to the GD runtime
+                    NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+                    
+                    NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:&error];
+                    
+                    [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+                }
+                else {
+                    [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
+                }
+            }
+            else if (resultType == TouchIDResultType_ItemNotFound) {
+                //probabbly invalidated item due change of fingerprint set, we will just try to delete it
+                [self.touchIDManager removeTouchIDPasswordFromKeychainWithCallback:nil];
+                [self showAlertWithTitle:@"Notice" andMessage:@"One of the fingerprints on this device have changed, password is required to continue"];
+            }
+            else {
+                //if failed auth, or user simply pressed cancel, do nothing
+            }
+        }];
+    
+    }
+
+}
+
+
+
+- (void) createTouchIDWithDecryptedMasterKey: (NSData *) decryptedMasterKey {
+    
+#warning needs to implement random password generator
+    NSString *randomPassword = @"RandomPassword";
+    
+    
+    __weak SentegrityTAF_UnlockViewController *weakSelf = self;
+    
+    //first we want for sure delete old keychain item (if any) that can remain from previous installation of the app
+    [self.touchIDManager removeTouchIDPasswordFromKeychainWithCallback:^(TouchIDResultType resultType, NSError *error) {
+        
+        //we succesfully deleted old keychain item, or item does not even exists
+        if (resultType == TouchIDResultType_ItemNotFound || resultType == TouchIDResultType_Success) {
+            //store new password into touchID keychain
+            [weakSelf.touchIDManager addTouchIDPasswordToKeychain:randomPassword withCallback:^(TouchIDResultType resultType, NSError *error) {
+                
+                if (resultType == TouchIDResultType_Success && !error) {
+                    
+                    [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithTouchIDPassoword:randomPassword masterKey:decryptedMasterKey withError:&error];
+                    
+                    if (error) {
+                        //TODO: error message for user
+                        [weakSelf showAlertWithTitle:@"Unknown error" andMessage:error.localizedDescription];
+                        [weakSelf.touchIDManager removeTouchIDPasswordFromKeychainWithCallback:nil];
+                    }
+                }
+                else if (resultType == TouchIDResultType_DuplicateItem) {
+                    [weakSelf showAlertWithTitle:@"Error" andMessage:@"TouchID is already stored."];
+                }
+                else {
+                    [weakSelf showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+                }
+            }];
+        }
+        else
+            [weakSelf showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+    }];
+}
+
+
 
 #pragma mark - Mail Compose Delegate
 

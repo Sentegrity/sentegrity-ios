@@ -82,7 +82,6 @@
 		4C2667571CC03AF400F10DC0 /* DAFSupportResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C2667541CC03AF400F10DC0 /* DAFSupportResources.bundle */; };
 		4C2667581CC03AF400F10DC0 /* GDAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C2667551CC03AF400F10DC0 /* GDAssets.bundle */; };
 		4C2667591CC03AF400F10DC0 /* MockGDiOSResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C2667561CC03AF400F10DC0 /* MockGDiOSResources.bundle */; };
-		4C26675E1CC03CB500F10DC0 /* GD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C26675D1CC03CB500F10DC0 /* GD.framework */; };
 		4C2667601CC03CBC00F10DC0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C26675F1CC03CBC00F10DC0 /* MobileCoreServices.framework */; };
 		4C2667621CC03CC200F10DC0 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C2667611CC03CC200F10DC0 /* QuickLook.framework */; };
 		4C2667641CC03CC900F10DC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C2667631CC03CC900F10DC0 /* Foundation.framework */; };
@@ -140,6 +139,7 @@
 		D7651FB61D46BEA1001D3E9E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7651FB31D46BEA1001D3E9E /* LaunchScreen.storyboard */; };
 		D786CCB11D4819B0004D3BE4 /* SentegrityTAF_FirstTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D786CCAE1D4819B0004D3BE4 /* SentegrityTAF_FirstTimeViewController.m */; };
 		D786CCB31D4819B0004D3BE4 /* SentegrityTAF_FirstTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D786CCAF1D4819B0004D3BE4 /* SentegrityTAF_FirstTimeViewController.xib */; };
+		D78A5B321DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D78A5B311DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m */; };
 		D7BA461F1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BA461E1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m */; };
 		D7BA46291D4EB2C500A2EC42 /* TAFAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7BA46281D4EB2C500A2EC42 /* TAFAssets.xcassets */; };
 		D7BE76EE1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BE76EC1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m */; };
@@ -150,6 +150,7 @@
 		D7E020AF1CD94F2000112E63 /* ActivityPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */; };
 		D7F7DF721CEBDACA0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
 		D7F7DF731CEBDCED0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
+		D7FE415E1DADA64900151320 /* GD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7FE415D1DADA64900151320 /* GD.framework */; };
 		D7FE9F131CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FE9F111CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.m */; };
 		D7FE9F141CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7FE9F121CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.xib */; };
 		D7FE9F181CDD0B5400FACA04 /* ILContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FE9F171CDD0B5400FACA04 /* ILContainerView.m */; };
@@ -249,7 +250,6 @@
 		4C2667551CC03AF400F10DC0 /* GDAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GDAssets.bundle; sourceTree = "<group>"; };
 		4C2667561CC03AF400F10DC0 /* MockGDiOSResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MockGDiOSResources.bundle; sourceTree = "<group>"; };
 		4C26675B1CC03BA700F10DC0 /* SentegrityTAF_Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SentegrityTAF_Info.plist; sourceTree = "<group>"; };
-		4C26675D1CC03CB500F10DC0 /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GD.framework; path = "/Good Technology/Good.platform/Frameworks/GD.framework"; sourceTree = "<absolute>"; };
 		4C26675F1CC03CBC00F10DC0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4C2667611CC03CC200F10DC0 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		4C2667631CC03CC900F10DC0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -328,6 +328,8 @@
 		D786CCAD1D4819B0004D3BE4 /* SentegrityTAF_FirstTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SentegrityTAF_FirstTimeViewController.h; path = ../SentegrityTAF_FirstTimeViewController.h; sourceTree = "<group>"; };
 		D786CCAE1D4819B0004D3BE4 /* SentegrityTAF_FirstTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SentegrityTAF_FirstTimeViewController.m; path = ../SentegrityTAF_FirstTimeViewController.m; sourceTree = "<group>"; };
 		D786CCAF1D4819B0004D3BE4 /* SentegrityTAF_FirstTimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SentegrityTAF_FirstTimeViewController.xib; path = ../SentegrityTAF_FirstTimeViewController.xib; sourceTree = "<group>"; };
+		D78A5B301DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_TouchIDManager.h; sourceTree = "<group>"; };
+		D78A5B311DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_TouchIDManager.m; sourceTree = "<group>"; };
 		D7BA461D1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_BlankAuthViewController.h; sourceTree = "<group>"; };
 		D7BA461E1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_BlankAuthViewController.m; sourceTree = "<group>"; };
 		D7BA46281D4EB2C500A2EC42 /* TAFAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TAFAssets.xcassets; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 		D7E020AC1CD94A8900112E63 /* LocationPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LocationPermissionViewController.xib; path = ../LocationPermissionViewController.xib; sourceTree = "<group>"; };
 		D7E020AE1CD94F2000112E63 /* ActivityPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityPermissionViewController.xib; path = ../ActivityPermissionViewController.xib; sourceTree = "<group>"; };
 		D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DashboardViewController.xib; sourceTree = "<group>"; };
+		D7FE415D1DADA64900151320 /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GD.framework; path = "../../../../../../../../Good Technology/Good.platform/Frameworks/GD.framework"; sourceTree = "<group>"; };
 		D7FE9F101CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SentegrityTAF_MainViewController.h; path = ../SentegrityTAF_MainViewController.h; sourceTree = "<group>"; };
 		D7FE9F111CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SentegrityTAF_MainViewController.m; path = ../SentegrityTAF_MainViewController.m; sourceTree = "<group>"; };
 		D7FE9F121CDD0A6A00FACA04 /* SentegrityTAF_MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SentegrityTAF_MainViewController.xib; path = ../SentegrityTAF_MainViewController.xib; sourceTree = "<group>"; };
@@ -382,13 +385,13 @@
 				4C2667701CC03CE900F10DC0 /* AdSupport.framework in Frameworks */,
 				4C26676E1CC03CE300F10DC0 /* CoreTelephony.framework in Frameworks */,
 				4C26676C1CC03CDE00F10DC0 /* SystemConfiguration.framework in Frameworks */,
+				D7FE415E1DADA64900151320 /* GD.framework in Frameworks */,
 				4C26676A1CC03CD700F10DC0 /* QuartzCore.framework in Frameworks */,
 				4C2667681CC03CD200F10DC0 /* CoreGraphics.framework in Frameworks */,
 				4C2667661CC03CCD00F10DC0 /* UIKit.framework in Frameworks */,
 				4C2667641CC03CC900F10DC0 /* Foundation.framework in Frameworks */,
 				4C2667621CC03CC200F10DC0 /* QuickLook.framework in Frameworks */,
 				4C2667601CC03CBC00F10DC0 /* MobileCoreServices.framework in Frameworks */,
-				4C26675E1CC03CB500F10DC0 /* GD.framework in Frameworks */,
 				4C26670A1CC0369000F10DC0 /* libCore Detection.a in Frameworks */,
 				4C26670B1CC0369000F10DC0 /* libPods-Sentegrity.a in Frameworks */,
 				81AF003BEAD87EF1FFE72C10 /* libPods-Sentegrity TAF.a in Frameworks */,
@@ -503,9 +506,9 @@
 				4C2667651CC03CCD00F10DC0 /* UIKit.framework */,
 				4C2667631CC03CC900F10DC0 /* Foundation.framework */,
 				4C2667611CC03CC200F10DC0 /* QuickLook.framework */,
-				4C26675F1CC03CBC00F10DC0 /* MobileCoreServices.framework */,
-				4C26675D1CC03CB500F10DC0 /* GD.framework */,
 				4C7D98241CC0049F00E9CC97 /* libCore Detection.a */,
+				D7FE415D1DADA64900151320 /* GD.framework */,
+				4C26675F1CC03CBC00F10DC0 /* MobileCoreServices.framework */,
 				C05694064344BB4205E08D99 /* libPods-Sentegrity.a */,
 				85416AA7ED3D5ABEEA5785F3 /* libPods-Sentegrity TAF.a */,
 			);
@@ -559,6 +562,8 @@
 			children = (
 				D7FE9F161CDD0B5400FACA04 /* ILContainerView.h */,
 				D7FE9F171CDD0B5400FACA04 /* ILContainerView.m */,
+				D78A5B301DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.h */,
+				D78A5B311DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m */,
 				4CDE3C9D1CCA96C100D23E66 /* DAFSkelDriver.cpp */,
 				4CDE3C9E1CCA96C100D23E66 /* DAFSkelDriver.h */,
 				4C6F39531CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.h */,
@@ -905,6 +910,7 @@
 					};
 					4C2666F11CC0369000F10DC0 = {
 						DevelopmentTeam = 86G3K7BVQY;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.VPNLite = {
 								enabled = 0;
@@ -1234,6 +1240,7 @@
 				D7BE76EE1CDC0B7700C1F6B7 /* SentegrityTAF_WelcomeViewController.m in Sources */,
 				4C2666FD1CC0369000F10DC0 /* SystemDebugViewController.m in Sources */,
 				4C2666FF1CC0369000F10DC0 /* ActivityPermissionViewController.m in Sources */,
+				D78A5B321DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m in Sources */,
 				4C6F39591CCAD0B40059F0B1 /* SentegrityTAF_PasswordCreationViewController.m in Sources */,
 				4C2667001CC0369000F10DC0 /* UserDebugViewController.m in Sources */,
 				D7FE9F231CDDFDDE00FACA04 /* SentegrityTAF_AskPermissionsViewController.m in Sources */,
@@ -1338,7 +1345,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1377,7 +1384,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1549,7 +1556,8 @@
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jason Sinchak (BQXNSAY7KH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 86G3K7BVQY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1617,7 +1625,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "307b3246-2b72-4f36-bd28-85a638d3dae5";
+				PROVISIONING_PROFILE_SPECIFIER = "Sentegrity for Good - Development";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1631,7 +1640,8 @@
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Trusted Mobile, LLC (86G3K7BVQY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 86G3K7BVQY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1701,7 +1711,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "205b9f9b-49a8-42f2-ac08-a2c13673ff56";
+				PROVISIONING_PROFILE_SPECIFIER = "Sentegrity for Good - AdHoc distribution";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

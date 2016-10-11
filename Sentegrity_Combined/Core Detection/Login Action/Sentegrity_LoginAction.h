@@ -37,4 +37,7 @@
  */
 - (Sentegrity_LoginResponse_Object *)attemptLoginWithUserInput:(NSString *)Userinput andError:(NSError **)error;
 
+- (Sentegrity_LoginResponse_Object *)attemptLoginWithTouchIDpassword:(NSString *)Userinput andError:(NSError **)error;
+
+
 @end

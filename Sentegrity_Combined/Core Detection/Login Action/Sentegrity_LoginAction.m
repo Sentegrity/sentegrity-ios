@@ -36,6 +36,121 @@
 
 #pragma mark - Deactivations
 
+- (Sentegrity_LoginResponse_Object *)attemptLoginWithTouchIDpassword:(NSString *)touchIDPassord andError:(NSError **)error {
+    // Get computation results
+    // Get last computation results
+    Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+    
+    // Create response object
+    Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginResponse_Object alloc] init];
+
+    
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
+    
+    // Validate no errors
+    if (!startup || startup == nil) {
+        
+        // Set to error, no response title/desc required because its not used for transparent
+        NSLog(@"Unable to get the startup file for preauthentication action: PromptForUserPassword");
+        [loginResponseObject setAuthenticationResponseCode:authenticationResult_irrecoverableError];
+        [loginResponseObject setResponseLoginTitle:@"Authentication Error"];
+        [loginResponseObject setResponseLoginDescription:@"An error occured during authentication, please reinstall the application"];
+        [loginResponseObject setDecryptedMasterKey:nil];
+        
+    } // Done validating no errors
+    
+    // Derive key from user input (we do this here instead of inside sentegrity crypto to prevent doing multiple key derivations, in the event the password is correct and we need to do decryption)
+    NSData *touchIDKey = [[Sentegrity_Crypto sharedCrypto] getUserKeyForPassword:touchIDPassord withError:error];
+    
+    // TODO: Utilize Error
+    
+    // Create user key hash
+    NSString *candidateTouchIDKeyHash =  [[Sentegrity_Crypto sharedCrypto] createSHA1HashOfData:touchIDKey withError:error];
+    
+    // TODO: Utilize Error
+    
+    // Retrieve the stored user key hash created during provisoning
+    NSString *storedTouchIDKeyHash = [startup touchIDKeyHash];
+    
+    // Successful login
+    if ([candidateTouchIDKeyHash isEqualToString:storedTouchIDKeyHash]) {
+        
+        // Attempt to decrypt master
+        computationResults.decryptedMasterKey = [[Sentegrity_Crypto sharedCrypto] decryptMasterKeyUsingTouchIDKey:touchIDKey withError:error];
+        
+        // TODO: Utilize Error
+        
+        // See if it decrypted
+        if (computationResults.decryptedMasterKey != nil || !computationResults.decryptedMasterKey) {
+            
+            // Master key decrypted successfully
+            
+            // Set to success, no response title/desc required
+            [loginResponseObject setAuthenticationResponseCode:authenticationResult_Success];
+            [loginResponseObject setResponseLoginTitle:@""];
+            [loginResponseObject setResponseLoginDescription:@""];
+            [loginResponseObject setDecryptedMasterKey:computationResults.decryptedMasterKey];
+            
+            // Perform post auth action (e.g., whitelist)
+            if ([Sentegrity_LoginAction performPostAuthenticationActionWithError:error] == NO) {
+                
+                // Unable to perform post authentication events
+                
+                // Set the error if it's not set
+                if (!*error) {
+                    
+                    // Set the error details
+                    NSDictionary *errorDetails = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"Post authentication action failed", nil),
+                                                   NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Error during post authentication", nil),
+                                                   NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Verify whitelisting and other post authentication actions", nil)
+                                                   };
+                    
+                    // Set the error
+                    *error = [NSError errorWithDomain:sentegrityDomain code:SAUnableToPerformPostAuthenticationAction userInfo:errorDetails];
+                    
+                    // Log it
+                    NSLog(@"Post authentication action failed: %@", errorDetails);
+                    
+                } // Done setting the error if not set
+                
+                // This is not catastrophic but it likely means we didn't whitelist, we will still return a loginResponseObject to keep things working because the master key decrypted successfully
+                [loginResponseObject setAuthenticationResponseCode:authenticationResult_recoverableError];
+                [loginResponseObject setResponseLoginTitle:@""];
+                [loginResponseObject setResponseLoginDescription:@""];
+                [loginResponseObject setDecryptedMasterKey:computationResults.decryptedMasterKey];
+                
+            } // Done Perform Post Auth
+            
+        } else {
+            
+            // Set to error, no response title/desc required because its not used for transparent
+            NSLog(@"Unable to authenticate: unable to decrypt master key");
+            [loginResponseObject setAuthenticationResponseCode:authenticationResult_irrecoverableError];
+            [loginResponseObject setResponseLoginTitle:@"Authentication Error"];
+            [loginResponseObject setResponseLoginDescription:@"An error occured during authentication, please reinstall the application"];
+            [loginResponseObject setDecryptedMasterKey:nil];
+            
+        } // Done Seeing if it decrypted
+        
+    } else {
+        
+        // Login failed
+        
+        // Set to error, no response title/desc required because its not used for transparent
+        NSLog(@"Unable to authenticate: unsuccessful login");
+        [loginResponseObject setAuthenticationResponseCode:authenticationResult_incorrectLogin];
+        [loginResponseObject setResponseLoginTitle:@"Incorrect password"];
+        [loginResponseObject setResponseLoginDescription:@"Please retry your password"];
+        [loginResponseObject setDecryptedMasterKey:nil];
+        
+    } // Done Successful login
+    
+    return loginResponseObject;
+}
+
+
+
 // Attempt login with user input
 - (Sentegrity_LoginResponse_Object *)attemptLoginWithUserInput:(NSString *)Userinput andError:(NSError **)error {
     

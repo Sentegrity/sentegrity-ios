@@ -10,6 +10,7 @@
 #import "LoginViewController.h"
 #import "Sentegrity_TrustFactor_Storage.h"
 #import "Sentegrity_Policy_Parser.h"
+#import "SentegrityTAF_TouchIDManager.h"
 
 @interface SentegrityTAF_PasswordCreationViewController () <UITextFieldDelegate>
 
@@ -190,6 +191,9 @@
     
     
     
+
+    
+    
     //MasterKeyString will be provided as decrypted in UnlockViewController
     
     //new startup is already created in welcome screen, just update it with new password
@@ -208,6 +212,7 @@
     // Set the result to the master key
     [result setResult:masterKeyString];
     */
+
      
      
     // Dismiss the view

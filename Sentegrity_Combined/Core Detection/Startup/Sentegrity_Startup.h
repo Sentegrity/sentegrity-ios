@@ -82,13 +82,18 @@
 
 // ** SET DURING USER PASSWORD SETUP **
 
-// User Key Hash compared during any user auth check
+// Userand and TouchID Key Hash compared during any user auth check
 @property (nonatomic, strong) NSString* userKeyHash;
+@property (nonatomic, strong) NSString* touchIDKeyHash;
 
 
-// User Password Encrypted Master Key Blob
+// User and TouchID Password Encrypted Master Key Blob
 @property (nonatomic, strong) NSString* userKeyEncryptedMasterKeyBlobString;
+@property (nonatomic, strong) NSString* touchIDKeyEncryptedMasterKeyBlobString;
 
+
+//bool value indicating if user enabled or disabled touchID
+@property (nonatomic) BOOL touchIDDisabledByUser;
 
 
 @end
