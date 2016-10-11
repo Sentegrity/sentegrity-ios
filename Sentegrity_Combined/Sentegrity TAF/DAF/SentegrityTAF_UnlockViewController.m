@@ -119,6 +119,8 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -173,11 +175,8 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    //scroll inset
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.viewFooter.frame.size.height, 0);
-    self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
     
+
 }
 
 
@@ -476,11 +475,20 @@
     NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];
     
+    
+    //scroll inset
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.viewFooter.frame.size.height, 0);
+    self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
+
+    
+    
     //run core detection only once (when screen is loaded and showed)
     if (!once)
         [self checkForPolicyAndRunCoreDetection];
 
     once = YES;
+    
     
     
 }

@@ -167,8 +167,8 @@
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
-                            <exclude reference="tBR-9w-jOp"/>
                             <exclude reference="dhC-RT-LtQ"/>
+                            <exclude reference="tBR-9w-jOp"/>
                         </mask>
                     </variation>
                 </view>
