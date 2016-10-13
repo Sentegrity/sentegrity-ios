@@ -468,19 +468,21 @@
 }
 
 
+- (void) viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    //scroll inset
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.viewFooter.frame.size.height, 0);
+    self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
+}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
 
     NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];
-    
-    
-    //scroll inset
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.viewFooter.frame.size.height, 0);
-    self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
-
     
     
     //run core detection only once (when screen is loaded and showed)

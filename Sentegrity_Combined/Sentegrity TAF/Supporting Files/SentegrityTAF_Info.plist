@@ -74,6 +74,8 @@
 	<string>Gimme location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Sentegrity analyzes location data to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow location services Sentegrity may require you to enter passwords more often.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Sentegrity analyzes motion data to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow Motion &amp; Fitness services Sentegrity may require you to enter passwords more often.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DINPro-Bold.otf</string>
