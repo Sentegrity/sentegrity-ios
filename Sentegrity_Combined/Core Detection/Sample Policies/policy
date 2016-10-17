@@ -52,7 +52,7 @@
 "id": 3,
 "type": 0,
 "computationMethod": 0,
-"name": "SYSTEM_SECURITY",
+"name": "SYSTEM_SECURITY",	
 "desc": "Device Anomaly",
 "preAuthenticationAction": 2,
 "postAuthenticationAction": 2
