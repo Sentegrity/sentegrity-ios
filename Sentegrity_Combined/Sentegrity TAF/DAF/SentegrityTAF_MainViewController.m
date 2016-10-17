@@ -142,12 +142,18 @@
     // Set the last-updated text and reload button hidden
     [dashboardViewController.reloadButton setHidden:YES];
     
-    //added to support right menu for debugging
-    RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:nil rightMenuViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"rightmenuviewcontroller"]];
-
+    
+    if (hamburgerMenuEnabled) {
+        //added to support right menu for debugging
+        RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:nil rightMenuViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"rightmenuviewcontroller"]];
+        self.currentViewController = sideMenuViewController;
+    }
+    else {
+        self.currentViewController = navController;
+    }
+    
     
     //set new screen and state
-    self.currentViewController = sideMenuViewController;
     self.dashboardViewController = dashboardViewController;
 }
 
