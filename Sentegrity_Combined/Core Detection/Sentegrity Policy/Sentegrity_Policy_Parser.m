@@ -250,6 +250,9 @@
         
     }
     
+    // set the instance to the new policy just written to file (if we don't do this it won't start using it right away until instance vars are destoryed)
+     self.currentPolicy = policy;
+     
     // return Success
     return YES;
     
@@ -373,11 +376,6 @@
         
     }
     
-    //check if current policy is outdated (from old version of the app) and set default values for new fields
-    if (!policy.platform)
-        policy.platform = @(0); // platform 0 represents iOS
-    if (!policy.applicationVersionID)
-        policy.applicationVersionID = @"1.0.0";
     
     
     // Return the object

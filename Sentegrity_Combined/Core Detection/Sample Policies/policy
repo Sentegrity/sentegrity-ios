@@ -1,8 +1,6 @@
 {
 "policyID": "default",
 "revision": 1,
-"applicationVersionID": "1.0.2",
-"platform": 0,
 "userThreshold": 80,
 "systemThreshold": 30,
 "allowPrivateAPIs": 0,

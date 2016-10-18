@@ -107,14 +107,6 @@
     _passwordRequirements = passwordRequirements;
 }
 
-//application version ID
-- (void) setApplicationVersionID:(NSString *)applicationVersionID {
-    _applicationVersionID = applicationVersionID;
-}
 
-//platform
-- (void) setPlatform:(NSNumber *)platform {
-    _platform = platform;
-}
 
 @end

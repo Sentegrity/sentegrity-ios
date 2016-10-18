@@ -73,18 +73,24 @@
     // prepare dictionary (JSON) for sending
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     
+    // Get app version
+    NSString * currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+    
+    // Get platform
+    // platform 0 = iOS
+    NSNumber *platform = [NSNumber numberWithInt:0];
     
     /*
      Prepare POST parameters
      */
     [dic setObject:currentPolicy.policyID forKey:@"current_policy_id"];
     [dic setObject:currentPolicy.revision forKey:@"current_policy_revision"];
-    [dic setObject:currentPolicy.platform forKey:@"platform"];
+    [dic setObject:platform forKey:@"platform"];
     [dic setObject:email forKey:@"user_activation_id"];
     [dic setObject:@[] forKey:@"run_history_objects"]; //empty array
     [dic setObject:currentStartup.deviceSaltString forKey:@"device_salt"];
     [dic setObject:[self deviceName] forKey:@"phone_model"];
-    [dic setObject:currentPolicy.applicationVersionID forKey:@"app_version"];
+    [dic setObject:currentVersion forKey:@"app_version"];
     
      [self.sessionManager uploadReport:dic withCallback:^(BOOL success, id responseObject, NSError *error) {
          if (error) {
@@ -107,6 +113,7 @@
                  
                  // save new policy
                  [[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policy withError:&error];
+
                  
                  if (error) {
                      //something went wrong...
@@ -163,11 +170,13 @@
     }
     
     //check if any runHistoryObjects exists (for example, it will be 0 if running app for the first time)
+    /*
     if (currentStartup.runHistoryObjects.count == 0) {
         if (callback)
             callback(YES, NO, NO, nil);
         return;
     }
+    */
     
     //get current runCount, because it can be changed while waiting for server response
     NSInteger runCount = currentStartup.runCount;
@@ -205,6 +214,13 @@
         if (!email)
             email = @"";
         
+        // Get app version
+        NSString * currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+        
+        // Get platform
+        // platform 0 = iOS
+        NSNumber *platform = [NSNumber numberWithInt:0];
+        
         
         /*
          Prepare POST parameters
@@ -212,12 +228,14 @@
         
         [dic setObject:currentPolicy.policyID forKey:@"current_policy_id"];
         [dic setObject:currentPolicy.revision forKey:@"current_policy_revision"];
-        [dic setObject:currentPolicy.platform forKey:@"platform"];
+        [dic setObject:platform forKey:@"platform"];
         [dic setObject:email forKey:@"user_activation_id"];
         [dic setObject:currentStartupJSONobject[@"runHistoryObjects"] forKey:@"run_history_objects"];
         [dic setObject:currentStartup.deviceSaltString forKey:@"device_salt"];
         [dic setObject:[self deviceName] forKey:@"phone_model"];
-        [dic setObject:currentPolicy.applicationVersionID forKey:@"app_version"];
+        [dic setObject:currentVersion forKey:@"app_version"];
+        
+        
 
         [self.sessionManager uploadReport:dic withCallback:^(BOOL success, NSDictionary *responseObject, NSError *error) {
             if (!success) {

@@ -487,7 +487,9 @@
     
     //run core detection only once (when screen is loaded and showed)
     if (!once)
-        [self checkForPolicyAndRunCoreDetection];
+        
+        //[self checkForPolicyAndRunCoreDetection];
+        [self runCoreDetection];
 
     once = YES;
     
@@ -496,9 +498,12 @@
 }
 
 
+// this condition should not happen anymore (app now send hardcoded version in its request, not the one inside the embedded policy)
+/*
 - (void) checkForPolicyAndRunCoreDetection {
     
-    
+
+    /*
     NSError *error;
     Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
     NSString * currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
@@ -546,8 +551,9 @@
         [self runCoreDetection];
     }
     
-}
 
+}
+*/
 
 
 - (void) runCoreDetection {
