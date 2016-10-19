@@ -300,6 +300,9 @@
                                     <variation key="default">
                                         <mask key="constraints">
                                             <exclude reference="V36-wA-SCe"/>
+                                            <exclude reference="6JL-lr-quZ"/>
+                                            <exclude reference="CWB-40-ppc"/>
+                                            <exclude reference="Gm9-UJ-aOs"/>
                                             <exclude reference="2r8-9w-WdN"/>
                                             <exclude reference="9AU-ml-y7g"/>
                                             <exclude reference="Ouw-vB-izH"/>
@@ -307,9 +310,6 @@
                                             <exclude reference="jxO-0O-C1B"/>
                                             <exclude reference="xM4-7H-HLI"/>
                                             <exclude reference="zks-3j-4BJ"/>
-                                            <exclude reference="6JL-lr-quZ"/>
-                                            <exclude reference="CWB-40-ppc"/>
-                                            <exclude reference="Gm9-UJ-aOs"/>
                                         </mask>
                                     </variation>
                                 </view>
@@ -479,9 +479,9 @@
                                         <mask key="constraints">
                                             <exclude reference="RUj-Qh-Je2"/>
                                             <exclude reference="eH6-I6-vMr"/>
-                                            <exclude reference="QOG-eb-8ds"/>
                                             <exclude reference="jKx-n0-QWQ"/>
                                             <exclude reference="sp5-RD-uTg"/>
+                                            <exclude reference="QOG-eb-8ds"/>
                                         </mask>
                                     </variation>
                                 </view>
@@ -506,11 +506,11 @@
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
-                                    <exclude reference="GwD-FH-55h"/>
                                     <exclude reference="6mC-Pb-UTL"/>
                                     <exclude reference="Eot-VB-5td"/>
                                     <exclude reference="YMr-Zv-M4l"/>
                                     <exclude reference="mfo-we-j4n"/>
+                                    <exclude reference="GwD-FH-55h"/>
                                 </mask>
                             </variation>
                         </view>

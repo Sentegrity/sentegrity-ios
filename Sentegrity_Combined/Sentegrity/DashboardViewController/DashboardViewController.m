@@ -195,12 +195,15 @@ static MBProgressHUD *HUD;
     // Set the button image to aspect fill
     [self.reloadButton.imageView setContentMode:UIViewContentModeScaleAspectFill];
     
+    
     // Round out the device status image view
+    [self.deviceStatusImageView layoutIfNeeded];
     self.deviceStatusImageView.layer.cornerRadius = self.deviceStatusImageView.frame.size.height /2;
     self.deviceStatusImageView.layer.masksToBounds = YES;
     self.deviceStatusImageView.layer.borderWidth = 0;
     
     // Round out the user status image view
+    [self.userStatusImageView layoutIfNeeded];
     self.userStatusImageView.layer.cornerRadius = self.userStatusImageView.frame.size.height /2;
     self.userStatusImageView.layer.masksToBounds = YES;
     self.userStatusImageView.layer.borderWidth = 0;

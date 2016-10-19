@@ -2,8 +2,8 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "ic_error_red_48dp_3x.png"
+      "filename" : "ic_error_red_48dp_3x.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
