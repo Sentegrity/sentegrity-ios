@@ -180,6 +180,8 @@
 		4C7D98221CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C7D977A1CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.h */; };
 		4C7D98231CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7D977B1CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.m */; };
 		5800C6E07D0AFC519C8F68D4 /* libPods-Core Detection.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7D5304A28B67EE704D77F4 /* libPods-Core Detection.a */; };
+		96A9AE071DBD168B007B9625 /* Sentegrity_Authentication.h in Headers */ = {isa = PBXBuildFile; fileRef = 96A9AE051DBD168B007B9625 /* Sentegrity_Authentication.h */; };
+		96A9AE081DBD168B007B9625 /* Sentegrity_Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A9AE061DBD168B007B9625 /* Sentegrity_Authentication.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -393,6 +395,8 @@
 		4C7D977A1CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4C7D977B1CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
 		7C7D5304A28B67EE704D77F4 /* libPods-Core Detection.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Core Detection.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96A9AE051DBD168B007B9625 /* Sentegrity_Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Authentication.h; sourceTree = "<group>"; };
+		96A9AE061DBD168B007B9625 /* Sentegrity_Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Authentication.m; sourceTree = "<group>"; };
 		D4A420956F3DC29DFDCE275E /* Pods-Core Detection.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Core Detection.release.xcconfig"; path = "Pods/Target Support Files/Pods-Core Detection/Pods-Core Detection.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -763,6 +767,7 @@
 		4C7D97561CC0010E00E9CC97 /* Sentegrity Policy */ = {
 			isa = PBXGroup;
 			children = (
+				96A9AE041DBD168B007B9625 /* Authentication */,
 				4C7D97571CC0010E00E9CC97 /* Classification */,
 				4C7D975A1CC0010E00E9CC97 /* DNE Modifiers */,
 				4C7D97611CC0010E00E9CC97 /* Subclassification */,
@@ -865,6 +870,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		96A9AE041DBD168B007B9625 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				96A9AE051DBD168B007B9625 /* Sentegrity_Authentication.h */,
+				96A9AE061DBD168B007B9625 /* Sentegrity_Authentication.m */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -909,6 +923,7 @@
 				4C7D97DC1CC0010E00E9CC97 /* TrustFactor_Dispatch_Celluar.h in Headers */,
 				4C7D98021CC0010E00E9CC97 /* Sentegrity_Network_Manager.h in Headers */,
 				4C7D97A71CC0010E00E9CC97 /* kpi_ipfilter.h in Headers */,
+				96A9AE071DBD168B007B9625 /* Sentegrity_Authentication.h in Headers */,
 				4C7D97BC1CC0010E00E9CC97 /* ActiveConnection.h in Headers */,
 				4C7D97941CC0010E00E9CC97 /* ev.h in Headers */,
 				4C7D97801CC0010E00E9CC97 /* Sentegrity_Stored_Assertion.h in Headers */,
@@ -1142,6 +1157,7 @@
 				4C7D97E71CC0010E00E9CC97 /* TrustFactor_Dispatch_Netstat.m in Sources */,
 				4C7D97D31CC0010E00E9CC97 /* Sentegrity_TrustFactor_Dataset_StatusBar.m in Sources */,
 				4C7D97BD1CC0010E00E9CC97 /* ActiveConnection.m in Sources */,
+				96A9AE081DBD168B007B9625 /* Sentegrity_Authentication.m in Sources */,
 				4C7D97D91CC0010E00E9CC97 /* TrustFactor_Dispatch_Application.m in Sources */,
 				4C7D978B1CC0010E00E9CC97 /* CoreDetection.m in Sources */,
 				4C7D978D1CC0010E00E9CC97 /* Sentegrity_Crypto.m in Sources */,

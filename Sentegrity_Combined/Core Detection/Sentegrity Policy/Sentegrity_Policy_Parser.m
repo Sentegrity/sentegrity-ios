@@ -10,6 +10,7 @@
 #import "Sentegrity_Policy.h"
 #import "Sentegrity_DNEModifiers.h"
 #import "Sentegrity_Classification.h"
+#import "Sentegrity_Authentication.h"
 #import "Sentegrity_Constants.h"
 #import "Sentegrity_Subclassification.h"
 #import "Sentegrity_TrustFactor.h"
@@ -42,7 +43,8 @@
     if(self.currentPolicy == nil || !self.currentPolicy){
         
         //first we need to check for policy in the Documents folder
-        if (![[NSFileManager defaultManager] fileExistsAtPath:[self policyFilePathInDocumentsFolder]]) {
+        //temp change, e
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[self policyFilePathInDocumentsFolder]]) {
 
             //there is no policy in documents folder (this is first run of the app), let's create new policy from Main Bundle
             Sentegrity_Policy *policy = [self loadPolicyFromMainBundle:error];
@@ -327,14 +329,18 @@
     }
     // Map DNEModifiers
     DCArrayMapping *mapper = [DCArrayMapping mapperForClassElements:[Sentegrity_DNEModifiers class] forAttribute:kDNEModifiers onClass:[Sentegrity_Policy class]];
+    // Map AuthenticationModules
+    DCArrayMapping *mapper1 = [DCArrayMapping mapperForClassElements:[Sentegrity_Authentication class] forAttribute:kAuthenticationModules onClass:[Sentegrity_Policy class]];
     // Map Classifications
     DCArrayMapping *mapper2 = [DCArrayMapping mapperForClassElements:[Sentegrity_Classification class] forAttribute:kClassifications onClass:[Sentegrity_Policy class]];
     // Map Subclassifications
     DCArrayMapping *mapper3 = [DCArrayMapping mapperForClassElements:[Sentegrity_Subclassification class] forAttribute:kSubClassifications onClass:[Sentegrity_Policy class]];
     // Map TrustFactors
     DCArrayMapping *mapper4 = [DCArrayMapping mapperForClassElements:[Sentegrity_TrustFactor class] forAttribute:kTrustFactors onClass:[Sentegrity_Policy class]];
+
     
     // Map Classifications id
+    DCObjectMapping *idToIdentificationAuthenticationModules = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"identification" onClass:[Sentegrity_Authentication class]];
     DCObjectMapping *idToIdentificationClassifications = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"identification" onClass:[Sentegrity_Classification class]];
     DCObjectMapping *idToIdentificationSubClassifications = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"identification" onClass:[Sentegrity_Subclassification class]];
     DCObjectMapping *idToIdentificationTrustFactors = [DCObjectMapping mapKeyPath:@"id" toAttribute:@"identification" onClass:[Sentegrity_TrustFactor class]];
@@ -342,9 +348,12 @@
     // Set up the parser configuration for json parsing
     DCParserConfiguration *config = [DCParserConfiguration configuration];
     [config addArrayMapper:mapper];
+    [config addArrayMapper:mapper1];
     [config addArrayMapper:mapper2];
     [config addArrayMapper:mapper3];
     [config addArrayMapper:mapper4];
+
+    [config addObjectMapping:idToIdentificationAuthenticationModules];
     [config addObjectMapping:idToIdentificationClassifications];
     [config addObjectMapping:idToIdentificationSubClassifications];
     [config addObjectMapping:idToIdentificationTrustFactors];

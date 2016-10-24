@@ -13,9 +13,7 @@
 
 @property (nonatomic,retain) NSString *policyID;
 @property (nonatomic,retain) NSNumber *transparentAuthDecayMetric;
-@property (nonatomic,retain) NSNumber *transparentAuthEnabled;
 @property (nonatomic,retain) NSNumber *revision;
-@property (nonatomic,retain) NSNumber *userThreshold;
 @property (nonatomic,retain) NSNumber *systemThreshold;
 @property (nonatomic,retain) NSNumber *minimumTransparentAuthEntropy;
 @property (nonatomic,retain) NSNumber *continueOnError;
@@ -25,12 +23,14 @@
 @property (nonatomic,retain) NSString *contactEmail;
 @property (nonatomic,retain) NSNumber *allowPrivateAPIs;
 @property (nonatomic,retain) Sentegrity_DNEModifiers *DNEModifiers;
+@property (nonatomic,retain) NSArray *authenticationModules;
 @property (nonatomic,retain) NSArray *classifications;
 @property (nonatomic,retain) NSArray *subclassifications;
 @property (nonatomic,retain) NSArray *trustFactors;
 @property (nonatomic,retain) NSNumber *statusUploadRunFrequency;
 @property (nonatomic,retain) NSNumber *statusUploadTimeFrequency;
 @property (nonatomic,retain) NSDictionary *passwordRequirements;
+
 
 
 @end

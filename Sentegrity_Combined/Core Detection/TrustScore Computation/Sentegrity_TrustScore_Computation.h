@@ -12,6 +12,10 @@
 // Transparent Authentication
 #import "TransparentAuthentication.h"
 
+// Authentication Modules
+#import "Sentegrity_Authentication.h"
+
+
 // Startup
 #import "Sentegrity_TransparentAuth_Object.h"
 
@@ -97,7 +101,9 @@
 @property (nonatomic) int userScore;
 
 // User Trusted
-@property (nonatomic) BOOL  userTrusted;
+@property (nonatomic) BOOL userTrusted;
+
+
 
 // User Icon index for dash and detailed view
 @property (nonatomic) int  userGUIIconID;
@@ -148,6 +154,8 @@
 // Action to take (e.g., prompt user or admin pin)
 @property (nonatomic) NSInteger authenticationResult;
 
+// User Authentication Method Attempted to be used
+@property (nonatomic) Sentegrity_Authentication* UserAuthMethodEmployed;
 
 #pragma mark - Crypto
 
@@ -176,9 +184,6 @@
 
 // Transparent authentication high entropy rule count
 @property (nonatomic) NSInteger  entropyCount;
-
-// Should attempt transparent authentication
-@property (nonatomic) BOOL  shouldAttemptTransparentAuthentication;
 
 // Found a matching stored transparent key
 @property (nonatomic) BOOL  foundTransparentMatch;
