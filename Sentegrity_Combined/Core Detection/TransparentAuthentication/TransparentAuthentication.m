@@ -20,7 +20,7 @@
 }
 
 // Attempt Transparent Authentication for Computation
--  (Sentegrity_TrustScore_Computation *)attemptTransparentAuthenticationForComputation:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:policy withError:(NSError **)error {
+-  (Sentegrity_TrustScore_Computation *)attemptTransparentAuthenticationForComputation:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error {
     
     // Validate no errors
     if (!computationResults.transparentAuthenticationTrustFactorOutputObjects || computationResults.transparentAuthenticationTrustFactorOutputObjects == nil) {
@@ -45,20 +45,6 @@
         //computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
         //computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
         return computationResults;
-        
-    }
-    
-    NSString *candidateTransparentKeyRawOutputString=@"";
-    
-    // Concat all transparent auth realted TrustFactor output data to comprise the transparent key
-    for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.transparentAuthenticationTrustFactorOutputObjects) {
-        
-        // Iterate through all output returned by TrustFactor
-        for(NSString *output in trustFactorOutputObject.output) {
-            
-           candidateTransparentKeyRawOutputString = [candidateTransparentKeyRawOutputString stringByAppendingFormat:@",%@",output];
-        }
-        
         
     }
     
@@ -92,6 +78,22 @@
         //computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
         //computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
         return computationResults;
+        
+    }
+
+    
+    // Seed it with the device salt
+    NSString *candidateTransparentKeyRawOutputString = startup.deviceSaltString;
+    
+    // Concat all transparent auth realted TrustFactor output data to comprise the transparent key
+    for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.transparentAuthenticationTrustFactorOutputObjects) {
+        
+        // Iterate through all output returned by TrustFactor
+        for(NSString *output in trustFactorOutputObject.output) {
+            
+           candidateTransparentKeyRawOutputString = [candidateTransparentKeyRawOutputString stringByAppendingFormat:@",_%@",output];
+        }
+        
         
     }
     
@@ -171,7 +173,14 @@
     } // Done checking candidateTransparentKeyHashString
     
     //Temporary for debugging purposes (add on plaintext)
-    computationResults.candidateTransparentKeyHashString = [computationResults.candidateTransparentKeyHashString stringByAppendingFormat:@"-%@",candidateTransparentKeyRawOutputString];
+    // Get policy to check for debug
+    // Get the policy
+
+    // Do not hash if debug
+    if(policy.debugEnabled.intValue==1){
+            computationResults.candidateTransparentKeyHashString = [computationResults.candidateTransparentKeyHashString stringByAppendingFormat:@"-%@",candidateTransparentKeyRawOutputString];
+    }
+
     
     
     // TODO: Utilize Error

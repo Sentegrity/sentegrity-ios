@@ -43,6 +43,7 @@
     if(self.currentPolicy == nil || !self.currentPolicy){
         
         //first we need to check for policy in the Documents folder
+        // local
         if (![[NSFileManager defaultManager] fileExistsAtPath:[self policyFilePathInDocumentsFolder]]) {
 
             //there is no policy in documents folder (this is first run of the app), let's create new policy from Main Bundle

@@ -43,7 +43,7 @@
 /*!
  *  Attempts transparent authentication and returns True if an existing match was found and false if none was found
  */
-- (Sentegrity_TrustScore_Computation *)attemptTransparentAuthenticationForComputation:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:policy withError:(NSError **)error;
+- (Sentegrity_TrustScore_Computation *)attemptTransparentAuthenticationForComputation:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error;
 
 
 /*!

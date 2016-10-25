@@ -3,6 +3,7 @@
 "revision": 1,
 "systemThreshold": 30,
 "allowPrivateAPIs": 0,
+"debugEnabled": 1,
 "minimumTransparentAuthEntropy": 3,
 "continueOnError": 1,
 "timeout": 3,

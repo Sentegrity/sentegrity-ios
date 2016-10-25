@@ -143,7 +143,12 @@
     [dashboardViewController.reloadButton setHidden:YES];
     
     
-    if (hamburgerMenuEnabled) {
+    // Get policy to check for debug
+    // Get the policy
+    NSError *error;
+    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+    
+    if (policy.debugEnabled.intValue==1) {
         //added to support right menu for debugging
         RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:nil rightMenuViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"rightmenuviewcontroller"]];
         self.currentViewController = sideMenuViewController;

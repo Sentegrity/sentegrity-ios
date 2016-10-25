@@ -21,6 +21,11 @@
 
 
 // TransparentAuthDecayMetric
+- (void)setDebugEnabled:(NSNumber *)debugEnabled{
+    _debugEnabled = debugEnabled;
+}
+
+// TransparentAuthDecayMetric
 - (void)setTransparentAuthDecayMetric:(NSNumber *)transparentAuthDecayMetric{
     _transparentAuthDecayMetric = transparentAuthDecayMetric;
 }

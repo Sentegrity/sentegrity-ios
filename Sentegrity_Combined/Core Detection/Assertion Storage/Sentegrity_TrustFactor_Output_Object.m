@@ -37,10 +37,22 @@
         
         // Create the hash
         // For Debug purposes
-      //  NSString *hash = [[[NSString stringWithFormat:@"%@%@%@%@", [self.trustFactor.identification stringValue],kUniqueDeviceID, startup.deviceSaltString, trustFactorOutput] sha1]stringByAppendingString:[NSString stringWithFormat:@"-%@",trustFactorOutput]];
         
-        // For Prod
-        NSString *hash = [[NSString stringWithFormat:@"%@%@%@", [self.trustFactor.identification stringValue], startup.deviceSaltString, trustFactorOutput] sha1];
+        NSError *error;
+        Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+        
+        NSString *hash;
+        
+        if (policy.debugEnabled.intValue==1) {
+            
+            // Do not hash
+            hash = [NSString stringWithFormat:@"%@_%@_%@", [self.trustFactor.identification stringValue], startup.deviceSaltString, trustFactorOutput];
+        }
+        else{
+            // For Prod
+            hash = [[NSString stringWithFormat:@"%@_%@_%@", [self.trustFactor.identification stringValue], startup.deviceSaltString, trustFactorOutput] sha1];
+        }
+
 
         
         // Get EPOCH

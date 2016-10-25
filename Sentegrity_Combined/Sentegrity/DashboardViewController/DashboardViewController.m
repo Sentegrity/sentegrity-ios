@@ -162,7 +162,11 @@ static MBProgressHUD *HUD;
     
     // Set the menu button
     //Default to hidden and allow other VCs to change it (e.g., unlock)
-    [self.menuButton setHidden:!hamburgerMenuEnabled];
+    
+    NSError *error;
+    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+    
+    [self.menuButton setHidden:!policy.debugEnabled.intValue];
     
     
      [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];

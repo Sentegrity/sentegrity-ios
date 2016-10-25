@@ -19,9 +19,6 @@
 // TODO: Beta only
 #define kUniqueDeviceID                 @"1234567890"
 
-// hamburger menu for logs
-#define hamburgerMenuEnabled            YES
-
 #pragma mark - Defaults
 
 #define kDefaultAppID                   @"default"
