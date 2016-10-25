@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -275,7 +275,7 @@
                                         <constraint firstAttribute="centerY" secondItem="H7c-8v-kjR" secondAttribute="centerY" id="6JL-lr-quZ"/>
                                         <constraint firstAttribute="bottom" secondItem="H7c-8v-kjR" secondAttribute="bottom" id="8a4-Sf-0Ud"/>
                                         <constraint firstItem="d9R-S0-9kX" firstAttribute="top" secondItem="yLB-Xz-S6F" secondAttribute="top" constant="-9" id="9AU-ml-y7g"/>
-                                        <constraint firstAttribute="trailing" secondItem="H7c-8v-kjR" secondAttribute="trailing" constant="40" id="Af8-7r-Yk9"/>
+                                        <constraint firstAttribute="trailing" secondItem="H7c-8v-kjR" secondAttribute="trailing" id="Af8-7r-Yk9"/>
                                         <constraint firstAttribute="height" secondItem="H7c-8v-kjR" secondAttribute="height" id="CWB-40-ppc"/>
                                         <constraint firstItem="d9R-S0-9kX" firstAttribute="height" secondItem="jje-bp-ThR" secondAttribute="height" id="FeH-0s-DDv"/>
                                         <constraint firstAttribute="centerY" secondItem="H7c-8v-kjR" secondAttribute="centerY" id="Gm9-UJ-aOs"/>
@@ -378,7 +378,7 @@
                                         <constraint firstItem="TJn-M6-arh" firstAttribute="leading" secondItem="LHb-6f-c1k" secondAttribute="leading" constant="143" id="UmT-A7-rdC"/>
                                         <constraint firstAttribute="bottom" secondItem="TJn-M6-arh" secondAttribute="bottom" id="VlO-D2-pul"/>
                                         <constraint firstItem="8yX-oW-BzV" firstAttribute="top" secondItem="LHb-6f-c1k" secondAttribute="top" id="VnC-FR-RyU"/>
-                                        <constraint firstAttribute="trailing" secondItem="TJn-M6-arh" secondAttribute="trailing" constant="50" id="Vrd-WJ-VTT"/>
+                                        <constraint firstAttribute="trailing" secondItem="TJn-M6-arh" secondAttribute="trailing" id="Vrd-WJ-VTT"/>
                                         <constraint firstItem="8yX-oW-BzV" firstAttribute="centerX" secondItem="2Zt-iI-e70" secondAttribute="centerX" constant="-27" id="Zeh-5p-sxR"/>
                                         <constraint firstItem="8yX-oW-BzV" firstAttribute="bottom" secondItem="2Zt-iI-e70" secondAttribute="bottom" constant="9" id="Zrq-mu-W6p"/>
                                         <constraint firstItem="8yX-oW-BzV" firstAttribute="centerY" secondItem="2Zt-iI-e70" secondAttribute="centerY" id="a1t-Yu-hTP"/>
@@ -496,7 +496,7 @@
                                 <constraint firstItem="TJn-M6-arh" firstAttribute="width" secondItem="H7c-8v-kjR" secondAttribute="width" id="GwD-FH-55h"/>
                                 <constraint firstAttribute="centerX" secondItem="jje-bp-ThR" secondAttribute="centerX" id="IeB-E4-inB"/>
                                 <constraint firstItem="LHb-6f-c1k" firstAttribute="width" secondItem="jje-bp-ThR" secondAttribute="width" id="J9O-9E-Dsc"/>
-                                <constraint firstAttribute="width" constant="303" id="K76-Z9-S4t"/>
+                                <constraint firstAttribute="width" constant="310" id="K76-Z9-S4t"/>
                                 <constraint firstItem="1y2-6t-yqz" firstAttribute="top" secondItem="LHb-6f-c1k" secondAttribute="bottom" constant="28" id="YMr-Zv-M4l"/>
                                 <constraint firstItem="LHb-6f-c1k" firstAttribute="height" secondItem="jje-bp-ThR" secondAttribute="height" id="bH3-i7-BOu"/>
                                 <constraint firstItem="1y2-6t-yqz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="LHb-6f-c1k" secondAttribute="bottom" constant="20" id="d7V-Ht-law"/>

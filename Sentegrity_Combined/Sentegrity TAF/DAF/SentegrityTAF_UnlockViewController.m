@@ -798,6 +798,7 @@
                             // Use the decrypted master key
                             [result setResult:decryptedMasterKeyString];
                             result = nil;
+                            [self showAlertWithTitle:@"Transparent auth was successful." andMessage:nil];
                         }];
                     // Done
                     break;
