@@ -6,26 +6,14 @@
 //  Copyright (c) 2015 Walid Javed. All rights reserved.
 //
 
-#import "Sentegrity_Classification.h"
+#import "Sentegrity_Authentication.h"
 
-@implementation Sentegrity_Classification
+@implementation Sentegrity_Authentication
 
 // Identification
 
 - (void)setIdentification:(NSNumber *)identification{
     _identification = identification;
-}
-
-// User
-
-- (void)setType:(NSNumber *)type{
-    _type = type;
-}
-
-// Computation method
-
-- (void)setComputationMethod:(NSNumber *)computationMethod{
-    _computationMethod = computationMethod;
 }
 
 // Name
@@ -34,6 +22,13 @@
     _name = name;
 }
 
+// prompt
+
+- (void)setPrompt:(NSString *)prompt{
+    _prompt = prompt;
+}
+
+
 // Description
 
 - (void)setDesc:(NSString *)desc{
@@ -41,13 +36,20 @@
 }
 
 
-// ProtectModeAction
+// ActivationRange
+
+- (void)setActivationRange:(NSNumber *)activationRange{
+    _activationRange = activationRange;
+}
+
+// PostAuthenticationAction
 
 - (void)setAuthenticationAction:(NSNumber *)authenticationAction{
     _authenticationAction = authenticationAction;
 }
 
-// ProtectModeMessage
+
+// PostAuthenticationAction
 
 - (void)setPostAuthenticationAction:(NSNumber *)postAuthenticationAction{
     _postAuthenticationAction = postAuthenticationAction;
@@ -56,3 +58,4 @@
 
 
 @end
+

@@ -35,9 +35,14 @@
  *
  *  @return Whether the protect mode was deactived or not
  */
-- (Sentegrity_LoginResponse_Object *)attemptLoginWithUserInput:(NSString *)Userinput andError:(NSError **)error;
+
+- (Sentegrity_LoginResponse_Object *)attemptLoginWithTransparentAuthentication:(NSError **)error;
+
+- (Sentegrity_LoginResponse_Object *)attemptLoginWithPassword:(NSString *)Userinput andError:(NSError **)error;
 
 - (Sentegrity_LoginResponse_Object *)attemptLoginWithTouchIDpassword:(NSString *)Userinput andError:(NSError **)error;
+
+- (Sentegrity_LoginResponse_Object *)attemptLoginWithBlockAndWarn:(NSError **)error;
 
 
 @end

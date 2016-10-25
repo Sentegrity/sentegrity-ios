@@ -40,8 +40,10 @@
         // We stil return computationResults instead of nil so that we can continue even if transparent auth fails
         // A transparent auth failure is not catastrophic
         computationResults.coreDetectionResult = CoreDetectionResult_TransparentAuthError;
-        computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
-        computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
+        
+        // Don't set these here anymore, let the next auth method specified take over instead
+        //computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
+        //computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
         return computationResults;
         
     }
@@ -85,8 +87,10 @@
         // We stil return computationResults instead of nil so that we can continue even if transparent auth fails
         // A transparent auth failure is not catastrophic
         computationResults.coreDetectionResult = CoreDetectionResult_TransparentAuthError;
-        computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
-        computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
+        
+        // Don't set these here anymore, let the next auth method specified take over instead
+        //computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
+        //computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
         return computationResults;
         
     }
@@ -135,8 +139,10 @@
         // We stil return computationResults instead of nil so that we can continue even if transparent auth fails
         // A transparent auth failure is not catastrophic
         computationResults.coreDetectionResult = CoreDetectionResult_TransparentAuthError;
-        computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
-        computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
+        
+        // Don't set these here anymore, let the next auth method specified take over instead
+        //computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
+        //computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
         return computationResults;
         
     }
@@ -165,7 +171,7 @@
     } // Done checking candidateTransparentKeyHashString
     
     //Temporary for debugging purposes (add on plaintext)
-    //computationResults.candidateTransparentKeyHashString = [computationResults.candidateTransparentKeyHashString stringByAppendingFormat:@"-%@",candidateTransparentKeyRawOutputString];
+    computationResults.candidateTransparentKeyHashString = [computationResults.candidateTransparentKeyHashString stringByAppendingFormat:@"-%@",candidateTransparentKeyRawOutputString];
     
     
     // TODO: Utilize Error
@@ -205,7 +211,7 @@
                 
                 // return current successful status (may change if decrypt fails later on)
                 computationResults.coreDetectionResult = CoreDetectionResult_TransparentAuthSuccess;
-                computationResults.preAuthenticationAction = preAuthenticationAction_TransparentlyAuthenticate;
+                //computationResults.preAuthenticationAction = preAuthenticationAction_TransparentlyAuthenticate;
                 
                 // its up for debate if we whitelist when there is transparent authentication taking place
                 // obviously there cant be much to whitelist if we were above the userScore threshold
@@ -213,7 +219,7 @@
                 // im not sure what the impact of this may be on the profile if the user is constantly transparently authetnicated
                 // it may help build a stronger profile when the user is not transparently authenticated or result in a bad profile
                 
-                computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
+                //computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
                 
                 break;
                 
@@ -237,8 +243,10 @@
         // is not present then it has to be a new key
         
         computationResults.coreDetectionResult = CoreDetectionResult_TransparentAuthNewKey;
-        computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
-        computationResults.postAuthenticationAction = postAuthenticationAction_createTransparentKey;
+        
+        // Don't set these here anymore, let the next auth method specified take over instead
+        //computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
+        //computationResults.postAuthenticationAction = postAuthenticationAction_createTransparentKey;
     }
     
     return computationResults;
@@ -384,22 +392,15 @@
          // THIS ORDER OF COMBINING ARRAYS IS IMPORTANT
          
          // IF we have a bluetooth authenticator we dont need anything else, override minimum entropy requirement
-         if(bluetoothAuthenticator==YES){
+         if(bluetoothAuthenticator==YES && wifiAuthenticator==YES){
              
              
              // If bluetooth authenticator is present use it (first priority)
              [transparentAuthObjectsToKeep addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
              
-             // Set back the computation results array
-             computationResults.transparentAuthenticationTrustFactorOutputObjects = transparentAuthObjectsToKeep;
-             return YES;
-             
-         }
-         else if(wifiAuthenticator==YES){
-             
-             
              // If wifi authenticator is present use it (2nd priority)
              [transparentAuthObjectsToKeep addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
+
              
              // Set back the computation results array
              computationResults.transparentAuthenticationTrustFactorOutputObjects = transparentAuthObjectsToKeep;
@@ -408,7 +409,13 @@
          }
          else{
             
-             // No bluetooth or wifi, walk the priority - we don't know exactly what the entropy total is here so we go by count
+             // No bluetooth / wifi combo, walk the priority - we don't know exactly what the entropy total is here so we go by count
+             
+             // If bluetooth authenticator is present use it (first priority)
+             [transparentAuthObjectsToKeep addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
+             
+             // If wifi authenticator is present use it (2nd priority)
+             [transparentAuthObjectsToKeep addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
              
              // If location authenticator is present use it (third priority)
              [transparentAuthHighEntropyObjects addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];

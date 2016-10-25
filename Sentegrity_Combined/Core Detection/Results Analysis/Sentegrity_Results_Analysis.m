@@ -1,4 +1,4 @@
-//
+  //
 //  Sentegrity_TrustScore_Computation.m
 //  Sentegrity
 //
@@ -12,66 +12,41 @@
 #import "Sentegrity_Classification+Computation.h"
 #import "Sentegrity_Subclassification+Computation.h"
 
+// Auth Modules
+#import "Sentegrity_Authentication.h"
+
 
 @implementation Sentegrity_Results_Analysis : NSObject 
 
 + (Sentegrity_TrustScore_Computation *)analyzeResultsForComputation:(Sentegrity_TrustScore_Computation *)computationResults WithPolicy:(Sentegrity_Policy *)policy WithError:(NSError **)error {
     
-    // Defaults
-
-    
+    // Default trust results
     computationResults.deviceTrusted = YES;
     computationResults.userTrusted = YES;
     computationResults.systemTrusted = YES;
-    computationResults.shouldAttemptTransparentAuthentication = YES;
     
+    // Auth method defaults
+    computationResults.authenticationModuleEmployed = nil;
+
     // Set the result code, these should not be 0 by the end of core detection otherwise something is wrong
     computationResults.coreDetectionResult = 0;
-    computationResults.preAuthenticationAction = 0;
+    computationResults.authenticationAction = 0;
     computationResults.postAuthenticationAction = 0;
-
     
-    // Check system threshold
-    if (computationResults.systemScore < policy.systemThreshold.integerValue) {
+
+    // Check device trust threshold (only trust if the overall score > threshold
+    if (computationResults.systemScore < policy.systemThreshold.integerValue  ) {
         // System is not trusted
+        computationResults.deviceTrusted = NO;
         computationResults.systemTrusted = NO;
-        computationResults.deviceTrusted = NO;
-        computationResults.shouldAttemptTransparentAuthentication = NO;
     }
     
-    // Check User Threshold
-    if (computationResults.userScore < policy.userThreshold.integerValue) {
-        // User is not trusted
-        computationResults.userTrusted = NO;
-        computationResults.deviceTrusted = NO;
-        computationResults.shouldAttemptTransparentAuthentication = NO;
-    }
-    
-    // If it still makes sense to attempt transparent auth
-    if(computationResults.shouldAttemptTransparentAuthentication==YES){
-        
-        // Determine if we should attempt transparent auth based on the current potential TrustFactors
-        // Check entropy and prioritize high entropy trustfactors
-        BOOL entropyRequirementsMeetForTransparentAuth;
-        entropyRequirementsMeetForTransparentAuth = [[TransparentAuthentication sharedTransparentAuth] analyzeEligibleTransparentAuthObjects:computationResults withPolicy:policy withError:error];
-        
-        // If there is not enough entropy don't even attempt transparent
-        if (entropyRequirementsMeetForTransparentAuth==NO){
-            computationResults.shouldAttemptTransparentAuthentication = NO;
-            computationResults.coreDetectionResult = CoreDetectionResult_TransparentAuthEntropyLow;
-            computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
-            computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
-            // Make sure we set action codes because we won't be executing transparent auth module
-            
-        }
-    }
 
-    
     
     // Check if the system is trusted, with highest attributing first, only one classification can be attributing and
     // indicate which actions to take
     
-    if (!computationResults.systemTrusted) {
+    if (computationResults.systemTrusted == NO) {
         
 
         if (computationResults.systemBreachScore <= computationResults.systemSecurityScore) // SYSTEM_BREACH is attributing
@@ -84,7 +59,7 @@
             computationResults.attributingClassID = [computationResults.systemBreachClass.identification integerValue] ;
             
             // Set action codes from the policy for this classification
-            computationResults.preAuthenticationAction = [computationResults.systemBreachClass.preAuthenticationAction integerValue];
+            computationResults.authenticationAction = [computationResults.systemBreachClass.authenticationAction integerValue];
             computationResults.postAuthenticationAction = [computationResults.systemBreachClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
@@ -98,15 +73,15 @@
             computationResults.coreDetectionResult = CoreDetectionResult_PolicyViolation;
             
             // Copy over the policy settings for this classification
-            computationResults.attributingClassID = [computationResults.systemBreachClass.identification integerValue] ;
+            computationResults.attributingClassID = [computationResults.systemPolicyClass.identification integerValue] ;
             
             // Set action codes from the policy for this classification
-            computationResults.preAuthenticationAction = [computationResults.systemBreachClass.preAuthenticationAction integerValue];
-            computationResults.postAuthenticationAction = [computationResults.systemBreachClass.postAuthenticationAction integerValue];
+            computationResults.authenticationAction = [computationResults.systemPolicyClass.authenticationAction integerValue];
+            computationResults.postAuthenticationAction = [computationResults.systemPolicyClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
-            computationResults.systemGUIIconID = [computationResults.systemBreachClass.identification intValue];
-            computationResults.systemGUIIconText = computationResults.systemBreachClass.desc;
+            computationResults.systemGUIIconID = [computationResults.systemPolicyClass.identification intValue];
+            computationResults.systemGUIIconText = computationResults.systemPolicyClass.desc;
             
             //SYSTEM_SECURITY is attributing
         } else {
@@ -118,7 +93,7 @@
             computationResults.attributingClassID = [computationResults.systemSecurityClass.identification integerValue] ;
             
             // Set action codes from the policy for this classification
-            computationResults.preAuthenticationAction = [computationResults.systemSecurityClass.preAuthenticationAction integerValue];
+            computationResults.authenticationAction = [computationResults.systemSecurityClass.authenticationAction integerValue];
             computationResults.postAuthenticationAction = [computationResults.systemSecurityClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
@@ -133,75 +108,167 @@
         computationResults.systemGUIIconText = @"Device Trusted";
     }
     
-    // Check if the user is trusted
-    if (!computationResults.userTrusted) {
+    // if the system is trusted evaluate the user
+    if (computationResults.systemTrusted == YES) {
         
-        // See which classification inside user attributed the most and set actions accordingly
         
-        // USER_POLICY is attributing
-        if (computationResults.userPolicyScore <= computationResults.userAnomalyScore) {
+        // Check for user policy violation
+        if (computationResults.userPolicyScore < 100) {
             
             // Set dashboard and detailed user view info
             computationResults.userGUIIconID = [computationResults.userPolicyClass.identification intValue];
             computationResults.userGUIIconText = computationResults.userPolicyClass.desc;
+
+
+             // Set the result code since this class is attributing
+             computationResults.coreDetectionResult = CoreDetectionResult_PolicyViolation;
+             
+             // Copy over the policy settings for this classification
+             computationResults.attributingClassID = [computationResults.userPolicyClass.identification integerValue] ;
+             
+            // Set action codes from the policy for this classification
+             computationResults.authenticationAction = [computationResults.userPolicyClass.authenticationAction integerValue];
+             computationResults.postAuthenticationAction = [computationResults.userPolicyClass.postAuthenticationAction integerValue];
+
             
-            // Check if the system is trusted before setting this classification as attributing
-            if (computationResults.systemTrusted) {
-                
-                // System is trusted
-                // Set the result code since this class is attributing
-                computationResults.coreDetectionResult = CoreDetectionResult_PolicyViolation;
-                
-                // Copy over the policy settings for this classification
-                computationResults.attributingClassID = [computationResults.userPolicyClass.identification integerValue] ;
-                
-               // Set action codes from the policy for this classification
-                computationResults.preAuthenticationAction = [computationResults.userPolicyClass.preAuthenticationAction integerValue];
-                computationResults.postAuthenticationAction = [computationResults.userPolicyClass.postAuthenticationAction integerValue];
-                
-            }
-            else{
-                
-                // else we dont override the system attributing classIDs, etc.
-                
-            }
-            
-            //USER_ANOMALY is attributing
+        // No policy violation, check user anomaly risk rating and determine auth mode
         } else {
             
-            // Set dashboard and detailed user view info
-            computationResults.userGUIIconID = [computationResults.userAnomalyClass.identification intValue];
-            computationResults.userGUIIconText = computationResults.userAnomalyClass.desc;
             
-            // Set protect mode action to the class specified action ONLY if system did not already
-            if (computationResults.systemTrusted) {
-                
-                // System is trusted
-                // Set the result code since this class is attributing
-                computationResults.coreDetectionResult = CoreDetectionResult_UserAnomaly;
-                
-                // Set action codes from the policy for this classification
-                computationResults.attributingClassID = [computationResults.userAnomalyClass.identification integerValue] ;
-                
-                // Set action codes
-                computationResults.preAuthenticationAction = [computationResults.userAnomalyClass.preAuthenticationAction integerValue];
-                computationResults.postAuthenticationAction = [computationResults.userAnomalyClass.postAuthenticationAction integerValue];
-                
-            }
-            else{
-                
-                // else we dont override the system attributing classIDs, etc. but we do update the user GUI info
-                
-                
-            }
+            // Determine the userScore status based on where it falls in our range
             
-        }
+            // Iterate through all authenticaiton modules loaded from policy and determine where the UserScore falls, order of modules in policy is the priority
+            for (Sentegrity_Authentication *authModule in policy.authenticationModules) {
+                
+                // If the current user score is greater than or equal to the current auth modules activation range then we choose it, otherwise keep walking through until we find a range that works
+                if(computationResults.userScore >=  authModule.activationRange.integerValue){
+
+                    // We this module fits the range, see if transparent auth is the module since this must be treated differently
+                    if(authModule.authenticationAction.integerValue == authenticationAction_TransparentlyAuthenticate || authModule.authenticationAction.integerValue == authenticationAction_TransparentlyAuthenticateAndWarn){
+                        
+                        // Attempt transparent authentication
+                        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Performing transparent authentication"];
+                        
+                        // Save the module employed such that prompt information can be read from it
+                        computationResults.authenticationModuleEmployed = authModule;
+                        
+                        // Determine if we should attempt transparent auth based on the current potential TrustFactors
+                        // Check entropy and prioritize high entropy trustfactors
+                        BOOL entropyRequirementsMeetForTransparentAuth;
+                        entropyRequirementsMeetForTransparentAuth = [[TransparentAuthentication sharedTransparentAuth] analyzeEligibleTransparentAuthObjects:computationResults withPolicy:policy withError:error];
+                        
+                        // If there is not enough entropy don't even attempt transparent
+                        if (entropyRequirementsMeetForTransparentAuth==NO){
+                            computationResults.coreDetectionResult = CoreDetectionResult_TransparentAuthEntropyLow;
+                            
+                            // Don't set pre or post auth actions here , let the next auth method specified take over instead
+                            
+                            // Go to next auth module
+                            continue;
+                            
+                        }else{ // We meet the entropy requirements to further attempt transparent auth
+                            
+                            
+                            NSError *error;
+                            computationResults = [[TransparentAuthentication sharedTransparentAuth] attemptTransparentAuthenticationForComputation:computationResults withPolicy:policy withError:&error];
+                            
+                            // Validate the computation results
+                            if (!computationResults || computationResults == nil) {
+                                
+                                // Invalid analysis, bad computation results
+                                NSDictionary *errorDetails = @{
+                                                               NSLocalizedDescriptionKey: NSLocalizedString(@"Perform Core Detection Unsuccessful", nil),
+                                                               NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No computation object returned, error during transparent authentication", nil),
+                                                               NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Check error logs for details", nil)
+                                                               };
+                                
+                                // Set the error
+                                error = [NSError errorWithDomain:coreDetectionDomain code:SAErrorDuringComputation userInfo:errorDetails];
+                                
+                                // Log it
+                                NSLog(@"Perform Core Detection Unsuccessful: %@", errorDetails);
+                                
+                            }
+                            // If transparent auth worked (meaning it has a master key or wants to create a new key), continue to select the auth method required but don't override
+                            
+                            if  (computationResults.coreDetectionResult == CoreDetectionResult_TransparentAuthSuccess){
+                                
+                                computationResults.authenticationModuleEmployed = authModule;
+                                
+                                // set the actions and don't attempt other auth methods
+                                computationResults.authenticationAction = [authModule.authenticationAction integerValue];
+                                computationResults.postAuthenticationAction = [authModule.postAuthenticationAction integerValue];
+                                
+                                // Set dashboard and detailed user view info
+                                computationResults.userGUIIconID = 0;
+                                computationResults.userGUIIconText = authModule.desc;
+                                
+                                // Set action codes from the policy for this classification
+                                computationResults.attributingClassID = [computationResults.userAnomalyClass.identification integerValue];
+                                
+                                break;
+                            }
+                            else if(computationResults.coreDetectionResult == CoreDetectionResult_TransparentAuthNewKey){
+                                
+                                //let next auth method take over but don't override postAuth method because we need new key made
+                                computationResults.postAuthenticationAction = postAuthenticationAction_createTransparentKey;
+                                continue;
+                                
+                                
+                            }
+                            else if (computationResults.coreDetectionResult == CoreDetectionResult_TransparentAuthError){
+                                
+                                //let next auth method take over
+                                continue;
+                                
+                            }
+                            
+                        }
+                        
+                        
+                        
+                    }
+                    // All other auth modules handled here
+                    else{
+                        // Set result
+                        computationResults.coreDetectionResult = CoreDetectionResult_UserAnomaly;
+                        computationResults.userGUIIconID = 1;
+                        computationResults.userGUIIconText = authModule.desc;
+                        
+                        // Set method for runHistory upload
+                        computationResults.authenticationModuleEmployed = authModule;
+                        
+                        // Set booleans from default YES
+                        computationResults.userTrusted = NO;
+                        computationResults.deviceTrusted = NO;
+                        
+                        // Set action codes from the policy for this classification
+                        computationResults.attributingClassID = [computationResults.userAnomalyClass.identification integerValue] ;
+                        
+                        // Set preLoginAction to what the auth module wants
+                        computationResults.authenticationAction = [authModule.authenticationAction integerValue];
+                        
+                        // Set post authentication action only if it was not already set by transparent auth, otherwise we could override postAuthenticationAction_createTransparentKey
+                        if(computationResults.postAuthenticationAction == 0){
+                           computationResults.postAuthenticationAction = [authModule.postAuthenticationAction integerValue];
+                        }
+                        
+                        break;
+
+                    }
+ 
+                
+                } // end if trustscore > current auth module range
+                
+            } // end auth module iteration
+            
+        } // end if not policy violation
         
-    } else {
+    } else { // System is not trusted therefore don't do any user anomaly or risk-based auth determination
         
         // Set dashboard and detailed system view info
-        computationResults.userGUIIconID = 0;
-        computationResults.userGUIIconText = @"User Trusted";
+        computationResults.userGUIIconID = 1;
+        computationResults.userGUIIconText = @"Authentication Disabled";
         
         
     }

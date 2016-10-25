@@ -199,6 +199,7 @@
                     
                 }
                 
+                /*
                 // Get the startup store
                 [[Sentegrity_Startup_Store sharedStartupStore] setCurrentStartupStore:[[Sentegrity_Startup alloc] init]];
                 
@@ -215,6 +216,7 @@
                     return;
                     
                 }
+                 */
                 
             }];
             

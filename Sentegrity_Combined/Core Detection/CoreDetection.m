@@ -271,44 +271,9 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
         return;
     }
     
-    /* Perform Transparent Authentication */
-    
-    // If transparent auth is enabled
-    if(policy.transparentAuthEnabled.integerValue==1 && computationResults.shouldAttemptTransparentAuthentication==YES){
-        
-        [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Performing transparent authentication"];
-        
-        // Get the computation results
-        computationResults = [[TransparentAuthentication sharedTransparentAuth] attemptTransparentAuthenticationForComputation:computationResults withPolicy:policy withError:&error];
-        
-        // Validate the computation results
-        if (!computationResults || computationResults == nil) {
-            
-            // Invalid analysis, bad computation results
-            NSDictionary *errorDetails = @{
-                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Perform Core Detection Unsuccessful", nil),
-                                           NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No computation object returned, error during transparent authentication", nil),
-                                           NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Check error logs for details", nil)
-                                           };
-            
-            // Set the error
-            error = [NSError errorWithDomain:coreDetectionDomain code:SAErrorDuringComputation userInfo:errorDetails];
-            
-            // Log it
-            NSLog(@"Perform Core Detection Unsuccessful: %@", errorDetails);
-            
-            // Don't return anything except the error
-            [self coreDetectionResponse:NO withComputationResults:nil andError:&error];
-            
-            // Return
-            return;
-        }
-
-    }
-    
     
     // Sanity check that we have all the action codes we need
-    if (computationResults.postAuthenticationAction==0 || computationResults.preAuthenticationAction==0 ||computationResults.coreDetectionResult==0) {
+    if (computationResults.postAuthenticationAction==0 || computationResults.authenticationAction==0 ||computationResults.coreDetectionResult==0) {
         
         // Invalid analysis, bad computation results
         NSDictionary *errorDetails = @{

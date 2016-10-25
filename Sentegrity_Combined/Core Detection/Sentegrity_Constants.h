@@ -55,7 +55,6 @@
 
 #define kPolicyID                       @"policyID"
 #define kTransparentAuthDecayMetric     @"transparentAuthDecayMetric"
-#define kTransparentAuthEnabled         @"transparentAuthEnabled"
 #define kcontinueOnError                @"continueOnError"
 #define kRevision                       @"revision"
 #define kUserThreshold                  @"userThreshold"
@@ -64,6 +63,7 @@
 #define KContactEmail                   @"contactEmail"
 #define KContactURL                     @"contactURL"
 #define kDNEModifiers                   @"DNEModifiers"
+#define kAuthenticationModules          @"authenticationModules"
 #define kClassifications                @"classifications"
 #define kSubClassifications             @"subclassifications"
 #define kTrustFactors                   @"trustFactors"
@@ -169,13 +169,22 @@ typedef enum {
  * These indicate what the application that Sentegrity integrated with should do after core detection was complete
  */
 typedef enum {
-    preAuthenticationAction_PromptForUserPassword                            = 1,
-    preAuthenticationAction_PromptForUserPasswordAndWarn                     = 2,
-    preAuthenticationAction_BlockAndWarn                                     = 3,
-    preAuthenticationAction_TransparentlyAuthenticate                        = 4
+    
+    //User Anomaly
+    authenticationAction_TransparentlyAuthenticate                        = 1,
+    authenticationAction_TransparentlyAuthenticateAndWarn                 = 2,
+    authenticationAction_PromptForUserPassword                            = 3,
+    authenticationAction_PromptForUserPasswordAndWarn                     = 4,
+    authenticationAction_PromptForUserFingerprint                         = 5,
+    //No promptForUserFingerprintAndWarn because TouchID always displays a message
+    authenticationAction_PromptForUserVocalFacial                         = 6,
+    authenticationAction_PromptForUserVocalFacialAndWarn                  = 7,
+    
+    // Generally used for device issues
+    authenticationAction_BlockAndWarn                                     = 8,
     
     
-} preAuthenticationAction;
+} authenticationAction;
 
 
 #pragma mark - Post Authentication Action Codes

@@ -1,4 +1,4 @@
- /*
+/*
  * This file contains Good Sample Code subject to the Good Dynamics SDK Terms and Conditions.
  * (c) 2014 Good Technology Corporation. All rights reserved.
  */
@@ -233,95 +233,92 @@
     // Get last computation results
     Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
-    if(computationResults.preAuthenticationAction == preAuthenticationAction_PromptForUserPassword || computationResults.preAuthenticationAction ==preAuthenticationAction_PromptForUserPasswordAndWarn)
-    {
-        
-        Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithUserInput:passwordAttempt andError:&error];
-        
-        // Set the authentication response code
-        computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
-        
-        // Set history now, we already have all the info we need
-        [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:&error];
-        
-        // Success and recoverable errors operate the same since we still managed to get a decrypted master key
-        if(computationResults.authenticationResult == authenticationResult_Success || computationResults.authenticationResult == authenticationResult_recoverableError ) {
-            
-            // Now we can pass the key to the GD runtime
-            NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
-            
-            NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:&error];
-            
-            
-            NSError *error;
-            Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
-            
-            //user succesfully logged in with password, now check if user enabled touch ID for future login
-            if (![startup touchIDDisabledByUser]) {
-                
-                //touch ID enabled, check if touch ID is available on current device
-                
-                if ([self.touchIDManager checkIfTouchIDIsAvailableWithError:nil]) {
-                    
-                    //great, it is available, now check is touchID already configured, but item is invalidated
-                    if (self.touchIDManager.touchIDItemInvalidated) {
-                        [self createTouchIDWithDecryptedMasterKey:decryptedMasterKey]; //create again
-                        [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
-                    }
-                    //if touch ID is already configured and active, that means that user probbably canceled TouchID auth, or failed with auth. In both cases, just ignore and continue.
-                    else if (startup.touchIDKeyEncryptedMasterKeyBlobString) {
-                        // do nothing
-                        [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
-                    }
-                    
-                    else {
-                    
-                        //ask user to use touch ID for future login
-                        [self.touchIDManager checkForTouchIDAuthWithMessage:@"Enable TouchID as one of the options for authentication?" withCallback:^(TouchIDResultType resultType, NSError *error) {
-                            
-                            if (resultType == TouchIDResultType_Success) {
-                                [self createTouchIDWithDecryptedMasterKey:decryptedMasterKey]; // create touchID
-                            }
-                            else if (resultType == TouchIDResultType_UserCanceled) {
-                                //save an answer
-                                [startup setTouchIDDisabledByUser:YES];
-                                [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:nil];
-                            }
-                            else if (resultType == TouchIDResultType_FailedAuth) {
-                                [self showAlertWithTitle:@"Authentification Failed" andMessage:@"You can try again later."];
-                            }
-                            else {
-                                [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
-                            }
-                            
-                            [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
-                        }];
-                    }
-                }
-                else
-                    [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
-            }
-            else
-                [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
-        
-            
-            
-        } else if(computationResults.authenticationResult == authenticationResult_incorrectLogin) {
-            
-            // Show alert window
-            [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
 
-            
-        } else if (computationResults.authenticationResult == authenticationResult_irrecoverableError) {
-            
-            // Show alert window
-            [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
-            
-        }
-        
-        
-        // Done
-    }
+   Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithPassword:passwordAttempt andError:&error];
+   
+   // Set the authentication response code
+   computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
+   
+   // Set history now, we already have all the info we need
+   [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:&error];
+   
+   // Success and recoverable errors operate the same since we still managed to get a decrypted master key
+   if(computationResults.authenticationResult == authenticationResult_Success || computationResults.authenticationResult == authenticationResult_recoverableError ) {
+       
+       // Now we can pass the key to the GD runtime
+       NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+       
+       NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:&error];
+       
+       
+       NSError *error;
+       Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
+       
+       //user succesfully logged in with password, now check if user enabled touch ID for future login
+       if (![startup touchIDDisabledByUser]) {
+           
+           //touch ID enabled, check if touch ID is available on current device
+           
+           if ([self.touchIDManager checkIfTouchIDIsAvailableWithError:nil]) {
+               
+               //great, it is available, now check is touchID already configured, but item is invalidated
+               if (self.touchIDManager.touchIDItemInvalidated) {
+                   [self createTouchIDWithDecryptedMasterKey:decryptedMasterKey]; //create again
+                   [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+               }
+               //if touch ID is already configured and active, that means that user probbably canceled TouchID auth, or failed with auth. In both cases, just ignore and continue.
+               else if (startup.touchIDKeyEncryptedMasterKeyBlobString) {
+                   // do nothing
+                   [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+               }
+               
+               else {
+               
+                   //ask user to use touch ID for future login
+                   [self.touchIDManager checkForTouchIDAuthWithMessage:@"Would you like to enable TouchID as one of the options for authentication?" withCallback:^(TouchIDResultType resultType, NSError *error) {
+                       
+                       if (resultType == TouchIDResultType_Success) {
+                           [self createTouchIDWithDecryptedMasterKey:decryptedMasterKey]; // create touchID
+                       }
+                       else if (resultType == TouchIDResultType_UserCanceled) {
+                           //save an answer
+                           [startup setTouchIDDisabledByUser:YES];
+                           [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:nil];
+                       }
+                       else if (resultType == TouchIDResultType_FailedAuth) {
+                           [self showAlertWithTitle:@"Authentification Failed" andMessage:@"You can try again later."];
+                       }
+                       else {
+                           [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+                       }
+                       
+                       [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+                   }];
+               }
+           }
+           else
+               [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+       }
+       else
+           [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+   
+       
+       
+   } else if(computationResults.authenticationResult == authenticationResult_incorrectLogin) {
+       
+       // Show alert window
+       [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
+
+       
+   } else if (computationResults.authenticationResult == authenticationResult_irrecoverableError) {
+       
+       // Show alert window
+       [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
+       
+   }
+   
+   
+
   }
 
 - (void) finishWithDecryptedMasterKey: (NSString *) decryptedMasterKeyString {
@@ -566,10 +563,10 @@
     // Show Animation
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    self.hud.labelText = @"Evaluating";
+    self.hud.labelText = @"Authenticating";
     self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
     
-    self.hud.detailsLabelText = @"Mobile Device Posture";
+    self.hud.detailsLabelText = @"Performing Risk Assessment";
     self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
     
     
@@ -614,7 +611,7 @@
     Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc]init];
     
     // Set the pre authetnication action
-    computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPasswordAndWarn;
+    computationResults.authenticationAction = authenticationAction_PromptForUserPasswordAndWarn;
     
     // Set to breach class
     computationResults.attributingClassID = 1;
@@ -709,7 +706,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 
-                [weakSelf analyzePreAuthenticationActionsWithError:error];
+                [weakSelf analyzeAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:weakSelf.view animated:NO];
                 [weakSelf showInput];
                 [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
@@ -747,19 +744,20 @@
 #pragma mark - Analysis
 
 // Set up the customizations for the view
-- (void)analyzePreAuthenticationActionsWithError:(NSError **)error {
+- (void)analyzeAuthenticationActionsWithError:(NSError **)error {
     
     // Get last computation results
     Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
     
     // The only preAuthenticationActions handled here are transparent, blockAndWarn,
-    switch (computationResults.preAuthenticationAction) {
-        case preAuthenticationAction_TransparentlyAuthenticate:
+    switch (computationResults.authenticationAction) {
+        case authenticationAction_TransparentlyAuthenticate:
         {
+            
             // Attempt to login
             // we have no input to pass, use nil
-            Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithUserInput:nil andError:error];
+            Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithTransparentAuthentication:error];
             
             // Set the authentication response code
             computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
@@ -810,7 +808,7 @@
                     // Have the user interactive login
                     // Manually override the preAuthenticationAction and recall this function, we don't need to run core detection again
                     
-                    computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
+                    computationResults.authenticationAction = authenticationAction_PromptForUserPassword;
                     computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
                     
                     // Done
@@ -824,12 +822,120 @@
             break;
             
         }
+        case authenticationAction_TransparentlyAuthenticateAndWarn:
+        {
+            // show message
             
-        case preAuthenticationAction_BlockAndWarn:
+            // Ivo, can we make the stuff that happens after this wait until the user acknowledges the popup?
+            
+            [self showAlertWithTitle:computationResults.authenticationModuleEmployed.desc andMessage:computationResults.authenticationModuleEmployed.prompt];
+            // Attempt to login
+            // we have no input to pass, use nil
+            Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithTransparentAuthentication:error];
+            
+            // Set the authentication response code
+            computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
+            
+            // Set history now, we have all the info we need
+            [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:error];
+            
+            // Go through the authentication results
+            switch (computationResults.authenticationResult) {
+                case authenticationResult_Success:{ // No transparent auth errors
+                    
+                    // Now we can pass the key to the GD runtime
+                    NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+                    
+                    NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:error];
+                    
+                    
+                    
+                    
+                    // Direct call outside of DAF, but fails
+                    // NSError *error;
+                    // GDTrust *trustObject = [[DAFAppBase getInstance] gdTrust];
+                    // [trustObject unlockWithPassword:decryptedMasterKey error:&error];
+                    
+                    
+                    // We're done so dismiss the unlock view and show the dashboard behind it (called by mainviewcontroller)
+                    // Dismiss the view
+                    if (self.delegate) {
+                        // Use the decrypted master key
+                        [result setResult:decryptedMasterKeyString];
+                        result = nil;
+                        [self.delegate dismissSuccesfullyFinishedViewController:self];
+                    }
+                    else
+                        [self dismissViewControllerAnimated:NO completion:^{
+                            // Use the decrypted master key
+                            [result setResult:decryptedMasterKeyString];
+                            result = nil;
+                        }];
+                    // Done
+                    break;
+                    
+                }
+                    
+                default: //Transparent auth errored, something very wrong happened because the transparent module found a match earlier...
+                {
+                    // Have the user interactive login
+                    // Manually override the preAuthenticationAction and recall this function, we don't need to run core detection again
+                    
+                    computationResults.authenticationAction = authenticationAction_PromptForUserPassword;
+                    computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
+                    
+                    // Done
+                    break;
+                    
+                }
+                    
+            } // Done Switch AuthenticationResult
+            
+            // Done
+            break;
+
+        }
+        case authenticationAction_PromptForUserFingerprint:
+        {
+            //No promptForUserFingerprintAndWarn because TouchID always displays a message
+            [self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.prompt];
+            break;
+        }
+        case authenticationAction_PromptForUserPassword:
+        {
+            //show login screen and try to login with TouchID
+            //[self tryToLoginWithTouchID];
+            break;
+        }
+            
+        case authenticationAction_PromptForUserPasswordAndWarn:
+        {
+            
+            // Since we're already on the login screen, simply show a popup message then allow user to interact with login prompt
+             [self showAlertWithTitle:computationResults.authenticationModuleEmployed.desc andMessage:computationResults.authenticationModuleEmployed.prompt];
+            
+            break;
+        }
+        case authenticationAction_PromptForUserVocalFacial:
+        {
+            // Not implemented yet
+            break;
+        }
+            
+        case authenticationAction_PromptForUserVocalFacialAndWarn:
+        {
+            
+            // Show message but rely on password for now
+             [self showAlertWithTitle:computationResults.authenticationModuleEmployed.desc andMessage:computationResults.authenticationModuleEmployed.prompt];
+        
+            // Not implemented yet
+            break;
+        }
+        case authenticationAction_BlockAndWarn:
         {
             
             // Login Response
-            Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithUserInput:nil andError:error];
+            Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithBlockAndWarn:error];
             
             // Set the authentication response code
             computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
@@ -845,21 +951,6 @@
             
         }
             
-        case preAuthenticationAction_PromptForUserPassword:
-        {
-            // Do nothing, show login screen and try to login with TouchID
-            [self tryToLoginWithTouchID];
-            break;
-        }
-            
-        case preAuthenticationAction_PromptForUserPasswordAndWarn:
-        {
-            
-            // Show warning message then show login prompt
-            [self showAlertWithTitle:@"Warning" andMessage:@"This device is high risk or in violation of policy, this access attempt will be reported."];
-            
-            break;
-        }
             
         default:
             break;
@@ -869,10 +960,12 @@
 }
 
 
+
+
 #pragma mark - touchID
 
 
-- (void) tryToLoginWithTouchID {
+- (void) tryToLoginWithTouchIDMessage:(NSString *) loginMessage {
     NSError *error;
 
     
@@ -886,7 +979,7 @@
     //if touchID is already configured
     if (!startup.touchIDDisabledByUser && startup.touchIDKeyEncryptedMasterKeyBlobString) {
         
-        [self.touchIDManager getTouchIDPasswordFromKeychainwithMessage:@"Login with TouchID" withCallback:^(TouchIDResultType resultType, NSString *password, NSError *error) {
+        [self.touchIDManager getTouchIDPasswordFromKeychainwithMessage:loginMessage withCallback:^(TouchIDResultType resultType, NSString *password, NSError *error) {
             if (resultType == TouchIDResultType_Success) {
                 
                 

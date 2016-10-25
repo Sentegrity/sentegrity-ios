@@ -1,5 +1,5 @@
 //
-//  Sentegrity_Classifications.h
+//  Sentegrity_Authentication.h
 //  SenTest
 //
 //  Created by Nick Kramer on 1/31/15.
@@ -8,16 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Sentegrity_Classification : NSObject
+@interface Sentegrity_Authentication : NSObject
 
 
 @property (nonatomic,retain) NSNumber *identification;
-@property (nonatomic,retain) NSNumber *type;
-@property (nonatomic,retain) NSNumber *computationMethod;
 @property (nonatomic,retain) NSString *name;
+@property (nonatomic,retain) NSString *prompt;
 @property (nonatomic,retain) NSString *desc;
+@property (nonatomic,retain) NSNumber *activationRange;
 @property (nonatomic,retain) NSNumber *authenticationAction;
 @property (nonatomic,retain) NSNumber *postAuthenticationAction;
 
 
 @end
+

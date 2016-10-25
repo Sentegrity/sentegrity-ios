@@ -489,7 +489,7 @@
     
     // Results and status codes
     [runHistoryObject setCoreDetectionResult:computationResults.coreDetectionResult];
-    [runHistoryObject setPreAuthenticationAction:computationResults.preAuthenticationAction];
+    [runHistoryObject setPreAuthenticationAction:computationResults.authenticationAction];
     [runHistoryObject setPostAuthenticationAction:computationResults.postAuthenticationAction];
     [runHistoryObject setAuthenticationResult:computationResults.authenticationResult];
     

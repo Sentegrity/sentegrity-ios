@@ -120,8 +120,9 @@
     
     Sentegrity_Policy * policy1 = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
     
-    policy = [policy stringByAppendingFormat:@"\nSystem Threshold: %@\nUser Threshold: %@\n",policy1.systemThreshold,policy1.userThreshold];
+    //policy = [policy stringByAppendingFormat:@"\nSystem Threshold: %@\nUser Threshold: %@\n",policy1.systemThreshold,policy1.userThreshold];
     
+    policy = [policy stringByAppendingFormat:@"\nSystem Threshold:",policy1.systemThreshold];
     
     complete = [complete stringByAppendingString:policy];
     

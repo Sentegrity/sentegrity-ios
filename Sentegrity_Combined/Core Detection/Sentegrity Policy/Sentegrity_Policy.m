@@ -25,10 +25,6 @@
     _transparentAuthDecayMetric = transparentAuthDecayMetric;
 }
 
-// TransparentAuthEnabled
-- (void)setTransparentAuthEnabled:(NSNumber *)transparentAuthEnabled{
-    _transparentAuthEnabled = transparentAuthEnabled;
-}
 
 // Revision
 - (void)setRevision:(NSNumber *)revision{
@@ -40,16 +36,9 @@
     _continueOnError = continueOnError;
 }
 
-
-
 // Private APIs
 - (void)setAllowPrivateAPIs:(NSNumber *)allowPrivateAPIs{
     _allowPrivateAPIs = allowPrivateAPIs;
-}
-
-// UserThreshold
-- (void)setUserThreshold:(NSNumber *)userThreshold{
-    _userThreshold = userThreshold;
 }
 
 // SystemThreshold
@@ -75,6 +64,11 @@
 // DNEModifiers
 - (void)setDNEModifiers:(Sentegrity_DNEModifiers *)DNEModifiers{
     _DNEModifiers = DNEModifiers;
+}
+
+// Authentication Modules
+- (void)setAuthenticationModules:(NSArray *)authenticationModules{
+    _authenticationModules = authenticationModules;
 }
 
 // Classifications
