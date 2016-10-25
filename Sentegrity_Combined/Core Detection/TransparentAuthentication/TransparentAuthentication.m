@@ -392,22 +392,15 @@
          // THIS ORDER OF COMBINING ARRAYS IS IMPORTANT
          
          // IF we have a bluetooth authenticator we dont need anything else, override minimum entropy requirement
-         if(bluetoothAuthenticator==YES){
+         if(bluetoothAuthenticator==YES && wifiAuthenticator==YES){
              
              
              // If bluetooth authenticator is present use it (first priority)
              [transparentAuthObjectsToKeep addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
              
-             // Set back the computation results array
-             computationResults.transparentAuthenticationTrustFactorOutputObjects = transparentAuthObjectsToKeep;
-             return YES;
-             
-         }
-         else if(wifiAuthenticator==YES){
-             
-             
              // If wifi authenticator is present use it (2nd priority)
              [transparentAuthObjectsToKeep addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
+
              
              // Set back the computation results array
              computationResults.transparentAuthenticationTrustFactorOutputObjects = transparentAuthObjectsToKeep;
@@ -416,7 +409,13 @@
          }
          else{
             
-             // No bluetooth or wifi, walk the priority - we don't know exactly what the entropy total is here so we go by count
+             // No bluetooth / wifi combo, walk the priority - we don't know exactly what the entropy total is here so we go by count
+             
+             // If bluetooth authenticator is present use it (first priority)
+             [transparentAuthObjectsToKeep addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
+             
+             // If wifi authenticator is present use it (2nd priority)
+             [transparentAuthObjectsToKeep addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
              
              // If location authenticator is present use it (third priority)
              [transparentAuthHighEntropyObjects addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];

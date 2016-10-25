@@ -44,8 +44,8 @@
 
 // PostAuthenticationAction
 
-- (void)setPreAuthenticationAction:(NSNumber *)preAuthenticationAction{
-    _preAuthenticationAction = preAuthenticationAction;
+- (void)setAuthenticationAction:(NSNumber *)authenticationAction{
+    _authenticationAction = authenticationAction;
 }
 
 

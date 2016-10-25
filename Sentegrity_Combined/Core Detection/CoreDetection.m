@@ -273,7 +273,7 @@ void (^coreDetectionBlockCallBack)(BOOL success, Sentegrity_TrustScore_Computati
     
     
     // Sanity check that we have all the action codes we need
-    if (computationResults.postAuthenticationAction==0 || computationResults.preAuthenticationAction==0 ||computationResults.coreDetectionResult==0) {
+    if (computationResults.postAuthenticationAction==0 || computationResults.authenticationAction==0 ||computationResults.coreDetectionResult==0) {
         
         // Invalid analysis, bad computation results
         NSDictionary *errorDetails = @{

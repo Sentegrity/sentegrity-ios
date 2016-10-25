@@ -16,7 +16,7 @@
 @property (nonatomic,retain) NSString *prompt;
 @property (nonatomic,retain) NSString *desc;
 @property (nonatomic,retain) NSNumber *activationRange;
-@property (nonatomic,retain) NSNumber *preAuthenticationAction;
+@property (nonatomic,retain) NSNumber *authenticationAction;
 @property (nonatomic,retain) NSNumber *postAuthenticationAction;
 
 

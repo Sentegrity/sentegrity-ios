@@ -55,7 +55,6 @@
 
 #define kPolicyID                       @"policyID"
 #define kTransparentAuthDecayMetric     @"transparentAuthDecayMetric"
-#define kTransparentAuthEnabled         @"transparentAuthEnabled"
 #define kcontinueOnError                @"continueOnError"
 #define kRevision                       @"revision"
 #define kUserThreshold                  @"userThreshold"
@@ -172,38 +171,20 @@ typedef enum {
 typedef enum {
     
     //User Anomaly
-    preAuthenticationAction_TransparentlyAuthenticate                        = 1,
-    preAuthenticationAction_TransparentlyAuthenticateAndWarn                 = 2,
-    preAuthenticationAction_PromptForUserPassword                            = 3,
-    preAuthenticationAction_PromptForUserPasswordAndWarn                     = 4,
-    preAuthenticationAction_PromptForUserFingerprint                         = 5,
+    authenticationAction_TransparentlyAuthenticate                        = 1,
+    authenticationAction_TransparentlyAuthenticateAndWarn                 = 2,
+    authenticationAction_PromptForUserPassword                            = 3,
+    authenticationAction_PromptForUserPasswordAndWarn                     = 4,
+    authenticationAction_PromptForUserFingerprint                         = 5,
     //No promptForUserFingerprintAndWarn because TouchID always displays a message
-    preAuthenticationAction_PromptForUserVocalFacial                         = 6,
-    preAuthenticationAction_PromptForUserVocalFacialAndWarn                  = 7,
+    authenticationAction_PromptForUserVocalFacial                         = 6,
+    authenticationAction_PromptForUserVocalFacialAndWarn                  = 7,
     
     // Generally used for device issues
-    preAuthenticationAction_BlockAndWarn                                     = 8,
+    authenticationAction_BlockAndWarn                                     = 8,
     
     
-} preAuthenticationAction;
-
-
-
-#pragma mark - Modal Type Authentication Codes
-
-/*!
- * Auth Type Codes
- * These indicate what authenticaiton modal is represented by the policy attributes 1-4
- */
-typedef enum {
-    
-    AuthenticationModuleType_Transparent                                                       = 1,
-    AuthenticationModuleType_Password                                                          = 2,
-    AuthenticationModuleType_Fingerprint                                                       = 3,
-    AuthenticationModuleType_VocalFacial                                                       = 4
-
-    
-} AuthenticationModalType;
+} authenticationAction;
 
 
 #pragma mark - Post Authentication Action Codes

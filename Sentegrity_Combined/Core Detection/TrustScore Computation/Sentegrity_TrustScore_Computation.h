@@ -140,7 +140,7 @@
 @property (nonatomic) NSInteger attributingClassID;
 
 // Action to take (e.g., prompt user or admin pin)
-@property (nonatomic) NSInteger preAuthenticationAction;
+@property (nonatomic) NSInteger authenticationAction;
 
 // Action to take (e.g., prompt user or admin pin)
 @property (nonatomic) NSInteger postAuthenticationAction;
@@ -155,7 +155,7 @@
 @property (nonatomic) NSInteger authenticationResult;
 
 // User Authentication Method Attempted to be used
-@property (nonatomic) Sentegrity_Authentication* UserAuthMethodEmployed;
+@property (nonatomic) Sentegrity_Authentication* authenticationModuleEmployed;
 
 #pragma mark - Crypto
 

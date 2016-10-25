@@ -3,10 +3,9 @@
 "revision": 1,
 "systemThreshold": 30,
 "allowPrivateAPIs": 0,
-"minimumTransparentAuthEntropy": 2,
+"minimumTransparentAuthEntropy": 3,
 "continueOnError": 1,
 "timeout": 3,
-"transparentAuthEnabled": 1,
 "transparentAuthDecayMetric": 0.07,
 "statusUploadRunFrequency": 3,
 "statusUploadTimeFrequency": 1,
@@ -30,37 +29,37 @@
 {
 "id": 1,
 "name": "transparent",
-"prompt": "Authentication successful due to low user risk",
+"prompt": "Transparent authentication successful",
 "desc": "Transparently Authenticated",
-"activationRange": 100,
-"preAuthenticationAction": 2,
+"activationRange": 80,
+"authenticationAction": 2,
 "postAuthenticationAction": 1
 },
 {
 "id": 2,
 "name": "fingerprint",
 "prompt": "Fingerprint required due to medium risk",
-"desc": "Biometric Required",
+"desc": "Fingerprint Required",
 "activationRange": 70,
-"preAuthenticationAction": 5,
+"authenticationAction": 5,
 "postAuthenticationAction": 1
 },
 {
 "id": 3,
 "name": "password",
-"prompt": "Password required to high user risk",
+"prompt": "Password required due to high user risk",
 "desc": "Password Required",
 "activationRange": 60,
-"preAuthenticationAction": 4,
+"authenticationAction": 4,
 "postAuthenticationAction": 1
 },
 {
 "id": 4,
 "name": "facialvocal",
-"prompt": "Vocal/Facial authentication required, but unavailable at this time",
-"desc": "Vocal/Facial Required",
+"prompt": "Multi-modal authentication required, but unavailable at this time",
+"desc": "Multi-modal Required",
 "activationRange": 0,
-"preAuthenticationAction": 7,
+"authenticationAction": 7,
 "postAuthenticationAction": 1
 }
 ],
@@ -71,7 +70,7 @@
 "computationMethod": 0,
 "name": "SYSTEM_BREACH",
 "desc": "High Risk Device",
-"preAuthenticationAction": 9,
+"authenticationAction": 9,
 "postAuthenticationAction": 3
 },
 {
@@ -80,7 +79,7 @@
 "computationMethod": 0,
 "name": "SYSTEM_POLICY",
 "desc": "Device Violation",
-"preAuthenticationAction": 9,
+"authenticationAction": 9,
 "postAuthenticationAction": 2
 },
 {
@@ -89,7 +88,7 @@
 "computationMethod": 0,
 "name": "SYSTEM_SECURITY",	
 "desc": "Device Anomaly",
-"preAuthenticationAction": 4,
+"authenticationAction": 4,
 "postAuthenticationAction": 2
 },
 {
@@ -98,14 +97,14 @@
 "computationMethod": 0,
 "name": "USER_POLICY",
 "desc": "User Violation",
-"preAuthenticationAction": 9,
+"authenticationAction": 9,
 "postAuthenticationAction": 1
 },
 {
 "id": 5,
 "type": 1,
 "computationMethod": 1,
-"name": "USER_ANOMALY",
+"name": "USER_ANOMALY"
 }
 ],
 "subclassifications": [
@@ -516,7 +515,7 @@
 "whitelistable": 0,
 "privateAPI": 0,
 "payload": [
-"9.3"
+"10.01"
 ]
 },
 {
@@ -754,7 +753,7 @@
 "name": "unencrypted wifi",
 "transparentEligible": 0,
 "partialWeight": 0,
-"weight": 5,
+"weight": 10,
 "learnMode": 0,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -1013,7 +1012,9 @@
 "7.0-7.0.6",
 "7.1*",
 "8.0-8.4",
-"9.0-9.0.2"
+"9.0-9.1",
+"9.2-9.3.3",
+"10.0-10.0.2"
 ]
 },
 {
@@ -1347,8 +1348,8 @@
 "privateAPI": 0,
 "payload": [
 {
-"pitchBlockSize": 0.2,
-"rollBlockSize": 0.1
+"pitchBlockSize": 0.25,
+"rollBlockSize": 0.15
 }
 ]
 },

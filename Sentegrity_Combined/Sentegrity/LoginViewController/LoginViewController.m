@@ -271,8 +271,8 @@ static MBProgressHUD *HUD;
     // Get last computation results
     Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
-    switch (computationResults.preAuthenticationAction) {
-        case preAuthenticationAction_TransparentlyAuthenticate:
+    switch (computationResults.authenticationAction) {
+        case authenticationAction_TransparentlyAuthenticate:
         {
             // Attempt to login
             // we have no input to pass, use nil
@@ -307,7 +307,7 @@ static MBProgressHUD *HUD;
                     // Have the user interactive login
                     // Manually override the preAuthenticationAction and recall this function, we don't need to run core detection again
                     
-                    computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
+                    computationResults.authenticationAction = authenticationAction_PromptForUserPassword;
                     computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
                     
                     [self analyzePreAuthenticationActionsWithError:error];
@@ -324,7 +324,7 @@ static MBProgressHUD *HUD;
             
         }
             
-        case preAuthenticationAction_BlockAndWarn:
+        case authenticationAction_BlockAndWarn:
         {
             
             Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithPassword:nil andError:error];
@@ -354,7 +354,7 @@ static MBProgressHUD *HUD;
             
         }
             
-        case preAuthenticationAction_PromptForUserPassword:
+        case authenticationAction_PromptForUserPassword:
         {
             
             SCLAlertView *userInput = [[SCLAlertView alloc] init];
@@ -438,7 +438,7 @@ static MBProgressHUD *HUD;
             break;
         }
             
-        case preAuthenticationAction_PromptForUserPasswordAndWarn:
+        case authenticationAction_PromptForUserPasswordAndWarn:
         {
             SCLAlertView *userInput = [[SCLAlertView alloc] init];
             userInput.backgroundType = Transparent;

@@ -275,7 +275,7 @@
                else {
                
                    //ask user to use touch ID for future login
-                   [self.touchIDManager checkForTouchIDAuthWithMessage:@"Enable TouchID as one of the options for authentication?" withCallback:^(TouchIDResultType resultType, NSError *error) {
+                   [self.touchIDManager checkForTouchIDAuthWithMessage:@"Would you like to enable TouchID as one of the options for authentication?" withCallback:^(TouchIDResultType resultType, NSError *error) {
                        
                        if (resultType == TouchIDResultType_Success) {
                            [self createTouchIDWithDecryptedMasterKey:decryptedMasterKey]; // create touchID
@@ -611,7 +611,7 @@
     Sentegrity_TrustScore_Computation *computationResults = [[Sentegrity_TrustScore_Computation alloc]init];
     
     // Set the pre authetnication action
-    computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPasswordAndWarn;
+    computationResults.authenticationAction = authenticationAction_PromptForUserPasswordAndWarn;
     
     // Set to breach class
     computationResults.attributingClassID = 1;
@@ -706,7 +706,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 
-                [weakSelf analyzePreAuthenticationActionsWithError:error];
+                [weakSelf analyzeAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:weakSelf.view animated:NO];
                 [weakSelf showInput];
                 [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
@@ -744,15 +744,15 @@
 #pragma mark - Analysis
 
 // Set up the customizations for the view
-- (void)analyzePreAuthenticationActionsWithError:(NSError **)error {
+- (void)analyzeAuthenticationActionsWithError:(NSError **)error {
     
     // Get last computation results
     Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
     
     // The only preAuthenticationActions handled here are transparent, blockAndWarn,
-    switch (computationResults.preAuthenticationAction) {
-        case preAuthenticationAction_TransparentlyAuthenticate:
+    switch (computationResults.authenticationAction) {
+        case authenticationAction_TransparentlyAuthenticate:
         {
             
             // Attempt to login
@@ -807,7 +807,7 @@
                     // Have the user interactive login
                     // Manually override the preAuthenticationAction and recall this function, we don't need to run core detection again
                     
-                    computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
+                    computationResults.authenticationAction = authenticationAction_PromptForUserPassword;
                     computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
                     
                     // Done
@@ -821,10 +821,13 @@
             break;
             
         }
-        case preAuthenticationAction_TransparentlyAuthenticateAndWarn:
+        case authenticationAction_TransparentlyAuthenticateAndWarn:
         {
             // show message
-            [self showAlertWithTitle:computationResults.UserAuthMethodEmployed.desc andMessage:computationResults.UserAuthMethodEmployed.prompt];
+            
+            // Ivo, can we make the stuff that happens after this wait until the user acknowledges the popup?
+            
+            [self showAlertWithTitle:computationResults.authenticationModuleEmployed.desc andMessage:computationResults.authenticationModuleEmployed.prompt];
             // Attempt to login
             // we have no input to pass, use nil
             Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithTransparentAuthentication:error];
@@ -877,7 +880,7 @@
                     // Have the user interactive login
                     // Manually override the preAuthenticationAction and recall this function, we don't need to run core detection again
                     
-                    computationResults.preAuthenticationAction = preAuthenticationAction_PromptForUserPassword;
+                    computationResults.authenticationAction = authenticationAction_PromptForUserPassword;
                     computationResults.postAuthenticationAction = postAuthenticationAction_whitelistUserAssertions;
                     
                     // Done
@@ -891,43 +894,43 @@
             break;
 
         }
-        case preAuthenticationAction_PromptForUserFingerprint:
+        case authenticationAction_PromptForUserFingerprint:
         {
             //No promptForUserFingerprintAndWarn because TouchID always displays a message
-            [self tryToLoginWithTouchIDMessage:computationResults.UserAuthMethodEmployed.prompt];
+            [self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.prompt];
             break;
         }
-        case preAuthenticationAction_PromptForUserPassword:
+        case authenticationAction_PromptForUserPassword:
         {
             //show login screen and try to login with TouchID
             //[self tryToLoginWithTouchID];
             break;
         }
             
-        case preAuthenticationAction_PromptForUserPasswordAndWarn:
+        case authenticationAction_PromptForUserPasswordAndWarn:
         {
             
             // Since we're already on the login screen, simply show a popup message then allow user to interact with login prompt
-             [self showAlertWithTitle:computationResults.UserAuthMethodEmployed.desc andMessage:computationResults.UserAuthMethodEmployed.prompt];
+             [self showAlertWithTitle:computationResults.authenticationModuleEmployed.desc andMessage:computationResults.authenticationModuleEmployed.prompt];
             
             break;
         }
-        case preAuthenticationAction_PromptForUserVocalFacial:
+        case authenticationAction_PromptForUserVocalFacial:
         {
             // Not implemented yet
             break;
         }
             
-        case preAuthenticationAction_PromptForUserVocalFacialAndWarn:
+        case authenticationAction_PromptForUserVocalFacialAndWarn:
         {
             
             // Show message but rely on password for now
-             [self showAlertWithTitle:computationResults.UserAuthMethodEmployed.desc andMessage:computationResults.UserAuthMethodEmployed.prompt];
+             [self showAlertWithTitle:computationResults.authenticationModuleEmployed.desc andMessage:computationResults.authenticationModuleEmployed.prompt];
         
             // Not implemented yet
             break;
         }
-        case preAuthenticationAction_BlockAndWarn:
+        case authenticationAction_BlockAndWarn:
         {
             
             // Login Response

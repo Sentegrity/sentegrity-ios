@@ -1,4 +1,4 @@
- //
+  //
 //  Sentegrity_TrustScore_Computation.m
 //  Sentegrity
 //
@@ -26,11 +26,11 @@
     computationResults.systemTrusted = YES;
     
     // Auth method defaults
-    computationResults.UserAuthMethodEmployed = nil;
+    computationResults.authenticationModuleEmployed = nil;
 
     // Set the result code, these should not be 0 by the end of core detection otherwise something is wrong
     computationResults.coreDetectionResult = 0;
-    computationResults.preAuthenticationAction = 0;
+    computationResults.authenticationAction = 0;
     computationResults.postAuthenticationAction = 0;
     
 
@@ -59,7 +59,7 @@
             computationResults.attributingClassID = [computationResults.systemBreachClass.identification integerValue] ;
             
             // Set action codes from the policy for this classification
-            computationResults.preAuthenticationAction = [computationResults.systemBreachClass.preAuthenticationAction integerValue];
+            computationResults.authenticationAction = [computationResults.systemBreachClass.authenticationAction integerValue];
             computationResults.postAuthenticationAction = [computationResults.systemBreachClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
@@ -76,7 +76,7 @@
             computationResults.attributingClassID = [computationResults.systemPolicyClass.identification integerValue] ;
             
             // Set action codes from the policy for this classification
-            computationResults.preAuthenticationAction = [computationResults.systemPolicyClass.preAuthenticationAction integerValue];
+            computationResults.authenticationAction = [computationResults.systemPolicyClass.authenticationAction integerValue];
             computationResults.postAuthenticationAction = [computationResults.systemPolicyClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
@@ -93,7 +93,7 @@
             computationResults.attributingClassID = [computationResults.systemSecurityClass.identification integerValue] ;
             
             // Set action codes from the policy for this classification
-            computationResults.preAuthenticationAction = [computationResults.systemSecurityClass.preAuthenticationAction integerValue];
+            computationResults.authenticationAction = [computationResults.systemSecurityClass.authenticationAction integerValue];
             computationResults.postAuthenticationAction = [computationResults.systemSecurityClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
@@ -127,7 +127,7 @@
              computationResults.attributingClassID = [computationResults.userPolicyClass.identification integerValue] ;
              
             // Set action codes from the policy for this classification
-             computationResults.preAuthenticationAction = [computationResults.userPolicyClass.preAuthenticationAction integerValue];
+             computationResults.authenticationAction = [computationResults.userPolicyClass.authenticationAction integerValue];
              computationResults.postAuthenticationAction = [computationResults.userPolicyClass.postAuthenticationAction integerValue];
 
             
@@ -144,11 +144,13 @@
                 if(computationResults.userScore >=  authModule.activationRange.integerValue){
 
                     // We this module fits the range, see if transparent auth is the module since this must be treated differently
-                    if(authModule.identification.integerValue == AuthenticationModuleType_Transparent){
+                    if(authModule.authenticationAction.integerValue == authenticationAction_TransparentlyAuthenticate || authModule.authenticationAction.integerValue == authenticationAction_TransparentlyAuthenticateAndWarn){
                         
                         // Attempt transparent authentication
                         [[Sentegrity_Startup_Store sharedStartupStore] setCurrentState:@"Performing transparent authentication"];
-                        computationResults.UserAuthMethodEmployed = authModule;
+                        
+                        // Save the module employed such that prompt information can be read from it
+                        computationResults.authenticationModuleEmployed = authModule;
                         
                         // Determine if we should attempt transparent auth based on the current potential TrustFactors
                         // Check entropy and prioritize high entropy trustfactors
@@ -191,10 +193,10 @@
                             
                             if  (computationResults.coreDetectionResult == CoreDetectionResult_TransparentAuthSuccess){
                                 
-                                computationResults.UserAuthMethodEmployed = authModule;
+                                computationResults.authenticationModuleEmployed = authModule;
                                 
                                 // set the actions and don't attempt other auth methods
-                                computationResults.preAuthenticationAction = [authModule.preAuthenticationAction integerValue];
+                                computationResults.authenticationAction = [authModule.authenticationAction integerValue];
                                 computationResults.postAuthenticationAction = [authModule.postAuthenticationAction integerValue];
                                 
                                 // Set dashboard and detailed user view info
@@ -234,7 +236,7 @@
                         computationResults.userGUIIconText = authModule.desc;
                         
                         // Set method for runHistory upload
-                        computationResults.UserAuthMethodEmployed = authModule;
+                        computationResults.authenticationModuleEmployed = authModule;
                         
                         // Set booleans from default YES
                         computationResults.userTrusted = NO;
@@ -244,7 +246,7 @@
                         computationResults.attributingClassID = [computationResults.userAnomalyClass.identification integerValue] ;
                         
                         // Set preLoginAction to what the auth module wants
-                        computationResults.preAuthenticationAction = [authModule.preAuthenticationAction integerValue];
+                        computationResults.authenticationAction = [authModule.authenticationAction integerValue];
                         
                         // Set post authentication action only if it was not already set by transparent auth, otherwise we could override postAuthenticationAction_createTransparentKey
                         if(computationResults.postAuthenticationAction == 0){
