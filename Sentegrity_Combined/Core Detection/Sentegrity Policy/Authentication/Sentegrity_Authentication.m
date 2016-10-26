@@ -22,17 +22,30 @@
     _name = name;
 }
 
-// prompt
+// warning desc
 
-- (void)setPrompt:(NSString *)prompt{
-    _prompt = prompt;
+- (void)setWarnDesc:(NSString *)warnDesc{
+    _warnDesc = warnDesc;
 }
 
 
-// Description
+// warning title
 
-- (void)setDesc:(NSString *)desc{
-    _desc = desc;
+- (void)setWarnTitle:(NSString *)warnTitle{
+    _warnTitle = warnTitle;
+}
+
+// gui icon text
+
+- (void)setGuiIconText:(NSString *)guiIconText{
+    _guiIconText = guiIconText;
+}
+
+
+// gui icon id
+
+- (void)setGuiIconID:(NSNumber *)guiIconID{
+    _guiIconID = guiIconID;
 }
 
 

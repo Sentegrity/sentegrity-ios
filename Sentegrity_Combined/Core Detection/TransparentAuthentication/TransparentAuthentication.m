@@ -1,4 +1,4 @@
-//
+ //
 //  TransparentAuthentication.m
 //  Sentegrity
 //
@@ -323,37 +323,67 @@
  */
 - (BOOL)analyzeEligibleTransparentAuthObjects:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error{
     
+
     // Array to hold transparent auth objects to retain at completion
     NSMutableArray *transparentAuthObjectsToKeep = [[NSMutableArray alloc]init];
     
     // Array that only holds the high entropy trustfactors outlined in policy
     NSMutableArray *transparentAuthHighEntropyObjects = [[NSMutableArray alloc]init];
     
-    // Count used for quick abort
-    NSInteger highEntropyCount=0;
+    // Array that only holds the low entropy trustfactors
+    NSMutableArray *transparentAuthMediumEntropyObjects = [[NSMutableArray alloc]init];
     
-    // wifi subclass high entropy TFs, in the future there may be multiple so we use an array
+    // Array that only holds the low entropy trustfactors
+    NSMutableArray *transparentAuthLowEntropyObjects = [[NSMutableArray alloc]init];
+    
+    
+    // wifi subclass TFs
     BOOL wifiAuthenticator=NO;
     NSMutableArray *wifiAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
 
-    // location subclass high entropy TFs, in the future there may be multiple so we use an array
+    // location subclass TFs
     BOOL locationAuthenticator=NO;
     NSMutableArray *locationAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
     
-    // bluetooth subclass high entropy TFs, in the future there may be multiple so we use an array
+    // Area subclass TFs
+    BOOL areaAuthenticator=NO;
+    NSMutableArray *areaAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
+    
+    // bluetooth subclass TFs
     BOOL bluetoothAuthenticator=NO;
     NSMutableArray *bluetoothAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
     
-    // grip subclass high entropy TFs, in the future there may be multiple so we use an array
+    // grip subclass TFs
     BOOL gripAuthenticator=NO;
     NSMutableArray *gripAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
     
-    // time subclass, in the future there may be multiple so we use an array
-    BOOL timeAuthenticator=NO;
-    NSMutableArray *timeAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
+    // device orientation sublcass TFs
+    BOOL orientationAuthenticator=NO;
+    NSMutableArray *orientationAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
     
-    // Run through all eligible trustfactors to ensure entropy against policy minimum and identify what type of high entropy ones exist for prioritization during candidate key creation. We don't want more than we need because it will cause the transparent key to change often resulting in more password prompts. Only want to keep the best, strongest, most frequent TFs available to reach the minimum entropy requirement
+    // device movement sublcass TFs
+    BOOL movementAuthenticator=NO;
+    NSMutableArray *movementAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
     
+    // day time subclass TFs
+    BOOL dayTimeAuthenticator=NO;
+    NSMutableArray *dayTimeAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
+    
+    // hour time subclass TFs
+    BOOL hourTimeAuthenticator=NO;
+    NSMutableArray *hourTimeAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
+    
+    
+    // Sorting isn't required if we are manually building the order by subclass/type
+    /*NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"factorID"
+                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSArray *sortedTransparentAuthenticationTrustFactorOutputObjects = [computationResults.transparentAuthenticationTrustFactorOutputObjects sortedArrayUsingDescriptors:sortDescriptors];
+    */
+    
+
+    // first loop through and calssify the TFs into their individual arrays
     for (Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject in computationResults.transparentAuthenticationTrustFactorOutputObjects) {
         
        
@@ -363,102 +393,186 @@
                 case 2: //WiFi
                     wifiAuthenticator=YES;
                     [wifiAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
-                    highEntropyCount++;
                     break;
                 case 6: //Location
-                    locationAuthenticator=YES;
-                    [locationAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
-                    highEntropyCount++;
-                    break;
-                case 13: //Grip
-                    gripAuthenticator=YES;
-                    [gripAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
-                    highEntropyCount++;
+                    if([trustFactorOutputObject.trustFactor.name isEqualToString:@"approximate location anomaly"]){
+                        areaAuthenticator=YES;
+                        [areaAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
+                    }
+                    
+                    if([trustFactorOutputObject.trustFactor.name isEqualToString:@"device location"]){
+                        locationAuthenticator=YES;
+                        [locationAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
+                    }
                     break;
                 case 8: //Bluetooth
                     bluetoothAuthenticator=YES;
                     [bluetoothAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
-                    highEntropyCount++;
+                    break;
+                case 13: //Grip
+                    gripAuthenticator=YES;
+                    [gripAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
+                    [transparentAuthLowEntropyObjects addObject:trustFactorOutputObject];
                     break;
                 case 5: //Time
-                    timeAuthenticator=YES;
-                    [timeAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
-                    highEntropyCount++;
+                    if([trustFactorOutputObject.trustFactor.name isEqualToString:@"access time day"]){
+                        dayTimeAuthenticator=YES;
+                        [dayTimeAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
+                    }
+                    
+                    if([trustFactorOutputObject.trustFactor.name isEqualToString:@"access time hour"]){
+                        hourTimeAuthenticator=YES;
+                        [hourTimeAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
+                    }
+                    break;
+                case 14: //Orientation
+                    orientationAuthenticator=YES;
+                    [orientationAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
+                    break;
+                case 7: //Movement
+                    movementAuthenticator=YES;
+                    [movementAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
                     break;
                 default:
                     // Keep all the rest
-                    [transparentAuthObjectsToKeep addObject:trustFactorOutputObject];
+                    //[transparentAuthLowEntropyObjects addObject:trustFactorOutputObject];
                     break;
             }
-
-
+        
         
     }
+    
+    // Generate high entropy array manually (from highest entropy to lowest)
+    if(bluetoothAuthenticator==YES){
+        [transparentAuthHighEntropyObjects addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
+    }
+    
+    if(wifiAuthenticator==YES){
+        [transparentAuthHighEntropyObjects addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
+    }
+    
+    if(areaAuthenticator==YES){
+        // Use area or it will not be  specific
+        [transparentAuthHighEntropyObjects addObjectsFromArray:areaAuthenticationTrustFactorOutputObjects];
+    }
+    
+    
+    // Generate medium entropy array manually
+    if(hourTimeAuthenticator==YES){
+        [transparentAuthMediumEntropyObjects addObjectsFromArray:hourTimeAuthenticationTrustFactorOutputObjects];
+    }
+    
+    if(gripAuthenticator==YES){
+        [transparentAuthMediumEntropyObjects addObjectsFromArray:gripAuthenticationTrustFactorOutputObjects];
+    }
+    
+    
+    // Generate low entropy array manually in reverse (lowest entropy to highest)
+    if(orientationAuthenticator==YES){
+        [transparentAuthLowEntropyObjects addObjectsFromArray:orientationAuthenticationTrustFactorOutputObjects];
+    }
+    
+    if(movementAuthenticator==YES){
+        [transparentAuthLowEntropyObjects addObjectsFromArray:movementAuthenticationTrustFactorOutputObjects];
+    }
+    
+    if(dayTimeAuthenticator==YES){
+        [transparentAuthLowEntropyObjects addObjectsFromArray:dayTimeAuthenticationTrustFactorOutputObjects];
+    }
 
-         
-         // Combine all of our authenticator arrays in order of priority (based on what has most enropy and consistent)
-         
-         // THIS ORDER OF COMBINING ARRAYS IS IMPORTANT
-         
-         // IF we have a bluetooth authenticator we dont need anything else, override minimum entropy requirement
-         if(bluetoothAuthenticator==YES && wifiAuthenticator==YES){
-             
-             
-             // If bluetooth authenticator is present use it (first priority)
-             [transparentAuthObjectsToKeep addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
-             
-             // If wifi authenticator is present use it (2nd priority)
-             [transparentAuthObjectsToKeep addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
+    // Always add low entropy objects as they are used by all
+    if(transparentAuthLowEntropyObjects.count < 3){
+        return NO;
+    }
 
-             
-             // Set back the computation results array
-             computationResults.transparentAuthenticationTrustFactorOutputObjects = transparentAuthObjectsToKeep;
-             return YES;
-             
-         }
-         else{
+    // add this now because they are used by all level of strength
+    [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthLowEntropyObjects];
+    
+
+    
+    // Make selection based on the entropy setting (high,medium,low)
+    switch (policy.minimumTransparentAuthEntropy.integerValue) {
+        case 3: //High strength (ALWAYS 2 HIGH ENTROPY, ALL LOW ENTROPY, ALL MEDIUM)
             
-             // No bluetooth / wifi combo, walk the priority - we don't know exactly what the entropy total is here so we go by count
-             
-             // If bluetooth authenticator is present use it (first priority)
-             [transparentAuthObjectsToKeep addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
-             
-             // If wifi authenticator is present use it (2nd priority)
-             [transparentAuthObjectsToKeep addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
-             
-             // If location authenticator is present use it (third priority)
-             [transparentAuthHighEntropyObjects addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
-             
-             // If motion authenticator is present use it (fourth priority)
-             [transparentAuthHighEntropyObjects addObjectsFromArray:gripAuthenticationTrustFactorOutputObjects];
-             
-             // If time authenticator is present use it (fourth priority)
-             [transparentAuthHighEntropyObjects addObjectsFromArray:timeAuthenticationTrustFactorOutputObjects];
-             
-             
-             
-             // Sanity check
-             if (transparentAuthObjectsToKeep.count < policy.minimumTransparentAuthEntropy.integerValue){
-                 return NO;
-             }
-             else{
-                 // Only use the first X (minimumTransparentAuthEntropy) trustfactors (best ones) from the high entropy array
-                 
-                 NSArray *transparentAuthHighEntropyObjectsTrimmed = [transparentAuthHighEntropyObjects subarrayWithRange:NSMakeRange(0, policy.minimumTransparentAuthEntropy.integerValue)];
-                 
-                 // Add to rest of non high entropy, yet eligible, transparent auth objects back together
-                 [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthHighEntropyObjectsTrimmed];
-                 
-                 // Set back the computation results array
-                 computationResults.transparentAuthenticationTrustFactorOutputObjects = transparentAuthObjectsToKeep;
-                 return YES;
-             }
+            // Don't try if we dont have minimums
+            if(transparentAuthHighEntropyObjects.count < 2){
+                return NO;
+            }
+            
+            // Take 2 high entropy
+            [transparentAuthObjectsToKeep addObjectsFromArray:[transparentAuthHighEntropyObjects subarrayWithRange:NSMakeRange(0, 2)]];
+            
+            // Add Medium entropy (don't enforce number that are actually available)
+            [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthMediumEntropyObjects];
 
-             
-             
-         }
-         
 
+            break;
+        case 2: //Medium Strength ("SOMETIMES" 2 HIGH ENTROPY, MINIMUM 3 LOW ENTROPY)
+            
+            // Don't try if we dont have minimums
+            if(transparentAuthHighEntropyObjects.count < 1){
+                return NO;
+            }
+
+            // BLUETOOTH + LOW ENTROPY
+            if(bluetoothAuthenticator==YES){
+                [transparentAuthObjectsToKeep addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
+                // try this for good measure but not required
+                [transparentAuthObjectsToKeep addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
+            }
+            // WIFI + LOCATION + LOW ENTROPY
+            else if(wifiAuthenticator==YES && locationAuthenticator==YES){
+                
+                [transparentAuthObjectsToKeep addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
+                [transparentAuthObjectsToKeep addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
+            }
+            // AREA + LOCATION (because area can operate without GPS) + LOW ENTROPY
+            else if(areaAuthenticator==YES && locationAuthenticator==YES){
+                [transparentAuthObjectsToKeep addObjectsFromArray:areaAuthenticationTrustFactorOutputObjects];
+                [transparentAuthObjectsToKeep addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
+            }
+            // WIFI + LOW ENTROPY + MEDIUM ENTROPY
+            else if(wifiAuthenticator==YES){
+                
+                if(transparentAuthMediumEntropyObjects.count < 2){
+                    return NO;
+                }
+                
+                [transparentAuthObjectsToKeep addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
+                [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthMediumEntropyObjects];
+                
+            }
+            
+            break;
+        case 1: //Low Strength (1 HIGH ENTROPY,  3 LOW ENTROPY, LOCATION + MEDIUM)
+            
+            
+            if(transparentAuthHighEntropyObjects.count > 0){
+                // Take 1 high entropy and 3 low
+                [transparentAuthObjectsToKeep addObjectsFromArray:[transparentAuthHighEntropyObjects subarrayWithRange:NSMakeRange(0, 1)]];
+            }
+            else{ // Try sudo-high entropy using location and adding in medium entropy
+                if(locationAuthenticator==YES){
+                    [transparentAuthObjectsToKeep addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
+                    [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthMediumEntropyObjects];
+                }
+                else{
+                    return NO;
+                }
+            }
+    
+            break;
+            
+        default:
+            return NO;
+            break;
+    }
+    
+    
+    
+    // Set back the computation results array
+    computationResults.transparentAuthenticationTrustFactorOutputObjects = transparentAuthObjectsToKeep;
+    return YES;
     
 
 }

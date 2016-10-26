@@ -78,6 +78,9 @@
             // Add trustfactor to trustFactorOutput object
             trustFactorOutputObject.trustFactor = trustFactor;
             
+            // Add trustfactor ID to trustFactorOutput object
+            trustFactorOutputObject.factorID = trustFactor.identification.integerValue;
+            
             // Add the trustFactorOutput object to the output array
             [processedTrustFactorArray addObject:trustFactorOutputObject];
             
@@ -121,6 +124,9 @@
             
             // Add trustfactor to trustFactorOutput object
             trustFactorOutputObject.trustFactor = trustFactor;
+            
+            // Add trustfactor ID to trustFactorOutput object
+            trustFactorOutputObject.factorID = trustFactor.identification.integerValue;
             
             // Add the trustFactorOutput object to the output array
             [processedTrustFactorArray addObject:trustFactorOutputObject];
@@ -197,6 +203,9 @@
     
     // Add trustfactor to trustFactorOutput object
     trustFactorOutputObject.trustFactor = trustFactor;
+    
+    // Add trustfactor ID to trustFactorOutput object
+    trustFactorOutputObject.factorID = trustFactor.identification.integerValue;
     
     // Validate trustFactorOutputObject
     if (!trustFactorOutputObject || trustFactorOutputObject == nil) {

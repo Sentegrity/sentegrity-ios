@@ -2,15 +2,15 @@
 "policyID": "default",
 "revision": 1,
 "systemThreshold": 30,
-"allowPrivateAPIs": 0,
+"allowPrivateAPIs": 1,
 "debugEnabled": 1,
-"minimumTransparentAuthEntropy": 3,
+"minimumTransparentAuthEntropy": 2,
 "continueOnError": 1,
 "timeout": 3,
 "transparentAuthDecayMetric": 0.07,
 "statusUploadRunFrequency": 3,
 "statusUploadTimeFrequency": 1,
-"passwordRequirements" : {
+"passwordRequirements": {
 "minLenght": 6,
 "alphaNumeric": 1,
 "mixedCase": 0,
@@ -30,17 +30,21 @@
 {
 "id": 1,
 "name": "transparent",
-"prompt": "Transparent authentication successful",
-"desc": "Transparently Authenticated",
-"activationRange": 80,
+"warnDesc": "You have been transparently authenticated due to consistent user behavior.",
+"warnTitle": "Transparent Authentication",
+"guiIconText": "User Trusted",
+"guiIconID": 0,
+"activationRange": 85,
 "authenticationAction": 2,
 "postAuthenticationAction": 1
 },
 {
 "id": 2,
 "name": "fingerprint",
-"prompt": "Fingerprint required due to medium risk",
-"desc": "Fingerprint Required",
+"warnDesc": "Fingerprint  required due to the detection of a low risk profile.",
+"warnTitle": "Fingerprint Required",
+"guiIconText": "Low User Risk",
+"guiIconID": 0,
 "activationRange": 70,
 "authenticationAction": 5,
 "postAuthenticationAction": 1
@@ -48,17 +52,21 @@
 {
 "id": 3,
 "name": "password",
-"prompt": "Password required due to high user risk",
-"desc": "Password Required",
-"activationRange": 60,
+"warnDesc": "Password required due to the detection of a medium risk profile.",
+"warnTitle": "Password Required",
+"guiIconText": "Medium User Risk",
+"guiIconID": 1,
+"activationRange": 50,
 "authenticationAction": 4,
 "postAuthenticationAction": 1
 },
 {
 "id": 4,
 "name": "facialvocal",
-"prompt": "Multi-modal authentication required, but unavailable at this time",
-"desc": "Multi-modal Required",
+"warnDesc": "Vocal and Facial authentication required due to the detection of a high risk profile. This module is unavailable, user password will be requested.",
+"warnTitle": "Multi-Modal Required",
+"guiIconText": "High User Risk",
+"guiIconID": 1,
 "activationRange": 0,
 "authenticationAction": 7,
 "postAuthenticationAction": 1
@@ -87,7 +95,7 @@
 "id": 3,
 "type": 0,
 "computationMethod": 0,
-"name": "SYSTEM_SECURITY",	
+"name": "SYSTEM_SECURITY",
 "desc": "Device Anomaly",
 "authenticationAction": 4,
 "postAuthenticationAction": 2
@@ -414,7 +422,7 @@
 "lowConfidenceIssueMessage": "",
 "lowConfidenceSuggestionMessage": "",
 "revision": 1,
-"classID":1,
+"classID": 1,
 "subClassID": 1,
 "name": "Privileged network services",
 "transparentEligible": 0,
@@ -601,8 +609,8 @@
 "privateAPI": 1,
 "payload": [
 {
-"secondsInterval" : 3600,
-"maxSentMB" : 50
+"secondsInterval": 3600,
+"maxSentMB": 50
 }
 ]
 },
@@ -1044,7 +1052,7 @@
 "privateAPI": 0,
 "payload": [
 {
-"minimumHoursUp" : 6
+"minimumHoursUp": 6
 }
 ]
 },
@@ -1112,7 +1120,7 @@
 "classID": 5,
 "subClassID": 5,
 "name": "access time hour",
-"transparentEligible": 0,
+"transparentEligible": 1,
 "partialWeight": 1,
 "weight": 10,
 "learnMode": 0,
@@ -1128,7 +1136,7 @@
 "privateAPI": 0,
 "payload": [
 {
-"hoursInBlock" : 3
+"hoursInBlock": 3
 }
 ]
 },
@@ -1158,7 +1166,6 @@
 "privateAPI": 0,
 "payload": []
 },
-
 {
 "id": 29,
 "notFoundIssueMessage": "USB connected",
@@ -1181,7 +1188,7 @@
 "wipeOnUpdate": 0,
 "dispatch": "Power",
 "implementation": "pluggedIn:",
-"whitelistable":0,
+"whitelistable": 0,
 "privateAPI": 1,
 "payload": []
 },
@@ -1472,7 +1479,7 @@
 "classID": 5,
 "subClassID": 6,
 "name": "approximate location anomaly",
-"transparentEligible": 0,
+"transparentEligible": 1,
 "partialWeight": 1,
 "weight": 8,
 "learnMode": 0,
@@ -1488,14 +1495,14 @@
 "privateAPI": 0,
 "payload": [
 {
-"brightnessBlocksizeWithLocation" : 3,
-"brightnessBlocksizeNoLocation" : 4,
-"locationRounding" : 2,
-"magneticBlockSize" : 25,
-"cellSignalBlocksizeNoLocation" : 5,
-"cellSignalBlocksizeWithLocation" : 6,
-"wifiSignalBlocksizeNoLocation" : 14,
-"wifiSignalBlocksizeWithLocation" : 15
+"brightnessBlocksizeWithLocation": 3,
+"brightnessBlocksizeNoLocation": 4,
+"locationRounding": 2,
+"magneticBlockSize": 25,
+"cellSignalBlocksizeNoLocation": 5,
+"cellSignalBlocksizeWithLocation": 6,
+"wifiSignalBlocksizeNoLocation": 14,
+"wifiSignalBlocksizeWithLocation": 15
 }
 ]
 },

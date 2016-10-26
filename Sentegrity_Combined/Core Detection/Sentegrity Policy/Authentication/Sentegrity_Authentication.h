@@ -13,8 +13,10 @@
 
 @property (nonatomic,retain) NSNumber *identification;
 @property (nonatomic,retain) NSString *name;
-@property (nonatomic,retain) NSString *prompt;
-@property (nonatomic,retain) NSString *desc;
+@property (nonatomic,retain) NSString *warnDesc;
+@property (nonatomic,retain) NSString *warnTitle;
+@property (nonatomic,retain) NSString *guiIconText;
+@property (nonatomic,retain) NSNumber *guiIconID;
 @property (nonatomic,retain) NSNumber *activationRange;
 @property (nonatomic,retain) NSNumber *authenticationAction;
 @property (nonatomic,retain) NSNumber *postAuthenticationAction;

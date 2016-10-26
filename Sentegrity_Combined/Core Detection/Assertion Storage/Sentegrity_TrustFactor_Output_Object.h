@@ -14,6 +14,9 @@
 
 @interface Sentegrity_TrustFactor_Output_Object : NSObject
 
+// ID to allow sorting for transparent auth re-ordering
+@property (nonatomic) NSInteger factorID;
+
 // Attach the policy trustfactor data
 @property (nonatomic,retain) Sentegrity_TrustFactor *trustFactor;
 

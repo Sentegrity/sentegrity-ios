@@ -331,6 +331,7 @@
     // We're done so dismiss and have main show the dashboard
 
     
+
     
     if (self.delegate) {
         // Use the decrypted master key
@@ -343,6 +344,10 @@
             [result setResult:decryptedMasterKeyString];
             result = nil;
         }];
+    
+    // Added for testing
+    [result setResult:decryptedMasterKeyString];
+    result = nil;
 
 }
 
@@ -481,7 +486,7 @@
     NSLog(@"SentegrityTAF_UnlockViewController: viewDidAppear");
     [super viewDidAppear:animated];
     
-    
+
     //run core detection only once (when screen is loaded and showed)
     if (!once)
         
@@ -500,7 +505,7 @@
 - (void) checkForPolicyAndRunCoreDetection {
     
 
-    /*
+ 
     NSError *error;
     Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
     NSString * currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
@@ -563,11 +568,12 @@
     // Show Animation
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    self.hud.labelText = @"Authenticating";
-    self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
+    self.hud.labelText = @"Authenticating User";
+    self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Regular" size:20.0f];
+    //self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
     
-    self.hud.detailsLabelText = @"Performing Risk Assessment";
-    self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
+    //self.hud.detailsLabelText = @"Performing Risk Assessment";
+    //self.hud.detailsLabelFont = [UIFont fontWithName:@"OpenSans-Regular" size:18.0f];
     
     
     __weak SentegrityTAF_UnlockViewController *weakSelf = self;
@@ -710,16 +716,6 @@
                 [MBProgressHUD hideHUDForView:weakSelf.view animated:NO];
                 [weakSelf showInput];
                 [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
-                /*
-                //Don't show input if we successfully transparently authenticated
-                if(computationResults.deviceTrusted==YES && computationResults.preAuthenticationAction ==preAuthenticationAction_TransparentlyAuthenticate){
-                    
-                    // Don't show input as this screen will be
-                }
-                else{
-                    [self showInput];
-                }
-                 */
 
                 
             });
@@ -796,7 +792,7 @@
                             // Use the decrypted master key
                             [result setResult:decryptedMasterKeyString];
                             result = nil;
-                            [self showAlertWithTitle:@"Transparent auth was successful." andMessage:nil];
+                            [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
                         }];
                     // Done
                     break;
@@ -828,7 +824,7 @@
             
             // Ivo, can we make the stuff that happens after this wait until the user acknowledges the popup?
             
-            [self showAlertWithTitle:computationResults.authenticationModuleEmployed.desc andMessage:computationResults.authenticationModuleEmployed.prompt];
+            
             // Attempt to login
             // we have no input to pass, use nil
             Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithTransparentAuthentication:error];
@@ -870,6 +866,7 @@
                             // Use the decrypted master key
                             [result setResult:decryptedMasterKeyString];
                             result = nil;
+                            [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
                         }];
                     // Done
                     break;
@@ -898,7 +895,8 @@
         case authenticationAction_PromptForUserFingerprint:
         {
             //No promptForUserFingerprintAndWarn because TouchID always displays a message
-            [self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.prompt];
+            [self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.warnDesc];
+            
             break;
         }
         case authenticationAction_PromptForUserPassword:
@@ -912,7 +910,7 @@
         {
             
             // Since we're already on the login screen, simply show a popup message then allow user to interact with login prompt
-             [self showAlertWithTitle:computationResults.authenticationModuleEmployed.desc andMessage:computationResults.authenticationModuleEmployed.prompt];
+             [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
             
             break;
         }
@@ -926,8 +924,15 @@
         {
             
             // Show message but rely on password for now
-             [self showAlertWithTitle:computationResults.authenticationModuleEmployed.desc andMessage:computationResults.authenticationModuleEmployed.prompt];
-        
+             [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+            
+            /*
+            [self dismissViewControllerAnimated:NO completion:^{
+                // Use the decrypted master key
+
+                [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+            }];
+        */
             // Not implemented yet
             break;
         }
@@ -1014,6 +1019,7 @@
             }
             else {
                 //if failed auth, or user simply pressed cancel, do nothing
+
             }
         }];
     

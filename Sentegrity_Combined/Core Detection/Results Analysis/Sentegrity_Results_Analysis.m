@@ -200,8 +200,8 @@
                                 computationResults.postAuthenticationAction = [authModule.postAuthenticationAction integerValue];
                                 
                                 // Set dashboard and detailed user view info
-                                computationResults.userGUIIconID = 0;
-                                computationResults.userGUIIconText = authModule.desc;
+                                computationResults.userGUIIconID = authModule.guiIconID.intValue;
+                                computationResults.userGUIIconText = authModule.guiIconText;
                                 
                                 // Set action codes from the policy for this classification
                                 computationResults.attributingClassID = [computationResults.userAnomalyClass.identification integerValue];
@@ -232,8 +232,9 @@
                     else{
                         // Set result
                         computationResults.coreDetectionResult = CoreDetectionResult_UserAnomaly;
-                        computationResults.userGUIIconID = 1;
-                        computationResults.userGUIIconText = authModule.desc;
+                        // Set dashboard and detailed user view info
+                        computationResults.userGUIIconID = authModule.guiIconID.intValue;
+                        computationResults.userGUIIconText = authModule.guiIconText;
                         
                         // Set method for runHistory upload
                         computationResults.authenticationModuleEmployed = authModule;
