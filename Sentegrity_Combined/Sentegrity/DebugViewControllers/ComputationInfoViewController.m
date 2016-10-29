@@ -122,7 +122,7 @@
     
     //policy = [policy stringByAppendingFormat:@"\nSystem Threshold: %@\nUser Threshold: %@\n",policy1.systemThreshold,policy1.userThreshold];
     
-    policy = [policy stringByAppendingFormat:@"\nSystem Security Threshold: %@",policy1.systemThreshold];
+    policy = [policy stringByAppendingFormat:@"\nSYSTEM THRESHOLD: %@\n",policy1.systemThreshold];
     
     /*
     for (Sentegrity_Authentication *authModule in policy.authenticationModules) {
@@ -146,6 +146,16 @@
     
     
     complete = [complete stringByAppendingString:userSubScores];
+    
+    NSString *authModules = @"\nAuthentication Modules\n++++++++++++++++++++++++++++++\n";
+    
+    for(Sentegrity_Authentication *authModule in policy1.authenticationModules){
+        
+        authModules = [authModules stringByAppendingFormat:@"\nMODULE NAME: %@\nTHRESHOLD: %d\n",authModule.name,[authModule.activationRange intValue]];
+    }
+    
+
+    complete = [complete stringByAppendingString:authModules];
 
     
     [self.computationDebugOutput setEditable:NO];

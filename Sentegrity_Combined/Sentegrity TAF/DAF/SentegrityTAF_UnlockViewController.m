@@ -176,6 +176,7 @@
                                                object:nil];
     
     
+   
 
 }
 
@@ -353,6 +354,7 @@
 
 
 - (void) showInput {
+    
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.buttonInfo.alpha = 0.0;
         self.inputContainer.alpha = 1.0;
@@ -715,6 +717,7 @@
                 [weakSelf analyzeAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:weakSelf.view animated:NO];
                 [weakSelf showInput];
+ 
                 [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
 
                 
@@ -924,7 +927,7 @@
         {
             
             // Show message but rely on password for now
-             [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+            [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
             
             /*
             [self dismissViewControllerAnimated:NO completion:^{

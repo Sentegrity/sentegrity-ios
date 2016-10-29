@@ -308,11 +308,13 @@
                                         
                                         /* 
                                          * Transparent Auth Elections
+                                         * Partial weight rules
                                          */
                                         
                                         if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
                                             
-                                            if(partialWeight >= (trustFactorOutputObject.trustFactor.weight.integerValue * 0.25)){
+                                            // Removed denial of partial weight trustfactors into the transparent key, this causes transparent auth not function as often
+                                            //if(partialWeight >= (trustFactorOutputObject.trustFactor.weight.integerValue * 0.25)){
                                                 
                                                 // Avoids making transparent keys from values that may be sledom hit again
                                                 // Add TF to transparent auth list
@@ -320,7 +322,7 @@
                                                 
                                                 // If this is a bluetooth or wifi add it to dynamic two factor GUI list
                                                 // 2 = WiFi, 8=Bluetooth
-                                                if(trustFactorOutputObject.trustFactor.subClassID.integerValue == 2 || trustFactorOutputObject.trustFactor.subClassID.integerValue == 8){
+                                                if(trustFactorOutputObject.trustFactor.subClassID.integerValue == 2 || trustFactorOutputObject.trustFactor.subClassID.integerValue == 8 || trustFactorOutputObject.trustFactor.subClassID.integerValue == 6){
                                                     
                                                     // Use the dispatch name to avoid subclass lookup
                                                     NSString *name = [trustFactorOutputObject.trustFactor.dispatch stringByAppendingString:@" authentication"];
@@ -347,7 +349,7 @@
 
                                                    
                                                    
-                                            }
+                                           // }
                                         }
   
 

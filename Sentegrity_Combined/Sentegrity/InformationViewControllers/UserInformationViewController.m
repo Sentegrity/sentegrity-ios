@@ -115,7 +115,7 @@
 
         
 
-        
+        /* Removed for pilot/demo purposes
         // Check if there are any GUI issues
         if (self.computationResults.userIssues.count > 0 && self.computationResults.userIssues != nil) {
             
@@ -148,7 +148,7 @@
             // Append a newline
             [userAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         }
-        
+        */
 
         // Check if there are any GUI authenticators in use
         if (self.computationResults.userDynamicTwoFactors.count > 0 && self.computationResults.userDynamicTwoFactors != nil) {
@@ -163,10 +163,13 @@
             for (NSString *string in self.computationResults.userDynamicTwoFactors) {
                 
                 // Create the checkmark image in the string
+                
                 NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
                 textAttachment.image = [UIImage imageNamed:@"CheckMark"];
                 textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+                 
                 
+
                 NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
                 
                 // Append the string
@@ -196,8 +199,15 @@
             for (NSString *string in self.computationResults.userSuggestions) {
                 
                 // Create the checkmark image in the string
+                /*
+                 NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+                 textAttachment.image = [UIImage imageNamed:@"CheckMark"];
+                 textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
+                 */
+                
+                // Create the X image in the string
                 NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-                textAttachment.image = [UIImage imageNamed:@"CheckMark"];
+                textAttachment.image = [UIImage imageNamed:@"Close"];
                 textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
                 
                 NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];

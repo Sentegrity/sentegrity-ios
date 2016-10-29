@@ -11,6 +11,7 @@
 
 // Menu Bar Button
 #import "JTHamburgerButton.h"
+#import "Sentegrity_Authentication.h"
 
 @interface ComputationInfoViewController : UIViewController
 

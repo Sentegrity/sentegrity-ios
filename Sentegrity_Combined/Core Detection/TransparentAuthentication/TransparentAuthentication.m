@@ -412,7 +412,6 @@
                 case 13: //Grip
                     gripAuthenticator=YES;
                     [gripAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
-                    [transparentAuthLowEntropyObjects addObject:trustFactorOutputObject];
                     break;
                 case 5: //Time
                     if([trustFactorOutputObject.trustFactor.name isEqualToString:@"access time day"]){
