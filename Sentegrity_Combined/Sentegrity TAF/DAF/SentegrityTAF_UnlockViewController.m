@@ -492,8 +492,8 @@
     //run core detection only once (when screen is loaded and showed)
     if (!once)
         
-        //[self checkForPolicyAndRunCoreDetection];
-        [self runCoreDetection];
+        [self checkForPolicyAndRunCoreDetection];
+        //[self runCoreDetection];
 
     once = YES;
     
@@ -503,61 +503,131 @@
 
 
 // this condition should not happen anymore (app now send hardcoded version in its request, not the one inside the embedded policy)
-/*
+
 - (void) checkForPolicyAndRunCoreDetection {
-    
 
- 
+    
     NSError *error;
-    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
-    NSString * currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
     
-    if (![policy.applicationVersionID isEqualToString:currentVersion]) {
+    //get currently in-use policy and app version
+    Sentegrity_Policy *inUsePolicy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+    NSString * currentAppVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+    
+    
+    //if application versions is not same as version in policy, we need to update policy before running core detection
+    if (![inUsePolicy.applicationVersionID isEqualToString:currentAppVersion]) {
         
-        //if application version is not same as version in policy, we need to download new policy
-        
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
-        
-        // Upload run history (if necessary) and check for new policy
-        [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error) {
+        //if currently in-use policy does not belong to any organisation (it is default policy)...
+        if ([inUsePolicy.policyID isEqualToString:@"default"]) {
+            //...than we can simply replace it with this new policy from app's bundle
             
-            [MBProgressHUD hideHUDForView:self.view animated:NO];
-
-            if (newPolicyDownloaded) {
-                //new policy downloaded, run core detection
-                [self runCoreDetection];
+            
+            Sentegrity_Policy *policyFromBundle = [[Sentegrity_Policy_Parser sharedPolicy] loadPolicyFromMainBundle:&error];
+            if (error) {
+                NSLog(@"CRITICAL ERROR, cannot load policy from bundle");
+                [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
+                return;
             }
-            else {
-                
-                NSString *errorMessage;
-                if (error)
-                    errorMessage = error.localizedDescription;
-                else
-                    errorMessage = @"Could not download new policy.";
-                
-                //error occured, show error message and ask user for retry
-                UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                               message:errorMessage
-                                                                        preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
-                                                                      handler:^(UIAlertAction * action) {
-                                                                          [self checkForPolicyAndRunCoreDetection];
-                                                                      }];
-                [alert addAction:defaultAction];
-                [self presentViewController:alert animated:YES completion:nil];
-
+            
+            [[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policyFromBundle withError:&error];
+            if (error) {
+                NSLog(@"CRITICAL ERROR, cannot save new policy");
+                [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
+                return;
             }
-        }];
+            
+            [self runCoreDetection];
+        }
+        
+        
+        //if currently in-use policy is not default, we need to try to get new policy from server
+        else {
+            self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            
+            
+            // Upload run history (if necessary) and check for new policy
+            [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error) {
+                
+                [MBProgressHUD hideHUDForView:self.view animated:NO];
+                
+                
+                //first check if any error occured (like network connection problems). If error, show message to user and ask him for retry.
+                if (!successfullyExecuted) {
+                    
+                    NSString *errorMessage;
+                    if (error)
+                        errorMessage = error.localizedDescription;
+                    else
+                        errorMessage = @"Could not download new policy. Please try again.";
+                    
+                    //error occured, show error message and ask user for retry
+                    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                                   message:errorMessage
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
+                                                                          handler:^(UIAlertAction * action) {
+                                                                              [self checkForPolicyAndRunCoreDetection];
+                                                                          }];
+                    [alert addAction:defaultAction];
+                    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
+                }
+                
+                
+                //next, check if new policy is downloaded
+                else if (newPolicyDownloaded) {
+                
+                    //new policy downloaded and stored, we are ready to run core detection
+                    [self runCoreDetection];
+                }
+                
+                else {
+                    //last known scenario, request is finished without errors, but we did not get any policy
+                    //need to check useDefaultAsBackup to decide what to do next
+                    
+                    if (inUsePolicy.useDefaultAsBackup.boolValue) {
+                        //just use default policy from bundle as current policy
+                        Sentegrity_Policy *policyFromBundle = [[Sentegrity_Policy_Parser sharedPolicy] loadPolicyFromMainBundle:&error];
+                        if (error) {
+                            NSLog(@"CRITICAL ERROR, cannot load policy from bundle");
+                            [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
+                            return;
+                        }
+                        
+                        [[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policyFromBundle withError:&error];
+                        if (error) {
+                            NSLog(@"CRITICAL ERROR, cannot save new policy");
+                            [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
+                            return;
+                        }
+                        
+                        //run core detection
+                        [self runCoreDetection];
+                    
+                    }
+                    else {
+                        //no available policy for new app version :(. Show message to the user.
+                        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                                       message:@"This app version is not supported by your organization"
+                                                                                preferredStyle:UIAlertControllerStyleAlert];
+                        
+                        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault
+                                                                              handler:^(UIAlertAction * action) {
+                                                                                  [self checkForPolicyAndRunCoreDetection];
+                                                                              }];
+                        [alert addAction:defaultAction];
+                        [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
+                        
+                    }
+                }
+            }];
+        }
     }
     else {
         [self runCoreDetection];
     }
-    
-
 }
-*/
+
 
 
 - (void) runCoreDetection {

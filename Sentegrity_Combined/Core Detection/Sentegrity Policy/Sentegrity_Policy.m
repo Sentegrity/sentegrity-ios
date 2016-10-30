@@ -106,6 +106,14 @@
     _passwordRequirements = passwordRequirements;
 }
 
+- (void) setApplicationVersionID:(NSString *)applicationVersionID {
+    _applicationVersionID = applicationVersionID;
+}
+
+- (void) setUseDefaultAsBackup:(NSNumber *)useDefaultAsBackup {
+    _useDefaultAsBackup = useDefaultAsBackup;
+}
+
 
 
 @end

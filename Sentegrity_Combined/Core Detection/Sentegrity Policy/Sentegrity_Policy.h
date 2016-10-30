@@ -31,6 +31,8 @@
 @property (nonatomic,retain) NSNumber *statusUploadRunFrequency;
 @property (nonatomic,retain) NSNumber *statusUploadTimeFrequency;
 @property (nonatomic,retain) NSDictionary *passwordRequirements;
+@property (nonatomic, strong) NSString *applicationVersionID;
+@property (nonatomic, strong) NSNumber *useDefaultAsBackup;
 
 
 

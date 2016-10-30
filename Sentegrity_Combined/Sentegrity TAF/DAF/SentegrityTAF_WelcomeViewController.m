@@ -93,7 +93,7 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         
-        if (!successfullyExecuted) {
+        if (successfullyExecuted) {
             [self showAlertWithTitle:@"Error" andMessage:errorT.localizedDescription];
             return;
         }

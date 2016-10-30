@@ -33,4 +33,7 @@
 // Parse a policy jsonObject
 - (Sentegrity_Policy *)parsePolicyJSONobject:(NSDictionary *) jsonParsed withError:(NSError **)error;
 
+// manually get policy from the bundle
+- (Sentegrity_Policy *)loadPolicyFromMainBundle:(NSError **) error;
+
 @end
