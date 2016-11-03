@@ -40,7 +40,6 @@
 
 @property (nonatomic) DashboardViewController *dashboardViewController;
 
-@property (nonatomic, strong) SentegrityTAF_TouchIDManager *touchIDManager;
 
 
 @property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *onePixelConstraintsCollection;
@@ -128,9 +127,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
-    //touchID manager
-    self.touchIDManager = [[SentegrityTAF_TouchIDManager alloc] init];
-
+   
     
     
     //configure and hide splash image
@@ -235,6 +232,8 @@
     Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
 
+    SentegrityTAF_TouchIDManager *touchIDManager = [SentegrityTAF_TouchIDManager shared];
+    
    Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithPassword:passwordAttempt andError:&error];
    
    // Set the authentication response code
@@ -260,26 +259,29 @@
            
            //touch ID enabled, check if touch ID is available on current device
            
-           if ([self.touchIDManager checkIfTouchIDIsAvailableWithError:nil]) {
+           if ([touchIDManager checkIfTouchIDIsAvailableWithError:nil]) {
                
                //great, it is available, now check is touchID already configured, but item is invalidated
-               if (self.touchIDManager.touchIDItemInvalidated) {
-                   [self createTouchIDWithDecryptedMasterKey:decryptedMasterKey]; //create again
-                   [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+               if (touchIDManager.touchIDItemInvalidated) {
+                   //create touchID again
+                   [touchIDManager createTouchIDWithDecryptedMasterKey:decryptedMasterKey withCallback:^(BOOL successful, NSError *error) {
+                       [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+                   }];
                }
                //if touch ID is already configured and active, that means that user probbably canceled TouchID auth, or failed with auth. In both cases, just ignore and continue.
                else if (startup.touchIDKeyEncryptedMasterKeyBlobString) {
                    // do nothing
                    [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
                }
-               
                else {
-               
-                   //ask user to use touch ID for future login
-                   [self.touchIDManager checkForTouchIDAuthWithMessage:@"Would you like to enable TouchID as one of the options for authentication?" withCallback:^(TouchIDResultType resultType, NSError *error) {
+                   //This should never happen because we are asking user for touchID after password creation
+                   NSLog(@"WARNING: TouchID not configured and not disabled.");
+                   [touchIDManager checkForTouchIDAuthWithMessage:@"Would you like to enable TouchID as one of the options for authentication?" withCallback:^(TouchIDResultType resultType, NSError *error) {
                        
                        if (resultType == TouchIDResultType_Success) {
-                           [self createTouchIDWithDecryptedMasterKey:decryptedMasterKey]; // create touchID
+                           //create touchID again
+                           [touchIDManager createTouchIDWithDecryptedMasterKey:decryptedMasterKey withCallback:^(BOOL successful, NSError *error) {
+                           }];
                        }
                        else if (resultType == TouchIDResultType_UserCanceled) {
                            //save an answer
@@ -338,7 +340,7 @@
         // Use the decrypted master key
         [result setResult:decryptedMasterKeyString];
         result = nil;
-        [self.delegate dismissSuccesfullyFinishedViewController:self];
+        [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
     }
     else
         [self dismissViewControllerAnimated:NO completion:^{
@@ -497,12 +499,8 @@
 
     once = YES;
     
-    
-    
 }
 
-
-// this condition should not happen anymore (app now send hardcoded version in its request, not the one inside the embedded policy)
 
 - (void) checkForPolicyAndRunCoreDetection {
 
@@ -546,7 +544,8 @@
             
             
             // Upload run history (if necessary) and check for new policy
-            [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error) {
+            [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, BOOL policyOrganisationExists, NSError *error) {
+                
                 
                 [MBProgressHUD hideHUDForView:self.view animated:NO];
                 
@@ -745,7 +744,8 @@
 - (void)performCoreDetection:(id)sender {
     
     // Upload run history (if necessary) and check for new policy
-    [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error) {
+    [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, BOOL policyOrganisationExists, NSError *error) {
+
         
         if (!successfullyExecuted) {
             // something went wrong somewhere (uploading, or new policy)
@@ -858,7 +858,7 @@
                         // Use the decrypted master key
                         [result setResult:decryptedMasterKeyString];
                         result = nil;
-                        [self.delegate dismissSuccesfullyFinishedViewController:self];
+                        [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
                     }
                     else
                         [self dismissViewControllerAnimated:NO completion:^{
@@ -932,7 +932,7 @@
                         // Use the decrypted master key
                         [result setResult:decryptedMasterKeyString];
                         result = nil;
-                        [self.delegate dismissSuccesfullyFinishedViewController:self];
+                        [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
                     }
                     else
                         [self dismissViewControllerAnimated:NO completion:^{
@@ -1052,12 +1052,13 @@
         //did not able to read startup file, break
         return;
     }
-    
+    SentegrityTAF_TouchIDManager *touchIDManager = [SentegrityTAF_TouchIDManager shared];
+
     
     //if touchID is already configured
     if (!startup.touchIDDisabledByUser && startup.touchIDKeyEncryptedMasterKeyBlobString) {
         
-        [self.touchIDManager getTouchIDPasswordFromKeychainwithMessage:loginMessage withCallback:^(TouchIDResultType resultType, NSString *password, NSError *error) {
+        [touchIDManager getTouchIDPasswordFromKeychainwithMessage:loginMessage withCallback:^(TouchIDResultType resultType, NSString *password, NSError *error) {
             if (resultType == TouchIDResultType_Success) {
                 
                 
@@ -1087,7 +1088,7 @@
             }
             else if (resultType == TouchIDResultType_ItemNotFound) {
                 //probabbly invalidated item due change of fingerprint set, we will just try to delete it
-                [self.touchIDManager removeTouchIDPasswordFromKeychainWithCallback:nil];
+                [touchIDManager removeTouchIDPasswordFromKeychainWithCallback:nil];
                 [self showAlertWithTitle:@"Notice" andMessage:@"One of the fingerprints on this device have changed, password is required to continue"];
             }
             else {
@@ -1099,48 +1100,6 @@
     }
 
 }
-
-
-
-- (void) createTouchIDWithDecryptedMasterKey: (NSData *) decryptedMasterKey {
-    
-#warning needs to implement random password generator
-    NSString *randomPassword = @"RandomPassword";
-    
-    
-    __weak SentegrityTAF_UnlockViewController *weakSelf = self;
-    
-    //first we want for sure delete old keychain item (if any) that can remain from previous installation of the app
-    [self.touchIDManager removeTouchIDPasswordFromKeychainWithCallback:^(TouchIDResultType resultType, NSError *error) {
-        
-        //we succesfully deleted old keychain item, or item does not even exists
-        if (resultType == TouchIDResultType_ItemNotFound || resultType == TouchIDResultType_Success) {
-            //store new password into touchID keychain
-            [weakSelf.touchIDManager addTouchIDPasswordToKeychain:randomPassword withCallback:^(TouchIDResultType resultType, NSError *error) {
-                
-                if (resultType == TouchIDResultType_Success && !error) {
-                    
-                    [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithTouchIDPassoword:randomPassword masterKey:decryptedMasterKey withError:&error];
-                    
-                    if (error) {
-                        //TODO: error message for user
-                        [weakSelf showAlertWithTitle:@"Unknown error" andMessage:error.localizedDescription];
-                        [weakSelf.touchIDManager removeTouchIDPasswordFromKeychainWithCallback:nil];
-                    }
-                }
-                else if (resultType == TouchIDResultType_DuplicateItem) {
-                    [weakSelf showAlertWithTitle:@"Error" andMessage:@"TouchID is already stored."];
-                }
-                else {
-                    [weakSelf showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
-                }
-            }];
-        }
-        else
-            [weakSelf showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
-    }];
-}
-
 
 
 #pragma mark - Mail Compose Delegate

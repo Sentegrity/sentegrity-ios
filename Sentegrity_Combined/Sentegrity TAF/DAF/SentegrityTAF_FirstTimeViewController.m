@@ -15,6 +15,8 @@
 #import "SentegrityTAF_AskPermissionsViewController.h"
 #import "SentegrityTAF_PasswordCreationViewController.h"
 #import "SentegrityTAF_UnlockViewController.h"
+#import "SentegrityTAF_TouchIDManager.h"
+#import "SentegrityTAF_TouchIDPermissionViewController.h"
 
 
 typedef enum {
@@ -22,11 +24,13 @@ typedef enum {
     CurrentStateWelcome,
     CurrentStateAskingPermissions,
     CurrentStatePasswordCreation,
+    CurrentStateTouchIDCreation,
     CurrentStateUnlock,
 } CurrentState;
 
 @interface SentegrityTAF_FirstTimeViewController () <SentegrityTAF_basicProtocol>
 
+@property (strong, nonatomic) SentegrityTAF_TouchIDPermissionViewController *touchIDPermissionViewController;
 @property (strong, nonatomic) SentegrityTAF_PasswordCreationViewController *passwordCreationViewController;
 @property (strong, nonatomic) SentegrityTAF_AskPermissionsViewController *askPermissionsViewController;
 @property (strong, nonatomic) SentegrityTAF_WelcomeViewController *welcomeViewController;
@@ -74,7 +78,7 @@ typedef enum {
     NSAssert( !(event == ChangePasswordCancelled && _result != nil), @"Unexpected ChangePasswordCancelled");
 }
 
-- (void) dismissSuccesfullyFinishedViewController:(UIViewController *) vc {
+- (void) dismissSuccesfullyFinishedViewController:(UIViewController *) vc withInfo:(NSDictionary *)info {
     //clear current state
     CurrentState lastCurrentState = _currentState;
     _currentState = CurrentStateUnknown;
@@ -89,8 +93,18 @@ typedef enum {
         [self showPasswordCreationWithResult:self.result];
     }
     
-    //after creation of password, show unlock screen and run core detection
+    //after creation of password, show unlock screen or touchID if available
     else  if (lastCurrentState == CurrentStatePasswordCreation) {
+        if ([[SentegrityTAF_TouchIDManager shared] checkIfTouchIDIsAvailableWithError:nil]) {
+            [self showTouchIDWithResult:_result andMasterKey:info[@"masterKey"]];
+        }
+        else {
+            [self showUnlockWithResult:self.result];
+        }
+    }
+    
+    //after touchID  show unlock screen
+    else  if (lastCurrentState == CurrentStateTouchIDCreation) {
         [self showUnlockWithResult:self.result];
     }
 
@@ -133,17 +147,7 @@ typedef enum {
     SentegrityTAF_PasswordCreationViewController *passwordCreationViewController;
     
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        // iPhone View Controllers
-        passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController_iPhone" bundle:nil];
-        
-    } else {
-        
-        // iPad View Controllers
-        passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController_iPad" bundle:nil];
-    }
-    
+    passwordCreationViewController = [[SentegrityTAF_PasswordCreationViewController alloc] initWithNibName:@"SentegrityTAF_PasswordCreationViewController" bundle:nil];
     passwordCreationViewController.delegate = self;
     passwordCreationViewController.result = self.result;
     
@@ -152,6 +156,23 @@ typedef enum {
     self.passwordCreationViewController = passwordCreationViewController;
     self.currentViewController = passwordCreationViewController;
 }
+
+
+- (void) showTouchIDWithResult: (DAFWaitableResult *)result andMasterKey: (NSData *) masterKey {
+    
+    SentegrityTAF_TouchIDPermissionViewController *touchIDPermissionVC = [[SentegrityTAF_TouchIDPermissionViewController alloc] init];
+
+    touchIDPermissionVC.delegate = self;
+    touchIDPermissionVC.result = self.result;
+    touchIDPermissionVC.decryptedMasterKey = masterKey;
+    
+    //set new screen and state
+    self.currentState = CurrentStateTouchIDCreation;
+    self.touchIDPermissionViewController = touchIDPermissionVC;
+    self.currentViewController = touchIDPermissionVC;
+}
+
+
 
 - (void) showUnlockWithResult: (DAFWaitableResult *)result{
     

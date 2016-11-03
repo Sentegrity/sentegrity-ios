@@ -53,6 +53,7 @@
     //before proceed, we try to fetch latest policy from the server. This must be succesfully executed before proceeding to other screens
     NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];
 
+    
     if (email == nil || [email isEqual:[NSNull null]]) {
         //something is not good with GOOD
         [self showAlertWithTitle:@"Error" andMessage:@"Can not get email address. Please try again."];
@@ -87,18 +88,25 @@
     
     
     //try to get new policy from the server
-    [[Sentegrity_Network_Manager shared] checkForNewPolicyWithEmail:email withCallback:^(BOOL successfullyExecuted, BOOL newPolicyDownloaded, NSError *errorT) {
+    [[Sentegrity_Network_Manager shared] checkForNewPolicyWithEmail:email withCallback:^(BOOL successfullyExecuted, BOOL newPolicyDownloaded, BOOL policyOrganisationExists, NSError *errorT) {
         
         //hide loader
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         
-        if (successfullyExecuted) {
+        if (!successfullyExecuted) {
             [self showAlertWithTitle:@"Error" andMessage:errorT.localizedDescription];
             return;
         }
         
-        [self.delegate dismissSuccesfullyFinishedViewController:self];
+        //if policy organisation exists, but there is no new policy for this version, stop executing
+        if (policyOrganisationExists && !newPolicyDownloaded) {
+            [self showAlertWithTitle:@"Error" andMessage:@"This app version is not supported by your organization."];
+            return;
+        }
+        
+        
+        [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
     }];
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "SentegrityTAF_TouchIDManager.h"
+#import "Sentegrity_Startup_Store.h"
 
 @interface SentegrityTAF_TouchIDManager ()
 
@@ -16,13 +17,72 @@
 
 @implementation SentegrityTAF_TouchIDManager
 
-- (id) init {
-    self = [super init];
-    if (self) {
-        self.context = [[LAContext alloc] init];
-    }
-    return self;
++ (SentegrityTAF_TouchIDManager *) shared {
+    static SentegrityTAF_TouchIDManager* _sharedSentegrityTAF_TouchIDManager = nil;
+    static dispatch_once_t onceTokenSentegrityTAF_TouchIDManager;
+    
+    dispatch_once(&onceTokenSentegrityTAF_TouchIDManager, ^{
+        _sharedSentegrityTAF_TouchIDManager = [[SentegrityTAF_TouchIDManager alloc] init];
+        _sharedSentegrityTAF_TouchIDManager.context = [[LAContext alloc] init];
+    });
+    
+    return _sharedSentegrityTAF_TouchIDManager;
 }
+
+
+
+- (void) createTouchIDWithDecryptedMasterKey: (NSData *) decryptedMasterKey withCallback: (ResultBlock) block {
+    
+#warning needs to implement random password generator
+    NSString *randomPassword = @"RandomPassword";
+
+    
+    
+    //first we want for sure delete old keychain item (if any) that can remain from previous installation of the app
+    [self removeTouchIDPasswordFromKeychainWithCallback:^(TouchIDResultType resultType, NSError *error) {
+        
+        //we succesfully deleted old keychain item, or item does not even exists
+        if (resultType == TouchIDResultType_ItemNotFound || resultType == TouchIDResultType_Success) {
+            //store new password into touchID keychain
+            [self addTouchIDPasswordToKeychain:randomPassword withCallback:^(TouchIDResultType resultType, NSError *error) {
+                
+                if (resultType == TouchIDResultType_Success && !error) {
+                    
+                    [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithTouchIDPassoword:randomPassword masterKey:decryptedMasterKey withError:&error];
+                    
+                    if (error) {
+                        //TODO: error message for user
+                        [[SentegrityTAF_TouchIDManager shared] removeTouchIDPasswordFromKeychainWithCallback:nil];
+                        block(NO, error);
+                        return;
+                    }
+                    block(YES, nil);
+                }
+                else if (resultType == TouchIDResultType_DuplicateItem) {
+                    //scenario that should not happen
+                    NSError *error;
+                    
+                    NSDictionary *errorDetails = @{
+                                                   NSLocalizedDescriptionKey: NSLocalizedString(@"TouchID already exists.", nil),
+                                                   };
+                    
+                    // Set the error
+                    error = [NSError errorWithDomain:coreDetectionDomain code:SAUnknownError userInfo:errorDetails];
+                    block(NO, error);
+
+                }
+                else {
+                    block(NO, error);
+                }
+            }];
+        }
+        else
+            block(NO, error);
+    }];
+
+}
+
+
 
 
 

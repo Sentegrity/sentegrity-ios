@@ -55,7 +55,7 @@
     //if any error, stop it
     if (error) {
         if (callback)
-            callback(NO, NO, error);
+            callback(NO, NO, NO, error);
         return;
     }
 
@@ -66,7 +66,7 @@
     //if any error, stop it
     if (error) {
         if (callback)
-            callback(NO, NO, error);
+            callback(NO, NO, NO, error);
         return;
     }
     
@@ -94,11 +94,14 @@
     
      [self.sessionManager uploadReport:dic withCallback:^(BOOL success, id responseObject, NSError *error) {
          if (error) {
-             callback (NO, NO, error);
+             callback (NO, NO, NO, error);
          }
          else {
              NSDictionary *newPolicy = responseObject[@"data"][@"newPolicy"];
+             BOOL policyOrganisationExist = [responseObject[@"data"][@"policyOrganizationExists"] boolValue];
+             
              if (newPolicy && ![newPolicy isEqual:[NSNull null]]) {
+                 
                  
                  // new policy exists, need to replace old policy with this one
                  Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] parsePolicyJSONobject:newPolicy withError:&error];
@@ -106,7 +109,7 @@
                  if (error) {
                      //something went wrong...
                      if (callback)
-                         callback (NO, NO, error);
+                         callback (NO, NO, NO, error);
                      
                      return;
                  }
@@ -118,7 +121,7 @@
                  if (error) {
                      //something went wrong...
                      if (callback)
-                         callback (NO, NO, error);
+                         callback (NO, NO, NO, error);
                      
                      return;
                  }
@@ -131,13 +134,13 @@
                          [[NSUserDefaults standardUserDefaults] synchronize];
                      }
                      
-                     callback (YES, YES, nil);
+                     callback (YES, YES, policyOrganisationExist, nil);
                  }
                  
              }
              else {
                  //no new policy
-                 callback (YES, NO, nil);
+                 callback (YES, NO, policyOrganisationExist, nil);
              
              }
          }
@@ -155,7 +158,7 @@
     //if any error, stop it
     if (error) {
         if (callback)
-            callback(NO, NO, NO, error);
+            callback(NO, NO, NO, NO, error);
         return;
     }
     
@@ -165,7 +168,7 @@
     //if any error, stop it
     if (error) {
         if (callback)
-            callback(NO, NO, NO, error);
+            callback(NO, NO, NO, NO, error);
         return;
     }
     
@@ -241,9 +244,12 @@
             if (!success) {
                 //request failed
                 if (callback)
-                    callback (NO, NO, NO, error);
+                    callback (NO, NO, NO, NO, error);
             }
             else {
+                
+                BOOL policyOrganisationExist = [responseObject[@"data"][@"policyOrganizationExists"] boolValue];
+
                 //succesfully uploaded, need to update status variables
                 currentStartup.dateTimeOfLastUpload = [[NSDate date] timeIntervalSince1970];
                 currentStartup.runCountAtLastUpload = runCount;
@@ -261,7 +267,7 @@
                     if (error) {
                         //something went wrong...
                         if (callback)
-                            callback (NO, YES, NO, error);
+                            callback (NO, YES, NO, NO, error);
                         
                         return;
                     }
@@ -272,7 +278,7 @@
                     if (error) {
                         //something went wrong...
                         if (callback)
-                            callback (NO, YES, NO, error);
+                            callback (NO, YES, NO, NO, error);
                         
                         return;
                     }
@@ -285,13 +291,13 @@
                             [[NSUserDefaults standardUserDefaults] synchronize];
                         }
                         
-                        callback (YES, YES, YES, nil);
+                        callback (YES, YES, YES, policyOrganisationExist, nil);
                     }
                 }
                 else {
                     //succesfully uploaded, but there is no new policy
                     if (callback)
-                        callback (YES, YES, NO, nil);
+                        callback (YES, YES, NO, policyOrganisationExist, nil);
                 }
             }
         }];
@@ -299,7 +305,7 @@
     else {
         // do not need to upload
         if (callback)
-            callback (YES, NO, NO, nil);
+            callback (YES, NO, NO, NO, nil);
     }
 }
 

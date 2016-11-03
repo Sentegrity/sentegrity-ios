@@ -37,14 +37,7 @@
 {
     NSLog(@"DAFSkelAppDelegate: setupNibs");
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPhone" bundle:nil];
-
-    }
-    else {
-        self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController_iPad" bundle:nil];
-
-    }
+   self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController" bundle:nil];
     
     self.mainViewController = [[SentegrityTAF_MainViewController alloc] init];
     self.authFirstTimeViewController = [[SentegrityTAF_BlankAuthViewController alloc] init];

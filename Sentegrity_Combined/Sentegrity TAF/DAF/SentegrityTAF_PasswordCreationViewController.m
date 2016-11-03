@@ -11,6 +11,7 @@
 #import "Sentegrity_TrustFactor_Storage.h"
 #import "Sentegrity_Policy_Parser.h"
 #import "SentegrityTAF_TouchIDManager.h"
+#import "Sentegrity_Crypto.h"
 
 @interface SentegrityTAF_PasswordCreationViewController () <UITextFieldDelegate>
 
@@ -75,6 +76,15 @@
     
     //hide nav bar if neccesary
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void) viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    //scroll inset
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.viewFooter.frame.size.height, 0);
+    self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
 }
 
 
@@ -213,10 +223,15 @@
     [result setResult:masterKeyString];
     */
 
-     
-     
+    NSData *masterKey = [[Sentegrity_Crypto sharedCrypto] convertHexStringToData:masterKeyString withError:&error];
+    if (error) {
+        //TODO: error message for user
+        [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+        return;
+    }
+    
     // Dismiss the view
-    [self.delegate dismissSuccesfullyFinishedViewController:self];
+    [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:@{@"masterKey": masterKey}];
     
 }
 

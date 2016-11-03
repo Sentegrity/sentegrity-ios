@@ -194,7 +194,7 @@ static MBProgressHUD *HUD;
     
     
     // upload run history (if necessary) and check for new policy
-    [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error) {
+    [[Sentegrity_Network_Manager shared] uploadRunHistoryObjectsAndCheckForNewPolicyWithCallback:^(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, BOOL policyOrganisationExists, NSError *error) {
         
         if (!successfullyExecuted) {
             // something went wrong somewhere (uploading, or new policy)
@@ -231,9 +231,6 @@ static MBProgressHUD *HUD;
         
     }
     
-        
- 
-
     
     /* Perform Core Detection */
     

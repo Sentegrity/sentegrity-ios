@@ -1,6 +1,8 @@
 {
 "policyID": "default",
 "revision": 1,
+"applicationVersionID": "1.0.2",
+"useDefaultAsBackup": 1,
 "systemThreshold": 30,
 "allowPrivateAPIs": 1,
 "debugEnabled": 1,

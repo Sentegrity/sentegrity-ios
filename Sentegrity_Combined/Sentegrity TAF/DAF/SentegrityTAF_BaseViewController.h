@@ -10,7 +10,7 @@
 
 @protocol SentegrityTAF_basicProtocol <NSObject>
 
-- (void) dismissSuccesfullyFinishedViewController:(UIViewController *) vc;
+- (void) dismissSuccesfullyFinishedViewController:(UIViewController *) vc withInfo: (NSDictionary *) info;
 
 @end
 

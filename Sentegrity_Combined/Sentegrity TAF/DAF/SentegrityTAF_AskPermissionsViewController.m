@@ -87,7 +87,7 @@
     } // Done permissions kit
     else {
         //no permissions, dismiss
-        [self.delegate dismissSuccesfullyFinishedViewController:self];
+        [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
     }
 }
 
@@ -96,8 +96,9 @@
     
     //after location/activity permissions are finished, dismiss
     [self dismissViewControllerAnimated:YES completion:^{
-        [self.delegate dismissSuccesfullyFinishedViewController:self];
-                                                }];
+        [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
+        
+    }];
 
 }
 

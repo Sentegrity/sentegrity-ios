@@ -23,7 +23,7 @@ typedef enum {
     
 } TouchIDResultType;
 
-
+typedef void (^ResultBlock)(BOOL successful, NSError *error);
 typedef void (^TouchIDResultBlock)(TouchIDResultType resultType, NSError *error);
 typedef void (^TouchIDGetResultBlock)(TouchIDResultType resultType, NSString *password, NSError *error);
 
@@ -34,11 +34,15 @@ typedef void (^TouchIDGetResultBlock)(TouchIDResultType resultType, NSString *pa
 @property (nonatomic, readonly) BOOL touchIDItemInvalidated;
 
 
++ (SentegrityTAF_TouchIDManager *) shared;
+
 - (BOOL) checkIfTouchIDIsAvailableWithError: (NSError **) error;
 - (void) checkForTouchIDAuthWithMessage: (NSString *) message withCallback: (TouchIDResultBlock) block;
 - (void) addTouchIDPasswordToKeychain: (NSString *) password withCallback: (TouchIDResultBlock) block;
 - (void) removeTouchIDPasswordFromKeychainWithCallback: (TouchIDResultBlock) block;
 - (void) getTouchIDPasswordFromKeychainwithMessage:(NSString *) message withCallback: (TouchIDGetResultBlock) block;
 
+//helper method
+- (void) createTouchIDWithDecryptedMasterKey: (NSData *) decryptedMasterKey withCallback: (ResultBlock) block;
 
 @end

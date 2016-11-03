@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^RunHistoryBlock)(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, NSError *error);
-typedef void (^CheckPolicyBlock)(BOOL successfullyExecuted, BOOL newPolicyDownloaded, NSError *error);
+typedef void (^RunHistoryBlock)(BOOL successfullyExecuted, BOOL successfullyUploaded, BOOL newPolicyDownloaded, BOOL policyOrganisationExists, NSError *error);
+typedef void (^CheckPolicyBlock)(BOOL successfullyExecuted, BOOL newPolicyDownloaded, BOOL policyOrganisationExists, NSError *error);
 
 
 @interface Sentegrity_Network_Manager : NSObject
