@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,17 +20,24 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zww-yB-Lci" userLabel="Main View">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DS8-Em-ayO">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JkS-Ac-U0A" userLabel="Container">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="good_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="NYL-b9-LmV"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="good_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="NYL-b9-LmV">
+                                            <rect key="frame" x="25" y="40" width="82" height="26"/>
+                                        </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Would you like to enable TouchID as one of the options for authentication?" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRX-Y4-FhI">
+                                            <rect key="frame" x="16" y="138" width="343" height="49.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hs3-co-uVV">
+                                            <rect key="frame" x="200" y="540" width="150" height="67"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="bH8-HS-dlB"/>
                                                 <constraint firstAttribute="height" constant="67" id="ygt-mk-RG9"/>
@@ -41,6 +51,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9cT-RQ-DfU">
+                                            <rect key="frame" x="25" y="540" width="150" height="67"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="67" id="4nC-iD-TeY"/>
                                                 <constraint firstAttribute="width" constant="150" id="Fnp-31-zRz"/>
@@ -54,6 +65,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TouchID" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2oa-ej-srd">
+                                            <rect key="frame" x="0.0" y="106" width="375" height="24"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
@@ -94,8 +106,10 @@
                             </constraints>
                         </scrollView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ef7-Lf-qSM" userLabel="Footer">
+                            <rect key="frame" x="0.0" y="617" width="375" height="0.0"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T2c-cL-tTn" userLabel="Red Line">
+                                    <rect key="frame" x="0.0" y="-4" width="375" height="4"/>
                                     <color key="backgroundColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="4" id="Ngf-L4-e8X"/>
@@ -106,8 +120,8 @@
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="T2c-cL-tTn" secondAttribute="trailing" id="Mcs-6n-Se8"/>
                                 <constraint firstAttribute="bottom" secondItem="T2c-cL-tTn" secondAttribute="bottom" id="WI9-T3-EkH"/>
+                                <constraint firstItem="T2c-cL-tTn" firstAttribute="top" secondItem="Ef7-Lf-qSM" secondAttribute="top" constant="-4" id="ftZ-Ag-5sd"/>
                                 <constraint firstItem="T2c-cL-tTn" firstAttribute="leading" secondItem="Ef7-Lf-qSM" secondAttribute="leading" id="qAY-xM-amI"/>
-                                <constraint firstAttribute="height" constant="33" id="tPS-uc-ZI0"/>
                             </constraints>
                         </view>
                     </subviews>

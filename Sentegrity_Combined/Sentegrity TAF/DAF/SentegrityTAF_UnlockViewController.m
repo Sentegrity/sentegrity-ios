@@ -818,6 +818,7 @@
     // Get last computation results
     Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
+    [self.textFieldPassword becomeFirstResponder];
     
     // The only preAuthenticationActions handled here are transparent, blockAndWarn,
     switch (computationResults.authenticationAction) {
@@ -983,7 +984,11 @@
         {
             
             // Since we're already on the login screen, simply show a popup message then allow user to interact with login prompt
-             [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+            });
+            
             
             break;
         }
@@ -997,7 +1002,12 @@
         {
             
             // Show message but rely on password for now
-            [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+            });
+            
+
             
             /*
             [self dismissViewControllerAnimated:NO completion:^{
@@ -1012,6 +1022,7 @@
         case authenticationAction_BlockAndWarn:
         {
             
+            
             // Login Response
             Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithBlockAndWarn:error];
             
@@ -1021,8 +1032,12 @@
             // Set history now, we already have all the info we need
             [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:error];
             
-            // TODO: Change to show denied view instead of popup box
-            [self showAlertWithTitle:@"Access Denied" andMessage:@"This device is high risk or in violation of policy, this access attempt has been denied."];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                // TODO: Change to show denied view instead of popup box
+                [self showAlertWithTitle:@"Access Denied" andMessage:@"This device is high risk or in violation of policy, this access attempt has been denied."];
+            });
+            
+           
             
             // Done
             break;
@@ -1034,6 +1049,8 @@
             break;
             
     } // Done switch preauthentication action
+    
+    
     
 }
 

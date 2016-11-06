@@ -57,7 +57,7 @@
 
     
     //ask user to use touch ID for future login
-    [touchIDManager checkForTouchIDAuthWithMessage:@"" withCallback:^(TouchIDResultType resultType, NSError *error) {
+    [touchIDManager checkForTouchIDAuthWithMessage:@"Enable TouchID for Sentegrity" withCallback:^(TouchIDResultType resultType, NSError *error) {
         
         if (resultType == TouchIDResultType_Success) {
             //create touch ID
