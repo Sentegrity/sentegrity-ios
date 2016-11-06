@@ -25,6 +25,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+  
+
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -32,6 +34,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 /*
 #pragma mark - Navigation
@@ -48,6 +52,37 @@
     
     NSError *error;
     SentegrityTAF_TouchIDManager *touchIDManager = [SentegrityTAF_TouchIDManager shared];
+
+    
+    if (![touchIDManager checkIfTouchIDIsAvailableWithError:&error]) {
+        
+        // error code == -7 ("No fingers are enrolled with Touch ID.")
+        // error code == -5 ("Passcode not set.")
+        
+        if (error.code == (-7) || error.code == (-5)) {
+            
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:error.localizedDescription
+                                                                           message:@"Open settings to configure TouchID."
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Open Settings" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                                                                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=TOUCHID_PASSCODE"]];
+                                                                  }];
+
+            
+            [alert addAction:cancelAction];
+            [alert addAction:settingsAction];
+
+            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
+            
+            return;
+        }
+    }
+    
 
     
     if (error) {

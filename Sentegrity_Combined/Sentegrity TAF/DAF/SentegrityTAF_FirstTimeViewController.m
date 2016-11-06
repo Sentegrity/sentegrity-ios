@@ -95,11 +95,19 @@ typedef enum {
     
     //after creation of password, show unlock screen or touchID if available
     else  if (lastCurrentState == CurrentStatePasswordCreation) {
-        if ([[SentegrityTAF_TouchIDManager shared] checkIfTouchIDIsAvailableWithError:nil]) {
+        NSError *error;
+        if ([[SentegrityTAF_TouchIDManager shared] checkIfTouchIDIsAvailableWithError:&error]) {
             [self showTouchIDWithResult:_result andMasterKey:info[@"masterKey"]];
         }
         else {
-            [self showUnlockWithResult:self.result];
+            // error code == -7 ("No fingers are enrolled with Touch ID.")
+            // error code == -5 ("Passcode not set.")
+
+            if (error.code == (-7) || error.code == (-5)) {
+                [self showTouchIDWithResult:_result andMasterKey:info[@"masterKey"]];
+            }
+            else
+                [self showUnlockWithResult:self.result];
         }
     }
     
