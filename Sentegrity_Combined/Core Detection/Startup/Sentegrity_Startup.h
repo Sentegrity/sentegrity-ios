@@ -85,15 +85,21 @@
 // Userand and TouchID Key Hash compared during any user auth check
 @property (nonatomic, strong) NSString* userKeyHash;
 @property (nonatomic, strong) NSString* touchIDKeyHash;
+@property (nonatomic, strong) NSString* vocalFacialIDKeyHash;
 
 
-// User and TouchID Password Encrypted Master Key Blob
+
+// User, TouchID and Vocal/Facial Password Encrypted Master Key Blob
 @property (nonatomic, strong) NSString* userKeyEncryptedMasterKeyBlobString;
 @property (nonatomic, strong) NSString* touchIDKeyEncryptedMasterKeyBlobString;
+@property (nonatomic, strong) NSString* vocalFacialKeyEncryptedMasterKeyBlobString;
 
 
 //bool value indicating if user enabled or disabled touchID
 @property (nonatomic) BOOL touchIDDisabledByUser;
+
+//bool value indicating if user enabled or disabled vocal/facial recognition
+@property (nonatomic) BOOL vocalFacialDisabledByUser;
 
 
 @end

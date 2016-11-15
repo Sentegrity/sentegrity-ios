@@ -17,6 +17,7 @@
 #import "SentegrityTAF_UnlockViewController.h"
 #import "SentegrityTAF_TouchIDManager.h"
 #import "SentegrityTAF_TouchIDPermissionViewController.h"
+#import "SentegrityTAF_VocalFacialPermissionsViewController.h"
 
 
 typedef enum {
@@ -25,16 +26,20 @@ typedef enum {
     CurrentStateAskingPermissions,
     CurrentStatePasswordCreation,
     CurrentStateTouchIDCreation,
+    CurrentStateVocalFacialCreation,
     CurrentStateUnlock,
 } CurrentState;
 
 @interface SentegrityTAF_FirstTimeViewController () <SentegrityTAF_basicProtocol>
 
+@property (nonatomic, strong) SentegrityTAF_VocalFacialPermissionsViewController *vocalFacialPermissionViewController;
 @property (strong, nonatomic) SentegrityTAF_TouchIDPermissionViewController *touchIDPermissionViewController;
 @property (strong, nonatomic) SentegrityTAF_PasswordCreationViewController *passwordCreationViewController;
 @property (strong, nonatomic) SentegrityTAF_AskPermissionsViewController *askPermissionsViewController;
 @property (strong, nonatomic) SentegrityTAF_WelcomeViewController *welcomeViewController;
 @property (nonatomic, strong) SentegrityTAF_UnlockViewController *unlockViewController;
+
+@property (nonatomic, strong) NSData *masterKey;
 
 @property (nonatomic, strong) UIViewController *currentViewController;
 
@@ -95,24 +100,31 @@ typedef enum {
     
     //after creation of password, show unlock screen or touchID if available
     else  if (lastCurrentState == CurrentStatePasswordCreation) {
+        
+        self.masterKey = info[@"masterKey"];
         NSError *error;
         if ([[SentegrityTAF_TouchIDManager shared] checkIfTouchIDIsAvailableWithError:&error]) {
-            [self showTouchIDWithResult:_result andMasterKey:info[@"masterKey"]];
+            [self showTouchIDWithResult:_result andMasterKey:self.masterKey];
         }
         else {
             // error code == -7 ("No fingers are enrolled with Touch ID.")
             // error code == -5 ("Passcode not set.")
 
             if (error.code == (-7) || error.code == (-5)) {
-                [self showTouchIDWithResult:_result andMasterKey:info[@"masterKey"]];
+                [self showTouchIDWithResult:_result andMasterKey:self.masterKey];
             }
             else
-                [self showUnlockWithResult:self.result];
+                [self showVocalFacialWithResult:_result andMasterKey:self.masterKey];
         }
     }
     
-    //after touchID  show unlock screen
+    //after touchID show vocal/facial enrollment screen
     else  if (lastCurrentState == CurrentStateTouchIDCreation) {
+        [self showVocalFacialWithResult:_result andMasterKey:self.masterKey];
+    }
+    
+    //after vocal/facial  show unlock screen
+    else  if (lastCurrentState == CurrentStateVocalFacialCreation) {
         [self showUnlockWithResult:self.result];
     }
 
@@ -180,6 +192,20 @@ typedef enum {
     self.currentViewController = touchIDPermissionVC;
 }
 
+
+- (void) showVocalFacialWithResult: (DAFWaitableResult *)result andMasterKey: (NSData *) masterKey {
+    
+    SentegrityTAF_VocalFacialPermissionsViewController *vocalFacialPermissionViewController = [[SentegrityTAF_VocalFacialPermissionsViewController alloc] init];
+    
+    vocalFacialPermissionViewController.delegate = self;
+    vocalFacialPermissionViewController.result = self.result;
+    vocalFacialPermissionViewController.decryptedMasterKey = masterKey;
+    
+    //set new screen and state
+    self.currentState = CurrentStateVocalFacialCreation;
+    self.vocalFacialPermissionViewController = vocalFacialPermissionViewController;
+    self.currentViewController = vocalFacialPermissionViewController;
+}
 
 
 - (void) showUnlockWithResult: (DAFWaitableResult *)result{

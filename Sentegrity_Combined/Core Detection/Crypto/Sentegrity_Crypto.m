@@ -237,6 +237,53 @@
     
 }
 
+- (NSData *)decryptMasterKeyUsingVocalFacialkey:(NSData *)userPBKDF2Key withError:(NSError **)error {
+
+    // Get the current startup store
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
+    
+    // Validate no errors
+    if (!startup || startup == nil) {
+        return nil;
+    }
+    
+    // Get user-encrypted master key strings from startup file
+    NSString *userKeyEncryptedMasterKeyBlobString = [startup vocalFacialKeyEncryptedMasterKeyBlobString];
+    NSString *userKeyEncryptedMasterKeySaltString = [startup userKeySaltString];
+    
+    // Decrypted Master Key Error
+    NSError *decryptedMasterKeyError;
+    
+    // Decrypted Master Key
+    NSData *decryptedMasterKey = [self decryptString:userKeyEncryptedMasterKeyBlobString withDerivedKeyData:userPBKDF2Key withSaltString:userKeyEncryptedMasterKeySaltString withError:&decryptedMasterKeyError];
+    
+    // Check if we received the error
+    if (decryptedMasterKeyError || decryptedMasterKeyError != nil) {
+        
+        // Check if the error pointer is valid
+        if (error != NULL) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting Decrypted Master Key", nil),
+                                           NSLocalizedFailureReasonErrorKey:decryptedMasterKeyError.localizedFailureReason,
+                                           NSLocalizedRecoverySuggestionErrorKey:decryptedMasterKeyError.localizedRecoverySuggestion
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetDecryptedMasterKey userInfo:errorDetails];
+        }
+        
+        // Invalid decrypted master key
+        return nil;
+    }
+    
+    // Return decrypted master key
+    return decryptedMasterKey;
+
+}
+
+
 - (NSData *)decryptMasterKeyUsingTouchIDKey:(NSData *)userPBKDF2Key withError:(NSError **)error {
     
     // Get the current startup store
@@ -528,6 +575,112 @@
     
     return newMasterKeyString;
 }
+
+- (BOOL)updateVocalFacialForExistingMasterKeyWithVocalFacialPassword:(NSString *)vocalFacialPassword withDecryptedMasterKey:(NSData *)masterKey withError:(NSError **)error {
+    
+    
+    // Get our startup file
+    Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] currentStartupStore];
+    
+    // Validate no errors
+    if (!startup || startup == nil) {
+        
+        return NO;
+    }
+    
+    // User salt data
+    NSData *userSaltData = [self convertHexStringToData:[startup userKeySaltString] withError:error];
+    
+    // Error for user derived key
+    NSError *userKeyDataError;
+    
+    // Get derived key
+    NSData *userKeyData = [self createPBKDF2KeyFromString:vocalFacialPassword withSaltData:userSaltData withRounds:[startup userKeyPBKDF2rounds] withError:&userKeyDataError];
+    
+    // Check if we received the error
+    if (userKeyDataError || userKeyDataError != nil) {
+        
+        // Check if the error pointer is valid
+        if (error != NULL) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting User Key Data", nil),
+                                           NSLocalizedFailureReasonErrorKey:userKeyDataError.localizedFailureReason,
+                                           NSLocalizedRecoverySuggestionErrorKey:userKeyDataError.localizedRecoverySuggestion
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetUserKeyData userInfo:errorDetails];
+        }
+        
+        // Invalid user key  data
+        return NO;
+    }
+    
+    // PBKDF2 hash string error
+    NSError *userKeyPBKDFHashStringError;
+    
+    // Hash the PBKDF2 output to make it smaller using SHA1
+    NSString *userKeyPBKDF2HashString = [self createSHA1HashOfData:userKeyData withError:&userKeyPBKDFHashStringError];
+    // Check if we received the error
+    if (userKeyPBKDFHashStringError || userKeyPBKDFHashStringError != nil) {
+        
+        // Check if the error pointer is valid
+        if (error != NULL) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting User Key PBKDF2 Hash String", nil),
+                                           NSLocalizedFailureReasonErrorKey:userKeyPBKDFHashStringError.localizedFailureReason,
+                                           NSLocalizedRecoverySuggestionErrorKey:userKeyPBKDFHashStringError.localizedRecoverySuggestion
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetUserKeyPBKDF2HashString userInfo:errorDetails];
+        }
+        
+        // Invalid PBKDF hash string
+        return NO;
+    }
+    
+    // Set user key pbkdf2 hash string
+    [startup setVocalFacialIDKeyHash:userKeyPBKDF2HashString];
+    
+    // User key encrypted master key blob string error
+    NSError *userKeyEncryptedMasterKeyBlobStringError;
+    
+    // Encrypt master key using newly created user key
+    NSString *userKeyEncryptedMasterKeyBlobString = [self encryptData:masterKey withDerivedKey:userKeyData withSaltData:userSaltData withError:error];
+    
+    // Check if we received the error
+    if (userKeyEncryptedMasterKeyBlobStringError || userKeyEncryptedMasterKeyBlobStringError != nil) {
+        
+        // Check if the error pointer is valid
+        if (error != NULL) {
+            
+            // Set the error details
+            NSDictionary *errorDetails = @{
+                                           NSLocalizedDescriptionKey: NSLocalizedString(@"Error in Getting User Key Encrypted Master Key Blob String", nil),
+                                           NSLocalizedFailureReasonErrorKey:userKeyEncryptedMasterKeyBlobStringError.localizedFailureReason,
+                                           NSLocalizedRecoverySuggestionErrorKey:userKeyEncryptedMasterKeyBlobStringError.localizedRecoverySuggestion
+                                           };
+            
+            // Set the error
+            *error = [NSError errorWithDomain:coreDetectionDomain code:SAUnableToGetUserKeyEncryptedMasterKeyBlobString userInfo:errorDetails];
+        }
+        
+        // Invalid user key encrypted master key blob string
+        return NO;
+    }
+    
+    // Store the encrypted key blob
+    [startup setVocalFacialKeyEncryptedMasterKeyBlobString:userKeyEncryptedMasterKeyBlobString];
+    
+    return YES;
+        
+}
+
 
 
 - (BOOL)updateTouchIDForExistingMasterKeyWithTouchIDPassword:(NSString *)touchIDPassword withDecryptedMasterKey:(NSData *)masterKey withError:(NSError **)error {

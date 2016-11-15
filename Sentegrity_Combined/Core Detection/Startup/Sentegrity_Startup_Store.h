@@ -58,6 +58,8 @@
 // first update startup with password, returns masterKeyString
 - (NSString *) updateStartupFileWithPassoword: (NSString *)password withError:(NSError **)error;
 - (void) updateStartupFileWithTouchIDPassoword: (NSString *)password masterKey: (NSData *) decryptedMasterKey withError:(NSError **)error;
+- (void) updateStartupFileWithVocalFacialPassword: (NSString *)password masterKey: (NSData *) decryptedMasterKey withError:(NSError **)error;
+
 
 - (void) updateStartupFileWithEmail:(NSString *)email withError:(NSError **)error;
 

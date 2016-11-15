@@ -40,7 +40,9 @@
 
 - (Sentegrity_LoginResponse_Object *)attemptLoginWithPassword:(NSString *)Userinput andError:(NSError **)error;
 
-- (Sentegrity_LoginResponse_Object *)attemptLoginWithTouchIDpassword:(NSString *)Userinput andError:(NSError **)error;
+- (Sentegrity_LoginResponse_Object *)attemptLoginWithTouchIDpassword:(NSString *)touchIDPassword andError:(NSError **)error;
+
+- (Sentegrity_LoginResponse_Object *)attemptLoginWithVocalFacial:(NSString *)vocalFacialPassword andError:(NSError **)error;
 
 - (Sentegrity_LoginResponse_Object *)attemptLoginWithBlockAndWarn:(NSError **)error;
 

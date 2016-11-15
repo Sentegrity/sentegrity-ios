@@ -32,9 +32,12 @@
 #import <MessageUI/MessageUI.h>
 
 #import "SentegrityTAF_TouchIDManager.h"
+#import "CaptureConfiguration.h"
+#import "CaptureViewController.h"
+#import "ILContainerView.h"
 
 
-@interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate> {
+@interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate, CaptureDelegate> {
     BOOL once;
 }
 
@@ -52,6 +55,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *textFieldPassword;
 @property (weak, nonatomic) IBOutlet UIView *viewFooter;
 @property (weak, nonatomic) IBOutlet UIView *inputContainer;
+
+@property (weak, nonatomic) IBOutlet ILContainerView *containerViewForBioID;
+
 
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonInfo;
@@ -349,8 +355,8 @@
         }];
     
     // Added for testing
-    [result setResult:decryptedMasterKeyString];
-    result = nil;
+   // [result setResult:decryptedMasterKeyString];
+    //result = nil;
 
 }
 
@@ -825,6 +831,8 @@
         case authenticationAction_TransparentlyAuthenticate:
         {
             
+            [self.textFieldPassword resignFirstResponder];
+
             // Attempt to login
             // we have no input to pass, use nil
             Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithTransparentAuthentication:error];
@@ -866,7 +874,7 @@
                             // Use the decrypted master key
                             [result setResult:decryptedMasterKeyString];
                             result = nil;
-                            [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+                           [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
                         }];
                     // Done
                     break;
@@ -894,10 +902,10 @@
         }
         case authenticationAction_TransparentlyAuthenticateAndWarn:
         {
-            // show message
+            NSLog(@"AAAA");
             
-            // Ivo, can we make the stuff that happens after this wait until the user acknowledges the popup?
-            
+            [self.textFieldPassword resignFirstResponder];
+
             
             // Attempt to login
             // we have no input to pass, use nil
@@ -917,7 +925,6 @@
                     NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
                     
                     NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:error];
-                    
                     
                     
                     
@@ -994,20 +1001,28 @@
         }
         case authenticationAction_PromptForUserVocalFacial:
         {
-            // Not implemented yet
+            // vocal facial login
+            [self tryToLoginWithVocalFacial];
             break;
         }
             
         case authenticationAction_PromptForUserVocalFacialAndWarn:
         {
             
-            // Show message but rely on password for now
-
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
-            });
+            // Show message and than call vocal facial login
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:computationResults.authenticationModuleEmployed.warnTitle
+                                                                           message:computationResults.authenticationModuleEmployed.warnDesc
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
             
-
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      [self tryToLoginWithVocalFacial];
+                                                                  }];
+            
+            
+            [alert addAction:defaultAction];
+            
+            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
             
             /*
             [self dismissViewControllerAnimated:NO completion:^{
@@ -1075,6 +1090,9 @@
     //if touchID is already configured
     if (!startup.touchIDDisabledByUser && startup.touchIDKeyEncryptedMasterKeyBlobString) {
         
+        if (loginMessage == nil)
+            loginMessage = @"";
+        
         [touchIDManager getTouchIDPasswordFromKeychainwithMessage:loginMessage withCallback:^(TouchIDResultType resultType, NSString *password, NSError *error) {
             if (resultType == TouchIDResultType_Success) {
                 
@@ -1117,6 +1135,98 @@
     }
 
 }
+
+
+#pragma mark - Vocal/Facial
+
+- (void) tryToLoginWithVocalFacial {
+    
+    [self.textFieldPassword resignFirstResponder];
+
+    
+    NSError *error;
+    Sentegrity_Startup *currentStartup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
+    
+    if (error) {
+        [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+        return;
+    }
+    
+    
+    //if vocal/facial is already configured
+    if (!currentStartup.vocalFacialDisabledByUser && currentStartup.vocalFacialKeyEncryptedMasterKeyBlobString) {
+        
+        //load Capture and put it on ILContainerview
+        CaptureConfiguration *captureConfiguration = [[CaptureConfiguration alloc] initForVerification:NO];
+        [captureConfiguration updateWithClassIDString:currentStartup.email];
+        
+        
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"CaptureViewController" bundle:nil];
+        CaptureViewController *viewController = [storyboard instantiateInitialViewController];
+        
+        // Set captureConfiguration to the CaptureViewController
+        viewController.configuration = captureConfiguration;
+        
+        // Set callback to self
+        viewController.callback = self;
+        
+        self.containerViewForBioID.currentViewController = self;
+        self.containerViewForBioID.childViewController = viewController;
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.containerViewForBioID.alpha = 1.0;
+        }];
+    }
+}
+
+// Implement the biometricTaskFinished function to receive the result if the biometric task finished
+- (void)biometricTaskFinished:(CaptureConfiguration *)data withSuccess:(BOOL)success {
+    
+    NSError *error;
+    
+    //out animation
+    [UIView animateWithDuration:0.3 animations:^{
+        self.containerViewForBioID.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.containerViewForBioID.childViewController = nil;
+    }];
+    
+    //to avoid multiple calling
+    [(CaptureViewController *)self.containerViewForBioID.childViewController setCallback:nil];
+    
+    // HERE you get the result of the biometric task from the CaptureViewController
+    if (success && !data.performEnrollment) {
+        
+#warning just for demo (insecure)
+        NSString *fakePassword = @"FakePassword";
+
+        
+        Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
+        
+        Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithVocalFacial:fakePassword andError:&error];
+        
+        // Set the authentication response code
+        computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
+        
+        // Set history now, we already have all the info we need
+        [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:&error];
+        
+        // Success and recoverable errors operate the same since we still managed to get a decrypted master key
+        if(computationResults.authenticationResult == authenticationResult_Success || computationResults.authenticationResult == authenticationResult_recoverableError ) {
+            
+            // Now we can pass the key to the GD runtime
+            NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+            
+            NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:&error];
+            
+            [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+        }
+        else {
+            [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
+        }
+    }
+}
+
 
 
 #pragma mark - Mail Compose Delegate

@@ -239,6 +239,27 @@
 }
 
 
+- (void) updateStartupFileWithVocalFacialPassword: (NSString *)password masterKey: (NSData *) decryptedMasterKey withError:(NSError **)error {
+    
+    //load startup file
+    [self getStartupStore:error];
+    if (*error)
+        return;
+    
+    
+    // Generate and store touchID key hash and touchID key encrypted master key blob
+    [[Sentegrity_Crypto sharedCrypto] updateVocalFacialForExistingMasterKeyWithVocalFacialPassword:password withDecryptedMasterKey:decryptedMasterKey withError:error];
+    
+    if (*error)
+        return;
+    
+    // Save the store
+    [self setStartupStoreWithError:error];
+
+}
+
+
+
 - (void) updateStartupFileWithTouchIDPassoword: (NSString *)password masterKey: (NSData *) decryptedMasterKey withError:(NSError **)error {
     
     //load startup file
