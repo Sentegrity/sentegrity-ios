@@ -164,28 +164,40 @@
         return nil;
     }
     
-    // DEBUG
+    // DEBUG lists attached Per-Class
     NSMutableArray *trustFactorsNotLearnedInClass;
     NSMutableArray *trustFactorsAttributingToScoreInClass;
     NSMutableArray *trustFactorsWithErrorsInClass;
     
     // Per-Class TrustFactor sorting
     NSMutableArray *trustFactorsInClass;
-    NSMutableArray *subClassesInClass;
+    NSMutableArray *subClassesInClass; //User for score computation later
     NSMutableArray *trustFactorsToWhitelistInClass;
     NSMutableArray *trustFactorsForTransparentAuthInClass;
     
+    // Per-Class list of subClassResultObjects
+    NSMutableArray *subClassResultObjectsInClass;
+    
     // Per-Subclass TrustFactor sorting
     NSMutableArray *trustFactorsInSubClass;
+
     
-    // Overview Messages
-    NSMutableArray *statusInClass;
-    NSMutableArray *issuesInClass;
-    NSMutableArray *suggestionsInClass;
-    NSMutableArray *dynamicTwoFactorsInClass; // for user classes only
+    // Per-Subclass issue/suggestion reporting
+    NSMutableArray *trustFactorSuggestionsInSubClass;
+    NSMutableArray *trustFactorIssuesInSubClass;
     
-    // Determining errors
+    // Per-Subclass  errors
     NSMutableArray *subClassDNECodes;
+    
+    // Per-Subclass indicators
+    // Used to avoid creating a subclass result object if no TFs existed in it
+    BOOL subClassContainsTrustFactor;
+    
+    // Determines if any error existed in any TF within the subclass
+    BOOL subClassAnalysisIncomplete;
+    
+    // Determines if all of the trustfactors in the subclass are learned
+    BOOL subClassIsFullyLearned;
     
     
     // For each classification in the policy
@@ -196,6 +208,9 @@
         subClassesInClass = [NSMutableArray array];
         trustFactorsToWhitelistInClass = [NSMutableArray array];
         
+        // Per-Class list of subClassResultObjects
+        subClassResultObjectsInClass = [NSMutableArray array];
+        
         // Transparent auth
         trustFactorsForTransparentAuthInClass = [NSMutableArray array];
         
@@ -204,27 +219,30 @@
         trustFactorsAttributingToScoreInClass = [NSMutableArray array];
         trustFactorsWithErrorsInClass = [NSMutableArray array];
         
-        //GUI
-        statusInClass = [NSMutableArray array];
-        issuesInClass = [NSMutableArray array];
-        suggestionsInClass = [NSMutableArray array];
-        dynamicTwoFactorsInClass = [NSMutableArray array];
-        
         // Run through all the subclassifications that are in the policy
         for (Sentegrity_Subclassification *subClass in policy.subclassifications) {
             
             // Zero out subclass score for each classification
             subClass.score = 0;
+            subClass.totalPossibleScore = 0;
             
             // Per-Subclass TrustFactor sorting
             trustFactorsInSubClass = [NSMutableArray array];
             
-            BOOL subClassContainsTrustFactor=NO;
+            // Per-Subclass issues/suggestions
+            trustFactorIssuesInSubClass = [NSMutableArray array];
+            trustFactorSuggestionsInSubClass = [NSMutableArray array];
+            
+            // Used to avoid creating a subclass result object if no TFs existed in it
+            subClassContainsTrustFactor=NO;
             
             // Determines if any error existed in any TF within the subclass
-            BOOL subClassAnalysisIncomplete=NO;
+            subClassAnalysisIncomplete=NO;
             
-            // Determines which errors occured inside a subclass
+            // Determines if all of the trustfactors in the subclass are learned
+            subClassIsFullyLearned=YES;
+            
+            // Keep list of all errors occured inside a subclass
             subClassDNECodes = [NSMutableArray array];
             
             // Run through all trustfactors
@@ -233,8 +251,11 @@
                 // Check if the TF class id and subclass id match (we may have no TFs in the current subclass otherwise)
                 if (([trustFactorOutputObject.trustFactor.classID intValue] == [[class identification] intValue]) && ([trustFactorOutputObject.trustFactor.subClassID intValue] == [[subClass identification] intValue])) {
                     
-                    //Check for hit
+                    //At least one TF exists in this subclass
                     subClassContainsTrustFactor=YES;
+                    
+                    // Add the total possible for this TF to the subclass tally
+                    subClass.totalPossibleScore = subClass.totalPossibleScore + [trustFactorOutputObject.trustFactor.weight integerValue];
                     
                     // Ignores TFs that have no output,not learned, etc determined during baseline analysis
                     if(trustFactorOutputObject.forComputation==YES){
@@ -244,6 +265,9 @@
                             
                             // Do not count TF if its not learned yet
                             if(trustFactorOutputObject.storedTrustFactorObject.learned==NO){
+                                
+                                // Update, to be used during gui object creation and reflected in status
+                                subClassIsFullyLearned=NO;
                                 
                                 // We still want to add assertions to the store while its in learning mode
                                 [trustFactorsToWhitelistInClass addObject:trustFactorOutputObject];
@@ -257,14 +281,14 @@
                             
                             if(trustFactorOutputObject.matchFound==YES){
                                 
+
                                 // If the computation method is 1 (additive score) (e.g., only User anomaly uses this)
                                 if([[class computationMethod] intValue]==1){
                                     
 
-                                    
                                     //Add  TF to attributing list
                                     [trustFactorsAttributingToScoreInClass addObject:trustFactorOutputObject];
-                                    
+                                
                                     
                                     // Determine if the TF should apply partial weight or full weight
                                     if([trustFactorOutputObject.trustFactor.partialWeight intValue]==1){
@@ -278,7 +302,7 @@
                                         trustFactorOutputObject.appliedWeight = partialWeight;
                                         trustFactorOutputObject.percentAppliedWeight = percent;
                                         
-                                        // apply issues and suggestions even though there was a match if the partial weight is very low comparatively such tht the user knows how to improve score
+                                        // apply issues and suggestions even though there was a match if the partial weight is very low comparatively such that the user knows how to improve score
                                         
                                         if(partialWeight < (trustFactorOutputObject.trustFactor.weight.integerValue * 0.25)){
                                             
@@ -287,10 +311,10 @@
                                             if(trustFactorOutputObject.trustFactor.lowConfidenceIssueMessage.length != 0)
                                             {
                                                 // Check if we already have the issue in the our list
-                                                if(![issuesInClass containsObject:trustFactorOutputObject.trustFactor.lowConfidenceIssueMessage]){
+                                                if(![trustFactorIssuesInSubClass containsObject:trustFactorOutputObject.trustFactor.lowConfidenceIssueMessage]){
                                                     
                                                     // Add it
-                                                    [issuesInClass addObject:trustFactorOutputObject.trustFactor.lowConfidenceIssueMessage];
+                                                    [trustFactorIssuesInSubClass addObject:trustFactorOutputObject.trustFactor.lowConfidenceIssueMessage];
                                                 }
                                             }
                                             
@@ -298,17 +322,16 @@
                                             if(trustFactorOutputObject.trustFactor.lowConfidenceSuggestionMessage.length != 0)
                                             {
                                                 // Check if the we already have the issue in our list
-                                                if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.lowConfidenceSuggestionMessage]){
+                                                if(![trustFactorSuggestionsInSubClass containsObject:trustFactorOutputObject.trustFactor.lowConfidenceSuggestionMessage]){
                                                     
                                                     // Add it
-                                                    [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.lowConfidenceSuggestionMessage];
+                                                    [trustFactorSuggestionsInSubClass addObject:trustFactorOutputObject.trustFactor.lowConfidenceSuggestionMessage];
                                                 }
                                             }
                                         }
                                         
-                                        /* 
+                                        /*
                                          * Transparent Auth Elections
-                                         * Partial weight rules
                                          */
                                         
                                         if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
@@ -320,40 +343,11 @@
                                                 // Add TF to transparent auth list
                                                 [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
                                                 
-                                                // If this is a bluetooth or wifi add it to dynamic two factor GUI list
-                                                // 2 = WiFi, 8=Bluetooth
-                                                if(trustFactorOutputObject.trustFactor.subClassID.integerValue == 2 || trustFactorOutputObject.trustFactor.subClassID.integerValue == 8 || trustFactorOutputObject.trustFactor.subClassID.integerValue == 6){
-                                                    
-                                                    // Use the dispatch name to avoid subclass lookup
-                                                    NSString *name = [trustFactorOutputObject.trustFactor.dispatch stringByAppendingString:@" authentication"];
-                                                    
-                                                    // Check if the we already have the dynamicTwoFactor in our list
-                                                    
-                                                    if (![dynamicTwoFactorsInClass containsObject:name]) {
-                                                        
-                                                        // Make sure the array is not nil!
-                                                        if (!dynamicTwoFactorsInClass || dynamicTwoFactorsInClass.count < 1) {
-                                                            
-                                                            // Add it to the array and instantiate the array
-                                                            dynamicTwoFactorsInClass = [NSMutableArray arrayWithObject:name];
-                                                            
-                                                        } else {
-                                                            
-                                                            // Add it to the array
-                                                            [dynamicTwoFactorsInClass addObject:name];
-                                                        }
-                                                        
-                                                    }
-                                                    
-                                                } // End if WiFi or Bluetooth dynamicTwoFactor
-
-                                                   
-                                                   
-                                           // }
                                         }
   
 
-                                    }else{
+                                    }else{ //end partial weight calculation
+                                        
                                         
                                         
                                         /*
@@ -366,32 +360,6 @@
                                         if(trustFactorOutputObject.trustFactor.transparentEligible.intValue == 1){
                                             [trustFactorsForTransparentAuthInClass addObject:trustFactorOutputObject];
                                             
-                                            // If this is a bluetooth or wifi add it to dynamic two factor GUI list
-                                            // 2 = WiFi, 8=Bluetooth
-                                            if(trustFactorOutputObject.trustFactor.subClassID.integerValue == 2 || trustFactorOutputObject.trustFactor.subClassID.integerValue == 8){
-                                                
-                                                // Use the dispatch name to avoid subclass lookup
-                                                NSString *name = [trustFactorOutputObject.trustFactor.dispatch stringByAppendingString:@" authentication"];
-                                                
-                                                // Check if the we already have the dynamicTwoFactor in our list
-                                                
-                                                if (![dynamicTwoFactorsInClass containsObject:name]) {
-                                                    
-                                                    // Make sure the array is not nil!
-                                                    if (!dynamicTwoFactorsInClass || dynamicTwoFactorsInClass.count < 1) {
-                                                        
-                                                        // Add it to the array and instantiate the array
-                                                        dynamicTwoFactorsInClass = [NSMutableArray arrayWithObject:name];
-                                                        
-                                                    } else {
-                                                        
-                                                        // Add it to the array
-                                                        [dynamicTwoFactorsInClass addObject:name];
-                                                    }
-                                                    
-                                                }
-                                                
-                                            } // End if WiFi or Bluetooth dynamicTwoFactor
                                             
                                         }
                                         
@@ -408,6 +376,7 @@
                                 }else{
                                     
                                     // Computation method of 0 (subtractive score) does nothing when a match is found
+                                    
                                 }
                                 
                                 
@@ -468,10 +437,10 @@
                                 if(trustFactorOutputObject.trustFactor.notFoundIssueMessage.length != 0)
                                 {
                                     // Check if we already have the issue in the our list
-                                    if(![issuesInClass containsObject:trustFactorOutputObject.trustFactor.notFoundIssueMessage]){
+                                    if(![trustFactorIssuesInSubClass containsObject:trustFactorOutputObject.trustFactor.notFoundIssueMessage]){
                                         
                                         // Add it
-                                        [issuesInClass addObject:trustFactorOutputObject.trustFactor.notFoundIssueMessage];
+                                        [trustFactorIssuesInSubClass addObject:trustFactorOutputObject.trustFactor.notFoundIssueMessage];
                                     }
                                 }
                                 
@@ -479,10 +448,10 @@
                                 if(trustFactorOutputObject.trustFactor.notFoundSuggestionMessage.length != 0)
                                 {
                                     // Check if the we already have the issue in our list
-                                    if(![suggestionsInClass containsObject:trustFactorOutputObject.trustFactor.notFoundSuggestionMessage]){
+                                    if(![trustFactorSuggestionsInSubClass containsObject:trustFactorOutputObject.trustFactor.notFoundSuggestionMessage]){
                                         
                                         // Add it
-                                        [suggestionsInClass addObject:trustFactorOutputObject.trustFactor.notFoundSuggestionMessage];
+                                        [trustFactorSuggestionsInSubClass addObject:trustFactorOutputObject.trustFactor.notFoundSuggestionMessage];
                                     }
                                 }
                                 
@@ -505,18 +474,19 @@
                             // If a user TrustFactor than only add suggestions, no weight is applied (since that would boost the score)
                             if ([[class computationMethod] intValue]==1){
                                 
-                                [self addSuggestionsForClass:class withSubClass:subClass withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
+                                [self addSuggestionsForSubClass:subClass withSuggestions:trustFactorSuggestionsInSubClass forTrustFactorOutputObject:trustFactorOutputObject];
                                 
                             }
-                            // Record messages AND apply modified DNE penalty (SYSTEM classes only)
+                            // Record suggetions AND apply modified DNE penalty (SYSTEM classes only)
                             else if([[class computationMethod] intValue]==0)
                             {
                                 
                                 // Do not penalize for WiFi rules that did not run within system-based classifications
                                 // This is because WiFi is considered dangerous from a system perspective and should not penalize
-                                if ([[class type] intValue]!=0 && ![subClass.name isEqualToString:@"WiFi"]) {
+                                if ([[class type] intValue]!=0 && ![subClass.name containsString:@"WiFi"]) {
                                     
-                                    [self addSuggestionsAndCalcWeightForClass:class withSubClass:subClass withPolicy:policy withSuggestions:suggestionsInClass forTrustFactorOutputObject:trustFactorOutputObject];
+                                    [self addSuggestionsAndCalcWeightForSubClass:subClass withPolicy:policy withSuggestions:trustFactorSuggestionsInSubClass forTrustFactorOutputObject:trustFactorOutputObject];
+                                    
                                 }
                                 
                                 
@@ -537,57 +507,105 @@
                     
                 }
                 // End trustfactors loop
-            }
+                
+                
+            } // End subclass loop
             
-            // Create Analysis category list for output
+
+            
             // If any trustFactors existed within this subClass
             if(subClassContainsTrustFactor) {
                 
+                // Create a subclass result object
+                Sentegrity_SubClassResult_Object *subClassResultObject = [[Sentegrity_SubClassResult_Object alloc] init];
+                
+                // Determine level of trust in the subclass by dividing current amount by total possible
+                int percentOfTrust;
+                
+                // Should always be > 0 otherwise must be a policy error
+                if(subClass.totalPossibleScore > 0){
+                    percentOfTrust = subClass.score / subClass.totalPossibleScore;
+                }
+                else{
+                    percentOfTrust = 0;
+                }
+                
+                // If the class we are in does not score additively we need to subtract from 1 to get the real trust %
+                if([[class computationMethod] intValue]!=1){
+                    percentOfTrust = 1 - percentOfTrust;
+                }
+                
+                
+                // Set stuff we already know
+                [subClassResultObject setClassID:class.identification];
+                [subClassResultObject setSubClassID:subClass.identification];
+                [subClassResultObject setSubClassTitle:subClass.name];
+                [subClassResultObject setSubClassExplanation:subClass.explanation];
+                [subClassResultObject setSubClassSuggestion:subClass.suggestion];
+                [subClassResultObject setTrustPercent:percentOfTrust];
+                
+                // Add issues and suggestions gathered from trustFactors iterated within this subclass
+                [subClassResultObject setTrustFactorIssuesInSubClass:trustFactorIssuesInSubClass];
+                [subClassResultObject setTrustFactorSuggestionInSubClass:trustFactorSuggestionsInSubClass];
+                
+                // Save all error codes
+                [subClassResultObject setDNEErrorCodes:subClassDNECodes];
+                
                 // No errors, update analysis message with subclass complete
                 if(!subClassAnalysisIncomplete) {
-                    [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check complete"]];
+                    
+                    // Check if TFs didnt run because they were not learned yet to ensure we don't call it trusted
+                    if(subClassIsFullyLearned==YES){
+                        [subClassResultObject setSubClassStatusText:@"Complete"];
+                    }
+                    else{
+                        // set status to still learning and untrusted
+                        [subClassResultObject setSubClassStatusText:@"Learning"];
+                    }
+
                     
                     // Subclass contains TFs with issues, identify which, if there are multiple the first (higher priority one is used)
                 } else {
                     
+                    
                     if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_disabled]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check disabled"]];
-                        
+                        [subClassResultObject setSubClassStatusText:@"Disabled"];
+
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_nodata]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check complete"]];
+                        [subClassResultObject setSubClassStatusText:@"Complete"];
                         
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_unauthorized]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check unauthorized"]];
-                        
+                        [subClassResultObject setSubClassStatusText:@"Unauthorized"];
+
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_expired]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check expired"]];
+                        [subClassResultObject setSubClassStatusText:@"Expired"];
                         
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_unsupported]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check unsupported"]];
+                        [subClassResultObject setSubClassStatusText:@"Unsupported"];
                         
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_unavailable]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check unavailable"]];
+                        [subClassResultObject setSubClassStatusText:@"Unavailable"];
                         
                     }
                     else if([subClassDNECodes containsObject:[NSNumber numberWithInt:DNEStatus_invalid]]){
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check invalid"]];
+                        [subClassResultObject setSubClassStatusText:@"Invalid"];
                         
                     }
                     else{
                         
-                        [statusInClass addObject:[NSString stringWithFormat:@"%@ %@", subClass.name, @"check error"]];
+                        [subClassResultObject setSubClassStatusText:@"Error"];
                     }
                     
                 }
@@ -604,6 +622,9 @@
                 
                 // Add the subclass to list of subclasses in class
                 [subClassesInClass addObject:subClass];
+                
+                // Add the subClassResultObjects to the class
+                [subClassResultObjectsInClass addObject:subClassResultObject];
             }
             
             // End subclassifications loop
@@ -622,10 +643,7 @@
         [class setTrustFactorsForTransparentAuthentication:trustFactorsForTransparentAuthInClass];
         
         // Set GUI elements
-        [class setStatus: statusInClass];
-        [class setIssues: issuesInClass];
-        [class setSuggestions: suggestionsInClass];
-        [class setDynamicTwoFactors:dynamicTwoFactorsInClass];
+        [class setSubClassResultObjects:subClassResultObjectsInClass];
         
         // Set debug elements
         [class setTrustFactorsNotLearned:trustFactorsNotLearnedInClass];
@@ -642,16 +660,11 @@
     
     //computationResults.policy = policy;
     
-    // GUI Messages - System
-    NSMutableSet *systemIssues = [[NSMutableSet alloc] init];
-    NSMutableSet *systemSuggestions = [[NSMutableSet alloc] init];
-    NSMutableSet *systemSubClassStatuses = [[NSMutableSet alloc] init];
+    // GUI subClassResultObjects - System
+    NSMutableSet *systemSubClassResultObjects = [[NSMutableSet alloc] init];
     
-    // GUI Messages - User
-    NSMutableSet *userIssues = [[NSMutableSet alloc] init];
-    NSMutableSet *userSuggestions = [[NSMutableSet alloc] init];
-    NSMutableSet *userSubClassStatuses = [[NSMutableSet alloc] init];
-    NSMutableSet *userDynamicTwoFactors = [[NSMutableSet alloc] init];
+    // GUI subClassResultObjects - User
+    NSMutableSet *userSubClassResultObjects = [[NSMutableSet alloc] init];
     
     // TrustFactor Sorting - System
     NSMutableArray *systemTrustFactorsAttributingToScore = [[NSMutableArray alloc] init];
@@ -725,9 +738,7 @@
             }
             
             // Tally system GUI elements
-            [systemIssues addObjectsFromArray:[class issues]];
-            [systemSuggestions addObjectsFromArray:[class suggestions]];
-            [systemSubClassStatuses addObjectsFromArray:[class status]];
+            [systemSubClassResultObjects addObjectsFromArray:[class subClassResultObjects]];
             
             // Tally system debug data
             [systemTrustFactorsAttributingToScore addObjectsFromArray:[class trustFactorsTriggered]];
@@ -780,10 +791,8 @@
             }
             
             // Tally user GUI elements
-            [userIssues addObjectsFromArray:[class issues]];
-            [userSuggestions addObjectsFromArray:[class suggestions]];
-            [userSubClassStatuses addObjectsFromArray:[class status]];
-            [userDynamicTwoFactors addObjectsFromArray:[class dynamicTwoFactors]];
+            // Tally user GUI elements
+            [userSubClassResultObjects addObjectsFromArray:[class subClassResultObjects]];
             
             // Tally user debug data
             [userTrustFactorsAttributingToScore addObjectsFromArray:[class trustFactorsTriggered]];
@@ -800,16 +809,11 @@
     }
     
     // Set GUI messages (system)
-    computationResults.systemIssues = [systemIssues allObjects];
-    computationResults.systemSuggestions = [systemSuggestions allObjects];
-    computationResults.systemAnalysisResults = [systemSubClassStatuses allObjects];
-    
+    computationResults.systemSubClassResultObjects = [systemSubClassResultObjects allObjects];
+
     // Set GUI messages (user)
-    computationResults.userIssues = [userIssues allObjects];
-    computationResults.userSuggestions = [userSuggestions allObjects];
-    computationResults.userAnalysisResults = [userSubClassStatuses allObjects];
-    computationResults.userDynamicTwoFactors = [userDynamicTwoFactors allObjects];
-    
+    computationResults.userSubClassResultObjects = [userSubClassResultObjects allObjects];
+
     // Set transparent authentication list
     computationResults.transparentAuthenticationTrustFactorOutputObjects = allTrustFactorsForTransparentAuthentication;
     
@@ -863,7 +867,7 @@
 #pragma mark - Private Helper Methods
 
 
-+ (void)addSuggestionsForClass:(Sentegrity_Classification *)class withSubClass:(Sentegrity_Subclassification *)subClass withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
++ (void)addSuggestionsForSubClass:(Sentegrity_Subclassification *)subClass withSuggestions:(NSMutableArray *)suggestionsInSubClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
     
     // This is really only for inverse rules, thus we only cover a couple DNE errors
     
@@ -874,8 +878,8 @@
             // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneUnauthorized.length != 0)
             {   //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
-                    [suggestionsInClass addObject:subClass.dneUnauthorized];
+                if(![suggestionsInSubClass containsObject:subClass.dneUnauthorized]){
+                    [suggestionsInSubClass addObject:subClass.dneUnauthorized];
                 }
             }
         case DNEStatus_disabled:
@@ -884,8 +888,8 @@
             // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneDisabled.length != 0)
             {   //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneDisabled]){
-                    [suggestionsInClass addObject:subClass.dneDisabled];
+                if(![suggestionsInSubClass containsObject:subClass.dneDisabled]){
+                    [suggestionsInSubClass addObject:subClass.dneDisabled];
                 }
             }
             break;
@@ -895,8 +899,8 @@
             // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneExpired.length != 0)
             {   //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneExpired]){
-                    [suggestionsInClass addObject:subClass.dneExpired];
+                if(![suggestionsInSubClass containsObject:subClass.dneExpired]){
+                    [suggestionsInSubClass addObject:subClass.dneExpired];
                 }
             }
             break;
@@ -906,8 +910,8 @@
             // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneNoData.length != 0)
             {   //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneNoData]){
-                    [suggestionsInClass addObject:subClass.dneNoData];
+                if(![suggestionsInSubClass containsObject:subClass.dneNoData]){
+                    [suggestionsInSubClass addObject:subClass.dneNoData];
                 }
             }
             break;
@@ -917,8 +921,8 @@
             // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneInvalid.length != 0)
             {   //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneInvalid]){
-                    [suggestionsInClass addObject:subClass.dneInvalid];
+                if(![suggestionsInSubClass containsObject:subClass.dneInvalid]){
+                    [suggestionsInSubClass addObject:subClass.dneInvalid];
                 }
             }
             break;
@@ -929,7 +933,7 @@
 }
 
 // Calculates penalty and adds suggestions
-+ (void)addSuggestionsAndCalcWeightForClass:(Sentegrity_Classification *)class withSubClass:(Sentegrity_Subclassification *)subClass withPolicy:(Sentegrity_Policy *)policy withSuggestions:(NSMutableArray *)suggestionsInClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
++ (void)addSuggestionsAndCalcWeightForSubClass:(Sentegrity_Subclassification *)subClass withPolicy:(Sentegrity_Policy *)policy withSuggestions:(NSMutableArray *)suggestionsInSubClass forTrustFactorOutputObject:(Sentegrity_TrustFactor_Output_Object *)trustFactorOutputObject{
     
     // Create an int to hold the dnePenalty multiplied by the modifier
     double penaltyMod = 0;
@@ -949,8 +953,8 @@
             // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneUnauthorized.length!= 0) {
                 //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneUnauthorized]){
-                    [suggestionsInClass addObject:subClass.dneUnauthorized];
+                if(![suggestionsInSubClass containsObject:subClass.dneUnauthorized]){
+                    [suggestionsInSubClass addObject:subClass.dneUnauthorized];
                 }
             }
             
@@ -965,8 +969,8 @@
             if(subClass.dneUnsupported.length!= 0) {
                 
                 //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneUnsupported]){
-                    [suggestionsInClass addObject:subClass.dneUnsupported];
+                if(![suggestionsInSubClass containsObject:subClass.dneUnsupported]){
+                    [suggestionsInSubClass addObject:subClass.dneUnsupported];
                 }
             }
             break;
@@ -980,8 +984,8 @@
             if(subClass.dneUnavailable.length!= 0) {
                 
                 // Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneUnavailable]){
-                    [suggestionsInClass addObject:subClass.dneUnavailable];
+                if(![suggestionsInSubClass containsObject:subClass.dneUnavailable]){
+                    [suggestionsInSubClass addObject:subClass.dneUnavailable];
                 }
             }
             break;
@@ -994,8 +998,8 @@
             // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneDisabled.length!= 0)
             {   //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneDisabled]){
-                    [suggestionsInClass addObject:subClass.dneDisabled];
+                if(![suggestionsInSubClass containsObject:subClass.dneDisabled]){
+                    [suggestionsInSubClass addObject:subClass.dneDisabled];
                 }
             }
             break;
@@ -1008,8 +1012,8 @@
             // Check if subclass contains custom suggestion for the current error code
             if(subClass.dneNoData.length!= 0)
             {   //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneNoData]){
-                    [suggestionsInClass addObject:subClass.dneNoData];
+                if(![suggestionsInSubClass containsObject:subClass.dneNoData]){
+                    [suggestionsInSubClass addObject:subClass.dneNoData];
                 }
             }
             
@@ -1024,8 +1028,8 @@
             if(subClass.dneExpired.length!= 0) {
                 
                 //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneExpired]){
-                    [suggestionsInClass addObject:subClass.dneExpired];
+                if(![suggestionsInSubClass containsObject:subClass.dneExpired]){
+                    [suggestionsInSubClass addObject:subClass.dneExpired];
                 }
             }
             
@@ -1039,8 +1043,8 @@
             if(subClass.dneInvalid.length!= 0) {
                 
                 //Does suggestion already exist?
-                if(![suggestionsInClass containsObject:subClass.dneInvalid]){
-                    [suggestionsInClass addObject:subClass.dneInvalid];
+                if(![suggestionsInSubClass containsObject:subClass.dneInvalid]){
+                    [suggestionsInSubClass addObject:subClass.dneInvalid];
                 }
             }
             

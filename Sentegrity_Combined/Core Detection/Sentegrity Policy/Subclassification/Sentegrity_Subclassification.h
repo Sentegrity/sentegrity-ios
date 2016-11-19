@@ -12,6 +12,8 @@
 
 @property (nonatomic, retain) NSNumber *identification;
 @property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *explanation;
+@property (nonatomic, retain) NSString *suggestion;
 @property (nonatomic, retain) NSString *dneUnauthorized;
 @property (nonatomic, retain) NSString *dneUnsupported;
 @property (nonatomic, retain) NSString *dneUnavailable;

@@ -68,6 +68,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Sentegrity uses your device camera during facial recognition.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>test</string>
 	<key>NSLocationUsageDescription</key>

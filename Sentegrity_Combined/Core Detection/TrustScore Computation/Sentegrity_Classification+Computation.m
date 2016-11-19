@@ -26,12 +26,12 @@ NSString const *trustFactorsForTransparentAuthenticationKey = @"Sentegrity.trust
 NSString const *trustFactorsTriggeredKey = @"Sentegrity.trustFactorsTriggered";
 NSString const *trustFactorsNotLearnedKey = @"Sentegrity.trustFactorsNotLearned";
 NSString const *trustFactorsWithErrorsKey = @"Sentegrity.trustFactorsWithErrors";
+NSString const *trustFactorsIssuesKey = @"Sentegrity.trustFactorIssues";
+NSString const *trustFactorsSuggestionsKey = @"Sentegrity.trustFactorSuggestions";
+NSString const *trustFactorsStatusKey = @"Sentegrity.trustFactorStatus";
 
 // GUI messages
-NSString const *issuesKey = @"Sentegrity.issues";
-NSString const *suggestionsKey = @"Sentegrity.suggestions";
-NSString const *statusKey = @"Sentegrity.status";
-NSString const *dynamicTwoFactorsKey = @"Sentegrity.dynamicTwoFactors";
+NSString const *subClassResultObjectsKey = @"Sentegrity.subClassResultObjects";
 
 
 // Classification score
@@ -113,40 +113,14 @@ NSString const *dynamicTwoFactorsKey = @"Sentegrity.dynamicTwoFactors";
     return objc_getAssociatedObject(self, &trustFactorsWithErrorsKey);
 }
 
-// Issues
-- (void)setIssues:(NSArray *)issues{
-    objc_setAssociatedObject(self, &issuesKey, issues, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+// SubClassResultObjects, one object per subclass that is used within this class
+- (void)setSubClassResultObjects:(NSArray *)subClassResultObjects{
+    objc_setAssociatedObject(self, &subClassResultObjectsKey, subClassResultObjects, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSArray *)issues {
-    return objc_getAssociatedObject(self, &issuesKey);
-}
-
-// Suggestion
-- (void)setSuggestions:(NSArray *)suggestions{
-    objc_setAssociatedObject(self, &suggestionsKey, suggestions, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSArray *)suggestions {
-    return objc_getAssociatedObject(self, &suggestionsKey);
-}
-
-// Status
-- (void)setStatus:(NSArray *)status{
-    objc_setAssociatedObject(self, &statusKey, status, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSArray *)status {
-    return objc_getAssociatedObject(self, &statusKey);
-}
-
-// Authenticators
-- (void)setDynamicTwoFactors:(NSArray *)dynamicTwoFactors{
-    objc_setAssociatedObject(self, &dynamicTwoFactorsKey, dynamicTwoFactors, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (NSArray *)dynamicTwoFactors {
-    return objc_getAssociatedObject(self, &dynamicTwoFactorsKey);
+- (NSArray *)subClassResultObjects {
+    return objc_getAssociatedObject(self, &subClassResultObjectsKey);
 }
 
 @end

@@ -12,6 +12,7 @@
 
 @implementation Sentegrity_Subclassification (Computation)
 NSString const *totalScoreKey = @"Sentegrity.score";
+NSString const *totalPossibleScoreKey = @"Sentegrity.totalPossibleScore";
 NSString const *subClassificationsKey = @"Sentegrity.subClassifications";
 NSString const *trustFactorsKey = @"Sentegrity.trustFactors";
 
@@ -26,6 +27,19 @@ NSString const *trustFactorsKey = @"Sentegrity.trustFactors";
     NSNumber *totalScore = objc_getAssociatedObject(self, &totalScoreKey);
     return [totalScore integerValue];
 }
+
+// Subclass Total Possible Score
+
+- (void)setTotalPossibleScore:(NSInteger)totalPossibleScore {
+    NSNumber *totalPossible = [NSNumber numberWithInteger:totalPossibleScore];
+    objc_setAssociatedObject(self, &totalPossibleScoreKey, totalPossible, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSInteger)totalPossibleScore {
+    NSNumber *totalPossibleScore = objc_getAssociatedObject(self, &totalPossibleScoreKey);
+    return [totalPossibleScore integerValue];
+}
+
 
 // TrustFactors
 

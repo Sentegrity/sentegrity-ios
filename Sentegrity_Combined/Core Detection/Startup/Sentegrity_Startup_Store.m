@@ -519,21 +519,12 @@
     [runHistoryObject setTrustScore:computationResults.deviceScore];
     [runHistoryObject setUserScore:computationResults.userScore];
 
+    // systemSubClassResultObjects from GUI
+    [runHistoryObject setSystemSubClassResultObjects:computationResults.systemSubClassResultObjects];
+    [runHistoryObject setUserSubClassResultObjects:computationResults.userSubClassResultObjects];
     
-    // Issues from GUI
-    [runHistoryObject setSystemIssues:computationResults.systemIssues];
-    [runHistoryObject setUserIssues:computationResults.userIssues];
-    
-    // Sub category results (e.g., WiFi, Celluar, Motion, etc)
-    [runHistoryObject setSystemAnalysisResults:computationResults.systemAnalysisResults];
-    [runHistoryObject setUserAnalysisResults:computationResults.userAnalysisResults];
-
-    // User suggestion messages
-    [runHistoryObject setSystemSuggestions:computationResults.systemSuggestions];
-    [runHistoryObject setUserSuggestions:computationResults.userSuggestions];
 
 
-    
     // Check if the startup file already has an array of history objects
     if (!startup.runHistoryObjects || startup.runHistoryObjects.count < 1) {
         

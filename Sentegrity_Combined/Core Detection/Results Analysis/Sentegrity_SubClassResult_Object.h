@@ -1,0 +1,42 @@
+//
+//  Sentegrity_TrustFactor_Datasets.h
+//  Sentegrity
+//
+//  Copyright (c) 2016 Sentegrity. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface Sentegrity_SubClassResult_Object : NSObject
+
+// Parent class ID (for backend server reference)
+@property (nonatomic, assign) NSInteger classID;
+
+// Parent subclass ID (for backend server reference)
+@property (nonatomic, assign) NSInteger subClassID;
+
+// Stored error codes for translation
+@property (nonatomic, assign) NSArray* DNEErrorCodes;
+
+// Trust percent (out of 100)
+@property (nonatomic, assign) NSInteger trustPercent;
+
+// Subclass GUI title text
+@property (nonatomic, retain) NSString *subClassTitle;
+
+// Subclass GUI status text
+@property (nonatomic, retain) NSString *subClassStatusText;
+
+// Subclass GUI explanation
+@property (nonatomic, retain) NSString *subClassExplanation;
+
+// Subclass GUI suggestion
+@property (nonatomic, retain) NSString *subClassSuggestion;
+
+// TrustFactor issues in subClass
+@property (nonatomic, retain) NSArray* trustFactorIssuesInSubClass;
+
+// TrustFactor suggestions in subClass
+@property (nonatomic, retain) NSArray* trustFactorSuggestionInSubClass;
+
+@end

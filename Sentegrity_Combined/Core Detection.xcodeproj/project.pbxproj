@@ -180,6 +180,8 @@
 		4C7D98221CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C7D977A1CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.h */; };
 		4C7D98231CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7D977B1CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.m */; };
 		5800C6E07D0AFC519C8F68D4 /* libPods-Core Detection.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7D5304A28B67EE704D77F4 /* libPods-Core Detection.a */; };
+		960173141DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.h in Headers */ = {isa = PBXBuildFile; fileRef = 960173121DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.h */; };
+		960173151DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 960173131DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m */; };
 		96A9AE071DBD168B007B9625 /* Sentegrity_Authentication.h in Headers */ = {isa = PBXBuildFile; fileRef = 96A9AE051DBD168B007B9625 /* Sentegrity_Authentication.h */; };
 		96A9AE081DBD168B007B9625 /* Sentegrity_Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A9AE061DBD168B007B9625 /* Sentegrity_Authentication.m */; };
 /* End PBXBuildFile section */
@@ -395,6 +397,8 @@
 		4C7D977A1CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustScore_Computation.h; sourceTree = "<group>"; };
 		4C7D977B1CC0010E00E9CC97 /* Sentegrity_TrustScore_Computation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustScore_Computation.m; sourceTree = "<group>"; };
 		7C7D5304A28B67EE704D77F4 /* libPods-Core Detection.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Core Detection.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		960173121DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_SubClassResult_Object.h; sourceTree = "<group>"; };
+		960173131DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_SubClassResult_Object.m; sourceTree = "<group>"; };
 		96A9AE051DBD168B007B9625 /* Sentegrity_Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Authentication.h; sourceTree = "<group>"; };
 		96A9AE061DBD168B007B9625 /* Sentegrity_Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Authentication.m; sourceTree = "<group>"; };
 		D4A420956F3DC29DFDCE275E /* Pods-Core Detection.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Core Detection.release.xcconfig"; path = "Pods/Target Support Files/Pods-Core Detection/Pods-Core Detection.release.xcconfig"; sourceTree = "<group>"; };
@@ -736,6 +740,8 @@
 		4C7D974A1CC0010E00E9CC97 /* Results Analysis */ = {
 			isa = PBXGroup;
 			children = (
+				960173121DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.h */,
+				960173131DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m */,
 				4C7D974B1CC0010E00E9CC97 /* Sentegrity_Results_Analysis.h */,
 				4C7D974C1CC0010E00E9CC97 /* Sentegrity_Results_Analysis.m */,
 			);
@@ -904,6 +910,7 @@
 				4C7D97AD1CC0010E00E9CC97 /* tcpip.h in Headers */,
 				4C7D97F01CC0010E00E9CC97 /* TrustFactor_Dispatch_Sandbox.h in Headers */,
 				4C7D97D81CC0010E00E9CC97 /* TrustFactor_Dispatch_Application.h in Headers */,
+				960173141DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.h in Headers */,
 				4C7D980E1CC0010E00E9CC97 /* Sentegrity_Subclassification.h in Headers */,
 				4C7D979A1CC0010E00E9CC97 /* if_ether.h in Headers */,
 				4C7D98001CC0010E00E9CC97 /* Sentegrity_JSONResponseSerializer.h in Headers */,
@@ -1193,6 +1200,7 @@
 				4C7D98051CC0010E00E9CC97 /* Sentegrity_Results_Analysis.m in Sources */,
 				4C7D97E91CC0010E00E9CC97 /* TrustFactor_Dispatch_Platform.m in Sources */,
 				4C7D97DB1CC0010E00E9CC97 /* TrustFactor_Dispatch_Bluetooth.m in Sources */,
+				960173151DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m in Sources */,
 				4C7D980D1CC0010E00E9CC97 /* Sentegrity_Policy_Parser.m in Sources */,
 				4C7D98031CC0010E00E9CC97 /* Sentegrity_Network_Manager.m in Sources */,
 			);

@@ -63,8 +63,7 @@
             computationResults.postAuthenticationAction = [computationResults.systemBreachClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
-            computationResults.systemGUIIconID = [computationResults.systemBreachClass.identification intValue];
-            computationResults.systemGUIIconText = computationResults.systemBreachClass.desc;
+            computationResults.dashboardText = computationResults.systemBreachClass.desc;
             
             // SYSTEM_POLICY is attributing
         } else if (computationResults.systemPolicyScore <= computationResults.systemSecurityScore) {
@@ -80,8 +79,7 @@
             computationResults.postAuthenticationAction = [computationResults.systemPolicyClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
-            computationResults.systemGUIIconID = [computationResults.systemPolicyClass.identification intValue];
-            computationResults.systemGUIIconText = computationResults.systemPolicyClass.desc;
+            computationResults.dashboardText = computationResults.systemPolicyClass.desc;
             
             //SYSTEM_SECURITY is attributing
         } else {
@@ -97,15 +95,14 @@
             computationResults.postAuthenticationAction = [computationResults.systemSecurityClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
-            computationResults.systemGUIIconID = [computationResults.systemSecurityClass.identification intValue];
-            computationResults.systemGUIIconText = computationResults.systemSecurityClass.desc;
+            computationResults.dashboardText = computationResults.systemSecurityClass.desc;
         }
         
     } else {
         
         // Set dashboard and detailed system view info
-        computationResults.systemGUIIconID = 0;
-        computationResults.systemGUIIconText = @"Device Trusted";
+        //computationResults.systemGUIIconID = 0;
+        //computationResults.systemGUIIconText = @"Device Trusted";
     }
     
     // if the system is trusted evaluate the user
@@ -115,10 +112,8 @@
         // Check for user policy violation
         if (computationResults.userPolicyScore < 100) {
             
-            // Set dashboard and detailed user view info
-            computationResults.userGUIIconID = [computationResults.userPolicyClass.identification intValue];
-            computationResults.userGUIIconText = computationResults.userPolicyClass.desc;
-
+            // Set dashboard text
+            computationResults.dashboardText = computationResults.userPolicyClass.desc;
 
              // Set the result code since this class is attributing
              computationResults.coreDetectionResult = CoreDetectionResult_PolicyViolation;
@@ -200,8 +195,7 @@
                                 computationResults.postAuthenticationAction = [authModule.postAuthenticationAction integerValue];
                                 
                                 // Set dashboard and detailed user view info
-                                computationResults.userGUIIconID = authModule.guiIconID.intValue;
-                                computationResults.userGUIIconText = authModule.guiIconText;
+                                computationResults.dashboardText = authModule.guiIconText;
                                 
                                 // Set action codes from the policy for this classification
                                 computationResults.attributingClassID = [computationResults.userAnomalyClass.identification integerValue];
@@ -233,8 +227,7 @@
                         // Set result
                         computationResults.coreDetectionResult = CoreDetectionResult_UserAnomaly;
                         // Set dashboard and detailed user view info
-                        computationResults.userGUIIconID = authModule.guiIconID.intValue;
-                        computationResults.userGUIIconText = authModule.guiIconText;
+                        computationResults.dashboardText = authModule.guiIconText;
                         
                         // Set method for runHistory upload
                         computationResults.authenticationModuleEmployed = authModule;
@@ -268,8 +261,7 @@
     } else { // System is not trusted therefore don't do any user anomaly or risk-based auth determination
         
         // Set dashboard and detailed system view info
-        computationResults.userGUIIconID = 1;
-        computationResults.userGUIIconText = @"Authentication Disabled";
+        computationResults.dashboardText = @"Authentication Disabled";
         
         
     }

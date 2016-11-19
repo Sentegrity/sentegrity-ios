@@ -15,9 +15,11 @@
 // Authentication Modules
 #import "Sentegrity_Authentication.h"
 
-
 // Startup
 #import "Sentegrity_TransparentAuth_Object.h"
+
+// GUI
+#import "Sentegrity_SubClassResult_Object.h"
 
 @interface Sentegrity_TrustScore_Computation : NSObject
 
@@ -73,27 +75,17 @@
 
 #pragma mark - Composite System Score
 
+// Dashboard Text
+@property (nonatomic) NSString* dashboardText;
+
 // System Score
 @property (nonatomic) int systemScore;
 
 // System Trusted
 @property (nonatomic) BOOL systemTrusted;
 
-// System Icon index for dash and detailed view
-@property (nonatomic) int systemGUIIconID;
-
-// System text to accompany icon
-@property (nonatomic) NSString *systemGUIIconText;
-
 // System detailed view: Issue Messages
-@property (nonatomic) NSArray *systemIssues;
-
-// System detailed view: Suggesstion Messages
-@property (nonatomic) NSArray *systemSuggestions;
-
-// System detailed view: Analysis Messages
-@property (nonatomic) NSArray *systemAnalysisResults;
-
+@property (nonatomic) NSArray *systemSubClassResultObjects;
 
 #pragma mark - Composite User Score
 
@@ -103,25 +95,10 @@
 // User Trusted
 @property (nonatomic) BOOL userTrusted;
 
+// User subClassResultObjects
+@property (nonatomic) NSArray *userSubClassResultObjects;
 
 
-// User Icon index for dash and detailed view
-@property (nonatomic) int  userGUIIconID;
-
-// User text to accompany icon on dash and detailed view
-@property (nonatomic) NSString *userGUIIconText;
-
-// User detailed view: Issue Messages
-@property (nonatomic) NSArray *userIssues;
-
-// User detailed view: Suggesstion Messages
-@property (nonatomic) NSArray *userSuggestions;
-
-// User detailed view: Analysis Messages
-@property (nonatomic) NSArray *userAnalysisResults;
-
-// User detailed view: Dynamic Two Factors
-@property (nonatomic) NSArray *userDynamicTwoFactors;
 
 
 #pragma mark - Composite Device Score

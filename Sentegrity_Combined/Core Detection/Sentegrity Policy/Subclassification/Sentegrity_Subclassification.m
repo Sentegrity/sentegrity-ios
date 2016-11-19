@@ -19,7 +19,15 @@
 - (void)setName:(NSString *)name{
     _name = name;
 }
+// GUI explanation text
+- (void)setExplanation:(NSString *)explanation{
+    _explanation = explanation;
+}
 
+// GUI suggestion text
+- (void)setSuggestion:(NSString *)suggestion{
+    _suggestion = suggestion;
+}
 // dneUnauthorized
 - (void)setDneUnauthorized:(NSString *)dneUnauthorized{
     _dneUnauthorized = dneUnauthorized;
