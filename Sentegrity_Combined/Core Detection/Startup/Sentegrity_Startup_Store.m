@@ -519,9 +519,9 @@
     [runHistoryObject setTrustScore:computationResults.deviceScore];
     [runHistoryObject setUserScore:computationResults.userScore];
 
-    // systemSubClassResultObjects from GUI
-    [runHistoryObject setSystemSubClassResultObjects:computationResults.systemSubClassResultObjects];
-    [runHistoryObject setUserSubClassResultObjects:computationResults.userSubClassResultObjects];
+    // Issues
+    [runHistoryObject setUserIssues:computationResults.userIssues];
+    [runHistoryObject setSystemIssues:computationResults.systemIssues];
     
 
 

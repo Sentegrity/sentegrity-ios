@@ -12,10 +12,12 @@
 
 
 @property (nonatomic,retain) NSNumber *identification;
-@property (nonatomic,retain) NSNumber *type;
-@property (nonatomic,retain) NSNumber *computationMethod;
 @property (nonatomic,retain) NSString *name;
-@property (nonatomic,retain) NSString *desc;
+@property (nonatomic,retain) NSNumber *type;
+@property (nonatomic,retain) NSString *warnTitle;
+@property (nonatomic,retain) NSString *warnDesc;
+@property (nonatomic,retain) NSString *dashboardText;
+@property (nonatomic,retain) NSNumber *computationMethod;
 @property (nonatomic,retain) NSNumber *authenticationAction;
 @property (nonatomic,retain) NSNumber *postAuthenticationAction;
 

@@ -178,6 +178,10 @@
     // Per-Class list of subClassResultObjects
     NSMutableArray *subClassResultObjectsInClass;
     
+    // Per-Class issue/suggestion reporting
+    NSMutableArray *trustFactorSuggestionsInClass;
+    NSMutableArray *trustFactorIssuesInClass;
+    
     // Per-Subclass TrustFactor sorting
     NSMutableArray *trustFactorsInSubClass;
 
@@ -210,6 +214,10 @@
         
         // Per-Class list of subClassResultObjects
         subClassResultObjectsInClass = [NSMutableArray array];
+        
+        // Per-Class issue/suggestion reporting
+        trustFactorSuggestionsInClass = [NSMutableArray array];
+        trustFactorIssuesInClass = [NSMutableArray array];
         
         // Transparent auth
         trustFactorsForTransparentAuthInClass = [NSMutableArray array];
@@ -514,7 +522,11 @@
 
             
             // If any trustFactors existed within this subClass
-            if(subClassContainsTrustFactor) {
+            if(subClassContainsTrustFactor==YES) {
+                
+                // Add the subclass issues identified to the overall class
+                [trustFactorIssuesInClass addObjectsFromArray:trustFactorIssuesInSubClass];
+                [trustFactorSuggestionsInClass addObjectsFromArray:trustFactorSuggestionsInSubClass];
                 
                 // Create a subclass result object
                 Sentegrity_SubClassResult_Object *subClassResultObject = [[Sentegrity_SubClassResult_Object alloc] init];
@@ -524,7 +536,7 @@
                 
                 // Should always be > 0 otherwise must be a policy error
                 if(subClass.totalPossibleScore > 0){
-                    percentOfTrust = subClass.score / subClass.totalPossibleScore;
+                    percentOfTrust = (subClass.score / subClass.totalPossibleScore)*100;
                 }
                 else{
                     percentOfTrust = 0;
@@ -532,13 +544,13 @@
                 
                 // If the class we are in does not score additively we need to subtract from 1 to get the real trust %
                 if([[class computationMethod] intValue]!=1){
-                    percentOfTrust = 1 - percentOfTrust;
+                    percentOfTrust = 100 - percentOfTrust;
                 }
                 
                 
                 // Set stuff we already know
-                [subClassResultObject setClassID:class.identification];
-                [subClassResultObject setSubClassID:subClass.identification];
+                [subClassResultObject setClassID:[[class identification] integerValue]];
+                [subClassResultObject setSubClassID:[[subClass identification] integerValue]];
                 [subClassResultObject setSubClassTitle:subClass.name];
                 [subClassResultObject setSubClassExplanation:subClass.explanation];
                 [subClassResultObject setSubClassSuggestion:subClass.suggestion];
@@ -549,7 +561,7 @@
                 [subClassResultObject setTrustFactorSuggestionInSubClass:trustFactorSuggestionsInSubClass];
                 
                 // Save all error codes
-                [subClassResultObject setDNEErrorCodes:subClassDNECodes];
+                [subClassResultObject setErrorCodes:subClassDNECodes];
                 
                 // No errors, update analysis message with subclass complete
                 if(!subClassAnalysisIncomplete) {
@@ -650,6 +662,10 @@
         [class setTrustFactorsTriggered:trustFactorsAttributingToScoreInClass];
         [class setTrustFactorsWithErrors:trustFactorsWithErrorsInClass];
         
+        // Set issue/suggestion elements
+        [class setTrustFactorIssues:trustFactorIssuesInClass];
+        [class setTrustFactorSuggestions:trustFactorSuggestionsInClass];
+        
         
     }// End classifications loop
     
@@ -672,6 +688,8 @@
     NSMutableArray *systemTrustFactorsWithErrors = [[NSMutableArray alloc] init];
     NSMutableArray *systemAllTrustFactorOutputObjects = [[NSMutableArray alloc] init];
     NSMutableArray *systemTrustFactorsToWhitelist = [[NSMutableArray alloc] init];
+    NSMutableArray *systemTrustFactorIssues = [[NSMutableArray alloc] init];
+    NSMutableArray *systemTrustFactorSuggestions = [[NSMutableArray alloc] init];
     
     // TrustFactor Sorting - User
     NSMutableArray *userTrustFactorsAttributingToScore = [[NSMutableArray alloc] init];
@@ -679,6 +697,8 @@
     NSMutableArray *userTrustFactorsWithErrors = [[NSMutableArray alloc] init];
     NSMutableArray *userAllTrustFactorOutputObjects = [[NSMutableArray alloc] init];
     NSMutableArray *userTrustFactorsToWhitelist = [[NSMutableArray alloc] init];
+    NSMutableArray *userTrustFactorIssues = [[NSMutableArray alloc] init];
+    NSMutableArray *userTrustFactorSuggestions = [[NSMutableArray alloc] init];
     
     // Transparent authentication
     NSMutableArray *allTrustFactorsForTransparentAuthentication = [[NSMutableArray alloc] init];
@@ -740,6 +760,12 @@
             // Tally system GUI elements
             [systemSubClassResultObjects addObjectsFromArray:[class subClassResultObjects]];
             
+            // Tally system issues
+            [systemTrustFactorIssues addObjectsFromArray:[class trustFactorIssues]];
+            
+            // Tally system suggestions
+            [systemTrustFactorSuggestions addObjectsFromArray:[class trustFactorSuggestions]];
+            
             // Tally system debug data
             [systemTrustFactorsAttributingToScore addObjectsFromArray:[class trustFactorsTriggered]];
             [systemTrustFactorsNotLearned addObjectsFromArray:[class trustFactorsNotLearned]];
@@ -791,8 +817,13 @@
             }
             
             // Tally user GUI elements
-            // Tally user GUI elements
             [userSubClassResultObjects addObjectsFromArray:[class subClassResultObjects]];
+            
+            // Tally system issues
+            [userTrustFactorIssues addObjectsFromArray:[class trustFactorIssues]];
+            
+            // Tally system suggestions
+            [userTrustFactorSuggestions addObjectsFromArray:[class trustFactorSuggestions]];
             
             // Tally user debug data
             [userTrustFactorsAttributingToScore addObjectsFromArray:[class trustFactorsTriggered]];
@@ -813,6 +844,18 @@
 
     // Set GUI messages (user)
     computationResults.userSubClassResultObjects = [userSubClassResultObjects allObjects];
+    
+    // Set issues (system)
+    computationResults.systemIssues = systemTrustFactorIssues;
+    
+    // Set suggestions (system)
+    computationResults.systemSuggestions = systemTrustFactorSuggestions;
+    
+    // Set issues (user)
+    computationResults.userIssues = userTrustFactorIssues;
+    
+    // Set suggestions (user)
+    computationResults.userSuggestions = userTrustFactorSuggestions;
 
     // Set transparent authentication list
     computationResults.transparentAuthenticationTrustFactorOutputObjects = allTrustFactorsForTransparentAuthentication;

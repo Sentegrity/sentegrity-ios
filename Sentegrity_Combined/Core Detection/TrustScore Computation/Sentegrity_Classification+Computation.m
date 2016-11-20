@@ -33,6 +33,11 @@ NSString const *trustFactorsStatusKey = @"Sentegrity.trustFactorStatus";
 // GUI messages
 NSString const *subClassResultObjectsKey = @"Sentegrity.subClassResultObjects";
 
+// Issues/Suggestions
+NSString const *trustFactorIssuesKey = @"Sentegrity.trustFactorIssuesKey";
+NSString const *trustFactorSuggestionsKey = @"Sentegrity.trustFactorSuggestionsKey";
+
+
 
 // Classification score
 
@@ -122,5 +127,26 @@ NSString const *subClassResultObjectsKey = @"Sentegrity.subClassResultObjects";
 - (NSArray *)subClassResultObjects {
     return objc_getAssociatedObject(self, &subClassResultObjectsKey);
 }
+
+// TrustFactor Issues
+- (void)setTrustFactorIssues:(NSArray *)trustFactorIssues{
+    objc_setAssociatedObject(self, &trustFactorIssuesKey, trustFactorIssues, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)trustFactorIssues {
+    return objc_getAssociatedObject(self, &trustFactorIssuesKey);
+}
+
+// TrustFactor Suggestions
+- (void)setTrustFactorSuggestions:(NSArray *)trustFactorSuggestions{
+    objc_setAssociatedObject(self, &trustFactorSuggestionsKey, trustFactorSuggestions, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSArray *)trustFactorSuggestions {
+    return objc_getAssociatedObject(self, &trustFactorSuggestionsKey);
+}
+
+
+
 
 @end

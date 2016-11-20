@@ -34,12 +34,23 @@
     _name = name;
 }
 
-// Description
+// Title
 
-- (void)setDesc:(NSString *)desc{
-    _desc = desc;
+- (void)setWarnTitle:(NSString *)warnTitle{
+    _warnTitle = warnTitle;
 }
 
+// Description
+
+- (void)setWarnDesc:(NSString *)warnDesc{
+    _warnDesc = warnDesc;
+}
+
+// Dashboard Text
+
+- (void)setDashboardText:(NSString *)dashboardText{
+    _dashboardText = dashboardText;
+}
 
 // ProtectModeAction
 

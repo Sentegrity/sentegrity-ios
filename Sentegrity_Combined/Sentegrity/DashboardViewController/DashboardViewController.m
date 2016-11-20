@@ -301,11 +301,12 @@ static MBProgressHUD *HUD;
     [self.trustScoreProgressBar setProgress:trustScore/100.0f animated:YES];
     
     // Set the device message
-    [self.deviceStatusLabel setText:self.computationResults.systemGUIIconText];
+    [self.deviceStatusLabel setText:self.computationResults.dashboardText];
     // Set the user message
-    [self.userStatusLabel setText:self.computationResults.userGUIIconText];
+    [self.userStatusLabel setText:self.computationResults.dashboardText];
     
     // Set the device image
+    /*
     if (self.computationResults.systemGUIIconID == 0) {
         [self.deviceStatusImageView setImage:[UIImage imageNamed:@"shield_black"]];
         self.deviceStatusImageView.backgroundColor = [UIColor clearColor];
@@ -315,7 +316,7 @@ static MBProgressHUD *HUD;
         [self.userStatusImageView setImage:[UIImage imageNamed:@"shield_black"]];
         self.userStatusImageView.backgroundColor = [UIColor clearColor];
     }
-    
+    */
     // Remove animations from the reload button after a delay
     /*
     [IIDelayedAction delayedAction:^{

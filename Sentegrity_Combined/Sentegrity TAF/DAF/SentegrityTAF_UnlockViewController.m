@@ -700,11 +700,8 @@
     computationResults.attributingClassID = 1;
     
     // Set GUI manually
-    computationResults.systemGUIIconID = 1;
-    computationResults.systemGUIIconText = @"Unknown Risk";
-    
-    computationResults.userGUIIconID = 1;
-    computationResults.userGUIIconText = @"Unknown Risk";
+
+    computationResults.dashboardText = @"Unknown Risk";
     
     // Set the core detection result to error
     computationResults.coreDetectionResult = CoreDetectionResult_CoreDetectionError;
@@ -722,17 +719,10 @@
     computationResults.deviceScore=0;
     computationResults.userScore=0;
     
-    // Set GUI messages (system)
-    computationResults.systemIssues = [NSArray arrayWithObjects: @"Device error detected", nil];
-    computationResults.systemSuggestions = [NSArray arrayWithObjects: @"Restart device", nil];
-    computationResults.systemAnalysisResults = [NSArray arrayWithObjects: @"Analysis incomplete",  @"Unknown risks present",  nil];
-    
-    // Set GUI messages (user)
-    computationResults.userIssues = [NSArray arrayWithObjects: @"User error detected", nil];
-    computationResults.userSuggestions = [NSArray arrayWithObjects: @"Restart device", nil];
-    computationResults.userAnalysisResults = [NSArray arrayWithObjects: @"Analysis incomplete", @"Unknown risks present", nil];
-    
-    
+    // Set GUI messag
+    computationResults.userSubClassResultObjects = nil;
+    computationResults.systemSubClassResultObjects = nil;
+
     // Set the last computation results manually so that confirm() can use it
     [[CoreDetection sharedDetection] setComputationResults:computationResults];
     
@@ -947,7 +937,7 @@
                             // Use the decrypted master key
                             [result setResult:decryptedMasterKeyString];
                             result = nil;
-                            [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+                            [self showAlertWithTitle:computationResults.warnTitle andMessage:computationResults.warnDesc];
                         }];
                     // Done
                     break;
@@ -976,7 +966,30 @@
         case authenticationAction_PromptForUserFingerprint:
         {
             //No promptForUserFingerprintAndWarn because TouchID always displays a message
-            [self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.warnDesc];
+            [self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.warnTitle];
+            
+            break;
+        }
+        case authenticationAction_PromptForUserFingerprintAndWarn:
+        {
+            
+            // Show message and than call fingerprint
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:computationResults.warnTitle
+                                                                           message:computationResults.warnDesc
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      [self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.warnTitle];
+                                                                  }];
+            
+            
+            [alert addAction:defaultAction];
+            
+            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
+            
+            //No promptForUserFingerprintAndWarn because TouchID always displays a message
+            //[self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.warnTitle];
             
             break;
         }
@@ -993,7 +1006,7 @@
             // Since we're already on the login screen, simply show a popup message then allow user to interact with login prompt
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+                [self showAlertWithTitle:computationResults.warnTitle andMessage:computationResults.warnDesc];
             });
             
             
@@ -1009,9 +1022,10 @@
         case authenticationAction_PromptForUserVocalFacialAndWarn:
         {
             
+            
             // Show message and than call vocal facial login
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:computationResults.authenticationModuleEmployed.warnTitle
-                                                                           message:computationResults.authenticationModuleEmployed.warnDesc
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:computationResults.warnTitle
+                                                                           message:computationResults.warnDesc
                                                                     preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault

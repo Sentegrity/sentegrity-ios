@@ -37,17 +37,9 @@
 
 // gui icon text
 
-- (void)setGuiIconText:(NSString *)guiIconText{
-    _guiIconText = guiIconText;
+- (void)setDashboardText:(NSString *)dashboardText{
+    _dashboardText = dashboardText;
 }
-
-
-// gui icon id
-
-- (void)setGuiIconID:(NSNumber *)guiIconID{
-    _guiIconID = guiIconID;
-}
-
 
 // ActivationRange
 

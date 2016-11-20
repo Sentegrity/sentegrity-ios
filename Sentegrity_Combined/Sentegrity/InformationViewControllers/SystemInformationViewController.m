@@ -86,9 +86,10 @@
         [self.systemScoreProgressBar setProgress:systemScore/100.0f animated:YES];
         
         // Set the device message
-        [self.systemStatusLabel setText:self.computationResults.systemGUIIconText];
+        //[self.systemStatusLabel setText:self.computationResults.systemGUIIconText];
         
         // Set the device image
+        /*
         if (self.computationResults.systemGUIIconID == 0) {
             
             // Set the image view to the shield if it passed
@@ -97,132 +98,8 @@
             // Set the background color to clear
             self.systemStatusImageView.backgroundColor = [UIColor clearColor];
         }
+        */
         
-        // Create a string that will hold all of our textview info
-        NSMutableAttributedString *systemAttributedString = [[NSMutableAttributedString alloc] init];
-        
-        // Create an attributed string dictionary for section info
-        //NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0f]};
-        
-                NSDictionary *sectionStringDict = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:32.0f], NSForegroundColorAttributeName : [UIColor blackColor]};
-        
-        // Create an attributed string dictionary for content
-        NSDictionary *contentStringDict = @{NSFontAttributeName : [UIFont fontWithName:self.systemStatusLabel.font.fontName size:20.0f], NSForegroundColorAttributeName : [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0f]};
-        
-        // Check if there are any GUI issues
-        if (self.computationResults.systemIssues.count > 0 && self.computationResults.systemIssues != nil) {
-            
-            // Set the issues section
-            NSAttributedString *issueSection = [[NSAttributedString alloc] initWithString:@"Issues Found\n" attributes:sectionStringDict];
-            
-            // Append the section
-            [systemAttributedString appendAttributedString:issueSection];
-            
-            // Run through all the system GUI issues
-            for (NSString *string in self.computationResults.systemIssues) {
-                
-                // Create the X image in the string
-                NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-                textAttachment.image = [UIImage imageNamed:@"Close"];
-                textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
-
-                NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-                
-                // Append the string
-                [systemAttributedString appendAttributedString:attrStringWithImage];
-                
-                // Create the issue string
-                NSAttributedString *issue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", string] attributes:contentStringDict];
-                
-                // Append the string
-                [systemAttributedString appendAttributedString:issue];
-            }
-        }
-        
-        // Append a newline
-        [systemAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-        
-        // Check if there are any GUI suggestions
-        if (self.computationResults.systemSuggestions.count > 0 && self.computationResults.systemSuggestions != nil) {
-            
-            // Set the suggestions section
-            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Device Suggestions\n" attributes:sectionStringDict];
-            
-            // Append the section
-            [systemAttributedString appendAttributedString:section];
-            
-            // Run through all the system GUI suggestions
-            for (NSString *string in self.computationResults.systemSuggestions) {
-                
-                // Create the checkmark image in the string
-                NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-                textAttachment.image = [UIImage imageNamed:@"CheckMark"];
-                textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
-                
-                NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-                
-                // Append the string
-                [systemAttributedString appendAttributedString:attrStringWithImage];
-                
-                // Create the suggestion string
-                NSAttributedString *issue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", string] attributes:contentStringDict];
-                
-                // Append the string
-                [systemAttributedString appendAttributedString:issue];
-            }
-        }
-        
-        // Append a newline
-        [systemAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-        
-        // Check if there are any GUI analysis
-        if (self.computationResults.systemAnalysisResults.count > 0 && self.computationResults.systemAnalysisResults != nil) {
-            
-            // Set the suggestions section
-            NSAttributedString *section = [[NSAttributedString alloc] initWithString:@"Assessment Status\n" attributes:sectionStringDict];
-            
-            // Append the section
-            [systemAttributedString appendAttributedString:section];
-            
-            // Run through all the system GUI suggestions
-            for (NSString *string in self.computationResults.systemAnalysisResults) {
-                
-                // Check if the string contains the word failed
-                if (![string containsString:@"complete"]) {
-                    // Create the X image in the string
-                    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-                    textAttachment.image = [UIImage imageNamed:@"Close"];
-                    textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
-                    
-                    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-                    
-                    // Append the string
-                    [systemAttributedString appendAttributedString:attrStringWithImage];
-                } else {
-                    // Create the checkmark image in the string
-                    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-                    textAttachment.image = [UIImage imageNamed:@"CheckMark"];
-                    textAttachment.bounds = CGRectMake(10.0f, -7.0f, textAttachment.image.size.width, textAttachment.image.size.height);
-                    
-                    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-                    
-                    // Append the string
-                    [systemAttributedString appendAttributedString:attrStringWithImage];
-                }
-                
-                // Create the analysis string
-                NSAttributedString *issue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", string] attributes:contentStringDict];
-                
-                // Append the string
-                [systemAttributedString appendAttributedString:issue];
-            }
-        }
-        
-        // Set the System Text View Text
-        [self.systemTextView setAttributedText:systemAttributedString];
-        
-    }
-    
     // Set the menu button
     // Disabled for pilot
     [self.menuButton setHidden:YES];
@@ -258,6 +135,7 @@
     
     // Set the System Text View Font
     [self.systemTextView setFont:[UIFont fontWithName:self.systemStatusLabel.font.familyName size:16]];
+}
 }
 
 #pragma mark - RESideMenu Delegate

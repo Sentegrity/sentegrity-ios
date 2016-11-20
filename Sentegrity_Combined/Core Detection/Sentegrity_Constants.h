@@ -173,12 +173,12 @@ typedef enum {
     authenticationAction_PromptForUserPassword                            = 3,
     authenticationAction_PromptForUserPasswordAndWarn                     = 4,
     authenticationAction_PromptForUserFingerprint                         = 5,
-    //No promptForUserFingerprintAndWarn because TouchID always displays a message
-    authenticationAction_PromptForUserVocalFacial                         = 6,
-    authenticationAction_PromptForUserVocalFacialAndWarn                  = 7,
+    authenticationAction_PromptForUserFingerprintAndWarn                  = 6,
+    authenticationAction_PromptForUserVocalFacial                         = 7,
+    authenticationAction_PromptForUserVocalFacialAndWarn                  = 8,
     
     // Generally used for device issues
-    authenticationAction_BlockAndWarn                                     = 8,
+    authenticationAction_BlockAndWarn                                     = 9,
     
     
 } authenticationAction;

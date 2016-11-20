@@ -28,98 +28,93 @@
 "error": 0,
 "invalid": 1
 },
-"authenticationModules": [
-{
+"authenticationModules": [{
 "id": 1,
 "name": "transparent",
 "warnDesc": "You have been transparently authenticated due to consistent user behavior.",
 "warnTitle": "Transparent Authentication",
-"guiIconText": "User Trusted",
-"guiIconID": 0,
+"dashboardText": "You were transparently authenticated",
 "activationRange": 75,
 "authenticationAction": 2,
 "postAuthenticationAction": 1
-},
-{
+}, {
 "id": 2,
 "name": "fingerprint",
 "warnDesc": "Fingerprint required due to the detection of a low risk profile.",
 "warnTitle": "Fingerprint Required",
-"guiIconText": "Low Risk",
-"guiIconID": 0,
+"dashboardText": "Fingerprint authentication required",
 "activationRange": 65,
 "authenticationAction": 5,
 "postAuthenticationAction": 1
-},
-{
+}, {
 "id": 3,
 "name": "password",
 "warnDesc": "Complex password required due to the detection of a medium risk profile.",
 "warnTitle": "Password Required",
-"guiIconText": "Medium Risk ",
-"guiIconID": 1,
+"dashboardText": "Password authentication required",
 "activationRange": 55,
 "authenticationAction": 4,
 "postAuthenticationAction": 1
-},
-{
+}, {
 "id": 4,
 "name": "facialvocal",
 "warnDesc": "Vocal and Facial authentication required due to the detection of a high risk profile. This module is unavailable, user password will be requested.",
 "warnTitle": "Multi-Modal Required",
-"guiIconText": "High User",
-"guiIconID": 1,
+"dashboardText": "Facial authentication required",
 "activationRange": 0,
-"authenticationAction": 7,
+"authenticationAction": 8,
 "postAuthenticationAction": 1
-}
-],
-"classifications": [
-{
+}],
+"classifications": [{
 "id": 1,
-"type": 0,
-"computationMethod": 0,
 "name": "SYSTEM_BREACH",
-"desc": "High Risk Device",
-"authenticationAction": 8,
-"postAuthenticationAction": 3
-},
-{
-"id": 2,
+"warnTitle": "Integrity Violation",
+"warnDesc": "This device is may be compromised, continued access could result in data breach.",
+"dashboardText": "Integrity violation detected",
 "type": 0,
 "computationMethod": 0,
-"name": "SYSTEM_POLICY",
-"desc": "Device Violation",
-"authenticationAction": 8,
-"postAuthenticationAction": 2
-},
-{
-"id": 3,
-"type": 0,
-"computationMethod": 0,
-"name": "SYSTEM_SECURITY",
-"desc": "Device Anomaly",
 "authenticationAction": 4,
-"postAuthenticationAction": 2
-},
-{
+"postAuthenticationAction": 1
+}, {
+"id": 2,
+"name": "SYSTEM_POLICY",
+"warnTitle": "Policy Violation",
+"warnDesc": "This device is currently out of policy, review the Device Dashboard for more information.",
+"dashboardText": "System policy violation",
+"type": 0,
+"computationMethod": 0,
+"authenticationAction": 4,
+"postAuthenticationAction": 1
+}, {
+"id": 3,
+"name": "SYSTEM_SECURITY",
+"warnTitle": "High Risk Device",
+"warnDesc": "This device is in a high risk state, review the User Dashboard for more information.",
+"dashboardText": "High risk device state",
+"type": 0,
+"computationMethod": 0,
+"authenticationAction": 4,
+"postAuthenticationAction": 1
+}, {
 "id": 4,
+"name": "USER_POLICY",
+"warnTitle": "Policy Violation",
+"warnDesc": "This device is currently out of policy, review the Device Dashboard for more information.",
+"dashboardText": "User policy violation",
 "type": 1,
 "computationMethod": 0,
-"name": "USER_POLICY",
-"desc": "User Violation",
-"authenticationAction": 8,
+"authenticationAction": 4,
 "postAuthenticationAction": 1
-},
-{
+}, {
 "id": 5,
+"name": "USER_ANOMALY",
+"warnTitle": "",
+"warnDesc": "",
+"dashboardText": "",
 "type": 1,
-"computationMethod": 1,
-"name": "USER_ANOMALY"
-}
-],
-"subclassifications": [
-{
+"computationMethod": 1
+}],
+"subclassifications": [{
 "id": 1,
 "name": "Network Security",
 "explanation": "Sentegrity analyzes the security of this devices network connections to identify the presence of unencrypted communications, malicious network activity, and potential man-in-the-middle attacks. This activity can increase the risk of exposing BYOD data on this device and can impact the device TrustScore.",
@@ -132,8 +127,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 2,
 "name": "WiFi Security",
 "explanation": "test explainer",
@@ -146,8 +140,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 3,
 "name": "Application Security",
 "explanation": "test explainer",
@@ -160,8 +153,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 4,
 "name": "Platform Security",
 "explanation": "test explainer",
@@ -174,8 +166,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 5,
 "name": "Access Time",
 "explanation": "test explainer",
@@ -188,8 +179,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 6,
 "name": "User Location",
 "explanation": "test explainer",
@@ -202,8 +192,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 7,
 "name": "Device Movement",
 "explanation": "test explainer",
@@ -216,8 +205,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 8,
 "name": "Bluetooth",
 "explanation": "test explainer",
@@ -230,8 +218,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 9,
 "name": "Physical Security",
 "explanation": "test explainer",
@@ -244,8 +231,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 10,
 "name": "User Activity",
 "explanation": "test explainer",
@@ -258,8 +244,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 11,
 "name": "Configuration Security",
 "explanation": "test explainer",
@@ -272,8 +257,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 12,
 "name": "Cellular Security",
 "explanation": "test explainer",
@@ -286,10 +270,9 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 13,
-"name": “Device Grip",
+"name": "Device Grip",
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "Authorize motion services",
@@ -300,10 +283,9 @@
 "dneExpired": "",
 "dneInvalid": "Device position invalid",
 "weight": 1
-},
-{
+}, {
 "id": 14,
-"name": “Device Orientation",
+"name": "Device Orientation",
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -314,8 +296,7 @@
 "dneExpired": "",
 "dneInvalid": "Device position invalid",
 "weight": 1
-},
-{
+}, {
 "id": 15,
 "name": "Good NOC Security",
 "explanation": "test explainer",
@@ -328,10 +309,9 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 16,
-"name": “Device Power",
+"name": "Device Power",
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -342,10 +322,9 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 18,
-"name": “Device State”,
+"name": "Device State",
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -356,8 +335,7 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-},
-{
+}, {
 "id": 19,
 "name": "WiFi",
 "explanation": "test explainer",
@@ -370,10 +348,8 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
-}
-],
-"trustFactors": [
-{
+}],
+"trustFactors": [{
 "id": 1,
 "notFoundIssueMessage": "Malicious filesystem artifacts",
 "notFoundSuggestionMessage": "Perform factory reset",
@@ -453,8 +429,7 @@
 "/System/Library/LaunchDaemons/com.evad3rs.evasi0n7.untether.plist",
 "/System/Library/Caches/com.apple.dyld/enable-dylibs-to-override-cache"
 ]
-},
-{
+}, {
 "id": 2,
 "notFoundIssueMessage": "Malicious network connections",
 "notFoundSuggestionMessage": "Disconnect from network",
@@ -487,8 +462,7 @@
 "howett.net",
 "nesolabs.de"
 ]
-},
-{
+}, {
 "id": 3,
 "notFoundIssueMessage": "Malicious network services",
 "notFoundSuggestionMessage": "Perform factory reset",
@@ -517,8 +491,7 @@
 80,
 443
 ]
-},
-{
+}, {
 "id": 4,
 "notFoundIssueMessage": "Sandbox integrity violated",
 "notFoundSuggestionMessage": "Perform factory reset",
@@ -543,8 +516,7 @@
 "whitelistable": 0,
 "privateAPI": 1,
 "payload": []
-},
-{
+}, {
 "id": 5,
 "notFoundIssueMessage": "Application integrity violated",
 "notFoundSuggestionMessage": "Reinstall application",
@@ -571,8 +543,7 @@
 "payload": [
 "MobileSubstrate"
 ]
-},
-{
+}, {
 "id": 6,
 "notFoundIssueMessage": "Outdated OS version",
 "notFoundSuggestionMessage": "Update Operating System",
@@ -599,8 +570,7 @@
 "payload": [
 "10.01"
 ]
-},
-{
+}, {
 "id": 7,
 "notFoundIssueMessage": "Filesystem integrity modified",
 "notFoundSuggestionMessage": "Perform factory reset",
@@ -629,8 +599,7 @@
 "/bin/usr",
 "/etc/fstab"
 ]
-},
-{
+}, {
 "id": 8,
 "notFoundIssueMessage": "New network service",
 "notFoundSuggestionMessage": "Reboot device",
@@ -655,8 +624,7 @@
 "whitelistable": 0,
 "privateAPI": 1,
 "payload": []
-},
-{
+}, {
 "id": 9,
 "notFoundIssueMessage": "Large data transfers",
 "notFoundSuggestionMessage": "Reduce upload activity",
@@ -680,14 +648,11 @@
 "implementation": "dataExfiltration:",
 "whitelistable": 0,
 "privateAPI": 1,
-"payload": [
-{
+"payload": [{
 "secondsInterval": 3600,
 "maxSentMB": 50
-}
-]
-},
-{
+}]
+}, {
 "id": 10,
 "notFoundIssueMessage": "Unencrypted traffic",
 "notFoundSuggestionMessage": "Close other apps",
@@ -715,8 +680,7 @@
 80,
 8080
 ]
-},
-{
+}, {
 "id": 11,
 "notFoundIssueMessage": "No connection",
 "notFoundSuggestionMessage": "Connect to a network",
@@ -741,8 +705,7 @@
 "whitelistable": 0,
 "privateAPI": 0,
 "payload": []
-},
-{
+}, {
 "id": 12,
 "notFoundIssueMessage": "Airplane mode",
 "notFoundSuggestionMessage": "Disable airplane mode",
@@ -767,8 +730,7 @@
 "whitelistable": 1,
 "privateAPI": 1,
 "payload": []
-},
-{
+}, {
 "id": 13,
 "notFoundIssueMessage": "VPN connection",
 "notFoundSuggestionMessage": "Disconnect from VPN",
@@ -796,8 +758,7 @@
 "ppp",
 "utun"
 ]
-},
-{
+}, {
 "id": 14,
 "notFoundIssueMessage": "WiFi hotspot detected",
 "notFoundSuggestionMessage": "Disconnect from public WiFi",
@@ -822,8 +783,7 @@
 "whitelistable": 0,
 "privateAPI": 1,
 "payload": []
-},
-{
+}, {
 "id": 43,
 "notFoundIssueMessage": "Unencrypted WiFi",
 "notFoundSuggestionMessage": "Connect to encrypted WiFi network",
@@ -848,8 +808,7 @@
 "whitelistable": 0,
 "privateAPI": 0,
 "payload": []
-},
-{
+}, {
 "id": 15,
 "notFoundIssueMessage": "Consumer WiFi access point",
 "notFoundSuggestionMessage": "",
@@ -883,8 +842,7 @@
 "192.168.1.254",
 "192.168.254.254"
 ]
-},
-{
+}, {
 "id": 16,
 "notFoundIssueMessage": "Default WiFi access point",
 "notFoundSuggestionMessage": "Disconnect from WiFi",
@@ -909,8 +867,7 @@
 "whitelistable": 0,
 "privateAPI": 0,
 "payload": []
-},
-{
+}, {
 "id": 18,
 "notFoundIssueMessage": "Unknown WiFi",
 "notFoundSuggestionMessage": "Connect to familiar WiFi",
@@ -934,13 +891,10 @@
 "implementation": "SSIDBSSID:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": [
-{
+"payload": [{
 "MACAddresslength": 11
-}
-]
-},
-{
+}]
+}, {
 "id": 19,
 "notFoundIssueMessage": "Unknown WiFi",
 "notFoundSuggestionMessage": "Connect to familiar WiFi",
@@ -965,13 +919,10 @@
 "implementation": "SSIDBSSID:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": [
-{
+"payload": [{
 "MACAddresslength": 16
-}
-]
-},
-{
+}]
+}, {
 "id": 20,
 "notFoundIssueMessage": "Hotspot tethering detected",
 "notFoundSuggestionMessage": "Disable hotspot sharing",
@@ -997,8 +948,7 @@
 "whitelistable": 0,
 "privateAPI": 1,
 "payload": []
-},
-{
+}, {
 "id": 21,
 "notFoundIssueMessage": "Celluar carrier changed",
 "notFoundSuggestionMessage": "",
@@ -1023,8 +973,7 @@
 "whitelistable": 0,
 "privateAPI": 1,
 "payload": []
-},
-{
+}, {
 "id": 22,
 "notFoundIssueMessage": "High risk apps detected",
 "notFoundSuggestionMessage": "Uninstall high risk apps",
@@ -1052,8 +1001,7 @@
 "com.dunkinbrands.DunkinMobile",
 "net.technet.systat"
 ]
-},
-{
+}, {
 "id": 23,
 "notFoundIssueMessage": "Vulnerable operating system",
 "notFoundSuggestionMessage": "Update Operating System",
@@ -1098,8 +1046,7 @@
 "9.2-9.3.3",
 "10.0-10.0.2"
 ]
-},
-{
+}, {
 "id": 24,
 "notFoundIssueMessage": "Short device uptime",
 "notFoundSuggestionMessage": "Delay access attempt",
@@ -1123,13 +1070,10 @@
 "implementation": "shortUptime:",
 "whitelistable": 0,
 "privateAPI": 0,
-"payload": [
-{
+"payload": [{
 "minimumHoursUp": 6
-}
-]
-},
-{
+}]
+}, {
 "id": 25,
 "notFoundIssueMessage": "Device backup enabled",
 "notFoundSuggestionMessage": "Disable device backup",
@@ -1156,8 +1100,7 @@
 "payload": [
 "backupd"
 ]
-},
-{
+}, {
 "id": 26,
 "notFoundIssueMessage": "No passcode set",
 "notFoundSuggestionMessage": "Set a device passcode",
@@ -1182,8 +1125,7 @@
 "whitelistable": 0,
 "privateAPI": 0,
 "payload": []
-},
-{
+}, {
 "id": 27,
 "notFoundIssueMessage": "Unknown access time",
 "notFoundSuggestionMessage": "Access at normal hour",
@@ -1207,13 +1149,10 @@
 "implementation": "accessTimeHour:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": [
-{
+"payload": [{
 "hoursInBlock": 3
-}
-]
-},
-{
+}]
+}, {
 "id": 28,
 "notFoundIssueMessage": "Unknown access time",
 "notFoundSuggestionMessage": "Access on normal day",
@@ -1238,8 +1177,7 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []
-},
-{
+}, {
 "id": 29,
 "notFoundIssueMessage": "USB connected",
 "notFoundSuggestionMessage": "Unplug USB/Charger",
@@ -1264,8 +1202,7 @@
 "whitelistable": 0,
 "privateAPI": 1,
 "payload": []
-},
-{
+}, {
 "id": 30,
 "notFoundIssueMessage": "Unknown power consumption",
 "notFoundSuggestionMessage": "Charge device regularly",
@@ -1289,14 +1226,11 @@
 "implementation": "powerLevelTime:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": [
-{
+"payload": [{
 "hoursInBlock": 6,
 "powerInBlock": 25
-}
-]
-},
-{
+}]
+}, {
 "id": 31,
 "notFoundIssueMessage": "Unknown charge state",
 "notFoundSuggestionMessage": "Connect device regularly",
@@ -1321,8 +1255,7 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []
-},
-{
+}, {
 "id": 32,
 "notFoundIssueMessage": "Unknown system activity",
 "notFoundSuggestionMessage": "Close other apps",
@@ -1346,8 +1279,7 @@
 "whitelistable": 1,
 "privateAPI": 1,
 "payload": []
-},
-{
+}, {
 "id": 33,
 "notFoundIssueMessage": "Unknown device orientation",
 "notFoundSuggestionMessage": "Hold device regularly",
@@ -1372,8 +1304,7 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []
-},
-{
+}, {
 "id": 34,
 "notFoundIssueMessage": "Unknown user activity",
 "notFoundSuggestionMessage": "",
@@ -1397,13 +1328,10 @@
 "implementation": "previous:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": [
-{
+"payload": [{
 "hoursInBlock": 3
-}
-]
-},
-{
+}]
+}, {
 "id": 35,
 "notFoundIssueMessage": "Unknown device grip",
 "notFoundSuggestionMessage": "Hold device regularly",
@@ -1427,14 +1355,11 @@
 "implementation": "grip:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": [
-{
+"payload": [{
 "pitchBlockSize": 0.25,
 "rollBlockSize": 0.15
-}
-]
-},
-{
+}]
+}, {
 "id": 36,
 "notFoundIssueMessage": "Unknown device movement",
 "notFoundSuggestionMessage": "Move device regularly",
@@ -1458,13 +1383,10 @@
 "implementation": "movement:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": [
-{
+"payload": [{
 "movementBlockSize": 0.2
-}
-]
-},
-{
+}]
+}, {
 "id": 37,
 "notFoundIssueMessage": "",
 "notFoundSuggestionMessage": "",
@@ -1489,8 +1411,7 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []
-},
-{
+}, {
 "id": 38,
 "notFoundIssueMessage": "",
 "notFoundSuggestionMessage": "Pair a Bluetooth device",
@@ -1515,8 +1436,7 @@
 "whitelistable": 1,
 "privateAPI": 1,
 "payload": []
-},
-{
+}, {
 "id": 39,
 "notFoundIssueMessage": "",
 "notFoundSuggestionMessage": "Pair a Bluetooth device",
@@ -1541,8 +1461,7 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []
-},
-{
+}, {
 "id": 40,
 "notFoundIssueMessage": "Unknown access area",
 "notFoundSuggestionMessage": "",
@@ -1566,8 +1485,7 @@
 "implementation": "locationApprox:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": [
-{
+"payload": [{
 "brightnessBlocksizeWithLocation": 3,
 "brightnessBlocksizeNoLocation": 4,
 "locationRounding": 2,
@@ -1576,10 +1494,8 @@
 "cellSignalBlocksizeWithLocation": 6,
 "wifiSignalBlocksizeNoLocation": 14,
 "wifiSignalBlocksizeWithLocation": 15
-}
-]
-},
-{
+}]
+}, {
 "id": 41,
 "notFoundIssueMessage": "Unknown access location",
 "notFoundSuggestionMessage": "Access location frequently",
@@ -1604,13 +1520,10 @@
 "implementation": "locationGPS:",
 "whitelistable": 1,
 "privateAPI": 0,
-"payload": [
-{
+"payload": [{
 "rounding": 2
-}
-]
-},
-{
+}]
+}, {
 "id": 42,
 "notFoundIssueMessage": "No nearby Bluetooth found",
 "notFoundSuggestionMessage": "",
@@ -1635,6 +1548,5 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": []
-}
-]
+}]
 }

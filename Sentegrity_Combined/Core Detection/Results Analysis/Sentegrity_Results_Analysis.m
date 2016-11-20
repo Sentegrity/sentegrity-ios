@@ -23,7 +23,6 @@
     // Default trust results
     computationResults.deviceTrusted = YES;
     computationResults.userTrusted = YES;
-    computationResults.systemTrusted = YES;
     
     // Auth method defaults
     computationResults.authenticationModuleEmployed = nil;
@@ -56,14 +55,16 @@
             computationResults.coreDetectionResult = CoreDetectionResult_DeviceCompromise;
             
             // Copy over the policy settings for this classification
-            computationResults.attributingClassID = [computationResults.systemBreachClass.identification integerValue] ;
+            computationResults.attributingClassID = [computationResults.systemBreachClass.identification integerValue];
+            computationResults.warnTitle = computationResults.systemBreachClass.warnTitle;
+            computationResults.warnDesc = computationResults.systemBreachClass.warnDesc;
             
             // Set action codes from the policy for this classification
             computationResults.authenticationAction = [computationResults.systemBreachClass.authenticationAction integerValue];
             computationResults.postAuthenticationAction = [computationResults.systemBreachClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
-            computationResults.dashboardText = computationResults.systemBreachClass.desc;
+            computationResults.dashboardText = computationResults.systemBreachClass.dashboardText;
             
             // SYSTEM_POLICY is attributing
         } else if (computationResults.systemPolicyScore <= computationResults.systemSecurityScore) {
@@ -73,13 +74,15 @@
             
             // Copy over the policy settings for this classification
             computationResults.attributingClassID = [computationResults.systemPolicyClass.identification integerValue] ;
+            computationResults.warnTitle = computationResults.systemBreachClass.warnTitle;
+            computationResults.warnDesc = computationResults.systemBreachClass.warnDesc;
             
             // Set action codes from the policy for this classification
             computationResults.authenticationAction = [computationResults.systemPolicyClass.authenticationAction integerValue];
             computationResults.postAuthenticationAction = [computationResults.systemPolicyClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
-            computationResults.dashboardText = computationResults.systemPolicyClass.desc;
+            computationResults.dashboardText = computationResults.systemPolicyClass.dashboardText;
             
             //SYSTEM_SECURITY is attributing
         } else {
@@ -89,13 +92,15 @@
             
             // Copy over the policy settings for this classification
             computationResults.attributingClassID = [computationResults.systemSecurityClass.identification integerValue] ;
+            computationResults.warnTitle = computationResults.systemBreachClass.warnTitle;
+            computationResults.warnDesc = computationResults.systemBreachClass.warnDesc;
             
             // Set action codes from the policy for this classification
             computationResults.authenticationAction = [computationResults.systemSecurityClass.authenticationAction integerValue];
             computationResults.postAuthenticationAction = [computationResults.systemSecurityClass.postAuthenticationAction integerValue];
             
             // Set dashboard info
-            computationResults.dashboardText = computationResults.systemSecurityClass.desc;
+            computationResults.dashboardText = computationResults.systemSecurityClass.dashboardText;
         }
         
     } else {
@@ -113,13 +118,15 @@
         if (computationResults.userPolicyScore < 100) {
             
             // Set dashboard text
-            computationResults.dashboardText = computationResults.userPolicyClass.desc;
+            computationResults.dashboardText = computationResults.userPolicyClass.dashboardText;
 
              // Set the result code since this class is attributing
              computationResults.coreDetectionResult = CoreDetectionResult_PolicyViolation;
              
              // Copy over the policy settings for this classification
              computationResults.attributingClassID = [computationResults.userPolicyClass.identification integerValue] ;
+            computationResults.warnTitle = computationResults.systemBreachClass.warnTitle;
+            computationResults.warnDesc = computationResults.systemBreachClass.warnDesc;
              
             // Set action codes from the policy for this classification
              computationResults.authenticationAction = [computationResults.userPolicyClass.authenticationAction integerValue];
@@ -146,6 +153,9 @@
                         
                         // Save the module employed such that prompt information can be read from it
                         computationResults.authenticationModuleEmployed = authModule;
+                        
+                        // Set the dashboard text
+                        computationResults.dashboardText = authModule.dashboardText;
                         
                         // Determine if we should attempt transparent auth based on the current potential TrustFactors
                         // Check entropy and prioritize high entropy trustfactors
@@ -195,10 +205,12 @@
                                 computationResults.postAuthenticationAction = [authModule.postAuthenticationAction integerValue];
                                 
                                 // Set dashboard and detailed user view info
-                                computationResults.dashboardText = authModule.guiIconText;
+                                computationResults.dashboardText = authModule.dashboardText;
                                 
                                 // Set action codes from the policy for this classification
                                 computationResults.attributingClassID = [computationResults.userAnomalyClass.identification integerValue];
+                                computationResults.warnTitle = authModule.warnTitle;
+                                computationResults.warnDesc = authModule.warnDesc;
                                 
                                 break;
                             }
@@ -227,7 +239,7 @@
                         // Set result
                         computationResults.coreDetectionResult = CoreDetectionResult_UserAnomaly;
                         // Set dashboard and detailed user view info
-                        computationResults.dashboardText = authModule.guiIconText;
+                        computationResults.dashboardText = authModule.dashboardText;
                         
                         // Set method for runHistory upload
                         computationResults.authenticationModuleEmployed = authModule;
@@ -238,6 +250,8 @@
                         
                         // Set action codes from the policy for this classification
                         computationResults.attributingClassID = [computationResults.userAnomalyClass.identification integerValue] ;
+                        computationResults.warnTitle = authModule.warnTitle;
+                        computationResults.warnDesc = authModule.warnDesc;
                         
                         // Set preLoginAction to what the auth module wants
                         computationResults.authenticationAction = [authModule.authenticationAction integerValue];

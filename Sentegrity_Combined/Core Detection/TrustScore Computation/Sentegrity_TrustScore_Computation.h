@@ -84,8 +84,14 @@
 // System Trusted
 @property (nonatomic) BOOL systemTrusted;
 
-// System detailed view: Issue Messages
+// System subClassResultObjects
 @property (nonatomic) NSArray *systemSubClassResultObjects;
+
+// System Issue Messages
+@property (nonatomic) NSArray *systemIssues;
+
+// System Suggestion Messages
+@property (nonatomic) NSArray *systemSuggestions;
 
 #pragma mark - Composite User Score
 
@@ -97,6 +103,12 @@
 
 // User subClassResultObjects
 @property (nonatomic) NSArray *userSubClassResultObjects;
+
+// User Issue Messages
+@property (nonatomic) NSArray *userIssues;
+
+// User Suggestion Messages
+@property (nonatomic) NSArray *userSuggestions;
 
 
 
@@ -115,6 +127,10 @@
 
 // Classification responsible for causing protect mode
 @property (nonatomic) NSInteger attributingClassID;
+
+// Set warn title/desc here such that it can be pulled from classifications or auth modules if the attributing is user anomaly
+@property (nonatomic) NSString *warnTitle;
+@property (nonatomic) NSString *warnDesc;
 
 // Action to take (e.g., prompt user or admin pin)
 @property (nonatomic) NSInteger authenticationAction;

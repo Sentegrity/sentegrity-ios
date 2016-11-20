@@ -30,6 +30,12 @@
 // GUI subclass objects for display
 @property (nonatomic,retain) NSArray *subClassResultObjects;
 
+// GUI subclass issues for display or runHistory
+@property (nonatomic,retain) NSArray *trustFactorIssues;
+
+// GUI subclass suggestions for display or runHistory
+@property (nonatomic,retain) NSArray *trustFactorSuggestions;
+
 
 
 @end

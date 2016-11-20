@@ -34,10 +34,10 @@
 @property (nonatomic, assign) NSInteger userScore;
 
 // User Issues
-@property (nonatomic, strong) NSArray<NSString  *> *userSubClassResultObjects;
+@property (nonatomic, strong) NSArray<NSString  *> *userIssues;
 
 // System Issues
-@property (nonatomic, strong) NSArray<NSString  *> *systemSubClassResultObjects;
+@property (nonatomic, strong) NSArray<NSString  *> *systemIssues;
 
 
 
