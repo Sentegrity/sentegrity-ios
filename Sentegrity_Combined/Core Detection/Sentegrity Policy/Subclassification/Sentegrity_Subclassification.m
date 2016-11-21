@@ -19,6 +19,11 @@
 - (void)setName:(NSString *)name{
     _name = name;
 }
+
+// Icon ID
+- (void)setIconID:(NSNumber *)iconID{
+    _iconID = iconID;
+}
 // GUI explanation text
 - (void)setExplanation:(NSString *)explanation{
     _explanation = explanation;

@@ -552,6 +552,7 @@
                 [subClassResultObject setClassID:[[class identification] integerValue]];
                 [subClassResultObject setSubClassID:[[subClass identification] integerValue]];
                 [subClassResultObject setSubClassTitle:subClass.name];
+                [subClassResultObject setSubClassIconID:[[subClass iconID] integerValue]];
                 [subClassResultObject setSubClassExplanation:subClass.explanation];
                 [subClassResultObject setSubClassSuggestion:subClass.suggestion];
                 [subClassResultObject setTrustPercent:percentOfTrust];

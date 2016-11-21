@@ -12,6 +12,7 @@
 
 @property (nonatomic, retain) NSNumber *identification;
 @property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSNumber *iconID;
 @property (nonatomic, retain) NSString *explanation;
 @property (nonatomic, retain) NSString *suggestion;
 @property (nonatomic, retain) NSString *dneUnauthorized;

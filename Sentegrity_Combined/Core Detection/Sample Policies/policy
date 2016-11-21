@@ -117,6 +117,7 @@
 "subclassifications": [{
 "id": 1,
 "name": "Network Security",
+"iconID": 0,
 "explanation": "Sentegrity analyzes the security of this devices network connections to identify the presence of unencrypted communications, malicious network activity, and potential man-in-the-middle attacks. This activity can increase the risk of exposing BYOD data on this device and can impact the device TrustScore.",
 "suggestion": "You can disable your network connection to temporarily remediate these conditions, a persistent issue may be due to the types of applications installed, or malware resident on the device. Contact support if this issue persists.",
 "dneUnauthorized": "",
@@ -130,6 +131,7 @@
 }, {
 "id": 2,
 "name": "WiFi Security",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "Authorize WiFi access",
@@ -143,6 +145,7 @@
 }, {
 "id": 3,
 "name": "Application Security",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -156,6 +159,7 @@
 }, {
 "id": 4,
 "name": "Platform Security",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -169,6 +173,7 @@
 }, {
 "id": 5,
 "name": "Access Time",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -182,6 +187,7 @@
 }, {
 "id": 6,
 "name": "User Location",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "Authorize location services",
@@ -195,6 +201,7 @@
 }, {
 "id": 7,
 "name": "Device Movement",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -208,6 +215,7 @@
 }, {
 "id": 8,
 "name": "Bluetooth",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "Authorize Bluetooth",
@@ -221,6 +229,7 @@
 }, {
 "id": 9,
 "name": "Physical Security",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -234,6 +243,7 @@
 }, {
 "id": 10,
 "name": "User Activity",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "Authorize activity data",
@@ -247,6 +257,7 @@
 }, {
 "id": 11,
 "name": "Configuration Security",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -260,6 +271,7 @@
 }, {
 "id": 12,
 "name": "Cellular Security",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -273,6 +285,7 @@
 }, {
 "id": 13,
 "name": "Device Grip",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "Authorize motion services",
@@ -286,6 +299,7 @@
 }, {
 "id": 14,
 "name": "Device Orientation",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -299,6 +313,7 @@
 }, {
 "id": 15,
 "name": "Good NOC Security",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -312,6 +327,7 @@
 }, {
 "id": 16,
 "name": "Device Power",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -325,6 +341,7 @@
 }, {
 "id": 18,
 "name": "Device State",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
@@ -338,6 +355,7 @@
 }, {
 "id": 19,
 "name": "WiFi",
+"iconID": 0,
 "explanation": "test explainer",
 "suggestion": "test suggestion",
 "dneUnauthorized": "",
