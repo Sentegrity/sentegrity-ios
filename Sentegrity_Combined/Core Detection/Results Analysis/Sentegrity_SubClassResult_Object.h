@@ -25,7 +25,7 @@
 @property (nonatomic, retain) NSString *subClassTitle;
 
 // Subclass GUI Icon ID
-@property (nonatomic, assign) NSInteger *subClassIconID;
+@property (nonatomic, assign) NSInteger subClassIconID;
 
 // Subclass GUI status text
 @property (nonatomic, retain) NSString *subClassStatusText;

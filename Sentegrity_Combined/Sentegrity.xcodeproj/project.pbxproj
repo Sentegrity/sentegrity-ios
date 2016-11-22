@@ -1514,7 +1514,7 @@
 					"../**",
 				);
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1590,7 +1590,7 @@
 					"../**",
 				);
 				INFOPLIST_FILE = "Sentegrity/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
@@ -1650,13 +1650,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					/Good,
-					Technology/Good.platform/Frameworks/,
 					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
 					"$(PROJECT_DIR)/Sentegrity",
-					TAF/Supporting,
-					Files/DAF,
-					Bundles,
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (
@@ -1734,13 +1729,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					/Good,
-					Technology/Good.platform/Frameworks/,
 					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
 					"$(PROJECT_DIR)/Sentegrity",
-					TAF/Supporting,
-					Files/DAF,
-					Bundles,
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;

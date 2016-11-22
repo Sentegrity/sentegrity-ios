@@ -51,7 +51,8 @@
     
     
     //before proceed, we try to fetch latest policy from the server. This must be succesfully executed before proceeding to other screens
-    NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];
+
+    NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:(NSString *)GDAppConfigKeyUserId];
 
     
     if (email == nil || [email isEqual:[NSNull null]]) {

@@ -227,7 +227,7 @@ static MBProgressHUD *HUD;
         NSError *error;
         NSString *dummyPassword = @"asdf";
         [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithError:&error];
-        NSString *masterKey = [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithPassoword:dummyPassword withError:&error];
+        /*NSString *masterKey = */[[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithPassoword:dummyPassword withError:&error];
         
     }
     
@@ -286,7 +286,7 @@ static MBProgressHUD *HUD;
                 case authenticationResult_Success:{ // No transparent auth errors
                     
                     // Now we could pass the key to the GD runtime
-                    NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+                    //NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
                     
                     // For demo purposes we just go to landing page
                     // Show the landing page since we've been transparently authenticated
@@ -376,7 +376,7 @@ static MBProgressHUD *HUD;
                 if(computationResults.authenticationResult == authenticationResult_Success || computationResults.authenticationResult == authenticationResult_recoverableError ) {
                     
                     // Now we could pass the key to the GD runtime
-                    NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+                   // NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
                     
                     // For demo purposes we just go to landing page
                     
@@ -459,7 +459,7 @@ static MBProgressHUD *HUD;
                 if(computationResults.authenticationResult == authenticationResult_Success || computationResults.authenticationResult == authenticationResult_recoverableError ) {
                     
                     // Now we could pass the key to the GD runtime
-                    NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
+                    //NSData *decryptedMasterKey = loginResponseObject.decryptedMasterKey;
                     
                     // For demo purposes we just go to landing page
                     

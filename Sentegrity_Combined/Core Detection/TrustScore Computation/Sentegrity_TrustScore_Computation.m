@@ -532,7 +532,7 @@
                 Sentegrity_SubClassResult_Object *subClassResultObject = [[Sentegrity_SubClassResult_Object alloc] init];
                 
                 // Determine level of trust in the subclass by dividing current amount by total possible
-                int percentOfTrust;
+                NSInteger percentOfTrust;
                 
                 // Should always be > 0 otherwise must be a policy error
                 if(subClass.totalPossibleScore > 0){

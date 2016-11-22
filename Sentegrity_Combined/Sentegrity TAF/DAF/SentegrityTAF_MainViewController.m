@@ -67,7 +67,7 @@
             if(self.firstTime==YES || !currentEmail)
             {
                 
-                NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:GDAppConfigKeyUserId];
+                NSString *email = [[[GDiOS sharedInstance] getApplicationConfig] objectForKey:(NSString *)GDAppConfigKeyUserId];
                 
                 // Update the startup file with the email
                 
@@ -162,5 +162,9 @@
     self.dashboardViewController = dashboardViewController;
 }
 
+
+- (void) dismissSuccesfullyFinishedViewController:(UIViewController *) vc withInfo: (NSDictionary *) info {
+    
+}
 
 @end
