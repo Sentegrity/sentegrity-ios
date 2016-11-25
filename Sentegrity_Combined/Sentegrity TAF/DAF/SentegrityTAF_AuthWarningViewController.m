@@ -124,6 +124,7 @@
     
     [self dismissViewControllerAnimated:NO completion: ^{
         NSLog(@"SentegrityTAF_AuthWarningViewController: delivering auth token");
+#warning dummy
         NSData *authToken = [NSData dataWithBytes:"dummy" length:5];
         [result setResult:authToken];
         result = nil;

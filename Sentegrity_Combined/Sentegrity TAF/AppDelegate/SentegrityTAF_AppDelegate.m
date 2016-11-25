@@ -44,6 +44,16 @@
     self.authViewController = [[SentegrityTAF_BlankAuthViewController alloc] init];
     self.activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
 
+    NSArray *fontFamilies = [UIFont familyNames];
+    
+    for (int i = 0; i < [fontFamilies count]; i++)
+    {
+        NSString *fontFamily = [fontFamilies objectAtIndex:i];
+        NSArray *fontNames = [UIFont fontNamesForFamilyName:[fontFamilies objectAtIndex:i]];
+        NSLog (@"%@: %@", fontFamily, fontNames);
+    }
+
+
 }
 
 

@@ -10,6 +10,7 @@
 #import "ISHPermissionKit.h"
 
 #import "SentegrityTAF_MainViewController.h"
+#import "SentegrityTAF_DashboardViewController.h"
 
 // Side Menu
 #import "RESideMenu.h"
@@ -23,7 +24,7 @@
 @property (nonatomic) BOOL firstTime;
 
 @property (weak, nonatomic) IBOutlet ILContainerView *containerView;
-@property (strong, nonatomic) DashboardViewController *dashboardViewController;
+@property (strong, nonatomic) SentegrityTAF_DashboardViewController *dashboardViewController;
 @property (nonatomic, strong) UIViewController *currentViewController;
 
 
@@ -112,36 +113,14 @@
 
 - (void) showDashboard {
     
-   
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    DashboardViewController *dashboardViewController = [[DashboardViewController alloc] initWithNibName:@"DashboardViewController" bundle:nil];
-    
-    //Allow dashboardViewController to reset deauthorizing if it's foreground is called when mainView is not
-    //dashboardViewController.deauthorizing = self.deauthorizing;
-    
-    // Hide the dashboard view controller
-    [dashboardViewController.menuButton setHidden:YES];
-    
-    // We want the user to be able to go back from here
-    [dashboardViewController.backButton setHidden:YES];
-    
-    // Set the last-updated text and reload button hidden
-    [dashboardViewController.reloadButton setHidden:YES];
+    SentegrityTAF_DashboardViewController *dashboardViewController = [[SentegrityTAF_DashboardViewController alloc] init];
     
     // Navigation Controller
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
-    [navController setNavigationBarHidden:YES];
-    
-    // Hide the dashboard view controller
-    [dashboardViewController.menuButton setHidden:YES];
-    
-    // We want the user to be able to go back from here
-    [dashboardViewController.backButton setHidden:YES];
-    
-    // Set the last-updated text and reload button hidden
-    [dashboardViewController.reloadButton setHidden:YES];
-    
+
+
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     // Get policy to check for debug
     // Get the policy

@@ -30,6 +30,7 @@
     [self dismissViewControllerAnimated:NO completion: ^{
         
         //delivering dummy authToken
+#warning dummy
         NSData *authToken = [NSData dataWithBytes:"dummy" length:5];
         [self.result setResult:authToken];
         self.result = nil;
