@@ -134,7 +134,7 @@
         [self.menuButton setLineHeight:4.0f];
         [self.menuButton setLineSpacing:7.0f];
         [self.menuButton setShowsTouchWhenHighlighted:YES];
-        [self.menuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.menuButton addTarget:self action:@selector(leftMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.menuButton updateAppearance];
         
         UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuButton];
@@ -287,14 +287,14 @@
 
 
 // Right Menu Button Pressed
-- (void)rightMenuButtonPressed:(JTHamburgerButton *)sender {
+- (void)leftMenuButtonPressed:(JTHamburgerButton *)sender {
     // Check which mode the menu button is in
     if (sender.currentMode == JTHamburgerButtonModeHamburger) {
         // Set it to arrow
         [sender setCurrentModeWithAnimation:JTHamburgerButtonModeArrow];
         
         // Present the right menu
-        [self presentRightMenuViewController:self];
+        [self presentLeftMenuViewController:self];
     } else {
         // Set it to hamburger
         [sender setCurrentModeWithAnimation:JTHamburgerButtonModeHamburger];

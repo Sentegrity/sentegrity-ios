@@ -267,7 +267,7 @@
     
     NSArray *titles = @[@"User Debug", @"Transparent Debug", @"System Debug", @"Score Debug", @"Wipe Profile"];
     cell.textLabel.text = titles[indexPath.row];
-    cell.textLabel.textAlignment = NSTextAlignmentRight;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     
     return cell;
 }
