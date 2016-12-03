@@ -23,6 +23,7 @@
     // Default trust results
     computationResults.deviceTrusted = YES;
     computationResults.userTrusted = YES;
+    computationResults.systemTrusted = YES;
     
     // Auth method defaults
     computationResults.authenticationModuleEmployed = nil;
@@ -74,8 +75,8 @@
             
             // Copy over the policy settings for this classification
             computationResults.attributingClassID = [computationResults.systemPolicyClass.identification integerValue] ;
-            computationResults.warnTitle = computationResults.systemBreachClass.warnTitle;
-            computationResults.warnDesc = computationResults.systemBreachClass.warnDesc;
+            computationResults.warnTitle = computationResults.systemPolicyClass.warnTitle;
+            computationResults.warnDesc = computationResults.systemPolicyClass.warnDesc;
             
             // Set action codes from the policy for this classification
             computationResults.authenticationAction = [computationResults.systemPolicyClass.authenticationAction integerValue];
@@ -92,8 +93,8 @@
             
             // Copy over the policy settings for this classification
             computationResults.attributingClassID = [computationResults.systemSecurityClass.identification integerValue] ;
-            computationResults.warnTitle = computationResults.systemBreachClass.warnTitle;
-            computationResults.warnDesc = computationResults.systemBreachClass.warnDesc;
+            computationResults.warnTitle = computationResults.systemSecurityClass.warnTitle;
+            computationResults.warnDesc = computationResults.systemSecurityClass.warnDesc;
             
             // Set action codes from the policy for this classification
             computationResults.authenticationAction = [computationResults.systemSecurityClass.authenticationAction integerValue];
@@ -275,7 +276,8 @@
     } else { // System is not trusted therefore don't do any user anomaly or risk-based auth determination
         
         // Set dashboard and detailed system view info
-        computationResults.dashboardText = @"Authentication Disabled";
+        // Don't think we need this anymore
+        //computationResults.dashboardText = @"Authentication Disabled";
         
         
     }

@@ -226,7 +226,7 @@
     
     
     // device button icon
-    if (self.computationResults.deviceTrusted) {
+    if (self.computationResults.systemTrusted) {
         self.imageViewDeviceError.hidden = YES;
         self.imageViewDeviceNormal.hidden = NO;
     }

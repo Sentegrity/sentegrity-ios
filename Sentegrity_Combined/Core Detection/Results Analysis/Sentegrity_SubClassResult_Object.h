@@ -16,7 +16,13 @@
 @property (nonatomic, assign) NSInteger subClassID;
 
 // Stored error codes for translation
-@property (nonatomic, assign) NSArray* errorCodes;
+@property (nonatomic, retain) NSArray* errorCodes;
+
+// Total possible score
+@property (nonatomic, assign) NSInteger totalPossibleScore;
+
+// Total actual score
+@property (nonatomic, assign) NSInteger totalScore;
 
 // Trust percent (out of 100)
 @property (nonatomic, assign) NSInteger trustPercent;

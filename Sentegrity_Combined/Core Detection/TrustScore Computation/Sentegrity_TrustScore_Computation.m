@@ -491,7 +491,7 @@
                                 
                                 // Do not penalize for WiFi rules that did not run within system-based classifications
                                 // This is because WiFi is considered dangerous from a system perspective and should not penalize
-                                if ([[class type] intValue]!=0 && ![subClass.name containsString:@"WiFi"]) {
+                                if (![subClass.name containsString:@"WiFi"]) {
                                     
                                     [self addSuggestionsAndCalcWeightForSubClass:subClass withPolicy:policy withSuggestions:trustFactorSuggestionsInSubClass forTrustFactorOutputObject:trustFactorOutputObject];
                                     
@@ -531,22 +531,9 @@
                 // Create a subclass result object
                 Sentegrity_SubClassResult_Object *subClassResultObject = [[Sentegrity_SubClassResult_Object alloc] init];
                 
-                // Determine level of trust in the subclass by dividing current amount by total possible
-                NSInteger percentOfTrust;
-                
-                // Should always be > 0 otherwise must be a policy error
-                if(subClass.totalPossibleScore > 0){
-                    percentOfTrust = (subClass.score / subClass.totalPossibleScore)*100;
-                }
-                else{
-                    percentOfTrust = 0;
-                }
-                
-                // If the class we are in does not score additively we need to subtract from 1 to get the real trust %
-                if([[class computationMethod] intValue]!=1){
-                    percentOfTrust = 100 - percentOfTrust;
-                }
-                
+                // Store total possible and score for use when multiple subclass objects are found for hte same subclass and must be merged later
+                [subClassResultObject setTotalPossibleScore:subClass.totalPossibleScore];
+                [subClassResultObject setTotalScore:subClass.score];
                 
                 // Set stuff we already know
                 [subClassResultObject setClassID:[[class identification] integerValue]];
@@ -555,7 +542,7 @@
                 [subClassResultObject setSubClassIconID:[[subClass iconID] integerValue]];
                 [subClassResultObject setSubClassExplanation:subClass.explanation];
                 [subClassResultObject setSubClassSuggestion:subClass.suggestion];
-                [subClassResultObject setTrustPercent:percentOfTrust];
+
                 
                 // Add issues and suggestions gathered from trustFactors iterated within this subclass
                 [subClassResultObject setTrustFactorIssuesInSubClass:trustFactorIssuesInSubClass];
@@ -565,7 +552,7 @@
                 [subClassResultObject setErrorCodes:subClassDNECodes];
                 
                 // No errors, update analysis message with subclass complete
-                if(!subClassAnalysisIncomplete) {
+                if(subClassAnalysisIncomplete==NO) {
                     
                     // Check if TFs didnt run because they were not learned yet to ensure we don't call it trusted
                     if(subClassIsFullyLearned==YES){
@@ -759,7 +746,106 @@
             }
             
             // Tally system GUI elements
-            [systemSubClassResultObjects addObjectsFromArray:[class subClassResultObjects]];
+            // iterate through existing to ensure to check for duplicates
+            BOOL exists;
+            NSInteger percentOfTrust;
+            for(Sentegrity_SubClassResult_Object *resultObjectInClass in [class subClassResultObjects]){
+                
+                exists=NO;
+                for(Sentegrity_SubClassResult_Object *resultObjectInSystem in systemSubClassResultObjects){
+                    
+                    // If the object already exists in the total system tally then merge and update existing resultObjectInSystem
+                    if([resultObjectInClass subClassID] == [resultObjectInSystem subClassID]){
+                        exists=YES;
+                        NSMutableArray *mutableArray;
+                        NSOrderedSet *orderedSet;
+                        
+                        //merge trust percent
+                        // Calculate trust percent for htis object only
+                        // Should always be > 0 otherwise must be a policy error
+                        if((resultObjectInClass.totalPossibleScore + resultObjectInSystem.totalPossibleScore) > 0){
+                            
+                            // Update resultObjectInSystem totalPossibleScore by adding current
+                            [resultObjectInSystem setTotalPossibleScore:([resultObjectInSystem totalPossibleScore] + [resultObjectInClass totalPossibleScore])];
+                            
+                            // Update resultObjectInClass totalScore by adding current
+                            [resultObjectInSystem setTotalScore:([resultObjectInSystem totalScore] + [resultObjectInClass totalScore])];
+                            
+                            percentOfTrust = ((resultObjectInSystem.totalScore / (float)resultObjectInSystem.totalPossibleScore)*100);
+                        }
+                        else{
+                            percentOfTrust = 0;
+                        }
+                        
+                        // Since this is the system class (non-additive scoring), we need to subtract from 1
+                        percentOfTrust = 100 - percentOfTrust;
+                        
+                        // Updated percent of trust for GUI use
+                        [resultObjectInSystem setTrustPercent:percentOfTrust];
+                        
+                        //merge issues
+                        //mutuable version of  issues in current subclass array
+                        mutableArray = [[resultObjectInClass trustFactorIssuesInSubClass] mutableCopy];
+                        [mutableArray addObjectsFromArray:[resultObjectInSystem trustFactorIssuesInSubClass]];
+                        // remove dupes
+                        orderedSet = [NSOrderedSet orderedSetWithArray:mutableArray];
+                        //Update the existing resultObjectInSystem object with the merged issues list
+                        [resultObjectInSystem setTrustFactorIssuesInSubClass:orderedSet.array];
+                        
+                        
+                        //merge suggestions
+                        //mutuable version of  issues in current subclass array
+                        mutableArray = [[resultObjectInClass trustFactorSuggestionInSubClass] mutableCopy];
+                        [mutableArray addObjectsFromArray:[resultObjectInSystem trustFactorSuggestionInSubClass]];
+                        // remove dupes
+                        orderedSet = [NSOrderedSet orderedSetWithArray:mutableArray];
+                        //Update the existing resultObjectInSystem object with the merged issues list
+                        [resultObjectInSystem setTrustFactorSuggestionInSubClass:orderedSet.array];
+                        
+                        
+                        //determine status text
+                        //if the new subClass is not complete override the exisitng
+                        if (![[resultObjectInClass subClassStatusText] isEqualToString:@"Complete"]){
+                            
+                            // update the existing with the class version
+                            [resultObjectInSystem setSubClassStatusText:[resultObjectInClass subClassStatusText]];
+                        }
+                        
+                        //merge status codes
+                        mutableArray = [[resultObjectInClass errorCodes] mutableCopy];
+                        [mutableArray addObjectsFromArray:[resultObjectInSystem errorCodes]];
+                        // remove dupes
+                        orderedSet = [NSOrderedSet orderedSetWithArray:mutableArray];
+                        [resultObjectInSystem setErrorCodes:orderedSet.array];
+
+                    }
+                }
+                
+                if(exists==NO){
+                    // Calculate trust percent for htis object only
+                    // Should always be > 0 otherwise must be a policy error
+                    if(resultObjectInClass.totalPossibleScore > 0){
+                        
+                        percentOfTrust = ((resultObjectInClass.totalScore / (float)resultObjectInClass.totalPossibleScore)*100);
+                    }
+                    else{
+                        percentOfTrust = 0;
+                    }
+                    
+                    // Since this is the system class (non-additive scoring, we need to subtract from 1
+                    percentOfTrust = 100 - percentOfTrust;
+                    
+                    // Updated percent of trust for GUI use
+                    resultObjectInClass.trustPercent = percentOfTrust;
+                    
+                    // add to list
+                    [systemSubClassResultObjects addObject:resultObjectInClass];
+                }
+  
+            }
+
+            
+            //[systemSubClassResultObjects addObjectsFromArray:[class subClassResultObjects]];
             
             // Tally system issues
             [systemTrustFactorIssues addObjectsFromArray:[class trustFactorIssues]];
@@ -818,7 +904,99 @@
             }
             
             // Tally user GUI elements
-            [userSubClassResultObjects addObjectsFromArray:[class subClassResultObjects]];
+            // Tally system GUI elements
+            // iterate through existing to ensure to check for duplicates
+            BOOL exists;
+            NSInteger percentOfTrust;
+            for(Sentegrity_SubClassResult_Object *resultObjectInClass in [class subClassResultObjects]){
+                
+                exists=NO;
+                for(Sentegrity_SubClassResult_Object *resultObjectInUser in userSubClassResultObjects){
+                    
+                    // If the object already exists in the total system tally then merge and update existing resultObjectInSystem
+                    if([resultObjectInClass subClassID] == [resultObjectInUser subClassID]){
+                        exists=YES;
+                        NSMutableArray *mutableArray;
+                        NSOrderedSet *orderedSet;
+
+                        //merge trust percent
+                        // Calculate trust percent for htis object only
+                        // Should always be > 0 otherwise must be a policy error
+                        if((resultObjectInClass.totalPossibleScore + resultObjectInUser.totalPossibleScore) > 0){
+                            
+                            // Update resultObjectInSystem totalPossibleScore by adding current
+                            [resultObjectInUser setTotalPossibleScore:([resultObjectInUser totalPossibleScore] + [resultObjectInClass totalPossibleScore])];
+                            
+                            // Update resultObjectInClass totalScore by adding current
+                            [resultObjectInUser setTotalScore:([resultObjectInUser totalScore] + [resultObjectInClass totalScore])];
+                            
+                            percentOfTrust = ((resultObjectInUser.totalScore / (float)resultObjectInUser.totalPossibleScore)*100);
+                        }
+                        else{
+                            percentOfTrust = 0;
+                        }
+                        
+                        // Updated percent of trust for GUI use
+                        [resultObjectInUser setTrustPercent:percentOfTrust];
+                        
+                        //merge issues
+                        //mutuable version of  issues in current subclass array
+                        mutableArray = [[resultObjectInClass trustFactorIssuesInSubClass] mutableCopy];
+                        [mutableArray addObjectsFromArray:[resultObjectInUser trustFactorIssuesInSubClass]];
+                        // remove dupes
+                        orderedSet = [NSOrderedSet orderedSetWithArray:mutableArray];
+                        //Update the existing resultObjectInSystem object with the merged issues list
+                        [resultObjectInUser setTrustFactorIssuesInSubClass:orderedSet.array];
+                        
+                        
+                        //merge suggestions
+                        //mutuable version of  issues in current subclass array
+                        mutableArray = [[resultObjectInClass trustFactorSuggestionInSubClass] mutableCopy];
+                        [mutableArray addObjectsFromArray:[resultObjectInUser trustFactorSuggestionInSubClass]];
+                        // remove dupes
+                        orderedSet = [NSOrderedSet orderedSetWithArray:mutableArray];
+                        //Update the existing resultObjectInSystem object with the merged issues list
+                        [resultObjectInUser setTrustFactorSuggestionInSubClass:orderedSet.array];
+                        
+                        
+                        //determine status text
+                        //if the new subClass is not complete override the exisitng
+                        if (![[resultObjectInClass subClassStatusText] isEqualToString:@"Complete"]){
+                            
+                            // update the existing with the class version
+                            [resultObjectInUser setSubClassStatusText:[resultObjectInClass subClassStatusText]];
+                        }
+                        
+                        //merge status codes
+                        mutableArray = [[resultObjectInClass errorCodes] mutableCopy];
+                        [mutableArray addObjectsFromArray:[resultObjectInUser errorCodes]];
+                        // remove dupes
+                        orderedSet = [NSOrderedSet orderedSetWithArray:mutableArray];
+                        [resultObjectInUser setErrorCodes:orderedSet.array];
+                        
+                    }
+                }
+                
+                if(exists==NO){
+                    // Calculate trust percent for this object only
+                    // Should always be > 0 otherwise must be a policy error
+                    if(resultObjectInClass.totalPossibleScore > 0){
+                        
+                        percentOfTrust = ((resultObjectInClass.totalScore / (float)resultObjectInClass.totalPossibleScore)*100);
+                    }
+                    else{
+                        percentOfTrust = 0;
+                    }
+                    
+                    // Updated percent of trust for GUI use
+                    resultObjectInClass.trustPercent = percentOfTrust;
+
+                    [userSubClassResultObjects addObject:resultObjectInClass];
+                }
+                
+            }
+
+            //[userSubClassResultObjects addObjectsFromArray:[class subClassResultObjects]];
             
             // Tally system issues
             [userTrustFactorIssues addObjectsFromArray:[class trustFactorIssues]];
