@@ -108,7 +108,7 @@ BOOL challenge;
 
 - (void)fetchBWSToken:(NSString*) bwsTask onCompletion:(void (^)(NSString *, NSError *))callbackBlock {
     // Create BWS Extension URL
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@.bioid.com/extension/token?id=%@&bcid=%@&task=%@&challenge=%@", BWS_INSTANCE_NAME, CLIENT_APP_ID, self.BCID, bwsTask, challenge ? @"true" : @"false"]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://%@.bioid.com/extension/token?id=%@&bcid=%@&task=%@&challenge=%@&autoenroll=true", BWS_INSTANCE_NAME, CLIENT_APP_ID, self.BCID, bwsTask, challenge ? @"true" : @"false"]];
     NSLog(@"URL %@", [url absoluteString]);
     
     // Create the authentication header for Basic Authentication
