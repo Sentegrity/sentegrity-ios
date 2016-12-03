@@ -131,6 +131,8 @@
         //added to support right menu for debugging
         RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:nil rightMenuViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"rightmenuviewcontroller"]];
         self.currentViewController = sideMenuViewController;
+        
+        sideMenuViewController.view.backgroundColor = [UIColor blackColor];
     }
     else {
         self.currentViewController = navController;

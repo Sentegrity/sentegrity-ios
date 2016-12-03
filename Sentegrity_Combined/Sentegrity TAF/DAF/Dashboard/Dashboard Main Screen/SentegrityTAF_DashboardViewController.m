@@ -138,7 +138,7 @@
         [self.menuButton updateAppearance];
         
         UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuButton];
-        self.navigationItem.rightBarButtonItem = buttonItem;
+        self.navigationItem.leftBarButtonItem = buttonItem;
     }
     
     
