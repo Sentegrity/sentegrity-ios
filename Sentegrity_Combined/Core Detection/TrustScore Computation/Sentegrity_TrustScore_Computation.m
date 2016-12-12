@@ -763,7 +763,7 @@
                         //merge trust percent
                         // Calculate trust percent for htis object only
                         // Should always be > 0 otherwise must be a policy error
-                        if((resultObjectInClass.totalPossibleScore + resultObjectInSystem.totalPossibleScore) > 0){
+                       // if((resultObjectInClass.totalPossibleScore + resultObjectInSystem.totalPossibleScore) > 0){
                             
                             // Update resultObjectInSystem totalPossibleScore by adding current
                             [resultObjectInSystem setTotalPossibleScore:([resultObjectInSystem totalPossibleScore] + [resultObjectInClass totalPossibleScore])];
@@ -771,11 +771,13 @@
                             // Update resultObjectInClass totalScore by adding current
                             [resultObjectInSystem setTotalScore:([resultObjectInSystem totalScore] + [resultObjectInClass totalScore])];
                             
-                            percentOfTrust = ((resultObjectInSystem.totalScore / (float)resultObjectInSystem.totalPossibleScore)*100);
-                        }
-                        else{
-                            percentOfTrust = 0;
-                        }
+                            //percentOfTrust = ((resultObjectInSystem.totalScore / (float)resultObjectInSystem.totalPossibleScore)*100);
+                            
+                            percentOfTrust = ((resultObjectInSystem.totalScore / (float)100)*100);
+                       // }
+                       // else{
+                       //     percentOfTrust = 0;
+                       // }
                         
                         // Since this is the system class (non-additive scoring), we need to subtract from 1
                         percentOfTrust = 100 - percentOfTrust;
@@ -824,13 +826,14 @@
                 if(exists==NO){
                     // Calculate trust percent for htis object only
                     // Should always be > 0 otherwise must be a policy error
-                    if(resultObjectInClass.totalPossibleScore > 0){
+                    //if(resultObjectInClass.totalPossibleScore > 0){
                         
-                        percentOfTrust = ((resultObjectInClass.totalScore / (float)resultObjectInClass.totalPossibleScore)*100);
-                    }
-                    else{
-                        percentOfTrust = 0;
-                    }
+                        //percentOfTrust = ((resultObjectInClass.totalScore / (float)resultObjectInClass.totalPossibleScore)*100);
+                        percentOfTrust = ((resultObjectInClass.totalScore / (float)100)*100);
+                   // }
+                   // else{
+                   //     percentOfTrust = 0;
+                   // }
                     
                     // Since this is the system class (non-additive scoring, we need to subtract from 1
                     percentOfTrust = 100 - percentOfTrust;
