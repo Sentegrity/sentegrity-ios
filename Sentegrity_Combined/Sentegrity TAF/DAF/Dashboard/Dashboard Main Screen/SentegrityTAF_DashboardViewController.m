@@ -11,6 +11,10 @@
 #import "Sentegrity_TrustScore_Computation.h"
 #import "SentegrityTAF_UserDeviceInformationViewController.h"
 
+#import "SentegrityTAF_PrivacyViewController.h"
+#import "SentegrityTAF_AboutViewController.h"
+#import "SentegrityTAF_SupportViewController.h"
+
 #import "NSDate+DateTools.h"
 #import "CircularProgressView.h"
 #import "Sentegrity_Constants.h"
@@ -19,10 +23,13 @@
 #import "RESideMenu.h"
 #import "JTHamburgerButton.h"
 #import "UIViewController+RESideMenu.h"
+#import "SentegrityTAF_DebugMenuViewController.h"
+#import "SentegrityTAF_ProductionMenuViewController.h"
 
 
 
-@interface SentegrityTAF_DashboardViewController () <RESideMenuDelegate>
+
+@interface SentegrityTAF_DashboardViewController () <RESideMenuDelegate, SentegrityTAF_ProductionMenuDelegate>
 
 // data objects
 @property (nonatomic, strong) Sentegrity_TrustScore_Computation *computationResults;
@@ -43,8 +50,11 @@
 
 
 //Hamburger menu
-@property (strong, nonatomic) IBOutlet JTHamburgerButton *menuButton;
+@property (strong, nonatomic)  JTHamburgerButton *debugMenuButton;
+@property (strong, nonatomic)  JTHamburgerButton *productionMenuButton;
 
+@property (nonatomic, strong) SentegrityTAF_DebugMenuViewController *debugMenuViewController;
+@property (nonatomic, strong) SentegrityTAF_ProductionMenuViewController *productionMenuViewController;
 
 
 - (IBAction)pressedUser:(id)sender;
@@ -127,19 +137,51 @@
     
     if (policy.debugEnabled.intValue==1) {
         self.sideMenuViewController.delegate = self;
-        self.menuButton = [[JTHamburgerButton alloc] initWithFrame:CGRectMake(0, 0, 40, 33)];
-        [self.menuButton setCurrentMode:JTHamburgerButtonModeHamburger];
-        [self.menuButton setLineColor:[UIColor colorWithWhite:0.921f alpha:1.0f]];
-        [self.menuButton setLineWidth:40.0f];
-        [self.menuButton setLineHeight:4.0f];
-        [self.menuButton setLineSpacing:7.0f];
-        [self.menuButton setShowsTouchWhenHighlighted:YES];
-        [self.menuButton addTarget:self action:@selector(leftMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self.menuButton updateAppearance];
+            
+        self.debugMenuViewController = [[SentegrityTAF_DebugMenuViewController alloc] init];
+        //need to set it twice because of bug in RESideMenu pod
+        self.sideMenuViewController.leftMenuViewController = self.debugMenuViewController;
+        self.sideMenuViewController.leftMenuViewController = self.debugMenuViewController;
+    
         
-        UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:self.menuButton];
+        self.debugMenuButton = [[JTHamburgerButton alloc] initWithFrame:CGRectMake(0, 0, 40, 33)];
+        [self.debugMenuButton setCurrentMode:JTHamburgerButtonModeHamburger];
+        [self.debugMenuButton setLineColor:[UIColor whiteColor]];
+        [self.debugMenuButton setLineWidth:28.0f];
+        [self.debugMenuButton setLineHeight:2.0f];
+        [self.debugMenuButton setLineSpacing:6.0f];
+        [self.debugMenuButton setShowsTouchWhenHighlighted:YES];
+        [self.debugMenuButton addTarget:self action:@selector(leftMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.debugMenuButton updateAppearance];
+        
+        UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:self.debugMenuButton];
         self.navigationItem.leftBarButtonItem = buttonItem;
+        
     }
+    
+    
+    //production menu
+    
+    self.productionMenuViewController = [[SentegrityTAF_ProductionMenuViewController alloc] init];
+    self.productionMenuViewController.delegate = self;
+    //need to set it twice because of bug in RESideMenu pod
+    self.sideMenuViewController.rightMenuViewController = self.productionMenuViewController;
+    self.sideMenuViewController.rightMenuViewController = self.productionMenuViewController;
+    
+    self.productionMenuButton = [[JTHamburgerButton alloc] initWithFrame:CGRectMake(0, 0, 40, 33)];
+    [self.productionMenuButton setCurrentMode:JTHamburgerButtonModeHamburger];
+    [self.productionMenuButton setLineColor:[UIColor whiteColor]];
+    [self.productionMenuButton setLineWidth:28.0f];
+    [self.productionMenuButton setLineHeight:2.0f];
+    [self.productionMenuButton setLineSpacing:6.0f];
+    [self.productionMenuButton setShowsTouchWhenHighlighted:YES];
+    [self.productionMenuButton addTarget:self action:@selector(rightMenuButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.productionMenuButton updateAppearance];
+    
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:self.productionMenuButton];
+    self.navigationItem.rightBarButtonItem = buttonItem;
+    
+    
     
     
     //Prepare for animation
@@ -254,6 +296,34 @@
 }
 
 
+#pragma mark - menu delegate
+
+- (void) userSelectedItemFromMenu: (NSString *) menuItem {
+    
+    //close menu
+    [self.sideMenuViewController hideMenuViewController];
+    
+    //open screen
+    if (menuItem == SentegrityTAF_MenuItem_UserSecurity) {
+        [self pressedUser:nil];
+    }
+    else if (menuItem == SentegrityTAF_MenuItem_DeviceSecurity) {
+        [self pressedDevice:nil];
+    }
+    else if (menuItem == SentegrityTAF_MenuItem_Privacy) {
+        SentegrityTAF_PrivacyViewController *privacyVC = [[SentegrityTAF_PrivacyViewController alloc] init];
+        [self.navigationController pushViewController:privacyVC animated:YES];
+    }
+    else if (menuItem == SentegrityTAF_MenuItem_About) {
+        SentegrityTAF_AboutViewController *aboutVC = [[SentegrityTAF_AboutViewController alloc] init];
+        [self.navigationController pushViewController:aboutVC animated:YES];
+    }
+    else if (menuItem == SentegrityTAF_MenuItem_Support) {
+        SentegrityTAF_SupportViewController *supportVC = [[SentegrityTAF_SupportViewController alloc] init];
+        [self.navigationController pushViewController:supportVC animated:YES];
+    }
+}
+
 
 #pragma mark - IBActions
 
@@ -281,20 +351,51 @@
 
 // Side Menu finished showing menu
 - (void)sideMenu:(RESideMenu *)sideMenu didHideMenuViewController:(UIViewController *)menuViewController {
+    
     // Set the hamburger button back
-    [self.menuButton setCurrentModeWithAnimation:JTHamburgerButtonModeHamburger];
+    [self.debugMenuButton setCurrentModeWithAnimation:JTHamburgerButtonModeHamburger];
+    [self.productionMenuButton setCurrentModeWithAnimation:JTHamburgerButtonModeHamburger];
+    
+}
+
+- (void)sideMenu:(RESideMenu *)sideMenu didShowMenuViewController:(UIViewController *)menuViewController {
+    
+    // Set the hamburger button back
+    if (menuViewController == self.debugMenuViewController)
+        [self.debugMenuButton setCurrentModeWithAnimation:JTHamburgerButtonModeCross];
+    
+    if (menuViewController == self.productionMenuViewController)
+        [self.productionMenuButton setCurrentModeWithAnimation:JTHamburgerButtonModeArrow];
+
 }
 
 
-// Right Menu Button Pressed
+
+// left Menu Button Pressed
 - (void)leftMenuButtonPressed:(JTHamburgerButton *)sender {
+    // Check which mode the menu button is in
+    if (sender.currentMode == JTHamburgerButtonModeHamburger) {
+        // Set it to arrow
+        [sender setCurrentModeWithAnimation:JTHamburgerButtonModeCross];
+        
+        // Present the right menu
+        [self presentLeftMenuViewController:self];
+    } else {
+        // Set it to hamburger
+        [sender setCurrentModeWithAnimation:JTHamburgerButtonModeHamburger];
+    }
+}
+
+
+// right Menu Button Pressed
+- (void)rightMenuButtonPressed:(JTHamburgerButton *)sender {
     // Check which mode the menu button is in
     if (sender.currentMode == JTHamburgerButtonModeHamburger) {
         // Set it to arrow
         [sender setCurrentModeWithAnimation:JTHamburgerButtonModeArrow];
         
         // Present the right menu
-        [self presentLeftMenuViewController:self];
+        [self presentRightMenuViewController:self];
     } else {
         // Set it to hamburger
         [sender setCurrentModeWithAnimation:JTHamburgerButtonModeHamburger];

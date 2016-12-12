@@ -34,6 +34,9 @@
 @property (nonatomic, strong) NSString *applicationVersionID;
 @property (nonatomic, strong) NSNumber *useDefaultAsBackup;
 
+@property (nonatomic, strong) NSDictionary *privacy;
+@property (nonatomic, strong) NSDictionary *support;
+@property (nonatomic, strong) NSDictionary *about;
 
 
 @end

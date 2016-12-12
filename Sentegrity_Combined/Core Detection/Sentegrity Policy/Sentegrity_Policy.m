@@ -115,5 +115,18 @@
 }
 
 
+// about, support and privacy
+- (void) setAbout:(NSDictionary *)about {
+    _about = about;
+}
+
+- (void) setSupport:(NSDictionary *)support {
+    _support = support;
+}
+
+- (void) setPrivacy:(NSDictionary *)privacy {
+    _privacy = privacy;
+}
+
 
 @end

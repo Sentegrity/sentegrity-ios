@@ -52,7 +52,7 @@
                     <rect key="frame" x="46" y="98" width="283" height="283"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cq6-Dv-ovk">
-                            <rect key="frame" x="55" y="39" width="174" height="185.5"/>
+                            <rect key="frame" x="55" y="39.5" width="174" height="185.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="98" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="9LL-24-ziJ">
                                     <rect key="frame" x="0.0" y="0.0" width="174" height="144"/>

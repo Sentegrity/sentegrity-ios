@@ -14,6 +14,7 @@
 
 // Side Menu
 #import "RESideMenu.h"
+#import "SentegrityTAF_DebugMenuViewController.h"
 
 
 @interface SentegrityTAF_MainViewController () <SentegrityTAF_basicProtocol>
@@ -119,8 +120,6 @@
     // Navigation Controller
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
 
-
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     // Get policy to check for debug
     // Get the policy
@@ -129,9 +128,15 @@
     
     if (policy.debugEnabled.intValue==1) {
         //added to support right menu for debugging
-        RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"rightmenuviewcontroller"] rightMenuViewController:nil];
-        self.currentViewController = sideMenuViewController;
         
+        RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:nil rightMenuViewController:nil];
+        
+        // Don't scale content view
+        [sideMenuViewController setScaleContentView:NO];
+        //[sideMenuViewController setScaleMenuView:NO];
+
+        
+        self.currentViewController = sideMenuViewController;
         sideMenuViewController.view.backgroundColor = [UIColor blackColor];
     }
     else {
