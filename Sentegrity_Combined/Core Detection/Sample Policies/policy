@@ -12,6 +12,26 @@
 "transparentAuthDecayMetric": 0.07,
 "statusUploadRunFrequency": 3,
 "statusUploadTimeFrequency": 1,
+
+"privacy": {
+	"privacyScreenTitle": "Your Privacy",
+	"privacyScreenDesc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+	"privacyScreenContactURL": "https://sentegrity.com/faq/"
+},
+
+"about": {
+	"aboutScreenTitle": "What is Sentegrity?",
+	"aboutScreenDesc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+	"aboutScreenContactURL": "https://sentegrity.com/faq/"
+},
+
+"support" : {
+	"supportScreenTitle": "Having a Problem?",
+	"supportScreenDesc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+	"supportScreenContactPhone": "+18006809610",
+	"supportScreenContactEmail": "info@sentegrity.com"
+},
+
 "passwordRequirements": {
 "minLenght": 6,
 "alphaNumeric": 1,

@@ -145,6 +145,16 @@
 		96C5BCFF1CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF11CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png */; };
 		96C5BD001CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF21CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png */; };
 		96C5BD011CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */; };
+		D738DF7F1DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D738DF751DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.m */; };
+		D738DF801DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D738DF761DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.xib */; };
+		D738DF811DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D738DF791DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.m */; };
+		D738DF821DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D738DF7A1DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.xib */; };
+		D738DF831DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D738DF7D1DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.m */; };
+		D738DF841DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D738DF7E1DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.xib */; };
+		D738DF891DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D738DF871DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.m */; };
+		D738DF8A1DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D738DF881DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.xib */; };
+		D738DF911DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D738DF8F1DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.m */; };
+		D738DF921DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D738DF901DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.xib */; };
 		D74193DB1DC6721900744254 /* SentegrityTAF_TouchIDPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D74193D91DC6721900744254 /* SentegrityTAF_TouchIDPermissionViewController.m */; };
 		D74193DC1DC6721900744254 /* SentegrityTAF_TouchIDPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D74193DA1DC6721900744254 /* SentegrityTAF_TouchIDPermissionViewController.xib */; };
 		D74B74A81DE786DF0095408E /* SentegrityTAF_DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D74B74A21DE786DF0095408E /* SentegrityTAF_DashboardViewController.m */; };
@@ -374,6 +384,21 @@
 		96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash_iphone_HD5.5_PT@3x.png"; sourceTree = "<group>"; };
 		A57A38F2AD3A013454171E37 /* Pods-Sentegrity TAF.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity TAF.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity TAF/Pods-Sentegrity TAF.debug.xcconfig"; sourceTree = "<group>"; };
 		C05694064344BB4205E08D99 /* libPods-Sentegrity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sentegrity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D738DF741DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_AboutViewController.h; sourceTree = "<group>"; };
+		D738DF751DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_AboutViewController.m; sourceTree = "<group>"; };
+		D738DF761DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_AboutViewController.xib; sourceTree = "<group>"; };
+		D738DF781DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_PrivacyViewController.h; sourceTree = "<group>"; };
+		D738DF791DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_PrivacyViewController.m; sourceTree = "<group>"; };
+		D738DF7A1DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_PrivacyViewController.xib; sourceTree = "<group>"; };
+		D738DF7C1DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_SupportViewController.h; sourceTree = "<group>"; };
+		D738DF7D1DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_SupportViewController.m; sourceTree = "<group>"; };
+		D738DF7E1DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_SupportViewController.xib; sourceTree = "<group>"; };
+		D738DF861DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_ProductionMenuViewController.h; sourceTree = "<group>"; };
+		D738DF871DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_ProductionMenuViewController.m; sourceTree = "<group>"; };
+		D738DF881DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_ProductionMenuViewController.xib; sourceTree = "<group>"; };
+		D738DF8E1DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_DebugMenuViewController.h; sourceTree = "<group>"; };
+		D738DF8F1DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_DebugMenuViewController.m; sourceTree = "<group>"; };
+		D738DF901DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_DebugMenuViewController.xib; sourceTree = "<group>"; };
 		D74193D81DC6721900744254 /* SentegrityTAF_TouchIDPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_TouchIDPermissionViewController.h; sourceTree = "<group>"; };
 		D74193D91DC6721900744254 /* SentegrityTAF_TouchIDPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_TouchIDPermissionViewController.m; sourceTree = "<group>"; };
 		D74193DA1DC6721900744254 /* SentegrityTAF_TouchIDPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_TouchIDPermissionViewController.xib; sourceTree = "<group>"; };
@@ -649,6 +674,7 @@
 				4CDE3C9E1CCA96C100D23E66 /* DAFSkelDriver.h */,
 				4C6F39531CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.h */,
 				4C6F39541CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m */,
+				D738DF851DFDFDA900D65DC3 /* Menu */,
 				D79FF4951DE4EE0700742F4A /* Dashboard */,
 				D7C26EE21DD8E1B0007A915F /* BioID */,
 				D7BA461B1D4E550100A2EC42 /* Auth ViewControllers */,
@@ -832,6 +858,59 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D738DF721DFDD0FF00D65DC3 /* Menu Item Screens */ = {
+			isa = PBXGroup;
+			children = (
+				D738DF731DFDD0FF00D65DC3 /* About */,
+				D738DF771DFDD0FF00D65DC3 /* Privacy */,
+				D738DF7B1DFDD0FF00D65DC3 /* Support */,
+			);
+			path = "Menu Item Screens";
+			sourceTree = "<group>";
+		};
+		D738DF731DFDD0FF00D65DC3 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				D738DF741DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.h */,
+				D738DF751DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.m */,
+				D738DF761DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.xib */,
+			);
+			path = About;
+			sourceTree = "<group>";
+		};
+		D738DF771DFDD0FF00D65DC3 /* Privacy */ = {
+			isa = PBXGroup;
+			children = (
+				D738DF781DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.h */,
+				D738DF791DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.m */,
+				D738DF7A1DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.xib */,
+			);
+			path = Privacy;
+			sourceTree = "<group>";
+		};
+		D738DF7B1DFDD0FF00D65DC3 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				D738DF7C1DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.h */,
+				D738DF7D1DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.m */,
+				D738DF7E1DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.xib */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		D738DF851DFDFDA900D65DC3 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				D738DF861DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.h */,
+				D738DF871DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.m */,
+				D738DF881DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.xib */,
+				D738DF8E1DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.h */,
+				D738DF8F1DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.m */,
+				D738DF901DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.xib */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
 		D74B74A01DE786DF0095408E /* Dashboard Main Screen */ = {
 			isa = PBXGroup;
 			children = (
@@ -869,6 +948,7 @@
 			isa = PBXGroup;
 			children = (
 				D74B74A01DE786DF0095408E /* Dashboard Main Screen */,
+				D738DF721DFDD0FF00D65DC3 /* Menu Item Screens */,
 				D74B74A41DE786DF0095408E /* User Device Info */,
 				D74B74B11DE79BAB0095408E /* Details */,
 				D7C8F97E1DE4FC87006E0EFD /* UI Elements */,
@@ -1209,6 +1289,7 @@
 				D7C8F96C1DE4F32B006E0EFD /* Lato-BlackItalic.ttf in Resources */,
 				96A9AE211DBD34B2007B9625 /* SentegrityTAF_FirstTimeViewController.xib in Resources */,
 				96A9AE0E1DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPhone.xib in Resources */,
+				D738DF821DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.xib in Resources */,
 				D74193DC1DC6721900744254 /* SentegrityTAF_TouchIDPermissionViewController.xib in Resources */,
 				4C26670D1CC0369000F10DC0 /* Main.storyboard in Resources */,
 				D7C8F9701DE4F32B006E0EFD /* Lato-HairlineItalic.ttf in Resources */,
@@ -1219,7 +1300,9 @@
 				4C26670F1CC0369000F10DC0 /* LaunchScreen.xib in Resources */,
 				D7C8F96E1DE4F32B006E0EFD /* Lato-BoldItalic.ttf in Resources */,
 				4C2667101CC0369000F10DC0 /* DINPro-Bold.otf in Resources */,
+				D738DF841DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.xib in Resources */,
 				4C2667111CC0369000F10DC0 /* DINPro-Black.otf in Resources */,
+				D738DF921DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.xib in Resources */,
 				D7C26EDD1DD8B5F3007A915F /* SentegrityTAF_VocalFacialPermissionsViewController.xib in Resources */,
 				96C5BCFC1CD014540009B3A6 /* Splash.png in Resources */,
 				D7C8F9731DE4F32B006E0EFD /* Lato-Italic.ttf in Resources */,
@@ -1228,6 +1311,7 @@
 				96C5BCF41CD014540009B3A6 /* Splash-568h@2x.png in Resources */,
 				4C2667121CC0369000F10DC0 /* DINPro-CondBold.otf in Resources */,
 				96C5BD001CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png in Resources */,
+				D738DF8A1DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.xib in Resources */,
 				D7F7DF731CEBDCED0085910B /* DashboardViewController.xib in Resources */,
 				4C2667131CC0369000F10DC0 /* DINPro-CondMedium.otf in Resources */,
 				96A9AE341DBD34E5007B9625 /* SentegrityTAF_WelcomeViewController.xib in Resources */,
@@ -1264,6 +1348,7 @@
 				96C5BCF71CD014540009B3A6 /* Splash-Landscape@2x.png in Resources */,
 				96C5BCF61CD014540009B3A6 /* Splash-Landscape.png in Resources */,
 				96A9AE0D1DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPad.xib in Resources */,
+				D738DF801DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.xib in Resources */,
 				4C26671A1CC0369000F10DC0 /* OpenSans-Italic.ttf in Resources */,
 				4C26671B1CC0369000F10DC0 /* OpenSans-Light.ttf in Resources */,
 				96A9AE2D1DBD34E5007B9625 /* LocationPermissionViewController.xib in Resources */,
@@ -1451,6 +1536,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96A9AE201DBD34B2007B9625 /* SentegrityTAF_FirstTimeViewController.m in Sources */,
+				D738DF911DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.m in Sources */,
 				4C2666F61CC0369000F10DC0 /* SCLAlertViewStyleKit.m in Sources */,
 				D7BA461F1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m in Sources */,
 				96A9AE321DBD34E5007B9625 /* SentegrityTAF_PasswordCreationViewController.m in Sources */,
@@ -1465,6 +1551,7 @@
 				4C2667321CC0398300F10DC0 /* SentegrityTAF_AppDelegate.m in Sources */,
 				D74193DB1DC6721900744254 /* SentegrityTAF_TouchIDPermissionViewController.m in Sources */,
 				D7C26EE71DD8E1C8007A915F /* CaptureConfiguration.m in Sources */,
+				D738DF7F1DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.m in Sources */,
 				4C2666FA1CC0369000F10DC0 /* ComputationInfoViewController.m in Sources */,
 				D7C26EE81DD8E1C8007A915F /* CaptureViewController.m in Sources */,
 				96A9AE2E1DBD34E5007B9625 /* SentegrityTAF_AskPermissionsViewController.m in Sources */,
@@ -1478,9 +1565,11 @@
 				4C2666FF1CC0369000F10DC0 /* ActivityPermissionViewController.m in Sources */,
 				D78A5B321DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m in Sources */,
 				96A9AE0F1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.m in Sources */,
+				D738DF811DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.m in Sources */,
 				96A9AE171DBD3474007B9625 /* SentegrityTAF_AuthWarningViewController.m in Sources */,
 				4C2667001CC0369000F10DC0 /* UserDebugViewController.m in Sources */,
 				4C2667011CC0369000F10DC0 /* DashboardViewController.m in Sources */,
+				D738DF831DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.m in Sources */,
 				4C2667021CC0369000F10DC0 /* LandingViewController.m in Sources */,
 				4C2667031CC0369000F10DC0 /* SystemInformationViewController.m in Sources */,
 				4C6F39581CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m in Sources */,
@@ -1489,6 +1578,7 @@
 				4C2667941CC0421800F10DC0 /* SentegrityTAF_main.m in Sources */,
 				4C2667061CC0369000F10DC0 /* UserInformationViewController.m in Sources */,
 				4C2667071CC0369000F10DC0 /* TransparentDebugViewController.m in Sources */,
+				D738DF891DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.m in Sources */,
 				D7FE9F181CDD0B5400FACA04 /* ILContainerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
