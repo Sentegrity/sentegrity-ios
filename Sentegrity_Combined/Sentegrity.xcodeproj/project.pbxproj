@@ -113,8 +113,7 @@
 		969CD07D1B7E7DEC00254F45 /* SCLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0761B7E7DEC00254F45 /* SCLButton.m */; };
 		969CD07E1B7E7DEC00254F45 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */; };
 		96A93B481CB58DF40090D83C /* TransparentDebugViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A93B471CB58DF40090D83C /* TransparentDebugViewController.m */; };
-		96A9AE0D1DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96A9AE091DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPad.xib */; };
-		96A9AE0E1DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96A9AE0A1DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPhone.xib */; };
+		96A9AE0E1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96A9AE0A1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.xib */; };
 		96A9AE0F1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A9AE0C1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.m */; };
 		96A9AE151DBD3474007B9625 /* SentegrityTAF_AuthWarningViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96A9AE111DBD3474007B9625 /* SentegrityTAF_AuthWarningViewController_iPad.xib */; };
 		96A9AE161DBD3474007B9625 /* SentegrityTAF_AuthWarningViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96A9AE121DBD3474007B9625 /* SentegrityTAF_AuthWarningViewController_iPhone.xib */; };
@@ -344,8 +343,7 @@
 		969CD0791B7E7DEC00254F45 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		96A93B461CB58DF40090D83C /* TransparentDebugViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentDebugViewController.h; sourceTree = "<group>"; };
 		96A93B471CB58DF40090D83C /* TransparentDebugViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentDebugViewController.m; sourceTree = "<group>"; };
-		96A9AE091DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SentegrityTAF_UnlockViewController_iPad.xib; path = "Sentegrity TAF/DAF/SentegrityTAF_UnlockViewController_iPad.xib"; sourceTree = SOURCE_ROOT; };
-		96A9AE0A1DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SentegrityTAF_UnlockViewController_iPhone.xib; path = "Sentegrity TAF/DAF/SentegrityTAF_UnlockViewController_iPhone.xib"; sourceTree = SOURCE_ROOT; };
+		96A9AE0A1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SentegrityTAF_UnlockViewController.xib; path = "Sentegrity TAF/DAF/SentegrityTAF_UnlockViewController.xib"; sourceTree = SOURCE_ROOT; };
 		96A9AE0B1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SentegrityTAF_UnlockViewController.h; path = "Sentegrity TAF/DAF/SentegrityTAF_UnlockViewController.h"; sourceTree = SOURCE_ROOT; };
 		96A9AE0C1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SentegrityTAF_UnlockViewController.m; path = "Sentegrity TAF/DAF/SentegrityTAF_UnlockViewController.m"; sourceTree = SOURCE_ROOT; };
 		96A9AE111DBD3474007B9625 /* SentegrityTAF_AuthWarningViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SentegrityTAF_AuthWarningViewController_iPad.xib; path = "Sentegrity TAF/DAF/SentegrityTAF_AuthWarningViewController_iPad.xib"; sourceTree = SOURCE_ROOT; };
@@ -1075,8 +1073,7 @@
 		D7D492E91D48983900727B43 /* UnlockViewController */ = {
 			isa = PBXGroup;
 			children = (
-				96A9AE091DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPad.xib */,
-				96A9AE0A1DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPhone.xib */,
+				96A9AE0A1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.xib */,
 				96A9AE0B1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.h */,
 				96A9AE0C1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.m */,
 			);
@@ -1293,7 +1290,7 @@
 				4C2667571CC03AF400F10DC0 /* DAFSupportResources.bundle in Resources */,
 				D7C8F96C1DE4F32B006E0EFD /* Lato-BlackItalic.ttf in Resources */,
 				96A9AE211DBD34B2007B9625 /* SentegrityTAF_FirstTimeViewController.xib in Resources */,
-				96A9AE0E1DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPhone.xib in Resources */,
+				96A9AE0E1DBD3452007B9625 /* SentegrityTAF_UnlockViewController.xib in Resources */,
 				D738DF821DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.xib in Resources */,
 				D74193DC1DC6721900744254 /* SentegrityTAF_TouchIDPermissionViewController.xib in Resources */,
 				4C26670D1CC0369000F10DC0 /* Main.storyboard in Resources */,
@@ -1352,7 +1349,6 @@
 				D7C1F6C21DDBA890006306D0 /* CaptureViewController.storyboard in Resources */,
 				96C5BCF71CD014540009B3A6 /* Splash-Landscape@2x.png in Resources */,
 				96C5BCF61CD014540009B3A6 /* Splash-Landscape.png in Resources */,
-				96A9AE0D1DBD3452007B9625 /* SentegrityTAF_UnlockViewController_iPad.xib in Resources */,
 				D738DF801DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.xib in Resources */,
 				4C26671A1CC0369000F10DC0 /* OpenSans-Italic.ttf in Resources */,
 				4C26671B1CC0369000F10DC0 /* OpenSans-Light.ttf in Resources */,

@@ -8,6 +8,13 @@
 
 #import "SentegrityTAF_BaseViewController.h"
 
+@protocol SentegrityTAF_SupportDelegate <NSObject>
+
+- (void) dismissSupportViewController;
+
+@end
+
+
 @interface SentegrityTAF_SupportViewController : SentegrityTAF_BaseViewController
 
 
@@ -16,6 +23,8 @@
 @property (nonatomic, strong) NSString *supportPhone;
 @property (nonatomic, strong) NSString *supportEmail;
 
+
+@property (nonatomic, weak) id <SentegrityTAF_SupportDelegate> delegate;
 
 
 @end

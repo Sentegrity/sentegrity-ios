@@ -14,8 +14,9 @@
                 <outlet property="bottomFooterConstraint" destination="Aaa-p9-uqn" id="pzu-Rs-17R"/>
                 <outlet property="buttonInfo" destination="N31-8B-0Pu" id="EWe-Cj-Gxf"/>
                 <outlet property="buttonSentegrity" destination="q7w-lT-6ml" id="9se-fT-sBO"/>
-                <outlet property="containerViewForBioID" destination="uBK-uY-y1N" id="Ycd-O5-U8E"/>
-                <outlet property="imageViewSplash" destination="kqy-Lo-ffW" id="T45-rH-b2d"/>
+                <outlet property="containerViewForBioID" destination="2fZ-aK-QMc" id="5yA-cn-eDd"/>
+                <outlet property="containerViewForSupport" destination="uUo-cB-dCX" id="c6p-Gn-cR2"/>
+                <outlet property="imageViewSplash" destination="bhL-3U-BuE" id="n9G-66-G8u"/>
                 <outlet property="inputContainer" destination="2Bs-Hi-7Q3" id="Frv-xL-M2T"/>
                 <outlet property="scrollView" destination="z7w-UA-0W0" id="P9f-7g-5cW"/>
                 <outlet property="textFieldPassword" destination="nAF-F7-pnf" id="Z9F-or-HZj"/>
@@ -142,9 +143,9 @@
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
                                 <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N31-8B-0Pu">
-                                    <rect key="frame" x="137" y="0.0" width="101" height="33"/>
+                                    <rect key="frame" x="132" y="0.0" width="111" height="33"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
-                                    <state key="normal" title="Report a Problem">
+                                    <state key="normal" title="Trouble logging in?">
                                         <color key="titleColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
@@ -185,37 +186,44 @@
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
-                            <exclude reference="dhC-RT-LtQ"/>
                             <exclude reference="tBR-9w-jOp"/>
+                            <exclude reference="dhC-RT-LtQ"/>
                         </mask>
                     </variation>
                 </view>
-                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uBK-uY-y1N" customClass="ILContainerView">
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2fZ-aK-QMc" customClass="ILContainerView">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kqy-Lo-ffW">
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uUo-cB-dCX" customClass="ILContainerView">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bhL-3U-BuE">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="uBK-uY-y1N" secondAttribute="bottom" id="4vg-qX-oen"/>
-                <constraint firstItem="kqy-Lo-ffW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="9um-Uq-hsT"/>
+                <constraint firstAttribute="bottom" secondItem="bhL-3U-BuE" secondAttribute="bottom" id="52E-0q-YeM"/>
+                <constraint firstAttribute="bottom" secondItem="2fZ-aK-QMc" secondAttribute="bottom" id="8a4-PK-kxu"/>
+                <constraint firstItem="2fZ-aK-QMc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="E2k-wY-zbD"/>
                 <constraint firstAttribute="bottom" secondItem="AlC-EZ-MgM" secondAttribute="bottom" id="F3c-6s-8ka"/>
                 <constraint firstItem="AlC-EZ-MgM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="GCv-iL-STH"/>
                 <constraint firstItem="AlC-EZ-MgM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Ipw-VC-7h4"/>
-                <constraint firstAttribute="trailing" secondItem="uBK-uY-y1N" secondAttribute="trailing" id="JwU-XO-veQ"/>
-                <constraint firstAttribute="bottom" secondItem="kqy-Lo-ffW" secondAttribute="bottom" id="LIB-4l-2sM"/>
+                <constraint firstAttribute="trailing" secondItem="uUo-cB-dCX" secondAttribute="trailing" id="Mh1-yD-WjI"/>
                 <constraint firstAttribute="trailing" secondItem="AlC-EZ-MgM" secondAttribute="trailing" id="Pky-f4-TH0"/>
-                <constraint firstAttribute="trailing" secondItem="kqy-Lo-ffW" secondAttribute="trailing" id="fXf-ku-2bb"/>
-                <constraint firstItem="uBK-uY-y1N" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="gIi-UK-icm"/>
-                <constraint firstItem="kqy-Lo-ffW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="kon-ms-kG5"/>
-                <constraint firstItem="uBK-uY-y1N" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="lhu-Vv-fVf"/>
+                <constraint firstItem="uUo-cB-dCX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Qgh-RG-BhH"/>
+                <constraint firstItem="bhL-3U-BuE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hEL-EV-3NK"/>
+                <constraint firstAttribute="trailing" secondItem="bhL-3U-BuE" secondAttribute="trailing" id="jzC-4R-nrM"/>
+                <constraint firstItem="uUo-cB-dCX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="kvE-fN-Gtn"/>
+                <constraint firstAttribute="bottom" secondItem="uUo-cB-dCX" secondAttribute="bottom" id="ncH-Ku-f6D"/>
+                <constraint firstItem="2fZ-aK-QMc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="t0G-zk-0tY"/>
+                <constraint firstAttribute="trailing" secondItem="2fZ-aK-QMc" secondAttribute="trailing" id="yCQ-kh-GEi"/>
+                <constraint firstItem="bhL-3U-BuE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="z1E-oI-q78"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="273.5" y="376.5"/>
+            <point key="canvasLocation" x="396.5" y="422.5"/>
         </view>
     </objects>
     <resources>

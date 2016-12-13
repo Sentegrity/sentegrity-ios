@@ -213,17 +213,7 @@ typedef enum {
     
     SentegrityTAF_UnlockViewController *unlockViewController;
     
-    // Get the nib for the device
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        
-        // iPhone View Controllers
-        unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
-        
-    } else {
-        
-        // iPad View Controllers
-        unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
-    }
+    unlockViewController = [[SentegrityTAF_UnlockViewController alloc] initWithNibName:@"SentegrityTAF_UnlockViewController" bundle:nil];
     
     unlockViewController.delegate = self;
     [unlockViewController setResult:result];

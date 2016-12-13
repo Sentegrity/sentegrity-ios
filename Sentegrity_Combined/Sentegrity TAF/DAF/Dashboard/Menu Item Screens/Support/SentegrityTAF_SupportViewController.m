@@ -43,6 +43,23 @@
     UIImageView *imageViewTitle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sentegrity_white"]];
     [self.navigationItem setTitleView:imageViewTitle];
     
+    //remove blur
+    self.navigationController.navigationBar.translucent = NO;
+    
+    //background color of bar (#444444)
+    self.navigationController.navigationBar.barTintColor = kDefaultDashboardBarColor;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    //color of buttons
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
+    
+    //show done button if called from unlock screen
+    if (self.delegate) {
+        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(pressedDone)];
+        self.navigationItem.leftBarButtonItem = barButton;
+    }
+    
     
     //load data from policy
     NSError *error;
@@ -104,6 +121,10 @@
 }
 
 
+
+- (void) pressedDone {
+    [self.delegate dismissSupportViewController];
+}
 
 - (IBAction)pressedPhone:(id)sender {
     NSString *phoneNumber = [@"tel://" stringByAppendingString:self.contactPhone];

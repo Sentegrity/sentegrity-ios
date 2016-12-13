@@ -11,6 +11,7 @@
 //
 
 #import "SentegrityTAF_UnlockViewController.h"
+#import "SentegrityTAF_SupportViewController.h"
 
 // DAF Support
 #import "DAFSupport/DAFAppBase.h"
@@ -38,7 +39,8 @@
 #import "UICKeyChainStore.h"
 
 
-@interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate, CaptureDelegate> {
+
+@interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate, CaptureDelegate, SentegrityTAF_SupportDelegate> {
     BOOL once;
 }
 
@@ -58,6 +60,7 @@
 @property (weak, nonatomic) IBOutlet UIView *inputContainer;
 
 @property (weak, nonatomic) IBOutlet ILContainerView *containerViewForBioID;
+@property (weak, nonatomic) IBOutlet ILContainerView *containerViewForSupport;
 
 
 
@@ -88,12 +91,8 @@
 }
 
 - (id) init {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self =  [self initWithNibName:@"SentegrityTAF_UnlockViewController_iPhone" bundle:nil];
-    }
-    else {
-        self =  [self initWithNibName:@"SentegrityTAF_UnlockViewController_iPad" bundle:nil];
-    }
+    self =  [self initWithNibName:@"SentegrityTAF_UnlockViewController" bundle:nil];
+
     
     if (self) {
     }
@@ -368,7 +367,7 @@
 - (void) showInput {
     
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.buttonInfo.alpha = 0.0;
+        self.buttonInfo.alpha = 1.0;
         self.inputContainer.alpha = 1.0;
         self.buttonSentegrity.alpha = 0.5;
     } completion:^(BOOL finished) {
@@ -421,9 +420,34 @@
     
 }
 
+
+- (void) dismissSupportViewController {
+    self.containerViewForSupport.alpha = 0;
+    self.containerViewForSupport.childViewController = nil;
+    [self.textFieldPassword becomeFirstResponder];
+
+
+}
+
 // Report a problem
 - (IBAction)pressedInfoButton:(id)sender {
     
+    //Trouble logging in? Show support screen
+    
+    [self.textFieldPassword resignFirstResponder];
+    
+    SentegrityTAF_SupportViewController *supportVC = [[SentegrityTAF_SupportViewController alloc] init];
+    supportVC.delegate = self;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:supportVC];
+    
+    self.containerViewForSupport.currentViewController = self;
+    self.containerViewForSupport.childViewController = nav;
+    self.containerViewForSupport.alpha = 1;
+    
+   
+    
+    
+    /*
     // Report a problem - Email
     
     // Email Subject
@@ -442,6 +466,8 @@
     
     // Present mail view controller on screen
     [self presentViewController:mailComposeViewController animated:YES completion:NULL];
+     
+     */
     
 }
 
@@ -737,6 +763,8 @@
     
     
 }
+
+
 
 #pragma mark - Core Detection
 
