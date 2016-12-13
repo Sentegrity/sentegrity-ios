@@ -33,10 +33,15 @@
 
 - (void) createTouchIDWithDecryptedMasterKey: (NSData *) decryptedMasterKey withCallback: (ResultBlock) block {
     
-#warning needs to implement random password generator
-    NSString *randomPassword = @"RandomPassword";
-
+    //generate random password with Sentegrity_Crypto
+    NSData *randomSalt = [[Sentegrity_Crypto sharedCrypto] generateSalt256];
+    NSError *error;
+    NSString *randomPassword = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:randomSalt withError:&error];
     
+    if (error) {
+        block (NO, error);
+        return;
+    }
     
     //first we want for sure delete old keychain item (if any) that can remain from previous installation of the app
     [self removeTouchIDPasswordFromKeychainWithCallback:^(TouchIDResultType resultType, NSError *error) {

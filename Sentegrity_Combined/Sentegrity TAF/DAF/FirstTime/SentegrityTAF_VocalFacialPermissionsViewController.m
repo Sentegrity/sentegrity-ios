@@ -13,6 +13,7 @@
 #import "ILContainerView.h"
 #import "CaptureConfiguration.h"
 #import "CaptureViewController.h"
+#import "UICKeyChainStore.h"
 
 
 @interface SentegrityTAF_VocalFacialPermissionsViewController () <CaptureDelegate>
@@ -26,6 +27,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //need to remove keychain item because maybe there is remaining item from previous app installation
+    UICKeyChainStore *keychain = [[UICKeyChainStore alloc] initWithService:@"com.sentegrity.vocalfacial"];
+    [keychain removeItemForKey:@"vocalFacialPassword"];
+    
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -107,20 +114,31 @@
     // HERE you get the result of the biometric task from the CaptureViewController
     if (success && data.performEnrollment) {
         
-#warning just for demo (insecure)
         
-        NSString *fakePassword = @"FakePassword";
-        [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithVocalFacialPassword:fakePassword masterKey:self.decryptedMasterKey withError:&error];
+        NSData *randomSalt = [[Sentegrity_Crypto sharedCrypto] generateSalt256];
+        NSError *error;
+        NSString *randomPassword = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:randomSalt withError:&error];
+        
+        
+        [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithVocalFacialPassword:randomPassword masterKey:self.decryptedMasterKey withError:&error];
         
         if (error) {
             [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
             return;
         }
         
+        
+        //save password to keychain
+#warning just for demo (insecure)
+        UICKeyChainStore *keychain = [[UICKeyChainStore alloc] initWithService:@"com.sentegrity.vocalfacial"];
+        keychain[@"vocalFacialPassword"] = randomPassword;
+        
+        
         [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
     }
     else {
-        
+    
+
     }
 }
 

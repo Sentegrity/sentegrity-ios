@@ -170,6 +170,7 @@
 		D78A5B321DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D78A5B311DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m */; };
 		D7BA461F1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BA461E1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m */; };
 		D7BA46291D4EB2C500A2EC42 /* TAFAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7BA46281D4EB2C500A2EC42 /* TAFAssets.xcassets */; };
+		D7BDF2081DFF7AE100D0FAFF /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BDF2071DFF7AE100D0FAFF /* UICKeyChainStore.m */; };
 		D7C1F6C21DDBA890006306D0 /* CaptureViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7C1F6C11DDBA890006306D0 /* CaptureViewController.storyboard */; };
 		D7C26EDC1DD8B5F3007A915F /* SentegrityTAF_VocalFacialPermissionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C26EDA1DD8B5F3007A915F /* SentegrityTAF_VocalFacialPermissionsViewController.m */; };
 		D7C26EDD1DD8B5F3007A915F /* SentegrityTAF_VocalFacialPermissionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7C26EDB1DD8B5F3007A915F /* SentegrityTAF_VocalFacialPermissionsViewController.xib */; };
@@ -420,6 +421,8 @@
 		D7BA461D1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_BlankAuthViewController.h; sourceTree = "<group>"; };
 		D7BA461E1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_BlankAuthViewController.m; sourceTree = "<group>"; };
 		D7BA46281D4EB2C500A2EC42 /* TAFAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TAFAssets.xcassets; sourceTree = "<group>"; };
+		D7BDF2061DFF7AE100D0FAFF /* UICKeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICKeyChainStore.h; sourceTree = "<group>"; };
+		D7BDF2071DFF7AE100D0FAFF /* UICKeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICKeyChainStore.m; sourceTree = "<group>"; };
 		D7C1F6C11DDBA890006306D0 /* CaptureViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CaptureViewController.storyboard; sourceTree = "<group>"; };
 		D7C26ED91DD8B5F3007A915F /* SentegrityTAF_VocalFacialPermissionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_VocalFacialPermissionsViewController.h; sourceTree = "<group>"; };
 		D7C26EDA1DD8B5F3007A915F /* SentegrityTAF_VocalFacialPermissionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_VocalFacialPermissionsViewController.m; sourceTree = "<group>"; };
@@ -674,6 +677,8 @@
 				4CDE3C9E1CCA96C100D23E66 /* DAFSkelDriver.h */,
 				4C6F39531CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.h */,
 				4C6F39541CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m */,
+				D7BDF2061DFF7AE100D0FAFF /* UICKeyChainStore.h */,
+				D7BDF2071DFF7AE100D0FAFF /* UICKeyChainStore.m */,
 				D738DF851DFDFDA900D65DC3 /* Menu */,
 				D79FF4951DE4EE0700742F4A /* Dashboard */,
 				D7C26EE21DD8E1B0007A915F /* BioID */,
@@ -1540,6 +1545,7 @@
 				4C2666F61CC0369000F10DC0 /* SCLAlertViewStyleKit.m in Sources */,
 				D7BA461F1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m in Sources */,
 				96A9AE321DBD34E5007B9625 /* SentegrityTAF_PasswordCreationViewController.m in Sources */,
+				D7BDF2081DFF7AE100D0FAFF /* UICKeyChainStore.m in Sources */,
 				4C2666F71CC0369000F10DC0 /* SCLAlertViewResponder.m in Sources */,
 				4C2666F81CC0369000F10DC0 /* SCLButton.m in Sources */,
 				4C2666F91CC0369000F10DC0 /* SCLAlertView.m in Sources */,

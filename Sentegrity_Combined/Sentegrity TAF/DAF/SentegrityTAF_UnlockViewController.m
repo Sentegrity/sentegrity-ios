@@ -35,6 +35,7 @@
 #import "CaptureConfiguration.h"
 #import "CaptureViewController.h"
 #import "ILContainerView.h"
+#import "UICKeyChainStore.h"
 
 
 @interface SentegrityTAF_UnlockViewController () <UITextFieldDelegate, MFMailComposeViewControllerDelegate, CaptureDelegate> {
@@ -130,6 +131,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    
+
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     
@@ -1212,12 +1216,14 @@
     if (success && !data.performEnrollment) {
         
 #warning just for demo (insecure)
-        NSString *fakePassword = @"FakePassword";
-
+        //get password from keychain
+        UICKeyChainStore *keychain = [[UICKeyChainStore alloc] initWithService:@"com.sentegrity.vocalfacial"];
+        NSString *password = keychain[@"vocalFacialPassword"];
+       
         
         Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
         
-        Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithVocalFacial:fakePassword andError:&error];
+        Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithVocalFacial:password andError:&error];
         
         // Set the authentication response code
         computationResults.authenticationResult = loginResponseObject.authenticationResponseCode;
