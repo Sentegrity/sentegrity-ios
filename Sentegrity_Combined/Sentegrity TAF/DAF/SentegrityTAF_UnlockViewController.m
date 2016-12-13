@@ -32,11 +32,17 @@
 // Message UI
 #import <MessageUI/MessageUI.h>
 
+// TouchID
 #import "SentegrityTAF_TouchIDManager.h"
+
+// BioID
 #import "CaptureConfiguration.h"
 #import "CaptureViewController.h"
+
+// Helpers and wrappers
 #import "ILContainerView.h"
 #import "UICKeyChainStore.h"
+#import "Reachability.h"
 
 
 
@@ -425,8 +431,6 @@
     self.containerViewForSupport.alpha = 0;
     self.containerViewForSupport.childViewController = nil;
     [self.textFieldPassword becomeFirstResponder];
-
-
 }
 
 // Report a problem
@@ -1185,7 +1189,20 @@
 
 #pragma mark - Vocal/Facial
 
+
+
+
 - (void) tryToLoginWithVocalFacial {
+    
+    
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    if (networkStatus == NotReachable) {
+        NSLog(@"There IS NO internet connection");
+        [self showAlertWithTitle:@"Notice" andMessage:@"There is no Internet access and facial recognition cannot be performed."];
+        return;
+    }
+    
     
     [self.textFieldPassword resignFirstResponder];
 

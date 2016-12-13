@@ -198,6 +198,7 @@
 		D7C8F97C1DE4F32B006E0EFD /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7C8F96A1DE4F32B006E0EFD /* Lato-ThinItalic.ttf */; };
 		D7C8F9811DE4FCAE006E0EFD /* CircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C8F9801DE4FCAE006E0EFD /* CircularProgressView.m */; };
 		D7D492E61D48950600727B43 /* DAFSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7D492E51D48950600727B43 /* DAFSupport.framework */; };
+		D7F6EE641E0083120099BC3E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F6EE631E0083120099BC3E /* Reachability.m */; };
 		D7F7DF721CEBDACA0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
 		D7F7DF731CEBDCED0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
 		D7FE41601DADA6BE00151320 /* GD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7FE415F1DADA6BE00151320 /* GD.framework */; };
@@ -453,6 +454,8 @@
 		D7C8F97F1DE4FCAE006E0EFD /* CircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularProgressView.h; sourceTree = "<group>"; };
 		D7C8F9801DE4FCAE006E0EFD /* CircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircularProgressView.m; sourceTree = "<group>"; };
 		D7D492E51D48950600727B43 /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DAFSupport.framework; sourceTree = "<group>"; };
+		D7F6EE621E0083120099BC3E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		D7F6EE631E0083120099BC3E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DashboardViewController.xib; sourceTree = "<group>"; };
 		D7FE415F1DADA6BE00151320 /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GD.framework; sourceTree = "<group>"; };
 		D7FE9F161CDD0B5400FACA04 /* ILContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILContainerView.h; sourceTree = "<group>"; };
@@ -675,6 +678,8 @@
 				4CDE3C9E1CCA96C100D23E66 /* DAFSkelDriver.h */,
 				4C6F39531CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.h */,
 				4C6F39541CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m */,
+				D7F6EE621E0083120099BC3E /* Reachability.h */,
+				D7F6EE631E0083120099BC3E /* Reachability.m */,
 				D7BDF2061DFF7AE100D0FAFF /* UICKeyChainStore.h */,
 				D7BDF2071DFF7AE100D0FAFF /* UICKeyChainStore.m */,
 				D738DF851DFDFDA900D65DC3 /* Menu */,
@@ -1545,6 +1550,7 @@
 				4C2666F71CC0369000F10DC0 /* SCLAlertViewResponder.m in Sources */,
 				4C2666F81CC0369000F10DC0 /* SCLButton.m in Sources */,
 				4C2666F91CC0369000F10DC0 /* SCLAlertView.m in Sources */,
+				D7F6EE641E0083120099BC3E /* Reachability.m in Sources */,
 				D74B74A81DE786DF0095408E /* SentegrityTAF_DashboardViewController.m in Sources */,
 				D74B74AA1DE786DF0095408E /* SentegrityTAF_UserDeviceInformationViewController.m in Sources */,
 				D74B74B51DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.m in Sources */,
