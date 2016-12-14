@@ -1195,9 +1195,12 @@
 - (void) tryToLoginWithVocalFacial {
     
     
+    //check for Internet connection prior  facial recognition
     Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
     if (networkStatus == NotReachable) {
+        //No internet connection!
+        
         NSLog(@"There IS NO internet connection");
         [self showAlertWithTitle:@"Notice" andMessage:@"There is no Internet access and facial recognition cannot be performed."];
         return;

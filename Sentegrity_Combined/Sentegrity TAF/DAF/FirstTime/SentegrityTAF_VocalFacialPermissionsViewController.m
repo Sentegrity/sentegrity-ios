@@ -98,48 +98,47 @@
 // Implement the biometricTaskFinished function to receive the result if the biometric task finished
 - (void)biometricTaskFinished:(CaptureConfiguration *)data withSuccess:(BOOL)success {
     
-    NSError *error;
-    
-    //out animation
-    [UIView animateWithDuration:0.3 animations:^{
-        self.containerView.alpha = 0;
-    } completion:^(BOOL finished) {
-        self.containerView.childViewController = nil;
-    }];
-    
-    //to avoid multiple calling
-    [(CaptureViewController *)self.containerView.childViewController setCallback:nil];
-    
-    
-    // HERE you get the result of the biometric task from the CaptureViewController
-    if (success && data.performEnrollment) {
+    dispatch_async(dispatch_get_main_queue(), ^{
         
         
-        NSData *randomSalt = [[Sentegrity_Crypto sharedCrypto] generateSalt256];
-        NSError *error;
-        NSString *randomPassword = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:randomSalt withError:&error];
+        //to avoid multiple calling
+        [(CaptureViewController *)self.containerView.childViewController setCallback:nil];
         
         
-        [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithVocalFacialPassword:randomPassword masterKey:self.decryptedMasterKey withError:&error];
-        
-        if (error) {
-            [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
-            return;
-        }
-        
-        
-        //save password to keychain
+        // HERE you get the result of the biometric task from the CaptureViewController
+        if (success && data.performEnrollment) {
+            
+            
+            NSData *randomSalt = [[Sentegrity_Crypto sharedCrypto] generateSalt256];
+            NSError *error;
+            NSString *randomPassword = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:randomSalt withError:&error];
+            
+            
+            [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithVocalFacialPassword:randomPassword masterKey:self.decryptedMasterKey withError:&error];
+            
+            if (error) {
+                [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+                return;
+            }
+            
+            
+            //save password to keychain
 #warning just for demo (insecure)
-        UICKeyChainStore *keychain = [[UICKeyChainStore alloc] initWithService:@"com.sentegrity.vocalfacial"];
-        keychain[@"vocalFacialPassword"] = randomPassword;
-        
-        
-        [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
-    }
-    else {
-    
-
-    }
+            UICKeyChainStore *keychain = [[UICKeyChainStore alloc] initWithService:@"com.sentegrity.vocalfacial"];
+            keychain[@"vocalFacialPassword"] = randomPassword;
+            
+            
+            [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
+        }
+        else {
+            //out animation
+            [UIView animateWithDuration:0.3 animations:^{
+                self.containerView.alpha = 0;
+            } completion:^(BOOL finished) {
+                self.containerView.childViewController = nil;
+            }];
+        }
+    });
 }
 
 
@@ -151,11 +150,12 @@
     
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (authStatus == AVAuthorizationStatusNotDetermined) {
-#warning need to fix this
         NSLog(@"Camera access not determined. Ask for permission");
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
             if (granted) {
-                [self startVocalFacialEnrollment];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self startVocalFacialEnrollment];
+                });
             }
         }];
     }
