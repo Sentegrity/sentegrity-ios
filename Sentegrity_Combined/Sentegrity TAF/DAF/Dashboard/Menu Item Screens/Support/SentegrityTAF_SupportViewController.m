@@ -109,7 +109,7 @@
     self.contactPhone = policy.support[@"supportScreenContactPhone"];
     self.contactEmail = policy.support[@"supportScreenContactEmail"];
     self.labelEmail.text = currentStartup.email;
-    self.labelDeviceID.text = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    self.labelDeviceID.text = currentStartup.deviceSaltString;
 
     
     

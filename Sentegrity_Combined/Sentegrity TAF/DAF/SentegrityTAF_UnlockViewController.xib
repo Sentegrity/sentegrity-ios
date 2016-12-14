@@ -12,7 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SentegrityTAF_UnlockViewController">
             <connections>
                 <outlet property="bottomFooterConstraint" destination="Aaa-p9-uqn" id="pzu-Rs-17R"/>
-                <outlet property="buttonInfo" destination="N31-8B-0Pu" id="EWe-Cj-Gxf"/>
+                <outlet property="buttonInfo" destination="kMn-ju-KVn" id="30w-Bf-7X0"/>
                 <outlet property="buttonSentegrity" destination="q7w-lT-6ml" id="9se-fT-sBO"/>
                 <outlet property="containerViewForBioID" destination="2fZ-aK-QMc" id="5yA-cn-eDd"/>
                 <outlet property="containerViewForSupport" destination="uUo-cB-dCX" id="c6p-Gn-cR2"/>
@@ -38,7 +38,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GRK-0i-yWQ" userLabel="Container">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="142"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="184"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="good_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="z9M-Jf-1r0">
                                             <rect key="frame" x="25" y="40" width="82" height="26"/>
@@ -95,16 +95,28 @@
                                                 <constraint firstAttribute="trailing" secondItem="iaA-RM-5Ye" secondAttribute="trailing" id="xeo-fB-2Dr"/>
                                             </constraints>
                                         </view>
+                                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kMn-ju-KVn">
+                                            <rect key="frame" x="132" y="157" width="111" height="27"/>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                                            <state key="normal" title="Trouble logging in?">
+                                                <color key="titleColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="pressedInfoButton:" destination="-1" eventType="touchUpInside" id="yBn-5g-6Bb"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="500" id="4CO-Ys-b2z"/>
-                                        <constraint firstAttribute="bottom" secondItem="2Bs-Hi-7Q3" secondAttribute="bottom" id="CQt-ow-2JT"/>
                                         <constraint firstItem="z9M-Jf-1r0" firstAttribute="top" secondItem="GRK-0i-yWQ" secondAttribute="top" constant="40" id="CkP-tZ-mx9"/>
                                         <constraint firstItem="2Bs-Hi-7Q3" firstAttribute="leading" secondItem="GRK-0i-yWQ" secondAttribute="leading" id="Ljh-RF-Wou"/>
                                         <constraint firstItem="z9M-Jf-1r0" firstAttribute="leading" secondItem="GRK-0i-yWQ" secondAttribute="leading" constant="25" id="SlY-P7-tde"/>
+                                        <constraint firstItem="kMn-ju-KVn" firstAttribute="top" secondItem="2Bs-Hi-7Q3" secondAttribute="bottom" constant="15" id="W5I-TD-hOF"/>
                                         <constraint firstAttribute="trailing" secondItem="2Bs-Hi-7Q3" secondAttribute="trailing" id="aFI-PH-2s4"/>
+                                        <constraint firstAttribute="bottom" secondItem="kMn-ju-KVn" secondAttribute="bottom" id="bIk-Zk-bVb"/>
                                         <constraint firstItem="2Bs-Hi-7Q3" firstAttribute="top" secondItem="GRK-0i-yWQ" secondAttribute="top" constant="98" id="phH-JL-vnz"/>
+                                        <constraint firstItem="kMn-ju-KVn" firstAttribute="centerX" secondItem="GRK-0i-yWQ" secondAttribute="centerX" id="y7p-U4-aqT"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -148,9 +160,6 @@
                                     <state key="normal" title="Trouble logging in?">
                                         <color key="titleColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
-                                    <connections>
-                                        <action selector="pressedInfoButton:" destination="-1" eventType="touchUpInside" id="qXg-FD-NV4"/>
-                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>

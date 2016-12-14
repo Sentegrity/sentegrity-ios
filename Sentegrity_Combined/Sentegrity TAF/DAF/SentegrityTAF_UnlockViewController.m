@@ -928,7 +928,6 @@
         }
         case authenticationAction_TransparentlyAuthenticateAndWarn:
         {
-            NSLog(@"AAAA");
             
             [self.textFieldPassword resignFirstResponder];
 

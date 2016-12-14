@@ -42,7 +42,7 @@
     
     
     //"TRUSTED" is yellow, all other states are red
-    if ([self.labelStatus.text isEqualToString:@"TRUSTED"]){
+    if ([self.labelStatus.text isEqualToString:@"COMPLETE"]){
         self.labelStatus.textColor = kStatusTrustedColor;
     }
     else {

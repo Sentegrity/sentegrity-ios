@@ -86,7 +86,7 @@ static NSString *CellIdentifier = @"USER_DEVICE_CELL";
     cell.labelStatus.text = [resultObject.subClassStatusText uppercaseString];
     
     //"TRUSTED" is yellow, all other states are red
-    if ([cell.labelStatus.text isEqualToString:@"TRUSTED"]){
+    if ([cell.labelStatus.text isEqualToString:@"COMPLETE"]){
         cell.labelStatus.textColor = kStatusTrustedColor;
     }
     else {
