@@ -184,6 +184,7 @@
 		960173151DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 960173131DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m */; };
 		96A9AE071DBD168B007B9625 /* Sentegrity_Authentication.h in Headers */ = {isa = PBXBuildFile; fileRef = 96A9AE051DBD168B007B9625 /* Sentegrity_Authentication.h */; };
 		96A9AE081DBD168B007B9625 /* Sentegrity_Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A9AE061DBD168B007B9625 /* Sentegrity_Authentication.m */; };
+		96F758BB1E02DA9E006A927D /* policy full 12_15_16 in Resources */ = {isa = PBXBuildFile; fileRef = 96F758BA1E02DA9E006A927D /* policy full 12_15_16 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -401,6 +402,7 @@
 		960173131DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_SubClassResult_Object.m; sourceTree = "<group>"; };
 		96A9AE051DBD168B007B9625 /* Sentegrity_Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Authentication.h; sourceTree = "<group>"; };
 		96A9AE061DBD168B007B9625 /* Sentegrity_Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Authentication.m; sourceTree = "<group>"; };
+		96F758BA1E02DA9E006A927D /* policy full 12_15_16 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "policy full 12_15_16"; sourceTree = "<group>"; };
 		D4A420956F3DC29DFDCE275E /* Pods-Core Detection.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Core Detection.release.xcconfig"; path = "Pods/Target Support Files/Pods-Core Detection/Pods-Core Detection.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -754,9 +756,10 @@
 				4C7D97511CC0010E00E9CC97 /* Old */,
 				4C7D974E1CC0010E00E9CC97 /* bluetooth_services.list */,
 				4C7D974F1CC0010E00E9CC97 /* default_ssids.list */,
-				4C7D97501CC0010E00E9CC97 /* hotspot_ssids.list */,
+				96F758BA1E02DA9E006A927D /* policy full 12_15_16 */,
 				4C7D97531CC0010E00E9CC97 /* oui.list */,
 				4C7D97541CC0010E00E9CC97 /* oui_all.list */,
+				4C7D97501CC0010E00E9CC97 /* hotspot_ssids.list */,
 				4C7D97551CC0010E00E9CC97 /* policy */,
 			);
 			path = "Sample Policies";
@@ -1081,6 +1084,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96F758BB1E02DA9E006A927D /* policy full 12_15_16 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
