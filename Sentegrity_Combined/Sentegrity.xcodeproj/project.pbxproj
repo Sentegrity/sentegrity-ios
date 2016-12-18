@@ -127,6 +127,7 @@
 		96C5BCFF1CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF11CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png */; };
 		96C5BD001CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF21CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png */; };
 		96C5BD011CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */; };
+		D709E25F1E06DFAF0009BCB5 /* DAFSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D709E25E1E06DFAF0009BCB5 /* DAFSupport.framework */; };
 		D72BA8211E06BE7900547005 /* SentegrityTAF_AuthWarningViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D72BA8201E06BE7900547005 /* SentegrityTAF_AuthWarningViewController_iPad.xib */; };
 		D72BA8251E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BA8231E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.m */; };
 		D72BA8261E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D72BA8241E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.xib */; };
@@ -197,7 +198,6 @@
 		D7C8F97B1DE4F32B006E0EFD /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7C8F9691DE4F32B006E0EFD /* Lato-Thin.ttf */; };
 		D7C8F97C1DE4F32B006E0EFD /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7C8F96A1DE4F32B006E0EFD /* Lato-ThinItalic.ttf */; };
 		D7C8F9811DE4FCAE006E0EFD /* CircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C8F9801DE4FCAE006E0EFD /* CircularProgressView.m */; };
-		D7D492E61D48950600727B43 /* DAFSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7D492E51D48950600727B43 /* DAFSupport.framework */; };
 		D7F6EE641E0083120099BC3E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F6EE631E0083120099BC3E /* Reachability.m */; };
 		D7F7DF721CEBDACA0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
 		D7F7DF731CEBDCED0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
@@ -360,6 +360,7 @@
 		96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash_iphone_HD5.5_PT@3x.png"; sourceTree = "<group>"; };
 		A57A38F2AD3A013454171E37 /* Pods-Sentegrity TAF.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity TAF.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity TAF/Pods-Sentegrity TAF.debug.xcconfig"; sourceTree = "<group>"; };
 		C05694064344BB4205E08D99 /* libPods-Sentegrity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sentegrity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D709E25E1E06DFAF0009BCB5 /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DAFSupport.framework; sourceTree = "<group>"; };
 		D72BA8201E06BE7900547005 /* SentegrityTAF_AuthWarningViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_AuthWarningViewController_iPad.xib; sourceTree = "<group>"; };
 		D72BA8221E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_AuthWarningViewController.h; sourceTree = "<group>"; };
 		D72BA8231E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_AuthWarningViewController.m; sourceTree = "<group>"; };
@@ -453,7 +454,6 @@
 		D7C8F96A1DE4F32B006E0EFD /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
 		D7C8F97F1DE4FCAE006E0EFD /* CircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularProgressView.h; sourceTree = "<group>"; };
 		D7C8F9801DE4FCAE006E0EFD /* CircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircularProgressView.m; sourceTree = "<group>"; };
-		D7D492E51D48950600727B43 /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DAFSupport.framework; sourceTree = "<group>"; };
 		D7F6EE621E0083120099BC3E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		D7F6EE631E0083120099BC3E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DashboardViewController.xib; sourceTree = "<group>"; };
@@ -485,7 +485,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C26677E1CC03D2E00F10DC0 /* libz.tbd in Frameworks */,
-				D7D492E61D48950600727B43 /* DAFSupport.framework in Frameworks */,
+				D709E25F1E06DFAF0009BCB5 /* DAFSupport.framework in Frameworks */,
 				4C26677C1CC03D2600F10DC0 /* libstdc++.tbd in Frameworks */,
 				4C26677A1CC03D1C00F10DC0 /* LocalAuthentication.framework in Frameworks */,
 				4C2667781CC03D1300F10DC0 /* MessageUI.framework in Frameworks */,
@@ -697,7 +697,7 @@
 		4C2667531CC03AE800F10DC0 /* DAF Bundles */ = {
 			isa = PBXGroup;
 			children = (
-				D7D492E51D48950600727B43 /* DAFSupport.framework */,
+				D709E25E1E06DFAF0009BCB5 /* DAFSupport.framework */,
 				4C2667541CC03AF400F10DC0 /* DAFSupportResources.bundle */,
 				4C2667551CC03AF400F10DC0 /* GDAssets.bundle */,
 				4C2667561CC03AF400F10DC0 /* MockGDiOSResources.bundle */,
@@ -1915,6 +1915,7 @@
 					"$(PROJECT_DIR)",
 					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
 					"$(PROJECT_DIR)/Sentegrity",
+					"$(PROJECT_DIR)/Sentegrity\\ TAF/Supporting\\ Files/DAF\\ Bundles",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (
@@ -1996,6 +1997,7 @@
 					"$(PROJECT_DIR)",
 					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
 					"$(PROJECT_DIR)/Sentegrity",
+					"$(PROJECT_DIR)/Sentegrity\\ TAF/Supporting\\ Files/DAF\\ Bundles",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
