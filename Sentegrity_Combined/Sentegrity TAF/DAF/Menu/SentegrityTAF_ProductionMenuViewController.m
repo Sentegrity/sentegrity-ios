@@ -77,7 +77,7 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.delegate userSelectedItemFromMenu:self.arrayOfItems[indexPath.row]];
+    [self.delegateMenu userSelectedItemFromMenu:self.arrayOfItems[indexPath.row]];
 }
 
 

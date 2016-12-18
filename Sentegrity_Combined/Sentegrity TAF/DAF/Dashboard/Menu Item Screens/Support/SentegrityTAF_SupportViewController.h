@@ -24,7 +24,7 @@
 @property (nonatomic, strong) NSString *supportEmail;
 
 
-@property (nonatomic, weak) id <SentegrityTAF_SupportDelegate> delegate;
+@property (nonatomic, weak) id <SentegrityTAF_SupportDelegate> delegateSupport;
 
 
 @end

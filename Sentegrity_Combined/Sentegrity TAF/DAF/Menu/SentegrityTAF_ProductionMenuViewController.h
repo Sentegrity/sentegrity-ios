@@ -25,6 +25,6 @@ static NSString *SentegrityTAF_MenuItem_Privacy = @"Privacy";
 
 @interface SentegrityTAF_ProductionMenuViewController : SentegrityTAF_BaseViewController
 
-@property (nonatomic, weak) id <SentegrityTAF_ProductionMenuDelegate> delegate;
+@property (nonatomic, weak) id <SentegrityTAF_ProductionMenuDelegate> delegateMenu;
 
 @end

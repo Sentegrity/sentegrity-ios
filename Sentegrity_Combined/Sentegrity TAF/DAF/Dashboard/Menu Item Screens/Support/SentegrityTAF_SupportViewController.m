@@ -123,7 +123,7 @@
 
 
 - (void) pressedDone {
-    [self.delegate dismissSupportViewController];
+    [self.delegateSupport dismissSupportViewController];
 }
 
 - (IBAction)pressedPhone:(id)sender {
