@@ -100,7 +100,6 @@
 		4C6F39581CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C6F39541CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m */; };
 		4C7D98251CC0049F00E9CC97 /* libCore Detection.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7D98241CC0049F00E9CC97 /* libCore Detection.a */; };
 		4C9EBE1B1B2B5B58003ED356 /* RightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */; };
-		4CDE3C9F1CCA96C100D23E66 /* DAFSkelDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CDE3C9D1CCA96C100D23E66 /* DAFSkelDriver.cpp */; };
 		4CE9D8071B2FA606006D43D8 /* DINPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4CE9D8061B2FA606006D43D8 /* DINPro-Bold.otf */; };
 		7DB8ACB0AEB31197C604414C /* libPods-Sentegrity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C05694064344BB4205E08D99 /* libPods-Sentegrity.a */; };
 		81AF003BEAD87EF1FFE72C10 /* libPods-Sentegrity TAF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85416AA7ED3D5ABEEA5785F3 /* libPods-Sentegrity TAF.a */; };
@@ -127,7 +126,8 @@
 		96C5BCFF1CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF11CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png */; };
 		96C5BD001CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF21CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png */; };
 		96C5BD011CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */; };
-		D709E25F1E06DFAF0009BCB5 /* DAFSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D709E25E1E06DFAF0009BCB5 /* DAFSupport.framework */; };
+		D709E2631E06E0BF0009BCB5 /* DAFSkelDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D709E2611E06E0BF0009BCB5 /* DAFSkelDriver.cpp */; };
+		D709E2671E06E3CF0009BCB5 /* DAFSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D709E2661E06E3CF0009BCB5 /* DAFSupport.framework */; };
 		D72BA8211E06BE7900547005 /* SentegrityTAF_AuthWarningViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D72BA8201E06BE7900547005 /* SentegrityTAF_AuthWarningViewController_iPad.xib */; };
 		D72BA8251E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BA8231E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.m */; };
 		D72BA8261E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D72BA8241E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.xib */; };
@@ -317,8 +317,6 @@
 		4C7D98241CC0049F00E9CC97 /* libCore Detection.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCore Detection.a"; path = "../../../Library/Developer/Xcode/DerivedData/Sentegrity-brnroyitimccbfcvoduacppkrpaj/Build/Products/Debug-iphonesimulator/libCore Detection.a"; sourceTree = "<group>"; };
 		4C9EBE191B2B5B58003ED356 /* RightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightMenuViewController.h; sourceTree = "<group>"; };
 		4C9EBE1A1B2B5B58003ED356 /* RightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightMenuViewController.m; sourceTree = "<group>"; };
-		4CDE3C9D1CCA96C100D23E66 /* DAFSkelDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DAFSkelDriver.cpp; sourceTree = "<group>"; };
-		4CDE3C9E1CCA96C100D23E66 /* DAFSkelDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFSkelDriver.h; sourceTree = "<group>"; };
 		4CE9D8061B2FA606006D43D8 /* DINPro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINPro-Bold.otf"; sourceTree = "<group>"; };
 		4CE9D80C1B323847006D43D8 /* 3rd Party Library Notes.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "3rd Party Library Notes.rtf"; sourceTree = "<group>"; };
 		4CF20B271CC01F3600F44FB8 /* Core Detection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "Core Detection.xcodeproj"; sourceTree = "<group>"; };
@@ -360,7 +358,9 @@
 		96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash_iphone_HD5.5_PT@3x.png"; sourceTree = "<group>"; };
 		A57A38F2AD3A013454171E37 /* Pods-Sentegrity TAF.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity TAF.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity TAF/Pods-Sentegrity TAF.debug.xcconfig"; sourceTree = "<group>"; };
 		C05694064344BB4205E08D99 /* libPods-Sentegrity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sentegrity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D709E25E1E06DFAF0009BCB5 /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DAFSupport.framework; sourceTree = "<group>"; };
+		D709E2611E06E0BF0009BCB5 /* DAFSkelDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DAFSkelDriver.cpp; sourceTree = "<group>"; };
+		D709E2621E06E0BF0009BCB5 /* DAFSkelDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFSkelDriver.h; sourceTree = "<group>"; };
+		D709E2661E06E3CF0009BCB5 /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DAFSupport.framework; path = ../../../DAFSupport.framework; sourceTree = "<group>"; };
 		D72BA8201E06BE7900547005 /* SentegrityTAF_AuthWarningViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_AuthWarningViewController_iPad.xib; sourceTree = "<group>"; };
 		D72BA8221E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_AuthWarningViewController.h; sourceTree = "<group>"; };
 		D72BA8231E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_AuthWarningViewController.m; sourceTree = "<group>"; };
@@ -485,13 +485,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C26677E1CC03D2E00F10DC0 /* libz.tbd in Frameworks */,
-				D709E25F1E06DFAF0009BCB5 /* DAFSupport.framework in Frameworks */,
 				4C26677C1CC03D2600F10DC0 /* libstdc++.tbd in Frameworks */,
 				4C26677A1CC03D1C00F10DC0 /* LocalAuthentication.framework in Frameworks */,
 				4C2667781CC03D1300F10DC0 /* MessageUI.framework in Frameworks */,
 				4C2667761CC03D0C00F10DC0 /* CoreData.framework in Frameworks */,
 				4C2667741CC03CF500F10DC0 /* CFNetwork.framework in Frameworks */,
 				4C2667721CC03CF000F10DC0 /* Security.framework in Frameworks */,
+				D709E2671E06E3CF0009BCB5 /* DAFSupport.framework in Frameworks */,
 				4C2667701CC03CE900F10DC0 /* AdSupport.framework in Frameworks */,
 				4C26676E1CC03CE300F10DC0 /* CoreTelephony.framework in Frameworks */,
 				4C26676C1CC03CDE00F10DC0 /* SystemConfiguration.framework in Frameworks */,
@@ -670,12 +670,11 @@
 		4C2667331CC03AB900F10DC0 /* DAF */ = {
 			isa = PBXGroup;
 			children = (
+				D709E2601E06E0A50009BCB5 /* DAF Driver */,
 				D7FE9F161CDD0B5400FACA04 /* ILContainerView.h */,
 				D7FE9F171CDD0B5400FACA04 /* ILContainerView.m */,
 				D78A5B301DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.h */,
 				D78A5B311DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m */,
-				4CDE3C9D1CCA96C100D23E66 /* DAFSkelDriver.cpp */,
-				4CDE3C9E1CCA96C100D23E66 /* DAFSkelDriver.h */,
 				4C6F39531CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.h */,
 				4C6F39541CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m */,
 				D7F6EE621E0083120099BC3E /* Reachability.h */,
@@ -697,7 +696,7 @@
 		4C2667531CC03AE800F10DC0 /* DAF Bundles */ = {
 			isa = PBXGroup;
 			children = (
-				D709E25E1E06DFAF0009BCB5 /* DAFSupport.framework */,
+				D709E2661E06E3CF0009BCB5 /* DAFSupport.framework */,
 				4C2667541CC03AF400F10DC0 /* DAFSupportResources.bundle */,
 				4C2667551CC03AF400F10DC0 /* GDAssets.bundle */,
 				4C2667561CC03AF400F10DC0 /* MockGDiOSResources.bundle */,
@@ -864,6 +863,15 @@
 				EC09FE4FC0790F7A16625A66 /* Pods-Sentegrity TAF.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		D709E2601E06E0A50009BCB5 /* DAF Driver */ = {
+			isa = PBXGroup;
+			children = (
+				D709E2611E06E0BF0009BCB5 /* DAFSkelDriver.cpp */,
+				D709E2621E06E0BF0009BCB5 /* DAFSkelDriver.h */,
+			);
+			path = "DAF Driver";
 			sourceTree = "<group>";
 		};
 		D72BA8361E06C1AA00547005 /* child viewControllers */ = {
@@ -1547,13 +1555,13 @@
 				D7BA461F1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m in Sources */,
 				D7BDF2081DFF7AE100D0FAFF /* UICKeyChainStore.m in Sources */,
 				4C2666F71CC0369000F10DC0 /* SCLAlertViewResponder.m in Sources */,
+				D709E2631E06E0BF0009BCB5 /* DAFSkelDriver.cpp in Sources */,
 				4C2666F81CC0369000F10DC0 /* SCLButton.m in Sources */,
 				4C2666F91CC0369000F10DC0 /* SCLAlertView.m in Sources */,
 				D7F6EE641E0083120099BC3E /* Reachability.m in Sources */,
 				D74B74A81DE786DF0095408E /* SentegrityTAF_DashboardViewController.m in Sources */,
 				D74B74AA1DE786DF0095408E /* SentegrityTAF_UserDeviceInformationViewController.m in Sources */,
 				D74B74B51DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.m in Sources */,
-				4CDE3C9F1CCA96C100D23E66 /* DAFSkelDriver.cpp in Sources */,
 				4C2667321CC0398300F10DC0 /* SentegrityTAF_AppDelegate.m in Sources */,
 				D7C26EE71DD8E1C8007A915F /* CaptureConfiguration.m in Sources */,
 				D738DF7F1DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.m in Sources */,
@@ -1913,9 +1921,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
 					"$(PROJECT_DIR)/Sentegrity",
-					"$(PROJECT_DIR)/Sentegrity\\ TAF/Supporting\\ Files/DAF\\ Bundles",
+					"$(PROJECT_DIR)/Sentegrity\\ TAF/DAF",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
 				HEADER_SEARCH_PATHS = (
@@ -1995,9 +2002,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"\"$(SRCROOT)/Sentegrity TAF/Supporting Files/DAF Bundles/\"",
 					"$(PROJECT_DIR)/Sentegrity",
-					"$(PROJECT_DIR)/Sentegrity\\ TAF/Supporting\\ Files/DAF\\ Bundles",
+					"$(PROJECT_DIR)/Sentegrity\\ TAF/DAF",
 				);
 				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;

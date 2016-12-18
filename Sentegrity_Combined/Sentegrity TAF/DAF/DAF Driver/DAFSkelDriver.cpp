@@ -18,10 +18,11 @@
 class SkeletonSession : public DASession
 {
 public:
-    
-    // Constructor
-    SkeletonSession( DADevice &device, DAData &authToken ):m_error(), m_metadata(m_error), m_device(device) {
-        
+    SkeletonSession( DADevice &device, DAData &authToken ):
+      m_error(),
+      m_metadata(m_error),
+      m_device(device)
+    {
         DAFLog(DAFLog_Debug, "DAF Skeleton: SkeletonSession() constructor");
         m_metadata.copyFrom(device.getInfo());
         
@@ -117,7 +118,10 @@ private:
 class SkeletonDevice : public DADevice
 {
 public:
-    SkeletonDevice():m_error(), m_metadata(m_error) {
+    SkeletonDevice():
+      m_error(),
+      m_metadata(m_error)
+    {
         m_metadata.setString(DA_NAME, "DAFSkelDriver.cpp example device");
         m_metadata.setString(DA_SERIAL, "000000-11111-23456");
     }
