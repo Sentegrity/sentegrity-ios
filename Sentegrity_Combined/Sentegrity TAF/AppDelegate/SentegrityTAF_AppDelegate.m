@@ -37,13 +37,14 @@
 {
     NSLog(@"DAFSkelAppDelegate: setupNibs");
     
-   self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController" bundle:nil];
     
+    self.easyActivationViewController = [[SentegrityTAF_AuthWarningViewController alloc] initWithNibName:@"SentegrityTAF_AuthWarningViewController" bundle:nil];
     self.mainViewController = [[SentegrityTAF_MainViewController alloc] init];
     self.authFirstTimeViewController = [[SentegrityTAF_BlankAuthViewController alloc] init];
     self.authViewController = [[SentegrityTAF_BlankAuthViewController alloc] init];
     self.activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
 
+    /*
     NSArray *fontFamilies = [UIFont familyNames];
     
     for (int i = 0; i < [fontFamilies count]; i++)
@@ -52,6 +53,7 @@
         NSArray *fontNames = [UIFont fontNamesForFamilyName:[fontFamilies objectAtIndex:i]];
         NSLog (@"%@: %@", fontFamily, fontNames);
     }
+    */
 
 
 }
