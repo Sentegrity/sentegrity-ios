@@ -15,7 +15,7 @@
 
 "privacy": {
 	"privacyScreenTitle": "Your Privacy",
-	"privacyScreenDesc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+	"privacyScreenDesc": "Sentegrity respects user privacy by allowing users to opt-out of various TrustFactors. During initial applicaton setup, users can decided if Sentegrity should leverage user location or movement. Sentegrity only executes when the protected application is accessed and never performs analysis outside of this time. Raw data is not",
 	"privacyScreenContactURL": "https://sentegrity.com/faq/"
 },
 
@@ -51,36 +51,36 @@
 "authenticationModules": [{
 "id": 1,
 "name": "transparent",
-"warnDesc": "You have been transparently authenticated due to consistent user behavior.",
+"warnDesc": "High trust zone detected",
 "warnTitle": "Transparent Authentication",
-"dashboardText": "You were transparently authenticated",
+"dashboardText": "High trust zone detected\nTransparently authenticated",
 "activationRange": 75,
 "authenticationAction": 2,
 "postAuthenticationAction": 1
 }, {
 "id": 2,
 "name": "fingerprint",
-"warnDesc": "Fingerprint required due to the detection of a low risk profile.",
+"warnDesc": "Medium trust zone detected",
 "warnTitle": "Fingerprint Required",
-"dashboardText": "Fingerprint authentication required",
+"dashboardText": "Medium trust zone detected\nFingerprint required",
 "activationRange": 65,
 "authenticationAction": 5,
 "postAuthenticationAction": 1
 }, {
 "id": 3,
 "name": "password",
-"warnDesc": "Complex password required due to the detection of a medium risk profile.",
+"warnDesc": "Low trust zone detected",
 "warnTitle": "Password Required",
-"dashboardText": "Password authentication required",
+"dashboardText": "Low trust zone detected\nPassword required",
 "activationRange": 55,
 "authenticationAction": 4,
 "postAuthenticationAction": 1
 }, {
 "id": 4,
 "name": "facialvocal",
-"warnDesc": "Vocal and Facial authentication required due to the detection of a high risk profile. This module is unavailable, user password will be requested.",
-"warnTitle": "Multi-Modal Required",
-"dashboardText": "Facial authentication required",
+"warnDesc": "Low trust zone detected",
+"warnTitle": "Facial recognition required",
+"dashboardText": "Low trust zone detected\nFacial recognition required",
 "activationRange": 0,
 "authenticationAction": 8,
 "postAuthenticationAction": 1
