@@ -161,7 +161,7 @@
     //production menu
     
     self.productionMenuViewController = [[SentegrityTAF_ProductionMenuViewController alloc] init];
-    self.productionMenuViewController.delegate = self;
+    self.productionMenuViewController.delegateMenu = self;
     //need to set it twice because of bug in RESideMenu pod
     self.sideMenuViewController.rightMenuViewController = self.productionMenuViewController;
     self.sideMenuViewController.rightMenuViewController = self.productionMenuViewController;

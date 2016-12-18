@@ -17,6 +17,7 @@
 @interface SentegrityTAF_BaseViewController : UIViewController
 
 @property (nonatomic, weak) id <SentegrityTAF_basicProtocol> delegate;
+
 // Show an alert
 - (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
 

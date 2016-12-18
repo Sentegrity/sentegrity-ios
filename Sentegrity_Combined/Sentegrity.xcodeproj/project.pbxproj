@@ -1937,6 +1937,8 @@
 				);
 				INFOPLIST_FILE = "Sentegrity TAF/Supporting Files/SentegrityTAF_Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD = "~/Library/Application Support/Blackberry/Good.platform/iOS/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
+				LDPLUSPLUS = "~/Library/Application Support/Blackberry/Good.platform/iOS/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2017,6 +2019,8 @@
 				);
 				INFOPLIST_FILE = "Sentegrity TAF/Supporting Files/SentegrityTAF_Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD = "~/Library/Application Support/Blackberry/Good.platform/iOS/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
+				LDPLUSPLUS = "~/Library/Application Support/Blackberry/Good.platform/iOS/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (

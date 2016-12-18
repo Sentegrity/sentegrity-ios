@@ -441,7 +441,7 @@
     [self.textFieldPassword resignFirstResponder];
     
     SentegrityTAF_SupportViewController *supportVC = [[SentegrityTAF_SupportViewController alloc] init];
-    supportVC.delegate = self;
+    supportVC.delegateSupport = self;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:supportVC];
     
     self.containerViewForSupport.currentViewController = self;
