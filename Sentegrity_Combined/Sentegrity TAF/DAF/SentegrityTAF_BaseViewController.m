@@ -41,7 +41,7 @@
         
         [alert addAction:defaultAction];
         
-        [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
+        [self presentViewController:alert animated:YES completion:nil];
         
     }
     else {

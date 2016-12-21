@@ -170,6 +170,8 @@
 		D74B74B61DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D74B74B41DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.xib */; };
 		D7651FB51D46BEA1001D3E9E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7651FB31D46BEA1001D3E9E /* LaunchScreen.storyboard */; };
 		D7651FB61D46BEA1001D3E9E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7651FB31D46BEA1001D3E9E /* LaunchScreen.storyboard */; };
+		D76739481E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76739461E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m */; };
+		D76739491E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D76739471E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.xib */; };
 		D78A5B321DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D78A5B311DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m */; };
 		D7BA461F1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BA461E1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m */; };
 		D7BA46291D4EB2C500A2EC42 /* TAFAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7BA46281D4EB2C500A2EC42 /* TAFAssets.xcassets */; };
@@ -421,6 +423,9 @@
 		D74B74B31DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_DetailInfoViewController.m; sourceTree = "<group>"; };
 		D74B74B41DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_DetailInfoViewController.xib; sourceTree = "<group>"; };
 		D7651FB41D46BEA1001D3E9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D76739451E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_UnlockHolderViewController.h; sourceTree = "<group>"; };
+		D76739461E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_UnlockHolderViewController.m; sourceTree = "<group>"; };
+		D76739471E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_UnlockHolderViewController.xib; sourceTree = "<group>"; };
 		D78A5B301DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_TouchIDManager.h; sourceTree = "<group>"; };
 		D78A5B311DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_TouchIDManager.m; sourceTree = "<group>"; };
 		D7BA461D1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_BlankAuthViewController.h; sourceTree = "<group>"; };
@@ -1092,6 +1097,9 @@
 				D72BA82C1E06C13C00547005 /* SentegrityTAF_UnlockViewController.h */,
 				D72BA82D1E06C13C00547005 /* SentegrityTAF_UnlockViewController.m */,
 				D72BA82E1E06C13C00547005 /* SentegrityTAF_UnlockViewController.xib */,
+				D76739451E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.h */,
+				D76739461E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m */,
+				D76739471E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.xib */,
 			);
 			path = UnlockViewController;
 			sourceTree = "<group>";
@@ -1332,6 +1340,7 @@
 				D7F7DF731CEBDCED0085910B /* DashboardViewController.xib in Resources */,
 				4C2667131CC0369000F10DC0 /* DINPro-CondMedium.otf in Resources */,
 				4C2667141CC0369000F10DC0 /* DINPro-Regular.otf in Resources */,
+				D76739491E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.xib in Resources */,
 				D7C8F97C1DE4F32B006E0EFD /* Lato-ThinItalic.ttf in Resources */,
 				D72BA8531E06C22B00547005 /* LocationPermissionViewController.xib in Resources */,
 				D74B74B01DE787070095408E /* SentegrityTAF_UserDeviceTableViewCell.xib in Resources */,
@@ -1568,6 +1577,7 @@
 				D74B74B51DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.m in Sources */,
 				4C2667321CC0398300F10DC0 /* SentegrityTAF_AppDelegate.m in Sources */,
 				D7C26EE71DD8E1C8007A915F /* CaptureConfiguration.m in Sources */,
+				D76739481E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m in Sources */,
 				D738DF7F1DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.m in Sources */,
 				4C2666FA1CC0369000F10DC0 /* ComputationInfoViewController.m in Sources */,
 				D7C26EE81DD8E1C8007A915F /* CaptureViewController.m in Sources */,

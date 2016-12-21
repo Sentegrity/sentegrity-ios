@@ -9,9 +9,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SentegrityTAF_MainViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SentegrityTAF_UnlockHolderViewController">
             <connections>
-                <outlet property="containerView" destination="wZb-Js-0bh" id="kBv-dO-dax"/>
+                <outlet property="containerView" destination="lYH-D3-xfz" id="iku-LP-Irh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,19 +20,18 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wZb-Js-0bh" customClass="ILContainerView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lYH-D3-xfz" customClass="ILContainerView">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.89411764709999997" green="0.13725490200000001" blue="0.1176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="wZb-Js-0bh" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="dUJ-oM-SGM"/>
-                <constraint firstItem="wZb-Js-0bh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="gtZ-S9-CMN"/>
-                <constraint firstAttribute="bottom" secondItem="wZb-Js-0bh" secondAttribute="bottom" id="yNB-vQ-H5p"/>
-                <constraint firstAttribute="trailing" secondItem="wZb-Js-0bh" secondAttribute="trailing" id="yWs-Ri-Q8x"/>
+                <constraint firstAttribute="bottom" secondItem="lYH-D3-xfz" secondAttribute="bottom" id="MtA-KF-mn2"/>
+                <constraint firstAttribute="trailing" secondItem="lYH-D3-xfz" secondAttribute="trailing" id="cjU-7d-nGa"/>
+                <constraint firstItem="lYH-D3-xfz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="jlF-jD-1fz"/>
+                <constraint firstItem="lYH-D3-xfz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="t41-D4-5RB"/>
             </constraints>
-            <point key="canvasLocation" x="53" y="121"/>
         </view>
     </objects>
 </document>

@@ -20,6 +20,7 @@
 #import "SentegrityTAF_UnlockViewController.h"
 #import "SentegrityTAF_AuthWarningViewController.h"
 #import "SentegrityTAF_BlankAuthViewController.h"
+#import "SentegrityTAF_UnlockHolderViewController.h"
 
 // Activity Dispatcher
 #import "Sentegrity_Activity_Dispatcher.h"
@@ -33,7 +34,7 @@
 @property (nonatomic, strong) SentegrityTAF_BlankAuthViewController *authViewController;
 @property (strong, nonatomic) SentegrityTAF_MainViewController *mainViewController;
 @property (nonatomic, strong) SentegrityTAF_FirstTimeViewController *firstTimeViewController;
-@property (nonatomic, strong) SentegrityTAF_UnlockViewController *unlockViewController;
+@property (nonatomic, strong) SentegrityTAF_UnlockHolderViewController *unlockHolderViewController;
 @property (nonatomic, strong) SentegrityTAF_AuthWarningViewController *easyActivationViewController;
 @property (nonatomic, strong) Sentegrity_Activity_Dispatcher *activityDispatcher;
 
