@@ -43,6 +43,7 @@
     self.authFirstTimeViewController = [[SentegrityTAF_BlankAuthViewController alloc] init];
     self.authViewController = [[SentegrityTAF_BlankAuthViewController alloc] init];
     self.activityDispatcher = [[Sentegrity_Activity_Dispatcher alloc] init];
+    self.unlockHolderViewController = [[SentegrityTAF_UnlockHolderViewController alloc] init];
 
     /*
     NSArray *fontFamilies = [UIFont familyNames];
@@ -114,9 +115,9 @@
 
             {
                 //we want a fresh instance of UnlockViewController because of Core Detection
-                self.unlockViewController = [[SentegrityTAF_UnlockViewController alloc] init];
-                self.unlockViewController.result = result;
-                ret = self.unlockViewController;
+                [self.unlockHolderViewController loadNewUnlockViewController];
+                self.unlockHolderViewController.result = result;
+                ret = self.unlockHolderViewController;
             }
             break;
             
@@ -137,10 +138,18 @@
     
     [super eventNotification:event withMessage:msg];
     
-    [self.mainViewController updateUIForNotification:event];
-    [self.easyActivationViewController updateUIForNotification:event];
-    [self.unlockViewController updateUIForNotification:event];
-    [self.firstTimeViewController updateUIForNotification:event];
+    //IMPORTANT - Need to check is viewController visible (active) before calling updateUIForNotification:
+    if ([self isViewControllerVisible:self.mainViewController])
+        [self.mainViewController updateUIForNotification:event];
+    
+    if ([self isViewControllerVisible:self.easyActivationViewController])
+        [self.easyActivationViewController updateUIForNotification:event];
+    
+    if ([self isViewControllerVisible:self.unlockHolderViewController])
+        [self.unlockHolderViewController updateUIForNotification:event];
+    
+    if ([self isViewControllerVisible:self.firstTimeViewController])
+        [self.firstTimeViewController updateUIForNotification:event];
     
     if (event == ChangePasswordFailed ) {
         
@@ -154,6 +163,13 @@
 }
 
 
+- (BOOL) isViewControllerVisible: (UIViewController *) viewController {
+    if (viewController.isViewLoaded && viewController.view.window) {
+        // viewController is visible
+        return YES;
+    }
+    return NO;
+}
 
 #pragma mark - permissions
 

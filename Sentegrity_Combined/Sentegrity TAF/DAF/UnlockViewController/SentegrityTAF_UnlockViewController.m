@@ -224,7 +224,7 @@
         // We were interrupted by idle lock, Easy Activation request, etc.
         // Ensure this VC is dismissed if it's showing
         NSLog(@"SentegrityTAF_UnlockViewController: cancelling change password");
-        [self dismissViewControllerAnimated:NO completion: ^{
+        [self.parentViewController dismissViewControllerAnimated:NO completion: ^{
             if ( result != nil )
             {
                 [result setError:[NSError errorWithDomain:@"SentegrityTAF_UnlockViewController"
@@ -358,7 +358,7 @@
         [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
     }
     else
-        [self dismissViewControllerAnimated:NO completion:^{
+        [self.parentViewController dismissViewControllerAnimated:NO completion:^{
             [result setResult:decryptedMasterKeyString];
             result = nil;
         }];
@@ -609,7 +609,7 @@
                                                                               [self checkForPolicyAndRunCoreDetection];
                                                                           }];
                     [alert addAction:defaultAction];
-                    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
+                    [self presentViewController:alert animated:YES completion:nil];
                 }
                 
                 
@@ -655,7 +655,7 @@
                                                                                   [self checkForPolicyAndRunCoreDetection];
                                                                               }];
                         [alert addAction:defaultAction];
-                        [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
+                        [self presentViewController:alert animated:YES completion:nil];
                         
                     }
                 }
@@ -813,17 +813,16 @@
         // Check if core detection completed successfully
         if (success) {
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                
+            // dispatch after, to avoid modal mess
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [weakSelf analyzeAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:weakSelf.view animated:NO];
                 [weakSelf showInput];
- 
-                [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
-
                 
+                [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"kLastRun"];
             });
+
+            
             
             // Log the errors
             NSLog(@"\n\nErrors: %@", [*error localizedDescription]);
@@ -851,6 +850,7 @@
     Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
     [self.textFieldPassword becomeFirstResponder];
+    
     
     // The only preAuthenticationActions handled here are transparent, blockAndWarn,
     switch (computationResults.authenticationAction) {
@@ -896,7 +896,7 @@
                         [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
                     }
                     else
-                        [self dismissViewControllerAnimated:NO completion:^{
+                        [self.parentViewController dismissViewControllerAnimated:NO completion:^{
                             // Use the decrypted master key
                             [result setResult:decryptedMasterKeyString];
                             result = nil;
@@ -968,11 +968,24 @@
                         [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
                     }
                     else
-                        [self dismissViewControllerAnimated:NO completion:^{
+                        [self.parentViewController dismissViewControllerAnimated:NO completion:^{
                             // Use the decrypted master key
                             [result setResult:decryptedMasterKeyString];
                             result = nil;
-                            [self showAlertWithTitle:computationResults.warnTitle andMessage:computationResults.warnDesc];
+                            
+                            
+                            UIAlertController* alert = [UIAlertController alertControllerWithTitle:computationResults.warnTitle
+                                                                                           message:computationResults.warnDesc
+                                                                                    preferredStyle:UIAlertControllerStyleAlert];
+                            
+                            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                                  handler:^(UIAlertAction * action) {
+                                                                                  }];
+                            [alert addAction:defaultAction];
+
+
+                            
+                            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
                         }];
                     // Done
                     break;
@@ -1021,7 +1034,7 @@
             
             [alert addAction:defaultAction];
             
-            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
+            [self presentViewController:alert animated:YES completion:nil];
             
             //No promptForUserFingerprintAndWarn because TouchID always displays a message
             //[self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.warnTitle];
@@ -1040,10 +1053,7 @@
             
             // Since we're already on the login screen, simply show a popup message then allow user to interact with login prompt
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self showAlertWithTitle:computationResults.warnTitle andMessage:computationResults.warnDesc];
-            });
-            
+            [self showAlertWithTitle:computationResults.warnTitle andMessage:computationResults.warnDesc];
             
             break;
         }
@@ -1071,7 +1081,7 @@
             
             [alert addAction:defaultAction];
             
-            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
+            [self presentViewController:alert animated:YES completion:nil];
             
             /*
             [self dismissViewControllerAnimated:NO completion:^{
@@ -1096,13 +1106,10 @@
             // Set history now, we already have all the info we need
             [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:error];
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                // TODO: Change to show denied view instead of popup box
-                [self showAlertWithTitle:@"Access Denied" andMessage:@"This device is high risk or in violation of policy, this access attempt has been denied."];
-            });
+            // TODO: Change to show denied view instead of popup box
+            [self showAlertWithTitle:@"Access Denied" andMessage:@"This device is high risk or in violation of policy, this access attempt has been denied."];
             
            
-            
             // Done
             break;
             

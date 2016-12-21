@@ -27,13 +27,7 @@
 @property (weak, nonatomic) DAFWaitableResult *result;
 
 
-
-
 // Called by SentegrityTAF_AppDelegate
 - (void)updateUIForNotification:(enum DAFUINotification)event;
-
-
-
-- (id) init;
 
 @end
