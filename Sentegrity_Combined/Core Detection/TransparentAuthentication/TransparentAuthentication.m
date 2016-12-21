@@ -390,7 +390,7 @@
         // Identify high entropy trustfactors from eligible list and extract them
             
             switch (trustFactorOutputObject.trustFactor.subClassID.integerValue) {
-                case 2: //WiFi
+                case 19: //WiFi
                     wifiAuthenticator=YES;
                     [wifiAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
                     break;
