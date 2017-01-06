@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LocationPermissionViewController">
@@ -30,12 +34,12 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location Services" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LcW-n4-MaU">
                                             <rect key="frame" x="0.0" y="106" width="375" height="24"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kv6-kH-ZBc">
                                             <rect key="frame" x="16" y="138" width="343" height="183.5"/>
-                                            <string key="text">Sentegrity uses location information to assist in user authentication. For example, Sentegrity can identify if you reside in a familiar (trusted) location and increase your TrustScore. Location information is only analyzed locally on this device and never stored or transmitted.   If you disallow location services your TrustScore will decrease and Sentegrity may require you to enter your password more often. </string>
+                                            <mutableString key="text">Sentegrity uses location information to assist in user authentication. For example, Sentegrity can identify if you reside in a familiar (trusted) location and increase your TrustScore. Location information is only analyzed locally on this device and never stored or transmitted.   If you disallow location services your TrustScore will decrease and Sentegrity may require you to authenticate more often. </mutableString>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="yes"/>
                                         </textView>
@@ -47,7 +51,7 @@
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <state key="normal" title="Accept">
-                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
                                                 <action selector="accept:" destination="-1" eventType="touchUpInside" id="Ygz-wx-9dy"/>
@@ -61,14 +65,14 @@
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                             <state key="normal" title="Decline">
-                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
                                                 <action selector="decline:" destination="-1" eventType="touchUpInside" id="LXl-1C-OZt"/>
                                             </connections>
                                         </button>
                                     </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstItem="kv6-kH-ZBc" firstAttribute="leading" secondItem="6go-6f-3x7" secondAttribute="leading" constant="16" id="2RW-oh-6qF"/>
                                         <constraint firstAttribute="trailing" secondItem="kv6-kH-ZBc" secondAttribute="trailing" constant="16" id="3qq-Uf-FBo"/>
@@ -93,7 +97,7 @@
                                     </variation>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="6go-6f-3x7" firstAttribute="top" secondItem="89T-YW-Hhx" secondAttribute="top" id="ENB-wT-MZO"/>
                                 <constraint firstAttribute="trailing" secondItem="6go-6f-3x7" secondAttribute="trailing" id="NQY-mz-fua"/>
@@ -107,13 +111,13 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gbT-de-qVB" userLabel="Red Line">
                                     <rect key="frame" x="0.0" y="29" width="375" height="4"/>
-                                    <color key="backgroundColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="4" id="HG0-23-axS"/>
                                     </constraints>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="gbT-de-qVB" firstAttribute="leading" secondItem="h1a-UY-oI5" secondAttribute="leading" id="LQY-t5-yfH"/>
                                 <constraint firstAttribute="trailing" secondItem="gbT-de-qVB" secondAttribute="trailing" id="ROB-lX-JqS"/>
@@ -122,7 +126,7 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.96862745100000003" green="0.97254901959999995" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.96862745100000003" green="0.97254901959999995" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="h1a-UY-oI5" secondAttribute="trailing" id="9o5-d3-TQh"/>
                         <constraint firstItem="89T-YW-Hhx" firstAttribute="leading" secondItem="w1X-F2-67X" secondAttribute="leading" id="Cjb-k1-k7h"/>
@@ -143,14 +147,13 @@
                     </variation>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="w1X-F2-67X" secondAttribute="bottom" id="G0y-wz-hu7"/>
                 <constraint firstItem="w1X-F2-67X" firstAttribute="top" secondItem="FQe-WH-wcM" secondAttribute="top" id="gNW-Cp-kqQ"/>
                 <constraint firstAttribute="trailing" secondItem="w1X-F2-67X" secondAttribute="trailing" id="hSk-cf-UTp"/>
                 <constraint firstItem="w1X-F2-67X" firstAttribute="leading" secondItem="FQe-WH-wcM" secondAttribute="leading" id="k2O-4y-ruL"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="263.5" y="368.5"/>
         </view>
     </objects>

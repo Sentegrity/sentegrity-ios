@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,18 +20,25 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w1X-F2-67X" userLabel="Main View">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="89T-YW-Hhx">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6go-6f-3x7" userLabel="Container">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="good_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="xb1-8P-Q4m"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="good_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="xb1-8P-Q4m">
+                                            <rect key="frame" x="25" y="40" width="82" height="26"/>
+                                        </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kv6-kH-ZBc">
-                                            <string key="text">Sentegrity uses activity and motion information to assist in user authentication. Activity and motion information is only analyzed locally on this device and never transmitted or stored.   If you disallow motion services your TrustScore will decrease and Sentegrity may require you to enter your password more often. </string>
+                                            <rect key="frame" x="16" y="138" width="343" height="150"/>
+                                            <mutableString key="text">Sentegrity uses activity and motion information to assist in user authentication. Activity and motion information is only analyzed locally on this device and never transmitted or stored.   If you disallow motion services your TrustScore will decrease and Sentegrity may require you to authenticate more often. </mutableString>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6FJ-O7-gje">
+                                            <rect key="frame" x="200" y="540" width="150" height="67"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="67" id="Eau-hg-yHW"/>
                                                 <constraint firstAttribute="width" constant="150" id="jDW-1b-2KH"/>
@@ -42,6 +52,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ePQ-QR-nZH">
+                                            <rect key="frame" x="25" y="540" width="150" height="67"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="67" id="WoL-dJ-ROd"/>
                                                 <constraint firstAttribute="width" constant="150" id="Zye-jA-4LT"/>
@@ -55,6 +66,7 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Motion Services" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LcW-n4-MaU">
+                                            <rect key="frame" x="0.0" y="106" width="375" height="24"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
@@ -95,8 +107,10 @@
                             </constraints>
                         </scrollView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h1a-UY-oI5" userLabel="Footer">
+                            <rect key="frame" x="0.0" y="584" width="375" height="33"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gbT-de-qVB" userLabel="Red Line">
+                                    <rect key="frame" x="0.0" y="29" width="375" height="4"/>
                                     <color key="backgroundColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="4" id="HG0-23-axS"/>

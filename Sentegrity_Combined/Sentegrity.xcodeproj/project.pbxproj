@@ -1083,10 +1083,10 @@
 		D7D492E81D48981900727B43 /* FirstTimeViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D72BA8361E06C1AA00547005 /* child viewControllers */,
 				D72BA8311E06C16400547005 /* SentegrityTAF_FirstTimeViewController.h */,
 				D72BA8321E06C16400547005 /* SentegrityTAF_FirstTimeViewController.m */,
 				D72BA8331E06C16400547005 /* SentegrityTAF_FirstTimeViewController.xib */,
-				D72BA8361E06C1AA00547005 /* child viewControllers */,
 			);
 			path = FirstTimeViewControllers;
 			sourceTree = "<group>";
