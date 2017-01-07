@@ -100,6 +100,8 @@
             self.firstTimeViewController.activityDispatcher = self.activityDispatcher;
             ret = self.firstTimeViewController;
         }
+            // run all async activities
+            [self.activityDispatcher runCoreDetectionActivities];
             
             break;
             

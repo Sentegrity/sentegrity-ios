@@ -7,6 +7,7 @@
 //
 
 #import "SentegrityTAF_AskPermissionsViewController.h"
+#import "Sentegrity_TrustFactor_Datasets.h"
 
 @interface SentegrityTAF_AskPermissionsViewController () {
     BOOL once;
@@ -65,7 +66,10 @@
                 if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryLocationWhenInUse] permissionState] == ISHPermissionStateAuthorized) {
                     
                     // Location allowed
-                    
+                    [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setLocationDNEStatus:DNEStatus_ok];
+                    [[Sentegrity_TrustFactor_Datasets sharedDatasets]  setPlacemarkDNEStatus:DNEStatus_ok];
+
+
                     // Start the location activity
                     [_activityDispatcher startLocation];
                     
@@ -75,7 +79,8 @@
                 if ([[ISHPermissionRequest requestForCategory:ISHPermissionCategoryActivity] permissionState] == ISHPermissionStateAuthorized) {
                     
                     // Activity allowed
-                    
+                    [[Sentegrity_TrustFactor_Datasets sharedDatasets] setActivityDNEStatus:DNEStatus_ok];
+
                     // Start the activity activity
                     [_activityDispatcher startActivity];
                 }

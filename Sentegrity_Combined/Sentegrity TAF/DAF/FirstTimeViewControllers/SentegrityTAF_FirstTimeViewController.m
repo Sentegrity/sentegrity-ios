@@ -96,6 +96,7 @@ typedef enum {
     //after permission screen, we need to show password creation screen
     else  if (lastCurrentState == CurrentStateAskingPermissions) {
         [self showPasswordCreationWithResult:self.result];
+        
     }
     
     //after creation of password, show unlock screen or touchID if available
