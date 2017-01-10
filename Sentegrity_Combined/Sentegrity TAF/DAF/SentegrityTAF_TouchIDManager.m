@@ -162,7 +162,7 @@
                     
                 default: {
                     NSDictionary *errorDetails = @{
-                                                   NSLocalizedDescriptionKey: [NSString stringWithFormat:@"SecItemAdd failed with status code: %d", status]
+                                                   NSLocalizedDescriptionKey: [NSString stringWithFormat:@"SecItemAdd failed with status code: %d", (int)status]
                                                    };
                     
                     NSError *error = [NSError errorWithDomain:serviceName code:status userInfo:errorDetails];
@@ -198,7 +198,7 @@
                     
                 default: {
                     NSDictionary *errorDetails = @{
-                                                   NSLocalizedDescriptionKey: [NSString stringWithFormat:@"SecItemAdd failed with status code: %d", status]
+                                                   NSLocalizedDescriptionKey: [NSString stringWithFormat:@"SecItemAdd failed with status code: %d", (int)status]
                                                    };
                     
                     NSError *error = [NSError errorWithDomain:serviceName code:status userInfo:errorDetails];
@@ -254,7 +254,7 @@
                         
                     default: {
                         NSDictionary *errorDetails = @{
-                                                       NSLocalizedDescriptionKey: [NSString stringWithFormat:@"SecItemAdd failed with status code: %d", status]
+                                                       NSLocalizedDescriptionKey: [NSString stringWithFormat:@"SecItemAdd failed with status code: %d", (int)status]
                                                        };
                         
                         NSError *error = [NSError errorWithDomain:serviceName code:status userInfo:errorDetails];
