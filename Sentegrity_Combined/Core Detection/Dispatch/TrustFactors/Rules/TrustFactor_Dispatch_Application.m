@@ -13,6 +13,39 @@
 // Implementations
 
 // USES PRIVATE API
+
+/* TrustFactor Removed from policy
+ 
+ }, {
+ "id": 22,
+ "notFoundIssueMessage": "High risk apps detected",
+ "notFoundSuggestionMessage": "Uninstall high risk apps",
+ "lowConfidenceIssueMessage": "",
+ "lowConfidenceSuggestionMessage": "",
+ "revision": 1,
+ "classID": 3,
+ "subClassID": 3,
+ "name": "high risk installed apps",
+ "transparentEligible": 0,
+ "partialWeight": 0,
+ "weight": 35,
+ "learnMode": 0,
+ "learnTime": 0,
+ "learnAssertionCount": 0,
+ "learnRunCount": 0,
+ "decayMode": 0,
+ "decayMetric": 0,
+ "wipeOnUpdate": 0,
+ "dispatch": "Application",
+ "implementation": "installedApp:",
+ "whitelistable": 0,
+ "privateAPI": 1,
+ "payload": [
+ "com.dunkinbrands.DunkinMobile",
+ "net.technet.systat"
+ ]
+ 
+ */
 + (Sentegrity_TrustFactor_Output_Object *)installedApp:(NSArray *)payload {
     
     // Create the trustfactor output object

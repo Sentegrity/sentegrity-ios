@@ -16,7 +16,7 @@
 @interface TrustFactor_Dispatch_Application : NSObject
 
 // USES PRIVATE API
-+ (Sentegrity_TrustFactor_Output_Object *)installedApp:(NSArray *)payload;
+//+ (Sentegrity_TrustFactor_Output_Object *)installedApp:(NSArray *)payload;
 
 /* Removed due to iOS 9
  

@@ -19,6 +19,8 @@
 // USES PRIVATE API
 + (NSArray *)getUserAppInfo {
     
+    
+    
         // Get the list of processes and all information about them
         @try {
             //TODO: Check this URL out for obfuscation info on LSApplication stuff
