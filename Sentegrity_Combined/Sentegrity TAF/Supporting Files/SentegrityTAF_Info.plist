@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>7</string>
 	<key>GDApplicationID</key>
 	<string>com.sentegrity.daf</string>
 	<key>GDApplicationVersion</key>
@@ -68,6 +68,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Sentegrity analyzes Bluetooth connection to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow Bluetooth services Sentegrity may require you to enter passwords more often.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Sentegrity analyzes Calendar data to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow Calendar services Sentegrity may require you to enter passwords more often.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Sentegrity uses your device camera during facial recognition.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -76,6 +80,8 @@
 	<string>Gimme location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Sentegrity analyzes location data to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow location services Sentegrity may require you to enter passwords more often.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Sentegrity analyzes Microphone usage data to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow Microphone usage Sentegrity may require you to enter passwords more often.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Sentegrity analyzes motion data to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow Motion &amp; Fitness services Sentegrity may require you to enter passwords more often.</string>
 	<key>UIAppFonts</key>
