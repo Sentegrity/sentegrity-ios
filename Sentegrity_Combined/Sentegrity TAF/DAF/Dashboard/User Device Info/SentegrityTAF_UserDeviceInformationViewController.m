@@ -83,7 +83,16 @@ static NSString *CellIdentifier = @"USER_DEVICE_CELL";
     //fill a data
     Sentegrity_SubClassResult_Object *resultObject = self.arrayOfSubClassResults[indexPath.row];
     cell.labelTitle.text = resultObject.subClassTitle;
-    cell.labelStatus.text = [resultObject.subClassStatusText uppercaseString];
+    
+    // If it is COMPLETE then don't show on this screen, only show problems
+    if ([[resultObject.subClassStatusText uppercaseString] isEqualToString:@"COMPLETE"] ||[[resultObject.subClassStatusText uppercaseString] isEqualToString:@"EXPIRED"]){
+        cell.labelStatus.hidden = YES;
+    }
+    else {
+        cell.labelStatus.text = [resultObject.subClassStatusText uppercaseString];
+    }
+
+   
     
     //"TRUSTED" is yellow, all other states are red
     if ([cell.labelStatus.text isEqualToString:@"COMPLETE"]){

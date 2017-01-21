@@ -92,7 +92,7 @@
 
     
     //ask user to use touch ID for future login
-    [touchIDManager checkForTouchIDAuthWithMessage:@"Enable TouchID for Sentegrity" withCallback:^(TouchIDResultType resultType, NSError *error) {
+    [touchIDManager checkForTouchIDAuthWithMessage:@"Place fingerprint on the reader to enroll in Sentegrity" withCallback:^(TouchIDResultType resultType, NSError *error) {
         
         if (resultType == TouchIDResultType_Success) {
             //create touch ID

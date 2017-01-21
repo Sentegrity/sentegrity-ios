@@ -30,7 +30,7 @@
 - (void)runCoreDetectionActivities {
     
     // Start Netstat block
-    [self startNetstat];
+    //[self startNetstat];
     
     // Start Bluetooth as soon as possible, this starts bluetooth classic, bluetooth BLE paired, and Bluetooth BLE scanned
     [self startBluetooth];

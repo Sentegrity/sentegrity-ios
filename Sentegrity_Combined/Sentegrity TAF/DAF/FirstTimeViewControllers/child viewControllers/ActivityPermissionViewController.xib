@@ -32,8 +32,8 @@
                                             <rect key="frame" x="25" y="40" width="82" height="26"/>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kv6-kH-ZBc">
-                                            <rect key="frame" x="16" y="138" width="343" height="150"/>
-                                            <mutableString key="text">Sentegrity uses activity and motion information to assist in user authentication. Activity and motion information is only analyzed locally on this device and never transmitted or stored.   If you disallow motion services your TrustScore will decrease and Sentegrity may require you to authenticate more often. </mutableString>
+                                            <rect key="frame" x="16" y="138" width="343" height="234"/>
+                                            <mutableString key="text">Sentegrity uses activity and motion information to assist in user authentication. Tokenized activity and motion information is only analyzed locally on this device and identifiable data is never transmitted or stored.   If you disallow activity and motion services your TrustScore will decrease and Sentegrity may require you to authenticate more often and aggressively.   Future modifications to this selection must be performed from the platform settings. </mutableString>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>

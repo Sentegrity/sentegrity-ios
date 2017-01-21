@@ -33,7 +33,7 @@
 },
 
 "passwordRequirements": {
-"minLenght": 6,
+"minLenght": 8,
 "alphaNumeric": 1,
 "mixedCase": 0,
 "specialCharacter": 0

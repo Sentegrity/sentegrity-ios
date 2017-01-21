@@ -33,8 +33,8 @@
                                             <rect key="frame" x="25" y="40" width="82" height="26"/>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YXH-c3-7Z3">
-                                            <rect key="frame" x="16" y="138" width="343" height="166.5"/>
-                                            <mutableString key="text">Facial recognition is required during high risk authentication attempts. User's are required to enroll in facial recognition. If you are unable to enroll at this time, you may revisit the application to complete this process.   The enrollment process takes a small amount of time to complete. Press "Start Enrollment" to begin or "Decline" to discontinue the setup process.</mutableString>
+                                            <rect key="frame" x="16" y="138" width="343" height="200"/>
+                                            <mutableString key="text">Facial recognition is required during high risk authentication attempts. All users are required to enroll in facial recognition.   During enrollment you must allow Sentegrity access to the device camera and follow all prompts to complete enrollment.   The device camera is only employed when Sentegrity is requesting facial recognition during protected corporate application access.</mutableString>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
@@ -45,21 +45,21 @@
                                                 <constraint firstAttribute="width" constant="150" id="row-4o-qP2"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                            <state key="normal" title="Start Enrollment">
+                                            <state key="normal" title="Continue">
                                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
                                                 <action selector="pressedAccept:" destination="-1" eventType="touchUpInside" id="7dJ-rz-xpq"/>
                                             </connections>
                                         </button>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kw-3p-9Hg">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kw-3p-9Hg">
                                             <rect key="frame" x="25" y="540" width="150" height="67"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="67" id="7sd-kw-kc4"/>
                                                 <constraint firstAttribute="width" constant="150" id="ocN-hW-Beo"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                            <state key="normal" title="Decline">
+                                            <state key="normal" title="Exit Setup">
                                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>

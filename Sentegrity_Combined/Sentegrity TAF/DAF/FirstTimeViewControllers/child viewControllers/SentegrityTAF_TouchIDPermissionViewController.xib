@@ -32,8 +32,8 @@
                                             <rect key="frame" x="25" y="40" width="82" height="26"/>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRX-Y4-FhI">
-                                            <rect key="frame" x="16" y="138" width="343" height="150"/>
-                                            <mutableString key="text">On supported iOS devices, TouchID can be used to request fingerprint authentication. Under certain cumstances, a user's fingerprint may be requested in place of their password. Declining the use of TouchID will result in increased password use.  Would you like to enable TouchID as one of the options for authentication?</mutableString>
+                                            <rect key="frame" x="16" y="138" width="343" height="216.5"/>
+                                            <string key="text">On supported iOS devices TouchID is employed for fingerprint authentication. Sentegrity will request fingerprint authentication under specific circumstances.  If you are currently using TouchID to unlock your device pressing "continue" below will prompt for your fingerprint.  In the event TouchID is not yet configured on this device, you will be prompted to enter the iOS settings panel to enable it. </string>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
@@ -44,7 +44,7 @@
                                                 <constraint firstAttribute="height" constant="67" id="ygt-mk-RG9"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                            <state key="normal" title="Accept">
+                                            <state key="normal" title="Continue">
                                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
@@ -58,7 +58,7 @@
                                                 <constraint firstAttribute="width" constant="150" id="Fnp-31-zRz"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                            <state key="normal" title="Decline">
+                                            <state key="normal" title="Exit Setup">
                                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>

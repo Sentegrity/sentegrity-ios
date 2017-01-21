@@ -67,8 +67,9 @@ static MBProgressHUD *HUD;
     [Sentegrity_TrustFactor_Datasets selfDestruct];
 
     
+    // iOS 10 removed
     // Start Netstat
-    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startNetstat];
+    //[[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startNetstat];
     
     // Start Bluetooth as soon as possible
     [[(AppDelegate *)[[UIApplication sharedApplication] delegate] activityDispatcher] startBluetooth];
