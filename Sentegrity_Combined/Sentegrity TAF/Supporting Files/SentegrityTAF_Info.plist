@@ -69,7 +69,7 @@
 		<true/>
 	</dict>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Sentegrity analyzes Bluetooth connection to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow Bluetooth services Sentegrity may require you to enter passwords more often.</string>
+	<string>Sentegrity analyzes Bluetooth connections to assist in authentication. </string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Sentegrity analyzes Calendar data to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow Calendar services Sentegrity may require you to enter passwords more often.</string>
 	<key>NSCameraUsageDescription</key>
@@ -80,6 +80,8 @@
 	<string>Gimme location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Sentegrity analyzes tokenized location data to assist in authentication. If you disallow location  services Sentegrity may require you to authenticate more often and aggressively.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Sentegrity does not employ the microphone, this functionality is required by iOS during camera use.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Sentegrity analyzes tokenized motion data to assist in authentication. If you disallow motion and activity services Sentegrity may require you to authenticate more often and aggressively.</string>
 	<key>UIAppFonts</key>
