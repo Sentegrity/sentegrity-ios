@@ -103,7 +103,7 @@ static NSString *CellIdentifier = @"USER_DEVICE_CELL";
     }
 
     //icon
-    cell.imageViewIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%ld", resultObject.subClassIconID]];
+    cell.imageViewIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%ld", (long)resultObject.subClassIconID]];
     
     //progress
     cell.circularProgressView.progress = resultObject.trustPercent;

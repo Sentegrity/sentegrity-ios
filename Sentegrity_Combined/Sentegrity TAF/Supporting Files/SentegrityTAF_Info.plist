@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>7</string>
 	<key>GDApplicationID</key>
 	<string>com.sentegrity.daf</string>
 	<key>GDApplicationVersion</key>
@@ -68,6 +68,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Sentegrity analyzes Bluetooth connection to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow Bluetooth services Sentegrity may require you to enter passwords more often.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Sentegrity analyzes Calendar data to assist in authentication. Raw data is only analyzed locally and is never stored. If you disallow Calendar services Sentegrity may require you to enter passwords more often.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Sentegrity uses your device camera to perform facial recognition during high risk authentication attempts.</string>
 	<key>NSLocationAlwaysUsageDescription</key>

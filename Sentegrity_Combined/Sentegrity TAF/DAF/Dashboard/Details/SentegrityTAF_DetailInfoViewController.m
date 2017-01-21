@@ -50,7 +50,7 @@
     }
     
     //imageview
-    self.imageViewIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%ld", self.subClassResultObject.subClassIconID]];
+    self.imageViewIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%ld", (long)self.subClassResultObject.subClassIconID]];
     
     
     //circle progress

@@ -249,7 +249,7 @@
     
     NSMutableString *stringM = [NSMutableString string];
     [stringM appendString:@"Your password must have:\n"];
-    [stringM appendFormat:@"- At least %ld characters", [dic[@"minLenght"] integerValue]];
+    [stringM appendFormat:@"- At least %ld characters", (long)[dic[@"minLenght"] integerValue]];
     
     if ([dic[@"alphaNumeric"] boolValue]) {
         [stringM appendFormat:@"\n"];
@@ -352,7 +352,7 @@
     }
     else
     {
-        [self showAlertWithTitle:@"Password Requirements" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", [requirements[@"minLenght"] integerValue]]];
+        [self showAlertWithTitle:@"Password Requirements" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", (long)[requirements[@"minLenght"] integerValue]]];
         
     }
     
