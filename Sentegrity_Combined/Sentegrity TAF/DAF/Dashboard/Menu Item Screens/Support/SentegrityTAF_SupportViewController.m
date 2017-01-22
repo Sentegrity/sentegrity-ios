@@ -55,7 +55,7 @@
     
     
     //show done button if called from unlock screen
-    if (self.delegate) {
+    if (self.delegateSupport) {
         UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(pressedDone)];
         self.navigationItem.leftBarButtonItem = barButton;
     }
@@ -109,10 +109,32 @@
     self.contactPhone = policy.support[@"supportScreenContactPhone"];
     self.contactEmail = policy.support[@"supportScreenContactEmail"];
     self.labelEmail.text = currentStartup.email;
-    self.labelDeviceID.text = currentStartup.deviceSaltString;
-
     
     
+    
+    
+    //we want to show only first 16 characters of deviceSalt for DeviceID, separating each 4 characters with "-"
+    NSInteger maxCharacters = 16;
+    if (maxCharacters > currentStartup.deviceSaltString.length) {
+        maxCharacters = currentStartup.deviceSaltString.length;
+    }
+    NSString *shortenedDeviceSalt = [currentStartup.deviceSaltString substringToIndex:maxCharacters];
+    NSMutableString *finalDeviceID = [NSMutableString string];
+    
+    for(int i = 0; i<[shortenedDeviceSalt length]/4; i++)
+    {
+        NSUInteger fromIndex = i * 4;
+        NSUInteger len = [shortenedDeviceSalt length] - fromIndex;
+        if (len > 4) {
+            len = 4;
+        }
+        if (fromIndex + len == shortenedDeviceSalt.length)
+            [finalDeviceID appendFormat:@"%@",[shortenedDeviceSalt substringWithRange:NSMakeRange(fromIndex, len)]];
+        else
+            [finalDeviceID appendFormat:@"%@-",[shortenedDeviceSalt substringWithRange:NSMakeRange(fromIndex, len)]];
+    }
+    
+    self.labelDeviceID.text = finalDeviceID;
 }
 
 - (void)didReceiveMemoryWarning {
