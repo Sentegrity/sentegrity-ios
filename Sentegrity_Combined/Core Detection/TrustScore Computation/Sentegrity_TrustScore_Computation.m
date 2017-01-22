@@ -59,8 +59,46 @@
     // for example, only applying 4% of their value even though this is a paired device that we automatically trust
     
     Sentegrity_Stored_Assertion *highestStoredAssertion = trustFactorOutputObject.storedTrustFactorObject.assertionObjects.firstObject;
+    Sentegrity_Stored_Assertion *highestMatchingAssertion;
+    
+    // If there is more than one matched assertion use the one with highest decay metric (biggest score boost)
+    // This generally only comes into play with bluetooth scanning
+    double highestStoredAssertionDecayMetric = highestStoredAssertion.decayMetric;
+    double trustFactorPolicyDecayMetric = trustFactorOutputObject.trustFactor.decayMetric.doubleValue;
+    double currentAssertionDecayMetric = 0;
+    
+    if(trustFactorOutputObject.storadeAssertionObjectsMatched.count > 1){
+        
+        
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"decayMetric"
+                                                     ascending:NO];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        
+        NSArray *sortedArray;
+        
+        // Sort the array
+        sortedArray = [trustFactorOutputObject.storadeAssertionObjectsMatched sortedArrayUsingDescriptors:sortDescriptors];
+        
+        highestMatchingAssertion = sortedArray.firstObject;
+        currentAssertionDecayMetric = highestMatchingAssertion.decayMetric;
+        
+        
+    }
+    else{
+        
+        highestMatchingAssertion = trustFactorOutputObject.storadeAssertionObjectsMatched.firstObject;
+        currentAssertionDecayMetric = highestMatchingAssertion.decayMetric;
+        
+    }
+   
+       //abs just in case highest stored is ever less than current
+    double percent = fabs(1-((highestStoredAssertionDecayMetric - currentAssertionDecayMetric) / (highestStoredAssertionDecayMetric - trustFactorPolicyDecayMetric)));
+    
+    return percent;
     
     // If there is more than one matched assertion, average the decay metrics
+    /*
     
     double currentAssertionDecayMetricTotal = 0;
     double currentAssertionDecayMetricAverage = 0;
@@ -77,6 +115,8 @@
     double percent = fabs(1-((highestStoredAssertionDecayMetric - currentAssertionDecayMetricAverage) / (highestStoredAssertionDecayMetric - trustFactorPolicyDecayMetric)));
     
     return percent;
+     
+     */
     
 }
 

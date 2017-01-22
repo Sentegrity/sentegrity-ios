@@ -1076,20 +1076,21 @@ static dispatch_once_t onceToken;
         CFAbsoluteTime currentTime = startTime;
         
         //If we don't wait long enough we may never find the same device twice in a row
-        float waitTime = 0.5;
+        float waitTime = 1.0;
         
         while ((currentTime-startTime) < waitTime) {
             
             // Mandatory wait because BLE scan is funky
             
             // If its greater than 10 return, otherwise we always wait
+            /*
             if(self.discoveredBLEDevices.count > 4){
                 NSLog(@"Got discovered BLE devices after waiting..");
                 
                 // Return the BLE devices
                 return self.discoveredBLEDevices;
             }
-            
+            */
             [NSThread sleepForTimeInterval:0.01];
             
             // Update timer

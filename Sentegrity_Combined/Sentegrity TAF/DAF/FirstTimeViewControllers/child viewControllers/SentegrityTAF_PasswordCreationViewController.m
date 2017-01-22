@@ -127,7 +127,7 @@
     //if there is no passwordRequirements defined in the policy, use default values (to support older policies)
     if (passwordRequirements == nil) {
         passwordRequirements =  @{
-                                  @"minLenght" : @(6),
+                                  @"minLenght" : @(8),
                                   @"alphaNumeric" : @(YES),
                                   @"mixedCase" : @(NO),
                                   @"specialCharacter" : @(NO)

@@ -599,7 +599,7 @@ static BOOL bluetoothObservingStarted;
     CFAbsoluteTime currentTime = CFAbsoluteTimeGetCurrent();
     
     // Stop scanning after 2 seconds (this has no bearing on CD execution time)
-    if ((currentTime-startTime) > 1.0){
+    if ((currentTime-startTime) > 2.0){
         
         // Scanning stopped
         NSLog(@"Bluetooth scanning stopped");
