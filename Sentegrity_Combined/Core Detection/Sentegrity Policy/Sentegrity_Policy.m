@@ -128,5 +128,8 @@
     _privacy = privacy;
 }
 
+- (void) setWelcome:(NSDictionary *)welcome {
+    _welcome = welcome;
+}
 
 @end

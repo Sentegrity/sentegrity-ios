@@ -16,6 +16,12 @@
 
 
 @interface SentegrityTAF_WelcomeViewController ()
+
+@property (weak, nonatomic) IBOutlet UILabel *labelWelcomeTitle;
+@property (weak, nonatomic) IBOutlet UILabel *labelWelcomeDescription;
+@property (weak, nonatomic) IBOutlet UIButton *buttonContinue;
+@property (weak, nonatomic) IBOutlet UIView *viewLogoAndLabelsHolder;
+
 - (IBAction)pressedContinue:(id)sender;
 
 
@@ -25,27 +31,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.buttonContinue.enabled = NO;
+    self.viewLogoAndLabelsHolder.alpha = 0;
+    self.buttonContinue.alpha = 0;
+
     // Do any additional setup after loading the view from its nib.
 }
+
+- (void) viewWillAppear:(BOOL)animated {
+    [self prepareStartupAndFetchNewPolicy];
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
-- (IBAction)pressedContinue:(id)sender {
-    
-    
+- (void) prepareStartupAndFetchNewPolicy {
+
     //show loader
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -57,7 +65,7 @@
     
     if (email == nil || [email isEqual:[NSNull null]]) {
         //something is not good with GOOD
-        [self showAlertWithTitle:@"Error" andMessage:@"Can not get email address. Please try again."];
+        [self showErrorWithRetryButtonAndDescription:@"Can not get email address. Please try again."];
         NSLog(@"FATAL ERROR: Cannot get email from GDiOS!");
         
         //hide loader
@@ -70,7 +78,7 @@
     //create new startup file, we need it now because of deviceSalt
     [[Sentegrity_Startup_Store sharedStartupStore] createNewStartupFileWithError:&error];
     if (error) {
-        [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+        [self showErrorWithRetryButtonAndDescription:error.localizedDescription];
         
         //hide loader
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -80,7 +88,7 @@
     //update new startup file with email
     [[Sentegrity_Startup_Store sharedStartupStore] updateStartupFileWithEmail:email withError:&error];
     if (error) {
-        [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+        [self showErrorWithRetryButtonAndDescription:error.localizedDescription];
         
         //hide loader
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -96,19 +104,61 @@
         
         
         if (!successfullyExecuted) {
-            [self showAlertWithTitle:@"Error" andMessage:errorT.localizedDescription];
+            [self showErrorWithRetryButtonAndDescription:errorT.localizedDescription];
             return;
         }
         
         //if policy organisation exists, but there is no new policy for this version, stop executing
         if (policyOrganisationExists && !newPolicyDownloaded) {
-            [self showAlertWithTitle:@"Error" andMessage:@"This app version is not supported by your organization."];
+            [self showErrorWithRetryButtonAndDescription:@"This app version is not supported by your organization."];
             return;
         }
         
-        
-        [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
+        [self loadUI];
+        self.buttonContinue.enabled = YES;
+
     }];
+}
+
+
+- (void) loadUI {
+    
+    //load title and description from policy
+    NSError *error;
+    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+    
+    if (error) {
+        //some strange error occured
+        [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+    }
+    
+    self.labelWelcomeTitle.text = policy.welcome[@"title"];
+    self.labelWelcomeDescription.text = policy.welcome[@"description"];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.viewLogoAndLabelsHolder.alpha = 1;
+        self.buttonContinue.alpha = 1;
+    }];
+}
+
+
+
+- (void) showErrorWithRetryButtonAndDescription: (NSString *) description {
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                   message:description
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Try Again" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              [self prepareStartupAndFetchNewPolicy];
+                                                          }];
+    
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (IBAction)pressedContinue:(id)sender {
+    [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
 }
 
 

@@ -171,6 +171,11 @@
 
 
 - (IBAction)pressedDecline:(id)sender {
+    //this is now: EXIT SETUP button action
+    //Force to crash
+    [self performSelector:NSSelectorFromString(@"crashme:") withObject:nil afterDelay:1];
+    
+    /*
     NSError *error;
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
     
@@ -184,5 +189,6 @@
     [startup setVocalFacialDisabledByUser:YES];
     [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:nil];
     [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
+     */
 }
 @end

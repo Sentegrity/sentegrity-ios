@@ -127,7 +127,7 @@
     //if there is no passwordRequirements defined in the policy, use default values (to support older policies)
     if (passwordRequirements == nil) {
         passwordRequirements =  @{
-                                  @"minLenght" : @(8),
+                                  @"minLength" : @(8),
                                   @"alphaNumeric" : @(YES),
                                   @"mixedCase" : @(NO),
                                   @"specialCharacter" : @(NO)
@@ -249,7 +249,7 @@
     
     NSMutableString *stringM = [NSMutableString string];
     [stringM appendString:@"Your password must have:\n"];
-    [stringM appendFormat:@"- At least %ld characters", (long)[dic[@"minLenght"] integerValue]];
+    [stringM appendFormat:@"- At least %ld characters", (long)[dic[@"minLength"] integerValue]];
     
     if ([dic[@"alphaNumeric"] boolValue]) {
         [stringM appendFormat:@"\n"];
@@ -352,7 +352,7 @@
     }
     else
     {
-        [self showAlertWithTitle:@"Password Requirements" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", (long)[requirements[@"minLenght"] integerValue]]];
+        [self showAlertWithTitle:@"Password Requirements" andMessage:[NSString stringWithFormat:@"Please Enter password with at least %ld characters.", (long)[requirements[@"minLength"] integerValue]]];
         
     }
     
