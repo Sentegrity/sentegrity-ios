@@ -32,15 +32,15 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QLo-uO-hGk" userLabel="Container">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="good_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="xTC-Y5-xWg">
-                                            <rect key="frame" x="25" y="40" width="82" height="26"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blackberry_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="xTC-Y5-xWg">
+                                            <rect key="frame" x="25" y="40" width="138" height="24"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Em4-dh-Nyy" userLabel="separator">
-                                            <rect key="frame" x="0.0" y="66" width="375" height="183.5"/>
+                                            <rect key="frame" x="0.0" y="64" width="375" height="184"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7JM-94-mrU">
-                                            <rect key="frame" x="25" y="249.5" width="325" height="92"/>
+                                            <rect key="frame" x="25" y="248" width="325" height="92"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_full" translatesAutoresizingMaskIntoConstraints="NO" id="JLG-fC-Ywi">
                                                     <rect key="frame" x="0.0" y="0.0" width="150" height="74"/>
@@ -76,7 +76,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZaQ-1m-VTI" userLabel="separator">
-                                            <rect key="frame" x="0.0" y="341.5" width="375" height="182.5"/>
+                                            <rect key="frame" x="0.0" y="340" width="375" height="184"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YV-ax-a0L">
@@ -134,9 +134,9 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ssM-e2-PBj" userLabel="Footer">
                             <rect key="frame" x="0.0" y="584" width="375" height="33"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNL-6W-dhx" userLabel="Red Line">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNL-6W-dhx" userLabel="Blue line">
                                     <rect key="frame" x="0.0" y="29" width="375" height="4"/>
-                                    <color key="backgroundColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.20784313725490194" green="0.65490196078431373" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="4" id="wKp-If-BjY"/>
                                     </constraints>
@@ -183,7 +183,7 @@
         </view>
     </objects>
     <resources>
-        <image name="good_small_logo" width="82" height="26"/>
+        <image name="Blackberry_small_logo" width="138" height="24"/>
         <image name="logo_full" width="220" height="42"/>
     </resources>
 </document>
