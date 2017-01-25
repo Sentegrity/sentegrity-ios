@@ -49,9 +49,20 @@
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * action) {}];
     
-    UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Open Settings" style:UIAlertActionStyleDefault
+    UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Open Settings"
+                                                             style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * action) {
-                                                               [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=CAMERA"]];
+                                                               
+                                                               //open settings (CAMERA section) for iOS 10 +
+                                                               if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10.0")) {
+                                                                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-prefs:root=Privacy&path=CAMERA"]
+                                                                                                      options:@{}
+                                                                                            completionHandler:nil];
+                                                               }
+                                                               //open settings (CAMERA section) for iOS 9 (and lower)
+                                                               else {
+                                                                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=CAMERA"]];
+                                                               }
                                                            }];
     
     
