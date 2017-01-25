@@ -27,7 +27,6 @@
 			<string>com.sentegrity.ios</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.sentegrity.ios.sc</string>
 				<string>com.sentegrity.ios.sc2</string>
 				<string>com.good.gd.discovery</string>
 			</array>
@@ -111,6 +110,8 @@
 	<array>
 		<string>network-authentication</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen-Blackberry</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
