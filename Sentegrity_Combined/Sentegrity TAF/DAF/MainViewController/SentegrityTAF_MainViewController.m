@@ -123,25 +123,18 @@
     
     // Get policy to check for debug
     // Get the policy
-    NSError *error;
-    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+   // NSError *error;
+    //Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
     
-    if (policy.debugEnabled.intValue==1) {
-        //added to support right menu for debugging
-        
-        RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:nil rightMenuViewController:nil];
-        
-        // Don't scale content view
-        [sideMenuViewController setScaleContentView:NO];
-        //[sideMenuViewController setScaleMenuView:NO];
-
-        
-        self.currentViewController = sideMenuViewController;
-        sideMenuViewController.view.backgroundColor = [UIColor blackColor];
-    }
-    else {
-        self.currentViewController = navController;
-    }
+    RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:nil rightMenuViewController:nil];
+    
+    // Don't scale content view
+    [sideMenuViewController setScaleContentView:NO];
+    //[sideMenuViewController setScaleMenuView:NO];
+    
+    
+    self.currentViewController = sideMenuViewController;
+    sideMenuViewController.view.backgroundColor = [UIColor blackColor];
     
     
     //set new screen and state

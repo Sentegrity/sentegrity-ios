@@ -132,10 +132,12 @@
     // Get the policy
     NSError *error;
     Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+    self.sideMenuViewController.delegate = self;
+
+    
     
     if (policy.debugEnabled.intValue==1) {
-        self.sideMenuViewController.delegate = self;
-            
+        
         self.debugMenuViewController = [[SentegrityTAF_DebugMenuViewController alloc] init];
         //need to set it twice because of bug in RESideMenu pod
         self.sideMenuViewController.leftMenuViewController = self.debugMenuViewController;
