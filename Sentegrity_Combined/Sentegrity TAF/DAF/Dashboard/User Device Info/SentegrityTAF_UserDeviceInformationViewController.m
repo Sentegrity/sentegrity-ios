@@ -32,6 +32,11 @@ static NSString *CellIdentifier = @"USER_DEVICE_CELL";
 
 @implementation SentegrityTAF_UserDeviceInformationViewController
 
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+
 #pragma mark - view-lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -168,6 +168,7 @@
 		D74B74B01DE787070095408E /* SentegrityTAF_UserDeviceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D74B74AE1DE787070095408E /* SentegrityTAF_UserDeviceTableViewCell.xib */; };
 		D74B74B51DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D74B74B31DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.m */; };
 		D74B74B61DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D74B74B41DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.xib */; };
+		D7599BE21E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7599BE11E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.m */; };
 		D7651FB51D46BEA1001D3E9E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7651FB31D46BEA1001D3E9E /* LaunchScreen.storyboard */; };
 		D7651FB61D46BEA1001D3E9E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7651FB31D46BEA1001D3E9E /* LaunchScreen.storyboard */; };
 		D76739481E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76739461E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m */; };
@@ -422,6 +423,8 @@
 		D74B74B21DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_DetailInfoViewController.h; sourceTree = "<group>"; };
 		D74B74B31DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_DetailInfoViewController.m; sourceTree = "<group>"; };
 		D74B74B41DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_DetailInfoViewController.xib; sourceTree = "<group>"; };
+		D7599BE01E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_BaseNavigationController.h; sourceTree = "<group>"; };
+		D7599BE11E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_BaseNavigationController.m; sourceTree = "<group>"; };
 		D7651FB41D46BEA1001D3E9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D76739451E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_UnlockHolderViewController.h; sourceTree = "<group>"; };
 		D76739461E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_UnlockHolderViewController.m; sourceTree = "<group>"; };
@@ -686,6 +689,8 @@
 				D78A5B311DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m */,
 				4C6F39531CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.h */,
 				4C6F39541CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m */,
+				D7599BE01E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.h */,
+				D7599BE11E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.m */,
 				D7F6EE621E0083120099BC3E /* Reachability.h */,
 				D7F6EE631E0083120099BC3E /* Reachability.m */,
 				D7BDF2061DFF7AE100D0FAFF /* UICKeyChainStore.h */,
@@ -1606,6 +1611,7 @@
 				4C2667051CC0369000F10DC0 /* RightMenuViewController.m in Sources */,
 				4C2667941CC0421800F10DC0 /* SentegrityTAF_main.m in Sources */,
 				4C2667061CC0369000F10DC0 /* UserInformationViewController.m in Sources */,
+				D7599BE21E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.m in Sources */,
 				4C2667071CC0369000F10DC0 /* TransparentDebugViewController.m in Sources */,
 				D738DF891DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.m in Sources */,
 				D7FE9F181CDD0B5400FACA04 /* ILContainerView.m in Sources */,

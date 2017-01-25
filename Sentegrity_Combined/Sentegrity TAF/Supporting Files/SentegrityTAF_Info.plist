@@ -128,8 +128,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 	<key>com.apple.developer.ubiquity-container-identifiers</key>
 	<string>$(TeamIdentifierPrefix).$(CFBundleIdentifier)</string>
 </dict>

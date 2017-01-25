@@ -82,7 +82,6 @@
 
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
 }
 
@@ -200,7 +199,6 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
     self.computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     [self updateLabelsAndButtonsFromObject];

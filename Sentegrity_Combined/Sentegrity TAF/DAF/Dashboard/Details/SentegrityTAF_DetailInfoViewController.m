@@ -26,6 +26,11 @@
 
 @implementation SentegrityTAF_DetailInfoViewController
 
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 

@@ -17,6 +17,9 @@
 #import "SentegrityTAF_DebugMenuViewController.h"
 
 
+#import "SentegrityTAF_BaseNavigationController.h"
+
+
 @interface SentegrityTAF_MainViewController () <SentegrityTAF_basicProtocol>
 {
     BOOL once;
@@ -111,6 +114,10 @@
 
 }
 
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return [self.currentViewController preferredStatusBarStyle];
+}
+
 
 - (void) showDashboard {
     
@@ -118,7 +125,7 @@
     SentegrityTAF_DashboardViewController *dashboardViewController = [[SentegrityTAF_DashboardViewController alloc] init];
     
     // Navigation Controller
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
+    SentegrityTAF_BaseNavigationController *navController = [[SentegrityTAF_BaseNavigationController alloc] initWithRootViewController:dashboardViewController];
 
     
     // Get policy to check for debug
