@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -53,38 +53,52 @@
                                     <constraint firstAttribute="trailing" secondItem="iWV-Uc-rwi" secondAttribute="trailing" id="avM-Sk-Mdt"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Networking" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DVb-DR-kxV">
-                                <rect key="frame" x="99" y="20" width="238" height="24"/>
-                                <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="TRUSTED" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZq-KC-Gwu">
-                                <rect key="frame" x="99" y="44.5" width="238" height="17"/>
-                                <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
-                                <color key="textColor" red="1" green="0.77254901960784317" blue="0.082352941176470587" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nUb-hi-rpo">
+                                <rect key="frame" x="99" y="20" width="238" height="41.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="252" text="Networking" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DVb-DR-kxV">
+                                        <rect key="frame" x="0.0" y="0.0" width="238" height="24.5"/>
+                                        <fontDescription key="fontDescription" name="Lato-Light" family="Lato" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="TRUSTED" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZq-KC-Gwu">
+                                        <rect key="frame" x="0.0" y="24.5" width="238" height="17"/>
+                                        <fontDescription key="fontDescription" name="Lato-Semibold" family="Lato" pointSize="14"/>
+                                        <color key="textColor" red="1" green="0.77254901960784317" blue="0.082352941176470587" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="DVb-DR-kxV" secondAttribute="trailing" id="7hP-pB-wOD"/>
+                                    <constraint firstItem="DVb-DR-kxV" firstAttribute="leading" secondItem="nUb-hi-rpo" secondAttribute="leading" id="Bd9-lZ-2qY"/>
+                                    <constraint firstAttribute="bottom" secondItem="JZq-KC-Gwu" secondAttribute="bottom" id="LOh-3V-TnJ"/>
+                                    <constraint firstItem="JZq-KC-Gwu" firstAttribute="leading" secondItem="nUb-hi-rpo" secondAttribute="leading" id="Pfx-Rp-4Rh"/>
+                                    <constraint firstItem="JZq-KC-Gwu" firstAttribute="top" secondItem="DVb-DR-kxV" secondAttribute="bottom" id="W7N-JZ-d82"/>
+                                    <constraint firstItem="DVb-DR-kxV" firstAttribute="top" secondItem="nUb-hi-rpo" secondAttribute="top" id="ZQs-TZ-fe9"/>
+                                    <constraint firstAttribute="bottom" secondItem="DVb-DR-kxV" secondAttribute="bottom" priority="750" id="ezc-cX-IGo"/>
+                                    <constraint firstAttribute="trailing" secondItem="JZq-KC-Gwu" secondAttribute="trailing" id="kfQ-AB-7iw"/>
+                                </constraints>
+                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="forward" translatesAutoresizingMaskIntoConstraints="NO" id="i4Q-Bk-pEe">
                                 <rect key="frame" x="337" y="29.5" width="11" height="21"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="JZq-KC-Gwu" firstAttribute="leading" secondItem="DVb-DR-kxV" secondAttribute="leading" id="0fI-Zs-uXi"/>
-                            <constraint firstItem="i4Q-Bk-pEe" firstAttribute="leading" secondItem="DVb-DR-kxV" secondAttribute="trailing" id="7hw-nD-yt4"/>
+                            <constraint firstItem="nUb-hi-rpo" firstAttribute="top" secondItem="Vi1-jQ-PH4" secondAttribute="top" constant="20" id="9uv-i8-wYx"/>
                             <constraint firstItem="nvg-iM-ffI" firstAttribute="top" secondItem="DAM-TC-cFz" secondAttribute="top" id="Bwl-SM-hdF"/>
                             <constraint firstItem="nvg-iM-ffI" firstAttribute="trailing" secondItem="DAM-TC-cFz" secondAttribute="trailing" id="Fjj-DU-fnR"/>
                             <constraint firstAttribute="trailing" secondItem="i4Q-Bk-pEe" secondAttribute="trailing" constant="27" id="Mwr-gA-kuF"/>
+                            <constraint firstItem="nUb-hi-rpo" firstAttribute="leading" secondItem="nvg-iM-ffI" secondAttribute="trailing" constant="15" id="Qx8-hT-5gp"/>
+                            <constraint firstAttribute="bottom" secondItem="nUb-hi-rpo" secondAttribute="bottom" constant="18" id="XHe-XN-qY5"/>
                             <constraint firstItem="DAM-TC-cFz" firstAttribute="centerY" secondItem="Vi1-jQ-PH4" secondAttribute="centerY" id="arT-bE-Y0i"/>
                             <constraint firstItem="nvg-iM-ffI" firstAttribute="bottom" secondItem="DAM-TC-cFz" secondAttribute="bottom" id="boV-4m-Ic9"/>
-                            <constraint firstItem="JZq-KC-Gwu" firstAttribute="trailing" secondItem="DVb-DR-kxV" secondAttribute="trailing" id="ffe-ug-B6R"/>
                             <constraint firstItem="nvg-iM-ffI" firstAttribute="leading" secondItem="DAM-TC-cFz" secondAttribute="leading" id="fg2-Oq-LEi"/>
                             <constraint firstItem="DAM-TC-cFz" firstAttribute="leading" secondItem="Vi1-jQ-PH4" secondAttribute="leading" constant="17" id="gzK-El-xwJ"/>
-                            <constraint firstItem="DVb-DR-kxV" firstAttribute="top" secondItem="Vi1-jQ-PH4" secondAttribute="top" constant="20" id="mt0-rq-Keq"/>
-                            <constraint firstItem="DVb-DR-kxV" firstAttribute="leading" secondItem="nvg-iM-ffI" secondAttribute="trailing" constant="15" id="n5T-wI-VxJ"/>
                             <constraint firstItem="i4Q-Bk-pEe" firstAttribute="centerY" secondItem="Vi1-jQ-PH4" secondAttribute="centerY" id="p7y-VG-mj6"/>
-                            <constraint firstAttribute="bottom" secondItem="JZq-KC-Gwu" secondAttribute="bottom" constant="18" id="x6X-nl-aFq"/>
+                            <constraint firstItem="i4Q-Bk-pEe" firstAttribute="leading" secondItem="nUb-hi-rpo" secondAttribute="trailing" id="wf0-Ay-PhZ"/>
                         </constraints>
                     </view>
                 </subviews>

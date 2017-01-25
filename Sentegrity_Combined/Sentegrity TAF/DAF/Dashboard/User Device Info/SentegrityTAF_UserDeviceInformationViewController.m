@@ -86,13 +86,16 @@ static NSString *CellIdentifier = @"USER_DEVICE_CELL";
     
     // If it is COMPLETE then don't show on this screen, only show problems
     if ([[resultObject.subClassStatusText uppercaseString] isEqualToString:@"COMPLETE"] ||[[resultObject.subClassStatusText uppercaseString] isEqualToString:@"EXPIRED"]){
-        cell.labelStatus.hidden = YES;
+        cell.labelStatus.text = @"";
+        
+        //increase size of title
+        cell.labelTitle.font = [UIFont fontWithName:cell.labelTitle.font.fontName size:22.0];
     }
     else {
         cell.labelStatus.text = [resultObject.subClassStatusText uppercaseString];
+        cell.labelTitle.font = [UIFont fontWithName:cell.labelTitle.font.fontName size:20.0];
     }
 
-   
     
     //"TRUSTED" is yellow, all other states are red
     if ([cell.labelStatus.text isEqualToString:@"COMPLETE"]){
@@ -101,6 +104,7 @@ static NSString *CellIdentifier = @"USER_DEVICE_CELL";
     else {
         cell.labelStatus.textColor = kStatusUnTrustedColor;
     }
+    
 
     //icon
     cell.imageViewIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"%ld", (long)resultObject.subClassIconID]];
