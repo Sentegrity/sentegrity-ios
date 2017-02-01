@@ -323,6 +323,7 @@
  */
 - (BOOL)analyzeEligibleTransparentAuthObjects:(Sentegrity_TrustScore_Computation *)computationResults withPolicy:(Sentegrity_Policy *)policy withError:(NSError **)error{
     
+    // REMEMBER - let the TrustScore determine profile, don't use transparent keys as another profiling methods, its simply for crypto
 
     // Array to hold transparent auth objects to retain at completion
     NSMutableArray *transparentAuthObjectsToKeep = [[NSMutableArray alloc]init];
@@ -349,9 +350,13 @@
     BOOL areaAuthenticator=NO;
     NSMutableArray *areaAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
     
+    // bluetooth paired subclass TFs
+    BOOL bluetoothPairedAuthenticator=NO;
+    NSMutableArray *bluetoothPairedAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
+    
     // bluetooth subclass TFs
-    BOOL bluetoothAuthenticator=NO;
-    NSMutableArray *bluetoothAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
+    BOOL bluetoothScanAuthenticator=NO;
+    NSMutableArray *bluetoothScanAuthenticationTrustFactorOutputObjects = [[NSMutableArray alloc]init];
     
     // grip subclass TFs
     BOOL gripAuthenticator=NO;
@@ -406,8 +411,21 @@
                     }
                     break;
                 case 8: //Bluetooth
-                    bluetoothAuthenticator=YES;
-                    [bluetoothAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
+                    
+                    // Seperate paired from scan, if we don't scanned BLE may become a key over paired and caused a transparent key
+                    // not to be found. Scanned bluetooth devices should be saved as a last resort for keying because they come and go often
+                    // which results in multiple transparent keys having to be made (e.g., many odd login attempts in trusted zone)
+                    
+                    if([trustFactorOutputObject.trustFactor.name isEqualToString:@"bluetooth classic paired"] || [trustFactorOutputObject.trustFactor.name isEqualToString:@"bluetooth BLE paired"]){
+                        bluetoothPairedAuthenticator=YES;
+                        [bluetoothPairedAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
+                    }
+                    
+                    if([trustFactorOutputObject.trustFactor.name isEqualToString:@"bluetooth low-energy scanning"]){
+                        bluetoothScanAuthenticator=YES;
+                        [bluetoothScanAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
+                    }
+
                     break;
                 case 13: //Grip
                     gripAuthenticator=YES;
@@ -442,18 +460,28 @@
     }
     
     // Generate high entropy array manually (from highest entropy to lowest)
-    if(bluetoothAuthenticator==YES){
-        [transparentAuthHighEntropyObjects addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
+    
+    // We don't use bluetooth scan devices because they change too much, only paired
+    
+    if(locationAuthenticator==YES){
+        // Use area or it will not be  specific
+        [transparentAuthHighEntropyObjects addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
     }
     
     if(wifiAuthenticator==YES){
         [transparentAuthHighEntropyObjects addObjectsFromArray:wifiAuthenticationTrustFactorOutputObjects];
     }
     
+    if(bluetoothPairedAuthenticator==YES){
+        [transparentAuthHighEntropyObjects addObjectsFromArray:bluetoothPairedAuthenticationTrustFactorOutputObjects];
+    }
+    
     if(areaAuthenticator==YES){
         // Use area or it will not be  specific
         [transparentAuthHighEntropyObjects addObjectsFromArray:areaAuthenticationTrustFactorOutputObjects];
     }
+    
+
     
     
     // Generate medium entropy array manually
@@ -479,14 +507,7 @@
         [transparentAuthLowEntropyObjects addObjectsFromArray:dayTimeAuthenticationTrustFactorOutputObjects];
     }
 
-    // Always add low entropy objects as they are used by all
-    if(transparentAuthLowEntropyObjects.count < 3){
-        return NO;
-    }
 
-    // add this now because they are used by all level of strength
-    [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthLowEntropyObjects];
-    
 
     
     // Make selection based on the entropy setting (high,medium,low)
@@ -503,6 +524,10 @@
             
             // Add Medium entropy (don't enforce number that are actually available)
             [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthMediumEntropyObjects];
+            
+            // Add low entropy
+            // add this now because they are used by all level of strength
+            [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthLowEntropyObjects];
 
 
             break;
@@ -514,8 +539,8 @@
             }
 
             // BLUETOOTH + LOW ENTROPY
-            if(bluetoothAuthenticator==YES){
-                [transparentAuthObjectsToKeep addObjectsFromArray:bluetoothAuthenticationTrustFactorOutputObjects];
+            if(bluetoothPairedAuthenticator==YES){
+                [transparentAuthObjectsToKeep addObjectsFromArray:bluetoothPairedAuthenticationTrustFactorOutputObjects];
                 // try this for good measure but not required
                 [transparentAuthObjectsToKeep addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
             }
@@ -543,21 +568,18 @@
             }
             
             break;
-        case 1: //Low Strength (1 HIGH ENTROPY,  3 LOW ENTROPY, LOCATION + MEDIUM)
+        case 1: //Low Strength (1 HIGH ENTROPY only)
             
             
             if(transparentAuthHighEntropyObjects.count > 0){
-                // Take 1 high entropy and 3 low
+                // Take 1 high entropy
                 [transparentAuthObjectsToKeep addObjectsFromArray:[transparentAuthHighEntropyObjects subarrayWithRange:NSMakeRange(0, 1)]];
             }
-            else{ // Try sudo-high entropy using location and adding in medium entropy
-                if(locationAuthenticator==YES){
-                    [transparentAuthObjectsToKeep addObjectsFromArray:locationAuthenticationTrustFactorOutputObjects];
-                    [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthMediumEntropyObjects];
-                }
-                else{
-                    return NO;
-                }
+            else{ // employ medium + low
+                
+                [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthMediumEntropyObjects];
+                [transparentAuthObjectsToKeep addObjectsFromArray:transparentAuthLowEntropyObjects];
+
             }
     
             break;

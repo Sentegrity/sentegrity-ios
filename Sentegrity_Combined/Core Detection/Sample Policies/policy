@@ -6,7 +6,7 @@
 "systemThreshold": 30,
 "allowPrivateAPIs": 1,
 "debugEnabled": 0,
-"minimumTransparentAuthEntropy": 2,
+"minimumTransparentAuthEntropy": 1,
 "continueOnError": 1,
 "timeout": 3,
 "transparentAuthDecayMetric": 0.07,
