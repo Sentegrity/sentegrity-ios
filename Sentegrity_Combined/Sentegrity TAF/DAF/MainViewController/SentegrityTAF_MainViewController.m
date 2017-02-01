@@ -17,6 +17,9 @@
 #import "SentegrityTAF_DebugMenuViewController.h"
 
 
+#import "SentegrityTAF_BaseNavigationController.h"
+
+
 @interface SentegrityTAF_MainViewController () <SentegrityTAF_basicProtocol>
 {
     BOOL once;
@@ -111,6 +114,10 @@
 
 }
 
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return [self.currentViewController preferredStatusBarStyle];
+}
+
 
 - (void) showDashboard {
     
@@ -118,30 +125,23 @@
     SentegrityTAF_DashboardViewController *dashboardViewController = [[SentegrityTAF_DashboardViewController alloc] init];
     
     // Navigation Controller
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardViewController];
+    SentegrityTAF_BaseNavigationController *navController = [[SentegrityTAF_BaseNavigationController alloc] initWithRootViewController:dashboardViewController];
 
     
     // Get policy to check for debug
     // Get the policy
-    NSError *error;
-    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
+   // NSError *error;
+    //Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error];
     
-    if (policy.debugEnabled.intValue==1) {
-        //added to support right menu for debugging
-        
-        RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:nil rightMenuViewController:nil];
-        
-        // Don't scale content view
-        [sideMenuViewController setScaleContentView:NO];
-        //[sideMenuViewController setScaleMenuView:NO];
-
-        
-        self.currentViewController = sideMenuViewController;
-        sideMenuViewController.view.backgroundColor = [UIColor blackColor];
-    }
-    else {
-        self.currentViewController = navController;
-    }
+    RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:navController leftMenuViewController:nil rightMenuViewController:nil];
+    
+    // Don't scale content view
+    [sideMenuViewController setScaleContentView:NO];
+    //[sideMenuViewController setScaleMenuView:NO];
+    
+    
+    self.currentViewController = sideMenuViewController;
+    sideMenuViewController.view.backgroundColor = [UIColor blackColor];
     
     
     //set new screen and state

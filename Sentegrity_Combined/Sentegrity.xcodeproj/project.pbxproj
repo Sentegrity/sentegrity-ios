@@ -75,9 +75,6 @@
 		4C2667211CC0369000F10DC0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A249091B266AC2007D9460 /* Images.xcassets */; };
 		4C2667221CC0369000F10DC0 /* PolicyBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C2666EE1CC0298700F10DC0 /* PolicyBundle.bundle */; };
 		4C2667321CC0398300F10DC0 /* SentegrityTAF_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2667311CC0398300F10DC0 /* SentegrityTAF_AppDelegate.m */; };
-		4C2667571CC03AF400F10DC0 /* DAFSupportResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C2667541CC03AF400F10DC0 /* DAFSupportResources.bundle */; };
-		4C2667581CC03AF400F10DC0 /* GDAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C2667551CC03AF400F10DC0 /* GDAssets.bundle */; };
-		4C2667591CC03AF400F10DC0 /* MockGDiOSResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C2667561CC03AF400F10DC0 /* MockGDiOSResources.bundle */; };
 		4C2667601CC03CBC00F10DC0 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C26675F1CC03CBC00F10DC0 /* MobileCoreServices.framework */; };
 		4C2667621CC03CC200F10DC0 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C2667611CC03CC200F10DC0 /* QuickLook.framework */; };
 		4C2667641CC03CC900F10DC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C2667631CC03CC900F10DC0 /* Foundation.framework */; };
@@ -92,8 +89,6 @@
 		4C2667761CC03D0C00F10DC0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C2667751CC03D0C00F10DC0 /* CoreData.framework */; };
 		4C2667781CC03D1300F10DC0 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C2667771CC03D1300F10DC0 /* MessageUI.framework */; };
 		4C26677A1CC03D1C00F10DC0 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C2667791CC03D1C00F10DC0 /* LocalAuthentication.framework */; };
-		4C26677C1CC03D2600F10DC0 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C26677B1CC03D2600F10DC0 /* libstdc++.tbd */; };
-		4C26677E1CC03D2E00F10DC0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C26677D1CC03D2E00F10DC0 /* libz.tbd */; };
 		4C2667941CC0421800F10DC0 /* SentegrityTAF_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C2667931CC0421800F10DC0 /* SentegrityTAF_main.m */; };
 		4C5393851B2F965D00EA4484 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393841B2F965D00EA4484 /* loading.gif */; };
 		4C5393871B2F966700EA4484 /* loadingWhite.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C5393861B2F966700EA4484 /* loadingWhite.gif */; };
@@ -126,9 +121,6 @@
 		96C5BCFF1CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF11CD014540009B3A6 /* Splash_iphone_HD4.7_PT@2x.png */; };
 		96C5BD001CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF21CD014540009B3A6 /* Splash_iphone_HD5.5_LS@3x.png */; };
 		96C5BD011CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */; };
-		D709E2631E06E0BF0009BCB5 /* DAFSkelDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D709E2611E06E0BF0009BCB5 /* DAFSkelDriver.cpp */; };
-		D709E2671E06E3CF0009BCB5 /* DAFSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D709E2661E06E3CF0009BCB5 /* DAFSupport.framework */; };
-		D709E2691E06E66D0009BCB5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D709E2681E06E66D0009BCB5 /* libc++.tbd */; };
 		D72BA8211E06BE7900547005 /* SentegrityTAF_AuthWarningViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D72BA8201E06BE7900547005 /* SentegrityTAF_AuthWarningViewController_iPad.xib */; };
 		D72BA8251E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BA8231E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.m */; };
 		D72BA8261E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D72BA8241E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.xib */; };
@@ -168,6 +160,15 @@
 		D74B74B01DE787070095408E /* SentegrityTAF_UserDeviceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D74B74AE1DE787070095408E /* SentegrityTAF_UserDeviceTableViewCell.xib */; };
 		D74B74B51DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D74B74B31DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.m */; };
 		D74B74B61DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D74B74B41DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.xib */; };
+		D7599BE21E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7599BE11E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.m */; };
+		D7599BE41E394536003AC381 /* GD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7599BE31E394536003AC381 /* GD.framework */; };
+		D7599BE61E3945A2003AC381 /* DAFSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7599BE51E3945A2003AC381 /* DAFSupport.framework */; };
+		D7599BE81E3945C6003AC381 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D7599BE71E3945C6003AC381 /* libstdc++.6.0.9.tbd */; };
+		D7599BED1E3946A8003AC381 /* DAFSkelDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7599BEB1E3946A8003AC381 /* DAFSkelDriver.cpp */; };
+		D7599BF01E394719003AC381 /* GDAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7599BEF1E394719003AC381 /* GDAssets.bundle */; };
+		D7599BF21E3947FE003AC381 /* DAFSupportResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7599BF11E3947FE003AC381 /* DAFSupportResources.bundle */; };
+		D7599BF31E394891003AC381 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D7599BE91E3945E8003AC381 /* libz.tbd */; };
+		D7599BF51E39490B003AC381 /* LaunchScreen-Blackberry.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7599BF41E39490B003AC381 /* LaunchScreen-Blackberry.storyboard */; };
 		D7651FB51D46BEA1001D3E9E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7651FB31D46BEA1001D3E9E /* LaunchScreen.storyboard */; };
 		D7651FB61D46BEA1001D3E9E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7651FB31D46BEA1001D3E9E /* LaunchScreen.storyboard */; };
 		D76739481E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76739461E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m */; };
@@ -204,7 +205,6 @@
 		D7F6EE641E0083120099BC3E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F6EE631E0083120099BC3E /* Reachability.m */; };
 		D7F7DF721CEBDACA0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
 		D7F7DF731CEBDCED0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
-		D7FE41601DADA6BE00151320 /* GD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7FE415F1DADA6BE00151320 /* GD.framework */; };
 		D7FE9F181CDD0B5400FACA04 /* ILContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FE9F171CDD0B5400FACA04 /* ILContainerView.m */; };
 /* End PBXBuildFile section */
 
@@ -290,9 +290,6 @@
 		4C2667281CC0369000F10DC0 /* Sentegrity TAF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sentegrity TAF.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C2667301CC0398300F10DC0 /* SentegrityTAF_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_AppDelegate.h; sourceTree = "<group>"; };
 		4C2667311CC0398300F10DC0 /* SentegrityTAF_AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_AppDelegate.m; sourceTree = "<group>"; };
-		4C2667541CC03AF400F10DC0 /* DAFSupportResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DAFSupportResources.bundle; sourceTree = "<group>"; };
-		4C2667551CC03AF400F10DC0 /* GDAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GDAssets.bundle; sourceTree = "<group>"; };
-		4C2667561CC03AF400F10DC0 /* MockGDiOSResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MockGDiOSResources.bundle; sourceTree = "<group>"; };
 		4C26675B1CC03BA700F10DC0 /* SentegrityTAF_Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SentegrityTAF_Info.plist; sourceTree = "<group>"; };
 		4C26675F1CC03CBC00F10DC0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4C2667611CC03CC200F10DC0 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
@@ -308,8 +305,6 @@
 		4C2667751CC03D0C00F10DC0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		4C2667771CC03D1300F10DC0 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		4C2667791CC03D1C00F10DC0 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
-		4C26677B1CC03D2600F10DC0 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
-		4C26677D1CC03D2E00F10DC0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		4C2667931CC0421800F10DC0 /* SentegrityTAF_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_main.m; sourceTree = "<group>"; };
 		4C5393841B2F965D00EA4484 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		4C5393861B2F966700EA4484 /* loadingWhite.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loadingWhite.gif; sourceTree = "<group>"; };
@@ -361,10 +356,6 @@
 		96C5BCF31CD014540009B3A6 /* Splash_iphone_HD5.5_PT@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash_iphone_HD5.5_PT@3x.png"; sourceTree = "<group>"; };
 		A57A38F2AD3A013454171E37 /* Pods-Sentegrity TAF.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity TAF.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity TAF/Pods-Sentegrity TAF.debug.xcconfig"; sourceTree = "<group>"; };
 		C05694064344BB4205E08D99 /* libPods-Sentegrity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sentegrity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D709E2611E06E0BF0009BCB5 /* DAFSkelDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DAFSkelDriver.cpp; sourceTree = "<group>"; };
-		D709E2621E06E0BF0009BCB5 /* DAFSkelDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFSkelDriver.h; sourceTree = "<group>"; };
-		D709E2661E06E3CF0009BCB5 /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DAFSupport.framework; path = ../../../DAFSupport.framework; sourceTree = "<group>"; };
-		D709E2681E06E66D0009BCB5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		D72BA8201E06BE7900547005 /* SentegrityTAF_AuthWarningViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_AuthWarningViewController_iPad.xib; sourceTree = "<group>"; };
 		D72BA8221E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_AuthWarningViewController.h; sourceTree = "<group>"; };
 		D72BA8231E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_AuthWarningViewController.m; sourceTree = "<group>"; };
@@ -422,6 +413,17 @@
 		D74B74B21DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_DetailInfoViewController.h; sourceTree = "<group>"; };
 		D74B74B31DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_DetailInfoViewController.m; sourceTree = "<group>"; };
 		D74B74B41DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SentegrityTAF_DetailInfoViewController.xib; sourceTree = "<group>"; };
+		D7599BE01E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_BaseNavigationController.h; sourceTree = "<group>"; };
+		D7599BE11E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_BaseNavigationController.m; sourceTree = "<group>"; };
+		D7599BE31E394536003AC381 /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GD.framework; path = System/Library/Frameworks/GD.framework; sourceTree = SDKROOT; };
+		D7599BE51E3945A2003AC381 /* DAFSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DAFSupport.framework; sourceTree = "<group>"; };
+		D7599BE71E3945C6003AC381 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		D7599BE91E3945E8003AC381 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		D7599BEB1E3946A8003AC381 /* DAFSkelDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DAFSkelDriver.cpp; sourceTree = "<group>"; };
+		D7599BEC1E3946A8003AC381 /* DAFSkelDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFSkelDriver.h; sourceTree = "<group>"; };
+		D7599BEF1E394719003AC381 /* GDAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GDAssets.bundle; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/GD.framework/Versions/A/Resources/GDAssets.bundle; sourceTree = DEVELOPER_DIR; };
+		D7599BF11E3947FE003AC381 /* DAFSupportResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DAFSupportResources.bundle; path = DAFSupport.framework/Resources/DAFSupportResources.bundle; sourceTree = SOURCE_ROOT; };
+		D7599BF41E39490B003AC381 /* LaunchScreen-Blackberry.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "LaunchScreen-Blackberry.storyboard"; sourceTree = "<group>"; };
 		D7651FB41D46BEA1001D3E9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D76739451E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentegrityTAF_UnlockHolderViewController.h; sourceTree = "<group>"; };
 		D76739461E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SentegrityTAF_UnlockHolderViewController.m; sourceTree = "<group>"; };
@@ -464,7 +466,6 @@
 		D7F6EE621E0083120099BC3E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		D7F6EE631E0083120099BC3E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DashboardViewController.xib; sourceTree = "<group>"; };
-		D7FE415F1DADA6BE00151320 /* GD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GD.framework; sourceTree = "<group>"; };
 		D7FE9F161CDD0B5400FACA04 /* ILContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILContainerView.h; sourceTree = "<group>"; };
 		D7FE9F171CDD0B5400FACA04 /* ILContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILContainerView.m; sourceTree = "<group>"; };
 		EC09FE4FC0790F7A16625A66 /* Pods-Sentegrity TAF.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sentegrity TAF.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sentegrity TAF/Pods-Sentegrity TAF.release.xcconfig"; sourceTree = "<group>"; };
@@ -491,20 +492,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D709E2691E06E66D0009BCB5 /* libc++.tbd in Frameworks */,
-				4C26677E1CC03D2E00F10DC0 /* libz.tbd in Frameworks */,
-				4C26677C1CC03D2600F10DC0 /* libstdc++.tbd in Frameworks */,
+				D7599BF31E394891003AC381 /* libz.tbd in Frameworks */,
+				D7599BE81E3945C6003AC381 /* libstdc++.6.0.9.tbd in Frameworks */,
+				D7599BE41E394536003AC381 /* GD.framework in Frameworks */,
 				4C26677A1CC03D1C00F10DC0 /* LocalAuthentication.framework in Frameworks */,
 				4C2667781CC03D1300F10DC0 /* MessageUI.framework in Frameworks */,
 				4C2667761CC03D0C00F10DC0 /* CoreData.framework in Frameworks */,
 				4C2667741CC03CF500F10DC0 /* CFNetwork.framework in Frameworks */,
 				4C2667721CC03CF000F10DC0 /* Security.framework in Frameworks */,
-				D709E2671E06E3CF0009BCB5 /* DAFSupport.framework in Frameworks */,
 				4C2667701CC03CE900F10DC0 /* AdSupport.framework in Frameworks */,
 				4C26676E1CC03CE300F10DC0 /* CoreTelephony.framework in Frameworks */,
 				4C26676C1CC03CDE00F10DC0 /* SystemConfiguration.framework in Frameworks */,
-				D7FE41601DADA6BE00151320 /* GD.framework in Frameworks */,
 				4C26676A1CC03CD700F10DC0 /* QuartzCore.framework in Frameworks */,
+				D7599BE61E3945A2003AC381 /* DAFSupport.framework in Frameworks */,
 				4C2667681CC03CD200F10DC0 /* CoreGraphics.framework in Frameworks */,
 				4C2667661CC03CCD00F10DC0 /* UIKit.framework in Frameworks */,
 				4C2667641CC03CC900F10DC0 /* Foundation.framework in Frameworks */,
@@ -609,9 +609,10 @@
 		4A3429CBBD5FF34D6202962E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D709E2681E06E66D0009BCB5 /* libc++.tbd */,
-				4C26677D1CC03D2E00F10DC0 /* libz.tbd */,
-				4C26677B1CC03D2600F10DC0 /* libstdc++.tbd */,
+				D7599BE91E3945E8003AC381 /* libz.tbd */,
+				D7599BE71E3945C6003AC381 /* libstdc++.6.0.9.tbd */,
+				D7599BE51E3945A2003AC381 /* DAFSupport.framework */,
+				D7599BE31E394536003AC381 /* GD.framework */,
 				4C2667791CC03D1C00F10DC0 /* LocalAuthentication.framework */,
 				4C2667771CC03D1300F10DC0 /* MessageUI.framework */,
 				4C2667751CC03D0C00F10DC0 /* CoreData.framework */,
@@ -626,7 +627,6 @@
 				4C2667631CC03CC900F10DC0 /* Foundation.framework */,
 				4C2667611CC03CC200F10DC0 /* QuickLook.framework */,
 				4C7D98241CC0049F00E9CC97 /* libCore Detection.a */,
-				D7FE415F1DADA6BE00151320 /* GD.framework */,
 				4C26675F1CC03CBC00F10DC0 /* MobileCoreServices.framework */,
 				C05694064344BB4205E08D99 /* libPods-Sentegrity.a */,
 				85416AA7ED3D5ABEEA5785F3 /* libPods-Sentegrity TAF.a */,
@@ -686,6 +686,8 @@
 				D78A5B311DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m */,
 				4C6F39531CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.h */,
 				4C6F39541CCAD0B40059F0B1 /* SentegrityTAF_BaseViewController.m */,
+				D7599BE01E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.h */,
+				D7599BE11E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.m */,
 				D7F6EE621E0083120099BC3E /* Reachability.h */,
 				D7F6EE631E0083120099BC3E /* Reachability.m */,
 				D7BDF2061DFF7AE100D0FAFF /* UICKeyChainStore.h */,
@@ -702,23 +704,13 @@
 			path = DAF;
 			sourceTree = "<group>";
 		};
-		4C2667531CC03AE800F10DC0 /* DAF Bundles */ = {
-			isa = PBXGroup;
-			children = (
-				D709E2661E06E3CF0009BCB5 /* DAFSupport.framework */,
-				4C2667541CC03AF400F10DC0 /* DAFSupportResources.bundle */,
-				4C2667551CC03AF400F10DC0 /* GDAssets.bundle */,
-				4C2667561CC03AF400F10DC0 /* MockGDiOSResources.bundle */,
-			);
-			path = "DAF Bundles";
-			sourceTree = "<group>";
-		};
 		4C26675A1CC03B7C00F10DC0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D7599BF41E39490B003AC381 /* LaunchScreen-Blackberry.storyboard */,
+				D7599BEE1E39470C003AC381 /* Bundles */,
 				D7C8F9581DE4F32B006E0EFD /* Fonts */,
 				96C5BCE51CD014540009B3A6 /* LaunchScreenImages */,
-				4C2667531CC03AE800F10DC0 /* DAF Bundles */,
 				4C26675B1CC03BA700F10DC0 /* SentegrityTAF_Info.plist */,
 				4C2667931CC0421800F10DC0 /* SentegrityTAF_main.m */,
 				4C5773001CC139190073BB65 /* SentegrityTAFConfig.debug.xcconfig */,
@@ -877,8 +869,8 @@
 		D709E2601E06E0A50009BCB5 /* DAF Driver */ = {
 			isa = PBXGroup;
 			children = (
-				D709E2611E06E0BF0009BCB5 /* DAFSkelDriver.cpp */,
-				D709E2621E06E0BF0009BCB5 /* DAFSkelDriver.h */,
+				D7599BEB1E3946A8003AC381 /* DAFSkelDriver.cpp */,
+				D7599BEC1E3946A8003AC381 /* DAFSkelDriver.h */,
 			);
 			path = "DAF Driver";
 			sourceTree = "<group>";
@@ -991,6 +983,15 @@
 				D74B74B41DE79BDE0095408E /* SentegrityTAF_DetailInfoViewController.xib */,
 			);
 			path = Details;
+			sourceTree = "<group>";
+		};
+		D7599BEE1E39470C003AC381 /* Bundles */ = {
+			isa = PBXGroup;
+			children = (
+				D7599BF11E3947FE003AC381 /* DAFSupportResources.bundle */,
+				D7599BEF1E394719003AC381 /* GDAssets.bundle */,
+			);
+			name = Bundles;
 			sourceTree = "<group>";
 		};
 		D79FF4951DE4EE0700742F4A /* Dashboard */ = {
@@ -1310,7 +1311,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C2667571CC03AF400F10DC0 /* DAFSupportResources.bundle in Resources */,
 				D7C8F96C1DE4F32B006E0EFD /* Lato-BlackItalic.ttf in Resources */,
 				D738DF821DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.xib in Resources */,
 				D72BA8261E06C0ED00547005 /* SentegrityTAF_AuthWarningViewController.xib in Resources */,
@@ -1326,6 +1326,7 @@
 				D738DF841DFDD0FF00D65DC3 /* SentegrityTAF_SupportViewController.xib in Resources */,
 				4C2667111CC0369000F10DC0 /* DINPro-Black.otf in Resources */,
 				D738DF921DFDFE1100D65DC3 /* SentegrityTAF_DebugMenuViewController.xib in Resources */,
+				D7599BF01E394719003AC381 /* GDAssets.bundle in Resources */,
 				D72BA8451E06C1F100547005 /* SentegrityTAF_AskPermissionsViewController.xib in Resources */,
 				96C5BCFC1CD014540009B3A6 /* Splash.png in Resources */,
 				D7C8F9731DE4F32B006E0EFD /* Lato-Italic.ttf in Resources */,
@@ -1351,12 +1352,12 @@
 				4C2667161CC0369000F10DC0 /* OpenSans-BoldItalic.ttf in Resources */,
 				D7651FB61D46BEA1001D3E9E /* LaunchScreen.storyboard in Resources */,
 				D7C8F96B1DE4F32B006E0EFD /* Lato-Black.ttf in Resources */,
+				D7599BF21E3947FE003AC381 /* DAFSupportResources.bundle in Resources */,
 				96C5BCFB1CD014540009B3A6 /* Splash-Portrait~ipad.png in Resources */,
 				96C5BCFD1CD014540009B3A6 /* Splash@2x.png in Resources */,
 				4C2667171CC0369000F10DC0 /* OpenSans-ExtraBold.ttf in Resources */,
 				D7C26EF21DD8E249007A915F /* art.scnassets in Resources */,
 				D7C8F9761DE4F32B006E0EFD /* Lato-Medium.ttf in Resources */,
-				4C2667591CC03AF400F10DC0 /* MockGDiOSResources.bundle in Resources */,
 				D7C8F97B1DE4F32B006E0EFD /* Lato-Thin.ttf in Resources */,
 				D74B74AB1DE786DF0095408E /* SentegrityTAF_UserDeviceInformationViewController.xib in Resources */,
 				96C5BCF51CD014540009B3A6 /* Splash-Landscape-568h@2x.png in Resources */,
@@ -1365,7 +1366,6 @@
 				D72BA8301E06C13C00547005 /* SentegrityTAF_UnlockViewController.xib in Resources */,
 				D7C8F9771DE4F32B006E0EFD /* Lato-MediumItalic.ttf in Resources */,
 				D7C26EEF1DD8E1E6007A915F /* Localizable.strings in Resources */,
-				4C2667581CC03AF400F10DC0 /* GDAssets.bundle in Resources */,
 				D7C8F9721DE4F32B006E0EFD /* Lato-HeavyItalic.ttf in Resources */,
 				96C5BCFA1CD014540009B3A6 /* Splash-Portrait@2x~ipad.png in Resources */,
 				4C2667191CC0369000F10DC0 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
@@ -1389,6 +1389,7 @@
 				D7C8F96D1DE4F32B006E0EFD /* Lato-Bold.ttf in Resources */,
 				4C26671F1CC0369000F10DC0 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				D72BA8211E06BE7900547005 /* SentegrityTAF_AuthWarningViewController_iPad.xib in Resources */,
+				D7599BF51E39490B003AC381 /* LaunchScreen-Blackberry.storyboard in Resources */,
 				4C2667201CC0369000F10DC0 /* loadingWhite.gif in Resources */,
 				D72BA84F1E06C20A00547005 /* SentegrityTAF_VocalFacialPermissionsViewController.xib in Resources */,
 				D7C8F9781DE4F32B006E0EFD /* Lato-Regular.ttf in Resources */,
@@ -1568,7 +1569,6 @@
 				D7BA461F1D4E553600A2EC42 /* SentegrityTAF_BlankAuthViewController.m in Sources */,
 				D7BDF2081DFF7AE100D0FAFF /* UICKeyChainStore.m in Sources */,
 				4C2666F71CC0369000F10DC0 /* SCLAlertViewResponder.m in Sources */,
-				D709E2631E06E0BF0009BCB5 /* DAFSkelDriver.cpp in Sources */,
 				4C2666F81CC0369000F10DC0 /* SCLButton.m in Sources */,
 				4C2666F91CC0369000F10DC0 /* SCLAlertView.m in Sources */,
 				D7F6EE641E0083120099BC3E /* Reachability.m in Sources */,
@@ -1594,6 +1594,7 @@
 				4C2666FF1CC0369000F10DC0 /* ActivityPermissionViewController.m in Sources */,
 				D72BA8341E06C16400547005 /* SentegrityTAF_FirstTimeViewController.m in Sources */,
 				D78A5B321DAC2F2B0095D81A /* SentegrityTAF_TouchIDManager.m in Sources */,
+				D7599BED1E3946A8003AC381 /* DAFSkelDriver.cpp in Sources */,
 				D738DF811DFDD0FF00D65DC3 /* SentegrityTAF_PrivacyViewController.m in Sources */,
 				4C2667001CC0369000F10DC0 /* UserDebugViewController.m in Sources */,
 				D72BA83A1E06C1BB00547005 /* SentegrityTAF_WelcomeViewController.m in Sources */,
@@ -1606,6 +1607,7 @@
 				4C2667051CC0369000F10DC0 /* RightMenuViewController.m in Sources */,
 				4C2667941CC0421800F10DC0 /* SentegrityTAF_main.m in Sources */,
 				4C2667061CC0369000F10DC0 /* UserInformationViewController.m in Sources */,
+				D7599BE21E38F27A003AC381 /* SentegrityTAF_BaseNavigationController.m in Sources */,
 				4C2667071CC0369000F10DC0 /* TransparentDebugViewController.m in Sources */,
 				D738DF891DFDFDD400D65DC3 /* SentegrityTAF_ProductionMenuViewController.m in Sources */,
 				D7FE9F181CDD0B5400FACA04 /* ILContainerView.m in Sources */,
@@ -1925,9 +1927,9 @@
 			baseConfigurationReference = 4C5773001CC139190073BB65 /* SentegrityTAFConfig.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImageTAF;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Blackberry";
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 86G3K7BVQY;
@@ -2007,9 +2009,9 @@
 			baseConfigurationReference = 4C5773021CC1392B0073BB65 /* SentegrityTAFConfig.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImageTAF;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Blackberry";
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CLANG_CXX_LIBRARY = "libstdc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 86G3K7BVQY;

@@ -29,6 +29,9 @@
     return _sharedSentegrityTAF_TouchIDManager;
 }
 
+- (void) invalidate {
+    [self.context invalidate];
+}
 
 
 - (void) createTouchIDWithDecryptedMasterKey: (NSData *) decryptedMasterKey withCallback: (ResultBlock) block {
@@ -86,9 +89,6 @@
     }];
 
 }
-
-
-
 
 
 - (BOOL) checkIfTouchIDIsAvailableWithError: (NSError **) error {

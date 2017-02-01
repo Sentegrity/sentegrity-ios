@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+// System Version
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 @protocol SentegrityTAF_basicProtocol <NSObject>
 
 - (void) dismissSuccesfullyFinishedViewController:(UIViewController *) vc withInfo: (NSDictionary *) info;
@@ -19,7 +22,7 @@
 @property (nonatomic, weak) id <SentegrityTAF_basicProtocol> delegate;
 
 // Show an alert
-- (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
+- (UIAlertController *) showAlertWithTitle: (NSString *) title andMessage: (NSString *) message;
 
 
 @end

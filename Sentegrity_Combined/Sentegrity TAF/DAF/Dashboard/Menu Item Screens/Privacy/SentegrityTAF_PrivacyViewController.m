@@ -25,6 +25,11 @@
 
 @implementation SentegrityTAF_PrivacyViewController
 
+
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 

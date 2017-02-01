@@ -32,8 +32,14 @@
 "supportScreenContactEmail": "info@sentegrity.com"
 },
 
+"welcome" : {
+	"title": "Credit Suisse Pilot",
+	"description": "All corporate applications on this device will be protected by Sentegrity. Sentegrity helps organizations securely access data by 'learning' how it is accessed. As Sentegrity learns more about how you use these apps, authentication requirements will be modified to help you get more done faster.\n\nSentegrity is currently in pilot mode which demonstrates a variety of configurable authentication requirements, thresholds, and TrustFactors. All actions taken by Sentegrity are modifiable in a production deployment.\n\nLet's get set up."
+},
+
+
 "passwordRequirements": {
-"minLenght": 8,
+"minLength": 8,
 "alphaNumeric": 1,
 "mixedCase": 0,
 "specialCharacter": 0

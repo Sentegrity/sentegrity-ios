@@ -54,11 +54,8 @@
 - (void)setUpLogoInImageView:(UIImageView* )goodImageView
 {
     // get image from bundle
-    NSBundle* assetsBundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"GDAssets"
-                                                                                      ofType:@"bundle"]];
-    NSString* path = [assetsBundle pathForResource:@"GOOD_LOGO"
-                                            ofType:@"png"];
-    UIImage *goodLogoImage = [UIImage imageWithContentsOfFile:path];
+    
+    UIImage *goodLogoImage = [UIImage imageNamed:@"Blackberry_small_logo"];
     
     // set image to imageView
     [goodImageView setImage:goodLogoImage];

@@ -37,6 +37,7 @@
 @property (nonatomic, strong) NSDictionary *privacy;
 @property (nonatomic, strong) NSDictionary *support;
 @property (nonatomic, strong) NSDictionary *about;
+@property (nonatomic, strong) NSDictionary *welcome;
 
 
 @end

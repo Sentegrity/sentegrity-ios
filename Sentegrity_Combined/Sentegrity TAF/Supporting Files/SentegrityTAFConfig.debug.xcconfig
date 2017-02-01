@@ -11,5 +11,6 @@
 
 // Good Integration
 FIPS_PACKAGE=$(CURRENT_ARCH).sdk
-LDPLUSPLUS=/Good Technology/Good.platform/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld
-LD=/Good Technology/Good.platform/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld
+LDPLUSPLUS=~/Library/Application Support/BlackBerry/Good.platform/iOS/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld
+LD=~/Library/Application Support/BlackBerry/Good.platform/iOS/FIPS_module/$FIPS_PACKAGE/bin/gd_fipsld
+ENABLE_BITCODE=NO

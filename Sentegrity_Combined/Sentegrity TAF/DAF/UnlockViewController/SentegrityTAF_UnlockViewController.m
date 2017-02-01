@@ -69,9 +69,15 @@
 @property (weak, nonatomic) IBOutlet ILContainerView *containerViewForSupport;
 
 
-
 @property (weak, nonatomic) IBOutlet UIButton *buttonInfo;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSentegrity;
+
+//reference to currently active alertController (if any)
+@property (nonatomic, weak) UIAlertController *alertController;
+
+//reference to currently active touchID manager (if any)
+@property (nonatomic, weak) SentegrityTAF_TouchIDManager *activeTouchIDManager;
+
 
 - (IBAction)pressedSentegrityLogo:(id)sender;
 - (IBAction)pressedInfoButton:(id)sender;
@@ -117,6 +123,14 @@
     //remove dashboard
     if (self.dashboardViewController)
         [self.dashboardViewController dismissViewControllerAnimated:NO completion:nil];
+    
+    //remove alert popup
+    if (self.alertController)
+        [self.alertController dismissViewControllerAnimated:NO completion:nil];
+    
+    //if touchID system alert is showed, hide it (invalidate)
+    if (self.activeTouchIDManager)
+        [self.activeTouchIDManager invalidate];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -247,8 +261,9 @@
     Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
     
 
+    __weak __typeof (self) weakSelf = self;
     SentegrityTAF_TouchIDManager *touchIDManager = [SentegrityTAF_TouchIDManager shared];
-    
+
    Sentegrity_LoginResponse_Object *loginResponseObject = [[Sentegrity_LoginAction sharedLogin] attemptLoginWithPassword:passwordAttempt andError:&error];
    
    // Set the authentication response code
@@ -278,9 +293,12 @@
                
                //great, it is available, now check is touchID already configured, but item is invalidated
                if (touchIDManager.touchIDItemInvalidated) {
+                   
                    //create touchID again
+                   self.activeTouchIDManager = touchIDManager;
                    [touchIDManager createTouchIDWithDecryptedMasterKey:decryptedMasterKey withCallback:^(BOOL successful, NSError *error) {
-                       [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+                       [weakSelf finishWithDecryptedMasterKey:decryptedMasterKeyString];
+                       weakSelf.activeTouchIDManager = nil;
                    }];
                }
                //if touch ID is already configured and active, that means that user probbably canceled TouchID auth, or failed with auth. In both cases, just ignore and continue.
@@ -291,26 +309,32 @@
                else {
                    //This should never happen because we are asking user for touchID after password creation
                    NSLog(@"WARNING: TouchID not configured and not disabled.");
+                   self.activeTouchIDManager = touchIDManager;
                    [touchIDManager checkForTouchIDAuthWithMessage:@"Would you like to enable TouchID as one of the options for authentication?" withCallback:^(TouchIDResultType resultType, NSError *error) {
                        
                        if (resultType == TouchIDResultType_Success) {
+                           
                            //create touchID again
                            [touchIDManager createTouchIDWithDecryptedMasterKey:decryptedMasterKey withCallback:^(BOOL successful, NSError *error) {
+                               weakSelf.activeTouchIDManager = nil;
                            }];
                        }
                        else if (resultType == TouchIDResultType_UserCanceled) {
                            //save an answer
                            [startup setTouchIDDisabledByUser:YES];
                            [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:nil];
+                           weakSelf.activeTouchIDManager = nil;
                        }
                        else if (resultType == TouchIDResultType_FailedAuth) {
-                           [self showAlertWithTitle:@"Authentification Failed" andMessage:@"You can try again later."];
+                           weakSelf.alertController = [weakSelf showAlertWithTitle:@"Authentification Failed" andMessage:@"You can try again later."];
+                           weakSelf.activeTouchIDManager = nil;
                        }
                        else {
-                           [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+                           weakSelf.alertController = [weakSelf showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+                           weakSelf.activeTouchIDManager = nil;
                        }
                        
-                       [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+                       [weakSelf finishWithDecryptedMasterKey:decryptedMasterKeyString];
                    }];
                }
            }
@@ -325,13 +349,13 @@
    } else if(computationResults.authenticationResult == authenticationResult_incorrectLogin) {
        
        // Show alert window
-       [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
+       self.alertController = [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
 
        
    } else if (computationResults.authenticationResult == authenticationResult_irrecoverableError) {
        
        // Show alert window
-       [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
+       self.alertController = [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
        
    }
    
@@ -563,14 +587,14 @@
             Sentegrity_Policy *policyFromBundle = [[Sentegrity_Policy_Parser sharedPolicy] loadPolicyFromMainBundle:&error];
             if (error) {
                 NSLog(@"CRITICAL ERROR, cannot load policy from bundle");
-                [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
+                self.alertController = [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
                 return;
             }
             
             [[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policyFromBundle withError:&error];
             if (error) {
                 NSLog(@"CRITICAL ERROR, cannot save new policy");
-                [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
+                self.alertController = [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
                 return;
             }
             
@@ -600,16 +624,18 @@
                         errorMessage = @"Could not download new policy. Please try again.";
                     
                     //error occured, show error message and ask user for retry
+                    __weak __typeof (self) weakSelf = self;
                     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
                                                                                    message:errorMessage
                                                                             preferredStyle:UIAlertControllerStyleAlert];
                     
                     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault
                                                                           handler:^(UIAlertAction * action) {
-                                                                              [self checkForPolicyAndRunCoreDetection];
+                                                                              [weakSelf checkForPolicyAndRunCoreDetection];
                                                                           }];
                     [alert addAction:defaultAction];
                     [self presentViewController:alert animated:YES completion:nil];
+                    self.alertController = alert;
                 }
                 
                 
@@ -629,14 +655,14 @@
                         Sentegrity_Policy *policyFromBundle = [[Sentegrity_Policy_Parser sharedPolicy] loadPolicyFromMainBundle:&error];
                         if (error) {
                             NSLog(@"CRITICAL ERROR, cannot load policy from bundle");
-                            [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
+                            self.alertController = [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
                             return;
                         }
                         
                         [[Sentegrity_Policy_Parser sharedPolicy] saveNewPolicy:policyFromBundle withError:&error];
                         if (error) {
                             NSLog(@"CRITICAL ERROR, cannot save new policy");
-                            [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
+                            self.alertController = [self showAlertWithTitle:@"ERROR" andMessage:error.localizedDescription];
                             return;
                         }
                         
@@ -646,16 +672,18 @@
                     }
                     else {
                         //no available policy for new app version :(. Show message to the user.
+                        __weak __typeof (self) weakSelf = self;
                         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
                                                                                        message:@"This app version is not supported by your organization"
                                                                                 preferredStyle:UIAlertControllerStyleAlert];
                         
                         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault
                                                                               handler:^(UIAlertAction * action) {
-                                                                                  [self checkForPolicyAndRunCoreDetection];
+                                                                                  [weakSelf checkForPolicyAndRunCoreDetection];
                                                                               }];
                         [alert addAction:defaultAction];
                         [self presentViewController:alert animated:YES completion:nil];
+                        self.alertController = alert;
                         
                     }
                 }
@@ -814,7 +842,7 @@
         if (success) {
             
             // dispatch after, to avoid modal mess
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [weakSelf analyzeAuthenticationActionsWithError:error];
                 [MBProgressHUD hideHUDForView:weakSelf.view animated:NO];
                 [weakSelf showInput];
@@ -900,7 +928,7 @@
                             // Use the decrypted master key
                             [result setResult:decryptedMasterKeyString];
                             result = nil;
-                           [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
+                           //self.alertController = [self showAlertWithTitle:computationResults.authenticationModuleEmployed.warnTitle andMessage:computationResults.authenticationModuleEmployed.warnDesc];
                         }];
                     // Done
                     break;
@@ -973,7 +1001,7 @@
                             [result setResult:decryptedMasterKeyString];
                             result = nil;
                             
-                            
+                            //show pop-up on rootViewController to be visible on dashboard
                             UIAlertController* alert = [UIAlertController alertControllerWithTitle:computationResults.warnTitle
                                                                                            message:computationResults.warnDesc
                                                                                     preferredStyle:UIAlertControllerStyleAlert];
@@ -1022,19 +1050,21 @@
         {
             
             // Show message and than call fingerprint
+            __weak __typeof (self) weakSelf = self;
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:computationResults.warnTitle
                                                                            message:computationResults.warnDesc
                                                                     preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {
-                                                                      [self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.warnTitle];
+                                                                      [weakSelf tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.warnTitle];
                                                                   }];
             
             
             [alert addAction:defaultAction];
             
             [self presentViewController:alert animated:YES completion:nil];
+            self.alertController = alert;
             
             //No promptForUserFingerprintAndWarn because TouchID always displays a message
             //[self tryToLoginWithTouchIDMessage:computationResults.authenticationModuleEmployed.warnTitle];
@@ -1053,7 +1083,7 @@
             
             // Since we're already on the login screen, simply show a popup message then allow user to interact with login prompt
             
-            [self showAlertWithTitle:computationResults.warnTitle andMessage:computationResults.warnDesc];
+            self.alertController = [self showAlertWithTitle:computationResults.warnTitle andMessage:computationResults.warnDesc];
             
             break;
         }
@@ -1069,19 +1099,21 @@
             
             
             // Show message and than call vocal facial login
+            __weak __typeof (self) weakSelf = self;
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:computationResults.warnTitle
                                                                            message:computationResults.warnDesc
                                                                     preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {
-                                                                      [self tryToLoginWithVocalFacial];
+                                                                      [weakSelf tryToLoginWithVocalFacial];
                                                                   }];
             
             
             [alert addAction:defaultAction];
             
             [self presentViewController:alert animated:YES completion:nil];
+            self.alertController = alert;
             
             /*
             [self dismissViewControllerAnimated:NO completion:^{
@@ -1107,7 +1139,7 @@
             [[Sentegrity_Startup_Store sharedStartupStore] setStartupFileWithComputationResult:computationResults withError:error];
             
             // TODO: Change to show denied view instead of popup box
-            [self showAlertWithTitle:@"Access Denied" andMessage:@"This device is high risk or in violation of policy, this access attempt has been denied."];
+            self.alertController = [self showAlertWithTitle:@"Access Denied" andMessage:@"This device is high risk or in violation of policy, this access attempt has been denied."];
             
            
             // Done
@@ -1140,6 +1172,8 @@
         //did not able to read startup file, break
         return;
     }
+    
+    __weak __typeof (self) weakSelf = self;
     SentegrityTAF_TouchIDManager *touchIDManager = [SentegrityTAF_TouchIDManager shared];
 
     
@@ -1149,6 +1183,7 @@
         if (loginMessage == nil)
             loginMessage = @"";
         
+        self.activeTouchIDManager = touchIDManager;
         [touchIDManager getTouchIDPasswordFromKeychainwithMessage:loginMessage withCallback:^(TouchIDResultType resultType, NSString *password, NSError *error) {
             if (resultType == TouchIDResultType_Success) {
                 
@@ -1171,21 +1206,22 @@
                     
                     NSString *decryptedMasterKeyString = [[Sentegrity_Crypto sharedCrypto] convertDataToHexString:decryptedMasterKey withError:&error];
                     
-                    [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
+                    [weakSelf finishWithDecryptedMasterKey:decryptedMasterKeyString];
                 }
                 else {
-                    [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
+                    weakSelf.alertController = [weakSelf showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
                 }
             }
             else if (resultType == TouchIDResultType_ItemNotFound) {
                 //probabbly invalidated item due change of fingerprint set, we will just try to delete it
                 [touchIDManager removeTouchIDPasswordFromKeychainWithCallback:nil];
-                [self showAlertWithTitle:@"Notice" andMessage:@"One of the fingerprints on this device have changed, password is required to continue"];
+                weakSelf.alertController = [weakSelf showAlertWithTitle:@"Notice" andMessage:@"One of the fingerprints on this device have changed, password is required to continue"];
             }
             else {
                 //if failed auth, or user simply pressed cancel, do nothing
 
             }
+            weakSelf.activeTouchIDManager = nil;
         }];
     
     }
@@ -1208,7 +1244,7 @@
         //No internet connection!
         
         NSLog(@"There IS NO internet connection");
-        [self showAlertWithTitle:@"Notice" andMessage:@"There is no Internet access and facial recognition cannot be performed."];
+        self.alertController = [self showAlertWithTitle:@"Notice" andMessage:@"There is no Internet access and facial recognition cannot be performed."];
         return;
     }
     
@@ -1220,7 +1256,7 @@
     Sentegrity_Startup *currentStartup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
     
     if (error) {
-        [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
+        self.alertController = [self showAlertWithTitle:@"Error" andMessage:error.localizedDescription];
         return;
     }
     
@@ -1296,7 +1332,7 @@
             [self finishWithDecryptedMasterKey:decryptedMasterKeyString];
         }
         else {
-            [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
+            self.alertController = [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
         }
     }
 }

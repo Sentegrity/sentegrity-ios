@@ -41,6 +41,7 @@ typedef void (^TouchIDGetResultBlock)(TouchIDResultType resultType, NSString *pa
 - (void) addTouchIDPasswordToKeychain: (NSString *) password withCallback: (TouchIDResultBlock) block;
 - (void) removeTouchIDPasswordFromKeychainWithCallback: (TouchIDResultBlock) block;
 - (void) getTouchIDPasswordFromKeychainwithMessage:(NSString *) message withCallback: (TouchIDGetResultBlock) block;
+- (void) invalidate;
 
 //helper method
 - (void) createTouchIDWithDecryptedMasterKey: (NSData *) decryptedMasterKey withCallback: (ResultBlock) block;

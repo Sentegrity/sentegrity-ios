@@ -534,10 +534,13 @@ NSString *const BIOID_FONT = @"HelveticaNeue";
         
         NSLog(@"PNG FileSize: %.f KB", (float)pngImage.length/1024.0f);
         NSString* base64Image = [NSString stringWithFormat:@"data:image/png;base64,%@", [pngImage base64EncodedStringWithOptions:0]];
+        /*
 #ifdef DEBUG
         NSUInteger bytes = [base64Image lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
 #endif
+       
         NSLog(@"PNG Base64 Size: %.f KB", (float)bytes/1024.0f);
+        */
         
         [request setHTTPMethod:@"POST"];
         [request setValue:authorizationHeader forHTTPHeaderField:@"Authorization"];
@@ -887,7 +890,7 @@ NSString *const BIOID_FONT = @"HelveticaNeue";
     
     // MovementDiff now holds the percentage of moving pixels within the moving area. Let's bring that to [0.0; 100.0]
     movementDiff *= 100.0;
-    
+    /*
 #ifdef DEBUG
     NSString *info = [NSString stringWithFormat:@"meanDROI: %i - meanDiff: %i - movDiff: %.1f", meanDiffROI, meanDiff, movementDiff];
     
@@ -904,7 +907,7 @@ NSString *const BIOID_FONT = @"HelveticaNeue";
         [debugLabel setNeedsDisplay];
     });
 #endif
-    
+    */
     // If moving area is big enough to be a human face, then let's trigger
     // We accept only faces that are at least 1/20th of the image dimensions
     if ((movingAreaWidth > width / 20) && (movingAreaHeight > height / 20)) {
@@ -1253,6 +1256,7 @@ NSString *const BIOID_FONT = @"HelveticaNeue";
     [alertView setCenter:self.view.center];
     [self.view addSubview:alertView];
     
+    /*
 #ifdef DEBUG
     debugLabel = [[UILabel alloc] init];
     [debugLabel setTextAlignment:NSTextAlignmentCenter];
@@ -1260,6 +1264,7 @@ NSString *const BIOID_FONT = @"HelveticaNeue";
     [debugLabel setBackgroundColor:[UIColor blackColor]];
     [self.view addSubview:debugLabel];
 #endif
+     */
 }
 
 - (void)setLayers:(UIDeviceOrientation)deviceOrientation {

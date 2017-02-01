@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -40,8 +40,8 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GRK-0i-yWQ" userLabel="Container">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="184"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="good_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="z9M-Jf-1r0">
-                                            <rect key="frame" x="25" y="40" width="82" height="26"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blackberry_small_logo" translatesAutoresizingMaskIntoConstraints="NO" id="9sQ-T3-gKL">
+                                            <rect key="frame" x="25" y="40" width="138" height="24"/>
                                         </imageView>
                                         <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Bs-Hi-7Q3" userLabel="Input Container">
                                             <rect key="frame" x="0.0" y="98" width="375" height="44"/>
@@ -62,7 +62,7 @@
                                                 </view>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nAF-F7-pnf">
                                                     <rect key="frame" x="24" y="1" width="351" height="42"/>
-                                                    <color key="tintColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="tintColor" red="0.20784313730000001" green="0.65490196079999996" blue="0.85882352939999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" secureTextEntry="YES"/>
                                                     <connections>
@@ -99,7 +99,7 @@
                                             <rect key="frame" x="132" y="157" width="111" height="27"/>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                             <state key="normal" title="Trouble logging in?">
-                                                <color key="titleColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="titleColor" red="0.20784313730000001" green="0.65490196079999996" blue="0.85882352939999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
                                                 <action selector="pressedInfoButton:" destination="-1" eventType="touchUpInside" id="yBn-5g-6Bb"/>
@@ -109,12 +109,12 @@
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="500" id="4CO-Ys-b2z"/>
-                                        <constraint firstItem="z9M-Jf-1r0" firstAttribute="top" secondItem="GRK-0i-yWQ" secondAttribute="top" constant="40" id="CkP-tZ-mx9"/>
+                                        <constraint firstItem="9sQ-T3-gKL" firstAttribute="leading" secondItem="GRK-0i-yWQ" secondAttribute="leading" constant="25" id="DSp-eZ-N9l"/>
                                         <constraint firstItem="2Bs-Hi-7Q3" firstAttribute="leading" secondItem="GRK-0i-yWQ" secondAttribute="leading" id="Ljh-RF-Wou"/>
-                                        <constraint firstItem="z9M-Jf-1r0" firstAttribute="leading" secondItem="GRK-0i-yWQ" secondAttribute="leading" constant="25" id="SlY-P7-tde"/>
                                         <constraint firstItem="kMn-ju-KVn" firstAttribute="top" secondItem="2Bs-Hi-7Q3" secondAttribute="bottom" constant="15" id="W5I-TD-hOF"/>
                                         <constraint firstAttribute="trailing" secondItem="2Bs-Hi-7Q3" secondAttribute="trailing" id="aFI-PH-2s4"/>
                                         <constraint firstAttribute="bottom" secondItem="kMn-ju-KVn" secondAttribute="bottom" id="bIk-Zk-bVb"/>
+                                        <constraint firstItem="9sQ-T3-gKL" firstAttribute="top" secondItem="GRK-0i-yWQ" secondAttribute="top" constant="40" id="h0j-QI-qfa"/>
                                         <constraint firstItem="2Bs-Hi-7Q3" firstAttribute="top" secondItem="GRK-0i-yWQ" secondAttribute="top" constant="98" id="phH-JL-vnz"/>
                                         <constraint firstItem="kMn-ju-KVn" firstAttribute="centerX" secondItem="GRK-0i-yWQ" secondAttribute="centerX" id="y7p-U4-aqT"/>
                                     </constraints>
@@ -143,9 +143,9 @@
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lrr-gK-T8b" userLabel="Footer">
                             <rect key="frame" x="0.0" y="584" width="375" height="33"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hjZ-FY-PyD" userLabel="Red Line">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hjZ-FY-PyD" userLabel="Blue line">
                                     <rect key="frame" x="0.0" y="29" width="375" height="4"/>
-                                    <color key="backgroundColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.20784313730000001" green="0.65490196079999996" blue="0.85882352939999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="4" id="DLn-Yz-G7T"/>
                                     </constraints>
@@ -158,7 +158,7 @@
                                     <rect key="frame" x="132" y="0.0" width="111" height="33"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                     <state key="normal" title="Trouble logging in?">
-                                        <color key="titleColor" red="0.82352941180000006" green="0.18039215689999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleColor" red="0.20784313730000001" green="0.65490196079999996" blue="0.85882352939999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                 </button>
                             </subviews>
@@ -236,7 +236,7 @@
         </view>
     </objects>
     <resources>
-        <image name="good_small_logo" width="82" height="26"/>
+        <image name="Blackberry_small_logo" width="138" height="24"/>
         <image name="sentegrity_logo_big_black" width="51" height="54"/>
     </resources>
 </document>

@@ -68,12 +68,22 @@
             UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {}];
             
-            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Open Settings" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {
-                                                                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=TOUCHID_PASSCODE"]];
+            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Open Settings"
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                      
+                                                                       //open settings (TouchID section) for iOS 10 +
+                                                                       if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10.0")) {
+                                                                           [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-prefs:root=TOUCHID_PASSCODE"]
+                                                                                                              options:@{}
+                                                                                                    completionHandler:nil];
+                                                                       }
+                                                                       //open settings (TouchID section) for iOS 9 (and lower)
+                                                                       else {
+                                                                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=TOUCHID_PASSCODE"]];
+                                                                       }
                                                                   }];
 
-            
             [alert addAction:cancelAction];
             [alert addAction:settingsAction];
 
@@ -122,6 +132,12 @@
 }
 
 - (IBAction)pressedDecline:(id)sender {
+    
+    //this is now: EXIT SETUP button action
+    //Force to crash
+    [self performSelector:NSSelectorFromString(@"crashme:") withObject:nil afterDelay:1];
+    
+    /*
     NSError *error;
     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
     
@@ -135,6 +151,7 @@
     [startup setTouchIDDisabledByUser:YES];
     [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:nil];
     [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
+     */
 }
 
 
