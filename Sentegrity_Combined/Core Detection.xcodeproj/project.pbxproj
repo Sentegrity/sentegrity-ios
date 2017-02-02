@@ -182,6 +182,8 @@
 		5800C6E07D0AFC519C8F68D4 /* libPods-Core Detection.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7D5304A28B67EE704D77F4 /* libPods-Core Detection.a */; };
 		960173141DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.h in Headers */ = {isa = PBXBuildFile; fileRef = 960173121DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.h */; };
 		960173151DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m in Sources */ = {isa = PBXBuildFile; fileRef = 960173131DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m */; };
+		9678A5661E43E76D0035866E /* Sentegrity_TrustFactor_Dataset_Config.h in Headers */ = {isa = PBXBuildFile; fileRef = 9678A5641E43E76D0035866E /* Sentegrity_TrustFactor_Dataset_Config.h */; };
+		9678A5671E43E76D0035866E /* Sentegrity_TrustFactor_Dataset_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 9678A5651E43E76D0035866E /* Sentegrity_TrustFactor_Dataset_Config.m */; };
 		96A9AE071DBD168B007B9625 /* Sentegrity_Authentication.h in Headers */ = {isa = PBXBuildFile; fileRef = 96A9AE051DBD168B007B9625 /* Sentegrity_Authentication.h */; };
 		96A9AE081DBD168B007B9625 /* Sentegrity_Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A9AE061DBD168B007B9625 /* Sentegrity_Authentication.m */; };
 		96F758BB1E02DA9E006A927D /* policy full 12_15_16 in Resources */ = {isa = PBXBuildFile; fileRef = 96F758BA1E02DA9E006A927D /* policy full 12_15_16 */; };
@@ -400,6 +402,8 @@
 		7C7D5304A28B67EE704D77F4 /* libPods-Core Detection.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Core Detection.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		960173121DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_SubClassResult_Object.h; sourceTree = "<group>"; };
 		960173131DE08BEA0052E5DE /* Sentegrity_SubClassResult_Object.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_SubClassResult_Object.m; sourceTree = "<group>"; };
+		9678A5641E43E76D0035866E /* Sentegrity_TrustFactor_Dataset_Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_TrustFactor_Dataset_Config.h; sourceTree = "<group>"; };
+		9678A5651E43E76D0035866E /* Sentegrity_TrustFactor_Dataset_Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_TrustFactor_Dataset_Config.m; sourceTree = "<group>"; };
 		96A9AE051DBD168B007B9625 /* Sentegrity_Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sentegrity_Authentication.h; sourceTree = "<group>"; };
 		96A9AE061DBD168B007B9625 /* Sentegrity_Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sentegrity_Authentication.m; sourceTree = "<group>"; };
 		96F758BA1E02DA9E006A927D /* policy full 12_15_16 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "policy full 12_15_16"; sourceTree = "<group>"; };
@@ -616,6 +620,8 @@
 		4C7D96F61CC0010E00E9CC97 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9678A5641E43E76D0035866E /* Sentegrity_TrustFactor_Dataset_Config.h */,
+				9678A5651E43E76D0035866E /* Sentegrity_TrustFactor_Dataset_Config.m */,
 				4C7D96F71CC0010E00E9CC97 /* Bluetooth */,
 				4C7D96FD1CC0010E00E9CC97 /* Objects */,
 				4C7D97041CC0010E00E9CC97 /* Sentegrity_TrustFactor_Dataset_Application.h */,
@@ -948,6 +954,7 @@
 				4C7D97C01CC0010E00E9CC97 /* ActiveRoute.h in Headers */,
 				4C7D98121CC0010E00E9CC97 /* Sentegrity.h in Headers */,
 				4C7D97931CC0010E00E9CC97 /* clock.h in Headers */,
+				9678A5661E43E76D0035866E /* Sentegrity_TrustFactor_Dataset_Config.h in Headers */,
 				4C7D978A1CC0010E00E9CC97 /* CoreDetection.h in Headers */,
 				4C7D97F61CC0010E00E9CC97 /* TrustFactor_Dispatch_Wifi.h in Headers */,
 				4C7D97991CC0010E00E9CC97 /* icmp_var.h in Headers */,
@@ -1141,6 +1148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9678A5671E43E76D0035866E /* Sentegrity_TrustFactor_Dataset_Config.m in Sources */,
 				4C7D977F1CC0010E00E9CC97 /* Sentegrity_Assertion_Store.m in Sources */,
 				4C7D98111CC0010E00E9CC97 /* Sentegrity_TrustFactor.m in Sources */,
 				4C7D98071CC0010E00E9CC97 /* Sentegrity_Classification.m in Sources */,

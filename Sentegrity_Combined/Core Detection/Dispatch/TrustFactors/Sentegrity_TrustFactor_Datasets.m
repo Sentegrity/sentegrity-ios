@@ -56,6 +56,25 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Dataset Helpers
 
+// Device level password
+- (NSNumber *)getPassword {
+    
+    // If dataset is not populated
+    if(!self.hasPassword || self.hasPassword == nil) {
+        
+        // Get device moving info
+        self.hasPassword = [Config hasPassword];
+        
+        // Return moving info
+        return self.hasPassword;
+        
+    } else {
+        
+        // Return moving info
+        return self.hasPassword;
+    }
+}
+
 // Statusbar Dictionary
 - (NSDictionary *)getStatusBar {
     
@@ -271,7 +290,7 @@ static dispatch_once_t onceToken;
                 // Return just time
                 return [NSString stringWithFormat:@"HOUR_%ld",(long)hourBlock];
             }
-
+            
             
         }
         
@@ -455,7 +474,7 @@ static dispatch_once_t onceToken;
 
 // NetStat Info
 - (NSArray *)getNetstatInfo {
-
+    
     //Do we any data yet?
     if (!self.netstatData || self.netstatData == nil) {
         
@@ -753,7 +772,7 @@ static dispatch_once_t onceToken;
     
     // Return motion
     return self.userMovementInfo;
-
+    
 }
 
 
@@ -969,7 +988,7 @@ static dispatch_once_t onceToken;
         // Return wifi data
         return self.wifiEncryption;
     }
-
+    
 }
 
 
@@ -1084,13 +1103,13 @@ static dispatch_once_t onceToken;
             
             // If its greater than 10 return, otherwise we always wait
             /*
-            if(self.discoveredBLEDevices.count > 4){
-                NSLog(@"Got discovered BLE devices after waiting..");
-                
-                // Return the BLE devices
-                return self.discoveredBLEDevices;
-            }
-            */
+             if(self.discoveredBLEDevices.count > 4){
+             NSLog(@"Got discovered BLE devices after waiting..");
+             
+             // Return the BLE devices
+             return self.discoveredBLEDevices;
+             }
+             */
             [NSThread sleepForTimeInterval:0.01];
             
             // Update timer
@@ -1100,9 +1119,9 @@ static dispatch_once_t onceToken;
         // Timer expires, for BT don't set to expired as we don't want a penaly, just noData
         NSLog(@"Discovered BLE devices timer expired");
         if(self.discoveredBLEDevices.count<1){
-                 [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
+            [self setDiscoveredBLESDNEStatus:DNEStatus_expired];
         }
-
+        
         // Return the BLE devices
         return self.discoveredBLEDevices;
     }

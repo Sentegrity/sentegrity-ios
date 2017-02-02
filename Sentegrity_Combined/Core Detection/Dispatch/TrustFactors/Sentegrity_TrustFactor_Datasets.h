@@ -33,6 +33,7 @@
 #import "Sentegrity_TrustFactor_Dataset_Cell.h"
 #import "Sentegrity_TrustFactor_Dataset_Motion.h"
 #import "Sentegrity_TrustFactor_Dataset_StatusBar.h"
+#import "Sentegrity_TrustFactor_Dataset_Config.h"
 
 @interface Sentegrity_TrustFactor_Datasets : NSObject
 
@@ -45,6 +46,9 @@
 + (void)selfDestruct;
 
 #pragma mark - Properties
+
+// Device Configuration
+@property (atomic, retain) NSNumber *hasPassword;
 
 // Status bar
 @property (atomic, retain) NSDictionary *statusBar;
@@ -83,7 +87,7 @@
 @property (atomic, retain) NSString *userMovement;
 @property (atomic, retain) NSNumber *gripMovement;
 
-// Bluetooth BLE 
+// Bluetooth BLE
 @property (atomic, retain) NSArray *discoveredBLEDevices;
 @property (atomic) int discoveredBLESDNEStatus;
 @property (atomic, retain) NSArray *connectedBLEDevices;
@@ -141,8 +145,12 @@
 // Validate the given payload
 - (BOOL)validatePayload:(NSArray *)payload;
 
+
+// ** Device Config **
+- (NSNumber *) getPassword;
+
 // ** Status Bar **
--(NSDictionary *)getStatusBar;
+- (NSDictionary *)getStatusBar;
 
 // ** CPU **
 - (float)getCPUUsage;

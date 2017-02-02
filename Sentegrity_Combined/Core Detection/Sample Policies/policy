@@ -33,8 +33,8 @@
 },
 
 "welcome" : {
-	"title": "Credit Suisse Pilot",
-	"description": "All corporate applications on this device will be protected by Sentegrity. Sentegrity helps organizations securely access data by 'learning' how it is accessed. As Sentegrity learns more about how you use these apps, authentication requirements will be modified to help you get more done faster.\n\nSentegrity is currently in pilot mode which demonstrates a variety of configurable authentication requirements, thresholds, and TrustFactors. All actions taken by Sentegrity are modifiable in a production deployment.\n\nLet's get set up."
+"title": "Credit Suisse Pilot",
+"description": "All corporate applications on this device will be protected by Sentegrity. Sentegrity helps organizations securely access data by 'learning' how it is accessed. As Sentegrity learns more about how you use these apps, authentication requirements will be modified to help you get more done faster.\n\nSentegrity is currently in pilot mode which demonstrates a variety of configurable authentication requirements, thresholds, and TrustFactors. All actions taken by Sentegrity are modifiable in a production deployment.\n\nLet's get set up."
 },
 
 
@@ -459,6 +459,31 @@
 "/System/Library/LaunchDaemons/com.evad3rs.evasi0n7.untether.plist",
 "/System/Library/Caches/com.apple.dyld/enable-dylibs-to-override-cache"
 ]
+}, {
+"id": 2,
+"notFoundIssueMessage": "No user passcode set",
+"notFoundSuggestionMessage": "Set a device passcode",
+"lowConfidenceIssueMessage": "",
+"lowConfidenceSuggestionMessage": "",
+"revision": 1,
+"classID": 5,
+"subClassID": 11,
+"name": "user device passcode",
+"transparentEligible": 0,
+"partialWeight": 0,
+"weight": 30,
+"learnMode": 1,
+"learnTime": 0,
+"learnAssertionCount": 0,
+"learnRunCount": 0,
+"decayMode": 0,
+"decayMetric": 0,
+"wipeOnUpdate": 0,
+"dispatch": "Configuration",
+"implementation": "passcodeSetUser:",
+"whitelistable": 1,
+"privateAPI": 0,
+"payload": []
 }, {
 "id": 4,
 "notFoundIssueMessage": "Sandbox integrity violated",
@@ -1017,17 +1042,17 @@
 ]
 }, {
 "id": 26,
-"notFoundIssueMessage": "No passcode set",
+"notFoundIssueMessage": "No enc passcode set",
 "notFoundSuggestionMessage": "Set a device passcode",
 "lowConfidenceIssueMessage": "",
 "lowConfidenceSuggestionMessage": "",
 "revision": 1,
 "classID": 3,
 "subClassID": 11,
-"name": "device passcode",
+"name": "system device passcode",
 "transparentEligible": 0,
 "partialWeight": 0,
-"weight": 20,
+"weight": 10,
 "learnMode": 0,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -1036,7 +1061,7 @@
 "decayMetric": 0,
 "wipeOnUpdate": 0,
 "dispatch": "Configuration",
-"implementation": "passcodeSet:",
+"implementation": "passcodeSetSystem:",
 "whitelistable": 0,
 "privateAPI": 0,
 "payload": []
@@ -1388,7 +1413,7 @@
 "name": "approximate location anomaly",
 "transparentEligible": 1,
 "partialWeight": 1,
-"weight": 8,
+"weight": 10,
 "learnMode": 0,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -1423,7 +1448,7 @@
 "transparentEligible": 1,
 "highEntropyAuthenticator": 1,
 "partialWeight": 1,
-"weight": 10,
+"weight": 15,
 "learnMode": 0,
 "learnTime": 0,
 "learnAssertionCount": 0,

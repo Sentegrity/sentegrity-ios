@@ -13,12 +13,15 @@
 #import "Sentegrity_TrustFactor_Datasets.h"
 #import "Sentegrity_TrustFactor_Output_Object.h"
 
-@interface TrustFactor_Dispatch_Configuration : NSObject 
+@interface TrustFactor_Dispatch_Configuration : NSObject
 
 // Check if iCloud is enabled
 + (Sentegrity_TrustFactor_Output_Object *)backupEnabled:(NSArray *)payload;
 
-// Does the user use a passcode?
-+ (Sentegrity_TrustFactor_Output_Object *)passcodeSet:(NSArray *)payload;
+// Seperate TF for user because it only returns when pw IS set
++ (Sentegrity_TrustFactor_Output_Object *)passcodeSetUser:(NSArray *)payload;
+
+// Seperate TF for system because it only returns when pw NOT set
++ (Sentegrity_TrustFactor_Output_Object *)passcodeSetSystem:(NSArray *)payload;
 
 @end
