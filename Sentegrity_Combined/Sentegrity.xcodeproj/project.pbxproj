@@ -696,7 +696,6 @@
 				D79FF4951DE4EE0700742F4A /* Dashboard */,
 				D7C26EE21DD8E1B0007A915F /* BioID */,
 				D7BA461B1D4E550100A2EC42 /* Auth ViewControllers */,
-				D7D492EC1D489C2800727B43 /* MainViewController */,
 				D7D492EB1D48987700727B43 /* AuthWarningViewController */,
 				D7D492E91D48983900727B43 /* UnlockViewController */,
 				D7D492E81D48981900727B43 /* FirstTimeViewControllers */,
@@ -869,6 +868,7 @@
 		D709E2601E06E0A50009BCB5 /* DAF Driver */ = {
 			isa = PBXGroup;
 			children = (
+				D7D492EC1D489C2800727B43 /* MainViewController */,
 				D7599BEB1E3946A8003AC381 /* DAFSkelDriver.cpp */,
 				D7599BEC1E3946A8003AC381 /* DAFSkelDriver.h */,
 			);
@@ -1124,7 +1124,8 @@
 				D72BA8281E06C11800547005 /* SentegrityTAF_MainViewController.m */,
 				D72BA8291E06C11800547005 /* SentegrityTAF_MainViewController.xib */,
 			);
-			path = MainViewController;
+			name = MainViewController;
+			path = ../MainViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

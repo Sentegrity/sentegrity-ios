@@ -485,9 +485,13 @@
     
     
     // Generate medium entropy array manually
+    
+    // Removed temporal indicators to improve pilot
+    /*
     if(hourTimeAuthenticator==YES){
         [transparentAuthMediumEntropyObjects addObjectsFromArray:hourTimeAuthenticationTrustFactorOutputObjects];
     }
+    */
     
     if(gripAuthenticator==YES){
         [transparentAuthMediumEntropyObjects addObjectsFromArray:gripAuthenticationTrustFactorOutputObjects];
@@ -503,9 +507,12 @@
         [transparentAuthLowEntropyObjects addObjectsFromArray:movementAuthenticationTrustFactorOutputObjects];
     }
     
+    // Removed temporal indicators to improve pilot
+    /*
     if(dayTimeAuthenticator==YES){
         [transparentAuthLowEntropyObjects addObjectsFromArray:dayTimeAuthenticationTrustFactorOutputObjects];
     }
+    */
 
 
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -135,10 +135,10 @@
                                     </variation>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cJt-lT-NYX">
-                                    <rect key="frame" x="55.5" y="35" width="136" height="162.5"/>
+                                    <rect key="frame" x="56" y="35" width="136" height="163"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TrustScore" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="78O-me-6wZ">
-                                            <rect key="frame" x="0.0" y="113" width="136" height="49.5"/>
+                                            <rect key="frame" x="0.0" y="113" width="136" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="29" id="NNB-pC-7d3"/>
                                                 <constraint firstAttribute="height" constant="29" id="Tif-HJ-LrT"/>
@@ -230,10 +230,10 @@
                             </variation>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z3l-uh-wd8">
-                            <rect key="frame" x="32.5" y="347" width="310" height="320"/>
+                            <rect key="frame" x="33" y="347" width="310" height="320"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jje-bp-ThR">
-                                    <rect key="frame" x="3.5" y="0.0" width="303" height="88"/>
+                                    <rect key="frame" x="3" y="0.0" width="303" height="88"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mobile_Grey" translatesAutoresizingMaskIntoConstraints="NO" id="d9R-S0-9kX">
                                             <rect key="frame" x="28" y="0.0" width="90" height="88"/>
@@ -272,7 +272,7 @@
                                             </variation>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_red" translatesAutoresizingMaskIntoConstraints="NO" id="yLB-Xz-S6F">
-                                            <rect key="frame" x="63.5" y="19.5" width="68.5" height="68.5"/>
+                                            <rect key="frame" x="64" y="20" width="68" height="68"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="70" id="e0P-Xd-8q8"/>
@@ -318,9 +318,6 @@
                                     <variation key="default">
                                         <mask key="constraints">
                                             <exclude reference="V36-wA-SCe"/>
-                                            <exclude reference="6JL-lr-quZ"/>
-                                            <exclude reference="CWB-40-ppc"/>
-                                            <exclude reference="Gm9-UJ-aOs"/>
                                             <exclude reference="2r8-9w-WdN"/>
                                             <exclude reference="9AU-ml-y7g"/>
                                             <exclude reference="Ouw-vB-izH"/>
@@ -328,11 +325,14 @@
                                             <exclude reference="jxO-0O-C1B"/>
                                             <exclude reference="xM4-7H-HLI"/>
                                             <exclude reference="zks-3j-4BJ"/>
+                                            <exclude reference="6JL-lr-quZ"/>
+                                            <exclude reference="CWB-40-ppc"/>
+                                            <exclude reference="Gm9-UJ-aOs"/>
                                         </mask>
                                     </variation>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LHb-6f-c1k">
-                                    <rect key="frame" x="3.5" y="103" width="303" height="88"/>
+                                    <rect key="frame" x="3" y="103" width="303" height="88"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="User_Grey" translatesAutoresizingMaskIntoConstraints="NO" id="8yX-oW-BzV">
                                             <rect key="frame" x="28" y="0.0" width="90" height="88"/>
@@ -359,7 +359,7 @@
                                             </variation>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Error_red" translatesAutoresizingMaskIntoConstraints="NO" id="2Zt-iI-e70">
-                                            <rect key="frame" x="63.5" y="19.5" width="68.5" height="68.5"/>
+                                            <rect key="frame" x="64" y="20" width="68" height="68"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="70" id="CNV-UY-Qfk"/>
@@ -506,9 +506,9 @@
                                         <mask key="constraints">
                                             <exclude reference="RUj-Qh-Je2"/>
                                             <exclude reference="eH6-I6-vMr"/>
+                                            <exclude reference="QOG-eb-8ds"/>
                                             <exclude reference="jKx-n0-QWQ"/>
                                             <exclude reference="sp5-RD-uTg"/>
-                                            <exclude reference="QOG-eb-8ds"/>
                                         </mask>
                                     </variation>
                                 </view>
@@ -533,11 +533,11 @@
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
+                                    <exclude reference="GwD-FH-55h"/>
                                     <exclude reference="6mC-Pb-UTL"/>
                                     <exclude reference="Eot-VB-5td"/>
                                     <exclude reference="YMr-Zv-M4l"/>
                                     <exclude reference="mfo-we-j4n"/>
-                                    <exclude reference="GwD-FH-55h"/>
                                 </mask>
                             </variation>
                         </view>

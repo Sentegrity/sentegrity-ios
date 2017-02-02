@@ -118,9 +118,10 @@
 //Colors and UI
 
 #define kCircularProgressEmptyColor     [UIColor colorWithWhite:0.855 alpha:1.000]
-#define kCircularProgressFillColor      [UIColor colorWithRed:1.000 green:0.773 blue:0.082 alpha:1.000]
+//#define kCircularProgressFillColor      [UIColor colorWithRed:1.000 green:0.773 blue:0.082 alpha:1.000]
+#define kCircularProgressFillColor      [UIColor colorWithRed:0.0 green:0.57 blue:0.80 alpha:1.000]
 #define kDefaultDashboardBarColor       [UIColor colorWithWhite:0.267 alpha:1.000]
-#define kStatusTrustedColor             [UIColor colorWithRed:1.000 green:0.773 blue:0.082 alpha:1.000]
+#define kStatusTrustedColor             [UIColor colorWithRed:0.0 green:0.57 blue:0.80 alpha:1.000]
 #define kStatusUnTrustedColor           [UIColor colorWithRed:0.706 green:0.000 blue:0.000 alpha:1.000]
 
 
