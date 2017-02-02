@@ -90,6 +90,15 @@
     
     // observe application will enter foreground
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+    
+    //load UI assets
+    self.imageViewUserNormal.image = [[UIImage imageNamed:@"normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.imageViewUserNormal.tintColor = kCircularProgressFillColor;
+    
+    self.imageViewDeviceNormal.image = [[UIImage imageNamed:@"normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.imageViewDeviceNormal.tintColor = kCircularProgressFillColor;
+    
 
     
     
