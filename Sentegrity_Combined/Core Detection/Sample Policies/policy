@@ -534,7 +534,8 @@
 "whitelistable": 0,
 "privateAPI": 1,
 "payload": [
-"MobileSubstrate"
+"MobileSubstrate",
+"cynject"
 ]
 }, {
 "id": 6,
@@ -561,7 +562,7 @@
 "whitelistable": 0,
 "privateAPI": 0,
 "payload": [
-"10.01"
+"10.2.1"
 ]
 }, {
 "id": 7,
