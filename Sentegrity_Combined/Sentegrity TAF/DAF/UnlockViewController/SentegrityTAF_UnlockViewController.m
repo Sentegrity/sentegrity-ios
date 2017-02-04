@@ -556,12 +556,14 @@
     
 
     //run core detection only once (when screen is loaded and showed)
-    if (!once)
+    //removed temporarily for testing  2/3
+    //if (!once)
         
         [self checkForPolicyAndRunCoreDetection];
         //[self runCoreDetection];
 
-    once = YES;
+   // once = YES;
+    // 2/3
     
 }
 

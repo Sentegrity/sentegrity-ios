@@ -813,7 +813,12 @@
                             
                             //percentOfTrust = ((resultObjectInSystem.totalScore / (float)resultObjectInSystem.totalPossibleScore)*100);
                             
-                            percentOfTrust = ((resultObjectInSystem.totalScore / (float)100)*100);
+                            //percentOfTrust = ((resultObjectInSystem.totalScore / (float)100)*100);
+                        
+                        // Divide by total curren amount of reduction in the system score
+                        
+                        percentOfTrust = ((resultObjectInSystem.totalScore / (float)systemTrustScoreSum)*100);
+                        
                        // }
                        // else{
                        //     percentOfTrust = 0;
@@ -869,7 +874,14 @@
                     //if(resultObjectInClass.totalPossibleScore > 0){
                         
                         //percentOfTrust = ((resultObjectInClass.totalScore / (float)resultObjectInClass.totalPossibleScore)*100);
-                        percentOfTrust = ((resultObjectInClass.totalScore / (float)100)*100);
+                    
+                    
+                        //percentOfTrust = ((resultObjectInClass.totalScore / (float)100)*100);
+                    
+                    
+                    // Divide by total curren amount of reduction in the system score
+                    
+                    percentOfTrust = ((resultObjectInClass.totalScore / (float)systemTrustScoreSum)*100);
                    // }
                    // else{
                    //     percentOfTrust = 0;

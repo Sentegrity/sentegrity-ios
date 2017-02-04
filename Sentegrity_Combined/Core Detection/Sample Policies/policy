@@ -15,7 +15,7 @@
 
 "privacy": {
 "privacyScreenTitle": "Your Privacy",
-"privacyScreenDesc": "Sentegrity respects user privacy by empowering users to volunteer information that can improve their experience. Users can opt-in or out-of location, motion, or activity.\n\nSentegrity is embedded into protected applications and only executes when the protected application(s) are opened. Sentegrity does not operate in the background or profile any form of activity except during protected application access.\n\nSentegrity tokenizes all data before analysis; raw data, such as location, are discarded and never stored. All Sentegrity profile tokens are stored locally on this device and never uploaded or shared. A user can delete Sentegrity or the protected application to permanently remove their profile. In the event that the device is compromised, profile tokens have no value or use, as they provide no actual data or insight into user activity outside of Sentegrity's specific use case. \n\nThe removal of Sentegrity or Sentegrity-protected applications from the device may result in loss of functionality of protected applications and the loss of learned user behaviors.",
+"privacyScreenDesc": "Sentegrity respects user privacy by empowering users to volunteer information that can improve their experience. Users can opt-in or out of location, motion, or activity data collection.\n\nSentegrity respects personal use of the device by only executing when the protected application(s) are opened. Sentegrity does not operate in the background or profile any form of personal activity outside of protected application access.\n\nSentegrity tokenizes all data before analysis; raw data, such as location, is discarded and never stored. All Sentegrity profile tokens are stored locally on this device and never uploaded or shared. A user can delete Sentegrity or the protected application to permanently remove their profile. In the event that the device is compromised, profile tokens have no value or use, as they provide no actual data or insight into user activity outside of Sentegrity's specific use case. \n\nThe removal of Sentegrity or Sentegrity-protected applications from the device may result in loss of functionality of protected applications and the loss of learned user behaviors.",
 "privacyScreenContactURL": "https://sentegrity.com/faq/"
 },
 
@@ -142,7 +142,7 @@
 }],
 "subclassifications": [{
 "id": 2,
-"name": "WiFi Security",
+"name": "WiFi Connection",
 "iconID": 2,
 "explanation": "Sentegrity analyzes the security of connected WiFi access points to ensure that it is safe to transmit sensitive data. WiFi use introduces a number of potential weaknesses that can result in a mobile device transmitting data over a malicious WiFi network. Sentegrity scores the security of a wireless network based on the access point involved and network's encryption level.",
 "suggestion": "If a currently connected access point is resulting in a low WiFi Security TrustScore, disconnecting from the access point will reduce the device risk.",
@@ -156,7 +156,7 @@
 "weight": 1
 }, {
 "id": 3,
-"name": "Application Security",
+"name": "Applications",
 "iconID": 3,
 "explanation": "Sentegrity attempts to identify the presence of malicious applications. Malicious applications are often a launching point for attacks and can result in tricking a user into providing sensitive information or exploiting a vulnerable device. Any applications installed outside of approved platform application stores may be considered high risk.",
 "suggestion": "In the event Sentegrity indicates a low application TrustScore, users should attempt to identify likely applications and remove them from the device.",
@@ -170,7 +170,7 @@
 "weight": 1
 }, {
 "id": 4,
-"name": "Platform Security",
+"name": "Platform Integrity",
 "iconID": 4,
 "explanation": "Sentegrity analyzes the security of the underlying platform (IOS or Android) to identify if it can be trusted by sensitive mobile applications. Mobile applications live within a sandbox that restricts their ability to perform many activities and blindly trust that the platform is secure. A compromised platform can result in all information sent or received by mobile applications being intercepted by an attacker. Sentegrity ensures that the platform is secure prior to performing authentication.\n\nSentegrity measures the trust of the device by evaluating the current operating system version and identifying if patches exist for the make and model.",
 "suggestion": "In the event Sentegrity indicates low platform trust, ensure that your device is running the latest platform version available. If no new version is available, reducing other risks that could be used to exploit the device, such as WiFi connections could boost the TrustScore high enough to offset the platform level risk.",
@@ -240,7 +240,7 @@
 "weight": 1
 }, {
 "id": 9,
-"name": "Physical Security",
+"name": "Physical Tamper",
 "iconID": 9,
 "explanation": "Attackers employ identifiable techniques to attack stolen mobile devices. Stolen devices are often prevented from accessing the internet (e.g. by enabling airplane mode) to limit their ability to report potential device theft or prevent a corporate MDM solution from wiping the device remotely. Devices are also commonly connected via USB to computers where jailbreak or root exploits can be loaded. Sentegrity can detect physical security issues that indicate a high risk access attempt.",
 "suggestion": "While the use of WiFi internet connections can introduce risk, at a minimum having cellular access can improve the device TrustScore by allowing applications that rely on remote wipe to function. As such, Sentegrity increases the device TrustScore when Internet access is available.",
@@ -268,7 +268,7 @@
 "weight": 1
 }, {
 "id": 11,
-"name": "Configuration Security",
+"name": "Configuration",
 "iconID": 11,
 "explanation": "Devices that are owned and operated by users can have wide levels of configuration that introduce security risk. For example, the presence of a device-level password can have a large impact on the security of the entire device. When a user has previously entered a password to access the device itself, Sentegrity can use this knowledge to required less rigorous authentication.",
 "suggestion": "Ensuring that the device is configured securely and by industry best practices will boost the TrustScore.",
@@ -282,7 +282,7 @@
 "weight": 1
 }, {
 "id": 12,
-"name": "Cellular Security",
+"name": "Cellular Connection",
 "iconID": 12,
 "explanation": "Sentegrity can monitor the cellular carrier information during attempted data access and decrease the TrustScore if an anomaly is detected. A common cellular attack includes radio-based man-in-the-middle techniques to intercept data transmitted to the cell tower. These attacks are simple to perform with widely available tools and can be completely transparent to the user due to insecurities in cellular protocols.",
 "suggestion": "In the event the device is exhibiting low cellular trust, it will likely regain trust when the device is reconnected to known networks.",
@@ -324,7 +324,7 @@
 "weight": 1
 }, {
 "id": 15,
-"name": "Good NOC Security",
+"name": "Network Connection",
 "iconID": 18,
 "explanation": "Sentegrity verifies that the application connections to the MDM network (Blackberry NOC) are secure.",
 "suggestion": "In the event this causes a reduction in TrustScore please contact support.",
@@ -471,7 +471,7 @@
 "name": "user device passcode",
 "transparentEligible": 0,
 "partialWeight": 0,
-"weight": 30,
+"weight": 25,
 "learnMode": 1,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -931,9 +931,9 @@
 "partialWeight": 0,
 "weight": 10,
 "learnMode": 2,
-"learnTime": 0,
+"learnTime": 5,
 "learnAssertionCount": 0,
-"learnRunCount": 0,
+"learnRunCount": 5,
 "decayMode": 0,
 "decayMetric": 0,
 "wipeOnUpdate": 0,
@@ -985,7 +985,7 @@
 "8.0-8.4",
 "9.0-9.1",
 "9.2-9.3.3",
-"10.0-10.0.2"
+"10.0.1-10.2"
 ]
 }, {
 "id": 24,
