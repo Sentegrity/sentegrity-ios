@@ -557,12 +557,11 @@
 
     //run core detection only once (when screen is loaded and showed)
     //removed temporarily for testing  2/3
-    //if (!once)
-        
+    //if (once==NO)
         [self checkForPolicyAndRunCoreDetection];
         //[self runCoreDetection];
 
-   // once = YES;
+    once = YES;
     // 2/3
     
 }
@@ -709,7 +708,7 @@
     // Show Animation
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    self.hud.labelText = @"Authenticating User";
+    self.hud.labelText = @"Authenticating";
     self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Regular" size:20.0f];
     //self.hud.labelFont = [UIFont fontWithName:@"OpenSans-Bold" size:25.0f];
     
