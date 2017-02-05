@@ -121,7 +121,7 @@ typedef enum {
                 // error code == -5 ("Passcode not set.")
                 
                 if (error.code == (-7)) {
-                    //no fingers are enrolled, shot TouchID and ask user to add fingerprint
+                    //no fingers are enrolled, show TouchID and ask user to add fingerprint
                     [self showTouchIDWithResult:_result andMasterKey:self.masterKey];
                 }
                 else {
@@ -140,6 +140,21 @@ typedef enum {
             UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"No, Continue"
                                                                    style:UIAlertActionStyleDefault
                                                                  handler:^(UIAlertAction * action) {
+                                                                     
+                                                                     //set startup flag that user disabled TouchID
+                                                                     NSError *error;
+                                                                     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
+                                                                     
+                                                                     
+                                                                     if (!error) {
+                                                                         [startup setTouchIDDisabledByUser:YES];
+                                                                         [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:nil];
+                                                                     }
+                                                                     else {
+                                                                         NSLog(@"ERROR: loading startup file");
+                                                                     }
+                                                                     
+                                                                     
                                                                      //continue to next step (Vocal Facial)
                                                                      [self showVocalFacialWithResult:_result
                                                                                         andMasterKey:self.masterKey];

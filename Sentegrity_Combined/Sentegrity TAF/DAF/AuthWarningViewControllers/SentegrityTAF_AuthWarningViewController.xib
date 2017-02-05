@@ -79,8 +79,8 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Frk-gy-rBO">
-                    <rect key="frame" x="99" y="267" width="177" height="29"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                    <rect key="frame" x="77" y="267" width="221" height="34"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                     <state key="normal" title="Authorize Easy Activation">
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -89,8 +89,8 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FsG-1t-chU">
-                    <rect key="frame" x="109" y="324" width="157" height="29"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                    <rect key="frame" x="89" y="329" width="197" height="34"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                     <state key="normal" title="Cancel Easy Activation">
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>

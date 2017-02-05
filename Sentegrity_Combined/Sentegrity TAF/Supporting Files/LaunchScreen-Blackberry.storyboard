@@ -48,7 +48,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JhP-6O-dXP">
                                 <rect key="frame" x="113" y="542" width="149" height="75"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Sentegrity_Logo" translatesAutoresizingMaskIntoConstraints="NO" id="KT1-Aq-EES">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sentegrity-icon" translatesAutoresizingMaskIntoConstraints="NO" id="KT1-Aq-EES">
                                         <rect key="frame" x="0.0" y="20" width="35" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="0M4-Dd-87M"/>
@@ -102,8 +102,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Sentegrity_Logo" width="77" height="82"/>
         <image name="SplashBarGradient" width="375" height="88"/>
         <image name="WorkLaunchLogo" width="182" height="182"/>
+        <image name="sentegrity-icon" width="60" height="60"/>
     </resources>
 </document>
