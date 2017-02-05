@@ -103,19 +103,66 @@ typedef enum {
     else  if (lastCurrentState == CurrentStatePasswordCreation) {
         
         self.masterKey = info[@"masterKey"];
+        
+        NSNumber *passcodeStatus = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getPassword];
         NSError *error;
-        if ([[SentegrityTAF_TouchIDManager shared] checkIfTouchIDIsAvailableWithError:&error]) {
-            [self showTouchIDWithResult:_result andMasterKey:self.masterKey];
-        }
-        else {
-            // error code == -7 ("No fingers are enrolled with Touch ID.")
-            // error code == -5 ("Passcode not set.")
 
-            if (error.code == (-7) || error.code == (-5)) {
+        
+        //if passcode is set
+        if (passcodeStatus.integerValue == 1) {
+            
+            //check if touchID is avaialable, and fingerprint is set
+            if ([[SentegrityTAF_TouchIDManager shared] checkIfTouchIDIsAvailableWithError:&error]) {
+                //true
                 [self showTouchIDWithResult:_result andMasterKey:self.masterKey];
             }
-            else
-                [self showVocalFacialWithResult:_result andMasterKey:self.masterKey];
+            else {
+                // error code == -7 ("No fingers are enrolled with Touch ID.")
+                // error code == -5 ("Passcode not set.")
+                
+                if (error.code == (-7)) {
+                    //no fingers are enrolled, shot TouchID and ask user to add fingerprint
+                    [self showTouchIDWithResult:_result andMasterKey:self.masterKey];
+                }
+                else {
+                    // no touchID support, continue
+                    [self showVocalFacialWithResult:_result andMasterKey:self.masterKey];
+                }
+            }
+        }
+        
+        else if (passcodeStatus.integerValue == 2) {
+            
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Warning"
+                                                                           message:@"This device does not contain a passcode, this will increase authentication requirements. Would you like to add a passcode to the device?"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"No, Continue"
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * action) {
+                                                                     //continue to next step (Vocal Facial)
+                                                                     [self showVocalFacialWithResult:_result
+                                                                                        andMasterKey:self.masterKey];
+                                                                 }];
+            
+            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Yes, Exit Setup"
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       //Force to crash
+                                                                       [self performSelector:NSSelectorFromString(@"crashme:") withObject:nil afterDelay:1];
+                                                                   }];
+            
+            [alert addAction:cancelAction];
+            [alert addAction:settingsAction];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        
+        
+        else /*if (passcodeStatus.integerValue == 0) */{
+            //unknown state, continue to the next step
+            [self showVocalFacialWithResult:_result
+                               andMasterKey:self.masterKey];
         }
     }
     
