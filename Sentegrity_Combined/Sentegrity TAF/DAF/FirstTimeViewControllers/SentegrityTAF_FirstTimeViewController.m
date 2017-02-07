@@ -134,7 +134,7 @@ typedef enum {
         else if (passcodeStatus.integerValue == 2) {
             
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Warning"
-                                                                           message:@"This device does not contain a passcode, this will increase authentication requirements. Would you like to add a passcode to the device?"
+                                                                           message:@"A device-level passcode was not detected. This will result in increased authentication requirements. Would you like to add a passcode to the device?"
                                                                     preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"No, Continue"

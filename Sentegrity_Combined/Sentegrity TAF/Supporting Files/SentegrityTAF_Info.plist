@@ -78,11 +78,11 @@
 	<key>NSLocationUsageDescription</key>
 	<string>Gimme location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Sentegrity analyzes tokenized location data to assist in authentication. If you disallow location  services Sentegrity may require you to authenticate more often and aggressively.</string>
+	<string>Sentegrity analyzes tokenized location data to assist in authentication. If you disallow location services, Sentegrity may require you to authenticate more often and aggressively.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Sentegrity does not employ the microphone, this functionality is required by iOS during camera use.</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Sentegrity analyzes tokenized motion data to assist in authentication. If you disallow motion and activity services Sentegrity may require you to authenticate more often and aggressively.</string>
+	<string>Sentegrity analyzes tokenized motion data to assist in authentication. If you disallow motion and activity services, Sentegrity may require you to authenticate more often and aggressively.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DINPro-Bold.otf</string>

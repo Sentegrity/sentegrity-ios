@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -38,8 +38,8 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kv6-kH-ZBc">
-                                            <rect key="frame" x="16" y="136" width="343" height="233.5"/>
-                                            <string key="text">Sentegrity uses location information to assist in user authentication. For example, Sentegrity can identify if you reside in a familiar (trusted) location and increase your TrustScore. Tokenized location information is only analyzed locally on this device and identifiable data is never stored or transmitted.   If you disallow location services your TrustScore will decrease and Sentegrity may require you to authenticate more often and aggressively.   Future modifications to this selection must be performed from the platform settings. </string>
+                                            <rect key="frame" x="16" y="136" width="343" height="234"/>
+                                            <mutableString key="text">Sentegrity uses location information to assist in user authentication. For example, Sentegrity can identify if you reside in a familiar (trusted) location and increase your TrustScore. Tokenized location information is only analyzed locally on this device and identifiable data is never stored or transmitted.   If you disallow location services, your TrustScore will decrease and Sentegrity may require you to authenticate more often and aggressively.   Future modifications to this selection must be performed from the platform settings. </mutableString>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="yes"/>
                                         </textView>

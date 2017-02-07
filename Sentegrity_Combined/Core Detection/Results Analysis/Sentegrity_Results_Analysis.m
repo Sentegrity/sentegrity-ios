@@ -137,6 +137,19 @@
         // No policy violation, check user anomaly risk rating and determine auth mode
         } else {
             
+            //Check if we should skip fingerprint if present in policy
+            //Perform check to determine if the device has no passcode and no fingerprint enrolled
+            //Skip fingerprint module if its in the policy
+            BOOL skipFingerprint=NO;
+            NSNumber *passcodeStatus = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getPassword];
+            
+            
+            //if passcode is set
+            if (passcodeStatus.integerValue != 1) {
+                
+                skipFingerprint=YES;
+            }
+            
             
             // Determine the userScore status based on where it falls in our range
             
@@ -233,6 +246,11 @@
                         }
                         
                         
+                        
+                    }
+                    else if((authModule.authenticationAction.integerValue == authenticationAction_PromptForUserFingerprint || authModule.authenticationAction.integerValue == authenticationAction_PromptForUserFingerprintAndWarn) && skipFingerprint==YES){
+                        // Skip fingerprint module if it is present in policy but device has no password or touchID support
+                        continue;
                         
                     }
                     // All other auth modules handled here
