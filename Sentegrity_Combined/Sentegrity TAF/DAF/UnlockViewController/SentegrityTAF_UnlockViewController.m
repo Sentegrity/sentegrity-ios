@@ -1310,7 +1310,6 @@
         //get password from keychain
         UICKeyChainStore *keychain = [[UICKeyChainStore alloc] initWithService:@"com.sentegrity.vocalfacial"];
         NSString *password = keychain[@"vocalFacialPassword"];
-       
         
         Sentegrity_TrustScore_Computation *computationResults = [[CoreDetection sharedDetection] getLastComputationResults];
         
@@ -1335,6 +1334,19 @@
         else {
             self.alertController = [self showAlertWithTitle:loginResponseObject.responseLoginTitle andMessage:loginResponseObject.responseLoginDescription];
         }
+    }
+    else {
+        
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Warning"
+                                                                       message:@"You have failed facial recognition and need to enter a deactivation code to continue."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  [self.textFieldPassword becomeFirstResponder];
+                                                              }];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
