@@ -1216,7 +1216,7 @@
             else if (resultType == TouchIDResultType_ItemNotFound) {
                 //probabbly invalidated item due change of fingerprint set, we will just try to delete it
                 [touchIDManager removeTouchIDPasswordFromKeychainWithCallback:nil];
-                weakSelf.alertController = [weakSelf showAlertWithTitle:@"Notice" andMessage:@"One of the fingerprints on this device have changed, password is required to continue"];
+                weakSelf.alertController = [weakSelf showAlertWithTitle:@"Notice" andMessage:@"One of the fingerprints on this device has changed or was removed. You must reinstall Sentegrity to resume fingerprint use. A password is required until corrected."];
             }
             else {
                 //if failed auth, or user simply pressed cancel, do nothing
@@ -1338,7 +1338,7 @@
     else {
         
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Warning"
-                                                                       message:@"You have failed facial recognition and need to enter a deactivation code to continue."
+                                                                       message:@"You have failed facial recognition and must enter a deactivation code or password to continue."
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault

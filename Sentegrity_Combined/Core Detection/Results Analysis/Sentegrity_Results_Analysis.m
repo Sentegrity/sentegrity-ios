@@ -154,13 +154,30 @@
                 //check if touchID is avaialable, and fingerprint is set
                 if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error1]) {
                     //true, don't skip, ask for fingerprint
-                    //[self showTouchIDWithResult:_result andMasterKey:self.masterKey];
+
                 }
                 else {
+                    
                     skipFingerprint=YES;
+                    /*
+                    if (error1.code == (-7)) {
+                        //no fingers are enrolled, show TouchID and ask user to add fingerprint back
+                        skipFingerprint=NO;
+                    }
+                    else {
+                        // no touchID support, continue and skip fingerprint module
+                        skipFingerprint=YES;
+                    }
+                     */
+                    
                 }
 
+            }else{
+                //passcode not set, skip fingerprint
+                skipFingerprint=YES;
             }
+            
+            
             
             
             // Determine the userScore status based on where it falls in our range

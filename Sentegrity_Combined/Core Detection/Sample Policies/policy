@@ -4,7 +4,7 @@
 "applicationVersionID": "1.0.2",
 "useDefaultAsBackup": 1,
 "systemThreshold": 30,
-"allowPrivateAPIs": 1,
+"allowPrivateAPIs": 0,
 "debugEnabled": 0,
 "minimumTransparentAuthEntropy": 1,
 "continueOnError": 1,
@@ -69,7 +69,7 @@
 "warnDesc": "Medium Trust Zone Detected",
 "warnTitle": "Fingerprint Required",
 "dashboardText": "Fingerprint Required\nMedium Trust Zone",
-"activationRange": 65,
+"activationRange": 60,
 "authenticationAction": 5,
 "postAuthenticationAction": 1
 }, {
@@ -78,14 +78,14 @@
 "warnDesc": "Medium Trust Zone Detected",
 "warnTitle": "Password Required",
 "dashboardText": "Password Required\nMedium Trust Zone",
-"activationRange": 55,
+"activationRange": 45,
 "authenticationAction": 4,
 "postAuthenticationAction": 1
 }, {
 "id": 4,
 "name": "facialvocal",
 "warnDesc": "Low Trust Zone Detected",
-"warnTitle": "Facial recognition required",
+"warnTitle": "Facial Recognition Required",
 "dashboardText": "Facial Recognition Required\nLow Trust Zone",
 "activationRange": 0,
 "authenticationAction": 8,
