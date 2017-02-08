@@ -87,7 +87,9 @@
             [alert addAction:cancelAction];
             [alert addAction:settingsAction];
 
-            [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
+            [self presentViewController:alert animated:YES completion:nil];
+            
+            //[[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alert animated:YES completion:nil];
             
             return;
         }
