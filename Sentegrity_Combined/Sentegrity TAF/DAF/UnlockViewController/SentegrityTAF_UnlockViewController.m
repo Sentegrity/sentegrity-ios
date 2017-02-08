@@ -1245,7 +1245,7 @@
         //No internet connection!
         
         NSLog(@"There IS NO internet connection");
-        self.alertController = [self showAlertWithTitle:@"Notice" andMessage:@"There is no Internet access and facial recognition cannot be performed."];
+        self.alertController = [self showAlertWithTitle:@"Warning" andMessage:@"No Internet connection detection, facial recognition cannot be performed, please enter a deactivation code to continue."];
         return;
     }
     
