@@ -7,6 +7,7 @@
 
 #import "Sentegrity_TrustScore_Computation.h"
 #import "Sentegrity_Constants.h"
+#import "LocalAuthentication/LAContext.h"
 
 // Categories
 #import "Sentegrity_Classification+Computation.h"
@@ -140,14 +141,25 @@
             //Check if we should skip fingerprint if present in policy
             //Perform check to determine if the device has no passcode and no fingerprint enrolled
             //Skip fingerprint module if its in the policy
+            LAContext *myContext = [[LAContext alloc] init];
             BOOL skipFingerprint=NO;
             NSNumber *passcodeStatus = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getPassword];
+            NSError *error1;
             
             
             //if passcode is set
-            if (passcodeStatus.integerValue != 1) {
+            if (passcodeStatus.integerValue == 1) {
                 
-                skipFingerprint=YES;
+                
+                //check if touchID is avaialable, and fingerprint is set
+                if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error1]) {
+                    //true, don't skip, ask for fingerprint
+                    //[self showTouchIDWithResult:_result andMasterKey:self.masterKey];
+                }
+                else {
+                    skipFingerprint=YES;
+                }
+
             }
             
             

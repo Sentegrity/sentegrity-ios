@@ -846,7 +846,6 @@
 "subClassID": 19,
 "name": "unknown wifi bssid",
 "transparentEligible": 1,
-"highEntropyAuthenticator": 1,
 "partialWeight": 0,
 "weight": 20,
 "learnMode": 0,

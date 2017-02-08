@@ -24,7 +24,7 @@
  */
 
 // Unknown SSID Check - Get the current AP SSID
-+ (Sentegrity_TrustFactor_Output_Object *)SSIDBSSID:(NSArray *)payload;
++ (Sentegrity_TrustFactor_Output_Object *)SSIDBSSID:(NSArray *)payload; 
 
 
 @end
