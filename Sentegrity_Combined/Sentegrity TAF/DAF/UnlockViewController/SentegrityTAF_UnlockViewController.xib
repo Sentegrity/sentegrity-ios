@@ -16,7 +16,7 @@
                 <outlet property="buttonSentegrity" destination="q7w-lT-6ml" id="9se-fT-sBO"/>
                 <outlet property="containerViewForBioID" destination="2fZ-aK-QMc" id="5yA-cn-eDd"/>
                 <outlet property="containerViewForSupport" destination="uUo-cB-dCX" id="c6p-Gn-cR2"/>
-                <outlet property="imageViewSplash" destination="bhL-3U-BuE" id="n9G-66-G8u"/>
+                <outlet property="containerViewSplash" destination="P0T-FH-mAS" id="6Mf-n5-EMp"/>
                 <outlet property="inputContainer" destination="2Bs-Hi-7Q3" id="Frv-xL-M2T"/>
                 <outlet property="scrollView" destination="z7w-UA-0W0" id="P9f-7g-5cW"/>
                 <outlet property="textFieldPassword" destination="nAF-F7-pnf" id="Z9F-or-HZj"/>
@@ -208,13 +208,14 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bhL-3U-BuE">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P0T-FH-mAS" customClass="ILContainerView">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                </imageView>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="bhL-3U-BuE" secondAttribute="bottom" id="52E-0q-YeM"/>
+                <constraint firstAttribute="trailing" secondItem="P0T-FH-mAS" secondAttribute="trailing" id="6ft-xQ-abD"/>
                 <constraint firstAttribute="bottom" secondItem="2fZ-aK-QMc" secondAttribute="bottom" id="8a4-PK-kxu"/>
                 <constraint firstItem="2fZ-aK-QMc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="E2k-wY-zbD"/>
                 <constraint firstAttribute="bottom" secondItem="AlC-EZ-MgM" secondAttribute="bottom" id="F3c-6s-8ka"/>
@@ -223,13 +224,13 @@
                 <constraint firstAttribute="trailing" secondItem="uUo-cB-dCX" secondAttribute="trailing" id="Mh1-yD-WjI"/>
                 <constraint firstAttribute="trailing" secondItem="AlC-EZ-MgM" secondAttribute="trailing" id="Pky-f4-TH0"/>
                 <constraint firstItem="uUo-cB-dCX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Qgh-RG-BhH"/>
-                <constraint firstItem="bhL-3U-BuE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hEL-EV-3NK"/>
-                <constraint firstAttribute="trailing" secondItem="bhL-3U-BuE" secondAttribute="trailing" id="jzC-4R-nrM"/>
+                <constraint firstItem="P0T-FH-mAS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Rjw-jO-55p"/>
+                <constraint firstItem="P0T-FH-mAS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="WRh-hQ-bKA"/>
+                <constraint firstAttribute="bottom" secondItem="P0T-FH-mAS" secondAttribute="bottom" id="XJP-tK-Wj3"/>
                 <constraint firstItem="uUo-cB-dCX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="kvE-fN-Gtn"/>
                 <constraint firstAttribute="bottom" secondItem="uUo-cB-dCX" secondAttribute="bottom" id="ncH-Ku-f6D"/>
                 <constraint firstItem="2fZ-aK-QMc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="t0G-zk-0tY"/>
                 <constraint firstAttribute="trailing" secondItem="2fZ-aK-QMc" secondAttribute="trailing" id="yCQ-kh-GEi"/>
-                <constraint firstItem="bhL-3U-BuE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="z1E-oI-q78"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
             <point key="canvasLocation" x="396.5" y="422.5"/>
