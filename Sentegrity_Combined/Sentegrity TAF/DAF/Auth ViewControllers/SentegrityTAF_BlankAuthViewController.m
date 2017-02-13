@@ -7,6 +7,7 @@
 //
 
 #import "SentegrityTAF_BlankAuthViewController.h"
+#import "ILContainerView.h"
 
 @interface SentegrityTAF_BlankAuthViewController ()
 
@@ -18,7 +19,13 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-
+    ILContainerView *containerView = [[ILContainerView alloc] initWithFrame:self.view.bounds];
+    containerView.currentViewController = self;
+    containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:containerView];
+    
+    UIStoryboard *launchScreen = [UIStoryboard storyboardWithName:@"LaunchScreen-Blackberry" bundle:nil];
+    [containerView setChildViewController:[launchScreen instantiateInitialViewController]];
     
     // Do any additional setup after loading the view.
 }

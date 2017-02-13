@@ -57,8 +57,6 @@
 @property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *onePixelConstraintsCollection;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomFooterConstraint;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewSplash;
-
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (weak, nonatomic) IBOutlet UITextField *textFieldPassword;
@@ -67,6 +65,7 @@
 
 @property (weak, nonatomic) IBOutlet ILContainerView *containerViewForBioID;
 @property (weak, nonatomic) IBOutlet ILContainerView *containerViewForSupport;
+@property (weak, nonatomic) IBOutlet ILContainerView *containerViewSplash;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonInfo;
@@ -160,29 +159,10 @@
     
     
     //configure and hide splash image
-    self.imageViewSplash.alpha = 0;
-    if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ){
-        
-        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-        CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-        if( screenHeight < screenWidth ){
-            screenHeight = screenWidth;
-        }
-        
-        if (screenHeight <= 480){
-            self.imageViewSplash.image = [UIImage imageNamed:@"Splash_3.5"];
-            NSLog(@"iPhone 4/4s (3.5 inch)");
-        } else if ( screenHeight > 480 && screenHeight <= 568 ){
-            self.imageViewSplash.image = [UIImage imageNamed:@"Splash_4.0"];
-            NSLog(@"iPhone 5/5s/5c/SE (4.0 inch)");
-        } else if ( screenHeight > 568 && screenHeight <= 667 ){
-            self.imageViewSplash.image = [UIImage imageNamed:@"Splash_4.7"];
-            NSLog(@"iPhone 6/6s (4.7 inch)");
-        } else {
-            self.imageViewSplash.image = [UIImage imageNamed:@"Splash_5.5"];
-            NSLog(@"iPhone 6+/6s+ (5.5 inch)");
-        }
-    }
+    self.containerViewSplash.alpha = 0;
+    _containerViewSplash.currentViewController = self;
+    UIStoryboard *launchScreen = [UIStoryboard storyboardWithName:@"LaunchScreen-Blackberry" bundle:nil];
+    [_containerViewSplash setChildViewController:[launchScreen instantiateInitialViewController]];
     
 
     // generate lines with one pixel (on all iOS devices)
@@ -208,11 +188,11 @@
 
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
-    self.imageViewSplash.alpha = 1.0;
+    self.containerViewSplash.alpha = 1.0;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:0.3 animations:^{
-            self.imageViewSplash.alpha = 0.0;
+            self.containerViewSplash.alpha = 0.0;
         }];
     });
 }
