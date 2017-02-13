@@ -302,8 +302,21 @@
                     //At least one TF exists in this subclass
                     subClassContainsTrustFactor=YES;
                     
-                    // Add the total possible for this TF to the subclass tally
-                    subClass.totalPossibleScore = subClass.totalPossibleScore + [trustFactorOutputObject.trustFactor.weight integerValue];
+                    //If this is Bluetooth or WiFi total possible is simply the highest single TF
+                    //this is because there can be multiple ways in which it can be used
+                    // test this
+                    if(trustFactorOutputObject.trustFactor.subClassID.integerValue == 8 || trustFactorOutputObject.trustFactor.subClassID.integerValue == 19){
+                        if([trustFactorOutputObject.trustFactor.weight intValue] > subClass.totalPossibleScore){
+                            subClass.totalPossibleScore = [trustFactorOutputObject.trustFactor.weight intValue];
+                        }
+                    }else{
+                        
+                        // Add the total possible for this TF to the subclass tally
+                        subClass.totalPossibleScore = subClass.totalPossibleScore + [trustFactorOutputObject.trustFactor.weight integerValue];
+                        
+                    }
+                    
+
                     
                     // Ignores TFs that have no output,not learned, etc determined during baseline analysis
                     if(trustFactorOutputObject.forComputation==YES){

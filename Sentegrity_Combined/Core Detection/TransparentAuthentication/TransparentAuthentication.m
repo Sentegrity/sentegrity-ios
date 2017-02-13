@@ -399,12 +399,13 @@
                     wifiAuthenticator=YES;
                     [wifiAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
                     break;
-                case 6: //Location
+                case 21: //Location Anomaly
                     if([trustFactorOutputObject.trustFactor.name isEqualToString:@"approximate location anomaly"]){
                         areaAuthenticator=YES;
                         [areaAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];
                     }
-                    
+                    break;
+                case 6: //Location GPS
                     if([trustFactorOutputObject.trustFactor.name isEqualToString:@"device location"]){
                         locationAuthenticator=YES;
                         [locationAuthenticationTrustFactorOutputObjects addObject:trustFactorOutputObject];

@@ -378,6 +378,34 @@
 "dneExpired": "",
 "dneInvalid": "",
 "weight": 1
+}, {
+"id": 20,
+"name": "Password",
+"iconID": 11,
+"explanation": "The presence of a device-level password has a large impact on the security of the entire device. When a user has previously entered a password to access the device itself, Sentegrity uses this knowledge to require less rigorous authentication.",
+"suggestion": "Ensure the device as a passcode set.",
+"dneUnauthorized": "",
+"dneUnsupported": "",
+"dneUnavailable": "",
+"dneDisabled": "",
+"dneNoData": "",
+"dneExpired": "",
+"dneInvalid": "",
+"weight": 1
+}, {
+"id": 21,
+"name": "Area",
+"iconID": 6,
+"explanation": "Geo-location can be a strong indication of trusted behavior. Sentegrity uses location estimates from GPS combined with WiFi or cellular signals to determine a relative location. These TrustFactors combine to generate a profile of trusted locations from which the application is typically accessed.",
+"suggestion": "Accessing Sentegrity-protected applications from common areas significantly increases the TrustScore. If the user has not authorized Sentegrity to access their location, strong TrustFactors are generally required to overcome this lack of information. For example, a known WiFi access point or paired Bluetooth device may be required to obtain a high enough TrustScore and experience transparent authentication.",
+"dneUnauthorized": "Authorize location services",
+"dneUnsupported": "Location service unsupported",
+"dneUnavailable": "",
+"dneDisabled": "Authorize location services",
+"dneNoData": "",
+"dneExpired": "",
+"dneInvalid": "",
+"weight": 1
 }],
 "trustFactors": [{
 "id": 1,
@@ -467,7 +495,7 @@
 "lowConfidenceSuggestionMessage": "",
 "revision": 1,
 "classID": 5,
-"subClassID": 11,
+"subClassID": 20,
 "name": "user device passcode",
 "transparentEligible": 0,
 "partialWeight": 0,
@@ -1381,11 +1409,11 @@
 "lowConfidenceSuggestionMessage": "Access area frequently",
 "revision": 1,
 "classID": 5,
-"subClassID": 6,
+"subClassID": 21,
 "name": "approximate location anomaly",
 "transparentEligible": 1,
 "partialWeight": 1,
-"weight": 10,
+"weight": 15,
 "learnMode": 0,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -1420,7 +1448,7 @@
 "transparentEligible": 1,
 "highEntropyAuthenticator": 1,
 "partialWeight": 1,
-"weight": 15,
+"weight": 10,
 "learnMode": 0,
 "learnTime": 0,
 "learnAssertionCount": 0,
@@ -1433,7 +1461,7 @@
 "whitelistable": 1,
 "privateAPI": 0,
 "payload": [{
-"rounding": 2
+"rounding": 1
 }]
 }, {
 "id": 42,
