@@ -302,19 +302,8 @@
                     //At least one TF exists in this subclass
                     subClassContainsTrustFactor=YES;
                     
-                    //If this is Bluetooth or WiFi total possible is simply the highest single TF
-                    //this is because there can be multiple ways in which it can be used
-                    // test this
-                    if(trustFactorOutputObject.trustFactor.subClassID.integerValue == 8 || trustFactorOutputObject.trustFactor.subClassID.integerValue == 19){
-                        if([trustFactorOutputObject.trustFactor.weight intValue] > subClass.totalPossibleScore){
-                            subClass.totalPossibleScore = [trustFactorOutputObject.trustFactor.weight intValue];
-                        }
-                    }else{
-                        
-                        // Add the total possible for this TF to the subclass tally
-                        subClass.totalPossibleScore = subClass.totalPossibleScore + [trustFactorOutputObject.trustFactor.weight integerValue];
-                        
-                    }
+                    // Blended user+system subclass totalPossible (not really user anymore)
+                    subClass.totalPossibleScore = subClass.totalPossibleScore + [trustFactorOutputObject.trustFactor.weight integerValue];
                     
 
                     
@@ -986,14 +975,31 @@
                         exists=YES;
                         NSMutableArray *mutableArray;
                         NSOrderedSet *orderedSet;
+                        
+ 
+                        
 
                         //merge trust percent
                         // Calculate trust percent for htis object only
                         // Should always be > 0 otherwise must be a policy error
                         if((resultObjectInClass.totalPossibleScore + resultObjectInUser.totalPossibleScore) > 0){
                             
-                            // Update resultObjectInSystem totalPossibleScore by adding current
-                            [resultObjectInUser setTotalPossibleScore:([resultObjectInUser totalPossibleScore] + [resultObjectInClass totalPossibleScore])];
+                            
+                            //If this is Bluetooth total possible is simply the highest single TF is the total possible
+                            //Hardcoded for pilot purposes
+                            
+                            if(resultObjectInUser.subClassID == 8){
+                                
+                                // Update resultObjectInSystem totalPossibleScore by adding current
+                                [resultObjectInUser setTotalPossibleScore:30];
+                                
+                            }
+                            else{
+                                
+                                // Update resultObjectInSystem totalPossibleScore by adding current
+                                [resultObjectInUser setTotalPossibleScore:([resultObjectInUser totalPossibleScore] + [resultObjectInClass totalPossibleScore])];
+                                
+                            }
                             
                             // Update resultObjectInClass totalScore by adding current
                             [resultObjectInUser setTotalScore:([resultObjectInUser totalScore] + [resultObjectInClass totalScore])];
@@ -1049,6 +1055,15 @@
                     // Calculate trust percent for this object only
                     // Should always be > 0 otherwise must be a policy error
                     if(resultObjectInClass.totalPossibleScore > 0){
+                        
+                        // If Bluetooth use hardcoded total for now and overwrite possible
+                        // For pilot purposes
+                        if(resultObjectInClass.subClassID == 8){
+                            
+                            // Update resultObjectInSystem totalPossibleScore by adding current
+                            [resultObjectInClass setTotalPossibleScore:30];
+                            
+                        }
                         
                         percentOfTrust = ((resultObjectInClass.totalScore / (float)resultObjectInClass.totalPossibleScore)*100);
                     }

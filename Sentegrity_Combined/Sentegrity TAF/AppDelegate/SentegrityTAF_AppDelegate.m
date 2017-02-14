@@ -27,8 +27,7 @@
 
 @end
 
-@implementation SentegrityTAF_AppDelegate
-
+@implementation SentegrityTAF_AppDelegate 
 
 #pragma mark - Good DAF
 
@@ -83,6 +82,7 @@
         case GetAuthToken:
             [self.authViewController setResult:result];
             ret = self.authViewController;
+
             break;
             
         case GetAuthToken_WithWarning:
@@ -106,6 +106,7 @@
             break;
             
         case GetPassword:
+            
             // Wipe out all previous datasets (in the event this is not the first run)
             [Sentegrity_TrustFactor_Datasets selfDestruct];
 
