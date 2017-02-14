@@ -305,6 +305,21 @@
     [self.circularProgressView setProgress:self.computationResults.deviceScore withAnimationDuration:1.0];
 }
 
+- (NSArray *) sortedArray:(NSArray *) array byKey: (NSString *) key asceding: (BOOL) asceding {
+    
+    //create sort descriptor
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:key
+                                                 ascending:asceding];
+    
+    //array of sort descriptors
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    
+    NSArray *sortedArray = [array sortedArrayUsingDescriptors:sortDescriptors];
+    return sortedArray;
+}
+
+
 
 #pragma mark - menu delegate
 
@@ -341,16 +356,19 @@
 - (IBAction)pressedUser:(id)sender {
     SentegrityTAF_UserDeviceInformationViewController *vc = [[SentegrityTAF_UserDeviceInformationViewController alloc] init];
     vc.informationType = InformationTypeUser;
-    vc.arrayOfSubClassResults = [NSArray arrayWithArray: self.computationResults.userSubClassResultObjects];
+    vc.arrayOfSubClassResults = [self sortedArray:self.computationResults.userSubClassResultObjects
+                                            byKey:@"subClassTitle"
+                                         asceding:YES];
 
     [self.navigationController pushViewController:vc animated:YES];
-    
 }
 
 - (IBAction)pressedDevice:(id)sender {
     SentegrityTAF_UserDeviceInformationViewController *vc = [[SentegrityTAF_UserDeviceInformationViewController alloc] init];
     vc.informationType = InformationTypeDevice;
-    vc.arrayOfSubClassResults = [NSArray arrayWithArray: self.computationResults.systemSubClassResultObjects];
+    vc.arrayOfSubClassResults = [self sortedArray:self.computationResults.systemSubClassResultObjects
+                                            byKey:@"subClassTitle"
+                                         asceding:YES];
     
     [self.navigationController pushViewController:vc animated:YES];
 }
