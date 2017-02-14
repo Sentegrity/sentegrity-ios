@@ -179,7 +179,6 @@
 		D7BDF2081DFF7AE100D0FAFF /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BDF2071DFF7AE100D0FAFF /* UICKeyChainStore.m */; };
 		D7C1F6C21DDBA890006306D0 /* CaptureViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7C1F6C11DDBA890006306D0 /* CaptureViewController.storyboard */; };
 		D7C26EE71DD8E1C8007A915F /* CaptureConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C26EE41DD8E1C8007A915F /* CaptureConfiguration.m */; };
-		D7C26EE81DD8E1C8007A915F /* CaptureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C26EE61DD8E1C8007A915F /* CaptureViewController.m */; };
 		D7C26EEF1DD8E1E6007A915F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7C26EEA1DD8E1E5007A915F /* Localizable.strings */; };
 		D7C26EF01DD8E1E6007A915F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7C26EED1DD8E1E5007A915F /* Localizable.strings */; };
 		D7C26EF21DD8E249007A915F /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = D7C26EF11DD8E249007A915F /* art.scnassets */; };
@@ -202,6 +201,7 @@
 		D7C8F97B1DE4F32B006E0EFD /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7C8F9691DE4F32B006E0EFD /* Lato-Thin.ttf */; };
 		D7C8F97C1DE4F32B006E0EFD /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7C8F96A1DE4F32B006E0EFD /* Lato-ThinItalic.ttf */; };
 		D7C8F9811DE4FCAE006E0EFD /* CircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C8F9801DE4FCAE006E0EFD /* CircularProgressView.m */; };
+		D7F0FC6A1E53A3B80087F5AC /* CaptureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F0FC691E53A3B80087F5AC /* CaptureViewController.m */; };
 		D7F6EE641E0083120099BC3E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F6EE631E0083120099BC3E /* Reachability.m */; };
 		D7F7DF721CEBDACA0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
 		D7F7DF731CEBDCED0085910B /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */; };
@@ -438,8 +438,8 @@
 		D7C1F6C11DDBA890006306D0 /* CaptureViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CaptureViewController.storyboard; sourceTree = "<group>"; };
 		D7C26EE31DD8E1C8007A915F /* CaptureConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureConfiguration.h; sourceTree = "<group>"; };
 		D7C26EE41DD8E1C8007A915F /* CaptureConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureConfiguration.m; sourceTree = "<group>"; };
-		D7C26EE51DD8E1C8007A915F /* CaptureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureViewController.h; sourceTree = "<group>"; };
-		D7C26EE61DD8E1C8007A915F /* CaptureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureViewController.m; sourceTree = "<group>"; };
+		D7C26EE51DD8E1C8007A915F /* CaptureViewControllerOLD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureViewControllerOLD.h; sourceTree = "<group>"; };
+		D7C26EE61DD8E1C8007A915F /* CaptureViewControllerOLD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureViewControllerOLD.m; sourceTree = "<group>"; };
 		D7C26EEB1DD8E1E5007A915F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Localizable.strings; sourceTree = "<group>"; };
 		D7C26EEE1DD8E1E5007A915F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		D7C26EF11DD8E249007A915F /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -463,6 +463,8 @@
 		D7C8F96A1DE4F32B006E0EFD /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
 		D7C8F97F1DE4FCAE006E0EFD /* CircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularProgressView.h; sourceTree = "<group>"; };
 		D7C8F9801DE4FCAE006E0EFD /* CircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircularProgressView.m; sourceTree = "<group>"; };
+		D7F0FC691E53A3B80087F5AC /* CaptureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureViewController.m; sourceTree = "<group>"; };
+		D7F0FC6B1E53A3CD0087F5AC /* CaptureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureViewController.h; sourceTree = "<group>"; };
 		D7F6EE621E0083120099BC3E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		D7F6EE631E0083120099BC3E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		D7F7DF711CEBDACA0085910B /* DashboardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DashboardViewController.xib; sourceTree = "<group>"; };
@@ -1023,8 +1025,10 @@
 				D7C26EEC1DD8E1E5007A915F /* en.lproj */,
 				D7C26EE31DD8E1C8007A915F /* CaptureConfiguration.h */,
 				D7C26EE41DD8E1C8007A915F /* CaptureConfiguration.m */,
-				D7C26EE51DD8E1C8007A915F /* CaptureViewController.h */,
-				D7C26EE61DD8E1C8007A915F /* CaptureViewController.m */,
+				D7F0FC6B1E53A3CD0087F5AC /* CaptureViewController.h */,
+				D7F0FC691E53A3B80087F5AC /* CaptureViewController.m */,
+				D7C26EE51DD8E1C8007A915F /* CaptureViewControllerOLD.h */,
+				D7C26EE61DD8E1C8007A915F /* CaptureViewControllerOLD.m */,
 				D7C1F6C11DDBA890006306D0 /* CaptureViewController.storyboard */,
 			);
 			name = BioID;
@@ -1581,11 +1585,11 @@
 				D76739481E09F30C00D6B961 /* SentegrityTAF_UnlockHolderViewController.m in Sources */,
 				D738DF7F1DFDD0FF00D65DC3 /* SentegrityTAF_AboutViewController.m in Sources */,
 				4C2666FA1CC0369000F10DC0 /* ComputationInfoViewController.m in Sources */,
-				D7C26EE81DD8E1C8007A915F /* CaptureViewController.m in Sources */,
 				4C2666FB1CC0369000F10DC0 /* LocationPermissionViewController.m in Sources */,
 				D7C8F9811DE4FCAE006E0EFD /* CircularProgressView.m in Sources */,
 				D72BA83F1E06C1D800547005 /* SentegrityTAF_PasswordCreationViewController.m in Sources */,
 				D72BA8441E06C1F100547005 /* SentegrityTAF_AskPermissionsViewController.m in Sources */,
+				D7F0FC6A1E53A3B80087F5AC /* CaptureViewController.m in Sources */,
 				D74B74AF1DE787070095408E /* SentegrityTAF_UserDeviceTableViewCell.m in Sources */,
 				D72BA84C1E06C20A00547005 /* SentegrityTAF_TouchIDPermissionViewController.m in Sources */,
 				D72BA84E1E06C20A00547005 /* SentegrityTAF_VocalFacialPermissionsViewController.m in Sources */,
