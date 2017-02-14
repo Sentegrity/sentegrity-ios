@@ -96,6 +96,10 @@
     }
     
     
+    //remove any downloaded policy
+    [[Sentegrity_Policy_Parser sharedPolicy] removePolicyFromDocuments:nil];
+
+    
     //try to get new policy from the server
     [[Sentegrity_Network_Manager shared] checkForNewPolicyWithEmail:email withCallback:^(BOOL successfullyExecuted, BOOL newPolicyDownloaded, BOOL policyOrganisationExists, NSError *errorT) {
         

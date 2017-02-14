@@ -34,6 +34,17 @@
     return sharedPolicy;
 }
 
+- (void) removePolicyFromDocuments: (NSError **) error {
+     if ([[NSFileManager defaultManager] fileExistsAtPath:[self policyFilePathInDocumentsFolder]]) {
+         
+         BOOL removed = [[NSFileManager defaultManager] removeItemAtPath:[self policyFilePathInDocumentsFolder] error:error];
+         
+         if (removed) {
+             self.currentPolicy = nil;
+         }
+     }
+}
+
 
 // Get the policy file
 - (Sentegrity_Policy *)getPolicy:(NSError **)error {

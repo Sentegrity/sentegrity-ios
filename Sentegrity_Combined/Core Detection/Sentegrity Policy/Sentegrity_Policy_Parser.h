@@ -36,4 +36,7 @@
 // manually get policy from the bundle
 - (Sentegrity_Policy *)loadPolicyFromMainBundle:(NSError **) error;
 
+//remove any downloaded policy
+- (void) removePolicyFromDocuments: (NSError **) error;
+
 @end
