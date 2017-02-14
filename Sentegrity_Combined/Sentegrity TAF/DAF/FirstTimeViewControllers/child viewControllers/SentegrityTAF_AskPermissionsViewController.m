@@ -88,6 +88,12 @@
             }]; // Done permissions view controller
             
         } // Done checking permissions array
+        else {
+            //no permissions, dismiss after delay to avoid view conflict
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.delegate dismissSuccesfullyFinishedViewController:self withInfo:nil];
+            });
+        }
         
     } // Done permissions kit
     else {
