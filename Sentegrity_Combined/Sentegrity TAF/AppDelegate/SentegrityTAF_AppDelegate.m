@@ -18,6 +18,9 @@
 // Sentegrity
 #import "Sentegrity.h"
 
+// ObjDef Security SDK
+#import "JailBreakChecks.h"
+#import "iOD.h"
 
 
 // Private
@@ -54,6 +57,48 @@
         NSLog (@"%@: %@", fontFamily, fontNames);
     }
     */
+    
+    /* NICK - Temporary - Placing ObjDef Security SDK Startup Here */
+    
+    // Check if the device is jailbroken - this will run the block if the device is jailbroken
+    // If the device is not jailbroken, the Deeceddffca class will be called dynamically
+    // Put your NOT Jailbroken code in the Deeceddffca feedabeb class method
+    rovtaz(^(id response) {
+        
+        // Device is Jailbroken
+        NSLog(@"Device is Jailbroken: %@", response);
+        
+    });
+    
+    // Check if the application is pirated - this will run the block if the application is pirated
+    // If the application is not pirated, the Baacdfdd class will be called dynamically
+    // Put your NOT Pirated code in the Baacdfdd eacafdfbaeabd class method
+    gusar(^(id response) {
+        
+        // Application is Pirated
+        NSLog(@"Application is Pirated: %@", response);
+        
+    });
+    
+    // Necessary to run the Tamper Check (honeypot checks here)
+    // This associates the JailBreaksCheck class with the runtime - required for the Tamper Check
+    [JailBreakChecks class];
+    
+    // Check if the application is tampered with - this will run the block if the application is tampered with
+    // If the application is not tampered with, the Ceeecceeaeb class will be called dynamically
+    // Put your NOT Tampered With code in the Ceeecceeaeb ecddaecafefe class method
+    nagovarati(^(id response) {
+        
+        // Application is Tampered With
+        NSLog(@"Application is Tampered With: %@", response);
+        
+    });
+    
+    // Run the Anti-Debug method
+    //ispravljanje(); // Uncommenting this will prevent the application from being debugged in Xcode or by any debugger
+    
+    // Run Exit the Application method
+    //otkaz(); // Uncommenting this will exit the application immediately and violently
 
 
 }
