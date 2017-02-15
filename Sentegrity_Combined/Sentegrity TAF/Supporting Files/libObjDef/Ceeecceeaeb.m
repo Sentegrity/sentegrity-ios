@@ -15,7 +15,7 @@
 + (id)ecddaecafefe:(id)input {
     
     // Place code that should run if the application is not tampered with here
-    NSLog(@"Not Tampered With: %@", input); // Please remove
+    //NSLog(@"Not Tampered With: %@", input); // Please remove
     
     // Return input
     return input; // Do not change

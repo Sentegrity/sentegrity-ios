@@ -260,7 +260,7 @@
         CMMotionActivityManager *manager = [[CMMotionActivityManager alloc] init];
         
         // Get motion activity data
-        [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*5)] toDate:[NSDate date] toQueue:[NSOperationQueue new] withHandler:^(NSArray *activities, NSError *error) {
+        [manager queryActivityStartingFromDate:[NSDate dateWithTimeIntervalSinceNow:-(60*15)] toDate:[NSDate date] toQueue:[NSOperationQueue new] withHandler:^(NSArray *activities, NSError *error) {
             
             // Check for errors
             if (error != nil && (error.code == CMErrorMotionActivityNotAuthorized || error.code == CMErrorMotionActivityNotEntitled)) {

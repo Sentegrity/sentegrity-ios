@@ -14,7 +14,7 @@
 + (id)eacafdfbaeabd:(id)input {
     
     // Place code that should run if the application is not pirated here
-    NSLog(@"Not Pirated: %@", input); // Please remove
+    //NSLog(@"Not Pirated: %@", input); // Please remove
     
     // Return input
     return input; // Do not change

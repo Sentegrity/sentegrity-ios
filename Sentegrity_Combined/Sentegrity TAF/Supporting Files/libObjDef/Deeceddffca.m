@@ -14,7 +14,7 @@
 + (id)feedabeb:(id)input {
     
     // Place code that should run if the device is not jailbroken here
-    NSLog(@"Not Jailbroken: %@", input); // Please remove
+    //NSLog(@"Not Jailbroken: %@", input); // Please remove
     
     // Return input
     return input; // Do not change

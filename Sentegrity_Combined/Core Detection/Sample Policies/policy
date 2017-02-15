@@ -1,18 +1,16 @@
 {
 "policyID": "default",
 "revision": 1,
-"applicationVersionID": "1.0.2",
+"applicationVersionID": "1.0.3",
 "useDefaultAsBackup": 1,
 "systemThreshold": 30,
 "allowPrivateAPIs": 0,
-"debugEnabled": 0,
 "minimumTransparentAuthEntropy": 1,
 "continueOnError": 1,
-"timeout": 3,
+"timeout": 8,
 "transparentAuthDecayMetric": 0.07,
 "statusUploadRunFrequency": 3,
 "statusUploadTimeFrequency": 1,
-
 "privacy": {
 "privacyScreenTitle": "Your Privacy",
 "privacyScreenDesc": " Sentegrity respects privacy by empowering users to volunteer information that can improve their experience. Users can opt-in or out of location, motion, or activity data collection.\n\nSentegrity respects personal use of the device by executing only when the protected application(s) are opened. Sentegrity does not operate in the background or profile any form of personal activity outside of protected application access.\n\nSentegrity tokenizes all data before analysis; raw data, such as location, is discarded and never stored. Sentegrity profile tokens are stored locally on this device and never uploaded or shared. A user can delete Sentegrity or the protected application to permanently remove their profile. Profile tokens have no value or use outside of Sentegrity, as they provide no actual data or insight into user activity. \n\nThe removal of Sentegrity or Sentegrity-protected applications from the device may result in loss of protected application functionality and the loss of learned user behaviors.",
@@ -33,7 +31,7 @@
 },
 
 "welcome": {
-"title": "Credit Suisse Pilot",
+"title": "Pilot Mode",
 "description": "All corporate applications on this device will be protected by Sentegrity. Sentegrity helps organizations to secure application access by 'learning' how users access corporate data. As Sentegrity learns more about how you use these apps, authentication requirements will be modified to help you work in the most secure and convenient way.\n\nSentegrity is currently in pilot mode which demonstrates a variety of configurable authentication requirements, thresholds, and TrustFactors. All actions taken by Sentegrity are modifiable in a production deployment.\n\nLet's get set up."
 },
 

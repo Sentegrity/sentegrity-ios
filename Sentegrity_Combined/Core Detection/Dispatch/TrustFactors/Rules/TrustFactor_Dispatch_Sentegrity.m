@@ -37,7 +37,7 @@ struct encryption_info_command
 + (Sentegrity_TrustFactor_Output_Object *)tamper:(NSArray *)payload {
     
     // This will crash the app if its connected to a debugger
-    //[self denyAttach];
+    [self denyAttach];
     
     Sentegrity_TrustFactor_Output_Object *trustFactorOutputObject = [[Sentegrity_TrustFactor_Output_Object alloc] init];
     

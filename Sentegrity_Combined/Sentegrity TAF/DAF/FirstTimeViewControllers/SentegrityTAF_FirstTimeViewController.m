@@ -19,6 +19,9 @@
 #import "SentegrityTAF_TouchIDPermissionViewController.h"
 #import "SentegrityTAF_VocalFacialPermissionsViewController.h"
 
+#import "JailBreakChecks.h"
+#import "iOD.h"
+
 
 typedef enum {
     CurrentStateUnknown = 0,
