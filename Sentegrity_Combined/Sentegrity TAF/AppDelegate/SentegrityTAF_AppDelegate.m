@@ -206,7 +206,7 @@
     {
         case AppStartup:
             // Nick's SDK
-            [self verifyInternet];
+           // [self verifyInternet];
             
             [self setupNibs];
             ret = self.mainViewController;
@@ -214,7 +214,7 @@
             
         case GetAuthToken_FirstTime:
             // Nick's SDK
-            [self startActivation];
+           // [self startActivation];
             
             [self.authFirstTimeViewController setResult:result];
             ret = self.authFirstTimeViewController;
@@ -235,7 +235,7 @@
             
         {
             // Nick's SDK
-            [self startActivation];
+            //[self startActivation];
             
             //FirstTimeViewController contains multiple viewControllers, so we want a fresh instance if (for some reason) GetPassword_FirstTime is called twice
             self.firstTimeViewController = [[SentegrityTAF_FirstTimeViewController alloc] init];

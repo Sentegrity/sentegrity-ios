@@ -2243,8 +2243,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sentegrity.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4f868de3-208f-46f5-a11e-c3e97e1a40c0";
-				PROVISIONING_PROFILE_SPECIFIER = "Sentegrity for Good - AdHoc distribution";
+				PROVISIONING_PROFILE = "0bcdca47-1ff4-41e6-b51b-b2597b46724a";
+				PROVISIONING_PROFILE_SPECIFIER = "Sentegrity for Good - App Store distribution";
 				SEPARATE_STRIP = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
