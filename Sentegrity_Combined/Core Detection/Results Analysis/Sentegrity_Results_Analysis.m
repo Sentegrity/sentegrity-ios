@@ -8,6 +8,7 @@
 #import "Sentegrity_TrustScore_Computation.h"
 #import "Sentegrity_Constants.h"
 #import "LocalAuthentication/LAContext.h"
+#import "Sentegrity_Startup_Store.h"
 
 // Categories
 #import "Sentegrity_Classification+Computation.h"
@@ -139,44 +140,58 @@
         } else {
             
             //Check if we should skip fingerprint if present in policy
-            //Perform check to determine if the device has no passcode and no fingerprint enrolled
-            //Skip fingerprint module if its in the policy
-            LAContext *myContext = [[LAContext alloc] init];
-            BOOL skipFingerprint=NO;
-            NSNumber *passcodeStatus = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getPassword];
+            // First check if the user disabled touchID during enrollment and skip other check
+            
             NSError *error1;
+            Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error1];
+            BOOL skipFingerprint=NO;
             
-            
-            //if passcode is set
-            if (passcodeStatus.integerValue == 1) {
+            if (![startup touchIDDisabledByUser]) {
                 
                 
-                //check if touchID is avaialable, and fingerprint is set
-                if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error1]) {
-                    //true, don't skip, ask for fingerprint
-
-                }
-                else {
+                //Perform check to determine if the device has no passcode and no fingerprint enrolled
+                //Skip fingerprint module if its in the policy
+                LAContext *myContext = [[LAContext alloc] init];
+                NSNumber *passcodeStatus = [[Sentegrity_TrustFactor_Datasets sharedDatasets] getPassword];
+                NSError *error1;
+                
+                
+                //if passcode is set
+                if (passcodeStatus.integerValue == 1) {
                     
-                    skipFingerprint=YES;
-                    /*
-                    if (error1.code == (-7)) {
-                        //no fingers are enrolled, show TouchID and ask user to add fingerprint back
-                        skipFingerprint=NO;
+                    
+                    //check if touchID is avaialable, and fingerprint is set
+                    if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error1]) {
+                        //true, don't skip, ask for fingerprint
+                        
                     }
                     else {
-                        // no touchID support, continue and skip fingerprint module
+                        
                         skipFingerprint=YES;
+                        /*
+                         if (error1.code == (-7)) {
+                         //no fingers are enrolled, show TouchID and ask user to add fingerprint back
+                         skipFingerprint=NO;
+                         }
+                         else {
+                         // no touchID support, continue and skip fingerprint module
+                         skipFingerprint=YES;
+                         }
+                         */
+                        
                     }
-                     */
                     
+                }else{
+                    //passcode not set, skip fingerprint
+                    skipFingerprint=YES;
                 }
-
+                
+                
             }else{
-                //passcode not set, skip fingerprint
                 skipFingerprint=YES;
             }
             
+
             
             
             
