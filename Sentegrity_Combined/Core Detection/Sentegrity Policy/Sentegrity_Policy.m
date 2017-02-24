@@ -20,9 +20,15 @@
 }
 
 
-// TransparentAuthDecayMetric
+// Debug
 - (void)setDebugEnabled:(NSNumber *)debugEnabled{
     _debugEnabled = debugEnabled;
+}
+
+
+// Facial Disable
+- (void)setDisableFacial:(NSNumber *)disableFacial{
+    _disableFacial = disableFacial;
 }
 
 // TransparentAuthDecayMetric

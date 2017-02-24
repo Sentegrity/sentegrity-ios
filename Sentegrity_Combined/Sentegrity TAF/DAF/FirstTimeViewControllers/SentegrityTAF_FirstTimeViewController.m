@@ -87,6 +87,11 @@ typedef enum {
 }
 
 - (void) dismissSuccesfullyFinishedViewController:(UIViewController *) vc withInfo:(NSDictionary *)info {
+    
+    // Check if policy allows facial (disabled for app store approval)
+    NSError *error2;
+    Sentegrity_Policy *policy = [[Sentegrity_Policy_Parser sharedPolicy] getPolicy:&error2];
+    
     //clear current state
     CurrentState lastCurrentState = _currentState;
     _currentState = CurrentStateUnknown;
@@ -129,64 +134,108 @@ typedef enum {
                 }
                 else {
                     // no touchID support, continue
-                    [self showVocalFacialWithResult:_result andMasterKey:self.masterKey];
+                    // If disabled show the unlock screen
+                    if (policy.disableFacial.intValue==1) {
+                        
+                        [self showUnlockWithResult:self.result];
+                    }
+                    else{ // Show facial
+                        
+                        [self showVocalFacialWithResult:_result andMasterKey:self.masterKey];
+                    }
                 }
             }
         }
         
         else if (passcodeStatus.integerValue == 2) {
             
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Warning"
-                                                                           message:@"A device-level passcode was not detected. This will result in increased authentication requirements. Would you like to add a passcode to the device?"
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"No, Continue"
-                                                                   style:UIAlertActionStyleDefault
-                                                                 handler:^(UIAlertAction * action) {
-                                                                     
-                                                                     //set startup flag that user disabled TouchID
-                                                                     NSError *error;
-                                                                     Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
-                                                                     
-                                                                     
-                                                                     if (!error) {
-                                                                         [startup setTouchIDDisabledByUser:YES];
-                                                                         [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:nil];
-                                                                     }
-                                                                     else {
-                                                                         NSLog(@"ERROR: loading startup file");
-                                                                     }
-                                                                     
-                                                                     
-                                                                     //continue to next step (Vocal Facial)
-                                                                     [self showVocalFacialWithResult:_result
-                                                                                        andMasterKey:self.masterKey];
-                                                                 }];
-            
-            UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Yes, Exit Setup"
-                                                                     style:UIAlertActionStyleDefault
-                                                                   handler:^(UIAlertAction * action) {
-                                                                       //Force to crash
-                                                                       [self performSelector:NSSelectorFromString(@"crashme:") withObject:nil afterDelay:1];
-                                                                   }];
-            
-            [alert addAction:cancelAction];
-            [alert addAction:settingsAction];
-            
-            [self presentViewController:alert animated:YES completion:nil];
+            // If disabled show the unlock screen
+            if (policy.disableFacial.intValue==1) {
+                
+                [self showUnlockWithResult:self.result];
+            }
+            else{ // Show device passcode missing popup
+                
+                
+                UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Warning"
+                                                                               message:@"A device-level passcode was not detected. This will result in increased authentication requirements. Would you like to add a passcode to the device?"
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"No, Continue"
+                                                                       style:UIAlertActionStyleDefault
+                                                                     handler:^(UIAlertAction * action) {
+                                                                         
+                                                                         //set startup flag that user disabled TouchID
+                                                                         NSError *error;
+                                                                         Sentegrity_Startup *startup = [[Sentegrity_Startup_Store sharedStartupStore] getStartupStore:&error];
+                                                                         
+                                                                         
+                                                                         if (!error) {
+                                                                             [startup setTouchIDDisabledByUser:YES];
+                                                                             [[Sentegrity_Startup_Store sharedStartupStore] setStartupStoreWithError:nil];
+                                                                         }
+                                                                         else {
+                                                                             NSLog(@"ERROR: loading startup file");
+                                                                         }
+                                                                         
+                                                                         // Continue to next step (Vocal Facial)
+                                                                         // If disabled show the unlock screen
+                                                                         if (policy.disableFacial.intValue==1) {
+                                                                             
+                                                                             [self showUnlockWithResult:self.result];
+                                                                         }
+                                                                         else{ // Show facial
+                                                                             
+                                                                             [self showVocalFacialWithResult:_result andMasterKey:self.masterKey];
+                                                                         }
+                                                                         
+                                                                     }];
+                
+                UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Yes, Exit Setup"
+                                                                         style:UIAlertActionStyleDefault
+                                                                       handler:^(UIAlertAction * action) {
+                                                                           //Force to crash
+                                                                           [self performSelector:NSSelectorFromString(@"crashme:") withObject:nil afterDelay:1];
+                                                                       }];
+                
+                [alert addAction:cancelAction];
+                [alert addAction:settingsAction];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+
+            }
         }
         
         
         else /*if (passcodeStatus.integerValue == 0) */{
             //unknown state, continue to the next step
-            [self showVocalFacialWithResult:_result
-                               andMasterKey:self.masterKey];
+            // If disabled show the unlock screen
+            if (policy.disableFacial.intValue==1) {
+                
+                [self showUnlockWithResult:self.result];
+            }
+            else{ // Show facial
+                
+                [self showVocalFacialWithResult:_result andMasterKey:self.masterKey];
+            }
+
         }
     }
     
     //after touchID show vocal/facial enrollment screen
     else  if (lastCurrentState == CurrentStateTouchIDCreation) {
-        [self showVocalFacialWithResult:_result andMasterKey:self.masterKey];
+        
+        
+        // If disabled show the unlock screen
+        if (policy.disableFacial.intValue==1) {
+            
+            [self showUnlockWithResult:self.result];
+        }
+        else{ // Show facial
+            
+             [self showVocalFacialWithResult:_result andMasterKey:self.masterKey];
+        }
+        
     }
     
     //after vocal/facial  show unlock screen

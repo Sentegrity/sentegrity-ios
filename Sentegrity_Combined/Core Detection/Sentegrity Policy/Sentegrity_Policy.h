@@ -13,6 +13,7 @@
 
 @property (nonatomic,retain) NSString *policyID;
 @property (nonatomic,retain) NSNumber *debugEnabled;
+@property (nonatomic,retain) NSNumber *disableFacial;
 @property (nonatomic,retain) NSNumber *transparentAuthDecayMetric;
 @property (nonatomic,retain) NSNumber *revision;
 @property (nonatomic,retain) NSNumber *systemThreshold;
